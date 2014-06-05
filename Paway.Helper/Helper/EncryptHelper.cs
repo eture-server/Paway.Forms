@@ -28,7 +28,13 @@ namespace Paway.Helper
                 MD5 md = new MD5CryptoServiceProvider();
                 byte[] bytes = Encoding.GetEncoding("utf-8").GetBytes(str);
                 byte[] inArray = md.ComputeHash(bytes);
-                result = System.Convert.ToBase64String(inArray, 0, inArray.Length);
+
+                StringBuilder sBuilder = new StringBuilder();
+                for (int i = 0; i < inArray.Length; i++)
+                {
+                    sBuilder.Append(inArray[i].ToString("x2"));
+                }
+                result= sBuilder.ToString();
             }
             catch (Exception ex)
             {

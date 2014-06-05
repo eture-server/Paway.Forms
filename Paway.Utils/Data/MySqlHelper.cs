@@ -1,39 +1,76 @@
-﻿using System;
+﻿using MySQLDriverCS;
+using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using Paway.Helper;
-using System.Reflection;
 using System.Data.Common;
 
 namespace Paway.Utils.Data
 {
     /// <summary>
-    /// SQL操作基类
+    /// MySql操作基类
     /// </summary>
-    public abstract class DataHelper : DataBase
+    public class MySqlHelper : DataBase
     {
-        #region 初始化
+        private MySQLConnection conn;
         /// <summary>
         /// 初始化
+        /// 没有
         /// </summary>
-        public DataHelper()
+        public MySqlHelper()
         {
-            base.GetId = "select @@IDENTITY Id";
+            base.GetId = "SELECT LAST_INSERT_ID() Id";
         }
         /// <summary>
         /// 传入连接字符
         /// </summary>
-        /// <param name="connectName"></param>
-        protected void InitConnect(string connectName)
+        /// <param name="connect"></param>
+        protected void InitConnect(string connect)
         {
-            ConnString = ConfigurationManager.ConnectionStrings[connectName].ConnectionString;
+            ConnString = connect;
         }
+        /// <summary>
+        /// 传入连接字符
+        /// </summary>
+        /// <param name="server"></param>
+        /// <param name="database"></param>
+        /// <param name="root"></param>
+        /// <param name="password"></param>
+        protected void InitConnect(string server, string database, string root, string password)
+        {
+            ConnString = new MySQLConnectionString(server, database, root, password).AsString;
 
-        #endregion
+        }
+        /// <summary>
+        /// 传入连接字符
+        /// </summary>
+        /// <param name="server"></param>
+        /// <param name="database"></param>
+        /// <param name="root"></param>
+        /// <param name="password"></param>
+        /// <param name="port"></param>
+        protected void InitConnect(string server, string database, string root, string password, int port)
+        {
+            ConnString = new MySQLConnectionString(server, database, root, password, port).AsString;
+        }
+        /// <summary>
+        /// 连接实例
+        /// </summary>
+        /// <returns></returns>
+        protected MySQLConnection GetCon()
+        {
+            if (conn == null)
+            {
+                conn = new MySQLConnection(ConnString);
+            }
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+            return conn;
+        }
 
         #region ExecuteNonQuery,ExecuteScalar,TransExecuteNonQuery
         /// <summary>
@@ -45,10 +82,10 @@ namespace Paway.Utils.Data
         {
             try
             {
-                using (SqlConnection con = new SqlConnection(ConnString))
+                using (MySQLConnection con = new MySQLConnection(ConnString))
                 {
                     con.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    using (MySQLCommand cmd = new MySQLCommand(sql, con))
                     {
                         cmd.CommandType = CommandType.Text;
                         return cmd.ExecuteNonQuery();
@@ -71,10 +108,10 @@ namespace Paway.Utils.Data
         {
             try
             {
-                using (SqlConnection con = new SqlConnection(ConnString))
+                using (MySQLConnection con = new MySQLConnection(ConnString))
                 {
                     con.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    using (MySQLCommand cmd = new MySQLCommand(sql, con))
                     {
                         cmd.CommandType = CommandType.Text;
                         return cmd.ExecuteScalar();
@@ -98,11 +135,11 @@ namespace Paway.Utils.Data
             bool error = true;
             try
             {
-                using (SqlConnection con = new SqlConnection(ConnString))
+                using (MySQLConnection con = new MySQLConnection(ConnString))
                 {
                     con.Open();
-                    SqlTransaction trans = con.BeginTransaction();
-                    using (SqlCommand cmd = new SqlCommand())
+                    DbTransaction trans = con.BeginTransaction();
+                    using (MySQLCommand cmd = new MySQLCommand())
                     {
                         cmd.Connection = con;
                         cmd.Transaction = trans;
@@ -140,7 +177,7 @@ namespace Paway.Utils.Data
         /// 打开一个连接
         /// </summary>
         /// <returns></returns>
-        protected SqlCommand CommandStart()
+        protected MySQLCommand CommandStart()
         {
             return CommandStart(null);
         }
@@ -150,9 +187,9 @@ namespace Paway.Utils.Data
         /// </summary>
         /// <param name="sql"></param>
         /// <returns></returns>
-        protected SqlCommand CommandStart(string sql)
+        protected MySQLCommand CommandStart(string sql)
         {
-            return base.CommandStart(sql, typeof(SqlConnection), typeof(SqlCommand)) as SqlCommand;
+            return base.CommandStart(sql, typeof(MySQLConnection), typeof(MySQLCommand)) as MySQLCommand;
         }
 
         /// <summary>
@@ -161,9 +198,9 @@ namespace Paway.Utils.Data
         /// 返回SqlCommand实例
         /// </summary>
         /// <returns></returns>
-        protected SqlCommand TransStart()
+        protected MySQLCommand TransStart()
         {
-            return base.TransStart(typeof(SqlConnection), typeof(SqlCommand)) as SqlCommand;
+            return base.TransStart(typeof(MySQLConnection), typeof(MySQLCommand)) as MySQLCommand;
         }
 
         #endregion
@@ -188,11 +225,11 @@ namespace Paway.Utils.Data
             string sql = null;
             try
             {
-                using (SqlConnection con = new SqlConnection(ConnString))
+                using (MySQLConnection con = new MySQLConnection(ConnString))
                 {
                     con.Open();
                     sql = default(T).Select(find);
-                    using (SqlDataAdapter da = new SqlDataAdapter(sql, con))
+                    using (MySQLDataAdapter da = new MySQLDataAdapter(sql, con))
                     {
                         DataTable dt = new DataTable();
                         da.Fill(dt);
@@ -226,7 +263,7 @@ namespace Paway.Utils.Data
         /// <returns></returns>
         public bool Insert<T>(IList<T> list)
         {
-            return base.Insert<T>(list, typeof(SqlConnection), typeof(SqlCommand), typeof(SqlParameter));
+            return base.Insert<T>(list, typeof(MySQLConnection), typeof(MySQLCommand), typeof(MySQLParameter));
         }
         /// <summary>
         /// 更新列
@@ -247,7 +284,7 @@ namespace Paway.Utils.Data
         /// <returns></returns>
         public bool Update<T>(IList<T> list)
         {
-            return base.Update<T>(list, typeof(SqlConnection), typeof(SqlCommand), typeof(SqlParameter));
+            return base.Update<T>(list, typeof(MySQLConnection), typeof(MySQLCommand), typeof(MySQLParameter));
         }
         /// <summary>
         /// 删除列
@@ -268,7 +305,7 @@ namespace Paway.Utils.Data
         /// <returns></returns>
         public bool Delete<T>(IList<T> list)
         {
-            return base.Delete<T>(list, typeof(SqlConnection), typeof(SqlCommand), typeof(SqlParameter));
+            return base.Delete<T>(list, typeof(MySQLConnection), typeof(MySQLCommand), typeof(MySQLParameter));
         }
         /// <summary>
         /// 更新或插入列表
@@ -299,7 +336,7 @@ namespace Paway.Utils.Data
         /// <returns></returns>
         public bool UpdateOrInsert<T>(IList<T> list)
         {
-            return base.UpdateOrInsert<T>(list, typeof(SqlConnection), typeof(SqlCommand), typeof(SqlParameter));
+            return base.UpdateOrInsert<T>(list, typeof(MySQLConnection), typeof(MySQLCommand), typeof(MySQLParameter));
         }
 
         #endregion

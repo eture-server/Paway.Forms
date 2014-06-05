@@ -45,6 +45,9 @@
     <Reference Include="log4net">
       <HintPath>..\Root\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="MySQLDriverCS">
+      <HintPath>..\Root\MySQLDriverCS.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data.SQLite">
@@ -59,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Data\DataBase.cs" />
     <Compile Include="Data\DataHelper.cs" />
+    <Compile Include="Data\MySqlHelper.cs" />
     <Compile Include="IControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

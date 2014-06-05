@@ -145,7 +145,8 @@ namespace Paway.Forms
         {
             get
             {
-                return !string.IsNullOrEmpty(error.GetError(BaseText));
+                BaseText_LostFocus(this, EventArgs.Empty);
+                return !string.IsNullOrEmpty(error.GetError(this));
             }
         }
         private string _regex;

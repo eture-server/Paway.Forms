@@ -127,6 +127,7 @@
             this.tbCat = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.qqTextBox1 = new Paway.Forms.QQTextBox();
             this.toolBar3 = new Paway.Forms.ToolBar();
             this.btTTsRead = new Paway.Forms.QQButton();
             this.tNumTestBox2 = new Paway.Forms.TNumTestBox();
@@ -151,7 +152,6 @@
             this.bt360 = new Paway.Forms.QQButton();
             this.drawCombobox2 = new Paway.Forms.TComboBox();
             this.numEditTestBox2 = new Paway.Forms.TNumTestBox();
-            this.qqTextBox1 = new Paway.Forms.QQTextBox();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -669,6 +669,19 @@
             this.pictureBox2.TabIndex = 41;
             this.pictureBox2.TabStop = false;
             // 
+            // qqTextBox1
+            // 
+            this.qqTextBox1.Icon = null;
+            this.qqTextBox1.IsPasswordChat = '\0';
+            this.qqTextBox1.Lines = new string[] {
+        "fwefweeeeeee"};
+            this.qqTextBox1.Location = new System.Drawing.Point(230, 82);
+            this.qqTextBox1.Name = "qqTextBox1";
+            this.qqTextBox1.SelectedText = "";
+            this.qqTextBox1.Size = new System.Drawing.Size(178, 24);
+            this.qqTextBox1.TabIndex = 43;
+            this.qqTextBox1.WaterText = "";
+            // 
             // toolBar3
             // 
             this.toolBar3.ColorDownBack = System.Drawing.SystemColors.GradientActiveCaption;
@@ -1119,19 +1132,6 @@
             this.numEditTestBox2.Size = new System.Drawing.Size(92, 24);
             this.numEditTestBox2.TabIndex = 5;
             this.numEditTestBox2.WaterText = "";
-            // 
-            // qqTextBox1
-            // 
-            this.qqTextBox1.Icon = null;
-            this.qqTextBox1.IsPasswordChat = '\0';
-            this.qqTextBox1.Lines = new string[0];
-            this.qqTextBox1.Location = new System.Drawing.Point(230, 82);
-            this.qqTextBox1.Name = "qqTextBox1";
-            this.qqTextBox1.RegexType = Paway.Helper.RegexType.Password;
-            this.qqTextBox1.SelectedText = "";
-            this.qqTextBox1.Size = new System.Drawing.Size(178, 24);
-            this.qqTextBox1.TabIndex = 43;
-            this.qqTextBox1.WaterText = "";
             // 
             // FormDemo
             // 
