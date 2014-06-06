@@ -1,24 +1,59 @@
 ﻿using Paway.Helper;
-using Paway.Win32;
+using Paway.Resource;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
 namespace Paway.Forms
 {
     /// <summary>
-    /// 重绘DrawCombobox
-    /// 当鼠标指针移到该项上时的高亮度颜色
+    /// TComboBox+边框
     /// </summary>
-    public class TComboBox : ComboBox
+    public class TComboBox : UserControl
     {
+        #region 属性
+        private TComboBoxBase tComboBox1;
         /// <summary>
+        /// 编辑控件
+        /// </summary>
+        [Category("Properties")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public TComboBoxBase Edit { get { return this.tComboBox1; } }
+
+        private Image _borderImage = AssemblyHelper.GetImage("QQ.TextBox.normal.png");
+        private EMouseState _mouseState = EMouseState.Normal;
+        /// <summary>
+        /// 绘制
+        /// </summary>
+        [DefaultValue(typeof(EMouseState), "Normal")]
+        protected virtual EMouseState MouseState
+        {
+            get { return this._mouseState; }
+            set
+            {
+                this._mouseState = value;
+                base.Invalidate();
+            }
+        }
+        /// <summary>
+        /// 获取或设置控件的背景色
+        /// </summary>
+        [Description("获取或设置控件的背景色"), DefaultValue(typeof(Color), "Transparent")]
+        public override Color BackColor
+        {
+            get { return base.BackColor; }
+            set { base.BackColor = value; }
+        }
+
+        #endregion
+
+        #region 构造
+        /// <summary>
+        /// 构造
         /// </summary>
         public TComboBox()
         {
@@ -28,119 +63,101 @@ namespace Paway.Forms
                 ControlStyles.DoubleBuffer, true);
             this.UpdateStyles();
 
-            this.DrawMode = DrawMode.OwnerDrawFixed;
-            this.DrawItem += DrawCombobox_DrawItem;
-            this.ItemHeight = 16;
+            InitializeComponent();
+            this.BackColor = Color.Transparent;
+            this.tComboBox1.SizeChanged += tComboBox1_SizeChanged;
         }
-
-        #region 属性
-        private Color _colorSelect = Color.PaleTurquoise;
-        /// <summary>
-        /// 当鼠标指针移到该项上时的高亮度颜色
-        /// </summary>
-        [Browsable(true), Category("控件的重绘设置"), Description("当鼠标指针移到该项上时的高亮度颜色")]
-        [DefaultValue(typeof(Color), "PaleTurquoise")]
-        public Color ColorSelect
+        void tComboBox1_SizeChanged(object sender, EventArgs e)
         {
-            get { return _colorSelect; }
-            set
-            {
-                _colorSelect = value;
-                this.Invalidate();
-            }
-        }
-
-        private Color _colorFore = Color.Black;
-        /// <summary>
-        /// 项被选中后的字体颜色
-        /// </summary>
-        [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的字体颜色")]
-        [DefaultValue(typeof(Color), "Black")]
-        public Color ColorFore
-        {
-            get { return _colorFore; }
-            set
-            {
-                _colorFore = value;
-                this.Invalidate();
-            }
-        }
-        /// <summary>
-        /// 获取或设置组合框中的某项的高度
-        /// </summary>
-        [Description("获取或设置组合框中的某项的高度"), DefaultValue(16)]
-        public new int ItemHeight
-        {
-            get { return base.ItemHeight; }
-            set { base.ItemHeight = value; }
+            this.Height = this.tComboBox1.Height + 2;
+            this.tComboBox1.Width = this.Width - 2;
         }
 
         #endregion
 
-        #region 方法
-        void DrawCombobox_DrawItem(object sender, DrawItemEventArgs e)
+        #region override
+        /// <summary>
+        /// 边框图片
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnPaint(PaintEventArgs e)
         {
-            //如果当前控件为空
-            if (e.Index < 0)
-                return;
-
-            e.DrawBackground();
-            //获取表示所绘制项的边界的矩形
-            System.Drawing.Rectangle rect = e.Bounds;
-            //定义要绘制到控件中的图标图像
-            //Image ico = System.Drawing.Image.FromFile(@"d:\d.png");
-            //定义字体对象
-            Font font = new Font("微软雅黑", this.Font.Size);
-            Brush brush = new SolidBrush(this.ForeColor);
-            //获得当前Item的文本
-            //绑定字段
-            object obj = this.Items[e.Index];
-            var type = obj.GetType();
-            string str = null;
-            if (obj is DataRowView)
+            base.OnPaint(e);
+            Graphics g = e.Graphics;
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            switch (this._mouseState)
             {
-                DataRowView dr = obj as DataRowView;
-                str = dr[this.DisplayMember].ToString();
-            }
-            else if (obj is string)
-            {
-                str = this.Items[e.Index].ToString();
-            }
-            else
-            {
-                PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
-                for (int i = 0; i < properties.Count; i++)
-                {
-                    if (properties[i].Name == this.DisplayMember)
+                case EMouseState.Move:
+                    using (Image hotLine = AssemblyHelper.GetImage("QQ.TextBox.move.png"))
                     {
-                        str = properties[i].GetValue(obj).ToString();
-                        break;
+                        DrawHelper.RendererBackground(g, this.ClientRectangle, hotLine, true);
                     }
-                }
+                    break;
+                default:
+                    DrawHelper.RendererBackground(g, this.ClientRectangle, this._borderImage, true);
+                    break;
             }
-            //选中项ComboBoxEdit
-            if ((e.State & DrawItemState.ComboBoxEdit) == DrawItemState.ComboBoxEdit)
-            {
-                e.Graphics.FillRectangle(new SolidBrush(this.BackColor), rect);
-            }
-            //Selected
-            else if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
-            {
-                //在当前项图形表面上划一个矩形
-                e.Graphics.FillRectangle(new SolidBrush(_colorSelect), rect);
-                brush = new SolidBrush(this._colorFore);
-            }
-            else
-            {
-                e.Graphics.FillRectangle(new SolidBrush(this.BackColor), rect);
-            }
-            //在当前项图形表面上划上图标
-            //g.DrawImage(ico, new Point(rect.Left, rect.Top));
-            //在当前项图形表面上划上当前Item的文本
-            //g.DrawString(tempString, font, new SolidBrush(Color.Black), rect.Left + ico.Size.Width, rect.Top);
-            e.Graphics.DrawString(str, font, brush, rect, DrawParam.VerticalString);
-            //将绘制聚焦框
-            e.DrawFocusRectangle();
+        }
+
+        #endregion
+
+        #region 鼠标移动时的背影事件
+        /// <summary>
+        /// 背影事件
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            this.MouseMove += TComboBox2_MouseMove;
+            this.tComboBox1.MouseMove += TComboBox2_MouseMove;
+            this.MouseLeave += TComboBox2_MouseLeave;
+            this.tComboBox1.MouseLeave += TComboBox2_MouseLeave;
+            this.Validated += TComboBox2_MouseLeave;
+        }
+
+        void TComboBox2_MouseLeave(object sender, EventArgs e)
+        {
+            this.MouseState = EMouseState.Leave;
+        }
+
+        void TComboBox2_MouseMove(object sender, MouseEventArgs e)
+        {
+            this.MouseState = EMouseState.Move;
+        }
+
+        #endregion
+
+        #region 设计器
+        private void InitializeComponent()
+        {
+            this.tComboBox1 = new Paway.Forms.TComboBoxBase();
+            this.SuspendLayout();
+            // 
+            // tComboBox1
+            // 
+            this.tComboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tComboBox1.ColorFore = System.Drawing.Color.Black;
+            this.tComboBox1.ColorSelect = System.Drawing.Color.PaleTurquoise;
+            this.tComboBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.tComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tComboBox1.FormattingEnabled = true;
+            this.tComboBox1.ItemHeight = 16;
+            this.tComboBox1.Location = new System.Drawing.Point(1, 1);
+            this.tComboBox1.Name = "tComboBox1";
+            this.tComboBox1.Size = new System.Drawing.Size(121, 22);
+            this.tComboBox1.TabIndex = 0;
+            // 
+            // TControl
+            // 
+            this.BackColor = System.Drawing.Color.Black;
+            this.Controls.Add(this.tComboBox1);
+            this.Name = "TControl";
+            this.Size = new System.Drawing.Size(123, 24);
+            this.ResumeLayout(false);
+
         }
 
         #endregion

@@ -27,6 +27,7 @@ namespace Paway.Test
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+            this.tbDesc.Font = new System.Drawing.Font(this.tbDesc.Font.Name, 12f);
             drawCombobox2.SelectedIndex = 0;
             DataTable dt = new DataTable();
             dt.Columns.Add("Name", typeof(string));

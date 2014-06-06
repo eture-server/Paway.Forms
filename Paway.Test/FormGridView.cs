@@ -26,8 +26,8 @@ namespace Paway.Test
             WaitDrawDataGridView();
             CheckBoxDataGridView();
             CheckBox();
-            this.comBoxGridView1.ProgressIndex = -1;
-            this.comBoxGridView1.CurrentCellChanged += comBoxGridView1_CurrentCellChanged;
+            this.tDataGridView1.ProgressIndex = -1;
+            this.tDataGridView1.CurrentCellChanged += comBoxGridView1_CurrentCellChanged;
         }
 
         int index = -1;
@@ -35,19 +35,19 @@ namespace Paway.Test
         Bitmap last;
         void comBoxGridView1_CurrentCellChanged(object sender, EventArgs e)
         {
-            if (this.comBoxGridView1.CurrentCell.RowIndex == index) return;
-            if (index != -1) this.comBoxGridView1.Rows[index].Cells[0].Value = false;
+            if (this.tDataGridView1.CurrentCell.RowIndex == index) return;
+            if (index != -1) this.tDataGridView1.Rows[index].Cells[0].Value = false;
             int old = index;
 
-            index = this.comBoxGridView1.CurrentCell.RowIndex;
-            this.comBoxGridView1.ProgressIndex = index;
-            bitmap = this.comBoxGridView1.Rows[index].Cells["Image"].Value as Bitmap;
-            this.comBoxGridView1.Rows[index].Cells[0].Value = true;
-            this.comBoxGridView1.Rows[index].Cells[2].Value = string.Format("点击&第1步");
+            index = this.tDataGridView1.CurrentCell.RowIndex;
+            this.tDataGridView1.ProgressIndex = index;
+            bitmap = this.tDataGridView1.Rows[index].Cells["Image"].Value as Bitmap;
+            this.tDataGridView1.Rows[index].Cells[0].Value = true;
+            this.tDataGridView1.Rows[index].Cells[2].Value = string.Format("点击&第1步");
             if (last != null)
             {
-                this.comBoxGridView1.Rows[old].Cells[2].Value = "点击";
-                this.comBoxGridView1.Rows[old].Cells["Image"].Value = last;
+                this.tDataGridView1.Rows[old].Cells[2].Value = "点击";
+                this.tDataGridView1.Rows[old].Cells["Image"].Value = last;
             }
             last = bitmap.Clone() as Bitmap;
         }
@@ -100,7 +100,7 @@ namespace Paway.Test
                     ComponentId = Guid.NewGuid(),
                 });
             }
-            comBoxGridView1.DataSource = list;
+            tDataGridView1.DataSource = list;
         }
         protected void CheckBox()
         {
@@ -123,7 +123,7 @@ namespace Paway.Test
                     Price = i,
                 });
             }
-            comBoxGridView2.DataSource = list;
+            tDataGridView2.DataSource = list;
 
             BindingList<Data2> list2 = new BindingList<Data2>();
             for (int i = 0; i < 6; i++)

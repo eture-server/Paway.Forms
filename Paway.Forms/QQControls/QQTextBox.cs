@@ -20,6 +20,7 @@ namespace Paway.Forms
         /// BaseText
         /// </summary>
         protected QQTextBoxBase BaseText;
+
         /// <summary>
         /// TNum.获取或设置文本框中选定的文本起始点
         /// </summary>

@@ -95,6 +95,10 @@ namespace Paway.Helper
         /// 列中文名称
         /// </summary>
         public string CnName { get; set; }
+        /// <summary>
+        /// 数据
+        /// </summary>
+        public object Tag { get; set; }
 
         /// <summary>
         /// 表名称

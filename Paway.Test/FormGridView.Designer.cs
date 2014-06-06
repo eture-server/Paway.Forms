@@ -53,7 +53,7 @@
             this.Progress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Device = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Statu = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.comBoxGridView1 = new Paway.Forms.TDataGridView();
+            this.tDataGridView1 = new Paway.Forms.TDataGridView();
             this.IsSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.CommandType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Image = new System.Windows.Forms.DataGridViewImageColumn();
@@ -62,7 +62,7 @@
             this.ComponentId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.comBoxGridView2 = new Paway.Forms.TDataGridView();
+            this.tDataGridView2 = new Paway.Forms.TDataGridView();
             this.ProColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ProSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -74,9 +74,9 @@
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comBoxGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tDataGridView1)).BeginInit();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.comBoxGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tDataGridView2)).BeginInit();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -86,7 +86,7 @@
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.panel2);
-            this.panel1.Controls.Add(this.comBoxGridView1);
+            this.panel1.Controls.Add(this.tDataGridView1);
             this.panel1.Padding = new System.Windows.Forms.Padding(10, 10, 10, 2);
             this.panel1.Size = new System.Drawing.Size(425, 574);
             // 
@@ -226,13 +226,13 @@
             this.Statu.Name = "Statu";
             this.Statu.Visible = false;
             // 
-            // comBoxGridView1
+            // tDataGridView1
             // 
-            this.comBoxGridView1.AllowUserToDeleteRows = false;
-            this.comBoxGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.comBoxGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            this.comBoxGridView1.CheckBoxName = "IsSelect";
-            this.comBoxGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.tDataGridView1.AllowUserToDeleteRows = false;
+            this.tDataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.tDataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+            this.tDataGridView1.CheckBoxName = "IsSelect";
+            this.tDataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle10.BackColor = System.Drawing.Color.Red;
             dataGridViewCellStyle10.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -240,12 +240,12 @@
             dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.Red;
             dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.comBoxGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
-            this.comBoxGridView1.ColumnHeadersHeight = 30;
-            this.comBoxGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.comBoxGridView1.ColumnImage = "Image";
-            this.comBoxGridView1.ColumnImageText = "NameStr";
-            this.comBoxGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.tDataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            this.tDataGridView1.ColumnHeadersHeight = 30;
+            this.tDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.tDataGridView1.ColumnImage = "Image";
+            this.tDataGridView1.ColumnImageText = "NameStr";
+            this.tDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.IsSelect,
             this.CommandType,
             this.Image,
@@ -253,7 +253,7 @@
             this.ActionTime,
             this.ComponentId,
             this.Id});
-            this.comBoxGridView1.DataSource = null;
+            this.tDataGridView1.DataSource = null;
             dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle13.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle13.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -261,16 +261,16 @@
             dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.comBoxGridView1.DefaultCellStyle = dataGridViewCellStyle13;
-            this.comBoxGridView1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.comBoxGridView1.GridColor = System.Drawing.Color.LightBlue;
-            this.comBoxGridView1.IsDrawCheckBox = true;
-            this.comBoxGridView1.IsMultiText = true;
-            this.comBoxGridView1.Location = new System.Drawing.Point(10, 10);
-            this.comBoxGridView1.MultiSelect = false;
-            this.comBoxGridView1.Name = "comBoxGridView1";
-            this.comBoxGridView1.ProgressImage = global::Paway.Test.Properties.Resources.process;
-            this.comBoxGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.tDataGridView1.DefaultCellStyle = dataGridViewCellStyle13;
+            this.tDataGridView1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tDataGridView1.GridColor = System.Drawing.Color.LightBlue;
+            this.tDataGridView1.IsDrawCheckBox = true;
+            this.tDataGridView1.IsMultiText = true;
+            this.tDataGridView1.Location = new System.Drawing.Point(10, 10);
+            this.tDataGridView1.MultiSelect = false;
+            this.tDataGridView1.Name = "tDataGridView1";
+            this.tDataGridView1.ProgressImage = global::Paway.Test.Properties.Resources.process;
+            this.tDataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle14.BackColor = System.Drawing.Color.Red;
             dataGridViewCellStyle14.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -278,16 +278,16 @@
             dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
             dataGridViewCellStyle14.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.comBoxGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle14;
-            this.comBoxGridView1.RowHeadersWidth = 21;
-            this.comBoxGridView1.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
-            this.comBoxGridView1.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
-            this.comBoxGridView1.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
-            this.comBoxGridView1.RowTemplate.Height = 32;
-            this.comBoxGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.comBoxGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.comBoxGridView1.Size = new System.Drawing.Size(405, 149);
-            this.comBoxGridView1.TabIndex = 8;
+            this.tDataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle14;
+            this.tDataGridView1.RowHeadersWidth = 21;
+            this.tDataGridView1.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
+            this.tDataGridView1.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
+            this.tDataGridView1.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
+            this.tDataGridView1.RowTemplate.Height = 32;
+            this.tDataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tDataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.tDataGridView1.Size = new System.Drawing.Size(405, 149);
+            this.tDataGridView1.TabIndex = 8;
             // 
             // IsSelect
             // 
@@ -348,7 +348,7 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.panel3.Controls.Add(this.comBoxGridView2);
+            this.panel3.Controls.Add(this.tDataGridView2);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(10, 316);
             this.panel3.Name = "panel3";
@@ -356,14 +356,14 @@
             this.panel3.Size = new System.Drawing.Size(405, 220);
             this.panel3.TabIndex = 10;
             // 
-            // comBoxGridView2
+            // tDataGridView2
             // 
-            this.comBoxGridView2.AllowUserToAddRows = false;
-            this.comBoxGridView2.AllowUserToDeleteRows = false;
-            this.comBoxGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.comBoxGridView2.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
-            this.comBoxGridView2.CheckBoxName = "IsSelect";
-            this.comBoxGridView2.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.tDataGridView2.AllowUserToAddRows = false;
+            this.tDataGridView2.AllowUserToDeleteRows = false;
+            this.tDataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.tDataGridView2.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
+            this.tDataGridView2.CheckBoxName = "IsSelect";
+            this.tDataGridView2.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -371,28 +371,28 @@
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DodgerBlue;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.comBoxGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.comBoxGridView2.ColumnHeadersHeight = 30;
-            this.comBoxGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.comBoxGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.tDataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.tDataGridView2.ColumnHeadersHeight = 30;
+            this.tDataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.tDataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ProColor,
             this.ProSize,
             this.Price});
-            this.comBoxGridView2.DataSource = null;
-            this.comBoxGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comBoxGridView2.GridColor = System.Drawing.Color.YellowGreen;
-            this.comBoxGridView2.IsDrawMerger = true;
-            this.comBoxGridView2.IsDrawMove = false;
-            this.comBoxGridView2.Location = new System.Drawing.Point(1, 0);
-            this.comBoxGridView2.Name = "comBoxGridView2";
-            this.comBoxGridView2.RowHeadersVisible = false;
-            this.comBoxGridView2.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
-            this.comBoxGridView2.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Peru;
-            this.comBoxGridView2.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
-            this.comBoxGridView2.RowTemplate.Height = 23;
-            this.comBoxGridView2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.comBoxGridView2.Size = new System.Drawing.Size(403, 219);
-            this.comBoxGridView2.TabIndex = 9;
+            this.tDataGridView2.DataSource = null;
+            this.tDataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tDataGridView2.GridColor = System.Drawing.Color.YellowGreen;
+            this.tDataGridView2.IsDrawMerger = true;
+            this.tDataGridView2.IsDrawMove = false;
+            this.tDataGridView2.Location = new System.Drawing.Point(1, 0);
+            this.tDataGridView2.Name = "tDataGridView2";
+            this.tDataGridView2.RowHeadersVisible = false;
+            this.tDataGridView2.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
+            this.tDataGridView2.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Peru;
+            this.tDataGridView2.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
+            this.tDataGridView2.RowTemplate.Height = 23;
+            this.tDataGridView2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tDataGridView2.Size = new System.Drawing.Size(403, 219);
+            this.tDataGridView2.TabIndex = 9;
             // 
             // ProColor
             // 
@@ -496,9 +496,9 @@
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comBoxGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tDataGridView1)).EndInit();
             this.panel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.comBoxGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tDataGridView2)).EndInit();
             this.panel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
@@ -509,9 +509,9 @@
 
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.DataGridView gridView1;
-        private Forms.TDataGridView comBoxGridView1;
+        private Forms.TDataGridView tDataGridView1;
         private System.Windows.Forms.Panel panel3;
-        private Forms.TDataGridView comBoxGridView2;
+        private Forms.TDataGridView tDataGridView2;
         private System.Windows.Forms.DataGridViewImageColumn StatuImage;
         private System.Windows.Forms.DataGridViewTextBoxColumn Product;
         private System.Windows.Forms.DataGridViewTextBoxColumn AppName;

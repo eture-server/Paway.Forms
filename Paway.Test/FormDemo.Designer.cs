@@ -127,16 +127,16 @@
             this.tbCat = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.qqTextBox1 = new Paway.Forms.QQTextBox();
+            this.tbDesc = new Paway.Forms.QQTextBox();
             this.toolBar3 = new Paway.Forms.ToolBar();
             this.btTTsRead = new Paway.Forms.QQButton();
             this.tNumTestBox2 = new Paway.Forms.TNumTestBox();
             this.tNumTestBox1 = new Paway.Forms.TNumTestBox();
             this.tbPrompt = new Paway.Forms.QQTextBox();
-            this.tComboBox21 = new Paway.Forms.TComboBox2();
+            this.tComboBox21 = new Paway.Forms.TComboBox();
             this.qqTextBoxEx1 = new Paway.Forms.QQTextBox();
-            this.tComboBox2 = new Paway.Forms.TComboBox();
-            this.tComboBox1 = new Paway.Forms.TComboBox();
+            this.tComboBox2 = new Paway.Forms.TComboBoxBase();
+            this.tComboBox1 = new Paway.Forms.TComboBoxBase();
             this.btAbout = new Paway.Forms.QQButton();
             this.btGridView = new Paway.Forms.QQButton();
             this.btSearch = new Paway.Forms.QQButton();
@@ -150,7 +150,7 @@
             this.qqTabPage4 = new Paway.Forms.QQTabPage();
             this.btQQ = new Paway.Forms.QQButton();
             this.bt360 = new Paway.Forms.QQButton();
-            this.drawCombobox2 = new Paway.Forms.TComboBox();
+            this.drawCombobox2 = new Paway.Forms.TComboBoxBase();
             this.numEditTestBox2 = new Paway.Forms.TNumTestBox();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -669,18 +669,18 @@
             this.pictureBox2.TabIndex = 41;
             this.pictureBox2.TabStop = false;
             // 
-            // qqTextBox1
+            // tbDesc
             // 
-            this.qqTextBox1.Icon = null;
-            this.qqTextBox1.IsPasswordChat = '\0';
-            this.qqTextBox1.Lines = new string[] {
+            this.tbDesc.Icon = null;
+            this.tbDesc.IsPasswordChat = '\0';
+            this.tbDesc.Lines = new string[] {
         "fwefweeeeeee"};
-            this.qqTextBox1.Location = new System.Drawing.Point(230, 82);
-            this.qqTextBox1.Name = "qqTextBox1";
-            this.qqTextBox1.SelectedText = "";
-            this.qqTextBox1.Size = new System.Drawing.Size(178, 24);
-            this.qqTextBox1.TabIndex = 43;
-            this.qqTextBox1.WaterText = "";
+            this.tbDesc.Location = new System.Drawing.Point(230, 82);
+            this.tbDesc.Name = "tbDesc";
+            this.tbDesc.SelectedText = "";
+            this.tbDesc.Size = new System.Drawing.Size(178, 24);
+            this.tbDesc.TabIndex = 43;
+            this.tbDesc.WaterText = "";
             // 
             // toolBar3
             // 
@@ -1139,7 +1139,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.ClientSize = new System.Drawing.Size(699, 289);
-            this.Controls.Add(this.qqTextBox1);
+            this.Controls.Add(this.tbDesc);
             this.Controls.Add(this.toolBar3);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
@@ -1242,7 +1242,7 @@
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn8;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn40;
         private Forms.TNumTestBox numEditTestBox2;
-        private Forms.TComboBox drawCombobox2;
+        private Forms.TComboBoxBase drawCombobox2;
         private Forms.QQButton bt360;
         private Forms.QQButton btQQ;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
@@ -1259,10 +1259,10 @@
         private Forms.QQButton btSearch;
         private Forms.QQButton btGridView;
         private Forms.QQButton btAbout;
-        private Forms.TComboBox tComboBox1;
-        private Forms.TComboBox tComboBox2;
+        private Forms.TComboBoxBase tComboBox1;
+        private Forms.TComboBoxBase tComboBox2;
         private Forms.QQTextBox qqTextBoxEx1;
-        private Forms.TComboBox2 tComboBox21;
+        private Forms.TComboBox tComboBox21;
         private System.Windows.Forms.TextBox tbCat;
         private Forms.QQTextBox tbPrompt;
         private Forms.TNumTestBox tNumTestBox1;
@@ -1273,7 +1273,7 @@
         private Forms.ToolBar toolBar3;
         private Forms.QQTabPage qqTabPage3;
         private Forms.QQTabPage qqTabPage4;
-        private Forms.QQTextBox qqTextBox1;
+        private Forms.QQTextBox tbDesc;
 
     }
 }
