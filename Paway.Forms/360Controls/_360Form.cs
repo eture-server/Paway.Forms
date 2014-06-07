@@ -253,34 +253,6 @@ namespace Paway.Forms
             }
             g.DrawImage(image, rect, imageRect, GraphicsUnit.Pixel);
         }
-
-        /// <summary>
-        /// 绘制窗体边框
-        /// </summary>
-        /// <param name="g"></param>
-        private void DrawFrameBorder(Graphics g)
-        {
-            if (!_isDrawBorder) return;
-            Rectangle rect = this.ClientRectangle;
-            int cut1 = 1;
-            int cut2 = 5;
-            //左上角
-            g.DrawImage(this._borderImage, new Rectangle(rect.X, rect.Y, cut2, cut2), 0, 0, cut2, cut2, GraphicsUnit.Pixel);
-            //上边
-            g.DrawImage(this._borderImage, new Rectangle(rect.X + cut2, rect.Y, rect.Width - cut2 * 2, cut1), cut2, 0, this._borderImage.Width - cut2 * 2, cut2, GraphicsUnit.Pixel);
-            //右上角
-            g.DrawImage(this._borderImage, new Rectangle(rect.X + rect.Width - cut2, rect.Y, cut2, cut2), this._borderImage.Width - cut2, 0, cut2, cut2, GraphicsUnit.Pixel);
-            //左边
-            g.DrawImage(this._borderImage, new Rectangle(rect.X, rect.Y + cut2, cut1, rect.Height - cut2 * 2), 0, cut2, cut1, this._borderImage.Height - cut2 * 2, GraphicsUnit.Pixel);
-            //左下角
-            g.DrawImage(this._borderImage, new Rectangle(rect.X, rect.Y + rect.Height - cut2, cut2, cut2), 0, this._borderImage.Height - cut2, cut2, cut2, GraphicsUnit.Pixel);
-            //右边
-            g.DrawImage(this._borderImage, new Rectangle(rect.X + rect.Width - cut1, rect.Y + cut2, cut1, rect.Height - cut2 * 2), this._borderImage.Width - cut1, cut2, cut1, this._borderImage.Height - cut2 * 2, GraphicsUnit.Pixel);
-            //右下角
-            g.DrawImage(this._borderImage, new Rectangle(rect.X + rect.Width - cut2, rect.Y + rect.Height - cut2, cut2, cut2), this._borderImage.Width - cut2, this._borderImage.Height - cut2, cut2, cut2, GraphicsUnit.Pixel);
-            //下边
-            g.DrawImage(this._borderImage, new Rectangle(rect.X + cut2, rect.Y + rect.Height - cut1, rect.Width - cut2 * 2, cut1), cut2, this._borderImage.Height - cut1, this._borderImage.Width - cut2 * 2, cut1, GraphicsUnit.Pixel);
-        }
         #endregion
 
         /// <summary>
@@ -320,20 +292,7 @@ namespace Paway.Forms
             // 绘制标题栏菜单按钮
             this.DrawSysButton(g, this.TitleBarMenuRect, (Bitmap)this._titleBarMenuImage, this._titleBarMenuState);
 
-            this.DrawFrameBorder(g);
-
             base.OnPaint(e);
-        }
-        /// <summary>
-        /// 引发 System.Windows.Forms.Form.Resize 事件。
-        /// </summary>
-        /// <param name="e">包含事件数据的 System.EventArgs。</param>
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-            int ellipse = _isDrawRound ? 6 : 0;
-            int rgn = NativeMethods.CreateRoundRectRgn(0, 0, this.Width + 1, this.Height + 1, ellipse, ellipse);
-            NativeMethods.SetWindowRgn(this.Handle, rgn, true);
         }
         /// <summary>
         /// 引发 System.Windows.Forms.Form.MouseMove。
@@ -402,32 +361,6 @@ namespace Paway.Forms
         {
             base.OnMouseLeave(e);
             this.TitleBarMenuState = EMouseState.Leave;
-        }
-        #endregion
-
-        #region 下圆角边框
-        /// <summary>
-        /// 绘制下圆角边框
-        /// </summary>
-        /// <param name="control"></param>
-        protected void DrawBelowBorder(Control control)
-        {
-            if (!_isDrawBorder || control == null || _borderImage == null) return;
-            Rectangle rect = control.ClientRectangle;
-            Graphics g = control.CreateGraphics();
-            int cut1 = 1;
-            int cut2 = 5;
-            int cut3 = cut2 - cut1;
-            //左边
-            g.DrawImage(this._borderImage, new Rectangle(rect.X, rect.Y + 0, cut1, rect.Height - cut3), 0, cut2, cut1, this._borderImage.Height - cut2 * 2, GraphicsUnit.Pixel);
-            //左下角
-            g.DrawImage(this._borderImage, new Rectangle(rect.X, rect.Y + rect.Height - cut3, cut2, cut2), 0, this._borderImage.Height - cut2, cut2, cut2, GraphicsUnit.Pixel);
-            //右边
-            g.DrawImage(this._borderImage, new Rectangle(rect.X + rect.Width - cut1, rect.Y + 0, cut1, rect.Height - cut3), this._borderImage.Width - cut1, cut2, cut1, this._borderImage.Height - cut2 * 2, GraphicsUnit.Pixel);
-            //右下角
-            g.DrawImage(this._borderImage, new Rectangle(rect.X + rect.Width - cut2, rect.Y + rect.Height - cut3, cut2, cut2), this._borderImage.Width - cut2, this._borderImage.Height - cut2, cut2, cut2, GraphicsUnit.Pixel);
-            //下边
-            g.DrawImage(this._borderImage, new Rectangle(rect.X + cut3, rect.Y + rect.Height - cut1, rect.Width - cut3 * 2, cut1), cut2, this._borderImage.Height - cut1, this._borderImage.Width - cut2 * 2, cut1, GraphicsUnit.Pixel);
         }
         #endregion
     }

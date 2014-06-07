@@ -9,6 +9,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Drawing.Imaging;
 using Paway.Helper;
+using Paway.Resource;
 
 namespace Paway.Forms
 {
@@ -18,6 +19,10 @@ namespace Paway.Forms
     public class FormBase : Form
     {
         #region 变量
+        /// <summary>
+        /// 边框图片
+        /// </summary>
+        private Image _borderImage = AssemblyHelper.GetImage("QQ.FormFrame.fringe_bkg.png");
         /// <summary>
         /// 系统按钮
         /// </summary>
@@ -488,7 +493,40 @@ namespace Paway.Forms
             {
                 TextRenderer.DrawText(g, this._textShow, new Font("宋体", 9f, FontStyle.Bold), this.TextRect, this.ForeColor, TextFormatFlags.VerticalCenter);
             }
+            DrawFrameBorder(g);
             DrawBelowPath(null);
+        }
+        /// <summary>
+        /// 绘制窗体边框
+        /// </summary>
+        /// <param name="g"></param>
+        private void DrawFrameBorder(Graphics g)
+        {
+            //绘画边框
+            if (_isDrawBorder)
+            {
+                g.DrawImage(this._borderImage, new Rectangle(0, 0, 10, 10), new Rectangle(5, 5, 10, 10), GraphicsUnit.Pixel);//左上角
+                g.DrawImage(this._borderImage, new Rectangle(0, -5, 10, this.Height + 10), new Rectangle(5, 5, 10, this._borderImage.Height - 10), GraphicsUnit.Pixel);//左边框
+                g.DrawImage(this._borderImage, new Rectangle(-5, this.Height - 10, 10, 10), new Rectangle(0, this._borderImage.Height - 15, 10, 10), GraphicsUnit.Pixel);//左下角
+                g.DrawImage(this._borderImage, new Rectangle(this.Width - 9, -5, 10, 10), new Rectangle(20, 0, 10, 10), GraphicsUnit.Pixel);//右上角
+                g.DrawImage(this._borderImage, new Rectangle(this.Width - 9, -5, 10, this.Height + 10), new Rectangle(20, 5, 10, this._borderImage.Height - 10), GraphicsUnit.Pixel);//右边框
+                g.DrawImage(this._borderImage, new Rectangle(this.Width - 9, this.Height - 10, 10, 10), new Rectangle(20, this._borderImage.Height - 15, 10, 10), GraphicsUnit.Pixel);//右下角
+
+                g.DrawImage(this._borderImage, new Rectangle(5, -5, this.Width - 10, 18), new Rectangle(12, 0, 6, 18), GraphicsUnit.Pixel);
+                g.DrawImage(this._borderImage, new Rectangle(5, this.Height - 6, this.Width - 10, 18), new Rectangle(12, 0, 6, 18), GraphicsUnit.Pixel);
+            }
+        }
+        /// <summary>
+        /// 引发 System.Windows.Forms.Form.Resize 事件。
+        /// </summary>
+        /// <param name="e">包含事件数据的 System.EventArgs。</param>
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            //调用API，将窗体剪成圆角
+            int ellipse = _isDrawRound ? 4 : 0;
+            int rgn = NativeMethods.CreateRoundRectRgn(0, 0, this.Width + 1, this.Height + 1, ellipse, ellipse);
+            NativeMethods.SetWindowRgn(this.Handle, rgn, true);
         }
         /// <summary>
         /// 引发 System.Windows.Forms.Form.Load 事件。
@@ -675,6 +713,30 @@ namespace Paway.Forms
             if (control == null) return;
             Graphics g = control.CreateGraphics();
             DrawHelper.CreateBelowPath(g, control.Bounds, this.BackColor);
+        }
+        #endregion
+
+        #region 下圆角边框
+        /// <summary>
+        /// 绘制下圆角边框
+        /// </summary>
+        /// <param name="control"></param>
+        protected void DrawBelowBorder(Control control)
+        {
+            if (!_isDrawBorder || control == null || _borderImage == null) return;
+            Graphics g = control.CreateGraphics();
+            {
+                //左边框
+                g.DrawImage(this._borderImage, new Rectangle(0, -5, 10, control.Height + 10), new Rectangle(5, 5, 10, this._borderImage.Height - 10), GraphicsUnit.Pixel);
+                //左下角
+                g.DrawImage(this._borderImage, new Rectangle(-5, control.Height - 10, 10, 10), new Rectangle(0, this._borderImage.Height - 15, 10, 10), GraphicsUnit.Pixel);
+                //右边框
+                g.DrawImage(this._borderImage, new Rectangle(control.Width - 9, -5, 10, control.Height + 10), new Rectangle(20, 5, 10, this._borderImage.Height - 10), GraphicsUnit.Pixel);
+                //右下角
+                g.DrawImage(this._borderImage, new Rectangle(control.Width - 9, control.Height - 10, 10, 10), new Rectangle(20, this._borderImage.Height - 15, 10, 10), GraphicsUnit.Pixel);
+                //下边框
+                g.DrawImage(this._borderImage, new Rectangle(5, control.Height - 6, control.Width - 10, 18), new Rectangle(12, 0, 6, 18), GraphicsUnit.Pixel);
+            }
         }
         #endregion
     }

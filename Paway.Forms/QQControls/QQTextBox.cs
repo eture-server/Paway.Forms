@@ -554,6 +554,23 @@ namespace Paway.Forms
         /// <param name="e"></param>
         void BaseText_LostFocus(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(BaseText.Text))
+            {
+                switch (_regexType)
+                {
+                    case Helper.RegexType.Ip:
+                        error.SetError(this, "请输入Ip");
+                        break;
+                    case Helper.RegexType.Password:
+                        error.SetError(this, "请输入密码");
+                        break;
+                    case Helper.RegexType.Normal:
+                    case Helper.RegexType.Custom:
+                        error.SetError(this, "请输入字符");
+                        break;
+                }
+                return;
+            }
             switch (_regexType)
             {
                 case Helper.RegexType.Ip:

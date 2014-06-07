@@ -19,7 +19,7 @@ namespace Paway.Forms
     public partial class QQDemo : QQForm
     {
         /// <summary>
-        /// QQ窗体示例
+        /// 构造
         /// </summary>
         public QQDemo()
         {

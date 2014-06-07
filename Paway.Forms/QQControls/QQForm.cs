@@ -17,12 +17,6 @@ namespace Paway.Forms
     /// </summary>
     public class QQForm : FormBase
     {
-        #region 变量
-        /// <summary>
-        /// 边框图片
-        /// </summary>
-        private Image _borderImage = AssemblyHelper.GetImage("QQ.FormFrame.fringe_bkg.png");
-        #endregion
 
         #region 构造函数
         /// <summary>
@@ -151,20 +145,6 @@ namespace Paway.Forms
                     break;
             }
 
-            //绘画边框
-            if (_isDrawBorder)
-            {
-                g.DrawImage(this._borderImage, new Rectangle(0, 0, 10, 10), new Rectangle(5, 5, 10, 10), GraphicsUnit.Pixel);//左上角
-                g.DrawImage(this._borderImage, new Rectangle(0, -5, 10, this.Height + 10), new Rectangle(5, 5, 10, this._borderImage.Height - 10), GraphicsUnit.Pixel);//左边框
-                g.DrawImage(this._borderImage, new Rectangle(-5, this.Height - 10, 10, 10), new Rectangle(0, this._borderImage.Height - 15, 10, 10), GraphicsUnit.Pixel);//左下角
-                g.DrawImage(this._borderImage, new Rectangle(this.Width - 9, -5, 10, 10), new Rectangle(20, 0, 10, 10), GraphicsUnit.Pixel);//右上角
-                g.DrawImage(this._borderImage, new Rectangle(this.Width - 9, -5, 10, this.Height + 10), new Rectangle(20, 5, 10, this._borderImage.Height - 10), GraphicsUnit.Pixel);//右边框
-                g.DrawImage(this._borderImage, new Rectangle(this.Width - 9, this.Height - 10, 10, 10), new Rectangle(20, this._borderImage.Height - 15, 10, 10), GraphicsUnit.Pixel);//右下角
-
-                g.DrawImage(this._borderImage, new Rectangle(5, -5, this.Width - 10, 18), new Rectangle(12, 0, 6, 18), GraphicsUnit.Pixel);
-                g.DrawImage(this._borderImage, new Rectangle(5, this.Height - 6, this.Width - 10, 18), new Rectangle(12, 0, 6, 18), GraphicsUnit.Pixel);
-            }
-
             base.OnPaint(e);
         }
 
@@ -181,30 +161,6 @@ namespace Paway.Forms
             NativeMethods.SetWindowRgn(this.Handle, rgn, true);
         }
 
-        #endregion
-
-        #region 下圆角边框
-        /// <summary>
-        /// 绘制下圆角边框
-        /// </summary>
-        /// <param name="control"></param>
-        protected void DrawBelowBorder(Control control)
-        {
-            if (!_isDrawBorder || control == null || _borderImage == null) return;
-            Graphics g = control.CreateGraphics();
-            {
-                //左边框
-                g.DrawImage(this._borderImage, new Rectangle(0, -5, 10, control.Height + 10), new Rectangle(5, 5, 10, this._borderImage.Height - 10), GraphicsUnit.Pixel);
-                //左下角
-                g.DrawImage(this._borderImage, new Rectangle(-5, control.Height - 10, 10, 10), new Rectangle(0, this._borderImage.Height - 15, 10, 10), GraphicsUnit.Pixel);
-                //右边框
-                g.DrawImage(this._borderImage, new Rectangle(control.Width - 9, -5, 10, control.Height + 10), new Rectangle(20, 5, 10, this._borderImage.Height - 10), GraphicsUnit.Pixel);
-                //右下角
-                g.DrawImage(this._borderImage, new Rectangle(control.Width - 9, control.Height - 10, 10, 10), new Rectangle(20, this._borderImage.Height - 15, 10, 10), GraphicsUnit.Pixel);
-                //下边框
-                g.DrawImage(this._borderImage, new Rectangle(5, control.Height - 6, control.Width - 10, 18), new Rectangle(12, 0, 6, 18), GraphicsUnit.Pixel);
-            }
-        }
         #endregion
     }
 }

@@ -16,6 +16,11 @@ namespace Paway.Forms
     /// </summary>
     public partial class TDataGridViewPager : UserControl
     {
+        /// <summary>
+        /// 页面切换的时候触发
+        /// </summary>
+        public event EventHandler PageChanged;
+
         #region 属性
         private TDataGridView tDataGridView1;
         /// <summary>
@@ -24,17 +29,6 @@ namespace Paway.Forms
         [Category("Properties")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TDataGridView Edit { get { return this.tDataGridView1; } }
-
-        /// <summary>
-        /// 获取或设置每页显示的记录
-        /// </summary>
-        [Category("Properties")]
-        [Description("获取或设置每页显示的记录"), DefaultValue(20)]
-        public int PageSize
-        {
-            get { return pagerInfo.PageSize; }
-            set { pagerInfo.PageSize = value; }
-        }
 
         private PagerInfo pagerInfo = null;
         /// <summary>
@@ -65,6 +59,7 @@ namespace Paway.Forms
         /// <summary>
         /// 获取或设置数据源
         /// </summary>
+        [Category("Properties")]
         public object DataSource
         {
             get { return dataSource; }
@@ -78,6 +73,16 @@ namespace Paway.Forms
                 dataSource = value;
                 BingData();
             }
+        }
+
+        /// <summary>
+        /// 获取或设置当前页码
+        /// </summary>
+        [Browsable(false), Description("获取或设置当前页码")]
+        public int CurrenetPageIndex
+        {
+            get { return PagerInfo.CurrenetPageIndex; }
+            set { PagerInfo.CurrenetPageIndex = value; }
         }
 
         #endregion
@@ -98,6 +103,10 @@ namespace Paway.Forms
         void pager1_PageChanged(object sender, EventArgs e)
         {
             BingData();
+            if (PageChanged != null)
+            {
+                PageChanged(sender, e);
+            }
         }
 
         private void BingData()
@@ -127,6 +136,25 @@ namespace Paway.Forms
 
             this.tDataGridView1.DataSource = temp;
             this.pager1.InitPageInfo(PagerInfo.RecordCount, PagerInfo.PageSize);
+        }
+
+        /// <summary>
+        /// 切换至指定页
+        /// </summary>
+        public void ToCurrentPage(int index)
+        {
+            if (index > pager1.PageCount)
+            {
+                index = pager1.PageCount;
+            }
+            PagerInfo.CurrenetPageIndex = index;
+        }
+        /// <summary>
+        /// 切换至最后页
+        /// </summary>
+        public void ToLastPage()
+        {
+            PagerInfo.CurrenetPageIndex = pager1.PageCount;
         }
 
         #endregion
@@ -163,12 +191,13 @@ namespace Paway.Forms
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tDataGridView1 = new Paway.Forms.TDataGridView();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pager1 = new TPager();
+            this.pager1 = new Paway.Forms.TPager();
             ((System.ComponentModel.ISupportInitialize)(this.tDataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // tDataGridView1
             // 
+            this.tDataGridView1.AllowUserToAddRows = false;
             this.tDataGridView1.AllowUserToDeleteRows = false;
             this.tDataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.tDataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
@@ -236,6 +265,7 @@ namespace Paway.Forms
             this.pager1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pager1.Location = new System.Drawing.Point(0, 173);
             this.pager1.Name = "pager1";
+            this.pager1.PageSize = 50;
             this.pager1.RecordCount = 0;
             this.pager1.Size = new System.Drawing.Size(576, 30);
             this.pager1.TabIndex = 11;

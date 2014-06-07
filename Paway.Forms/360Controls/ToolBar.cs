@@ -726,6 +726,7 @@ namespace Paway.Forms
                     this._isFocus = true;
                     base.Invalidate(this._btnArrowRect);
                 }
+                bool iIn = Contain(point);
                 for (int i = 0; i < this.Items.Count; i++)
                 {
                     ToolItem item = this.Items[i];
@@ -758,13 +759,29 @@ namespace Paway.Forms
                         }
                         this.Invalidate();
                     }
-                    else if (!_isMultiple)
+                    else if (!_isMultiple && iIn)
                     {
                         item.MouseState = EMouseState.Normal;
                         this.Invalidate(item.Rectangle);
                     }
                 }
             }
+        }
+        /// <summary>
+        /// 坐标点是否包含在项中
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public bool Contain(Point point)
+        {
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                if (this.Items[i].Rectangle.Contains(point))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         /// <summary>
         /// 引发 System.Windows.Forms.Form.MouseUp 事件。

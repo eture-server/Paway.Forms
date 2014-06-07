@@ -490,8 +490,8 @@ namespace Paway.Forms
             get { return currenetPageIndex; }
             set
             {
+                if (value < 1) value = 1;
                 currenetPageIndex = value;
-
                 if (PageInfoChanged != null)
                 {
                     PageInfoChanged(this);
