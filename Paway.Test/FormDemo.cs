@@ -119,7 +119,7 @@ namespace Paway.Test
             this.btAbout.Click += delegate { new AboutForm().ShowDialog(); };
             this.btGridView.Click += delegate { new FormGridView().Show(); };
             this.btImage.Click += btImage_Click;
-            toolBar1.ItemClick += toolBar1_ItemClick;
+            toolBar2.ItemClick += toolBar2_ItemClick;
             this.qqTextBoxEx1.TextChanged += qqTextBox1_TextChanged;
             this.btSearch.Click += btSearch_Click;
             this.tbCat.MouseEnter += tbCat_MouseEnter;
@@ -181,16 +181,16 @@ namespace Paway.Test
             }
         }
 
-        void toolBar1_ItemClick(object sender, EventArgs e)
+        void toolBar2_ItemClick(object sender, EventArgs e)
         {
-            switch (toolBar1.SelectedItem.Text)
+            switch (toolBar2.SelectedItem.Text)
             {
                 case "创建宝贝":
                     toolBar1.ProgressStop();
                     new FormSql().ShowDialog();
                     break;
                 case "上传宝贝":
-                    new FormQQ().Show();
+                    new Demo360().Show();
                     toolBar1.ProgressStart("上传宝贝");
                     break;
             }

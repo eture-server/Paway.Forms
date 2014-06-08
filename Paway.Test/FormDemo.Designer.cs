@@ -674,7 +674,7 @@
             this.tbDesc.Icon = null;
             this.tbDesc.IsPasswordChat = '\0';
             this.tbDesc.Lines = new string[] {
-        "fwefweeeeeee"};
+        "hello"};
             this.tbDesc.Location = new System.Drawing.Point(230, 82);
             this.tbDesc.Name = "tbDesc";
             this.tbDesc.SelectedText = "";

@@ -505,15 +505,36 @@ namespace Paway.Forms
             //绘画边框
             if (_isDrawBorder)
             {
-                g.DrawImage(this._borderImage, new Rectangle(0, 0, 10, 10), new Rectangle(5, 5, 10, 10), GraphicsUnit.Pixel);//左上角
-                g.DrawImage(this._borderImage, new Rectangle(0, -5, 10, this.Height + 10), new Rectangle(5, 5, 10, this._borderImage.Height - 10), GraphicsUnit.Pixel);//左边框
-                g.DrawImage(this._borderImage, new Rectangle(-5, this.Height - 10, 10, 10), new Rectangle(0, this._borderImage.Height - 15, 10, 10), GraphicsUnit.Pixel);//左下角
-                g.DrawImage(this._borderImage, new Rectangle(this.Width - 9, -5, 10, 10), new Rectangle(20, 0, 10, 10), GraphicsUnit.Pixel);//右上角
-                g.DrawImage(this._borderImage, new Rectangle(this.Width - 9, -5, 10, this.Height + 10), new Rectangle(20, 5, 10, this._borderImage.Height - 10), GraphicsUnit.Pixel);//右边框
-                g.DrawImage(this._borderImage, new Rectangle(this.Width - 9, this.Height - 10, 10, 10), new Rectangle(20, this._borderImage.Height - 15, 10, 10), GraphicsUnit.Pixel);//右下角
-
-                g.DrawImage(this._borderImage, new Rectangle(5, -5, this.Width - 10, 18), new Rectangle(12, 0, 6, 18), GraphicsUnit.Pixel);
-                g.DrawImage(this._borderImage, new Rectangle(5, this.Height - 6, this.Width - 10, 18), new Rectangle(12, 0, 6, 18), GraphicsUnit.Pixel);
+                if (this.WindowState == FormWindowState.Maximized)
+                {
+                    //左边
+                    g.DrawImage(this._borderImage, new Rectangle(0, 0, 1, this.Height), new Rectangle(5, 5 + 3, 1, 1), GraphicsUnit.Pixel);
+                    //右边
+                    g.DrawImage(this._borderImage, new Rectangle(this.Width - 1, 0, 1, this.Height), new Rectangle(5, 8, 1, 1), GraphicsUnit.Pixel);
+                    //上边
+                    g.DrawImage(this._borderImage, new Rectangle(0, 0, this.Width, 1), new Rectangle(8, 5, 6, 1), GraphicsUnit.Pixel);
+                    //下边
+                    g.DrawImage(this._borderImage, new Rectangle(0, this.Height - 1, this.Width, 1), new Rectangle(8, 5, 6, 1), GraphicsUnit.Pixel);
+                }
+                else
+                {
+                    //左上
+                    g.DrawImage(this._borderImage, new Rectangle(0, 0, 3, 3), new Rectangle(this._borderImage.Width - 3 - 5, this._borderImage.Height - 5 - 3, 3, 3), GraphicsUnit.Pixel);
+                    //右下
+                    g.DrawImage(this._borderImage, new Rectangle(this.Width - 3, this.Height - 3, 3, 3), new Rectangle(5, 5, 3, 3), GraphicsUnit.Pixel);
+                    //左下
+                    g.DrawImage(this._borderImage, new Rectangle(0, this.Height - 3, 3, 3), new Rectangle(this._borderImage.Width - 3 - 5, 5, 3, 3), GraphicsUnit.Pixel);
+                    //右上
+                    g.DrawImage(this._borderImage, new Rectangle(this.Width - 3, 0, 3, 3), new Rectangle(5, this._borderImage.Height - 5 - 3, 3, 3), GraphicsUnit.Pixel);
+                    //左边
+                    g.DrawImage(this._borderImage, new Rectangle(0, 2, 1, this.Height - 4), new Rectangle(5, 8, 1, 1), GraphicsUnit.Pixel);
+                    //右边
+                    g.DrawImage(this._borderImage, new Rectangle(this.Width - 1, 2, 1, this.Height - 4), new Rectangle(5, 8, 1, 1), GraphicsUnit.Pixel);
+                    //上边
+                    g.DrawImage(this._borderImage, new Rectangle(2, 0, this.Width - 4, 1), new Rectangle(8, 5, 6, 1), GraphicsUnit.Pixel);
+                    //下边
+                    g.DrawImage(this._borderImage, new Rectangle(2, this.Height - 1, this.Width - 4, 1), new Rectangle(8, 5, 6, 1), GraphicsUnit.Pixel);
+                }
             }
         }
         /// <summary>
@@ -524,7 +545,7 @@ namespace Paway.Forms
         {
             base.OnResize(e);
             //调用API，将窗体剪成圆角
-            int ellipse = _isDrawRound ? 4 : 0;
+            int ellipse = (_isDrawRound && this.WindowState != FormWindowState.Maximized) ? 4 : 0;
             int rgn = NativeMethods.CreateRoundRectRgn(0, 0, this.Width + 1, this.Height + 1, ellipse, ellipse);
             NativeMethods.SetWindowRgn(this.Handle, rgn, true);
         }
@@ -692,9 +713,9 @@ namespace Paway.Forms
         {
             if (this.WindowState == FormWindowState.Maximized)
             {
+                this.WindowState = FormWindowState.Normal;
                 this.Size = this._formSize;
                 this.Location = this._formPoint;
-                this.WindowState = FormWindowState.Normal;
             }
             else
             {
@@ -725,17 +746,30 @@ namespace Paway.Forms
         {
             if (!_isDrawBorder || control == null || _borderImage == null) return;
             Graphics g = control.CreateGraphics();
+
+            if (this.WindowState == FormWindowState.Maximized)
             {
-                //左边框
-                g.DrawImage(this._borderImage, new Rectangle(0, -5, 10, control.Height + 10), new Rectangle(5, 5, 10, this._borderImage.Height - 10), GraphicsUnit.Pixel);
-                //左下角
-                g.DrawImage(this._borderImage, new Rectangle(-5, control.Height - 10, 10, 10), new Rectangle(0, this._borderImage.Height - 15, 10, 10), GraphicsUnit.Pixel);
-                //右边框
-                g.DrawImage(this._borderImage, new Rectangle(control.Width - 9, -5, 10, control.Height + 10), new Rectangle(20, 5, 10, this._borderImage.Height - 10), GraphicsUnit.Pixel);
-                //右下角
-                g.DrawImage(this._borderImage, new Rectangle(control.Width - 9, control.Height - 10, 10, 10), new Rectangle(20, this._borderImage.Height - 15, 10, 10), GraphicsUnit.Pixel);
-                //下边框
-                g.DrawImage(this._borderImage, new Rectangle(5, control.Height - 6, control.Width - 10, 18), new Rectangle(12, 0, 6, 18), GraphicsUnit.Pixel);
+                //左边
+                g.DrawImage(this._borderImage, new Rectangle(0, 0, 1, control.Height), new Rectangle(5, 8, 1, 1), GraphicsUnit.Pixel);
+                //右边
+                g.DrawImage(this._borderImage, new Rectangle(control.Width - 1, 0, 1, control.Height), new Rectangle(5, 8, 1, 1), GraphicsUnit.Pixel);
+                //上边
+                g.DrawImage(this._borderImage, new Rectangle(0, 0, control.Width, 1), new Rectangle(8, 5, 6, 1), GraphicsUnit.Pixel);
+                //下边
+                g.DrawImage(this._borderImage, new Rectangle(0, control.Height - 1, control.Width, 1), new Rectangle(8, 5, 6, 1), GraphicsUnit.Pixel);
+            }
+            else
+            {
+                //右下
+                g.DrawImage(this._borderImage, new Rectangle(control.Width - 3, control.Height - 3, 3, 3), new Rectangle(5, 5, 3, 3), GraphicsUnit.Pixel);
+                //左下
+                g.DrawImage(this._borderImage, new Rectangle(0, control.Height - 3, 3, 3), new Rectangle(this._borderImage.Width - 3 - 5, 5, 3, 3), GraphicsUnit.Pixel);
+                //左边
+                g.DrawImage(this._borderImage, new Rectangle(0, 0, 1, control.Height - 2), new Rectangle(5, 8, 1, 1), GraphicsUnit.Pixel);
+                //右边
+                g.DrawImage(this._borderImage, new Rectangle(control.Width - 1, 0, 1, control.Height - 2), new Rectangle(5, 8, 1, 1), GraphicsUnit.Pixel);
+                //下边
+                g.DrawImage(this._borderImage, new Rectangle(2, control.Height - 1, control.Width - 4, 1), new Rectangle(8, 5, 6, 1), GraphicsUnit.Pixel);
             }
         }
         #endregion

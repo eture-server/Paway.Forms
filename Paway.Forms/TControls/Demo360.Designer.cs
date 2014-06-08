@@ -52,9 +52,9 @@
             // 
             this.panel3.BackColor = System.Drawing.Color.White;
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(1, 82);
+            this.panel3.Location = new System.Drawing.Point(1, 66);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(898, 404);
+            this.panel3.Size = new System.Drawing.Size(898, 420);
             this.panel3.TabIndex = 3;
             // 
             // panel2
@@ -63,7 +63,6 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel2.Location = new System.Drawing.Point(1, 486);
             this.panel2.Name = "panel2";
-            this.panel2.Padding = new System.Windows.Forms.Padding(1, 0, 1, 2);
             this.panel2.Size = new System.Drawing.Size(898, 26);
             this.panel2.TabIndex = 2;
             // 
@@ -72,9 +71,11 @@
             this.toolBar1.BackColor = System.Drawing.Color.CornflowerBlue;
             this.toolBar1.Dock = System.Windows.Forms.DockStyle.Top;
             this.toolBar1.ForeColor = System.Drawing.Color.Black;
+            this.toolBar1.ImageSize = new System.Drawing.Size(32, 32);
+            this.toolBar1.ItemSize = new System.Drawing.Size(64, 66);
             this.toolBar1.Location = new System.Drawing.Point(1, 0);
             this.toolBar1.Name = "toolBar1";
-            this.toolBar1.Size = new System.Drawing.Size(898, 82);
+            this.toolBar1.Size = new System.Drawing.Size(898, 66);
             this.toolBar1.TabIndex = 1;
             this.toolBar1.Text = "toolBar1";
             // 
@@ -83,6 +84,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(900, 540);
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.Color.White;
@@ -107,11 +109,14 @@
         /// 工具栏
         /// </summary>
         protected ToolBar toolBar1;
-        private System.Windows.Forms.Panel panel1;
         /// <summary>
         /// 状态栏
         /// </summary>
         protected System.Windows.Forms.Panel panel3;
+        /// <summary>
+        /// 主容器
+        /// </summary>
+        protected System.Windows.Forms.Panel panel1;
 
     }
 }

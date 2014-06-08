@@ -22,11 +22,11 @@ namespace Paway.Forms
         {
             InitializeComponent();
             this.panel1.BackColor = this.panel2.BackColor;
-            this.panel1.Paint += panel2_Paint;
+            this.panel1.Paint += panel1_Paint;
             this.toolBar1.MouseDown += toolBar1_MouseDown;
         }
 
-        void panel2_Paint(object sender, PaintEventArgs e)
+        void panel1_Paint(object sender, PaintEventArgs e)
         {
             base.DrawBelowBorder(panel1);
         }
