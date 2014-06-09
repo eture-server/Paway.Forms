@@ -167,8 +167,7 @@
             // tDataGridViewPager1
             // 
             this.tDataGridViewPager1.CurrenetPageIndex = 1;
-            this.tDataGridViewPager1.DataSource = null;
-            this.tDataGridViewPager1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tDataGridViewPager1.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // 
             // 
@@ -222,11 +221,11 @@
             this.tDataGridViewPager1.Edit.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.tDataGridViewPager1.Edit.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tDataGridViewPager1.Edit.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tDataGridViewPager1.Edit.Size = new System.Drawing.Size(850, 173);
+            this.tDataGridViewPager1.Edit.Size = new System.Drawing.Size(850, 376);
             this.tDataGridViewPager1.Edit.TabIndex = 12;
             this.tDataGridViewPager1.Location = new System.Drawing.Point(0, 0);
             this.tDataGridViewPager1.Name = "tDataGridViewPager1";
-            this.tDataGridViewPager1.Size = new System.Drawing.Size(850, 203);
+            this.tDataGridViewPager1.Size = new System.Drawing.Size(850, 406);
             this.tDataGridViewPager1.TabIndex = 0;
             // 
             // Form360

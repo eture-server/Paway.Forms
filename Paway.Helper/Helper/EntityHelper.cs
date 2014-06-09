@@ -73,11 +73,22 @@ namespace Paway.Helper
         private bool _select = true;
         /// <summary>
         /// 是否生成列
+        /// 默认生成，在Db
         /// </summary>
         public bool Select
         {
             get { return _select; }
             set { _select = value; }
+        }
+        private bool _show = true;
+        /// <summary>
+        /// 是否显示列
+        /// 默认显示，在GridView
+        /// </summary>
+        public bool Show
+        {
+            get { return _show; }
+            set { _show = value; }
         }
         /// <summary>
         /// 主键名称，不可更新

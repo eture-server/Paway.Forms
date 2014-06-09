@@ -59,7 +59,7 @@ namespace Paway.Forms
         /// <summary>
         /// 获取或设置数据源
         /// </summary>
-        [Category("Properties")]
+        [Category("Properties"), DefaultValue(null)]
         public object DataSource
         {
             get { return dataSource; }
@@ -69,7 +69,6 @@ namespace Paway.Forms
                 {
                     this.tDataGridView1.Columns.Clear();
                 }
-
                 dataSource = value;
                 BingData();
             }

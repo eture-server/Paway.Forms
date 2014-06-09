@@ -106,8 +106,7 @@ namespace Paway.Forms
         /// 设置数据源时设置图片列
         /// </summary>
         [AttributeProvider(typeof(IListSource))]
-        [DefaultValue("")]
-        [RefreshProperties(RefreshProperties.Repaint)]
+        [RefreshProperties(RefreshProperties.Repaint), DefaultValue(null)]
         public new object DataSource
         {
             get { return base.DataSource; }
@@ -143,11 +142,12 @@ namespace Paway.Forms
             for (int i = 0; i < this.Columns.Count; i++)
             {
                 PropertyInfo pro = type.GetProperty(this.Columns[i].Name);
+                if (pro == null) continue;
                 PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
                 this.Columns[i].Visible = true;
                 if (itemList != null && itemList.Length != 0)
                 {
-                    if (!itemList[0].Select)
+                    if (!itemList[0].Show)
                     {
                         this.Columns[i].Visible = false;
                         continue;
