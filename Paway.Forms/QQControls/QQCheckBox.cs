@@ -42,7 +42,6 @@ namespace Paway.Forms
                 ControlStyles.UserPaint, true);
             this.SetStyle(ControlStyles.Opaque, false);
             this.UpdateStyles();
-            this.BackColor = Color.Transparent;
         }
 
         #endregion

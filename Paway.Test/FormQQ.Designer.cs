@@ -30,14 +30,14 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormQQ));
-            Paway.Forms.TreeItem treeItem1 = new Paway.Forms.TreeItem();
-            Paway.Forms.TreeItem treeItem2 = new Paway.Forms.TreeItem();
-            Paway.Forms.TreeItem treeItem3 = new Paway.Forms.TreeItem();
-            Paway.Forms.TreeItem treeItem4 = new Paway.Forms.TreeItem();
-            Paway.Custom.ChatListItem chatListItem1 = new Paway.Custom.ChatListItem();
-            Paway.Custom.ChatListSubItem chatListSubItem1 = new Paway.Custom.ChatListSubItem();
-            Paway.Custom.ChatListSubItem chatListSubItem2 = new Paway.Custom.ChatListSubItem();
-            Paway.Custom.ChatListSubItem chatListSubItem3 = new Paway.Custom.ChatListSubItem();
+            Paway.Forms.TreeItem treeItem5 = new Paway.Forms.TreeItem();
+            Paway.Forms.TreeItem treeItem6 = new Paway.Forms.TreeItem();
+            Paway.Forms.TreeItem treeItem7 = new Paway.Forms.TreeItem();
+            Paway.Forms.TreeItem treeItem8 = new Paway.Forms.TreeItem();
+            Paway.Custom.ChatListItem chatListItem2 = new Paway.Custom.ChatListItem();
+            Paway.Custom.ChatListSubItem chatListSubItem4 = new Paway.Custom.ChatListSubItem();
+            Paway.Custom.ChatListSubItem chatListSubItem5 = new Paway.Custom.ChatListSubItem();
+            Paway.Custom.ChatListSubItem chatListSubItem6 = new Paway.Custom.ChatListSubItem();
             this.qqTabControl1 = new Paway.Forms.QQTabControl();
             this.tabPage1 = new Paway.Forms.QQTabPage();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -147,6 +147,7 @@
             // qqRadioButton2
             // 
             this.qqRadioButton2.AutoSize = true;
+            this.qqRadioButton2.BackColor = System.Drawing.Color.White;
             this.qqRadioButton2.Location = new System.Drawing.Point(37, 125);
             this.qqRadioButton2.Name = "qqRadioButton2";
             this.qqRadioButton2.Size = new System.Drawing.Size(107, 16);
@@ -158,6 +159,7 @@
             // qqRadioButton1
             // 
             this.qqRadioButton1.AutoSize = true;
+            this.qqRadioButton1.BackColor = System.Drawing.Color.White;
             this.qqRadioButton1.Location = new System.Drawing.Point(37, 102);
             this.qqRadioButton1.Name = "qqRadioButton1";
             this.qqRadioButton1.Size = new System.Drawing.Size(107, 16);
@@ -233,25 +235,25 @@
             this.drawTreeView1.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
             this.drawTreeView1.HideSelection = false;
             this.drawTreeView1.ItemHeight = 23;
-            treeItem1.Name = "Name";
-            treeItem1.Tag = null;
-            treeItem1.Width = 100;
-            treeItem2.Name = "Custom";
-            treeItem2.Tag = null;
-            treeItem2.Width = 80;
-            treeItem3.LDirection = Paway.Forms.LDirection.Right;
-            treeItem3.Name = "Statu";
-            treeItem3.Tag = null;
-            treeItem3.Type = Paway.Forms.TreeItemType.Image;
-            treeItem3.Width = 60;
-            treeItem4.LDirection = Paway.Forms.LDirection.Right;
-            treeItem4.Name = "Value";
-            treeItem4.Tag = null;
-            treeItem4.Width = 60;
-            this.drawTreeView1.Items.Add(treeItem1);
-            this.drawTreeView1.Items.Add(treeItem2);
-            this.drawTreeView1.Items.Add(treeItem3);
-            this.drawTreeView1.Items.Add(treeItem4);
+            treeItem5.Name = "Name";
+            treeItem5.Tag = null;
+            treeItem5.Width = 100;
+            treeItem6.Name = "Custom";
+            treeItem6.Tag = null;
+            treeItem6.Width = 80;
+            treeItem7.LDirection = Paway.Forms.LDirection.Right;
+            treeItem7.Name = "Statu";
+            treeItem7.Tag = null;
+            treeItem7.Type = Paway.Forms.TreeItemType.Image;
+            treeItem7.Width = 60;
+            treeItem8.LDirection = Paway.Forms.LDirection.Right;
+            treeItem8.Name = "Value";
+            treeItem8.Tag = null;
+            treeItem8.Width = 60;
+            this.drawTreeView1.Items.Add(treeItem5);
+            this.drawTreeView1.Items.Add(treeItem6);
+            this.drawTreeView1.Items.Add(treeItem7);
+            this.drawTreeView1.Items.Add(treeItem8);
             this.drawTreeView1.Location = new System.Drawing.Point(0, 0);
             this.drawTreeView1.Name = "drawTreeView1";
             this.drawTreeView1.Root = "0";
@@ -305,44 +307,44 @@
             this.chatListBox2.BackColor = System.Drawing.Color.White;
             this.chatListBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chatListBox2.ForeColor = System.Drawing.Color.DarkOrange;
-            chatListItem1.IsOpen = true;
-            chatListSubItem1.DisplayName = "用户1";
-            chatListSubItem1.HeadImage = ((System.Drawing.Image)(resources.GetObject("chatListSubItem1.HeadImage")));
-            chatListSubItem1.ID = 0;
-            chatListSubItem1.IpAddress = null;
-            chatListSubItem1.IsTwinkle = false;
-            chatListSubItem1.NicName = "name1";
-            chatListSubItem1.PersonalMsg = "Personal Message ...";
-            chatListSubItem1.Status = Paway.Custom.ChatListSubItem.UserStatus.QMe;
-            chatListSubItem1.TcpPort = 0;
-            chatListSubItem1.UpdPort = 0;
-            chatListSubItem2.DisplayName = "用户2";
-            chatListSubItem2.HeadImage = ((System.Drawing.Image)(resources.GetObject("chatListSubItem2.HeadImage")));
-            chatListSubItem2.ID = 0;
-            chatListSubItem2.IpAddress = null;
-            chatListSubItem2.IsTwinkle = false;
-            chatListSubItem2.NicName = "name2";
-            chatListSubItem2.PersonalMsg = "Personal Message ...";
-            chatListSubItem2.Status = Paway.Custom.ChatListSubItem.UserStatus.Online;
-            chatListSubItem2.TcpPort = 0;
-            chatListSubItem2.UpdPort = 0;
-            chatListSubItem3.DisplayName = "用户3";
-            chatListSubItem3.HeadImage = ((System.Drawing.Image)(resources.GetObject("chatListSubItem3.HeadImage")));
-            chatListSubItem3.ID = 0;
-            chatListSubItem3.IpAddress = null;
-            chatListSubItem3.IsTwinkle = false;
-            chatListSubItem3.NicName = "name3";
-            chatListSubItem3.PersonalMsg = "Personal Message ...";
-            chatListSubItem3.Status = Paway.Custom.ChatListSubItem.UserStatus.OffLine;
-            chatListSubItem3.TcpPort = 0;
-            chatListSubItem3.UpdPort = 0;
-            chatListItem1.SubItems.AddRange(new Paway.Custom.ChatListSubItem[] {
-            chatListSubItem1,
-            chatListSubItem2,
-            chatListSubItem3});
-            chatListItem1.Text = "分组";
+            chatListItem2.IsOpen = true;
+            chatListSubItem4.DisplayName = "用户1";
+            chatListSubItem4.HeadImage = ((System.Drawing.Image)(resources.GetObject("chatListSubItem4.HeadImage")));
+            chatListSubItem4.ID = 0;
+            chatListSubItem4.IpAddress = null;
+            chatListSubItem4.IsTwinkle = false;
+            chatListSubItem4.NicName = "name1";
+            chatListSubItem4.PersonalMsg = "Personal Message ...";
+            chatListSubItem4.Status = Paway.Custom.ChatListSubItem.UserStatus.QMe;
+            chatListSubItem4.TcpPort = 0;
+            chatListSubItem4.UpdPort = 0;
+            chatListSubItem5.DisplayName = "用户2";
+            chatListSubItem5.HeadImage = ((System.Drawing.Image)(resources.GetObject("chatListSubItem5.HeadImage")));
+            chatListSubItem5.ID = 0;
+            chatListSubItem5.IpAddress = null;
+            chatListSubItem5.IsTwinkle = false;
+            chatListSubItem5.NicName = "name2";
+            chatListSubItem5.PersonalMsg = "Personal Message ...";
+            chatListSubItem5.Status = Paway.Custom.ChatListSubItem.UserStatus.Online;
+            chatListSubItem5.TcpPort = 0;
+            chatListSubItem5.UpdPort = 0;
+            chatListSubItem6.DisplayName = "用户3";
+            chatListSubItem6.HeadImage = ((System.Drawing.Image)(resources.GetObject("chatListSubItem6.HeadImage")));
+            chatListSubItem6.ID = 0;
+            chatListSubItem6.IpAddress = null;
+            chatListSubItem6.IsTwinkle = false;
+            chatListSubItem6.NicName = "name3";
+            chatListSubItem6.PersonalMsg = "Personal Message ...";
+            chatListSubItem6.Status = Paway.Custom.ChatListSubItem.UserStatus.OffLine;
+            chatListSubItem6.TcpPort = 0;
+            chatListSubItem6.UpdPort = 0;
+            chatListItem2.SubItems.AddRange(new Paway.Custom.ChatListSubItem[] {
+            chatListSubItem4,
+            chatListSubItem5,
+            chatListSubItem6});
+            chatListItem2.Text = "分组";
             this.chatListBox2.Items.AddRange(new Paway.Custom.ChatListItem[] {
-            chatListItem1});
+            chatListItem2});
             this.chatListBox2.Location = new System.Drawing.Point(0, 0);
             this.chatListBox2.Name = "chatListBox2";
             this.chatListBox2.Size = new System.Drawing.Size(301, 246);

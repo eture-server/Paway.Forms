@@ -1,10 +1,13 @@
 ﻿using Paway.Helper;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 
@@ -117,6 +120,41 @@ namespace Paway.Forms
                     {
                         _columnImageText = i;
                         break;
+                    }
+                }
+                UpdateColumns();
+            }
+        }
+        /// <summary>
+        /// 更新列名称
+        /// </summary>
+        private void UpdateColumns()
+        {
+            if (base.DataSource == null) return;
+            Type type = null;
+            if (base.DataSource is IList)
+            {
+                IList list = base.DataSource as IList;
+                type = list.GetType();
+                Type[] types = type.GetGenericArguments();
+                if (types.Length != 1) return;
+                type = types[0];
+            }
+            for (int i = 0; i < this.Columns.Count; i++)
+            {
+                PropertyInfo pro = type.GetProperty(this.Columns[i].Name);
+                PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+                this.Columns[i].Visible = true;
+                if (itemList != null && itemList.Length != 0)
+                {
+                    if (!itemList[0].Select)
+                    {
+                        this.Columns[i].Visible = false;
+                        continue;
+                    }
+                    if (itemList[0].CnName != null)
+                    {
+                        this.Columns[i].HeaderText = itemList[0].CnName;
                     }
                 }
             }

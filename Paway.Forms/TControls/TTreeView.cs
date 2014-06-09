@@ -346,9 +346,10 @@ namespace Paway.Forms
             else if (_dataSource is IList)
             {
                 IList list = _dataSource as IList;
-                if (list.Count == 0) return;
-                Type type = list[0].GetType();
-                dt = type.ToDataTable(list);
+                Type type = list.GetType();
+                Type[] types = type.GetGenericArguments();
+                if (types.Length != 1) return;
+                dt = types[0].ToDataTable(list);
             }
             else if (_dataSource is string)
             {
@@ -356,7 +357,7 @@ namespace Paway.Forms
                 node.Text = _dataSource.ToString();
                 this.Nodes.Add(node);
             }
-            if (dt != null)
+            if (dt != null && dt.Rows.Count > 0)
             {
                 AddNodes(dt);
             }

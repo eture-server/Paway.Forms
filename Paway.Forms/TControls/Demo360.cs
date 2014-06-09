@@ -34,13 +34,6 @@ namespace Paway.Forms
         void toolBar1_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
-            for (int i = 0; i < this.toolBar1.Items.Count; i++)
-            {
-                if (this.toolBar1.Items[i].Rectangle.Contains(e.Location))
-                {
-                    return;
-                }
-            }
             if (this.toolBar1.Contain(e.Location)) return;
             if (this.WindowState != FormWindowState.Maximized)
             {
