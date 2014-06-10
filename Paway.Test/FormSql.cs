@@ -65,7 +65,7 @@ namespace Paway.Test
             service.Find();
         }
     }
-    public class DataService : DataHelper
+    public class DataService : SqlHelper
     {
         public DataService()
         {

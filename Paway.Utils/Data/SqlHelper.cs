@@ -14,13 +14,13 @@ namespace Paway.Utils.Data
     /// <summary>
     /// SQL操作基类
     /// </summary>
-    public abstract class DataHelper : DataBase
+    public abstract class SqlHelper : DataBase
     {
         #region 初始化
         /// <summary>
         /// 初始化
         /// </summary>
-        public DataHelper()
+        public SqlHelper()
         {
             base.GetId = "select @@IDENTITY Id";
         }

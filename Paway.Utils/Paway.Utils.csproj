@@ -61,13 +61,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\DataBase.cs" />
-    <Compile Include="Data\DataHelper.cs" />
-    <Compile Include="Data\MySqlHelper.cs" />
+    <Compile Include="Data\SqlHelper.cs" />
+    <Compile Include="Data\MySQLHelper.cs" />
     <Compile Include="IControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Pdf\Export.cs" />
-    <Compile Include="Data\SqLiteHelper.cs" />
+    <Compile Include="Data\SQLiteHelper.cs" />
     <Compile Include="Pdf\PdfHeaderContent.cs" />
     <Compile Include="Pdf\PdfPrinter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

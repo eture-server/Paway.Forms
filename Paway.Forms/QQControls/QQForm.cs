@@ -126,23 +126,26 @@ namespace Paway.Forms
             Graphics g = e.Graphics;
 
             //绘画系统控制按钮
-            switch (base.SysButton)
+            if (ControlBox)
             {
-                case ESysButton.Normal:
-                    this.DrawButton(g, base.MinState, this.MiniRect, "mini");
-                    this.DrawButton(g, base.CloseState, this.CloseRect, "close");
-                    if (this.WindowState == FormWindowState.Maximized)
-                        this.DrawButton(g, base.MaxState, this.MaxRect, "restore");
-                    else
-                        this.DrawButton(g, base.MaxState, this.MaxRect, "max");
-                    break;
-                case ESysButton.Close:
-                    this.DrawButton(g, base.CloseState, this.CloseRect, "close");
-                    break;
-                case ESysButton.Close_Mini:
-                    this.DrawButton(g, base.MinState, this.MiniRect, "mini");
-                    this.DrawButton(g, base.CloseState, this.CloseRect, "close");
-                    break;
+                switch (base.SysButton)
+                {
+                    case ESysButton.Normal:
+                        this.DrawButton(g, base.MinState, this.MiniRect, "mini");
+                        this.DrawButton(g, base.CloseState, this.CloseRect, "close");
+                        if (this.WindowState == FormWindowState.Maximized)
+                            this.DrawButton(g, base.MaxState, this.MaxRect, "restore");
+                        else
+                            this.DrawButton(g, base.MaxState, this.MaxRect, "max");
+                        break;
+                    case ESysButton.Close:
+                        this.DrawButton(g, base.CloseState, this.CloseRect, "close");
+                        break;
+                    case ESysButton.Close_Mini:
+                        this.DrawButton(g, base.MinState, this.MiniRect, "mini");
+                        this.DrawButton(g, base.CloseState, this.CloseRect, "close");
+                        break;
+                }
             }
 
             base.OnPaint(e);

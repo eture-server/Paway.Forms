@@ -11,13 +11,13 @@ namespace Paway.Utils.Data
     /// <summary>
     /// SqLite操作基类
     /// </summary>
-    public abstract class SqLiteHelper : DataBase
+    public abstract class SQLiteHelper : DataBase
     {
         #region 初始化
         /// <summary>
         /// 初始化
         /// </summary>
-        public SqLiteHelper()
+        public SQLiteHelper()
         {
             base.GetId = "select LAST_INSERT_ROWID() Id";
         }

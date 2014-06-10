@@ -53,7 +53,6 @@
             this.Padding = new System.Windows.Forms.Padding(0, 26, 0, 0);
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.SysButton = Paway.Forms.ESysButton.Close;
             this.Text = "QQDemo";
             this.TextShow = "QQDemo";
             this.ResumeLayout(false);

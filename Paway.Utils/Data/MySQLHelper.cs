@@ -12,14 +12,14 @@ namespace Paway.Utils.Data
     /// <summary>
     /// MySql操作基类
     /// </summary>
-    public class MySqlHelper : DataBase
+    public class MySQLHelper : DataBase
     {
         private MySQLConnection conn;
         /// <summary>
         /// 初始化
         /// 没有
         /// </summary>
-        public MySqlHelper()
+        public MySQLHelper()
         {
             base.GetId = "SELECT LAST_INSERT_ID() Id";
         }

@@ -270,27 +270,29 @@ namespace Paway.Forms
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
             Rectangle rect = this.ClientRectangle;
-
-            switch (base.SysButton)
+            if (ControlBox)
             {
-                case ESysButton.Normal:
-                    this.DrawSysButton(g, this.CloseRect, this._closeImage, base.CloseState);
-                    if (base.WindowState != FormWindowState.Maximized)
-                        this.DrawSysButton(g, this.MaxRect, this._maxImage, base.MaxState);
-                    else
-                        this.DrawSysButton(g, this.MaxRect, this._restoreImage, base.MaxState);
-                    this.DrawSysButton(g, this.MiniRect, this._minImage, base.MinState);
-                    break;
-                case ESysButton.Close:
-                    this.DrawSysButton(g, this.CloseRect, this._closeImage, base.CloseState);
-                    break;
-                case ESysButton.Close_Mini:
-                    this.DrawSysButton(g, this.CloseRect, this._closeImage, base.CloseState);
-                    this.DrawSysButton(g, this.MiniRect, this._minImage, base.MinState);
-                    break;
+                switch (base.SysButton)
+                {
+                    case ESysButton.Normal:
+                        this.DrawSysButton(g, this.CloseRect, this._closeImage, base.CloseState);
+                        if (base.WindowState != FormWindowState.Maximized)
+                            this.DrawSysButton(g, this.MaxRect, this._maxImage, base.MaxState);
+                        else
+                            this.DrawSysButton(g, this.MaxRect, this._restoreImage, base.MaxState);
+                        this.DrawSysButton(g, this.MiniRect, this._minImage, base.MinState);
+                        break;
+                    case ESysButton.Close:
+                        this.DrawSysButton(g, this.CloseRect, this._closeImage, base.CloseState);
+                        break;
+                    case ESysButton.Close_Mini:
+                        this.DrawSysButton(g, this.CloseRect, this._closeImage, base.CloseState);
+                        this.DrawSysButton(g, this.MiniRect, this._minImage, base.MinState);
+                        break;
+                }
+                // 绘制标题栏菜单按钮
+                this.DrawSysButton(g, this.TitleBarMenuRect, (Bitmap)this._titleBarMenuImage, this._titleBarMenuState);
             }
-            // 绘制标题栏菜单按钮
-            this.DrawSysButton(g, this.TitleBarMenuRect, (Bitmap)this._titleBarMenuImage, this._titleBarMenuState);
 
             base.OnPaint(e);
         }
