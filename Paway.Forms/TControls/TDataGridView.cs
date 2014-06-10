@@ -139,6 +139,7 @@ namespace Paway.Forms
                 if (types.Length != 1) return;
                 type = types[0];
             }
+            if (type == null) return;
             for (int i = 0; i < this.Columns.Count; i++)
             {
                 PropertyInfo pro = type.GetProperty(this.Columns[i].Name);

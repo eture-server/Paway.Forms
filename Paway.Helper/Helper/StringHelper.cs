@@ -81,6 +81,9 @@ namespace Paway.Helper
                 case RegexType.Ip:
                     pattern = @"((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))";
                     break;
+                case RegexType.PosInt:
+                    pattern = @"[0-9]*[1-9][0-9]*";
+                    break;
             }
             return RegexChecked(str, pattern);
         }
@@ -130,5 +133,9 @@ namespace Paway.Helper
         /// IP地址
         /// </summary>
         Ip,
+        /// <summary>
+        /// 正整数
+        /// </summary>
+        PosInt,
     }
 }

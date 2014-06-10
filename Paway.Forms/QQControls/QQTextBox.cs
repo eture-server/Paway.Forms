@@ -171,7 +171,6 @@ namespace Paway.Forms
             set
             {
                 _regexType = value;
-                BaseText.Text = null;
                 if (value == RegexType.Ip)
                 {
                     BaseText.Text = "0.0.0.0";
@@ -564,6 +563,9 @@ namespace Paway.Forms
                     case Helper.RegexType.Password:
                         error.SetError(this, "请输入密码");
                         break;
+                    case Helper.RegexType.PosInt:
+                        error.SetError(this, "请输入一个正整数");
+                        break;
                     case Helper.RegexType.Normal:
                     case Helper.RegexType.Custom:
                         error.SetError(this, "请输入字符");
@@ -573,9 +575,10 @@ namespace Paway.Forms
             }
             switch (_regexType)
             {
-                case Helper.RegexType.Ip:
-                case Helper.RegexType.Normal:
-                case Helper.RegexType.Password:
+                case RegexType.Ip:
+                case RegexType.Normal:
+                case RegexType.Password:
+                case RegexType.PosInt:
                     int index = StringHelper.RegexChecked(BaseText.Text, _regexType);
                     if (index != BaseText.Text.Length)
                     {
@@ -586,7 +589,7 @@ namespace Paway.Forms
                         error.SetError(this, null);
                     }
                     break;
-                case Helper.RegexType.Custom:
+                case RegexType.Custom:
                     index = StringHelper.RegexChecked(BaseText.Text, _regex);
                     if (index != BaseText.Text.Length)
                     {
