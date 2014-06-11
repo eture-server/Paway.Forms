@@ -65,5 +65,38 @@ namespace Paway.Helper
             }
             return dt;
         }
+
+        /// <summary>    
+        /// 获取网页内容
+        /// </summary>    
+        public static string GetHtml(string url)
+        {
+            WebRequest wrq = null;
+            WebResponse wrp = null;
+            try
+            {
+                wrq = WebRequest.Create(url);
+                wrp = wrq.GetResponse();
+
+                string html = string.Empty;
+                Stream stream = wrp.GetResponseStream();
+                using (StreamReader sr = new StreamReader(stream, Encoding.UTF8))
+                {
+                    html = sr.ReadToEnd();
+                }
+                return html;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            finally
+            {
+                if (wrp != null)
+                    wrp.Close();
+                if (wrq != null)
+                    wrq.Abort();
+            }
+        }
     }
 }

@@ -53,7 +53,7 @@
   <ItemGroup>
     <Compile Include="Common\DrawParam.cs" />
     <Compile Include="Common\Licence.cs" />
-    <Compile Include="Common\NetTime.cs" />
+    <Compile Include="Helper\WebHelper.cs" />
     <Compile Include="Helper\Base64Helper.cs" />
     <Compile Include="Helper\BitmapHelper.cs" />
     <Compile Include="Helper\ConverHelper.cs" />

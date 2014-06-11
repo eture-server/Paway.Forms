@@ -139,7 +139,14 @@ namespace Paway.Forms
                 if (types.Length != 1) return;
                 type = types[0];
             }
-            if (type == null) return;
+            if (type == null || type is object) return;
+            UpdateColumns(type);
+        }
+        /// <summary>
+        /// 更新列名称
+        /// </summary>
+        public void UpdateColumns(Type type)
+        {
             for (int i = 0; i < this.Columns.Count; i++)
             {
                 PropertyInfo pro = type.GetProperty(this.Columns[i].Name);

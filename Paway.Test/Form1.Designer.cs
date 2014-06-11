@@ -79,7 +79,7 @@
             toolItem3.Image = null;
             toolItem3.Rectangle = new System.Drawing.Rectangle(121, 0, 120, 120);
             toolItem3.Tag = null;
-            toolItem3.Text = "北京";
+            toolItem3.Text = "北京\r\nin this one";
             this.toolBar2.Items.Add(toolItem2);
             this.toolBar2.Items.Add(toolItem3);
             this.toolBar2.ItemSize = new System.Drawing.Size(120, 120);

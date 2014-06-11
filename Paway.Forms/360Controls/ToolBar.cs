@@ -135,6 +135,10 @@ namespace Paway.Forms
         #endregion
 
         #region 属性
+        /// <summary>
+        /// 字体颜色
+        /// </summary>
+        private Color _colorFore;
         private bool _iText;
         /// <summary>
         /// 是否将颜色应用到文字
@@ -410,9 +414,10 @@ namespace Paway.Forms
             }
             // 当前 Item 所在的矩型区域
             item.Rectangle = new Rectangle(xPos, yPos, this._itemSize.Width, this._itemSize.Height);
-            DrawText(g, item, this.ForeColor);
+            _colorFore = this.ForeColor;
             DrawBackground(g, item);
             DrawImage(g, item);
+            DrawText(g, item, _colorFore);
             switch (_itemIDirection)
             {
                 case IDirection.Level:
@@ -475,7 +480,7 @@ namespace Paway.Forms
                         {
                             if (_iText)
                             {
-                                DrawText(g, item, this.ColorDownBack);
+                                _colorFore = this.ColorDownBack;
                             }
                             else if (ColorDownBack == Color.Transparent)
                             {
@@ -503,7 +508,7 @@ namespace Paway.Forms
         {
             if (_iText)
             {
-                DrawText(g, item, this.ColorMoveBack);
+                _colorFore = this.ColorMoveBack;
             }
             else if (ColorMoveBack == Color.Transparent)
             {

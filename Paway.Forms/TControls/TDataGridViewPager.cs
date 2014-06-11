@@ -99,6 +99,14 @@ namespace Paway.Forms
         #endregion
 
         #region 分页
+        /// <summary>
+        /// 刷新数据
+        /// </summary>
+        public void RefreshData()
+        {
+            BingData();
+        }
+
         void pager1_PageChanged(object sender, EventArgs e)
         {
             BingData();
@@ -111,29 +119,37 @@ namespace Paway.Forms
         private void BingData()
         {
             if (dataSource == null) return;
-            DataTable dt = null;
             if (dataSource is DataTable)
             {
-                dt = dataSource as DataTable;
+                DataTable dt = dataSource as DataTable;
+                PagerInfo.RecordCount = dt.Rows.Count;
+
+                DataTable temp = dt.Clone();
+                int index = PagerInfo.PageSize * (PagerInfo.CurrenetPageIndex - 1);
+                for (int i = index; i < index + PagerInfo.PageSize; i++)
+                {
+                    if (i >= dt.Rows.Count) break;
+                    temp.Rows.Add(dt.Rows[i].ItemArray);
+                }
+                this.tDataGridView1.DataSource = temp;
             }
             else if (dataSource is IList)
             {
                 IList list = dataSource as IList;
-                if (list.Count == 0) return;
-                Type type = list[0].GetType();
-                dt = type.ToDataTable(list);
+                Type type = list.GetType();
+                Type[] types = type.GetGenericArguments();
+                if (types.Length != 1) return;
+                type = types[0];
+                List<object> temp = new List<object>();
+                int index = PagerInfo.PageSize * (PagerInfo.CurrenetPageIndex - 1);
+                for (int i = index; i < index + PagerInfo.PageSize; i++)
+                {
+                    if (i >= list.Count) break;
+                    temp.Add(list[i]);
+                }
+                this.tDataGridView1.DataSource = temp;
+                this.tDataGridView1.UpdateColumns(type);
             }
-            PagerInfo.RecordCount = dt.Rows.Count;
-
-            DataTable temp = dt.Clone();
-            int index = PagerInfo.PageSize * (PagerInfo.CurrenetPageIndex - 1);
-            for (int i = index; i < index + PagerInfo.PageSize; i++)
-            {
-                if (i >= dt.Rows.Count) break;
-                temp.Rows.Add(dt.Rows[i].ItemArray);
-            }
-
-            this.tDataGridView1.DataSource = temp;
             this.pager1.InitPageInfo(PagerInfo.RecordCount, PagerInfo.PageSize);
         }
 
