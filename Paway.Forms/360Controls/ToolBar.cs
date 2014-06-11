@@ -742,7 +742,7 @@ namespace Paway.Forms
         /// </summary>
         /// <param name="point"></param>
         /// <returns></returns>
-        public bool Contain(Point point)
+        public override bool Contain(Point point)
         {
             for (int i = 0; i < this.Items.Count; i++)
             {

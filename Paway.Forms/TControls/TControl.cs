@@ -11,7 +11,7 @@ namespace Paway.Forms
     /// <summary>
     /// 自定义基控件
     /// </summary>
-    public class TControl : UserControl
+    public class TControl : UserControl, IControl
     {
         /// <summary>
         /// 构造
@@ -104,6 +104,16 @@ namespace Paway.Forms
                 _trans = value;
             }
         }
+
+        #endregion
+
+        #region 接口
+        /// <summary>
+        /// 坐标点是否包含在项中
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public virtual bool Contain(Point p) { return false; }
 
         #endregion
 

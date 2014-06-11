@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\IControl.cs" />
     <Compile Include="TControls\AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -22,14 +22,9 @@ namespace Paway.Test
         {
             base.OnShown(e);
 
-            this.panel1.Paint += panel1_Paint;
+            this.TDrawBelowBorder(panel1);
             this.tsmAbout.Click += tsmAbout_Click;
             this.toolBar1.ItemClick += toolBar1_ItemClickChanged;
-        }
-
-        void panel1_Paint(object sender, PaintEventArgs e)
-        {
-            base.DrawBelowBorder(panel1);
         }
 
         void toolBar1_ItemClickChanged(object sender, EventArgs e)

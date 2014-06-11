@@ -16,7 +16,7 @@ namespace Paway.Forms
     /// <summary>
     /// 窗体的基类，完成一部分共有的功能
     /// </summary>
-    public class FormBase : Form
+    public class FormBase : Form, IControl
     {
         #region 变量
         /// <summary>
@@ -86,6 +86,7 @@ namespace Paway.Forms
             this.UpdateStyles();
             this.Initialize();
             base.Padding = new Padding(1, 26, 1, 1);
+            this.TMouseMove(this);
         }
         #endregion
 
@@ -494,7 +495,6 @@ namespace Paway.Forms
                 TextRenderer.DrawText(g, this._textShow, new Font("宋体", 9f, FontStyle.Bold), this.TextRect, this.ForeColor, TextFormatFlags.VerticalCenter);
             }
             DrawFrameBorder(g);
-            DrawBelowPath(null);
         }
         /// <summary>
         /// 绘制窗体边框
@@ -624,11 +624,6 @@ namespace Paway.Forms
                 this.MinState = EMouseState.Down;
             else if (this.MaxRect.Contains(point))
                 this.MaxState = EMouseState.Down;
-            if (this.WindowState != FormWindowState.Maximized && !this.SysBtnRect.Contains(e.Location))
-            {
-                NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(Handle, 274, 61440 + 9, 0);
-            }
             if (this._sysButton == ESysButton.Normal && e.Clicks == 2)
             {
                 WindowMax();
@@ -724,27 +719,65 @@ namespace Paway.Forms
         }
         #endregion
 
-        #region 下圆角
+        #region 移动窗体
+        /// <summary>
+        /// 移动窗体
+        /// </summary>
+        /// <param name="control"></param>
+        protected void TMouseMove(Control control)
+        {
+            if (control == null) return;
+            control.MouseDown += control_MouseDown;
+        }
+        void control_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+            IControl icontrol = sender as IControl;
+            if (icontrol != null)
+            {
+                if (icontrol.Contain(e.Location)) return;
+            }
+            if (this.WindowState != FormWindowState.Maximized)
+            {
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(Handle, 274, 61440 + 9, 0);
+            }
+        }
+
+        #endregion
+
+        #region 绘制下圆角路径
         /// <summary>
         /// 绘制下圆角路径
         /// </summary>
         /// <param name="control"></param>
-        protected virtual void DrawBelowPath(Control control)
+        protected void TDrawBelowPath(Control control)
         {
             if (control == null) return;
+            control.Paint += control_PaintDP;
+        }
+        void control_PaintDP(object sender, PaintEventArgs e)
+        {
+            Control control = sender as Control;
             Graphics g = control.CreateGraphics();
             DrawHelper.CreateBelowPath(g, control.Bounds, this.BackColor);
         }
+
         #endregion
 
-        #region 下圆角边框
+        #region 绘制下圆角边框
         /// <summary>
         /// 绘制下圆角边框
         /// </summary>
         /// <param name="control"></param>
-        protected void DrawBelowBorder(Control control)
+        protected void TDrawBelowBorder(Control control)
         {
             if (!_isDrawBorder || control == null || _borderImage == null) return;
+            control.Paint += control_PaintDB;
+        }
+        void control_PaintDB(object sender, PaintEventArgs e)
+        {
+            Control control = sender as Control;
             Graphics g = control.CreateGraphics();
 
             if (this.WindowState == FormWindowState.Maximized)
@@ -772,6 +805,20 @@ namespace Paway.Forms
                 g.DrawImage(this._borderImage, new Rectangle(2, control.Height - 1, control.Width - 4, 1), new Rectangle(8, 5, 6, 1), GraphicsUnit.Pixel);
             }
         }
+
+        #endregion
+
+        #region 接口
+        /// <summary>
+        /// 坐标点是否包含在项中
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public bool Contain(Point p)
+        {
+            return this.SysBtnRect.Contains(p);
+        }
+
         #endregion
     }
 }

@@ -22,24 +22,8 @@ namespace Paway.Forms
         {
             InitializeComponent();
             this.panel1.BackColor = this.panel2.BackColor;
-            this.panel1.Paint += panel1_Paint;
-            this.toolBar1.MouseDown += toolBar1_MouseDown;
-        }
-
-        void panel1_Paint(object sender, PaintEventArgs e)
-        {
-            base.DrawBelowBorder(panel1);
-        }
-
-        void toolBar1_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button != MouseButtons.Left) return;
-            if (this.toolBar1.Contain(e.Location)) return;
-            if (this.WindowState != FormWindowState.Maximized)
-            {
-                NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(Handle, 274, 61440 + 9, 0);
-            }
+            this.TDrawBelowBorder(panel1);
+            this.TMouseMove(toolBar1);
         }
     }
 }

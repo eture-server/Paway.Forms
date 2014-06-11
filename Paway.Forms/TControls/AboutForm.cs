@@ -59,23 +59,14 @@ namespace Paway.Forms
         {
             base.OnShown(e);
 
-            this.panel1.MouseDown += panel_MouseDown;
-            this.panel2.MouseDown += panel_MouseDown;
+            this.TMouseMove(panel1);
+            this.TMouseMove(panel2);
             timer = new Timer();
             timer.Tick += timer_Tick;
             this.Opacity = 0.0;
             this.Activate();
             this.Refresh();
             timer.Start();
-        }
-
-        void panel_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (this.WindowState != FormWindowState.Maximized)
-            {
-                NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(Handle, 274, 61440 + 9, 0);
-            }
         }
 
         void timer_Tick(object sender, EventArgs e)

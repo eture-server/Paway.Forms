@@ -11,7 +11,7 @@ namespace Paway.Utils
     /// <summary>
     /// 多控件切换方法
     /// </summary>
-    public class IControl : UserControl
+    public class MControl : UserControl
     {
         /// <summary>
         /// 日志
@@ -51,15 +51,15 @@ namespace Paway.Utils
         /// <summary>
         /// 基类控件列表
         /// </summary>
-        private static Dictionary<string, IControl> _iList = new Dictionary<string, IControl>();
+        private static Dictionary<string, MControl> _iList = new Dictionary<string, MControl>();
         /// <summary>
         /// 当前控件
         /// </summary>
-        public static IControl Current { get; private set; }
+        public static MControl Current { get; private set; }
         /// <summary>
         /// 切换主界面控件
         /// </summary>
-        public static IControl ReLoad(Control parent, Type type)
+        public static MControl ReLoad(Control parent, Type type)
         {
             Licence.Checking();
             //不重复加载
@@ -75,15 +75,15 @@ namespace Paway.Utils
             parent.SuspendLayout();
             parent.Controls.Clear();
             //加载控件
-            IControl control = null;
+            MControl control = null;
             if (_iList.ContainsKey(type.Name))
             {
-                control = _iList[type.Name] as IControl;
+                control = _iList[type.Name] as MControl;
             }
             else
             {
                 Assembly asmb = Assembly.GetAssembly(type);
-                control = asmb.CreateInstance(type.FullName) as IControl;
+                control = asmb.CreateInstance(type.FullName) as MControl;
             }
             if (control == null)
             {
