@@ -151,19 +151,6 @@ namespace Paway.Forms
             base.OnPaint(e);
         }
 
-        /// <summary>
-        /// 引发 System.Windows.Forms.Form.MouseDown。
-        /// </summary>
-        /// <param name="e">包含事件数据的 System.Windows.Forms.MouseEventArgs。</param>
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-            //调用API，将窗体剪成圆角
-            int ellipse = _isDrawRound ? 4 : 0;
-            int rgn = NativeMethods.CreateRoundRectRgn(0, 0, this.Width + 1, this.Height + 1, ellipse, ellipse);
-            NativeMethods.SetWindowRgn(this.Handle, rgn, true);
-        }
-
         #endregion
     }
 }

@@ -15,7 +15,7 @@ namespace Paway.Forms
     /// </summary>
     [DefaultProperty("Items")]
     [DefaultEvent("SelectedIndexChanged")]
-    public class ToolBar : Control
+    public class ToolBar : TControl
     {
         #region 变量
 
@@ -54,18 +54,6 @@ namespace Paway.Forms
         /// 图片显示位置
         /// </summary>
         private LDirection _imageEDirection = LDirection.Up;
-        /// <summary>
-        /// 选中状态的背景颜色
-        /// </summary>
-        private Color _colorMoveBack = Color.White;
-        /// <summary>
-        /// 选中状态的背景颜色
-        /// </summary>
-        private Color _colorDownBack = Color.White;
-        /// <summary>
-        /// 选中状态的背景颜色
-        /// </summary>
-        private Color _colorSpace = Color.Transparent;
         /// <summary>
         /// 单击事件开关
         /// 单击松开后取消选中状态，只有鼠标移入状态
@@ -134,15 +122,11 @@ namespace Paway.Forms
         public ToolBar()
         {
             this.SetStyle(
-               ControlStyles.AllPaintingInWmPaint |
-               ControlStyles.OptimizedDoubleBuffer |
                ControlStyles.ResizeRedraw |
                ControlStyles.Selectable |
-               ControlStyles.SupportsTransparentBackColor |
                ControlStyles.UserPaint, true);
             this.SetStyle(ControlStyles.Opaque, false);
             this.UpdateStyles();
-            this.Initialize();
             InitializeComponent();
             timer.Interval = 30;
             this.timer.Tick += timer_Tick;
@@ -151,6 +135,42 @@ namespace Paway.Forms
         #endregion
 
         #region 属性
+        private bool _iText;
+        /// <summary>
+        /// 是否将颜色应用到文字
+        /// </summary>
+        [Description("是否将颜色应用到文字"), DefaultValue(false)]
+        public bool IColorText
+        {
+            get { return _iText; }
+            set
+            {
+                _iText = value;
+                Invalidate(true);
+            }
+        }
+        /// <summary>
+        /// 选中状态的背景颜色
+        /// </summary>
+        private Color _colorSpace = Color.Transparent;
+        /// <summary>
+        /// 项间隔的颜色
+        /// </summary>
+        [Description("项间隔的颜色"), DefaultValue(typeof(Color), "Transparent")]
+        public Color ColorSpace
+        {
+            get { return this._colorSpace; }
+            set
+            {
+                _colorSpace = value;
+                if (value.A > Trans)
+                {
+                    _colorSpace = Color.FromArgb(Trans, value.R, value.G, value.B);
+                }
+                Invalidate(true);
+            }
+        }
+
         /// <summary>
         /// 事件触发点
         /// </summary>
@@ -186,50 +206,6 @@ namespace Paway.Forms
             set
             {
                 this._imageEDirection = value;
-                base.Invalidate(true);
-            }
-        }
-        /// <summary>
-        /// 鼠标移入状态的背景颜色
-        /// 背景色为Color.White时使用默认背景
-        /// </summary>
-        [Description("鼠标移入状态的背景颜色,背景色为Color.White时使用默认背景")]
-        [DefaultValue(typeof(Color), "White")]
-        public Color ColorMoveBack
-        {
-            get { return this._colorMoveBack; }
-            set
-            {
-                this._colorMoveBack = value;
-                base.Invalidate(true);
-            }
-        }
-        /// <summary>
-        /// 选中状态的背景颜色
-        /// 背景色为Color.White时使用默认背景
-        /// </summary>
-        [Description("选中状态的背景颜色,背景色为Color.White时使用默认背景")]
-        [DefaultValue(typeof(Color), "White")]
-        public Color ColorDownBack
-        {
-            get { return this._colorDownBack; }
-            set
-            {
-                this._colorDownBack = value;
-                base.Invalidate(true);
-            }
-        }
-        /// <summary>
-        /// 项间隔的颜色
-        /// </summary>
-        [Description("项间隔的颜色")]
-        [DefaultValue(typeof(Color), "Transparent")]
-        public Color ColorSpace
-        {
-            get { return this._colorSpace; }
-            set
-            {
-                this._colorSpace = value;
                 base.Invalidate(true);
             }
         }
@@ -362,15 +338,6 @@ namespace Paway.Forms
         {
             get { return new Size(300, 82); }
         }
-        /// <summary>
-        /// 获取或设置控件的背景色
-        /// </summary>
-        [Description("获取或设置控件的背景色"), DefaultValue(typeof(Color), "Transparent")]
-        public override Color BackColor
-        {
-            get { return base.BackColor; }
-            set { base.BackColor = value; }
-        }
 
         #endregion
 
@@ -398,16 +365,6 @@ namespace Paway.Forms
         {
             add { base.Events.AddHandler(EventItemClick, value); }
             remove { base.Events.RemoveHandler(EventItemClick, value); }
-        }
-        #endregion
-
-        #region 方法
-        /// <summary>
-        /// 初始化控件
-        /// </summary>
-        private void Initialize()
-        {
-            this.BackColor = Color.Transparent;
         }
         #endregion
 
@@ -445,17 +402,17 @@ namespace Paway.Forms
         {
             if (xPos != this.Padding.Left && this._itemSpace != 0)
             {
-                g.DrawLine(new Pen(this._colorSpace, this._itemSpace), new Point(xPos - this._itemSpace, yPos), new Point(xPos - this._itemSpace, yPos + this._itemSize.Height));
+                g.DrawLine(new Pen(this.ColorSpace, this._itemSpace), new Point(xPos - this._itemSpace, yPos), new Point(xPos - this._itemSpace, yPos + this._itemSize.Height));
             }
             if (yPos != this.Padding.Top && this._itemSpace != 0)
             {
-                g.DrawLine(new Pen(this._colorSpace, this._itemSpace), new Point(xPos, yPos - this._itemSpace), new Point(xPos + this._itemSize.Width, yPos - this._itemSpace));
+                g.DrawLine(new Pen(this.ColorSpace, this._itemSpace), new Point(xPos, yPos - this._itemSpace), new Point(xPos + this._itemSize.Width, yPos - this._itemSpace));
             }
             // 当前 Item 所在的矩型区域
             item.Rectangle = new Rectangle(xPos, yPos, this._itemSize.Width, this._itemSize.Height);
+            DrawText(g, item, this.ForeColor);
             DrawBackground(g, item);
             DrawImage(g, item);
-            DrawText(g, item);
             switch (_itemIDirection)
             {
                 case IDirection.Level:
@@ -516,13 +473,17 @@ namespace Paway.Forms
                         }
                         else
                         {
-                            if (_colorDownBack == Color.White)
+                            if (_iText)
+                            {
+                                DrawText(g, item, this.ColorDownBack);
+                            }
+                            else if (ColorDownBack == Color.Transparent)
                             {
                                 g.DrawImage(this._pushedImage, item.Rectangle);
                             }
                             else
                             {
-                                g.FillRectangle(new SolidBrush(this._colorDownBack),
+                                g.FillRectangle(new SolidBrush(this.ColorDownBack),
                                     new Rectangle(item.Rectangle.X, item.Rectangle.Y, item.Rectangle.Width - 1, item.Rectangle.Height - 1));
                             }
                             IsContextMenu(g, item);
@@ -540,13 +501,17 @@ namespace Paway.Forms
         /// </summary>
         private void DrawMoveBack(Graphics g, ToolItem item)
         {
-            if (_colorMoveBack == Color.White)
+            if (_iText)
+            {
+                DrawText(g, item, this.ColorMoveBack);
+            }
+            else if (ColorMoveBack == Color.Transparent)
             {
                 g.DrawImage(this._hoverImage, item.Rectangle);
             }
             else
             {
-                g.FillRectangle(new SolidBrush(this._colorMoveBack),
+                g.FillRectangle(new SolidBrush(this.ColorMoveBack),
                     new Rectangle(item.Rectangle.X, item.Rectangle.Y, item.Rectangle.Width - 1, item.Rectangle.Height - 1));
             }
             IsContextMenu(g, item);
@@ -577,7 +542,7 @@ namespace Paway.Forms
         /// <summary>
         /// 绘制文字
         /// </summary>
-        private void DrawText(Graphics g, ToolItem item)
+        private void DrawText(Graphics g, ToolItem item, Color color)
         {
             if (!string.IsNullOrEmpty(item.Text))
             {
@@ -606,7 +571,7 @@ namespace Paway.Forms
                             break;
                     }
                 }
-                TextRenderer.DrawText(g, item.Text, this.Font, textRect, this.ForeColor, DrawParam.LevelText);
+                TextRenderer.DrawText(g, item.Text, this.Font, textRect, color, DrawParam.LevelText);
             }
         }
         /// <summary>
