@@ -4,6 +4,7 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
+using System.Drawing.Design;
 
 namespace Paway.Forms
 {
@@ -25,7 +26,12 @@ namespace Paway.Forms
         /// Item 上显示的文字信息
         /// </summary>
         [DefaultValue("toolItem")]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
         public string Text { get; set; }
+        /// <summary>
+        /// Item 上显示的描述信息
+        /// </summary>
+        public string Desc { get; set; }
         /// <summary>
         /// 当前 Item 在 ToolBar 中的 Rectangle
         /// </summary>

@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using Paway.Resource;
 using Paway.Helper;
+using System.Runtime.InteropServices;
 
 namespace Paway.Forms
 {
@@ -95,6 +96,22 @@ namespace Paway.Forms
         /// 当前选中项
         /// </summary>
         private ToolItem _selectedItem = null;
+        /// <summary>
+        /// 是否将颜色应用到文字
+        /// </summary>
+        private bool _iText;
+        /// <summary>
+        /// 字体颜色
+        /// </summary>
+        private Color _colorFore;
+        /// <summary>
+        /// 选中状态的背景颜色
+        /// </summary>
+        private Color _colorSpace = Color.Transparent;
+        /// <summary>
+        /// 描述文字字体
+        /// </summary>
+        private Font _fontDesc = new System.Drawing.Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)134);
 
         #endregion
 
@@ -136,10 +153,15 @@ namespace Paway.Forms
 
         #region 属性
         /// <summary>
-        /// 字体颜色
+        /// 描述文字字体
         /// </summary>
-        private Color _colorFore;
-        private bool _iText;
+        [Description("描述文字字体"), DefaultValue(typeof(Font), "宋体, 9pt")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public Font FontDesc
+        {
+            get { return _fontDesc; }
+            set { _fontDesc = value; }
+        }
         /// <summary>
         /// 是否将颜色应用到文字
         /// </summary>
@@ -153,10 +175,6 @@ namespace Paway.Forms
                 Invalidate(true);
             }
         }
-        /// <summary>
-        /// 选中状态的背景颜色
-        /// </summary>
-        private Color _colorSpace = Color.Transparent;
         /// <summary>
         /// 项间隔的颜色
         /// </summary>
@@ -577,6 +595,15 @@ namespace Paway.Forms
                     }
                 }
                 TextRenderer.DrawText(g, item.Text, this.Font, textRect, color, DrawParam.LevelText);
+                Rectangle descRect = new Rectangle()
+                {
+                    X = item.Rectangle.X,
+                    Y = item.Rectangle.Y,
+                    Width = item.Rectangle.Width,
+                };
+                descRect.Height = _fontDesc.GetHeight(g).ToInt() + 6;
+                descRect.Y += item.Rectangle.Height - descRect.Height;
+                TextRenderer.DrawText(g, item.Desc, _fontDesc, descRect, color, DrawParam.RightText);
             }
         }
         /// <summary>

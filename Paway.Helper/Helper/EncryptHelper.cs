@@ -34,7 +34,7 @@ namespace Paway.Helper
                 {
                     sBuilder.Append(inArray[i].ToString("x2"));
                 }
-                result= sBuilder.ToString();
+                result = sBuilder.ToString();
             }
             catch (Exception ex)
             {

@@ -28,37 +28,39 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
-            this.toolBar1 = new Paway.Forms.ToolBar();
-            this.toolBar2 = new Paway.Forms.ToolBar();
+            Paway.Forms.ToolItem toolItem5 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem6 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem7 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem8 = new Paway.Forms.ToolItem();
             this.toolBar3 = new Paway.Forms.ToolBar();
+            this.toolBar2 = new Paway.Forms.ToolBar();
+            this.toolBar1 = new Paway.Forms.ToolBar();
             this.SuspendLayout();
             // 
-            // toolBar1
+            // toolBar3
             // 
-            this.toolBar1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.toolBar1.ColorDownBack = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(0)))), ((int)(((byte)(191)))), ((int)(((byte)(255)))));
-            this.toolBar1.ColorMoveBack = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(173)))), ((int)(((byte)(216)))), ((int)(((byte)(230)))));
-            this.toolBar1.ColorSpace = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.toolBar1.ForeColor = System.Drawing.Color.Black;
-            this.toolBar1.ImageEDirection = Paway.Forms.LDirection.Left;
-            this.toolBar1.ImageSize = new System.Drawing.Size(16, 16);
-            this.toolBar1.IsCheckEvent = true;
-            toolItem1.ContextMenuStrip = null;
-            toolItem1.Image = null;
-            toolItem1.Rectangle = new System.Drawing.Rectangle(0, 0, 120, 120);
-            toolItem1.Tag = null;
-            toolItem1.Text = "你好";
-            this.toolBar1.Items.Add(toolItem1);
-            this.toolBar1.ItemSize = new System.Drawing.Size(120, 120);
-            this.toolBar1.Location = new System.Drawing.Point(32, 12);
-            this.toolBar1.Name = "toolBar1";
-            this.toolBar1.Size = new System.Drawing.Size(120, 120);
-            this.toolBar1.TabIndex = 0;
-            this.toolBar1.Trans = 100;
+            this.toolBar3.ColorDownBack = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(0)))), ((int)(((byte)(191)))), ((int)(((byte)(255)))));
+            this.toolBar3.ColorMoveBack = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(173)))), ((int)(((byte)(216)))), ((int)(((byte)(230)))));
+            this.toolBar3.ColorSpace = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.toolBar3.Font = new System.Drawing.Font("宋体", 12F);
+            this.toolBar3.ForeColor = System.Drawing.Color.Black;
+            this.toolBar3.IColorText = true;
+            this.toolBar3.ImageEDirection = Paway.Forms.LDirection.Left;
+            this.toolBar3.ImageSize = new System.Drawing.Size(16, 16);
+            this.toolBar3.IsCheckEvent = true;
+            toolItem5.ContextMenuStrip = null;
+            toolItem5.Desc = "你好";
+            toolItem5.Image = null;
+            toolItem5.Rectangle = new System.Drawing.Rectangle(0, 0, 120, 120);
+            toolItem5.Tag = null;
+            toolItem5.Text = "Hello\r\n世界";
+            this.toolBar3.Items.Add(toolItem5);
+            this.toolBar3.ItemSize = new System.Drawing.Size(120, 120);
+            this.toolBar3.Location = new System.Drawing.Point(158, 12);
+            this.toolBar3.Name = "toolBar3";
+            this.toolBar3.Size = new System.Drawing.Size(120, 120);
+            this.toolBar3.TabIndex = 3;
+            this.toolBar3.Trans = 100;
             // 
             // toolBar2
             // 
@@ -70,18 +72,20 @@
             this.toolBar2.ImageEDirection = Paway.Forms.LDirection.Left;
             this.toolBar2.ImageSize = new System.Drawing.Size(16, 16);
             this.toolBar2.ItemIDirection = Paway.Forms.IDirection.Vertical;
-            toolItem2.ContextMenuStrip = null;
-            toolItem2.Image = null;
-            toolItem2.Rectangle = new System.Drawing.Rectangle(0, 0, 120, 120);
-            toolItem2.Tag = null;
-            toolItem2.Text = "World";
-            toolItem3.ContextMenuStrip = null;
-            toolItem3.Image = null;
-            toolItem3.Rectangle = new System.Drawing.Rectangle(121, 0, 120, 120);
-            toolItem3.Tag = null;
-            toolItem3.Text = "北京\r\nin this one";
-            this.toolBar2.Items.Add(toolItem2);
-            this.toolBar2.Items.Add(toolItem3);
+            toolItem6.ContextMenuStrip = null;
+            toolItem6.Desc = null;
+            toolItem6.Image = null;
+            toolItem6.Rectangle = new System.Drawing.Rectangle(0, 0, 120, 120);
+            toolItem6.Tag = null;
+            toolItem6.Text = "World";
+            toolItem7.ContextMenuStrip = null;
+            toolItem7.Desc = null;
+            toolItem7.Image = null;
+            toolItem7.Rectangle = new System.Drawing.Rectangle(121, 0, 120, 120);
+            toolItem7.Tag = null;
+            toolItem7.Text = "北京\r\nin this one";
+            this.toolBar2.Items.Add(toolItem6);
+            this.toolBar2.Items.Add(toolItem7);
             this.toolBar2.ItemSize = new System.Drawing.Size(120, 120);
             this.toolBar2.Location = new System.Drawing.Point(32, 130);
             this.toolBar2.Name = "toolBar2";
@@ -89,28 +93,30 @@
             this.toolBar2.TabIndex = 1;
             this.toolBar2.Trans = 100;
             // 
-            // toolBar3
+            // toolBar1
             // 
-            this.toolBar3.ColorDownBack = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(0)))), ((int)(((byte)(191)))), ((int)(((byte)(255)))));
-            this.toolBar3.ColorMoveBack = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(173)))), ((int)(((byte)(216)))), ((int)(((byte)(230)))));
-            this.toolBar3.ColorSpace = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.toolBar3.ForeColor = System.Drawing.Color.Black;
-            this.toolBar3.IColorText = true;
-            this.toolBar3.ImageEDirection = Paway.Forms.LDirection.Left;
-            this.toolBar3.ImageSize = new System.Drawing.Size(16, 16);
-            this.toolBar3.IsCheckEvent = true;
-            toolItem4.ContextMenuStrip = null;
-            toolItem4.Image = null;
-            toolItem4.Rectangle = new System.Drawing.Rectangle(0, 0, 120, 120);
-            toolItem4.Tag = null;
-            toolItem4.Text = "World";
-            this.toolBar3.Items.Add(toolItem4);
-            this.toolBar3.ItemSize = new System.Drawing.Size(120, 120);
-            this.toolBar3.Location = new System.Drawing.Point(158, 12);
-            this.toolBar3.Name = "toolBar3";
-            this.toolBar3.Size = new System.Drawing.Size(120, 120);
-            this.toolBar3.TabIndex = 3;
-            this.toolBar3.Trans = 100;
+            this.toolBar1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.toolBar1.ColorDownBack = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(0)))), ((int)(((byte)(191)))), ((int)(((byte)(255)))));
+            this.toolBar1.ColorMoveBack = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(173)))), ((int)(((byte)(216)))), ((int)(((byte)(230)))));
+            this.toolBar1.ColorSpace = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.toolBar1.Font = new System.Drawing.Font("宋体", 12F);
+            this.toolBar1.ForeColor = System.Drawing.Color.Black;
+            this.toolBar1.ImageEDirection = Paway.Forms.LDirection.Left;
+            this.toolBar1.ImageSize = new System.Drawing.Size(16, 16);
+            this.toolBar1.IsCheckEvent = true;
+            toolItem8.ContextMenuStrip = null;
+            toolItem8.Desc = "hello";
+            toolItem8.Image = null;
+            toolItem8.Rectangle = new System.Drawing.Rectangle(0, 0, 120, 120);
+            toolItem8.Tag = null;
+            toolItem8.Text = "你好\r\nworld";
+            this.toolBar1.Items.Add(toolItem8);
+            this.toolBar1.ItemSize = new System.Drawing.Size(120, 120);
+            this.toolBar1.Location = new System.Drawing.Point(32, 12);
+            this.toolBar1.Name = "toolBar1";
+            this.toolBar1.Size = new System.Drawing.Size(120, 120);
+            this.toolBar1.TabIndex = 0;
+            this.toolBar1.Trans = 100;
             // 
             // Form1
             // 

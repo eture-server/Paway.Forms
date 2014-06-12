@@ -34,7 +34,159 @@ namespace Paway.Utils.Data
         /// </summary>
         protected string ConnString { get; set; }
 
+        private Type connType;
+        private Type cmdType;
+        private Type paramType;
+        /// <summary>
+        /// 数据类型
+        /// </summary>
+        /// <param name="connType">连接类型</param>
+        /// <param name="cmdType">执行</param>
+        /// <param name="paramType">参数</param>
+        protected void InitType(Type connType, Type cmdType, Type paramType)
+        {
+            this.connType = connType;
+            this.cmdType = cmdType;
+            this.paramType = paramType;
+        }
+
+        #region 扩展.方法
+        /// <summary>
+        /// 对连接执行 Transact-SQL 语句并返回受影响的行数。
+        /// </summary>
+        public int ExecuteNonQuery(string sql)
+        {
+            DbCommand cmd = null;
+            try
+            {
+                cmd = CommandStart(sql);
+                cmd.CommandType = CommandType.Text;
+                return cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                log.Error(string.Format("ExecuteNonQuery.Error[{0}]\r\n{1}", sql, ex));
+                throw;
+            }
+            finally
+            {
+                CommandEnd(cmd);
+            }
+        }
+        /// <summary>
+        /// 执行查询，并返回查询所返回的结果集中第一行的第一列。忽略其他列或行。
+        /// </summary>
+        public object ExecuteScalar(string sql)
+        {
+            DbCommand cmd = null;
+            try
+            {
+                cmd = CommandStart(sql);
+                cmd.CommandType = CommandType.Text;
+                return cmd.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                log.Error(string.Format("ExecuteScalar.Error[{0}]\r\n{1}", sql, ex));
+                throw;
+            }
+            finally
+            {
+                CommandEnd(cmd);
+            }
+        }
+        /// <summary>
+        /// 执行查询，并返回查询所返回的DataTable
+        /// </summary>
+        public DataTable ExecuteDataTable(string sql)
+        {
+            DbCommand cmd = null;
+            try
+            {
+                cmd = CommandStart(sql);
+                cmd.CommandType = CommandType.Text;
+                DbDataReader dr = cmd.ExecuteReader();
+                DataTable table = new DataTable();
+                table.Load(dr);
+                dr.Close();
+                return table;
+            }
+            catch (Exception ex)
+            {
+                log.Error(string.Format("ExecuteDataTable.Error[{0}]\r\n{1}", sql, ex));
+                throw;
+            }
+            finally
+            {
+                CommandEnd(cmd);
+            }
+        }
+        /// <summary>
+        /// 使用事务处理  Transact-SQL 语句列表
+        /// </summary>
+        public bool TransExecuteNonQuery(List<string> sqlList)
+        {
+            DbCommand cmd = null;
+            try
+            {
+                cmd = TransStart();
+                try
+                {
+                    for (int i = 0; i < sqlList.Count; i++)
+                    {
+                        cmd.CommandText = sqlList[i];
+                        cmd.ExecuteNonQuery();
+                    }
+                    TransCommit(cmd);
+                }
+                catch (Exception ex)
+                {
+                    TransError(cmd, ex);
+                    throw;
+                }
+                return true;
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                CommandEnd(cmd);
+            }
+        }
+
+        #endregion
+
         #region 扩展.分步
+        /// <summary>
+        /// 打开一个连接
+        /// </summary>
+        /// <returns></returns>
+        protected DbCommand CommandStart()
+        {
+            return CommandStart(null);
+        }
+        /// <summary>
+        /// 打开一个连接
+        /// 返回SqlCommand实例
+        /// </summary>
+        protected DbCommand CommandStart(string sql)
+        {
+            try
+            {
+                DbConnection con = GetCon();
+                DbCommand cmd = GetCmd();
+                cmd.CommandText = sql;
+                cmd.Connection = con;
+                return cmd;
+            }
+            catch (Exception ex)
+            {
+                log.Error(string.Format("StartCommand.Error[{0}]\r\n{1}", sql, ex));
+                throw;
+            }
+        }
         /// <summary>
         /// 关闭DbCommand实例的连接，并释放
         /// </summary>
@@ -57,30 +209,33 @@ namespace Paway.Utils.Data
                 throw;
             }
         }
+
         /// <summary>
+        /// 事务处理
         /// 打开一个连接
         /// 返回SqlCommand实例
         /// </summary>
-        protected DbCommand CommandStart(string sql, Type connType, Type cmdType)
+        /// <returns></returns>
+        protected DbCommand TransStart()
         {
             try
             {
-                DbConnection con = GetCon(connType);
-                DbCommand cmd = GetCmd(cmdType);
-                cmd.CommandText = sql;
+                DbConnection con = GetCon();
+                DbTransaction trans = con.BeginTransaction();
+                DbCommand cmd = GetCmd();
                 cmd.Connection = con;
+                cmd.Transaction = trans;
+
                 return cmd;
             }
             catch (Exception ex)
             {
-                log.Error(string.Format("StartCommand.Error[{0}]\r\n{1}", sql, ex));
+                log.Error(string.Format("TransStartCommand.Error\r\n{0}", ex));
                 throw;
             }
         }
-
         /// <summary>
-        /// 事务处理
-        /// 关闭DbCommand实例的连接，并释放
+        /// 事务处理.提交事务
         /// </summary>
         /// <param name="cmd"></param>
         protected bool TransCommit(DbCommand cmd)
@@ -115,70 +270,88 @@ namespace Paway.Utils.Data
                 throw;
             }
         }
-        /// <summary>
-        /// 事务处理
-        /// 打开一个连接
-        /// 返回SqlCommand实例
-        /// </summary>
-        /// <returns></returns>
-        protected DbCommand TransStart(Type connType, Type cmdType)
-        {
-            try
-            {
-                DbConnection con = GetCon(connType);
-                DbTransaction trans = con.BeginTransaction();
-                DbCommand cmd = GetCmd(cmdType);
-                cmd.Connection = con;
-                cmd.Transaction = trans;
 
-                return cmd;
-            }
-            catch (Exception ex)
-            {
-                log.Error(string.Format("TransStartCommand.Error\r\n{0}", ex));
-                throw;
-            }
-        }
-
-        private DbConnection GetCon(Type type)
+        private DbConnection GetCon()
         {
-            Assembly asmb = Assembly.GetAssembly(type);
-            DbConnection con = asmb.CreateInstance(type.FullName) as DbConnection;
+            Assembly asmb = Assembly.GetAssembly(connType);
+            DbConnection con = asmb.CreateInstance(connType.FullName) as DbConnection;
             con.ConnectionString = ConnString;
             con.Open();
             return con;
         }
-        private DbCommand GetCmd(Type type)
+        private DbCommand GetCmd()
         {
-            Assembly asmb = Assembly.GetAssembly(type);
-            DbCommand cmd = asmb.CreateInstance(type.FullName) as DbCommand;
+            Assembly asmb = Assembly.GetAssembly(cmdType);
+            DbCommand cmd = asmb.CreateInstance(cmdType.FullName) as DbCommand;
             return cmd;
-        }
-        private DbDataAdapter GetDa(Type type)
-        {
-            Assembly asmb = Assembly.GetAssembly(type);
-            DbDataAdapter da = asmb.CreateInstance(type.FullName) as DbDataAdapter;
-            return da;
-        }
-        private DbDataReader GetDr(Type type)
-        {
-            Assembly asmb = Assembly.GetAssembly(type);
-            DbDataReader dr = asmb.CreateInstance(type.FullName) as DbDataReader;
-            return dr;
         }
 
         #endregion
 
         #region 扩展.语句
         /// <summary>
+        /// 填充 System.Data.DataSet 并返回一个IList列表
+        /// </summary>
+        public IList<T> Find<T>()
+        {
+            return Find<T>(null);
+        }
+        /// <summary>
+        /// 查找指定查询语句
+        /// 填充 System.Data.DataSet 并返回一个IList列表
+        /// </summary>
+        /// <typeparam name="T">class.Type</typeparam>
+        /// <param name="find">查询条件</param>
+        /// <returns></returns>
+        public IList<T> Find<T>(string find)
+        {
+            DbCommand cmd = null;
+            string sql = null;
+            try
+            {
+                sql = default(T).Select(find);
+                cmd = CommandStart(sql);
+                DbDataReader dr = cmd.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(dr);
+                IList<T> list = dt.ConvertTo<T>();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                log.Error(string.Format("Find.Error[{0}]\r\n{1}", sql, ex));
+                throw;
+            }
+            finally
+            {
+                CommandEnd(cmd);
+            }
+        }
+        /// <summary>
+        /// 插入列
+        /// </summary>
+        public bool Insert<T>(T t)
+        {
+            List<T> list = new List<T>() { t };
+            return Insert<T>(list);
+        }
+        /// <summary>
         /// 插入列表
         /// </summary>
-        protected bool Insert<T>(IList<T> list, Type connType, Type cmdType, Type paramType)
+        public bool Insert<T>(DataTable dt)
+        {
+            IList<T> list = dt.ConvertTo<T>();
+            return Insert<T>(list);
+        }
+        /// <summary>
+        /// 插入列表
+        /// </summary>
+        public bool Insert<T>(IList<T> list)
         {
             DbCommand cmd = null;
             try
             {
-                cmd = TransStart(connType, cmdType);
+                cmd = TransStart();
                 for (int i = 0; i < list.Count; i++)
                 {
                     string sql = list[i].Insert<T>(GetId);
@@ -210,14 +383,30 @@ namespace Paway.Utils.Data
             }
         }
         /// <summary>
+        /// 更新列
+        /// </summary>
+        public bool Update<T>(T t)
+        {
+            List<T> list = new List<T>() { t };
+            return Update<T>(list);
+        }
+        /// <summary>
         /// 更新列表
         /// </summary>
-        protected bool Update<T>(IList<T> list, Type connType, Type cmdType, Type paramType)
+        public bool Update<T>(DataTable dt)
+        {
+            IList<T> list = dt.ConvertTo<T>();
+            return Update<T>(list);
+        }
+        /// <summary>
+        /// 更新列表
+        /// </summary>
+        public bool Update<T>(IList<T> list)
         {
             DbCommand cmd = null;
             try
             {
-                cmd = TransStart(connType, cmdType);
+                cmd = TransStart();
                 for (int i = 0; i < list.Count; i++)
                 {
                     string sql = list[i].Update<T>();
@@ -240,15 +429,31 @@ namespace Paway.Utils.Data
             }
         }
         /// <summary>
+        /// 删除列
+        /// </summary>
+        public bool Delete<T>(T t)
+        {
+            List<T> list = new List<T>() { t };
+            return Delete<T>(list);
+        }
+        /// <summary>
         /// 删除列表
         /// </summary>
-        protected bool Delete<T>(IList<T> list, Type connType, Type cmdType, Type paramType)
+        public bool Delete<T>(DataTable dt)
+        {
+            IList<T> list = dt.ConvertTo<T>();
+            return Delete<T>(list);
+        }
+        /// <summary>
+        /// 删除列表
+        /// </summary>
+        public bool Delete<T>(IList<T> list)
         {
             string sql = default(T).Delete<T>();
             DbCommand cmd = null;
             try
             {
-                cmd = TransStart(connType, cmdType);
+                cmd = TransStart();
                 for (int i = 0; i < list.Count; i++)
                 {
                     cmd.CommandText = sql;
@@ -270,14 +475,30 @@ namespace Paway.Utils.Data
             }
         }
         /// <summary>
+        /// 更新或插入列
+        /// </summary>
+        public bool UpdateOrInsert<T>(T t)
+        {
+            List<T> list = new List<T>() { t };
+            return UpdateOrInsert<T>(list);
+        }
+        /// <summary>
         /// 更新或插入列表
         /// </summary>
-        protected bool UpdateOrInsert<T>(IList<T> list, Type connType, Type cmdType, Type paramType)
+        public void UpdateOrInsert<T>(DataTable dt)
+        {
+            IList<T> list = dt.ConvertTo<T>();
+            UpdateOrInsert<T>(list);
+        }
+        /// <summary>
+        /// 更新或插入列表
+        /// </summary>
+        public bool UpdateOrInsert<T>(IList<T> list)
         {
             DbCommand cmd = null;
             try
             {
-                cmd = TransStart(connType, cmdType);
+                cmd = TransStart();
                 for (int i = 0; i < list.Count; i++)
                 {
                     string sql = list[i].UpdateOrInsert<T>(GetId);

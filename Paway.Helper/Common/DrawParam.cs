@@ -58,5 +58,15 @@ namespace Paway.Helper
                 return TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter;
             }
         }
+        /// <summary>
+        /// 文本靠右垂直
+        /// </summary>
+        public static TextFormatFlags RightText
+        {
+            get
+            {
+                return TextFormatFlags.Right | TextFormatFlags.VerticalCenter;
+            }
+        }
     }
 }
