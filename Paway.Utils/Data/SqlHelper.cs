@@ -33,5 +33,35 @@ namespace Paway.Utils.Data
         }
 
         #endregion
+
+        #region 扩展.分步
+        /// <summary>
+        /// 打开一个连接
+        /// </summary>
+        /// <returns></returns>
+        public new SqlCommand CommandStart()
+        {
+            return base.CommandStart() as SqlCommand;
+        }
+        /// <summary>
+        /// 打开一个连接
+        /// </summary>
+        /// <returns></returns>
+        public new SqlCommand CommandStart(string sql)
+        {
+            return base.CommandStart(sql) as SqlCommand;
+        }
+        /// <summary>
+        /// 事务处理
+        /// 打开一个连接
+        /// 返回SqlCommand实例
+        /// </summary>
+        /// <returns></returns>
+        public new SqlCommand TransStart()
+        {
+            return base.TransStart() as SqlCommand;
+        }
+
+        #endregion
     }
 }

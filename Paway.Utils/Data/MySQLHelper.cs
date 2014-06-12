@@ -76,5 +76,34 @@ namespace Paway.Utils.Data
             }
             return conn;
         }
+
+        #region 扩展.分步
+        /// <summary>
+        /// 打开一个连接
+        /// </summary>
+        public new MySQLCommand CommandStart()
+        {
+            return base.CommandStart() as MySQLCommand;
+        }
+        /// <summary>
+        /// 打开一个连接
+        /// </summary>
+        /// <returns></returns>
+        public new MySQLCommand CommandStart(string sql)
+        {
+            return base.CommandStart(sql) as MySQLCommand;
+        }
+        /// <summary>
+        /// 事务处理
+        /// 打开一个连接
+        /// 返回SqlCommand实例
+        /// </summary>
+        /// <returns></returns>
+        public new MySQLCommand TransStart()
+        {
+            return base.TransStart() as MySQLCommand;
+        }
+
+        #endregion
     }
 }

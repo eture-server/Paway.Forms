@@ -10,7 +10,7 @@ namespace Paway.Helper
     /// <summary>    
     /// 网络时间    
     /// </summary>    
-    public abstract class NetTime
+    public abstract class WebHelper
     {
         /// <summary>    
         /// 获取标准北京时间，读取http://www.beijing-time.org/time.asp    

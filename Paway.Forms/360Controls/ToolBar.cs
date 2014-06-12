@@ -111,7 +111,11 @@ namespace Paway.Forms
         /// <summary>
         /// 描述文字字体
         /// </summary>
-        private Font _fontDesc = new System.Drawing.Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)134);
+        private Font _fontDesc = new System.Drawing.Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
+        /// <summary>
+        /// 第二行字体
+        /// </summary>
+        private Font _fontSecond = new System.Drawing.Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
 
         #endregion
 
@@ -152,6 +156,16 @@ namespace Paway.Forms
         #endregion
 
         #region 属性
+        /// <summary>
+        /// 第二行字体
+        /// </summary>
+        [Description("第二行字体"), DefaultValue(typeof(Font), "宋体, 9pt")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public Font FontSecond
+        {
+            get { return _fontSecond; }
+            set { _fontSecond = value; }
+        }
         /// <summary>
         /// 描述文字字体
         /// </summary>
@@ -594,16 +608,46 @@ namespace Paway.Forms
                             break;
                     }
                 }
-                TextRenderer.DrawText(g, item.Text, this.Font, textRect, color, DrawParam.LevelText);
+                int index = item.Text.IndexOf("\r\n");
+                if (index != -1)
+                {
+                    string title = item.Text.Substring(0, index);
+                    string second = item.Text.Remove(0, index + 2);
+                    int tHight = Font.GetHeight(g).ToInt() + 6;
+                    int sHight = _fontSecond.GetHeight(g).ToInt();
+                    int height = textRect.Height - tHight - sHight;
+                    height /= 2;
+
+                    Rectangle titleRect = new Rectangle()
+                    {
+                        X = textRect.X,
+                        Y = textRect.Y + height,
+                        Width = textRect.Width,
+                        Height = tHight,
+                    };
+                    TextRenderer.DrawText(g, title, this.Font, titleRect, color, DrawParam.LevelText);
+                    Rectangle secondRect = new Rectangle()
+                    {
+                        X = textRect.X,
+                        Y = textRect.Y + height + tHight,
+                        Width = textRect.Width,
+                        Height = sHight,
+                    };
+                    TextRenderer.DrawText(g, second, _fontSecond, secondRect, color, DrawParam.LevelText);
+                }
+                else
+                {
+                    TextRenderer.DrawText(g, item.Text, this.Font, textRect, color, DrawParam.LevelText);
+                }
+                int dHeight = _fontDesc.GetHeight(g).ToInt() + 6;
                 Rectangle descRect = new Rectangle()
                 {
-                    X = item.Rectangle.X,
-                    Y = item.Rectangle.Y,
-                    Width = item.Rectangle.Width,
+                    X = textRect.X,
+                    Y = textRect.Y + textRect.Height - dHeight,
+                    Width = textRect.Width,
+                    Height = dHeight,
                 };
-                descRect.Height = _fontDesc.GetHeight(g).ToInt() + 6;
-                descRect.Y += item.Rectangle.Height - descRect.Height;
-                TextRenderer.DrawText(g, item.Desc, _fontDesc, descRect, color, DrawParam.RightText);
+                TextRenderer.DrawText(g, item.Desc, _fontDesc, descRect, this.ForeColor, DrawParam.RightText);
             }
         }
         /// <summary>
