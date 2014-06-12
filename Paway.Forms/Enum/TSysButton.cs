@@ -7,7 +7,7 @@ namespace Paway.Forms
     /// <summary>
     /// 系统控制按钮
     /// </summary>
-    public enum ESysButton
+    public enum TSysButton
     {
         /// <summary>
         /// 默认-最小化，最大化，关闭

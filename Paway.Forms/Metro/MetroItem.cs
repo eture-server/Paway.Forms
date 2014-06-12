@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -18,9 +19,9 @@ namespace Paway.Forms.Metro
         private Image _icon = null;
         private bool _isSystem = false;
         private string _classID = "";
-        private EItemType _itemType = EItemType.None;
+        private TItemType _itemType = TItemType.None;
 
-        private EMouseState _mouseState = EMouseState.Normal;
+        private TMouseState _mouseState = TMouseState.Normal;
         private Size _size = Size.Empty;
         private Point _location = Point.Empty;
         private Rectangle _rectangle = Rectangle.Empty;
@@ -72,7 +73,8 @@ namespace Paway.Forms.Metro
         /// <summary>
         /// item的类型
         /// </summary>
-        public EItemType ItemType
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public TItemType ItemType
         {
             get { return this._itemType; }
             set { this._itemType = value; }
@@ -80,7 +82,7 @@ namespace Paway.Forms.Metro
 
         #region Interval 属性
 
-        internal EMouseState MouseState
+        internal TMouseState MouseState
         {
             get { return this._mouseState; }
             set { this._mouseState = value; }
@@ -139,15 +141,15 @@ namespace Paway.Forms.Metro
             //绘制背景颜色
             switch (this._mouseState)
             {
-                case EMouseState.Normal:
-                case EMouseState.Leave:
+                case TMouseState.Normal:
+                case TMouseState.Leave:
                     color = renderer.BackColor;
                     break;
-                case EMouseState.Move:
-                case EMouseState.Up:
+                case TMouseState.Move:
+                case TMouseState.Up:
                     color = renderer.EnterColor;
                     break;
-                case EMouseState.Down:
+                case TMouseState.Down:
                     color = renderer.DownColor;
                     break;
             }

@@ -241,12 +241,12 @@
             treeItem6.Name = "Custom";
             treeItem6.Tag = null;
             treeItem6.Width = 80;
-            treeItem7.LDirection = Paway.Forms.LDirection.Right;
+            treeItem7.LDirection = Paway.Forms.TLocation.Right;
             treeItem7.Name = "Statu";
             treeItem7.Tag = null;
             treeItem7.Type = Paway.Forms.TreeItemType.Image;
             treeItem7.Width = 60;
-            treeItem8.LDirection = Paway.Forms.LDirection.Right;
+            treeItem8.LDirection = Paway.Forms.TLocation.Right;
             treeItem8.Name = "Value";
             treeItem8.Tag = null;
             treeItem8.Width = 60;
@@ -363,7 +363,7 @@
             this.Name = "FormQQ";
             this.Padding = new System.Windows.Forms.Padding(0, 120, 1, 80);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.SysButton = Paway.Forms.ESysButton.Close;
+            this.SysButton = Paway.Forms.TSysButton.Close;
             this.Text = "Form2";
             this.TextShow = "Form2";
             this.qqTabControl1.ResumeLayout(false);

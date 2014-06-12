@@ -59,8 +59,8 @@ namespace Paway.Forms
 
         private Image _borderImage = AssemblyHelper.GetImage("QQ.TextBox.normal.png");
         private Cursor _cursor = Cursors.IBeam;
-        private EMouseState _mouseState = EMouseState.Normal;
-        private EMouseState _iconMouseState = EMouseState.Normal;
+        private TMouseState _mouseState = TMouseState.Normal;
+        private TMouseState _iconMouseState = TMouseState.Normal;
         private bool _iconIsButton;
         private ErrorProvider error;
         private IContainer components;
@@ -368,8 +368,8 @@ namespace Paway.Forms
         /// <summary>
         /// 
         /// </summary>
-        [DefaultValue(typeof(EMouseState), "Normal")]
-        protected virtual EMouseState MouseState
+        [DefaultValue(typeof(TMouseState), "Normal")]
+        protected virtual TMouseState MouseState
         {
             get { return this._mouseState; }
             set
@@ -381,8 +381,8 @@ namespace Paway.Forms
         /// <summary>
         /// 
         /// </summary>
-        [DefaultValue(typeof(EMouseState), "Normal")]
-        protected virtual EMouseState IconMouseState
+        [DefaultValue(typeof(TMouseState), "Normal")]
+        protected virtual TMouseState IconMouseState
         {
             get { return this._iconMouseState; }
             set
@@ -514,7 +514,7 @@ namespace Paway.Forms
         /// <param name="e"></param>
         protected void BaseText_MouseLeave(object sender, EventArgs e)
         {
-            this.MouseState = EMouseState.Leave;
+            this.MouseState = TMouseState.Leave;
         }
         /// <summary>
         /// 鼠标进入子TextBox
@@ -530,7 +530,7 @@ namespace Paway.Forms
         /// <param name="e"></param>
         protected void BaseText_MouseMove(object sender, MouseEventArgs e)
         {
-            this.MouseState = EMouseState.Move;
+            this.MouseState = TMouseState.Move;
         }
 
         private void BaseText_KeyUp(object sender, KeyEventArgs e)
@@ -637,7 +637,7 @@ namespace Paway.Forms
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             switch (this._mouseState)
             {
-                case EMouseState.Move:
+                case TMouseState.Move:
                     using (Image hotLine = AssemblyHelper.GetImage("QQ.TextBox.move.png"))
                     {
                         DrawHelper.RendererBackground(g, this.ClientRectangle, hotLine, true);
@@ -650,7 +650,7 @@ namespace Paway.Forms
             if (this._icon != null)
             {
                 Rectangle iconRect = this.IconRect;
-                if (this._iconMouseState == EMouseState.Down)
+                if (this._iconMouseState == TMouseState.Down)
                 {
                     iconRect.X += 1;
                     iconRect.Y += 1;
@@ -665,7 +665,7 @@ namespace Paway.Forms
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            this.MouseState = EMouseState.Move;
+            this.MouseState = TMouseState.Move;
             if (this._icon != null && this.IconRect.Contains(e.Location))
             {
                 if (this._iconIsButton)
@@ -685,7 +685,7 @@ namespace Paway.Forms
             {
                 if (e.Button == MouseButtons.Left && this.IconRect.Contains(e.Location))
                 {
-                    this.IconMouseState = EMouseState.Down;
+                    this.IconMouseState = TMouseState.Down;
                 }
             }
         }
@@ -698,7 +698,7 @@ namespace Paway.Forms
             base.OnMouseUp(e);
             if (this._icon != null && this._iconIsButton)
             {
-                this.IconMouseState = EMouseState.Up;
+                this.IconMouseState = TMouseState.Up;
                 if (e.Button == MouseButtons.Left && this.IconRect.Contains(e.Location))
                     this.OnIconClick();
             }
@@ -710,7 +710,7 @@ namespace Paway.Forms
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            this.MouseState = EMouseState.Leave;
+            this.MouseState = TMouseState.Leave;
             this.Cursor = Cursors.Default;
         }
         #endregion

@@ -306,7 +306,7 @@ namespace Paway.Forms
                 this.TopLevel = true;
                 this.ShowIcon = false;
                 base.IsResize = false;
-                this.SysButton = ESysButton.Close;
+                this.SysButton = TSysButton.Close;
                 base.BackColor = Color.FromArgb(0, 122, 204);
             }
         }

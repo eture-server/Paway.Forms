@@ -11,7 +11,7 @@ namespace Paway.Forms
         #region 变量
         private Rectangle _bounds = Rectangle.Empty;
 
-        private EMouseState _mouseState = EMouseState.Normal;
+        private TMouseState _mouseState = TMouseState.Normal;
 
         private ToolStripProfessionalRenderer _renderer;
         #endregion
@@ -22,7 +22,7 @@ namespace Paway.Forms
         {
             this._renderer = renderer;
         }
-        internal TabStripMenuGlyph(Rectangle bounds, EMouseState mouseState)
+        internal TabStripMenuGlyph(Rectangle bounds, TMouseState mouseState)
         {
             this._bounds = bounds;
             this._mouseState = mouseState;
@@ -33,8 +33,8 @@ namespace Paway.Forms
         /// <summary>
         /// 当前鼠标状态
         /// </summary>
-        [DefaultValue(typeof(EMouseState), "Normal")]
-        public EMouseState MouseState
+        [DefaultValue(typeof(TMouseState), "Normal")]
+        public TMouseState MouseState
         {
             get { return this._mouseState; }
             set { this._mouseState = value; }
@@ -58,7 +58,7 @@ namespace Paway.Forms
         /// <param name="g"></param>
         public void DrawGlyph(Graphics g)
         {
-            if (this._mouseState == EMouseState.Move)
+            if (this._mouseState == TMouseState.Move)
             {
                 Color fill = this._renderer.ColorTable.ButtonSelectedHighlight;
                 using (Brush brush = new SolidBrush(fill))

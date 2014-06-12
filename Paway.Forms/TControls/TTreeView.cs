@@ -209,7 +209,7 @@ namespace Paway.Forms
                 int left = 0;
                 for (int i = 0; i < _items.Count; i++)
                 {
-                    if (_items[i].LDirection == LDirection.Right) continue;
+                    if (_items[i].LDirection == TLocation.Right) continue;
                     Rectangle irect = new Rectangle(
                         rect.X + left, rect.Y,
                         _items[i].Width + (i == 0 ? x - rect.X : 0), rect.Height
@@ -228,7 +228,7 @@ namespace Paway.Forms
                 int right = 0;
                 for (int i = _items.Count - 1; i >= 0; i--)
                 {
-                    if (_items[i].LDirection == LDirection.Left) continue;
+                    if (_items[i].LDirection == TLocation.Left) continue;
                     Rectangle irect = new Rectangle(
                         this.Width - _items[i].Width - right, rect.Y,
                         _items[i].Width, rect.Height
@@ -538,12 +538,12 @@ namespace Paway.Forms
         /// 项的长度
         /// </summary>
         public int Width { get; set; }
-        private LDirection _lDirection = LDirection.Left;
+        private TLocation _lDirection = TLocation.Left;
         /// <summary>
         /// 文本显示的位置,左或右
         /// </summary>
-        [DefaultValue(LDirection.Left)]
-        public LDirection LDirection { get { return _lDirection; } set { _lDirection = value; } }
+        [DefaultValue(TLocation.Left)]
+        public TLocation LDirection { get { return _lDirection; } set { _lDirection = value; } }
         /// <summary>
         /// 当前 Item 在 TreeItem 中的 Rectangle
         /// </summary>

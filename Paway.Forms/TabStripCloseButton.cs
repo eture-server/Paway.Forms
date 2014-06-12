@@ -9,7 +9,7 @@ namespace Paway.Forms
     {
         #region 变量
         private Rectangle _bounds = Rectangle.Empty;
-        private EMouseState _mouseState = EMouseState.Normal;
+        private TMouseState _mouseState = TMouseState.Normal;
         private ToolStripProfessionalRenderer _renderer = null;
         #endregion
 
@@ -19,7 +19,7 @@ namespace Paway.Forms
         {
             this._renderer = renderer;
         }
-        public TabStripCloseButton(Rectangle bounds, EMouseState mouseState)
+        public TabStripCloseButton(Rectangle bounds, TMouseState mouseState)
         {
             this._bounds = bounds;
             this._mouseState = mouseState;
@@ -35,8 +35,8 @@ namespace Paway.Forms
             set { this._bounds = value; }
         }
 
-        [DefaultValue(typeof(EMouseState), "Normal")]
-        public EMouseState MouseState
+        [DefaultValue(typeof(TMouseState), "Normal")]
+        public TMouseState MouseState
         {
             get { return this._mouseState; }
             set { this._mouseState = value; }
@@ -46,7 +46,7 @@ namespace Paway.Forms
         #region 方法
         public void DrawCross(Graphics g)
         {
-            if (this._mouseState == EMouseState.Move)
+            if (this._mouseState == TMouseState.Move)
             {
                 Color fill = this._renderer.ColorTable.ButtonSelectedHighlight;
                 using (Brush brush = new SolidBrush(fill))

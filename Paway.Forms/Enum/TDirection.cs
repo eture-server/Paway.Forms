@@ -6,7 +6,7 @@ namespace Paway.Forms
     /// <summary>
     /// 位置
     /// </summary>
-    public enum LDirection
+    public enum TLocation
     {
         /// <summary>
         /// 向上
@@ -24,11 +24,15 @@ namespace Paway.Forms
         /// 向右
         /// </summary>
         Right,
+        /// <summary>
+        /// 居中
+        /// </summary>
+        Center,
     }
     /// <summary>
     /// 方向
     /// </summary>
-    public enum IDirection
+    public enum TDirection
     {
         /// <summary>
         /// 水平
@@ -42,7 +46,7 @@ namespace Paway.Forms
     /// <summary>
     /// 事件触发
     /// </summary>
-    public enum TDirection
+    public enum TEvent
     {
         /// <summary>
         /// 按下时

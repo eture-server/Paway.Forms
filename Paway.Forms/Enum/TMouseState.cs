@@ -7,7 +7,7 @@ namespace Paway.Forms
     /// <summary>
     /// 鼠标状态
     /// </summary>
-    public enum EMouseState
+    public enum TMouseState
     {
         /// <summary>
         /// 默认

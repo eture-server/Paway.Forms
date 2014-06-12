@@ -47,7 +47,7 @@
             this.toolBar4.ColorSpace = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.toolBar4.Font = new System.Drawing.Font("宋体", 16F);
             this.toolBar4.ForeColor = System.Drawing.Color.Black;
-            this.toolBar4.ImageEDirection = Paway.Forms.LDirection.Left;
+            this.toolBar4.TLocation = Paway.Forms.TLocation.Left;
             this.toolBar4.ImageSize = new System.Drawing.Size(0, 0);
             this.toolBar4.IsCheckEvent = true;
             this.toolBar4.IsImageShow = false;
@@ -73,7 +73,7 @@
             this.toolBar3.Font = new System.Drawing.Font("宋体", 16F);
             this.toolBar3.ForeColor = System.Drawing.Color.Black;
             this.toolBar3.IColorText = true;
-            this.toolBar3.ImageEDirection = Paway.Forms.LDirection.Left;
+            this.toolBar3.TLocation = Paway.Forms.TLocation.Left;
             this.toolBar3.ImageSize = new System.Drawing.Size(16, 16);
             this.toolBar3.IsCheckEvent = true;
             toolItem2.ContextMenuStrip = null;
@@ -97,9 +97,9 @@
             this.toolBar2.ColorSpace = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.toolBar2.ForeColor = System.Drawing.Color.Black;
             this.toolBar2.IColorText = true;
-            this.toolBar2.ImageEDirection = Paway.Forms.LDirection.Left;
+            this.toolBar2.TLocation = Paway.Forms.TLocation.Left;
             this.toolBar2.ImageSize = new System.Drawing.Size(16, 16);
-            this.toolBar2.ItemIDirection = Paway.Forms.IDirection.Vertical;
+            this.toolBar2.TDirection = Paway.Forms.TDirection.Vertical;
             toolItem3.ContextMenuStrip = null;
             toolItem3.Desc = null;
             toolItem3.Image = null;
@@ -129,7 +129,7 @@
             this.toolBar1.ColorSpace = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.toolBar1.Font = new System.Drawing.Font("宋体", 16F);
             this.toolBar1.ForeColor = System.Drawing.Color.Black;
-            this.toolBar1.ImageEDirection = Paway.Forms.LDirection.Left;
+            this.toolBar1.TLocation = Paway.Forms.TLocation.Left;
             this.toolBar1.ImageSize = new System.Drawing.Size(16, 16);
             this.toolBar1.IsCheckEvent = true;
             toolItem5.ContextMenuStrip = null;

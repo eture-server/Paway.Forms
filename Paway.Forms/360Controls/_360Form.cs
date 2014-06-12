@@ -55,7 +55,7 @@ namespace Paway.Forms
         /// <summary>
         /// 标题栏菜单按钮的鼠标状态
         /// </summary>
-        private EMouseState _titleBarMenuState = EMouseState.Normal;
+        private TMouseState _titleBarMenuState = TMouseState.Normal;
 
         #endregion
 
@@ -109,7 +109,7 @@ namespace Paway.Forms
                 int y = this.CloseRect.Y;
                 switch (base.SysButton)
                 {
-                    case ESysButton.Normal:
+                    case TSysButton.Normal:
                         x = this.Width - width - this.CloseRect.Width - this._sysButtonPos;
                         break;
                 }
@@ -129,10 +129,10 @@ namespace Paway.Forms
                 int y = this.CloseRect.Y;
                 switch (base.SysButton)
                 {
-                    case ESysButton.Normal:
+                    case TSysButton.Normal:
                         x = this.Width - width - this.CloseRect.Width - this.MaxRect.Width - this._sysButtonPos;
                         break;
-                    case ESysButton.Close_Mini:
+                    case TSysButton.Close_Mini:
                         x = this.Width - width - this.CloseRect.Width - this._sysButtonPos;
                         break;
                 }
@@ -147,7 +147,7 @@ namespace Paway.Forms
         {
             get
             {
-                if (base._sysButton == ESysButton.Normal)
+                if (base._sysButton == TSysButton.Normal)
                 {
                     int x = this.TitleBarMenuRect.X;
                     int y = this.CloseRect.Y;
@@ -156,7 +156,7 @@ namespace Paway.Forms
                     int height = this.CloseRect.Height;
                     return new Rectangle(x, y, width, height);
                 }
-                else if (base._sysButton == ESysButton.Close_Mini)
+                else if (base._sysButton == TSysButton.Close_Mini)
                 {
                     int x = this.TitleBarMenuRect.X;
                     int y = this.CloseRect.Y;
@@ -188,11 +188,11 @@ namespace Paway.Forms
                 int y = this.CloseRect.Y;
                 switch (base._sysButton)
                 {
-                    case ESysButton.Normal:
-                    case ESysButton.Close_Mini:
+                    case TSysButton.Normal:
+                    case TSysButton.Close_Mini:
                         x = this.MiniRect.X - width;
                         break;
-                    case ESysButton.Close:
+                    case TSysButton.Close:
                         x = this.CloseRect.X - width;
                         break;
                 }
@@ -202,7 +202,7 @@ namespace Paway.Forms
         /// <summary>
         /// 标题栏菜单按钮的鼠标的状态
         /// </summary>
-        protected virtual EMouseState TitleBarMenuState
+        protected virtual TMouseState TitleBarMenuState
         {
             get { return this._titleBarMenuState; }
             set
@@ -234,20 +234,20 @@ namespace Paway.Forms
         /// <param name="rect">按钮所在的区域</param>
         /// <param name="image">图片</param>
         /// <param name="state">鼠标状态</param>
-        private void DrawSysButton(Graphics g, Rectangle rect, Image image, EMouseState state)
+        private void DrawSysButton(Graphics g, Rectangle rect, Image image, TMouseState state)
         {
             Rectangle imageRect = Rectangle.Empty;
             switch (state)
             {
-                case EMouseState.Normal:
-                case EMouseState.Leave:
+                case TMouseState.Normal:
+                case TMouseState.Leave:
                     imageRect = new Rectangle(0, 0, rect.Width, rect.Height);
                     break;
-                case EMouseState.Move:
-                case EMouseState.Up:
+                case TMouseState.Move:
+                case TMouseState.Up:
                     imageRect = new Rectangle(rect.Width, 0, rect.Width, rect.Height);
                     break;
-                case EMouseState.Down:
+                case TMouseState.Down:
                     imageRect = new Rectangle(rect.Width * 2, 0, rect.Width, rect.Height);
                     break;
             }
@@ -274,7 +274,7 @@ namespace Paway.Forms
             {
                 switch (base.SysButton)
                 {
-                    case ESysButton.Normal:
+                    case TSysButton.Normal:
                         this.DrawSysButton(g, this.CloseRect, this._closeImage, base.CloseState);
                         if (base.WindowState != FormWindowState.Maximized)
                             this.DrawSysButton(g, this.MaxRect, this._maxImage, base.MaxState);
@@ -282,10 +282,10 @@ namespace Paway.Forms
                             this.DrawSysButton(g, this.MaxRect, this._restoreImage, base.MaxState);
                         this.DrawSysButton(g, this.MiniRect, this._minImage, base.MinState);
                         break;
-                    case ESysButton.Close:
+                    case TSysButton.Close:
                         this.DrawSysButton(g, this.CloseRect, this._closeImage, base.CloseState);
                         break;
-                    case ESysButton.Close_Mini:
+                    case TSysButton.Close_Mini:
                         this.DrawSysButton(g, this.CloseRect, this._closeImage, base.CloseState);
                         this.DrawSysButton(g, this.MiniRect, this._minImage, base.MinState);
                         break;
@@ -307,11 +307,11 @@ namespace Paway.Forms
                 return;
             if (this.TitleBarMenuRect.Contains(e.Location))
             {
-                this.TitleBarMenuState = EMouseState.Move;
+                this.TitleBarMenuState = TMouseState.Move;
             }
             else
             {
-                this.TitleBarMenuState = EMouseState.Normal;
+                this.TitleBarMenuState = TMouseState.Normal;
             }
         }
         /// <summary>
@@ -323,7 +323,7 @@ namespace Paway.Forms
             base.OnMouseDown(e);
             if (this.TitleBarMenuRect.Contains(e.Location))
             {
-                this.TitleBarMenuState = EMouseState.Down;
+                this.TitleBarMenuState = TMouseState.Down;
             }
         }
         /// <summary>
@@ -333,9 +333,9 @@ namespace Paway.Forms
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
-            if (this.TitleBarMenuRect.Contains(e.Location) && this.TitleBarMenuState == EMouseState.Down)
+            if (this.TitleBarMenuRect.Contains(e.Location) && this.TitleBarMenuState == TMouseState.Down)
             {
-                this.TitleBarMenuState = EMouseState.Up;
+                this.TitleBarMenuState = TMouseState.Up;
                 if (MenuClick != null)
                 {
                     MenuClick(this, EventArgs.Empty);
@@ -362,7 +362,7 @@ namespace Paway.Forms
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            this.TitleBarMenuState = EMouseState.Leave;
+            this.TitleBarMenuState = TMouseState.Leave;
         }
         #endregion
     }

@@ -16,7 +16,7 @@ namespace Paway.Forms
     /// <summary>
     /// 窗体的基类，完成一部分共有的功能
     /// </summary>
-    public class FormBase : Form, IControl
+    public class FormBase : TForm, IControl
     {
         #region 变量
         /// <summary>
@@ -26,19 +26,19 @@ namespace Paway.Forms
         /// <summary>
         /// 系统按钮
         /// </summary>
-        protected ESysButton _sysButton = ESysButton.Normal;
+        protected TSysButton _sysButton = TSysButton.Normal;
         /// <summary>
         /// 关闭按钮的鼠标状态
         /// </summary>
-        protected EMouseState _closeState = EMouseState.Normal;
+        protected TMouseState _closeState = TMouseState.Normal;
         /// <summary>
         /// 最大化按钮的鼠标状态
         /// </summary>
-        protected EMouseState _maxState = EMouseState.Normal;
+        protected TMouseState _maxState = TMouseState.Normal;
         /// <summary>
         /// 最小化按钮的鼠标状态
         /// </summary>
-        protected EMouseState _minState = EMouseState.Normal;
+        protected TMouseState _minState = TMouseState.Normal;
         /// <summary>
         /// 记录窗体大小
         /// </summary>
@@ -158,7 +158,7 @@ namespace Paway.Forms
                 {
                     param.ExStyle = 0x00080000;
                 }
-                if (this._sysButton != ESysButton.Close)
+                if (this._sysButton != TSysButton.Close)
                 {
                     param.Style = param.Style | (int)WindowStyle.WS_MINIMIZEBOX;   // 允许最小化操作
                 }
@@ -207,8 +207,8 @@ namespace Paway.Forms
         /// <summary>
         /// 系统控制按钮
         /// </summary>
-        [Description("系统控制按钮的显示与隐藏"), DefaultValue(typeof(ESysButton), "Normal")]
-        public ESysButton SysButton
+        [Description("系统控制按钮的显示与隐藏"), DefaultValue(typeof(TSysButton), "Normal")]
+        public TSysButton SysButton
         {
             get { return this._sysButton; }
             set
@@ -282,8 +282,8 @@ namespace Paway.Forms
         /// <summary>
         /// 关闭按钮当前的鼠标状态
         /// </summary>
-        [Description("关闭按钮当前的鼠标状态"), DefaultValue(typeof(ESysButton), "Normal")]
-        protected EMouseState CloseState
+        [Description("关闭按钮当前的鼠标状态"), DefaultValue(typeof(TSysButton), "Normal")]
+        protected TMouseState CloseState
         {
             get { return this._closeState; }
             set
@@ -295,8 +295,8 @@ namespace Paway.Forms
         /// <summary>
         /// 最大化按钮当前的鼠标状态
         /// </summary>
-        [Description("最大化按钮当前的鼠标状态"), DefaultValue(typeof(ESysButton), "Normal")]
-        protected EMouseState MaxState
+        [Description("最大化按钮当前的鼠标状态"), DefaultValue(typeof(TSysButton), "Normal")]
+        protected TMouseState MaxState
         {
             get { return this._maxState; }
             set
@@ -308,8 +308,8 @@ namespace Paway.Forms
         /// <summary>
         /// 最小化按钮当前的鼠标状态
         /// </summary>
-        [Description("最小化按钮当前的鼠标状态"), DefaultValue(typeof(ESysButton), "Normal")]
-        protected EMouseState MinState
+        [Description("最小化按钮当前的鼠标状态"), DefaultValue(typeof(TSysButton), "Normal")]
+        protected TMouseState MinState
         {
             get { return this._minState; }
             set
@@ -619,12 +619,12 @@ namespace Paway.Forms
 
             Point point = e.Location;
             if (this.CloseRect.Contains(point))
-                this.CloseState = EMouseState.Down;
+                this.CloseState = TMouseState.Down;
             else if (this.MiniRect.Contains(point))
-                this.MinState = EMouseState.Down;
+                this.MinState = TMouseState.Down;
             else if (this.MaxRect.Contains(point))
-                this.MaxState = EMouseState.Down;
-            if (this._sysButton == ESysButton.Normal && e.Clicks == 2)
+                this.MaxState = TMouseState.Down;
+            if (this._sysButton == TSysButton.Normal && e.Clicks == 2)
             {
                 WindowMax();
             }
@@ -640,17 +640,17 @@ namespace Paway.Forms
                 return;
             Point point = e.Location;
             if (this.CloseRect.Contains(point))
-                this.CloseState = EMouseState.Move;
+                this.CloseState = TMouseState.Move;
             else
-                this.CloseState = EMouseState.Normal;
+                this.CloseState = TMouseState.Normal;
             if (this.MiniRect.Contains(point))
-                this.MinState = EMouseState.Move;
+                this.MinState = TMouseState.Move;
             else
-                this.MinState = EMouseState.Normal;
+                this.MinState = TMouseState.Normal;
             if (this.MaxRect.Contains(point))
-                this.MaxState = EMouseState.Move;
+                this.MaxState = TMouseState.Move;
             else
-                this.MaxState = EMouseState.Normal;
+                this.MaxState = TMouseState.Normal;
         }
         /// <summary>
         /// 引发 System.Windows.Forms.Form.MouseLeave。
@@ -659,9 +659,9 @@ namespace Paway.Forms
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            this.CloseState = EMouseState.Normal;
-            this.MaxState = EMouseState.Normal;
-            this.MinState = EMouseState.Normal;
+            this.CloseState = TMouseState.Normal;
+            this.MaxState = TMouseState.Normal;
+            this.MinState = TMouseState.Normal;
         }
         /// <summary>
         /// 引发 System.Windows.Forms.Form.MouseUp。
@@ -675,30 +675,30 @@ namespace Paway.Forms
             Point point = e.Location;
             if (this.CloseRect.Contains(point))
             {
-                this.CloseState = EMouseState.Move;
+                this.CloseState = TMouseState.Move;
                 this.Close();
             }
             else
             {
-                this.CloseState = EMouseState.Normal;
+                this.CloseState = TMouseState.Normal;
             }
             if (this.MiniRect.Contains(point))
             {
-                this.MinState = EMouseState.Move;
+                this.MinState = TMouseState.Move;
                 this.WindowState = FormWindowState.Minimized;
             }
             else
             {
-                this.MinState = EMouseState.Normal;
+                this.MinState = TMouseState.Normal;
             }
             if (this.MaxRect.Contains(point))
             {
-                this.MaxState = EMouseState.Move;
+                this.MaxState = TMouseState.Move;
                 WindowMax();
             }
             else
             {
-                this.MaxState = EMouseState.Normal;
+                this.MaxState = TMouseState.Normal;
             }
         }
         /// <summary>
@@ -717,33 +717,6 @@ namespace Paway.Forms
                 this.WindowState = FormWindowState.Maximized;
             }
         }
-        #endregion
-
-        #region 移动窗体
-        /// <summary>
-        /// 移动窗体
-        /// </summary>
-        /// <param name="control"></param>
-        protected void TMouseMove(Control control)
-        {
-            if (control == null) return;
-            control.MouseDown += control_MouseDown;
-        }
-        void control_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button != MouseButtons.Left) return;
-            IControl icontrol = sender as IControl;
-            if (icontrol != null)
-            {
-                if (icontrol.Contain(e.Location)) return;
-            }
-            if (this.WindowState != FormWindowState.Maximized)
-            {
-                NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(Handle, 274, 61440 + 9, 0);
-            }
-        }
-
         #endregion
 
         #region 绘制下圆角路径

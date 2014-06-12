@@ -118,7 +118,7 @@
             this.Name = "AboutForm";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.SysButton = Paway.Forms.ESysButton.Close;
+            this.SysButton = Paway.Forms.TSysButton.Close;
             this.Text = "关于我们";
             this.TextShow = "关于我们";
             this.panel1.ResumeLayout(false);

@@ -41,7 +41,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.SysButton = Paway.Forms.ESysButton.Close;
+            this.SysButton = Paway.Forms.TSysButton.Close;
             this.ResumeLayout(false);
 
         }

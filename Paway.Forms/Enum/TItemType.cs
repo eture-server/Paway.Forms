@@ -7,7 +7,7 @@ namespace Paway.Forms
     /// <summary>
     /// Item 的类型
     /// </summary>
-    public enum EItemType
+    public enum TItemType
     {
         /// <summary>
         /// 当前应用程序

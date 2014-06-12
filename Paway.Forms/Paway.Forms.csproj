@@ -83,6 +83,9 @@
     <Compile Include="TControls\TDataGridViewPager.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="TControls\TForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TControls\TListBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -107,7 +110,6 @@
     <Compile Include="TControls\TNumTestBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Enum\ETabStripItemChangeTypes.cs" />
     <Compile Include="FormBase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,10 +124,10 @@
     <Compile Include="360Controls\_360Form.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Enum\EDirection.cs" />
-    <Compile Include="Enum\EItemType.cs" />
-    <Compile Include="Enum\EMouseState.cs" />
-    <Compile Include="Enum\ESysButton.cs" />
+    <Compile Include="Enum\TDirection.cs" />
+    <Compile Include="Enum\TItemType.cs" />
+    <Compile Include="Enum\TMouseState.cs" />
+    <Compile Include="Enum\TSysButton.cs" />
     <Compile Include="QQControls\QQForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -189,19 +191,6 @@
   <ItemGroup>
     <EmbeddedResource Include="QQControls\QQTextBox.resx">
       <DependentUpon>QQTextBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TControls\AboutForm.resx">
-      <DependentUpon>AboutForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Metro\MetroForm.resx">
-      <DependentUpon>MetroForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TControls\Demo360.resx">
-      <DependentUpon>Demo360.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TControls\QQDemo.resx">
-      <DependentUpon>QQDemo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TControls\TPager.resx">
       <DependentUpon>TPager.cs</DependentUpon>

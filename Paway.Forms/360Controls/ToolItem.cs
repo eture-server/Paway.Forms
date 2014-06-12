@@ -39,7 +39,7 @@ namespace Paway.Forms
         /// <summary>
         /// Item 当前的鼠标状态
         /// </summary>
-        internal EMouseState MouseState { get; set; }
+        internal TMouseState MouseState { get; set; }
         /// <summary>
         /// Item 上的右键菜单
         /// </summary>

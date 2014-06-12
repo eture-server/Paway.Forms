@@ -499,28 +499,43 @@ namespace Paway.Helper
             if (row != null)
             {
                 obj = Activator.CreateInstance<T>();//string 类型不支持无参的反射
+                PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
 
                 foreach (DataColumn column in row.Table.Columns)
                 {
-                    PropertyInfo prop = obj.GetType().GetProperty(column.ColumnName);
-                    try
+                    for (int i = 0; i < properties.Count; i++)
                     {
-                        object value = row[column.ColumnName];
-                        if (value != DBNull.Value)
+                        PropertyInfo pro = typeof(T).GetProperty(properties[i].Name, properties[i].PropertyType);
+                        PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+                        if (itemList == null || itemList.Length == 0 || itemList[0].Select)
                         {
-                            if (prop.PropertyType == typeof(Image) && value is byte[])
+                            string name = properties[i].Name;
+                            if (itemList != null && itemList.Length == 1 && itemList[0].Column != null)
                             {
-                                prop.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image, null);
+                                name = itemList[0].Column;
                             }
-                            else
+                            if (name != column.ColumnName) continue;
+                            try
                             {
-                                prop.SetValue(obj, value, null);
+                                object value = row[column.ColumnName];
+                                if (value != DBNull.Value)
+                                {
+                                    if (pro.PropertyType == typeof(Image) && value is byte[])
+                                    {
+                                        pro.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image, null);
+                                    }
+                                    else
+                                    {
+                                        pro.SetValue(obj, value, null);
+                                    }
+                                }
+                                break;
+                            }
+                            catch
+                            {
+                                throw;
                             }
                         }
-                    }
-                    catch
-                    {
-                        throw;
                     }
                 }
             }

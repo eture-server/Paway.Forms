@@ -25,12 +25,12 @@ namespace Paway.Forms
         public TComboBoxBase Edit { get { return this.tComboBox1; } }
 
         private Image _borderImage = AssemblyHelper.GetImage("QQ.TextBox.normal.png");
-        private EMouseState _mouseState = EMouseState.Normal;
+        private TMouseState _mouseState = TMouseState.Normal;
         /// <summary>
         /// 绘制
         /// </summary>
-        [DefaultValue(typeof(EMouseState), "Normal")]
-        protected virtual EMouseState MouseState
+        [DefaultValue(typeof(TMouseState), "Normal")]
+        protected virtual TMouseState MouseState
         {
             get { return this._mouseState; }
             set
@@ -87,7 +87,7 @@ namespace Paway.Forms
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             switch (this._mouseState)
             {
-                case EMouseState.Move:
+                case TMouseState.Move:
                     using (Image hotLine = AssemblyHelper.GetImage("QQ.TextBox.move.png"))
                     {
                         DrawHelper.RendererBackground(g, this.ClientRectangle, hotLine, true);
@@ -118,12 +118,12 @@ namespace Paway.Forms
 
         void TComboBox2_MouseLeave(object sender, EventArgs e)
         {
-            this.MouseState = EMouseState.Leave;
+            this.MouseState = TMouseState.Leave;
         }
 
         void TComboBox2_MouseMove(object sender, MouseEventArgs e)
         {
-            this.MouseState = EMouseState.Move;
+            this.MouseState = TMouseState.Move;
         }
 
         #endregion

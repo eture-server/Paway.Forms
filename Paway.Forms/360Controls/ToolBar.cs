@@ -34,11 +34,11 @@ namespace Paway.Forms
         /// <summary>
         /// 事件触发点
         /// </summary>
-        private TDirection _eventEDirection = TDirection.Down;
+        private TEvent _tEvent = TEvent.Down;
         /// <summary>
         /// 是否获取了焦点
         /// </summary>
-        private bool _isFocus = false;
+        private bool _iFocus = false;
         /// <summary>
         /// 选项卡箭头区域
         /// </summary>
@@ -50,11 +50,11 @@ namespace Paway.Forms
         /// <summary>
         /// Item项显示方向
         /// </summary>
-        private IDirection _itemIDirection = IDirection.Level;
+        private TDirection _tDirection = TDirection.Level;
         /// <summary>
         /// 图片显示位置
         /// </summary>
-        private LDirection _imageEDirection = LDirection.Up;
+        private TLocation _tLocation = TLocation.Up;
         /// <summary>
         /// 单击事件开关
         /// 单击松开后取消选中状态，只有鼠标移入状态
@@ -210,38 +210,38 @@ namespace Paway.Forms
         /// <summary>
         /// 事件触发点
         /// </summary>
-        [Description("事件触发点"), DefaultValue(typeof(TDirection), "Down")]
-        public TDirection EventEDirection
+        [Description("事件触发点"), DefaultValue(typeof(TEvent), "Down")]
+        public TEvent TEvent
         {
-            get { return this._eventEDirection; }
+            get { return this._tEvent; }
             set
             {
-                this._eventEDirection = value;
+                this._tEvent = value;
             }
         }
         /// <summary>
         /// Item项显示方向
         /// </summary>
-        [Description("Item项显示方向"), DefaultValue(typeof(IDirection), "Level")]
-        public IDirection ItemIDirection
+        [Description("Item项显示方向"), DefaultValue(typeof(TDirection), "Level")]
+        public TDirection TDirection
         {
-            get { return this._itemIDirection; }
+            get { return this._tDirection; }
             set
             {
-                this._itemIDirection = value;
+                this._tDirection = value;
                 base.Invalidate(true);
             }
         }
         /// <summary>
         /// 图片显示位置
         /// </summary>
-        [Description("图片显示位置，上或左"), DefaultValue(typeof(LDirection), "Up")]
-        public LDirection ImageEDirection
+        [Description("图片显示位置，上或左"), DefaultValue(typeof(TLocation), "Up")]
+        public TLocation TLocation
         {
-            get { return this._imageEDirection; }
+            get { return this._tLocation; }
             set
             {
-                this._imageEDirection = value;
+                this._tLocation = value;
                 base.Invalidate(true);
             }
         }
@@ -321,12 +321,12 @@ namespace Paway.Forms
             set
             {
                 this._imageSize = value;
-                switch (_imageEDirection)
+                switch (_tLocation)
                 {
-                    case LDirection.Up:
+                    case TLocation.Up:
                         this._itemSize = new Size(this._itemSize.Width, 34 + value.Height);
                         break;
-                    case LDirection.Left:
+                    case TLocation.Left:
                         this._itemSize = new Size(58 + _rightLen + value.Width, this._itemSize.Height);
                         break;
                 }
@@ -450,9 +450,9 @@ namespace Paway.Forms
             DrawBackground(g, item);
             DrawImage(g, item);
             DrawText(g, item, _colorFore);
-            switch (_itemIDirection)
+            switch (_tDirection)
             {
-                case IDirection.Level:
+                case TDirection.Level:
                     if (xPos + item.Rectangle.Width * 2 + this._itemSpace > this.Width)
                     {
                         xPos = this.Padding.Left;
@@ -468,7 +468,7 @@ namespace Paway.Forms
                         if (y == 1 && !iLast) x++;
                     }
                     break;
-                case IDirection.Vertical:
+                case TDirection.Vertical:
                     if (yPos + item.Rectangle.Height * 2 + this._itemSpace > this.Height)
                     {
                         yPos = this.Padding.Top;
@@ -495,15 +495,15 @@ namespace Paway.Forms
             {
                 switch (item.MouseState)
                 {
-                    case EMouseState.Normal:
-                    case EMouseState.Leave:
+                    case TMouseState.Normal:
+                    case TMouseState.Leave:
                         g.DrawImage(this._normalImage, item.Rectangle);
                         break;
-                    case EMouseState.Move:
-                    case EMouseState.Up:
+                    case TMouseState.Move:
+                    case TMouseState.Up:
                         DrawMoveBack(g, item);
                         break;
-                    case EMouseState.Down:
+                    case TMouseState.Down:
                         if (IsContextMenu(g, item))
                         {
                             DrawMoveBack(g, item);
@@ -561,13 +561,13 @@ namespace Paway.Forms
             if (_isImageShow && item.Image != null)
             {
                 Rectangle imageRect = new Rectangle();
-                switch (_imageEDirection)
+                switch (_tLocation)
                 {
-                    case LDirection.Up:
+                    case TLocation.Up:
                         imageRect.X = item.Rectangle.X + (item.Rectangle.Width - this._imageSize.Width) / 2;
                         imageRect.Y = 6;
                         break;
-                    case LDirection.Left:
+                    case TLocation.Left:
                         imageRect.X = item.Rectangle.X + 2;
                         imageRect.Y = item.Rectangle.Y + (item.Rectangle.Height - this._imageSize.Height) / 2;
                         break;
@@ -596,13 +596,13 @@ namespace Paway.Forms
                 }
                 else
                 {
-                    switch (_imageEDirection)
+                    switch (_tLocation)
                     {
-                        case LDirection.Up:
+                        case TLocation.Up:
                             textRect.Y = item.Rectangle.Height / 5 * 3;
                             textRect.Height = item.Rectangle.Height / 5 * 2;
                             break;
-                        case LDirection.Left:
+                        case TLocation.Left:
                             textRect.X = item.Rectangle.X + 2 * 2 + _imageSize.Width;
                             textRect.Height = item.Rectangle.Height;
                             textRect.Width = item.Rectangle.Width + item.Rectangle.X - textRect.X - _rightLen;
@@ -679,7 +679,7 @@ namespace Paway.Forms
                 }
                 if (item.Rectangle.Contains(cursorPoint))
                 {
-                    if (this._isFocus)
+                    if (this._iFocus)
                     {
                         btnArrowImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_down.png");
                         contextMenuStrip.Show(contextMenuLocation);
@@ -696,16 +696,16 @@ namespace Paway.Forms
                 //当鼠标进入当前选中的的选项卡时，显示下拉按钮
                 g.DrawImage(btnArrowImage, this._btnArrowRect);
             }
-            return _isFocus;
+            return _iFocus;
         }
         /// <summary>
         /// 右键菜单关闭刷新项
         /// </summary>
         void contextMenuStrip_Closed(object sender, ToolStripDropDownClosedEventArgs e)
         {
-            this._isFocus = false;
+            this._iFocus = false;
             ToolItem item = (sender as ContextMenuStrip).Tag as ToolItem;
-            item.MouseState = EMouseState.Leave;
+            item.MouseState = TMouseState.Leave;
             this.Invalidate(item.Rectangle);
         }
 
@@ -721,18 +721,18 @@ namespace Paway.Forms
                 Point point = e.Location;
                 foreach (ToolItem item in this.Items)
                 {
-                    if (!_isCheckEvent && item.MouseState == EMouseState.Down)
+                    if (!_isCheckEvent && item.MouseState == TMouseState.Down)
                     {
                         continue;
                     }
                     else if (item.Rectangle.Contains(point))
                     {
-                        item.MouseState = EMouseState.Move;
+                        item.MouseState = TMouseState.Move;
                         this.Invalidate(item.Rectangle);
                     }
                     else
                     {
-                        item.MouseState = EMouseState.Leave;
+                        item.MouseState = TMouseState.Leave;
                         this.Invalidate(item.Rectangle);
                     }
                 }
@@ -745,15 +745,15 @@ namespace Paway.Forms
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            if (_isFocus) return;
+            if (_iFocus) return;
 
             if (!this.DesignMode)
             {
                 foreach (ToolItem item in this.Items)
                 {
-                    if ((_isCheckEvent && !_isMultiple) || item.MouseState != EMouseState.Down)
+                    if ((_isCheckEvent && !_isMultiple) || item.MouseState != TMouseState.Down)
                     {
-                        item.MouseState = EMouseState.Leave;
+                        item.MouseState = TMouseState.Leave;
                         this.Invalidate(item.Rectangle);
                     }
                 }
@@ -772,7 +772,7 @@ namespace Paway.Forms
                 Point point = e.Location;
                 if (this._btnArrowRect.Contains(point))
                 {
-                    this._isFocus = true;
+                    this._iFocus = true;
                     base.Invalidate(this._btnArrowRect);
                 }
                 bool iIn = Contain(point);
@@ -784,33 +784,33 @@ namespace Paway.Forms
                         if (item != this.SelectedItem)
                         {
                             this._selectedItem = item;
-                            if (_eventEDirection == TDirection.Down)
+                            if (_tEvent == TEvent.Down)
                             {
                                 this._selectedIndex = this.Items.GetIndexOfRange(item);
                                 this.OnSelectedItemChanged(EventArgs.Empty);
                                 this.OnSelectedIndexChanged(EventArgs.Empty);
                             }
                         }
-                        if (_eventEDirection == TDirection.Down)
+                        if (_tEvent == TEvent.Down)
                         {
                             this.OnItemClick(EventArgs.Empty);
                         }
                         if (_isMultiple)
                         {
-                            if (item.MouseState != EMouseState.Down)
-                                item.MouseState = EMouseState.Down;
-                            else if (item.MouseState == EMouseState.Down)
-                                item.MouseState = EMouseState.Normal;
+                            if (item.MouseState != TMouseState.Down)
+                                item.MouseState = TMouseState.Down;
+                            else if (item.MouseState == TMouseState.Down)
+                                item.MouseState = TMouseState.Normal;
                         }
                         else
                         {
-                            item.MouseState = EMouseState.Down;
+                            item.MouseState = TMouseState.Down;
                         }
                         this.Invalidate();
                     }
                     else if (!_isMultiple && iIn)
                     {
-                        item.MouseState = EMouseState.Normal;
+                        item.MouseState = TMouseState.Normal;
                         this.Invalidate(item.Rectangle);
                     }
                 }
@@ -839,7 +839,7 @@ namespace Paway.Forms
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
-            if (_isFocus) return;
+            if (_iFocus) return;
 
             if (!this.DesignMode)
             {
@@ -851,7 +851,7 @@ namespace Paway.Forms
                     {
                         if (item == this.SelectedItem)
                         {
-                            if (_eventEDirection == TDirection.Up)
+                            if (_tEvent == TEvent.Up)
                             {
                                 this._selectedIndex = this.Items.GetIndexOfRange(item);
                                 this.OnSelectedItemChanged(EventArgs.Empty);
@@ -861,7 +861,7 @@ namespace Paway.Forms
                         }
                         if (item != this.SelectedItem)
                         {
-                            item.MouseState = EMouseState.Up;
+                            item.MouseState = TMouseState.Up;
                             this.Invalidate(item.Rectangle);
                         }
                     }
@@ -878,7 +878,7 @@ namespace Paway.Forms
             List<ToolItem> iList = new List<ToolItem>();
             for (int i = 0; i < this._items.Count; i++)
             {
-                if (_items[i].MouseState == EMouseState.Down)
+                if (_items[i].MouseState == TMouseState.Down)
                 {
                     iList.Add(_items[i]);
                 }

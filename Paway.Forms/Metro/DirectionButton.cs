@@ -19,11 +19,11 @@ namespace Paway.Forms.Metro
         /// </summary>
         private Size _defaultSize = new Size(80, 20);
 
-        private EMouseState _mouseState = EMouseState.Normal;
+        private TMouseState _mouseState = TMouseState.Normal;
         /// <summary>
         /// 箭头所指向的方向
         /// </summary>
-        private LDirection _direction = LDirection.Up;
+        private TLocation _direction = TLocation.Up;
         #endregion
 
         #region 构造函数
@@ -56,8 +56,8 @@ namespace Paway.Forms.Metro
         /// <summary>
         /// 针对于控件的鼠标状态
         /// </summary>
-        [Description("针对于控件的鼠标状态"), DefaultValue(typeof(EMouseState), "Normal")]
-        protected EMouseState MouseState
+        [Description("针对于控件的鼠标状态"), DefaultValue(typeof(TMouseState), "Normal")]
+        protected TMouseState MouseState
         {
             get { return this._mouseState; }
             set
@@ -70,8 +70,8 @@ namespace Paway.Forms.Metro
         /// <summary>
         /// 指定箭头所指向的方向
         /// </summary>
-        [Browsable(true), Description("指定箭头所指向的方向"), DefaultValue(typeof(LDirection), "Up")]
-        public LDirection Direction
+        [Browsable(true), Description("指定箭头所指向的方向"), DefaultValue(typeof(TLocation), "Up")]
+        public TLocation Direction
         {
             get { return this._direction; }
             set
@@ -100,19 +100,19 @@ namespace Paway.Forms.Metro
             Point[] pointArray = new Point[3];
             switch (this._direction)
             {
-                case LDirection.Up:
+                case TLocation.Up:
                     pointArray[0] = new Point(hCenter, vCenter);
                     pointArray[1] = new Point(x + tWidth, vCenter + tHeight);
                     pointArray[2] = new Point(x, vCenter + tHeight);
                     break;
-                case LDirection.Down:
+                case TLocation.Down:
                     pointArray[0] = new Point(x, vCenter);
                     pointArray[1] = new Point(x + tWidth, vCenter);
                     pointArray[2] = new Point(hCenter, vCenter + tHeight);
                     break;
-                case LDirection.Left:
+                case TLocation.Left:
                     break;
-                case LDirection.Right:
+                case TLocation.Right:
                     break;
             }
             using (GraphicsPath path = new GraphicsPath())
@@ -152,7 +152,7 @@ namespace Paway.Forms.Metro
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            this.MouseState = EMouseState.Move;
+            this.MouseState = TMouseState.Move;
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace Paway.Forms.Metro
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-            this.MouseState = EMouseState.Down;
+            this.MouseState = TMouseState.Down;
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace Paway.Forms.Metro
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
-            this.MouseState = EMouseState.Up;
+            this.MouseState = TMouseState.Up;
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace Paway.Forms.Metro
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            this.MouseState = EMouseState.Leave;
+            this.MouseState = TMouseState.Leave;
         }
         #endregion
     }

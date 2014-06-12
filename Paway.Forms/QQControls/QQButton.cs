@@ -22,7 +22,7 @@ namespace Paway.Forms
         /// <summary>
         /// 鼠标状态
         /// </summary>
-        private EMouseState _mouseState = EMouseState.Normal;
+        private TMouseState _mouseState = TMouseState.Normal;
         /// <summary>
         /// 文本对齐方式
         /// </summary>
@@ -68,7 +68,7 @@ namespace Paway.Forms
 
         void QQButton_LostFocus(object sender, EventArgs e)
         {
-            this.MouseState = EMouseState.Leave;
+            this.MouseState = TMouseState.Leave;
         }
 
         #endregion
@@ -252,8 +252,8 @@ namespace Paway.Forms
         /// <summary>
         /// 鼠标状态
         /// </summary>
-        [Description("鼠标状态"), DefaultValue(typeof(EMouseState), "Normal")]
-        internal EMouseState MouseState
+        [Description("鼠标状态"), DefaultValue(typeof(TMouseState), "Normal")]
+        internal TMouseState MouseState
         {
             get { return this._mouseState; }
             set
@@ -301,8 +301,8 @@ namespace Paway.Forms
 
                 switch (this.MouseState)
                 {
-                    case EMouseState.Leave:
-                    case EMouseState.Normal:
+                    case TMouseState.Leave:
+                    case TMouseState.Normal:
                         if (base.Focused)
                         {
                             if (this.IsShowBorder)
@@ -322,11 +322,11 @@ namespace Paway.Forms
                             DrawHelper.RendererBackground(g, this.TextRect, this.NormalImage, true);
                         }
                         break;
-                    case EMouseState.Up:
-                    case EMouseState.Move:
+                    case TMouseState.Up:
+                    case TMouseState.Move:
                         DrawHelper.RendererBackground(g, this.TextRect, this.MoveImage, true);
                         break;
-                    case EMouseState.Down:
+                    case TMouseState.Down:
                         DrawHelper.RendererBackground(g, this.TextRect, this.DownImage, true);
                         break;
                 }
@@ -370,7 +370,7 @@ namespace Paway.Forms
         protected override void OnMouseEnter(EventArgs e)
         {
             base.OnMouseEnter(e);
-            this.MouseState = EMouseState.Move;
+            this.MouseState = TMouseState.Move;
         }
         /// <summary>
         /// 引发 System.Windows.Forms.Form.MouseLeave 事件。
@@ -379,7 +379,7 @@ namespace Paway.Forms
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            this.MouseState = EMouseState.Leave;
+            this.MouseState = TMouseState.Leave;
         }
         /// <summary>
         /// 引发 System.Windows.Forms.Form.MouseDown 事件。
@@ -388,7 +388,7 @@ namespace Paway.Forms
         protected override void OnMouseDown(MouseEventArgs mevent)
         {
             base.OnMouseDown(mevent);
-            this.MouseState = EMouseState.Down;
+            this.MouseState = TMouseState.Down;
         }
         /// <summary>
         /// 引发 System.Windows.Forms.Form.MouseUp 事件。
@@ -397,7 +397,7 @@ namespace Paway.Forms
         protected override void OnMouseUp(MouseEventArgs mevent)
         {
             base.OnMouseUp(mevent);
-            this.MouseState = EMouseState.Up;
+            this.MouseState = TMouseState.Up;
         }
         #endregion
     }

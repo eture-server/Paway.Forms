@@ -37,7 +37,7 @@ namespace Paway.Forms
                 int width = 28;
                 switch (base.SysButton)
                 {
-                    case ESysButton.Normal:
+                    case TSysButton.Normal:
                         x = this.Width - this.CloseRect.Width - width;
                         break;
                 }
@@ -55,10 +55,10 @@ namespace Paway.Forms
                 int width = 28;
                 switch (base.SysButton)
                 {
-                    case ESysButton.Normal:
+                    case TSysButton.Normal:
                         x = this.Width - width - this.CloseRect.Width - this.MaxRect.Width;
                         break;
-                    case ESysButton.Close_Mini:
+                    case TSysButton.Close_Mini:
                         x = this.Width - width - this.CloseRect.Width;
                         break;
                 }
@@ -73,9 +73,9 @@ namespace Paway.Forms
         {
             get
             {
-                if (base._sysButton == ESysButton.Normal)
+                if (base._sysButton == TSysButton.Normal)
                     return new Rectangle(this.Width - 28 * 2 - 39, 0, 39 + 28 + 28, 20);
-                else if (base._sysButton == ESysButton.Close_Mini)
+                else if (base._sysButton == TSysButton.Close_Mini)
                     return new Rectangle(this.Width - 28 - 39, 0, 39 + 28, 20);
                 else
                     return this.CloseRect;
@@ -98,18 +98,18 @@ namespace Paway.Forms
         /// <param name="mouseState">鼠标状态</param>
         /// <param name="rect">按钮区域</param>
         /// <param name="str">图片字符串</param>
-        private void DrawButton(Graphics g, EMouseState mouseState, Rectangle rect, string str)
+        private void DrawButton(Graphics g, TMouseState mouseState, Rectangle rect, string str)
         {
             switch (mouseState)
             {
-                case EMouseState.Normal:
+                case TMouseState.Normal:
                     g.DrawImage(AssemblyHelper.GetImage("QQ.SysButton.btn_" + str + "_normal.png"), rect);
                     break;
-                case EMouseState.Move:
-                case EMouseState.Up:
+                case TMouseState.Move:
+                case TMouseState.Up:
                     g.DrawImage(AssemblyHelper.GetImage("QQ.SysButton.btn_" + str + "_highlight.png"), rect);
                     break;
-                case EMouseState.Down:
+                case TMouseState.Down:
                     g.DrawImage(AssemblyHelper.GetImage("QQ.SysButton.btn_" + str + "_down.png"), rect);
                     break;
             }
@@ -130,7 +130,7 @@ namespace Paway.Forms
             {
                 switch (base.SysButton)
                 {
-                    case ESysButton.Normal:
+                    case TSysButton.Normal:
                         this.DrawButton(g, base.MinState, this.MiniRect, "mini");
                         this.DrawButton(g, base.CloseState, this.CloseRect, "close");
                         if (this.WindowState == FormWindowState.Maximized)
@@ -138,10 +138,10 @@ namespace Paway.Forms
                         else
                             this.DrawButton(g, base.MaxState, this.MaxRect, "max");
                         break;
-                    case ESysButton.Close:
+                    case TSysButton.Close:
                         this.DrawButton(g, base.CloseState, this.CloseRect, "close");
                         break;
-                    case ESysButton.Close_Mini:
+                    case TSysButton.Close_Mini:
                         this.DrawButton(g, base.MinState, this.MiniRect, "mini");
                         this.DrawButton(g, base.CloseState, this.CloseRect, "close");
                         break;

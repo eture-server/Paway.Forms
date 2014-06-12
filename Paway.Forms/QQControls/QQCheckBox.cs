@@ -24,7 +24,7 @@ namespace Paway.Forms
         /// <summary>
         /// 当前的属标状态
         /// </summary>
-        private EMouseState _mouseState = EMouseState.Normal;
+        private TMouseState _mouseState = TMouseState.Normal;
 
         #endregion
 
@@ -65,8 +65,8 @@ namespace Paway.Forms
         /// <summary>
         /// 鼠标状态
         /// </summary>
-        [Description("鼠标状态"), DefaultValue(typeof(EMouseState), "Normal")]
-        internal EMouseState MouseState
+        [Description("鼠标状态"), DefaultValue(typeof(TMouseState), "Normal")]
+        internal TMouseState MouseState
         {
             get { return this._mouseState; }
             set
@@ -132,8 +132,8 @@ namespace Paway.Forms
             {
                 switch (this._mouseState)
                 {
-                    case EMouseState.Normal:
-                    case EMouseState.Leave:
+                    case TMouseState.Normal:
+                    case TMouseState.Leave:
                         if (base.Checked)
                         {
                             using (Image normal = AssemblyHelper.GetImage("QQ.CheckBox.tick_normal.png"))
@@ -149,9 +149,9 @@ namespace Paway.Forms
                             }
                         }
                         break;
-                    case EMouseState.Down:
-                    case EMouseState.Up:
-                    case EMouseState.Move:
+                    case TMouseState.Down:
+                    case TMouseState.Up:
+                    case TMouseState.Move:
                         if (base.Checked)
                         {
                             using (Image high = AssemblyHelper.GetImage("QQ.CheckBox.tick_highlight.png"))
@@ -170,7 +170,7 @@ namespace Paway.Forms
                 }
                 if (base.CheckState == CheckState.Indeterminate)
                 {
-                    if (this.MouseState == EMouseState.Down || this.MouseState == EMouseState.Move)
+                    if (this.MouseState == TMouseState.Down || this.MouseState == TMouseState.Move)
                     {
                         using (Image normal = AssemblyHelper.GetImage("QQ.CheckBox._tick_normal.png"))
                         {
@@ -194,7 +194,7 @@ namespace Paway.Forms
         protected override void OnMouseEnter(EventArgs eventargs)
         {
             base.OnMouseEnter(eventargs);
-            this.MouseState = EMouseState.Move;
+            this.MouseState = TMouseState.Move;
         }
         /// <summary>
         /// 
@@ -203,7 +203,7 @@ namespace Paway.Forms
         protected override void OnMouseDown(MouseEventArgs mevent)
         {
             base.OnMouseDown(mevent);
-            this.MouseState = EMouseState.Down;
+            this.MouseState = TMouseState.Down;
         }
         /// <summary>
         /// 
@@ -212,7 +212,7 @@ namespace Paway.Forms
         protected override void OnMouseLeave(EventArgs eventargs)
         {
             base.OnMouseLeave(eventargs);
-            this.MouseState = EMouseState.Leave;
+            this.MouseState = TMouseState.Leave;
         }
         /// <summary>
         /// 
@@ -221,7 +221,7 @@ namespace Paway.Forms
         protected override void OnMouseUp(MouseEventArgs mevent)
         {
             base.OnMouseUp(mevent);
-            this.MouseState = EMouseState.Up;
+            this.MouseState = TMouseState.Up;
         }
 
         #endregion

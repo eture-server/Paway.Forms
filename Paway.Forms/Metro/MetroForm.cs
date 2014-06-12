@@ -49,7 +49,7 @@ namespace Paway.Forms.Metro
         /// <summary>
         /// 
         /// </summary>
-        private EMouseState _startState = EMouseState.Normal;
+        private TMouseState _startState = TMouseState.Normal;
         /// <summary>
         /// 
         /// </summary>
@@ -170,15 +170,15 @@ namespace Paway.Forms.Metro
             Color backColor = this.Renderer.BackColor;
             switch (this._startState)
             {
-                case EMouseState.Normal:
-                case EMouseState.Leave:
+                case TMouseState.Normal:
+                case TMouseState.Leave:
                     backColor = this.Renderer.BackColor;
                     break;
-                case EMouseState.Move:
-                case EMouseState.Up:
+                case TMouseState.Move:
+                case TMouseState.Up:
                     backColor = this.Renderer.EnterColor;
                     break;
-                case EMouseState.Down:
+                case TMouseState.Down:
                     backColor = this.Renderer.DownColor;
                     break;
             }
@@ -243,18 +243,18 @@ namespace Paway.Forms.Metro
                 }
                 switch (item.ItemType)
                 {
-                    case EItemType.Application:
+                    case TItemType.Application:
                         break;
-                    case EItemType.Directory:
+                    case TItemType.Directory:
                         break;
-                    case EItemType.Exe:
+                    case TItemType.Exe:
                         Process.Start(item.FilePath);
                         break;
-                    case EItemType.Menu:
+                    case TItemType.Menu:
                         break;
-                    case EItemType.None:
+                    case TItemType.None:
                         break;
-                    case EItemType.System:
+                    case TItemType.System:
                         if (string.IsNullOrEmpty(item.ClassID))
                         {
                             MessageBox.Show("找不到ClassID");
@@ -317,20 +317,20 @@ namespace Paway.Forms.Metro
                     foreach (MetroItem item in this.Items)
                     {
                         if (item.Rectangle.Contains(e.Location))
-                            item.MouseState = EMouseState.Move;
+                            item.MouseState = TMouseState.Move;
                         else
-                            item.MouseState = EMouseState.Leave;
+                            item.MouseState = TMouseState.Leave;
                         this.Invalidate(item.Rectangle);
                     }
                 }
                 if (this.StartRect.Contains(e.Location))
                 {
-                    this._startState = EMouseState.Move;
+                    this._startState = TMouseState.Move;
                     this.Invalidate(this.StartRect);
                 }
                 else
                 {
-                    this._startState = EMouseState.Leave;
+                    this._startState = TMouseState.Leave;
                     this.Invalidate(this.StartRect);
                 }
             }
@@ -350,7 +350,7 @@ namespace Paway.Forms.Metro
                     {
                         if (item.Rectangle.Contains(e.Location))
                         {
-                            item.MouseState = EMouseState.Down;
+                            item.MouseState = TMouseState.Down;
                             this._mouseDown = true;
                         }
                         this.Invalidate(item.Rectangle);
@@ -359,7 +359,7 @@ namespace Paway.Forms.Metro
                 if (this.StartRect.Contains(e.Location))
                 {
                     this._mouseDown = true;
-                    this._startState = EMouseState.Down;
+                    this._startState = TMouseState.Down;
                     this.Invalidate(this.StartRect);
                 }
             }
@@ -379,7 +379,7 @@ namespace Paway.Forms.Metro
                     {
                         if (item.Rectangle.Contains(e.Location))
                         {
-                            item.MouseState = EMouseState.Up;
+                            item.MouseState = TMouseState.Up;
                             this.OnClickMetroFormItem(item, EventArgs.Empty);
                             this.OpenProcess(item);
                         }
@@ -388,7 +388,7 @@ namespace Paway.Forms.Metro
                 }
                 if (this.StartRect.Contains(e.Location))
                 {
-                    this._startState = EMouseState.Up;
+                    this._startState = TMouseState.Up;
                     this.OnClickStart(this, EventArgs.Empty);
                     this.Invalidate(this.StartRect);
                 }
@@ -406,15 +406,15 @@ namespace Paway.Forms.Metro
             {
                 foreach (MetroItem item in this.Items)
                 {
-                    if (item.MouseState != EMouseState.Leave)
+                    if (item.MouseState != TMouseState.Leave)
                     {
-                        item.MouseState = EMouseState.Leave;
+                        item.MouseState = TMouseState.Leave;
                         this.Invalidate(item.Rectangle);
                     }
                 }
-                if (this._startState != EMouseState.Leave)
+                if (this._startState != TMouseState.Leave)
                 {
-                    this._startState = EMouseState.Leave;
+                    this._startState = TMouseState.Leave;
                     this.Invalidate(this.StartRect);
                 }
             }
