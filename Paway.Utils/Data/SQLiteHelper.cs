@@ -83,7 +83,7 @@ namespace Paway.Utils.Data
         /// 打开一个连接
         /// </summary>
         /// <returns></returns>
-        public new SQLiteCommand CommandStart()
+        protected new SQLiteCommand CommandStart()
         {
             return base.CommandStart() as SQLiteCommand;
         }
@@ -91,7 +91,7 @@ namespace Paway.Utils.Data
         /// 打开一个连接
         /// </summary>
         /// <returns></returns>
-        public new SQLiteCommand CommandStart(string sql)
+        protected new SQLiteCommand CommandStart(string sql)
         {
             return base.CommandStart(sql) as SQLiteCommand;
         }
@@ -101,7 +101,7 @@ namespace Paway.Utils.Data
         /// 返回SqlCommand实例
         /// </summary>
         /// <returns></returns>
-        public new SQLiteCommand TransStart()
+        protected new SQLiteCommand TransStart()
         {
             return base.TransStart() as SQLiteCommand;
         }

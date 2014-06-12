@@ -581,9 +581,10 @@ namespace Paway.Forms
         /// </summary>
         private void DrawText(Graphics g, ToolItem item, Color color)
         {
+            Rectangle textRect = Rectangle.Empty;
             if (!string.IsNullOrEmpty(item.Text))
             {
-                Rectangle textRect = new Rectangle
+                textRect = new Rectangle
                 {
                     X = item.Rectangle.X,
                     Y = item.Rectangle.Y,
@@ -609,6 +610,10 @@ namespace Paway.Forms
                     }
                 }
                 int index = item.Text.IndexOf("\r\n");
+                if (index == -1)
+                {
+                    index = item.Text.IndexOf("&");
+                }
                 if (index != -1)
                 {
                     string title = item.Text.Substring(0, index);
@@ -639,6 +644,9 @@ namespace Paway.Forms
                 {
                     TextRenderer.DrawText(g, item.Text, this.Font, textRect, color, DrawParam.LevelText);
                 }
+            }
+            if (!string.IsNullOrEmpty(item.Desc))
+            {
                 int dHeight = _fontDesc.GetHeight(g).ToInt() + 6;
                 Rectangle descRect = new Rectangle()
                 {

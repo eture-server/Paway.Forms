@@ -191,7 +191,7 @@ namespace Paway.Utils.Data
         /// 关闭DbCommand实例的连接，并释放
         /// </summary>
         /// <param name="cmd"></param>
-        public void CommandEnd(DbCommand cmd)
+        protected void CommandEnd(DbCommand cmd)
         {
             if (cmd == null || cmd.Connection == null) return;
             try
@@ -238,7 +238,7 @@ namespace Paway.Utils.Data
         /// 事务处理.提交事务
         /// </summary>
         /// <param name="cmd"></param>
-        public bool TransCommit(DbCommand cmd)
+        protected bool TransCommit(DbCommand cmd)
         {
             if (cmd == null || cmd.Connection == null || cmd.Transaction == null) return false;
             try

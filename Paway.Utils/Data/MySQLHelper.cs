@@ -81,7 +81,7 @@ namespace Paway.Utils.Data
         /// <summary>
         /// 打开一个连接
         /// </summary>
-        public new MySQLCommand CommandStart()
+        protected new MySQLCommand CommandStart()
         {
             return base.CommandStart() as MySQLCommand;
         }
@@ -89,7 +89,7 @@ namespace Paway.Utils.Data
         /// 打开一个连接
         /// </summary>
         /// <returns></returns>
-        public new MySQLCommand CommandStart(string sql)
+        protected new MySQLCommand CommandStart(string sql)
         {
             return base.CommandStart(sql) as MySQLCommand;
         }
@@ -99,7 +99,7 @@ namespace Paway.Utils.Data
         /// 返回SqlCommand实例
         /// </summary>
         /// <returns></returns>
-        public new MySQLCommand TransStart()
+        protected new MySQLCommand TransStart()
         {
             return base.TransStart() as MySQLCommand;
         }

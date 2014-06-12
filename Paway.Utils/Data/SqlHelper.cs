@@ -39,7 +39,7 @@ namespace Paway.Utils.Data
         /// 打开一个连接
         /// </summary>
         /// <returns></returns>
-        public new SqlCommand CommandStart()
+        protected new SqlCommand CommandStart()
         {
             return base.CommandStart() as SqlCommand;
         }
@@ -47,7 +47,7 @@ namespace Paway.Utils.Data
         /// 打开一个连接
         /// </summary>
         /// <returns></returns>
-        public new SqlCommand CommandStart(string sql)
+        protected new SqlCommand CommandStart(string sql)
         {
             return base.CommandStart(sql) as SqlCommand;
         }
@@ -57,7 +57,7 @@ namespace Paway.Utils.Data
         /// 返回SqlCommand实例
         /// </summary>
         /// <returns></returns>
-        public new SqlCommand TransStart()
+        protected new SqlCommand TransStart()
         {
             return base.TransStart() as SqlCommand;
         }
