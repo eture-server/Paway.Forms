@@ -49,13 +49,13 @@ namespace Paway.Helper
             }
         }
         /// <summary>
-        /// 文本水平垂直
+        /// 文本靠右垂直
         /// </summary>
-        public static TextFormatFlags LevelText
+        public static TextFormatFlags LeftText
         {
             get
             {
-                return TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter;
+                return TextFormatFlags.Left | TextFormatFlags.VerticalCenter;
             }
         }
         /// <summary>
@@ -66,6 +66,16 @@ namespace Paway.Helper
             get
             {
                 return TextFormatFlags.Right | TextFormatFlags.VerticalCenter;
+            }
+        }
+        /// <summary>
+        /// 文本水平垂直
+        /// </summary>
+        public static TextFormatFlags LevelText
+        {
+            get
+            {
+                return TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter;
             }
         }
     }

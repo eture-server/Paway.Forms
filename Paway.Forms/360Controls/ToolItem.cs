@@ -29,9 +29,17 @@ namespace Paway.Forms
         [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
         public string Text { get; set; }
         /// <summary>
-        /// Item 上显示的描述信息
+        /// Item 上显示的头部描述信息
         /// </summary>
-        public string Desc { get; set; }
+        public string HeadDesc { get; set; }
+        /// <summary>
+        /// Item 上显示的尾部描述信息
+        /// </summary>
+        public string EndDesc { get; set; }
+        /// <summary>
+        /// Item 当前默认颜色
+        /// </summary>
+        public Color Color { get; set; }
         /// <summary>
         /// 当前 Item 在 ToolBar 中的 Rectangle
         /// </summary>

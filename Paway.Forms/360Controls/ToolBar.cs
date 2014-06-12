@@ -109,9 +109,13 @@ namespace Paway.Forms
         /// </summary>
         private Color _colorSpace = Color.Transparent;
         /// <summary>
-        /// 描述文字字体
+        /// 头部描述文字字体
         /// </summary>
-        private Font _fontDesc = new System.Drawing.Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
+        private Font _fontHeadDesc = new System.Drawing.Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
+        /// <summary>
+        /// 尾部描述文字字体
+        /// </summary>
+        private Font _fontEndDesc = new System.Drawing.Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
         /// <summary>
         /// 第二行字体
         /// </summary>
@@ -167,14 +171,24 @@ namespace Paway.Forms
             set { _fontSecond = value; }
         }
         /// <summary>
-        /// 描述文字字体
+        /// 尾部描述文字字体
         /// </summary>
-        [Description("描述文字字体"), DefaultValue(typeof(Font), "宋体, 9pt")]
+        [Description("尾部描述文字字体"), DefaultValue(typeof(Font), "宋体, 9pt")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public Font FontDesc
+        public Font FontEndDesc
         {
-            get { return _fontDesc; }
-            set { _fontDesc = value; }
+            get { return _fontEndDesc; }
+            set { _fontEndDesc = value; }
+        }
+        /// <summary>
+        /// 头部描述文字字体
+        /// </summary>
+        [Description("头部描述文字字体"), DefaultValue(typeof(Font), "宋体, 9pt")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public Font FontHeadDesc
+        {
+            get { return _fontHeadDesc; }
+            set { _fontHeadDesc = value; }
         }
         /// <summary>
         /// 是否将颜色应用到文字
@@ -414,6 +428,7 @@ namespace Paway.Forms
             base.OnPaint(e);
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.FillRectangle(new SolidBrush(this.ColorSpace), new Rectangle(-1, -1, this.Width + 1, this.Height + 1));
             int xPos = this.Padding.Left;
             int yPos = this.Padding.Top;
             int x = 1, y = 1;
@@ -436,14 +451,6 @@ namespace Paway.Forms
         }
         private void DrawItem(Graphics g, ToolItem item, ref int xPos, ref int yPos, ref int x, ref int y, bool iLast)
         {
-            if (xPos != this.Padding.Left && this._itemSpace != 0)
-            {
-                g.DrawLine(new Pen(this.ColorSpace, this._itemSpace), new Point(xPos - this._itemSpace, yPos), new Point(xPos - this._itemSpace, yPos + this._itemSize.Height));
-            }
-            if (yPos != this.Padding.Top && this._itemSpace != 0)
-            {
-                g.DrawLine(new Pen(this.ColorSpace, this._itemSpace), new Point(xPos, yPos - this._itemSpace), new Point(xPos + this._itemSize.Width, yPos - this._itemSpace));
-            }
             // 当前 Item 所在的矩型区域
             item.Rectangle = new Rectangle(xPos, yPos, this._itemSize.Width, this._itemSize.Height);
             _colorFore = this.ForeColor;
@@ -491,46 +498,47 @@ namespace Paway.Forms
         /// </summary>
         private void DrawBackground(Graphics g, ToolItem item)
         {
-            if (!DesignMode)
+            switch (item.MouseState)
             {
-                switch (item.MouseState)
-                {
-                    case TMouseState.Normal:
-                    case TMouseState.Leave:
-                        g.DrawImage(this._normalImage, item.Rectangle);
-                        break;
-                    case TMouseState.Move:
-                    case TMouseState.Up:
+                case TMouseState.Normal:
+                case TMouseState.Leave:
+                    Color color = item.Color == Color.Empty ? this.BackColor : item.Color;
+                    if (color.A > Trans)
+                    {
+                        color = Color.FromArgb(Trans, color.R, color.G, color.B);
+                    }
+                    g.FillRectangle(new SolidBrush(color), item.Rectangle);
+                    break;
+                case TMouseState.Move:
+                case TMouseState.Up:
+                    DrawMoveBack(g, item);
+                    break;
+                case TMouseState.Down:
+                    if (IsContextMenu(g, item))
+                    {
                         DrawMoveBack(g, item);
-                        break;
-                    case TMouseState.Down:
-                        if (IsContextMenu(g, item))
+                    }
+                    else
+                    {
+                        if (_iText)
                         {
-                            DrawMoveBack(g, item);
+                            _colorFore = this.ColorDownBack;
+                        }
+                        else if (ColorDownBack == Color.Transparent)
+                        {
+                            g.DrawImage(this._pushedImage, item.Rectangle);
                         }
                         else
                         {
-                            if (_iText)
-                            {
-                                _colorFore = this.ColorDownBack;
-                            }
-                            else if (ColorDownBack == Color.Transparent)
-                            {
-                                g.DrawImage(this._pushedImage, item.Rectangle);
-                            }
-                            else
-                            {
-                                g.FillRectangle(new SolidBrush(this.ColorDownBack),
-                                    new Rectangle(item.Rectangle.X, item.Rectangle.Y, item.Rectangle.Width - 1, item.Rectangle.Height - 1));
-                            }
-                            IsContextMenu(g, item);
+                            g.FillRectangle(new SolidBrush(this.ColorDownBack), item.Rectangle);
                         }
-                        if (_isMultiple)
-                        {
-                            g.DrawImage(this._selectImage, new Rectangle(item.Rectangle.Right - this._selectImage.Width, item.Rectangle.Bottom - this._selectImage.Height, this._selectImage.Width, this._selectImage.Height));
-                        }
-                        break;
-                }
+                        IsContextMenu(g, item);
+                    }
+                    if (_isMultiple)
+                    {
+                        g.DrawImage(this._selectImage, new Rectangle(item.Rectangle.Right - this._selectImage.Width, item.Rectangle.Bottom - this._selectImage.Height, this._selectImage.Width, this._selectImage.Height));
+                    }
+                    break;
             }
         }
         /// <summary>
@@ -548,8 +556,7 @@ namespace Paway.Forms
             }
             else
             {
-                g.FillRectangle(new SolidBrush(this.ColorMoveBack),
-                    new Rectangle(item.Rectangle.X, item.Rectangle.Y, item.Rectangle.Width - 1, item.Rectangle.Height - 1));
+                g.FillRectangle(new SolidBrush(this.ColorMoveBack), item.Rectangle);
             }
             IsContextMenu(g, item);
         }
@@ -584,10 +591,11 @@ namespace Paway.Forms
             Rectangle textRect = Rectangle.Empty;
             if (!string.IsNullOrEmpty(item.Text))
             {
+                int pad = 3;
                 textRect = new Rectangle
                 {
-                    X = item.Rectangle.X,
-                    Y = item.Rectangle.Y,
+                    X = item.Rectangle.X + pad,
+                    Y = item.Rectangle.Y + pad,
                     Width = item.Rectangle.Width,
                 };
                 if (!_isImageShow)
@@ -609,6 +617,8 @@ namespace Paway.Forms
                             break;
                     }
                 }
+                textRect.Width -= pad * 2;
+                textRect.Height -= pad * 2;
                 int index = item.Text.IndexOf("\r\n");
                 if (index == -1)
                 {
@@ -645,9 +655,21 @@ namespace Paway.Forms
                     TextRenderer.DrawText(g, item.Text, this.Font, textRect, color, DrawParam.LevelText);
                 }
             }
-            if (!string.IsNullOrEmpty(item.Desc))
+            if (!string.IsNullOrEmpty(item.HeadDesc))
             {
-                int dHeight = _fontDesc.GetHeight(g).ToInt() + 6;
+                int dHeight = _fontHeadDesc.GetHeight(g).ToInt() + 6;
+                Rectangle descRect = new Rectangle()
+                {
+                    X = textRect.X,
+                    Y = textRect.Y,
+                    Width = textRect.Width,
+                    Height = dHeight,
+                };
+                TextRenderer.DrawText(g, item.HeadDesc, _fontHeadDesc, descRect, this.ForeColor, DrawParam.LeftText);
+            }
+            if (!string.IsNullOrEmpty(item.EndDesc))
+            {
+                int dHeight = _fontEndDesc.GetHeight(g).ToInt() + 6;
                 Rectangle descRect = new Rectangle()
                 {
                     X = textRect.X,
@@ -655,7 +677,7 @@ namespace Paway.Forms
                     Width = textRect.Width,
                     Height = dHeight,
                 };
-                TextRenderer.DrawText(g, item.Desc, _fontDesc, descRect, this.ForeColor, DrawParam.RightText);
+                TextRenderer.DrawText(g, item.EndDesc, _fontEndDesc, descRect, this.ForeColor, DrawParam.RightText);
             }
         }
         /// <summary>
@@ -736,6 +758,7 @@ namespace Paway.Forms
                         this.Invalidate(item.Rectangle);
                     }
                 }
+                this.Invalidate();
             }
         }
         /// <summary>
@@ -798,15 +821,18 @@ namespace Paway.Forms
                         if (_isMultiple)
                         {
                             if (item.MouseState != TMouseState.Down)
+                            {
                                 item.MouseState = TMouseState.Down;
-                            else if (item.MouseState == TMouseState.Down)
+                            }
+                            else
+                            {
                                 item.MouseState = TMouseState.Normal;
+                            }
                         }
                         else
                         {
                             item.MouseState = TMouseState.Down;
                         }
-                        this.Invalidate();
                     }
                     else if (!_isMultiple && iIn)
                     {
@@ -814,6 +840,7 @@ namespace Paway.Forms
                         this.Invalidate(item.Rectangle);
                     }
                 }
+                this.Invalidate();
             }
         }
         /// <summary>

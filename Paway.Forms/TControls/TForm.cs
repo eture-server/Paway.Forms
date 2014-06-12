@@ -16,8 +16,15 @@ namespace Paway.Forms
     /// </summary>
     public partial class TForm : Form
     {
+        #region 属性
         private List<Locate> tList;
         private Size normal = Size.Empty;
+        /// <summary>
+        /// 指定窗体窗口如何显示
+        /// </summary>
+        protected FormWindowState _windowState = FormWindowState.Normal;
+
+        #endregion
 
         #region 移动窗体
         /// <summary>
@@ -37,7 +44,7 @@ namespace Paway.Forms
             {
                 if (icontrol.Contain(e.Location)) return;
             }
-            if (this.WindowState != FormWindowState.Maximized)
+            if (this._windowState != FormWindowState.Maximized)
             {
                 NativeMethods.ReleaseCapture();
                 NativeMethods.SendMessage(Handle, 274, 61440 + 9, 0);
@@ -109,10 +116,10 @@ namespace Paway.Forms
                         top = 0;
                         break;
                     case StringAlignment.Center:
-                        top = tList[i].Control.Width / 2;
+                        top = tList[i].Control.Height / 2;
                         break;
                     case StringAlignment.Far:
-                        top = tList[i].Control.Width;
+                        top = tList[i].Control.Height;
                         break;
                 }
                 int x = this.Width * (tList[i].Point.X + left) / normal.Width;

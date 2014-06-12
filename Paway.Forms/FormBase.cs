@@ -48,10 +48,6 @@ namespace Paway.Forms
         /// </summary>
         protected Point _formPoint = Point.Empty;
         /// <summary>
-        /// 指定窗体窗口如何显示
-        /// </summary>
-        protected FormWindowState _windowState = FormWindowState.Normal;
-        /// <summary>
         /// 是否允许改变窗口大小
         /// </summary>
         protected bool _isResize = false;
@@ -187,7 +183,6 @@ namespace Paway.Forms
             set
             {
                 base.Text = value;
-                if (string.IsNullOrEmpty(_textShow)) _textShow = value;
                 base.Invalidate(this.TitleBarRect);
             }
         }

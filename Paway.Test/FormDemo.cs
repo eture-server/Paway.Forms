@@ -186,12 +186,10 @@ namespace Paway.Test
             switch (toolBar2.SelectedItem.Text)
             {
                 case "创建宝贝":
-                    toolBar1.ProgressStop();
                     new FormSql().ShowDialog();
                     break;
                 case "上传宝贝":
                     new Demo360().Show();
-                    toolBar1.ProgressStart("上传宝贝");
                     break;
             }
         }
