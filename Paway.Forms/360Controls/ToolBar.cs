@@ -428,7 +428,10 @@ namespace Paway.Forms
             base.OnPaint(e);
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.FillRectangle(new SolidBrush(this.ColorSpace), new Rectangle(-1, -1, this.Width + 1, this.Height + 1));
+            if (!_iText)
+            {
+                g.FillRectangle(new SolidBrush(this.ColorSpace), new Rectangle(-1, -1, this.Width + 1, this.Height + 1));
+            }
             int xPos = this.Padding.Left;
             int yPos = this.Padding.Top;
             int x = 1, y = 1;
