@@ -43,7 +43,7 @@ namespace Paway.Forms
         /// <summary>
         /// Item 当前默认颜色
         /// </summary>
-        [Description("Item 当前默认颜色"), DefaultValue(typeof(Color), "Empty")]
+        [Description("Item 当前默认颜色")]
         public Color Color { get; set; }
         /// <summary>
         /// 当前 Item 在 ToolBar 中的 Rectangle

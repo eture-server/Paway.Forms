@@ -18,10 +18,6 @@ namespace Paway.Forms
     {
         #region 变量
         /// <summary>
-        /// 窗口大小
-        /// </summary>
-        private readonly Size SIZE = new Size(250, 178);
-        /// <summary>
         /// 控制窗口动画效果
         /// </summary>
         private Timer Timer = null;
@@ -37,21 +33,10 @@ namespace Paway.Forms
         /// 计算时间
         /// </summary>
         private int Interval = 0;
-        /// <summary>
-        /// 提示文字信息
-        /// </summary>
-        private string _notifyText = string.Empty;
-        /// <summary>
-        /// 提示信息的文字颜色
-        /// </summary>
-        private Color _notifyForeColor = Color.Black;
-        /// <summary>
-        /// 提示信息的字体
-        /// </summary>
-        private Font _notifyFont = new Font("宋体", 10f, FontStyle.Bold);
+
+        #endregion
 
         #region 资源图片
-
         /// <summary>
         /// 背景图片
         /// </summary>
@@ -60,8 +45,6 @@ namespace Paway.Forms
         /// 分割线
         /// </summary>
         private Image _splitImage = AssemblyHelper.GetImage("QQ.FormFrame.ContactFilter_splitter.png");
-
-        #endregion
 
         #endregion
 
@@ -78,6 +61,10 @@ namespace Paway.Forms
         #endregion
 
         #region 属性
+        /// <summary>
+        /// 窗口大小
+        /// </summary>
+        private readonly Size SIZE = new Size(250, 178);
         /// <summary>
         /// 设置窗口大小的最大值
         /// </summary>
@@ -97,6 +84,11 @@ namespace Paway.Forms
         /// <summary>
         /// 提示文字信息
         /// </summary>
+        private string _notifyText = string.Empty;
+        /// <summary>
+        /// 提示文字信息
+        /// </summary>
+        [Description("提示文字信息"), DefaultValue(null)]
         public string NotifyText
         {
             get { return this._notifyText; }
@@ -106,6 +98,10 @@ namespace Paway.Forms
                 this.Invalidate(this.NotifyTextRect);
             }
         }
+        /// <summary>
+        /// 提示信息的文字颜色
+        /// </summary>
+        private Color _notifyForeColor = Color.Black;
         /// <summary>
         /// 提示信息的文字颜色
         /// </summary>
@@ -122,6 +118,11 @@ namespace Paway.Forms
         /// <summary>
         /// 提示信息的字体
         /// </summary>
+        private Font _notifyFont = new Font("宋体", 10f, FontStyle.Bold, GraphicsUnit.Point, (byte)1);
+        /// <summary>
+        /// 提示信息的字体
+        /// </summary>
+        [Description("提示信息的字体"), DefaultValue(typeof(Font), "宋体, 10pt, style=Bold")]
         public Font NotifyFont
         {
             get { return this._notifyFont; }
@@ -288,7 +289,6 @@ namespace Paway.Forms
         #endregion
 
         #region Override Methods
-
         /// <summary>
         /// 在窗口加载时，初始化部分数据
         /// </summary>
@@ -310,7 +310,6 @@ namespace Paway.Forms
                 base.BackColor = Color.FromArgb(0, 122, 204);
             }
         }
-
         /// <summary>
         /// 
         /// </summary>
@@ -331,7 +330,6 @@ namespace Paway.Forms
                 }
             }
         }
-
         /// <summary>
         /// 
         /// </summary>

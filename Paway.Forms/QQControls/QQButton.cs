@@ -20,29 +20,9 @@ namespace Paway.Forms
     {
         #region 变量
         /// <summary>
-        /// 鼠标状态
-        /// </summary>
-        private TMouseState _mouseState = TMouseState.Normal;
-        /// <summary>
         /// 文本对齐方式
         /// </summary>
         private TextFormatFlags _textAlign = TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter;
-        /// <summary>
-        /// 默认时的按钮图片
-        /// </summary>
-        private Image _normalImage = null;
-        /// <summary>
-        /// 鼠标按下时的图片
-        /// </summary>
-        private Image _downImage = null;
-        /// <summary>
-        /// 鼠标划过时的图片
-        /// </summary>
-        private Image _moveImage = null;
-        /// <summary>
-        /// 是否按下了鼠标
-        /// </summary>
-        private bool _isShowBorder = true;
 
         #endregion
 
@@ -66,11 +46,6 @@ namespace Paway.Forms
             this.Validated += QQButton_LostFocus;
         }
 
-        void QQButton_LostFocus(object sender, EventArgs e)
-        {
-            this.MouseState = TMouseState.Leave;
-        }
-
         #endregion
 
         #region 属性
@@ -83,9 +58,13 @@ namespace Paway.Forms
             get { return new Size(75, 28); }
         }
         /// <summary>
+        /// 默认时的按钮图片
+        /// </summary>
+        private Image _normalImage = null;
+        /// <summary>
         /// 默认图片
         /// </summary>
-        [Description("默认图片")]
+        [Description("默认时的按钮图片")]
         public virtual Image NormalImage
         {
             get
@@ -100,6 +79,10 @@ namespace Paway.Forms
                 base.Invalidate();
             }
         }
+        /// <summary>
+        /// 鼠标按下时的图片
+        /// </summary>
+        private Image _downImage = null;
         /// <summary>
         /// 鼠标按下时的图片
         /// </summary>
@@ -121,6 +104,10 @@ namespace Paway.Forms
         /// <summary>
         /// 鼠标划过时的图片
         /// </summary>
+        private Image _moveImage = null;
+        /// <summary>
+        /// 鼠标划过时的图片
+        /// </summary>
         [Description("鼠标划过时的图片")]
         public virtual Image MoveImage
         {
@@ -137,6 +124,10 @@ namespace Paway.Forms
                 base.Invalidate();
             }
         }
+        /// <summary>
+        /// 是否按下了鼠标
+        /// </summary>
+        private bool _isShowBorder = true;
         /// <summary>
         /// 是否显示发光边框
         /// </summary>
@@ -252,6 +243,10 @@ namespace Paway.Forms
         /// <summary>
         /// 鼠标状态
         /// </summary>
+        private TMouseState _mouseState = TMouseState.Normal;
+        /// <summary>
+        /// 鼠标状态
+        /// </summary>
         [Description("鼠标状态"), DefaultValue(typeof(TMouseState), "Normal")]
         internal TMouseState MouseState
         {
@@ -270,6 +265,14 @@ namespace Paway.Forms
         {
             get { return base.BackColor; }
             set { base.BackColor = value; }
+        }
+
+        #endregion
+
+        #region 方法
+        private void QQButton_LostFocus(object sender, EventArgs e)
+        {
+            this.MouseState = TMouseState.Leave;
         }
 
         #endregion
@@ -399,6 +402,7 @@ namespace Paway.Forms
             base.OnMouseUp(mevent);
             this.MouseState = TMouseState.Up;
         }
+
         #endregion
     }
 }

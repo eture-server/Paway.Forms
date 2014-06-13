@@ -680,8 +680,8 @@
             this.toolBar3.ColorMoveBack = System.Drawing.SystemColors.GradientInactiveCaption;
             this.toolBar3.ColorSpace = System.Drawing.Color.White;
             this.toolBar3.ImageSize = new System.Drawing.Size(16, 16);
-            this.toolBar3.IsCheckEvent = true;
-            this.toolBar3.IsImageShow = false;
+            this.toolBar3.ICheckEvent = true;
+            this.toolBar3.IImageShow = false;
             toolItem1.ContextMenuStrip = null;
             toolItem1.EndDesc = null;
             toolItem1.HeadDesc = null;
@@ -944,7 +944,7 @@
             this.toolBar2.ColorMoveBack = System.Drawing.SystemColors.GradientInactiveCaption;
             this.toolBar2.ColorSpace = System.Drawing.Color.White;
             this.toolBar2.ImageSize = new System.Drawing.Size(16, 16);
-            this.toolBar2.IsCheckEvent = true;
+            this.toolBar2.ICheckEvent = true;
             toolItem9.ContextMenuStrip = this.contextMenuStrip1;
             toolItem9.EndDesc = null;
             toolItem9.HeadDesc = null;

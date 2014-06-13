@@ -116,17 +116,5 @@ namespace Paway.Forms
         public virtual bool Contain(Point p) { return false; }
 
         #endregion
-
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // TControl
-            // 
-            this.BackColor = System.Drawing.Color.Transparent;
-            this.Name = "TControl";
-            this.ResumeLayout(false);
-
-        }
     }
 }

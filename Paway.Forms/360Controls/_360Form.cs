@@ -17,10 +17,7 @@ namespace Paway.Forms
     /// </summary>
     public class _360Form : FormBase
     {
-        #region 变量
-
         #region 资源图片
-
         /// <summary>
         /// 边框图片
         /// </summary>
@@ -48,17 +45,6 @@ namespace Paway.Forms
 
         #endregion
 
-        /// <summary>
-        /// 系统按钮与窗体右边边缘的间距
-        /// </summary>
-        private int _sysButtonPos = 4;
-        /// <summary>
-        /// 标题栏菜单按钮的鼠标状态
-        /// </summary>
-        private TMouseState _titleBarMenuState = TMouseState.Normal;
-
-        #endregion
-
         #region 构造函数
         /// <summary>
         /// 实例化 Paway.Forms._360form 新的实例。
@@ -69,9 +55,13 @@ namespace Paway.Forms
 
         #region 属性
         /// <summary>
+        /// 系统按钮与窗体右边边缘的间距
+        /// </summary>
+        private int _sysButtonPos = 4;
+        /// <summary>
         /// 系统控制按钮与右边框之间的距离
         /// </summary>
-        [Description("系统控制按钮与右边框之间的距离")]
+        [Description("系统控制按钮与右边框之间的距离"), DefaultValue(4)]
         public int SysButtonPos
         {
             get { return this._sysButtonPos; }
@@ -200,8 +190,13 @@ namespace Paway.Forms
             }
         }
         /// <summary>
+        /// 标题栏菜单按钮的鼠标状态
+        /// </summary>
+        private TMouseState _titleBarMenuState = TMouseState.Normal;
+        /// <summary>
         /// 标题栏菜单按钮的鼠标的状态
         /// </summary>
+        [Description("标题栏菜单按钮的鼠标的状态"), DefaultValue(typeof(TMouseState), "Normal")]
         protected virtual TMouseState TitleBarMenuState
         {
             get { return this._titleBarMenuState; }
@@ -218,7 +213,7 @@ namespace Paway.Forms
         /// <summary>
         /// 用于展示右键菜单
         /// </summary>
-        [Category("行为"), Description("右键菜单承接按钮。")]
+        [Category("行为"), Description("右键菜单承接按钮。"), DefaultValue(typeof(ContextMenuStrip), null)]
         public ContextMenuStrip ContextMenuShow
         {
             get { return MenuLabel.ContextMenuStrip; }
@@ -255,10 +250,14 @@ namespace Paway.Forms
         }
         #endregion
 
+        #region 事件
         /// <summary>
         /// 菜单按钮单击事件
         /// </summary>
         public event EventHandler MenuClick;
+
+        #endregion
+
         #region Override Methods
         /// <summary>
         /// 引发 System.Windows.Forms.Form.Paint 事件。

@@ -44,7 +44,7 @@
             this.toolBar1.ColorMoveBack = System.Drawing.Color.LightBlue;
             this.toolBar1.ColorSpace = System.Drawing.Color.White;
             this.toolBar1.ImageSize = new System.Drawing.Size(16, 16);
-            this.toolBar1.IsImageShow = false;
+            this.toolBar1.IImageShow = false;
             this.toolBar1.IsMultiple = true;
             toolItem1.Color = System.Drawing.Color.Maroon;
             toolItem1.Image = global::Paway.Test.Properties.Resources.Delete_32x32;

@@ -24,10 +24,6 @@ namespace Paway.Forms
         /// 向右
         /// </summary>
         Right,
-        /// <summary>
-        /// 居中
-        /// </summary>
-        Center,
     }
     /// <summary>
     /// 方向

@@ -18,8 +18,6 @@ namespace Paway.Forms
     [DefaultEvent("SelectedIndexChanged")]
     public class ToolBar : TControl
     {
-        #region 变量
-
         #region 资源图片
         private Image _normalImage = AssemblyHelper.GetImage("_360.ToolBar.toolbar_normal.png");
         private Image _pushedImage = AssemblyHelper.GetImage("_360.ToolBar.toolbar_pushed.png");
@@ -28,13 +26,10 @@ namespace Paway.Forms
         /// 多选状态下选中时附加的图片
         /// </summary>
         private Image _selectImage = AssemblyHelper.GetImage("Controls.accept_16.png");
+
         #endregion
 
-        #region 成员
-        /// <summary>
-        /// 事件触发点
-        /// </summary>
-        private TEvent _tEvent = TEvent.Down;
+        #region 变量
         /// <summary>
         /// 是否获取了焦点
         /// </summary>
@@ -48,78 +43,9 @@ namespace Paway.Forms
         /// </summary>
         private int _rightLen = 19;
         /// <summary>
-        /// Item项显示方向
-        /// </summary>
-        private TDirection _tDirection = TDirection.Level;
-        /// <summary>
-        /// 图片显示位置
-        /// </summary>
-        private TLocation _tLocation = TLocation.Up;
-        /// <summary>
-        /// 单击事件开关
-        /// 单击松开后取消选中状态，只有鼠标移入状态
-        /// </summary>
-        private bool _isCheckEvent = false;
-        /// <summary>
-        /// 图片显示开关
-        /// </summary>
-        private bool _isImageShow = true;
-        /// <summary>
-        /// 是否允许多选
-        /// </summary>
-        private bool _isMultiple = false;
-        /// <summary>
-        /// 工具栏中的项
-        /// </summary>
-        private ToolItemCollection _items = null;
-        /// <summary>
-        /// 每一项的大小
-        /// </summary>
-        private Size _itemSize = new Size(74, 82);
-        /// <summary>
-        /// 每一项图片显示的大小
-        /// </summary>
-        private Size _imageSize = new Size(48, 48);
-        /// <summary>
-        /// 项与项之间的间隔
-        /// </summary>
-        private int _itemSpace = 1;
-        ///// <summary>
-        ///// 鼠标状态
-        ///// </summary>
-        //private EMouseState _mouseState = EMouseState.Normal;
-        /// <summary>
-        /// 选中项的索引
-        /// </summary>
-        private int _selectedIndex = 0;
-        /// <summary>
-        /// 当前选中项
-        /// </summary>
-        private ToolItem _selectedItem = null;
-        /// <summary>
-        /// 是否将颜色应用到文字
-        /// </summary>
-        private bool _iText;
-        /// <summary>
         /// 字体颜色
         /// </summary>
         private Color _colorFore;
-        /// <summary>
-        /// 选中状态的背景颜色
-        /// </summary>
-        private Color _colorSpace = Color.Transparent;
-        /// <summary>
-        /// 头部描述文字字体
-        /// </summary>
-        private Font _fontHeadDesc = new System.Drawing.Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
-        /// <summary>
-        /// 尾部描述文字字体
-        /// </summary>
-        private Font _fontEndDesc = new System.Drawing.Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
-        /// <summary>
-        /// 第二行字体
-        /// </summary>
-        private Font _fontSecond = new System.Drawing.Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
 
         #endregion
 
@@ -136,7 +62,6 @@ namespace Paway.Forms
         /// 当单击项时事件的 Key
         /// </summary>
         private static readonly object EventItemClick = new object();
-        #endregion
 
         #endregion
 
@@ -163,6 +88,10 @@ namespace Paway.Forms
         /// <summary>
         /// 第二行字体
         /// </summary>
+        private Font _fontSecond = new System.Drawing.Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
+        /// <summary>
+        /// 第二行字体
+        /// </summary>
         [Description("第二行字体"), DefaultValue(typeof(Font), "宋体, 9pt")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public Font FontSecond
@@ -170,6 +99,10 @@ namespace Paway.Forms
             get { return _fontSecond; }
             set { _fontSecond = value; }
         }
+        /// <summary>
+        /// 尾部描述文字字体
+        /// </summary>
+        private Font _fontEndDesc = new System.Drawing.Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
         /// <summary>
         /// 尾部描述文字字体
         /// </summary>
@@ -183,6 +116,10 @@ namespace Paway.Forms
         /// <summary>
         /// 头部描述文字字体
         /// </summary>
+        private Font _fontHeadDesc = new System.Drawing.Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
+        /// <summary>
+        /// 头部描述文字字体
+        /// </summary>
         [Description("头部描述文字字体"), DefaultValue(typeof(Font), "宋体, 9pt")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public Font FontHeadDesc
@@ -190,19 +127,11 @@ namespace Paway.Forms
             get { return _fontHeadDesc; }
             set { _fontHeadDesc = value; }
         }
+
         /// <summary>
-        /// 是否将颜色应用到文字
+        /// 项间隔的颜色
         /// </summary>
-        [Description("是否将颜色应用到文字"), DefaultValue(false)]
-        public bool IColorText
-        {
-            get { return _iText; }
-            set
-            {
-                _iText = value;
-                Invalidate(true);
-            }
-        }
+        private Color _colorSpace = Color.Transparent;
         /// <summary>
         /// 项间隔的颜色
         /// </summary>
@@ -224,6 +153,10 @@ namespace Paway.Forms
         /// <summary>
         /// 事件触发点
         /// </summary>
+        private TEvent _tEvent = TEvent.Down;
+        /// <summary>
+        /// 事件触发点
+        /// </summary>
         [Description("事件触发点"), DefaultValue(typeof(TEvent), "Down")]
         public TEvent TEvent
         {
@@ -233,6 +166,10 @@ namespace Paway.Forms
                 this._tEvent = value;
             }
         }
+        /// <summary>
+        /// Item项显示方向
+        /// </summary>
+        private TDirection _tDirection = TDirection.Level;
         /// <summary>
         /// Item项显示方向
         /// </summary>
@@ -249,6 +186,10 @@ namespace Paway.Forms
         /// <summary>
         /// 图片显示位置
         /// </summary>
+        private TLocation _tLocation = TLocation.Up;
+        /// <summary>
+        /// 图片显示位置
+        /// </summary>
         [Description("图片显示位置，上或左"), DefaultValue(typeof(TLocation), "Up")]
         public TLocation TLocation
         {
@@ -259,33 +200,64 @@ namespace Paway.Forms
                 base.Invalidate(true);
             }
         }
+
+        /// <summary>
+        /// 是否将颜色应用到文字
+        /// </summary>
+        private bool _iColorText;
+        /// <summary>
+        /// 是否将颜色应用到文字
+        /// </summary>
+        [Description("是否将颜色应用到文字"), DefaultValue(false)]
+        public bool IColorText
+        {
+            get { return _iColorText; }
+            set
+            {
+                _iColorText = value;
+                Invalidate(true);
+            }
+        }
+        /// <summary>
+        /// 单击事件开关
+        /// 单击松开后取消选中状态，只有鼠标移入状态
+        /// </summary>
+        private bool _iCheckEvent = false;
         /// <summary>
         /// 单击事件开关
         /// 单击松开后取消选中状态，只有鼠标移入状态
         /// </summary>
         [Description("单击事件开关"), DefaultValue(false)]
-        public bool IsCheckEvent
+        public bool ICheckEvent
         {
-            get { return this._isCheckEvent; }
+            get { return this._iCheckEvent; }
             set
             {
-                this._isCheckEvent = value;
+                this._iCheckEvent = value;
                 this.Invalidate();
             }
         }
         /// <summary>
         /// 图片显示开关
         /// </summary>
+        private bool _iImageShow = true;
+        /// <summary>
+        /// 图片显示开关
+        /// </summary>
         [Description("图片显示开关"), DefaultValue(true)]
-        public bool IsImageShow
+        public bool IImageShow
         {
-            get { return this._isImageShow; }
+            get { return this._iImageShow; }
             set
             {
-                this._isImageShow = value;
+                this._iImageShow = value;
                 this.Invalidate();
             }
         }
+        /// <summary>
+        /// 是否允许多选
+        /// </summary>
+        private bool _isMultiple = false;
         /// <summary>
         /// 是否允许多选
         /// </summary>
@@ -302,6 +274,10 @@ namespace Paway.Forms
         /// <summary>
         /// 工具栏中的项
         /// </summary>
+        private ToolItemCollection _items = null;
+        /// <summary>
+        /// 工具栏中的项
+        /// </summary>
         [Description("工具栏中的项"), EditorBrowsable(EditorBrowsableState.Always), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ToolItemCollection Items
         {
@@ -312,6 +288,10 @@ namespace Paway.Forms
                 return this._items;
             }
         }
+        /// <summary>
+        /// 每一项的大小
+        /// </summary>
+        private Size _itemSize = new Size(74, 82);
         /// <summary>
         /// Item 的大小
         /// </summary>
@@ -325,6 +305,10 @@ namespace Paway.Forms
                 this.Invalidate();
             }
         }
+        /// <summary>
+        /// 每一项图片显示的大小
+        /// </summary>
+        private Size _imageSize = new Size(48, 48);
         /// <summary>
         /// Item Image 的大小
         /// </summary>
@@ -346,11 +330,15 @@ namespace Paway.Forms
                 }
                 if (value.Height == 0)
                 {
-                    this._isImageShow = false;
+                    this._iImageShow = false;
                 }
                 this.Invalidate();
             }
         }
+        /// <summary>
+        /// 项与项之间的间隔
+        /// </summary>
+        private int _itemSpace = 1;
         /// <summary>
         /// 项与项之间的间隔
         /// </summary>
@@ -365,6 +353,10 @@ namespace Paway.Forms
             }
         }
         /// <summary>
+        /// 当前选中项
+        /// </summary>
+        private ToolItem _selectedItem = null;
+        /// <summary>
         /// 当前选中的 Item
         /// </summary>
         [Browsable(false), Description("当前选中的 Item")]
@@ -372,6 +364,10 @@ namespace Paway.Forms
         {
             get { return this._selectedItem; }
         }
+        /// <summary>
+        /// 选中项的索引
+        /// </summary>
+        private int _selectedIndex = 0;
         /// <summary>
         /// 选中 Item 的索引
         /// </summary>
@@ -416,6 +412,7 @@ namespace Paway.Forms
             add { base.Events.AddHandler(EventItemClick, value); }
             remove { base.Events.RemoveHandler(EventItemClick, value); }
         }
+
         #endregion
 
         #region Override Methods
@@ -428,7 +425,7 @@ namespace Paway.Forms
             base.OnPaint(e);
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
-            if (!_iText)
+            if (!_iColorText)
             {
                 g.FillRectangle(new SolidBrush(this.ColorSpace), new Rectangle(-1, -1, this.Width + 1, this.Height + 1));
             }
@@ -453,6 +450,7 @@ namespace Paway.Forms
                 DrawItem(g, new ToolItem(), ref xPos, ref yPos, ref x, ref y, i == count - 1);
             }
         }
+        #region 绘制方法
         private void DrawItem(Graphics g, ToolItem item, ref int xPos, ref int yPos, ref int x, ref int y, bool iLast)
         {
             // 当前 Item 所在的矩型区域
@@ -524,7 +522,7 @@ namespace Paway.Forms
                     }
                     else
                     {
-                        if (_iText)
+                        if (_iColorText)
                         {
                             _colorFore = this.ColorDownBack;
                         }
@@ -550,7 +548,7 @@ namespace Paway.Forms
         /// </summary>
         private void DrawMoveBack(Graphics g, ToolItem item)
         {
-            if (_iText)
+            if (_iColorText)
             {
                 _colorFore = this.ColorMoveBack;
             }
@@ -569,7 +567,7 @@ namespace Paway.Forms
         /// </summary>
         private void DrawImage(Graphics g, ToolItem item)
         {
-            if (_isImageShow && item.Image != null)
+            if (_iImageShow && item.Image != null)
             {
                 Rectangle imageRect = new Rectangle();
                 switch (_tLocation)
@@ -602,7 +600,7 @@ namespace Paway.Forms
                     Y = item.Rectangle.Y + pad,
                     Width = item.Rectangle.Width,
                 };
-                if (!_isImageShow)
+                if (!_iImageShow)
                 {
                     textRect.Height = item.Rectangle.Height;
                 }
@@ -735,6 +733,8 @@ namespace Paway.Forms
             this.Invalidate(item.Rectangle);
         }
 
+        #endregion
+
         /// <summary>
         /// 引发 System.Windows.Forms.Form.MouseMove 事件。
         /// </summary>
@@ -747,7 +747,7 @@ namespace Paway.Forms
                 Point point = e.Location;
                 foreach (ToolItem item in this.Items)
                 {
-                    if (!_isCheckEvent && item.MouseState == TMouseState.Down)
+                    if (!_iCheckEvent && item.MouseState == TMouseState.Down)
                     {
                         continue;
                     }
@@ -778,7 +778,7 @@ namespace Paway.Forms
             {
                 foreach (ToolItem item in this.Items)
                 {
-                    if ((_isCheckEvent && !_isMultiple) || item.MouseState != TMouseState.Down)
+                    if ((_iCheckEvent && !_isMultiple) || item.MouseState != TMouseState.Down)
                     {
                         item.MouseState = TMouseState.Leave;
                         this.Invalidate(item.Rectangle);
@@ -848,22 +848,6 @@ namespace Paway.Forms
             }
         }
         /// <summary>
-        /// 坐标点是否包含在项中
-        /// </summary>
-        /// <param name="point"></param>
-        /// <returns></returns>
-        public override bool Contain(Point point)
-        {
-            for (int i = 0; i < this.Items.Count; i++)
-            {
-                if (this.Items[i].Rectangle.Contains(point))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        /// <summary>
         /// 引发 System.Windows.Forms.Form.MouseUp 事件。
         /// </summary>
         /// <param name="e">包含事件数据的 System.Windows.Forms.MouseEventArgs。</param>
@@ -900,6 +884,9 @@ namespace Paway.Forms
             }
         }
 
+        #endregion
+
+        #region Public Methods
         /// <summary>
         /// 获取所有选中项
         /// </summary>
@@ -916,6 +903,23 @@ namespace Paway.Forms
             }
             return iList;
         }
+        /// <summary>
+        /// 坐标点是否包含在项中
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public override bool Contain(Point point)
+        {
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                if (this.Items[i].Rectangle.Contains(point))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         #endregion
 
         #region 激发事件的方法
@@ -945,13 +949,14 @@ namespace Paway.Forms
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
         public virtual void OnItemClick(EventArgs e)
         {
-            if (_isCheckEvent)
+            if (_iCheckEvent)
             {
                 EventHandler handler = base.Events[EventItemClick] as EventHandler;
                 if (handler != null)
                     handler(this, e);
             }
         }
+
         #endregion
 
         #region 扩展方法 - 动态显示项的图像
@@ -971,12 +976,6 @@ namespace Paway.Forms
             get { return pictureBox1.Image; }
             set { pictureBox1.Image = value; }
         }
-
-        void timer_Tick(object sender, EventArgs e)
-        {
-            this.Invalidate(this._items[pIndex].Rectangle);
-        }
-
         /// <summary>
         /// 动态显示项的图像
         /// </summary>
@@ -1020,6 +1019,10 @@ namespace Paway.Forms
             timer_Tick(this, EventArgs.Empty);
         }
 
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            this.Invalidate(this._items[pIndex].Rectangle);
+        }
         private void InitializeComponent()
         {
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
