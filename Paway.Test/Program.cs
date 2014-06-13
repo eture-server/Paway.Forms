@@ -2,6 +2,7 @@
 using Paway.Forms.Metro;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -16,9 +17,10 @@ namespace Paway.Test
         [STAThread]
         static void Main()
         {
-            log4net.Config.XmlConfigurator.Configure();
+            log4net.Config.XmlConfigurator.Configure(new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "alog.xml")));
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            log.Error("log.Error:" + DateTime.Now);
             Application.Run(new Form2());
         }
     }

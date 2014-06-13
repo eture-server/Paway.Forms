@@ -441,7 +441,8 @@ namespace Paway.Forms
             if (x != 1 && y != 1)
             {
                 count = x > y ? x : y;
-                count = count - this.Items.Count % count;
+                if (this.Items.Count % count == 0) count = 0;
+                else count = count - this.Items.Count % count;
             }
             //填充空Item
             for (int i = 0; i < count; i++)
