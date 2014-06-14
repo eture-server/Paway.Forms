@@ -710,7 +710,7 @@ namespace Paway.Forms
                     {
                         rect = new Rectangle()
                         {
-                            X = textRect.X,
+                            X = textRect.X + (tHight - sHight) / 2,
                             Y = textRect.Y + height + (tHight + 6) * i,
                             Width = textRect.Width,
                             Height = sHight,
@@ -718,6 +718,10 @@ namespace Paway.Forms
                         g.DrawString(text[i], _fontSecond, new SolidBrush(color), rect, format);
                     }
                 }
+            }
+            if (!string.IsNullOrEmpty(item.Desc))
+            {
+                TextRenderer.DrawText(g, item.Desc, Font, textRect, color, DrawParam.TextRight);
             }
             if (!string.IsNullOrEmpty(item.HeadDesc))
             {
@@ -876,13 +880,13 @@ namespace Paway.Forms
                             if (_tEvent == TEvent.Down)
                             {
                                 this._selectedIndex = this.Items.GetIndexOfRange(item);
-                                this.OnSelectedItemChanged(EventArgs.Empty);
-                                this.OnSelectedIndexChanged(EventArgs.Empty);
+                                this.OnSelectedItemChanged(item, EventArgs.Empty);
+                                this.OnSelectedIndexChanged(item, EventArgs.Empty);
                             }
                         }
                         if (_tEvent == TEvent.Down)
                         {
-                            this.OnItemClick(EventArgs.Empty);
+                            this.OnItemClick(item, EventArgs.Empty);
                         }
                         if (_isMultiple)
                         {
@@ -916,6 +920,7 @@ namespace Paway.Forms
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
+            if (e.Button != MouseButtons.Left) return;
             if (_iFocus) return;
 
             if (!this.DesignMode)
@@ -931,9 +936,9 @@ namespace Paway.Forms
                             if (_tEvent == TEvent.Up)
                             {
                                 this._selectedIndex = this.Items.GetIndexOfRange(item);
-                                this.OnSelectedItemChanged(EventArgs.Empty);
-                                this.OnSelectedIndexChanged(EventArgs.Empty);
-                                this.OnItemClick(EventArgs.Empty);
+                                this.OnSelectedItemChanged(item, EventArgs.Empty);
+                                this.OnSelectedIndexChanged(item, EventArgs.Empty);
+                                this.OnItemClick(item, EventArgs.Empty);
                             }
                         }
                         if (item != this.SelectedItem)
@@ -986,17 +991,34 @@ namespace Paway.Forms
         /// </summary>
         public void TFirstItem()
         {
+            TClickItem(0);
+        }
+        /// <summary>
+        /// 选中第index项
+        /// </summary>
+        public void TClickItem(int index)
+        {
             if (this._items.Count == 0) return;
-            this._selectedItem = this._items[0];
+            if (this._items.Count <= index) return;
+            if (!_isMultiple)
+            {
+                for (int i = 0; i < _items.Count; i++)
+                {
+                    if (i == index) continue;
+                    _items[i].MouseState = TMouseState.Normal;
+                }
+            }
+            this._selectedItem = this._items[index];
             if (!_iCheckEvent)
             {
                 this._selectedItem.MouseState = TMouseState.Down;
-                OnSelectedItemChanged(EventArgs.Empty);
+                OnSelectedItemChanged(_items[index], EventArgs.Empty);
             }
             else
             {
-                OnItemClick(EventArgs.Empty);
+                OnItemClick(_items[index], EventArgs.Empty);
             }
+            this.Invalidate();
         }
         #endregion
 
@@ -1004,9 +1026,11 @@ namespace Paway.Forms
         /// <summary>
         /// 当选择的 Item 发生改变时激发。
         /// </summary>
+        /// <param name="item"></param>
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
-        public virtual void OnSelectedItemChanged(EventArgs e)
+        public virtual void OnSelectedItemChanged(ToolItem item, EventArgs e)
         {
+            if (!item.Enable) return;
             EventHandler handler = base.Events[EventSelectedItemChanged] as EventHandler;
             if (handler != null)
                 handler(this, e);
@@ -1014,9 +1038,11 @@ namespace Paway.Forms
         /// <summary>
         /// 当选择的 Item 索引发生改变时激发。
         /// </summary>
+        /// <param name="item"></param>
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
-        public virtual void OnSelectedIndexChanged(EventArgs e)
+        public virtual void OnSelectedIndexChanged(ToolItem item, EventArgs e)
         {
+            if (!item.Enable) return;
             EventHandler handler = base.Events[EventSelectedIndexChanged] as EventHandler;
             if (handler != null)
                 handler(this, e);
@@ -1024,9 +1050,11 @@ namespace Paway.Forms
         /// <summary>
         /// 当单击项时激发。
         /// </summary>
+        /// <param name="item"></param>
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
-        public virtual void OnItemClick(EventArgs e)
+        public virtual void OnItemClick(ToolItem item, EventArgs e)
         {
+            if (!item.Enable) return;
             if (_iCheckEvent)
             {
                 EventHandler handler = base.Events[EventItemClick] as EventHandler;

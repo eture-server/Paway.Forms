@@ -41,16 +41,22 @@ namespace Paway.Forms
         #endregion
 
         #region 属性
+        private Color _color;
         /// <summary>
         /// 获取或设置控件的背景色
         /// </summary>
         [Description("获取或设置控件的背景色"), DefaultValue(typeof(Color), "Transparent")]
         public override Color BackColor
         {
-            get { return base.BackColor; }
+            get
+            {
+                if (_color == Color.Empty)
+                    _color = Color.Transparent;
+                return _color;
+            }
             set
             {
-                base.BackColor = value;
+                _color = value;
                 if (value.A > _trans)
                 {
                     base.BackColor = Color.FromArgb(_trans, value.R, value.G, value.B);

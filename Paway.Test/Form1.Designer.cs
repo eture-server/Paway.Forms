@@ -56,10 +56,13 @@
             this.toolBar2.IColorText = true;
             this.toolBar2.ImageSize = new System.Drawing.Size(16, 16);
             toolItem1.Color = System.Drawing.Color.Empty;
+            toolItem1.First = "World";
             toolItem1.Rectangle = new System.Drawing.Rectangle(0, 0, 120, 120);
             toolItem1.Text = "World";
             toolItem2.Color = System.Drawing.Color.Empty;
+            toolItem2.First = "北京";
             toolItem2.Rectangle = new System.Drawing.Rectangle(121, 0, 120, 120);
+            toolItem2.Sencond = "in this one\r\nin this one\r\nin this one\r\nin this one\r\n";
             toolItem2.Text = "北京\r\nin this one";
             this.toolBar2.Items.Add(toolItem1);
             this.toolBar2.Items.Add(toolItem2);
@@ -87,8 +90,10 @@
             toolItem3.Color = System.Drawing.Color.Empty;
             toolItem3.Enable = false;
             toolItem3.EndDesc = "你好";
+            toolItem3.First = "点击进入";
             toolItem3.HeadDesc = "世界";
             toolItem3.Rectangle = new System.Drawing.Rectangle(0, 0, 120, 120);
+            toolItem3.Sencond = "Click To Enter\r\nClick To Enter\r\nClick To Enter\r\nClick To Enter\r\n";
             toolItem3.Text = "点击进入\r\nClick To Enter";
             this.toolBar4.Items.Add(toolItem3);
             this.toolBar4.ItemSize = new System.Drawing.Size(120, 120);
@@ -111,12 +116,16 @@
             this.toolBar1.IImageShow = false;
             this.toolBar1.ImageSize = new System.Drawing.Size(0, 0);
             toolItem4.Color = System.Drawing.Color.Empty;
+            toolItem4.Desc = "x1";
             toolItem4.Enable = false;
             toolItem4.EndDesc = "world";
+            toolItem4.First = "你好";
             toolItem4.HeadDesc = "hello";
             toolItem4.Rectangle = new System.Drawing.Rectangle(0, 0, 120, 120);
+            toolItem4.Sencond = "多餐厅都推出\r\n平板电子菜谱\r\n顾客只需用\r\n指轻轻一划\r\n多餐厅都推出\r\n平板电子菜谱\r\n多餐厅都推出\r\n平板电子菜谱\r\n多餐厅都推出\r\n平板电子菜谱\r\n多餐厅" +
+    "都推出\r\n平板电子菜谱\r\n";
             toolItem4.Tag = "";
-            toolItem4.Text = "你好\r\n多餐厅都推出\r\n平板电子菜谱\r\n顾客只需用\r\n指轻轻一划";
+            toolItem4.Text = "你好\r\n多餐厅都推出\r\n平板电子菜谱";
             this.toolBar1.Items.Add(toolItem4);
             this.toolBar1.ItemSize = new System.Drawing.Size(120, 120);
             this.toolBar1.Location = new System.Drawing.Point(19, 8);

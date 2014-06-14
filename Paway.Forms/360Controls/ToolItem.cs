@@ -26,11 +26,47 @@ namespace Paway.Forms
         [TypeConverter(typeof(StringConverter))]
         public object Tag { get; set; }
         /// <summary>
+        /// 首行文字
+        /// </summary>
+        [Browsable(false), Description("首行文字"), DefaultValue(null)]
+        public string First { get; set; }
+        /// <summary>
+        /// 其它行文字
+        /// </summary>
+        [Browsable(false), Description("其它行文字"), DefaultValue(null)]
+        public string Sencond { get; set; }
+        private string _text;
+        /// <summary>
         /// Item 上显示的文字信息
         /// </summary>
         [DefaultValue(null)]
         [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
-        public string Text { get; set; }
+        public string Text
+        {
+            get { return _text; }
+            set
+            {
+                _text = value;
+                string[] text = _text.Split(new string[] { "\r\n", "&" }, StringSplitOptions.RemoveEmptyEntries);
+                if (text.Length > 0)
+                {
+                    First = text[0];
+                }
+                for (int i = 1; i < text.Length; i++)
+                {
+                    Sencond = string.Format("{0}{1}\r\n", Sencond, text[i]);
+                }
+                if (Sencond != null)
+                {
+                    Sencond.TrimEnd(new Char[] { '\r', '\n' });
+                }
+            }
+        }
+        /// <summary>
+        /// Item 上显示的头部描述信息
+        /// </summary>
+        [Description("Item 上显示的描述信息"), DefaultValue(null)]
+        public string Desc { get; set; }
         /// <summary>
         /// Item 上显示的头部描述信息
         /// </summary>
@@ -53,7 +89,7 @@ namespace Paway.Forms
         /// <summary>
         /// Item 当前的鼠标状态
         /// </summary>
-        [Description("Item 当前的鼠标状态"), DefaultValue(typeof(TMouseState), "Normal")]
+        [Browsable(false), Description("Item 当前的鼠标状态"), DefaultValue(typeof(TMouseState), "Normal")]
         public TMouseState MouseState { get; set; }
         /// <summary>
         /// Item 上的右键菜单
