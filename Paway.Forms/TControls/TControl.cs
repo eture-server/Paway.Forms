@@ -13,6 +13,17 @@ namespace Paway.Forms
     /// </summary>
     public class TControl : UserControl, IControl
     {
+        #region 变量
+        private List<Locate> tList;
+        private Size normal = Size.Empty;
+        /// <summary>
+        /// 指定窗体窗口如何显示
+        /// </summary>
+        protected FormWindowState _windowState = FormWindowState.Normal;
+
+        #endregion
+
+        #region 构造
         /// <summary>
         /// 构造
         /// </summary>
@@ -26,6 +37,8 @@ namespace Paway.Forms
             this.UpdateStyles();
             this.BackColor = Color.Transparent;
         }
+
+        #endregion
 
         #region 属性
         /// <summary>
@@ -115,6 +128,82 @@ namespace Paway.Forms
         /// <returns></returns>
         public virtual bool Contain(Point p) { return false; }
 
+        #endregion
+
+        #region 在窗体上固定控件位置
+        /// <summary>
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            ToLocate();
+        }
+        /// <summary>
+        /// 在窗体上固定控件位置
+        /// </summary>
+        protected void AddLocate(Control control)
+        {
+            AddLocate(control, StringAlignment.Center, StringAlignment.Center);
+        }
+        /// <summary>
+        /// 在窗体上固定控件位置
+        /// </summary>
+        protected void AddLocate(Control control, StringAlignment lLocation)
+        {
+            AddLocate(control, lLocation, lLocation);
+        }
+        /// <summary>
+        /// 在窗体上固定控件位置
+        /// </summary>
+        protected void AddLocate(Control control, StringAlignment xLocation, StringAlignment yLocation)
+        {
+            if (normal == Size.Empty)
+            {
+                normal = this.Size;
+            }
+            if (tList == null)
+            {
+                tList = new List<Locate>();
+            }
+            tList.Add(new Locate(control, control.Location, xLocation, yLocation));
+        }
+        private void ToLocate()
+        {
+            if (tList == null) return;
+            for (int i = 0; i < tList.Count; i++)
+            {
+                int left = 0;
+                int top = 0;
+                switch (tList[i].XLocation)
+                {
+                    case StringAlignment.Near:
+                        left = 0;
+                        break;
+                    case StringAlignment.Center:
+                        left = tList[i].Control.Width / 2;
+                        break;
+                    case StringAlignment.Far:
+                        left = tList[i].Control.Width;
+                        break;
+                }
+                switch (tList[i].YLocation)
+                {
+                    case StringAlignment.Near:
+                        top = 0;
+                        break;
+                    case StringAlignment.Center:
+                        top = tList[i].Control.Height / 2;
+                        break;
+                    case StringAlignment.Far:
+                        top = tList[i].Control.Height;
+                        break;
+                }
+                int x = this.Width * (tList[i].Point.X + left) / normal.Width;
+                int y = this.Height * (tList[i].Point.Y + top) / normal.Height;
+                tList[i].Control.Location = new Point(x - left, y - top);
+            }
+        }
         #endregion
     }
 }

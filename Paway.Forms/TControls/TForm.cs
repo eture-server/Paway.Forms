@@ -16,7 +16,7 @@ namespace Paway.Forms
     /// </summary>
     public partial class TForm : Form
     {
-        #region 属性
+        #region 变量
         private List<Locate> tList;
         private Size normal = Size.Empty;
         /// <summary>
@@ -53,7 +53,7 @@ namespace Paway.Forms
 
         #endregion
 
-        #region MyRegion
+        #region 在窗体上固定控件位置
         /// <summary>
         /// </summary>
         /// <param name="e"></param>

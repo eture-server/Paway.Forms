@@ -201,7 +201,7 @@ namespace Paway.Forms
             ItemNode item = node as ItemNode;
             if (item == null || _items.Count <= 1)
             {
-                TextRenderer.DrawText(g, node.Text, this.Font, rect, foreColor, DrawParam.VerticalEndEllipsisText);
+                TextRenderer.DrawText(g, node.Text, this.Font, rect, foreColor, DrawParam.TextEnd);
             }
             else
             {
@@ -217,7 +217,7 @@ namespace Paway.Forms
                     left += _items[i].Width + x - rect.X;
                     if (_items[i].Type == TreeItemType.Text)
                     {
-                        TextRenderer.DrawText(g, item[_items[i].Name].ToString(), this.Font, irect, foreColor, DrawParam.VerticalEndEllipsisText);
+                        TextRenderer.DrawText(g, item[_items[i].Name].ToString(), this.Font, irect, foreColor, DrawParam.TextEnd);
                     }
                     else
                     {
@@ -236,7 +236,7 @@ namespace Paway.Forms
                     right += _items[i].Width;
                     if (_items[i].Type == TreeItemType.Text)
                     {
-                        TextRenderer.DrawText(g, item[_items[i].Name].ToString(), this.Font, irect, foreColor, DrawParam.VerticalEndEllipsisText);
+                        TextRenderer.DrawText(g, item[_items[i].Name].ToString(), this.Font, irect, foreColor, DrawParam.TextEnd);
                     }
                     else
                     {

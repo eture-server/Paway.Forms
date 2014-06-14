@@ -6,18 +6,13 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Paway.Utils
+namespace Paway.Forms
 {
     /// <summary>
     /// 多控件切换方法
     /// </summary>
-    public class MControl : UserControl
+    public class MControl : TControl
     {
-        /// <summary>
-        /// 日志
-        /// </summary>
-        protected static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <summary>
         /// 从其它控件切换过来时重新激活
         /// </summary>

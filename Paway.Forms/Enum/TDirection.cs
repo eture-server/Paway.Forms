@@ -26,6 +26,20 @@ namespace Paway.Forms
         Right,
     }
     /// <summary>
+    /// 图片位置
+    /// </summary>
+    public enum TILocation
+    {
+        /// <summary>
+        /// 上面
+        /// </summary>
+        Up,
+        /// <summary>
+        /// 左面
+        /// </summary>
+        Left,
+    }
+    /// <summary>
     /// 方向
     /// </summary>
     public enum TDirection

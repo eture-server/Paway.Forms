@@ -85,6 +85,20 @@ namespace Paway.Forms
         #endregion
 
         #region 属性
+        private StringAlignment _alignment = StringAlignment.Center;
+        /// <summary>
+        /// Text文本水平位置对齐方式
+        /// </summary>
+        [Description("文本水平位置对齐方式"), DefaultValue(typeof(StringAlignment), "Center")]
+        public StringAlignment TTextAlignment
+        {
+            get { return _alignment; }
+            set
+            {
+                _alignment = value;
+                this.Invalidate();
+            }
+        }
         /// <summary>
         /// 第二行字体
         /// </summary>
@@ -128,6 +142,27 @@ namespace Paway.Forms
             set { _fontHeadDesc = value; }
         }
 
+        /// <summary>
+        /// 默认的颜色
+        /// </summary>
+        private Color _normalSpace = Color.Transparent;
+        /// <summary>
+        /// 默认的颜色
+        /// </summary>
+        [Description("默认的颜色"), DefaultValue(typeof(Color), "Transparent")]
+        public Color ColorNormal
+        {
+            get { return this._normalSpace; }
+            set
+            {
+                _normalSpace = value;
+                if (value.A > Trans)
+                {
+                    _normalSpace = Color.FromArgb(Trans, value.R, value.G, value.B);
+                }
+                Invalidate(true);
+            }
+        }
         /// <summary>
         /// 项间隔的颜色
         /// </summary>
@@ -186,12 +221,12 @@ namespace Paway.Forms
         /// <summary>
         /// 图片显示位置
         /// </summary>
-        private TLocation _tLocation = TLocation.Up;
+        private TILocation _tLocation = TILocation.Up;
         /// <summary>
         /// 图片显示位置
         /// </summary>
-        [Description("图片显示位置，上或左"), DefaultValue(typeof(TLocation), "Up")]
-        public TLocation TLocation
+        [Description("图片显示位置"), DefaultValue(typeof(TILocation), "Up")]
+        public TILocation TLocation
         {
             get { return this._tLocation; }
             set
@@ -321,10 +356,10 @@ namespace Paway.Forms
                 this._imageSize = value;
                 switch (_tLocation)
                 {
-                    case TLocation.Up:
+                    case TILocation.Up:
                         this._itemSize = new Size(this._itemSize.Width, 34 + value.Height);
                         break;
-                    case TLocation.Left:
+                    case TILocation.Left:
                         this._itemSize = new Size(58 + _rightLen + value.Width, this._itemSize.Height);
                         break;
                 }
@@ -385,6 +420,17 @@ namespace Paway.Forms
             get { return new Size(300, 82); }
         }
 
+        /// <summary>
+        /// 多行列排列时的行数
+        /// </summary>
+        [Browsable(false), Description("多行列排列时的行数"), DefaultValue(1)]
+        public int CountLine { get; private set; }
+        /// <summary>
+        /// 多行列排列时的列数
+        /// </summary>
+        [Browsable(false), Description("多行列排列时的列数"), DefaultValue(1)]
+        public int CountColumn { get; private set; }
+
         #endregion
 
         #region 事件
@@ -431,27 +477,28 @@ namespace Paway.Forms
             }
             int xPos = this.Padding.Left;
             int yPos = this.Padding.Top;
-            int x = 1, y = 1;
+            this.CountColumn = 1;
+            this.CountLine = 1;
             for (int i = 0; i < this.Items.Count; i++)
             {
-                DrawItem(g, this.Items[i], ref xPos, ref yPos, ref x, ref y, i == this.Items.Count - 1);
+                DrawItem(g, this.Items[i], ref xPos, ref yPos, i == this.Items.Count - 1);
             }
             int count = 0;
             //多行/列补充Item
-            if (x != 1 && y != 1)
+            if (this.CountColumn != 1 && this.CountLine != 1)
             {
-                count = x > y ? x : y;
+                count = this.CountColumn > this.CountLine ? this.CountColumn : this.CountLine;
                 if (this.Items.Count % count == 0) count = 0;
                 else count = count - this.Items.Count % count;
             }
             //填充空Item
             for (int i = 0; i < count; i++)
             {
-                DrawItem(g, new ToolItem(), ref xPos, ref yPos, ref x, ref y, i == count - 1);
+                DrawItem(g, new ToolItem(), ref xPos, ref yPos, i == count - 1);
             }
         }
         #region 绘制方法
-        private void DrawItem(Graphics g, ToolItem item, ref int xPos, ref int yPos, ref int x, ref int y, bool iLast)
+        private void DrawItem(Graphics g, ToolItem item, ref int xPos, ref int yPos, bool iLast)
         {
             // 当前 Item 所在的矩型区域
             item.Rectangle = new Rectangle(xPos, yPos, this._itemSize.Width, this._itemSize.Height);
@@ -468,13 +515,13 @@ namespace Paway.Forms
                         if (!iLast)
                         {
                             yPos += item.Rectangle.Height + this._itemSpace;
-                            y++;
+                            this.CountLine++;
                         }
                     }
                     else
                     {
                         xPos += item.Rectangle.Width + this._itemSpace;
-                        if (y == 1 && !iLast) x++;
+                        if (this.CountLine == 1 && !iLast) this.CountColumn++;
                     }
                     break;
                 case TDirection.Vertical:
@@ -484,13 +531,13 @@ namespace Paway.Forms
                         if (!iLast)
                         {
                             xPos += item.Rectangle.Width + this._itemSpace;
-                            x++;
+                            this.CountColumn++;
                         }
                     }
                     else
                     {
                         yPos += item.Rectangle.Height + this._itemSpace;
-                        if (x == 1 && !iLast) y++;
+                        if (this.CountColumn == 1 && !iLast) this.CountLine++;
                     }
                     break;
             }
@@ -500,16 +547,27 @@ namespace Paway.Forms
         /// </summary>
         private void DrawBackground(Graphics g, ToolItem item)
         {
+            if (!item.Enable)
+            {
+                item.MouseState = TMouseState.Normal;
+            }
             switch (item.MouseState)
             {
                 case TMouseState.Normal:
                 case TMouseState.Leave:
-                    Color color = item.Color == Color.Empty ? this.BackColor : item.Color;
+                    Color color = item.Color == Color.Empty ? (_iColorText ? this.ForeColor : _normalSpace) : item.Color;
                     if (color.A > Trans)
                     {
                         color = Color.FromArgb(Trans, color.R, color.G, color.B);
                     }
-                    g.FillRectangle(new SolidBrush(color), item.Rectangle);
+                    if (_iColorText)
+                    {
+                        _colorFore = color;
+                    }
+                    else
+                    {
+                        g.FillRectangle(new SolidBrush(color), item.Rectangle);
+                    }
                     break;
                 case TMouseState.Move:
                 case TMouseState.Up:
@@ -572,11 +630,11 @@ namespace Paway.Forms
                 Rectangle imageRect = new Rectangle();
                 switch (_tLocation)
                 {
-                    case TLocation.Up:
+                    case TILocation.Up:
                         imageRect.X = item.Rectangle.X + (item.Rectangle.Width - this._imageSize.Width) / 2;
                         imageRect.Y = 6;
                         break;
-                    case TLocation.Left:
+                    case TILocation.Left:
                         imageRect.X = item.Rectangle.X + 2;
                         imageRect.Y = item.Rectangle.Y + (item.Rectangle.Height - this._imageSize.Height) / 2;
                         break;
@@ -590,9 +648,18 @@ namespace Paway.Forms
         /// </summary>
         private void DrawText(Graphics g, ToolItem item, Color color)
         {
+            if (!item.Enable)
+            {
+                _colorFore = this.ForeColor;
+            }
             Rectangle textRect = Rectangle.Empty;
             if (!string.IsNullOrEmpty(item.Text))
             {
+                StringFormat format = new StringFormat()
+                {
+                    Alignment = _alignment,
+                    LineAlignment = StringAlignment.Center
+                };
                 int pad = 3;
                 textRect = new Rectangle
                 {
@@ -608,11 +675,11 @@ namespace Paway.Forms
                 {
                     switch (_tLocation)
                     {
-                        case TLocation.Up:
+                        case TILocation.Up:
                             textRect.Y = item.Rectangle.Height / 5 * 3;
                             textRect.Height = item.Rectangle.Height / 5 * 2;
                             break;
-                        case TLocation.Left:
+                        case TILocation.Left:
                             textRect.X = item.Rectangle.X + 2 * 2 + _imageSize.Width;
                             textRect.Height = item.Rectangle.Height;
                             textRect.Width = item.Rectangle.Width + item.Rectangle.X - textRect.X - _rightLen;
@@ -621,40 +688,35 @@ namespace Paway.Forms
                 }
                 textRect.Width -= pad * 2;
                 textRect.Height -= pad * 2;
-                int index = item.Text.IndexOf("\r\n");
-                if (index == -1)
+                string[] text = item.Text.Split(new string[] { "\r\n", "&" }, StringSplitOptions.RemoveEmptyEntries);
+                if (text.Length > 0)
                 {
-                    index = item.Text.IndexOf("&");
-                }
-                if (index != -1)
-                {
-                    string title = item.Text.Substring(0, index);
-                    string second = item.Text.Remove(0, index + 2);
-                    int tHight = Font.GetHeight(g).ToInt() + 6;
+                    int tHight = Font.GetHeight(g).ToInt();
                     int sHight = _fontSecond.GetHeight(g).ToInt();
-                    int height = textRect.Height - tHight - sHight;
+                    int height = textRect.Height - tHight;
+                    height -= (text.Length - 1) * sHight;
+                    height -= (text.Length - 1) * 6;
                     height /= 2;
 
-                    Rectangle titleRect = new Rectangle()
+                    Rectangle rect = new Rectangle()
                     {
                         X = textRect.X,
                         Y = textRect.Y + height,
                         Width = textRect.Width,
                         Height = tHight,
                     };
-                    TextRenderer.DrawText(g, title, this.Font, titleRect, color, DrawParam.LevelText);
-                    Rectangle secondRect = new Rectangle()
+                    g.DrawString(text[0], this.Font, new SolidBrush(color), rect, format);
+                    for (int i = 1; i < text.Length; i++)
                     {
-                        X = textRect.X,
-                        Y = textRect.Y + height + tHight,
-                        Width = textRect.Width,
-                        Height = sHight,
-                    };
-                    TextRenderer.DrawText(g, second, _fontSecond, secondRect, color, DrawParam.LevelText);
-                }
-                else
-                {
-                    TextRenderer.DrawText(g, item.Text, this.Font, textRect, color, DrawParam.LevelText);
+                        rect = new Rectangle()
+                        {
+                            X = textRect.X,
+                            Y = textRect.Y + height + (tHight + 6) * i,
+                            Width = textRect.Width,
+                            Height = sHight,
+                        };
+                        g.DrawString(text[i], _fontSecond, new SolidBrush(color), rect, format);
+                    }
                 }
             }
             if (!string.IsNullOrEmpty(item.HeadDesc))
@@ -667,7 +729,7 @@ namespace Paway.Forms
                     Width = textRect.Width,
                     Height = dHeight,
                 };
-                TextRenderer.DrawText(g, item.HeadDesc, _fontHeadDesc, descRect, this.ForeColor, DrawParam.LeftText);
+                TextRenderer.DrawText(g, item.HeadDesc, _fontHeadDesc, descRect, this.ForeColor, DrawParam.TextLeft);
             }
             if (!string.IsNullOrEmpty(item.EndDesc))
             {
@@ -679,7 +741,7 @@ namespace Paway.Forms
                     Width = textRect.Width,
                     Height = dHeight,
                 };
-                TextRenderer.DrawText(g, item.EndDesc, _fontEndDesc, descRect, this.ForeColor, DrawParam.RightText);
+                TextRenderer.DrawText(g, item.EndDesc, _fontEndDesc, descRect, this.ForeColor, DrawParam.TextRight);
             }
         }
         /// <summary>
@@ -919,7 +981,23 @@ namespace Paway.Forms
             }
             return false;
         }
-
+        /// <summary>
+        /// 选中第一项
+        /// </summary>
+        public void TFirstItem()
+        {
+            if (this._items.Count == 0) return;
+            this._selectedItem = this._items[0];
+            if (!_iCheckEvent)
+            {
+                this._selectedItem.MouseState = TMouseState.Down;
+                OnSelectedItemChanged(EventArgs.Empty);
+            }
+            else
+            {
+                OnItemClick(EventArgs.Empty);
+            }
+        }
         #endregion
 
         #region 激发事件的方法

@@ -39,13 +39,14 @@
             // 
             // toolBar1
             // 
-            this.toolBar1.BackColor = System.Drawing.Color.LightSalmon;
+            this.toolBar1.AutoScroll = true;
             this.toolBar1.ColorDownBack = System.Drawing.Color.DeepSkyBlue;
             this.toolBar1.ColorMoveBack = System.Drawing.Color.LightBlue;
-            this.toolBar1.ColorSpace = System.Drawing.Color.White;
-            this.toolBar1.ImageSize = new System.Drawing.Size(16, 16);
+            this.toolBar1.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(255)))), ((int)(((byte)(160)))), ((int)(((byte)(122)))));
+            this.toolBar1.ColorSpace = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.toolBar1.ICheckEvent = true;
             this.toolBar1.IImageShow = false;
-            this.toolBar1.IsMultiple = true;
+            this.toolBar1.ImageSize = new System.Drawing.Size(16, 16);
             toolItem1.Color = System.Drawing.Color.Maroon;
             toolItem1.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
             toolItem1.Rectangle = new System.Drawing.Rectangle(0, 0, 93, 34);
@@ -76,10 +77,10 @@
             this.toolBar1.Location = new System.Drawing.Point(33, 12);
             this.toolBar1.Name = "toolBar1";
             this.toolBar1.ProgressImage = global::Paway.Test.Properties.Resources.process;
-            this.toolBar1.Size = new System.Drawing.Size(292, 113);
+            this.toolBar1.Size = new System.Drawing.Size(302, 82);
             this.toolBar1.TabIndex = 19;
             this.toolBar1.TEvent = Paway.Forms.TEvent.Up;
-            this.toolBar1.TLocation = Paway.Forms.TLocation.Left;
+            this.toolBar1.TLocation = Paway.Forms.TILocation.Left;
             // 
             // Form2
             // 

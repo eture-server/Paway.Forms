@@ -62,6 +62,9 @@
     <Compile Include="TControls\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TControls\MControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="TControls\TControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

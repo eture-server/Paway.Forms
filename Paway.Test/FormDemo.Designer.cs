@@ -29,26 +29,26 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem5 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem6 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem7 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem8 = new Paway.Forms.ToolItem();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            Paway.Forms.ToolItem toolItem11 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem12 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem13 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem14 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem15 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem16 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem17 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem18 = new Paway.Forms.ToolItem();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDemo));
-            Paway.Forms.ToolItem toolItem9 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem10 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem19 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem20 = new Paway.Forms.ToolItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.在线ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.离开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -206,8 +206,8 @@
             // CommandType2
             // 
             this.CommandType2.DataPropertyName = "CommandType";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.CommandType2.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CommandType2.DefaultCellStyle = dataGridViewCellStyle10;
             this.CommandType2.HeaderText = "类型";
             this.CommandType2.Name = "CommandType2";
             this.CommandType2.ReadOnly = true;
@@ -256,8 +256,8 @@
             // dataGridViewTextBoxColumn3
             // 
             this.dataGridViewTextBoxColumn3.DataPropertyName = "CommandType";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle11;
             this.dataGridViewTextBoxColumn3.HeaderText = "类型";
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
@@ -306,8 +306,8 @@
             // dataGridViewTextBoxColumn8
             // 
             this.dataGridViewTextBoxColumn8.DataPropertyName = "CommandType";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn8.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn8.DefaultCellStyle = dataGridViewCellStyle12;
             this.dataGridViewTextBoxColumn8.HeaderText = "类型";
             this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
             this.dataGridViewTextBoxColumn8.ReadOnly = true;
@@ -356,8 +356,8 @@
             // dataGridViewTextBoxColumn13
             // 
             this.dataGridViewTextBoxColumn13.DataPropertyName = "CommandType";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn13.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn13.DefaultCellStyle = dataGridViewCellStyle13;
             this.dataGridViewTextBoxColumn13.HeaderText = "类型";
             this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
             this.dataGridViewTextBoxColumn13.ReadOnly = true;
@@ -406,8 +406,8 @@
             // dataGridViewTextBoxColumn18
             // 
             this.dataGridViewTextBoxColumn18.DataPropertyName = "CommandType";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn18.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn18.DefaultCellStyle = dataGridViewCellStyle14;
             this.dataGridViewTextBoxColumn18.HeaderText = "类型";
             this.dataGridViewTextBoxColumn18.Name = "dataGridViewTextBoxColumn18";
             this.dataGridViewTextBoxColumn18.ReadOnly = true;
@@ -456,8 +456,8 @@
             // dataGridViewTextBoxColumn23
             // 
             this.dataGridViewTextBoxColumn23.DataPropertyName = "CommandType";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn23.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn23.DefaultCellStyle = dataGridViewCellStyle15;
             this.dataGridViewTextBoxColumn23.HeaderText = "类型";
             this.dataGridViewTextBoxColumn23.Name = "dataGridViewTextBoxColumn23";
             this.dataGridViewTextBoxColumn23.ReadOnly = true;
@@ -506,8 +506,8 @@
             // dataGridViewTextBoxColumn28
             // 
             this.dataGridViewTextBoxColumn28.DataPropertyName = "CommandType";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn28.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn28.DefaultCellStyle = dataGridViewCellStyle16;
             this.dataGridViewTextBoxColumn28.HeaderText = "类型";
             this.dataGridViewTextBoxColumn28.Name = "dataGridViewTextBoxColumn28";
             this.dataGridViewTextBoxColumn28.ReadOnly = true;
@@ -556,8 +556,8 @@
             // dataGridViewTextBoxColumn33
             // 
             this.dataGridViewTextBoxColumn33.DataPropertyName = "CommandType";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn33.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn33.DefaultCellStyle = dataGridViewCellStyle17;
             this.dataGridViewTextBoxColumn33.HeaderText = "类型";
             this.dataGridViewTextBoxColumn33.Name = "dataGridViewTextBoxColumn33";
             this.dataGridViewTextBoxColumn33.ReadOnly = true;
@@ -606,8 +606,8 @@
             // dataGridViewTextBoxColumn38
             // 
             this.dataGridViewTextBoxColumn38.DataPropertyName = "CommandType";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn38.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn38.DefaultCellStyle = dataGridViewCellStyle18;
             this.dataGridViewTextBoxColumn38.HeaderText = "类型";
             this.dataGridViewTextBoxColumn38.Name = "dataGridViewTextBoxColumn38";
             this.dataGridViewTextBoxColumn38.ReadOnly = true;
@@ -679,73 +679,41 @@
             this.toolBar3.ColorDownBack = System.Drawing.SystemColors.GradientActiveCaption;
             this.toolBar3.ColorMoveBack = System.Drawing.SystemColors.GradientInactiveCaption;
             this.toolBar3.ColorSpace = System.Drawing.Color.White;
-            this.toolBar3.ImageSize = new System.Drawing.Size(16, 16);
             this.toolBar3.ICheckEvent = true;
             this.toolBar3.IImageShow = false;
-            toolItem1.ContextMenuStrip = null;
-            toolItem1.EndDesc = null;
-            toolItem1.HeadDesc = null;
-            toolItem1.Image = null;
-            toolItem1.Rectangle = new System.Drawing.Rectangle(0, 0, 40, 18);
-            toolItem1.Tag = null;
-            toolItem1.Text = "光暗";
-            toolItem2.ContextMenuStrip = null;
-            toolItem2.EndDesc = null;
-            toolItem2.HeadDesc = null;
-            toolItem2.Image = null;
-            toolItem2.Rectangle = new System.Drawing.Rectangle(0, 18, 40, 18);
-            toolItem2.Tag = null;
-            toolItem2.Text = "反色";
-            toolItem3.ContextMenuStrip = null;
-            toolItem3.EndDesc = null;
-            toolItem3.HeadDesc = null;
-            toolItem3.Image = null;
-            toolItem3.Rectangle = new System.Drawing.Rectangle(0, 36, 40, 18);
-            toolItem3.Tag = null;
-            toolItem3.Text = "浮雕";
-            toolItem4.ContextMenuStrip = null;
-            toolItem4.EndDesc = null;
-            toolItem4.HeadDesc = null;
-            toolItem4.Image = null;
-            toolItem4.Rectangle = new System.Drawing.Rectangle(0, 54, 40, 18);
-            toolItem4.Tag = null;
-            toolItem4.Text = "滤色";
-            toolItem5.ContextMenuStrip = null;
-            toolItem5.EndDesc = null;
-            toolItem5.HeadDesc = null;
-            toolItem5.Image = null;
-            toolItem5.Rectangle = new System.Drawing.Rectangle(0, 72, 40, 18);
-            toolItem5.Tag = null;
-            toolItem5.Text = "左右";
-            toolItem6.ContextMenuStrip = null;
-            toolItem6.EndDesc = null;
-            toolItem6.HeadDesc = null;
-            toolItem6.Image = null;
-            toolItem6.Rectangle = new System.Drawing.Rectangle(0, 90, 40, 18);
-            toolItem6.Tag = null;
-            toolItem6.Text = "上下";
-            toolItem7.ContextMenuStrip = null;
-            toolItem7.EndDesc = null;
-            toolItem7.HeadDesc = null;
-            toolItem7.Image = null;
-            toolItem7.Rectangle = new System.Drawing.Rectangle(0, 108, 40, 18);
-            toolItem7.Tag = null;
-            toolItem7.Text = "灰度";
-            toolItem8.ContextMenuStrip = null;
-            toolItem8.EndDesc = null;
-            toolItem8.HeadDesc = null;
-            toolItem8.Image = null;
-            toolItem8.Rectangle = new System.Drawing.Rectangle(0, 126, 40, 18);
-            toolItem8.Tag = null;
-            toolItem8.Text = "黑白";
-            this.toolBar3.Items.Add(toolItem1);
-            this.toolBar3.Items.Add(toolItem2);
-            this.toolBar3.Items.Add(toolItem3);
-            this.toolBar3.Items.Add(toolItem4);
-            this.toolBar3.Items.Add(toolItem5);
-            this.toolBar3.Items.Add(toolItem6);
-            this.toolBar3.Items.Add(toolItem7);
-            this.toolBar3.Items.Add(toolItem8);
+            this.toolBar3.ImageSize = new System.Drawing.Size(16, 16);
+            toolItem11.Color = System.Drawing.Color.Empty;
+            toolItem11.Rectangle = new System.Drawing.Rectangle(0, 0, 40, 18);
+            toolItem11.Text = "光暗";
+            toolItem12.Color = System.Drawing.Color.Empty;
+            toolItem12.Rectangle = new System.Drawing.Rectangle(0, 18, 40, 18);
+            toolItem12.Text = "反色";
+            toolItem13.Color = System.Drawing.Color.Empty;
+            toolItem13.Rectangle = new System.Drawing.Rectangle(0, 36, 40, 18);
+            toolItem13.Text = "浮雕";
+            toolItem14.Color = System.Drawing.Color.Empty;
+            toolItem14.Rectangle = new System.Drawing.Rectangle(0, 54, 40, 18);
+            toolItem14.Text = "滤色";
+            toolItem15.Color = System.Drawing.Color.Empty;
+            toolItem15.Rectangle = new System.Drawing.Rectangle(0, 72, 40, 18);
+            toolItem15.Text = "左右";
+            toolItem16.Color = System.Drawing.Color.Empty;
+            toolItem16.Rectangle = new System.Drawing.Rectangle(0, 90, 40, 18);
+            toolItem16.Text = "上下";
+            toolItem17.Color = System.Drawing.Color.Empty;
+            toolItem17.Rectangle = new System.Drawing.Rectangle(0, 108, 40, 18);
+            toolItem17.Text = "灰度";
+            toolItem18.Color = System.Drawing.Color.Empty;
+            toolItem18.Rectangle = new System.Drawing.Rectangle(0, 126, 40, 18);
+            toolItem18.Text = "黑白";
+            this.toolBar3.Items.Add(toolItem11);
+            this.toolBar3.Items.Add(toolItem12);
+            this.toolBar3.Items.Add(toolItem13);
+            this.toolBar3.Items.Add(toolItem14);
+            this.toolBar3.Items.Add(toolItem15);
+            this.toolBar3.Items.Add(toolItem16);
+            this.toolBar3.Items.Add(toolItem17);
+            this.toolBar3.Items.Add(toolItem18);
             this.toolBar3.ItemSize = new System.Drawing.Size(40, 18);
             this.toolBar3.ItemSpace = 0;
             this.toolBar3.Location = new System.Drawing.Point(491, 122);
@@ -754,7 +722,7 @@
             this.toolBar3.TabIndex = 42;
             this.toolBar3.TDirection = Paway.Forms.TDirection.Vertical;
             this.toolBar3.TEvent = Paway.Forms.TEvent.Up;
-            this.toolBar3.TLocation = Paway.Forms.TLocation.Left;
+            this.toolBar3.TLocation = Paway.Forms.TILocation.Left;
             // 
             // btTTsRead
             // 
@@ -942,34 +910,27 @@
             // 
             this.toolBar2.ColorDownBack = System.Drawing.SystemColors.GradientActiveCaption;
             this.toolBar2.ColorMoveBack = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.toolBar2.ColorSpace = System.Drawing.Color.White;
-            this.toolBar2.ImageSize = new System.Drawing.Size(16, 16);
             this.toolBar2.ICheckEvent = true;
-            toolItem9.ContextMenuStrip = this.contextMenuStrip1;
-            toolItem9.EndDesc = null;
-            toolItem9.HeadDesc = null;
-            toolItem9.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
-            toolItem9.Rectangle = new System.Drawing.Rectangle(0, 0, 93, 34);
-            toolItem9.Tag = null;
-            toolItem9.Text = "创建宝贝";
-            toolItem10.ContextMenuStrip = null;
-            toolItem10.EndDesc = null;
-            toolItem10.HeadDesc = null;
-            toolItem10.Image = null;
-            toolItem10.Rectangle = new System.Drawing.Rectangle(0, 34, 93, 34);
-            toolItem10.Tag = null;
-            toolItem10.Text = "上传宝贝";
-            this.toolBar2.Items.Add(toolItem9);
-            this.toolBar2.Items.Add(toolItem10);
+            this.toolBar2.ImageSize = new System.Drawing.Size(16, 16);
+            toolItem19.Color = System.Drawing.Color.Empty;
+            toolItem19.ContextMenuStrip = this.contextMenuStrip1;
+            toolItem19.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
+            toolItem19.Rectangle = new System.Drawing.Rectangle(0, 0, 93, 34);
+            toolItem19.Text = "创建宝贝";
+            toolItem20.Color = System.Drawing.Color.Empty;
+            toolItem20.Rectangle = new System.Drawing.Rectangle(0, 34, 93, 34);
+            toolItem20.Text = "上传宝贝";
+            this.toolBar2.Items.Add(toolItem19);
+            this.toolBar2.Items.Add(toolItem20);
             this.toolBar2.ItemSize = new System.Drawing.Size(93, 34);
             this.toolBar2.ItemSpace = 0;
-            this.toolBar2.Location = new System.Drawing.Point(244, 13);
+            this.toolBar2.Location = new System.Drawing.Point(364, 16);
             this.toolBar2.Name = "toolBar2";
             this.toolBar2.Size = new System.Drawing.Size(98, 100);
             this.toolBar2.TabIndex = 17;
             this.toolBar2.TDirection = Paway.Forms.TDirection.Vertical;
             this.toolBar2.TEvent = Paway.Forms.TEvent.Up;
-            this.toolBar2.TLocation = Paway.Forms.TLocation.Left;
+            this.toolBar2.TLocation = Paway.Forms.TILocation.Left;
             // 
             // qqTabControl1
             // 

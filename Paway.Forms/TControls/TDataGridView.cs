@@ -57,7 +57,7 @@ namespace Paway.Forms
                 int linen = 0;
                 linen = e.RowIndex + 1;
                 string line = linen.ToString();
-                e.Graphics.DrawString(line, e.InheritedRowStyle.Font, brush, new Rectangle(e.RowBounds.Location.X, e.RowBounds.Location.Y, this.RowHeadersWidth, e.RowBounds.Height), DrawParam.LevelString);
+                e.Graphics.DrawString(line, e.InheritedRowStyle.Font, brush, new Rectangle(e.RowBounds.Location.X, e.RowBounds.Location.Y, this.RowHeadersWidth, e.RowBounds.Height), DrawParam.StringCenter);
             }
         }
         /// <summary>
@@ -576,14 +576,14 @@ namespace Paway.Forms
 
                 clrFore = System.Drawing.Color.Black;
                 //the first line
-                TextRenderer.DrawText(e.Graphics, strFirstLine, fntText, new Rectangle(intX, intY, intWidth, intHeight), clrFore, DrawParam.VerticalEndEllipsisText);
+                TextRenderer.DrawText(e.Graphics, strFirstLine, fntText, new Rectangle(intX, intY, intWidth, intHeight), clrFore, DrawParam.TextEnd);
 
                 fntText = e.CellStyle.Font;
                 intY = intY + intHeight;
 
                 clrFore = System.Drawing.Color.SteelBlue;
                 //the seconde line
-                TextRenderer.DrawText(e.Graphics, strSecondLine, fntText, new Rectangle(intX, intY, intWidth, intHeight), clrFore, DrawParam.VerticalEndEllipsisText);
+                TextRenderer.DrawText(e.Graphics, strSecondLine, fntText, new Rectangle(intX, intY, intWidth, intHeight), clrFore, DrawParam.TextEnd);
 
                 e.Handled = true;
             }

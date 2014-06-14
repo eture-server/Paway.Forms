@@ -63,9 +63,6 @@
     <Compile Include="Data\DataBase.cs" />
     <Compile Include="Data\SqlHelper.cs" />
     <Compile Include="Data\MySQLHelper.cs" />
-    <Compile Include="MControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Pdf\Export.cs" />
     <Compile Include="Data\SQLiteHelper.cs" />
     <Compile Include="Pdf\PdfHeaderContent.cs" />

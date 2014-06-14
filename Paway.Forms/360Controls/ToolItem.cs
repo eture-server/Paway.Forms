@@ -23,6 +23,7 @@ namespace Paway.Forms
         /// 获取或设置包含有关控件的数据的对象。 
         /// </summary>
         [Description("获取或设置包含有关控件的数据的对象"), DefaultValue(null)]
+        [TypeConverter(typeof(StringConverter))]
         public object Tag { get; set; }
         /// <summary>
         /// Item 上显示的文字信息
@@ -53,12 +54,22 @@ namespace Paway.Forms
         /// Item 当前的鼠标状态
         /// </summary>
         [Description("Item 当前的鼠标状态"), DefaultValue(typeof(TMouseState), "Normal")]
-        internal TMouseState MouseState { get; set; }
+        public TMouseState MouseState { get; set; }
         /// <summary>
         /// Item 上的右键菜单
         /// </summary>
         [Description("Item 上的右键菜单"), DefaultValue(typeof(ContextMenuStrip), null)]
         public ContextMenuStrip ContextMenuStrip { get; set; }
+        private bool _enable = true;
+        /// <summary>
+        /// Item 当前启用状态
+        /// </summary>
+        [Description("Item 当前启用状态"), DefaultValue(true)]
+        public bool Enable
+        {
+            get { return _enable; }
+            set { _enable = value; }
+        }
 
         #region 构造
         /// <summary>

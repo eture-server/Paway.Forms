@@ -14,6 +14,7 @@ namespace Paway.Test
         public Form2()
         {
             InitializeComponent();
+            toolBar1.TFirstItem();
         }
     }
 }

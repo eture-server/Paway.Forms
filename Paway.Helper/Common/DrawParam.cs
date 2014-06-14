@@ -26,7 +26,7 @@ namespace Paway.Helper
         /// <summary>
         /// 字符水平垂直对齐
         /// </summary>
-        public static StringFormat LevelString
+        public static StringFormat StringCenter
         {
             get
             {
@@ -41,7 +41,7 @@ namespace Paway.Helper
         /// <summary>
         /// 文本垂直结尾省略
         /// </summary>
-        public static TextFormatFlags VerticalEndEllipsisText
+        public static TextFormatFlags TextEnd
         {
             get
             {
@@ -51,31 +51,31 @@ namespace Paway.Helper
         /// <summary>
         /// 文本靠右垂直
         /// </summary>
-        public static TextFormatFlags LeftText
+        public static TextFormatFlags TextLeft
         {
             get
             {
-                return TextFormatFlags.Left | TextFormatFlags.VerticalCenter;
+                return TextFormatFlags.VerticalCenter | TextFormatFlags.PathEllipsis | TextFormatFlags.Left;
             }
         }
         /// <summary>
         /// 文本靠右垂直
         /// </summary>
-        public static TextFormatFlags RightText
+        public static TextFormatFlags TextRight
         {
             get
             {
-                return TextFormatFlags.Right | TextFormatFlags.VerticalCenter;
+                return TextFormatFlags.VerticalCenter | TextFormatFlags.PathEllipsis | TextFormatFlags.Right;
             }
         }
         /// <summary>
         /// 文本水平垂直
         /// </summary>
-        public static TextFormatFlags LevelText
+        public static TextFormatFlags TextCenter
         {
             get
             {
-                return TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter;
+                return TextFormatFlags.VerticalCenter | TextFormatFlags.PathEllipsis|TextFormatFlags.HorizontalCenter ;
             }
         }
     }
