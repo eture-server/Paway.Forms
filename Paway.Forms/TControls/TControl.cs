@@ -33,7 +33,7 @@ namespace Paway.Forms
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.DoubleBuffer |
-               ControlStyles.SupportsTransparentBackColor, true);
+                ControlStyles.SupportsTransparentBackColor, true);
             this.UpdateStyles();
             this.BackColor = Color.Transparent;
         }

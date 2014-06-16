@@ -15,6 +15,12 @@ namespace Paway.Test
         public Form1()
         {
             InitializeComponent();
+            toolBar1.SelectedItemChanged += toolBar1_SelectedItemChanged;
+        }
+
+        void toolBar1_SelectedItemChanged(object sender, EventArgs e)
+        {
+            this.Text = toolBar1.SelectedItem.Text;
         }
     }
 }

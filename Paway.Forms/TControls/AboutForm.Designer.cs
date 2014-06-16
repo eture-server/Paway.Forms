@@ -35,6 +35,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btOk = new Paway.Forms.QQButton();
             this.lbTitle = new System.Windows.Forms.Label();
+            this.qqButton1 = new Paway.Forms.QQButton();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -62,6 +63,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.qqButton1);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.btOk);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -102,6 +104,21 @@
             this.lbTitle.Name = "lbTitle";
             this.lbTitle.Size = new System.Drawing.Size(0, 12);
             this.lbTitle.TabIndex = 3;
+            // 
+            // qqButton1
+            // 
+            this.qqButton1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.qqButton1.DownImage = ((System.Drawing.Image)(resources.GetObject("qqButton1.DownImage")));
+            this.qqButton1.ForeColor = System.Drawing.Color.Black;
+            this.qqButton1.Image = null;
+            this.qqButton1.Location = new System.Drawing.Point(112, 4);
+            this.qqButton1.MoveImage = ((System.Drawing.Image)(resources.GetObject("qqButton1.MoveImage")));
+            this.qqButton1.Name = "qqButton1";
+            this.qqButton1.NormalImage = ((System.Drawing.Image)(resources.GetObject("qqButton1.NormalImage")));
+            this.qqButton1.Size = new System.Drawing.Size(75, 28);
+            this.qqButton1.TabIndex = 4;
+            this.qqButton1.Text = "关闭";
+            this.qqButton1.UseVisualStyleBackColor = false;
             // 
             // AboutForm
             // 
@@ -147,6 +164,10 @@
         /// 描述
         /// </summary>
         protected System.Windows.Forms.Label lbDesc;
+        /// <summary>
+        /// 
+        /// </summary>
+        protected QQButton qqButton1;
 
     }
 }

@@ -63,7 +63,7 @@ namespace Paway.Forms
             }
         }
         /// <summary>
-        /// Item 上显示的头部描述信息
+        /// Item 上显示的描述信息
         /// </summary>
         [Description("Item 上显示的描述信息"), DefaultValue(null)]
         public string Desc { get; set; }
@@ -86,6 +86,14 @@ namespace Paway.Forms
         /// 当前 Item 在 ToolBar 中的 Rectangle
         /// </summary>
         public Rectangle Rectangle { get; set; }
+        /// <summary>
+        /// 描述信息边框
+        /// </summary>
+        internal Rectangle RectDesc { get; set; }
+        /// <summary>
+        /// 描述信息的鼠标状态
+        /// </summary>
+        internal TMouseState IMouseState { get; set; }
         /// <summary>
         /// Item 当前的鼠标状态
         /// </summary>

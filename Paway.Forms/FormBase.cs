@@ -77,6 +77,7 @@ namespace Paway.Forms
                ControlStyles.ResizeRedraw |
                ControlStyles.Selectable |
                ControlStyles.ContainerControl |
+               ControlStyles.SupportsTransparentBackColor |
                ControlStyles.UserPaint, true);
             this.SetStyle(ControlStyles.Opaque, false);
             this.UpdateStyles();

@@ -85,6 +85,19 @@ namespace Paway.Forms
         #endregion
 
         #region 属性
+        /// <summary>
+        /// 描述文字是否作为单独模式
+        /// </summary>
+        private bool _iDescIndep;
+        /// <summary>
+        /// 描述文字是否作为单独模式
+        /// </summary>
+        [Description("描述文字是否作为单独模式"), DefaultValue(false)]
+        public bool IDescIndep
+        {
+            get { return _iDescIndep; }
+            set { _iDescIndep = value; }
+        }
         private StringAlignment _alignment = StringAlignment.Center;
         /// <summary>
         /// Text文本水平位置对齐方式
@@ -660,7 +673,7 @@ namespace Paway.Forms
                     Alignment = _alignment,
                     LineAlignment = StringAlignment.Center
                 };
-                int pad = 3;
+                int pad = 2;
                 textRect = new Rectangle
                 {
                     X = item.Rectangle.X + pad,
@@ -719,10 +732,6 @@ namespace Paway.Forms
                     }
                 }
             }
-            if (!string.IsNullOrEmpty(item.Desc))
-            {
-                TextRenderer.DrawText(g, item.Desc, Font, textRect, color, DrawParam.TextRight);
-            }
             if (!string.IsNullOrEmpty(item.HeadDesc))
             {
                 int dHeight = _fontHeadDesc.GetHeight(g).ToInt() + 6;
@@ -747,6 +756,35 @@ namespace Paway.Forms
                 };
                 TextRenderer.DrawText(g, item.EndDesc, _fontEndDesc, descRect, this.ForeColor, DrawParam.TextRight);
             }
+            if (!string.IsNullOrEmpty(item.Desc))
+            {
+                DrawDesc(item, textRect, g, color);
+            }
+        }
+        private void DrawDesc(ToolItem item, Rectangle rect, Graphics g, Color color)
+        {
+            SizeF size = g.MeasureString(item.Desc, Font);
+            var a = Font.GetHeight();
+            int a1 = size.Height.ToInt();
+            item.RectDesc = new Rectangle(rect.X + rect.Width - size.Width.ToInt(), rect.Y + (rect.Height - size.Height.ToInt()) / 2, size.Width.ToInt(), size.Height.ToInt());
+            if (_iDescIndep)
+            {
+                switch (item.IMouseState)
+                {
+                    case TMouseState.Normal:
+                    case TMouseState.Leave:
+                        color = Color.Black;
+                        break;
+                    case TMouseState.Move:
+                    case TMouseState.Up:
+                        color = Color.FromArgb(ColorDownBack.R, ColorDownBack.G, ColorDownBack.B);
+                        break;
+                    case TMouseState.Down:
+                        color = Color.White;
+                        break;
+                }
+            }
+            TextRenderer.DrawText(g, item.Desc, Font, item.RectDesc, color, DrawParam.TextCenter);
         }
         /// <summary>
         /// 判断右键菜单
@@ -813,6 +851,7 @@ namespace Paway.Forms
                 Point point = e.Location;
                 foreach (ToolItem item in this.Items)
                 {
+                    item.IMouseState = item.RectDesc.Contains(point) ? TMouseState.Move : TMouseState.Leave;
                     if (!_iCheckEvent && item.MouseState == TMouseState.Down)
                     {
                         continue;
@@ -820,12 +859,10 @@ namespace Paway.Forms
                     else if (item.Rectangle.Contains(point))
                     {
                         item.MouseState = TMouseState.Move;
-                        this.Invalidate(item.Rectangle);
                     }
                     else
                     {
                         item.MouseState = TMouseState.Leave;
-                        this.Invalidate(item.Rectangle);
                     }
                 }
                 this.Invalidate();
@@ -844,12 +881,13 @@ namespace Paway.Forms
             {
                 foreach (ToolItem item in this.Items)
                 {
+                    item.IMouseState = TMouseState.Leave;
                     if ((_iCheckEvent && !_isMultiple) || item.MouseState != TMouseState.Down)
                     {
                         item.MouseState = TMouseState.Leave;
-                        this.Invalidate(item.Rectangle);
                     }
                 }
+                this.Invalidate();
             }
         }
         /// <summary>
@@ -872,6 +910,7 @@ namespace Paway.Forms
                 for (int i = 0; i < this.Items.Count; i++)
                 {
                     ToolItem item = this.Items[i];
+                    item.IMouseState = item.RectDesc.Contains(point) ? TMouseState.Down : TMouseState.Normal;
                     if (item.Rectangle.Contains(point))
                     {
                         if (item != this.SelectedItem)
@@ -907,7 +946,6 @@ namespace Paway.Forms
                     else if (!_isMultiple && iIn)
                     {
                         item.MouseState = TMouseState.Normal;
-                        this.Invalidate(item.Rectangle);
                     }
                 }
                 this.Invalidate();
@@ -931,6 +969,10 @@ namespace Paway.Forms
                     ToolItem item = this.Items[i];
                     if (item.Rectangle.Contains(point))
                     {
+                        if (item.RectDesc.Contains(point))
+                        {
+                            item.IMouseState = TMouseState.Up;
+                        }
                         if (item == this.SelectedItem)
                         {
                             if (_tEvent == TEvent.Up)
