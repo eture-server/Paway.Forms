@@ -22,6 +22,12 @@ namespace Paway.Forms
         protected QQTextBoxBase BaseText;
 
         /// <summary>
+        /// BaseText
+        /// </summary>
+        [Browsable(false), Category("Properties")]
+        public QQTextBoxBase Edit { get { return BaseText; } }
+
+        /// <summary>
         /// TNum.获取或设置文本框中选定的文本起始点
         /// </summary>
         [Description("获取或设置文本框中选定的文本起始点"), DefaultValue(0)]

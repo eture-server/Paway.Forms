@@ -19,6 +19,11 @@ namespace Paway.Forms
         public virtual void ReLoad() { }
 
         /// <summary>
+        /// 控件数据
+        /// </summary>
+        public virtual Object Data { get; set; }
+
+        /// <summary>
         /// 传入的数据
         /// </summary>
         /// <param name="sender"></param>
