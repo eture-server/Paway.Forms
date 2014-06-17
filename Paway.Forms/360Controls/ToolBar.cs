@@ -59,6 +59,10 @@ namespace Paway.Forms
         /// 当单击项时事件的 Key
         /// </summary>
         private static readonly object EventItemClick = new object();
+        /// <summary>
+        /// 当单击项编辑时事件的 Key
+        /// </summary>
+        private static readonly object EventEditClick = new object();
 
         #endregion
 
@@ -364,6 +368,14 @@ namespace Paway.Forms
         {
             add { base.Events.AddHandler(EventItemClick, value); }
             remove { base.Events.RemoveHandler(EventItemClick, value); }
+        }
+        /// <summary>
+        /// 当编辑项时事件发生
+        /// </summary>
+        public event EventHandler EditClick
+        {
+            add { base.Events.AddHandler(EventEditClick, value); }
+            remove { base.Events.RemoveHandler(EventEditClick, value); }
         }
 
         #endregion
@@ -819,7 +831,18 @@ namespace Paway.Forms
                 for (int i = 0; i < this.Items.Count; i++)
                 {
                     ToolItem item = this.Items[i];
-                    item.IMouseState = item.RectDesc.Contains(point) ? TMouseState.Down : TMouseState.Normal;
+                    if (item.RectDesc.Contains(point))
+                    {
+                        item.IMouseState = TMouseState.Down;
+                        if (_tEvent == TEvent.Down)
+                        {
+                            this.OnEditClick(item, EventArgs.Empty);
+                        }
+                    }
+                    else
+                    {
+                        item.IMouseState = TMouseState.Normal;
+                    }
                     if (item.Rectangle.Contains(point))
                     {
                         if (item != this.SelectedItem)
@@ -878,10 +901,6 @@ namespace Paway.Forms
                     ToolItem item = this.Items[i];
                     if (item.Rectangle.Contains(point))
                     {
-                        if (item.RectDesc.Contains(point))
-                        {
-                            item.IMouseState = TMouseState.Up;
-                        }
                         if (item == this.SelectedItem)
                         {
                             if (_tEvent == TEvent.Up)
@@ -890,10 +909,18 @@ namespace Paway.Forms
                                 this.OnSelectedItemChanged(item, EventArgs.Empty);
                                 this.OnSelectedIndexChanged(item, EventArgs.Empty);
                                 this.OnItemClick(item, EventArgs.Empty);
+                                if (item.RectDesc.Contains(point))
+                                {
+                                    this.OnEditClick(item, EventArgs.Empty);
+                                }
                             }
                         }
                         if (item != this.SelectedItem)
                         {
+                            if (item.RectDesc.Contains(point))
+                            {
+                                item.IMouseState = TMouseState.Up;
+                            }
                             item.MouseState = TMouseState.Up;
                             this.Invalidate(item.Rectangle);
                         }
@@ -1012,6 +1039,18 @@ namespace Paway.Forms
                 if (handler != null)
                     handler(this, e);
             }
+        }
+        /// <summary>
+        /// 当编辑项时激发。
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="e">包含事件数据的 System.EventArgs。</param>
+        public virtual void OnEditClick(ToolItem item, EventArgs e)
+        {
+            if (!item.Enable) return;
+            EventHandler handler = base.Events[EventEditClick] as EventHandler;
+            if (handler != null)
+                handler(this, e);
         }
 
         #endregion
