@@ -8,6 +8,7 @@ using System.Drawing.Drawing2D;
 using Paway.Resource;
 using Paway.Helper;
 using System.Runtime.InteropServices;
+using System.Drawing.Text;
 
 namespace Paway.Forms
 {
@@ -42,10 +43,6 @@ namespace Paway.Forms
         /// 类于右键菜单长度
         /// </summary>
         private int _rightLen = 19;
-        /// <summary>
-        /// 字体颜色
-        /// </summary>
-        private Color _colorFore;
 
         #endregion
 
@@ -85,117 +82,32 @@ namespace Paway.Forms
         #endregion
 
         #region 属性
+        private ToolBarProperties _Properties = new ToolBarProperties();
         /// <summary>
-        /// 描述文字是否作为单独模式
+        /// 自定义属性
         /// </summary>
-        private bool _iDescIndep;
-        /// <summary>
-        /// 描述文字是否作为单独模式
-        /// </summary>
-        [Description("描述文字是否作为单独模式"), DefaultValue(false)]
-        public bool IDescIndep
+        [Description("自定义属性"), DefaultValue(typeof(ToolBarProperties), "ToolBar.Properties")]
+        [EditorBrowsable(EditorBrowsableState.Always)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public ToolBarProperties AProperties
         {
-            get { return _iDescIndep; }
-            set { _iDescIndep = value; }
+            get { return _Properties; }
         }
-        private StringAlignment _alignment = StringAlignment.Center;
+        private Color _backColor;
         /// <summary>
-        /// Text文本水平位置对齐方式
+        /// 绘制背景时判定颜色透明度
         /// </summary>
-        [Description("文本水平位置对齐方式"), DefaultValue(typeof(StringAlignment), "Center")]
-        public StringAlignment TTextAlignment
+        private Color backColor
         {
-            get { return _alignment; }
-            set
+            get
             {
-                _alignment = value;
-                this.Invalidate();
-            }
-        }
-        /// <summary>
-        /// 第二行字体
-        /// </summary>
-        private Font _fontSecond = new System.Drawing.Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
-        /// <summary>
-        /// 第二行字体
-        /// </summary>
-        [Description("第二行字体"), DefaultValue(typeof(Font), "宋体, 9pt")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public Font FontSecond
-        {
-            get { return _fontSecond; }
-            set { _fontSecond = value; }
-        }
-        /// <summary>
-        /// 尾部描述文字字体
-        /// </summary>
-        private Font _fontEndDesc = new System.Drawing.Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
-        /// <summary>
-        /// 尾部描述文字字体
-        /// </summary>
-        [Description("尾部描述文字字体"), DefaultValue(typeof(Font), "宋体, 9pt")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public Font FontEndDesc
-        {
-            get { return _fontEndDesc; }
-            set { _fontEndDesc = value; }
-        }
-        /// <summary>
-        /// 头部描述文字字体
-        /// </summary>
-        private Font _fontHeadDesc = new System.Drawing.Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
-        /// <summary>
-        /// 头部描述文字字体
-        /// </summary>
-        [Description("头部描述文字字体"), DefaultValue(typeof(Font), "宋体, 9pt")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public Font FontHeadDesc
-        {
-            get { return _fontHeadDesc; }
-            set { _fontHeadDesc = value; }
-        }
-
-        /// <summary>
-        /// 默认的颜色
-        /// </summary>
-        private Color _normalSpace = Color.Transparent;
-        /// <summary>
-        /// 默认的颜色
-        /// </summary>
-        [Description("默认的颜色"), DefaultValue(typeof(Color), "Transparent")]
-        public Color ColorNormal
-        {
-            get { return this._normalSpace; }
-            set
-            {
-                _normalSpace = value;
-                if (value.A > Trans)
+                if (_backColor.A > Trans)
                 {
-                    _normalSpace = Color.FromArgb(Trans, value.R, value.G, value.B);
+                    _backColor = Color.FromArgb(Trans, _backColor.R, _backColor.G, _backColor.B);
                 }
-                Invalidate(true);
+                return _backColor;
             }
-        }
-        /// <summary>
-        /// 项间隔的颜色
-        /// </summary>
-        private Color _colorSpace = Color.Transparent;
-        /// <summary>
-        /// 项间隔的颜色
-        /// </summary>
-        [Description("项间隔的颜色"), DefaultValue(typeof(Color), "Transparent")]
-        public Color ColorSpace
-        {
-            get { return this._colorSpace; }
-            set
-            {
-                _colorSpace = value;
-                if (value.A > Trans)
-                {
-                    _colorSpace = Color.FromArgb(Trans, value.R, value.G, value.B);
-                }
-                Invalidate(true);
-            }
+            set { _backColor = value; }
         }
 
         /// <summary>
@@ -248,24 +160,6 @@ namespace Paway.Forms
                 base.Invalidate(true);
             }
         }
-
-        /// <summary>
-        /// 是否将颜色应用到文字
-        /// </summary>
-        private bool _iColorText;
-        /// <summary>
-        /// 是否将颜色应用到文字
-        /// </summary>
-        [Description("是否将颜色应用到文字"), DefaultValue(false)]
-        public bool IColorText
-        {
-            get { return _iColorText; }
-            set
-            {
-                _iColorText = value;
-                Invalidate(true);
-            }
-        }
         /// <summary>
         /// 单击事件开关
         /// 单击松开后取消选中状态，只有鼠标移入状态
@@ -303,13 +197,13 @@ namespace Paway.Forms
             }
         }
         /// <summary>
-        /// 是否允许多选
+        /// 多选开关
         /// </summary>
         private bool _isMultiple = false;
         /// <summary>
-        /// 是否允许多选
+        /// 多选开关
         /// </summary>
-        [Description("是否允许多选"), DefaultValue(false)]
+        [Description("多选开关"), DefaultValue(false)]
         public bool IsMultiple
         {
             get { return this._isMultiple; }
@@ -322,7 +216,7 @@ namespace Paway.Forms
         /// <summary>
         /// 工具栏中的项
         /// </summary>
-        private ToolItemCollection _items = null;
+        private ToolItemCollection _items;
         /// <summary>
         /// 工具栏中的项
         /// </summary>
@@ -484,10 +378,11 @@ namespace Paway.Forms
             base.OnPaint(e);
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
-            if (!_iColorText)
-            {
-                g.FillRectangle(new SolidBrush(this.ColorSpace), new Rectangle(-1, -1, this.Width + 1, this.Height + 1));
-            }
+            if (_Properties == null) MessageBox.Show("1");
+            if (_Properties.BackGround == null) MessageBox.Show("2");
+            backColor = _Properties.BackGround.ColorSpace;
+            g.FillRectangle(new SolidBrush(backColor), new Rectangle(-1, -1, this.Width + 1, this.Height + 1));
+
             int xPos = this.Padding.Left;
             int yPos = this.Padding.Top;
             this.CountColumn = 1;
@@ -515,10 +410,9 @@ namespace Paway.Forms
         {
             // 当前 Item 所在的矩型区域
             item.Rectangle = new Rectangle(xPos, yPos, this._itemSize.Width, this._itemSize.Height);
-            _colorFore = this.ForeColor;
             DrawBackground(g, item);
             DrawImage(g, item);
-            DrawText(g, item, _colorFore);
+            DrawText(g, item);
             switch (_tDirection)
             {
                 case TDirection.Level:
@@ -568,19 +462,8 @@ namespace Paway.Forms
             {
                 case TMouseState.Normal:
                 case TMouseState.Leave:
-                    Color color = item.Color == Color.Empty ? (_iColorText ? this.ForeColor : _normalSpace) : item.Color;
-                    if (color.A > Trans)
-                    {
-                        color = Color.FromArgb(Trans, color.R, color.G, color.B);
-                    }
-                    if (_iColorText)
-                    {
-                        _colorFore = color;
-                    }
-                    else
-                    {
-                        g.FillRectangle(new SolidBrush(color), item.Rectangle);
-                    }
+                    backColor = item.Color == Color.Empty ? _Properties.BackGround.ColorNormal : item.Color;
+                    g.FillRectangle(new SolidBrush(backColor), item.Rectangle);
                     break;
                 case TMouseState.Move:
                 case TMouseState.Up:
@@ -593,17 +476,14 @@ namespace Paway.Forms
                     }
                     else
                     {
-                        if (_iColorText)
-                        {
-                            _colorFore = this.ColorDownBack;
-                        }
-                        else if (ColorDownBack == Color.Transparent)
+                        if (_Properties.BackGround.ColorDown == Color.Transparent)
                         {
                             g.DrawImage(this._pushedImage, item.Rectangle);
                         }
                         else
                         {
-                            g.FillRectangle(new SolidBrush(this.ColorDownBack), item.Rectangle);
+                            backColor = _Properties.BackGround.ColorDown;
+                            g.FillRectangle(new SolidBrush(backColor), item.Rectangle);
                         }
                         IsContextMenu(g, item);
                     }
@@ -619,17 +499,15 @@ namespace Paway.Forms
         /// </summary>
         private void DrawMoveBack(Graphics g, ToolItem item)
         {
-            if (_iColorText)
-            {
-                _colorFore = this.ColorMoveBack;
-            }
-            else if (ColorMoveBack == Color.Transparent)
+            if (!item.Enable) return;
+            if (_Properties.BackGround.ColorMove == Color.Transparent)
             {
                 g.DrawImage(this._hoverImage, item.Rectangle);
             }
             else
             {
-                g.FillRectangle(new SolidBrush(this.ColorMoveBack), item.Rectangle);
+                backColor = _Properties.BackGround.ColorMove;
+                g.FillRectangle(new SolidBrush(backColor), item.Rectangle);
             }
             IsContextMenu(g, item);
         }
@@ -659,20 +537,11 @@ namespace Paway.Forms
         /// <summary>
         /// 绘制文字
         /// </summary>
-        private void DrawText(Graphics g, ToolItem item, Color color)
+        private void DrawText(Graphics g, ToolItem item)
         {
-            if (!item.Enable)
-            {
-                _colorFore = this.ForeColor;
-            }
             Rectangle textRect = Rectangle.Empty;
             if (!string.IsNullOrEmpty(item.Text))
             {
-                StringFormat format = new StringFormat()
-                {
-                    Alignment = _alignment,
-                    LineAlignment = StringAlignment.Center
-                };
                 int pad = 2;
                 textRect = new Rectangle
                 {
@@ -704,8 +573,8 @@ namespace Paway.Forms
                 string[] text = item.Text.Split(new string[] { "\r\n", "&" }, StringSplitOptions.RemoveEmptyEntries);
                 if (text.Length > 0)
                 {
-                    int tHight = Font.GetHeight(g).ToInt();
-                    int sHight = _fontSecond.GetHeight(g).ToInt();
+                    int tHight = GetFont(item.MouseState, _Properties.Text).GetHeight(g).ToInt();
+                    int sHight = GetFont(item.MouseState, _Properties.TextSencond).GetHeight(g).ToInt();
                     int height = textRect.Height - tHight;
                     height -= (text.Length - 1) * sHight;
                     height -= (text.Length - 1) * 6;
@@ -718,7 +587,7 @@ namespace Paway.Forms
                         Width = textRect.Width,
                         Height = tHight,
                     };
-                    g.DrawString(text[0], this.Font, new SolidBrush(color), rect, format);
+                    DrawOtherDesc(g, item.Enable, item.MouseState, _Properties.Text, text[0], rect);
                     for (int i = 1; i < text.Length; i++)
                     {
                         rect = new Rectangle()
@@ -728,63 +597,103 @@ namespace Paway.Forms
                             Width = textRect.Width,
                             Height = sHight,
                         };
-                        g.DrawString(text[i], _fontSecond, new SolidBrush(color), rect, format);
+                        DrawOtherDesc(g, item.Enable, item.MouseState, _Properties.Text, text[i], rect);
                     }
                 }
             }
             if (!string.IsNullOrEmpty(item.HeadDesc))
             {
-                int dHeight = _fontHeadDesc.GetHeight(g).ToInt() + 6;
-                Rectangle descRect = new Rectangle()
+                int dHeight = GetFont(item.MouseState, _Properties.HeadDesc).GetHeight(g).ToInt() + 6;
+                Rectangle rect = new Rectangle()
                 {
                     X = textRect.X,
                     Y = textRect.Y,
                     Width = textRect.Width,
                     Height = dHeight,
                 };
-                TextRenderer.DrawText(g, item.HeadDesc, _fontHeadDesc, descRect, this.ForeColor, DrawParam.TextLeft);
+                DrawOtherDesc(g, item.Enable, item.MouseState, _Properties.HeadDesc, item.HeadDesc, rect);
             }
             if (!string.IsNullOrEmpty(item.EndDesc))
             {
-                int dHeight = _fontEndDesc.GetHeight(g).ToInt() + 6;
-                Rectangle descRect = new Rectangle()
+                int dHeight = GetFont(item.MouseState, _Properties.EndDesc).GetHeight(g).ToInt() + 6;
+                Rectangle rect = new Rectangle()
                 {
                     X = textRect.X,
                     Y = textRect.Y + textRect.Height - dHeight,
                     Width = textRect.Width,
                     Height = dHeight,
                 };
-                TextRenderer.DrawText(g, item.EndDesc, _fontEndDesc, descRect, this.ForeColor, DrawParam.TextRight);
+                DrawOtherDesc(g, item.Enable, item.MouseState, _Properties.EndDesc, item.EndDesc, rect);
             }
-            if (!string.IsNullOrEmpty(item.Desc))
-            {
-                DrawDesc(item, textRect, g, color);
-            }
+            DrawDesc(g, item, textRect);
         }
-        private void DrawDesc(ToolItem item, Rectangle rect, Graphics g, Color color)
+        private Font GetFont(TMouseState state, TProperties pro)
         {
-            SizeF size = g.MeasureString(item.Desc, Font);
-            var a = Font.GetHeight();
-            int a1 = size.Height.ToInt();
-            item.RectDesc = new Rectangle(rect.X + rect.Width - size.Width.ToInt(), rect.Y + (rect.Height - size.Height.ToInt()) / 2, size.Width.ToInt(), size.Height.ToInt());
-            if (_iDescIndep)
+            switch (state)
             {
-                switch (item.IMouseState)
-                {
-                    case TMouseState.Normal:
-                    case TMouseState.Leave:
-                        color = Color.Black;
-                        break;
-                    case TMouseState.Move:
-                    case TMouseState.Up:
-                        color = Color.FromArgb(ColorDownBack.R, ColorDownBack.G, ColorDownBack.B);
-                        break;
-                    case TMouseState.Down:
-                        color = Color.White;
-                        break;
-                }
+                case TMouseState.Normal:
+                case TMouseState.Leave:
+                    return pro.FontNormal;
+                case TMouseState.Move:
+                case TMouseState.Up:
+                    return pro.FontMove;
+                case TMouseState.Down:
+                    return pro.FontDown;
             }
-            TextRenderer.DrawText(g, item.Desc, Font, item.RectDesc, color, DrawParam.TextCenter);
+            return this.Font;
+        }
+        /// <summary>
+        /// 绘制正文描述
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="rect"></param>
+        /// <param name="g"></param>
+        private void DrawDesc(Graphics g, ToolItem item, Rectangle rect)
+        {
+            if (string.IsNullOrEmpty(item.Desc)) return;
+            SizeF size = g.MeasureString(item.Desc, GetFont(item.MouseState, _Properties.Desc));
+            item.RectDesc = new Rectangle(rect.X + rect.Width - size.Width.ToInt(), rect.Y + (rect.Height - size.Height.ToInt()) / 2, size.Width.ToInt() + 2, size.Height.ToInt());
+            DrawOtherDesc(g, item.Enable, item.IMouseState, _Properties.Desc, item.Desc, item.RectDesc);
+        }
+        /// <summary>
+        /// 绘制其它描述
+        /// </summary>
+        private void DrawOtherDesc(Graphics g, bool enable, TMouseState state, TProperties desc, string text, Rectangle rect)
+        {
+            if (string.IsNullOrEmpty(text)) return;
+
+            Color color = this.ForeColor;
+            Font font = this.Font;
+            StringFormat format = new StringFormat()
+            {
+                Alignment = desc.StringVertical,
+                LineAlignment = desc.StringHorizontal
+            };
+            if (!enable)
+            {
+                g.DrawString(text, font, new SolidBrush(color), rect, format);
+                return;
+            }
+            switch (state)
+            {
+                case TMouseState.Normal:
+                case TMouseState.Leave:
+                    color = desc.ColorNormal;
+                    font = desc.FontNormal;
+                    SizeF size = g.MeasureString(text, font);
+                    break;
+                case TMouseState.Move:
+                case TMouseState.Up:
+                    color = desc.ColorMove;
+                    font = desc.FontMove;
+                    break;
+                case TMouseState.Down:
+                    color = desc.ColorDown;
+                    font = desc.FontDown;
+                    break;
+            }
+            if (color == Color.Empty) color = this.ForeColor;
+            g.DrawString(text, font, new SolidBrush(color), rect, format);
         }
         /// <summary>
         /// 判断右键菜单

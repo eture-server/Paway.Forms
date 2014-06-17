@@ -55,6 +55,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="360Controls\ToolBarProperties.cs" />
+    <Compile Include="TControls\TProperties.cs" />
     <Compile Include="Interface\IControl.cs" />
     <Compile Include="TControls\AboutForm.cs">
       <SubType>Form</SubType>

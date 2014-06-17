@@ -676,9 +676,6 @@
             // 
             // toolBar3
             // 
-            this.toolBar3.ColorDownBack = System.Drawing.SystemColors.GradientActiveCaption;
-            this.toolBar3.ColorMoveBack = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.toolBar3.ColorSpace = System.Drawing.Color.White;
             this.toolBar3.ICheckEvent = true;
             this.toolBar3.IImageShow = false;
             this.toolBar3.ImageSize = new System.Drawing.Size(16, 16);
@@ -908,8 +905,6 @@
             // 
             // toolBar2
             // 
-            this.toolBar2.ColorDownBack = System.Drawing.SystemColors.GradientActiveCaption;
-            this.toolBar2.ColorMoveBack = System.Drawing.SystemColors.GradientInactiveCaption;
             this.toolBar2.ICheckEvent = true;
             this.toolBar2.ImageSize = new System.Drawing.Size(16, 16);
             toolItem19.Color = System.Drawing.Color.Empty;

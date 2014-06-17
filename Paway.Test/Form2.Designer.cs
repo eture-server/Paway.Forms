@@ -40,10 +40,6 @@
             // toolBar1
             // 
             this.toolBar1.AutoScroll = true;
-            this.toolBar1.ColorDownBack = System.Drawing.Color.DeepSkyBlue;
-            this.toolBar1.ColorMoveBack = System.Drawing.Color.LightBlue;
-            this.toolBar1.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(255)))), ((int)(((byte)(160)))), ((int)(((byte)(122)))));
-            this.toolBar1.ColorSpace = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.toolBar1.ICheckEvent = true;
             this.toolBar1.IImageShow = false;
             this.toolBar1.ImageSize = new System.Drawing.Size(16, 16);

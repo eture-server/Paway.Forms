@@ -64,48 +64,6 @@ namespace Paway.Forms
             }
         }
 
-        private Color _colorMoveBack = Color.Transparent;
-        /// <summary>
-        /// 鼠标移入状态的背景颜色
-        /// 背景色为Color.White时使用默认背景
-        /// </summary>
-        [Description("鼠标移入状态的背景颜色,背景色为Color.Transparent时使用默认背景")]
-        [DefaultValue(typeof(Color), "Transparent")]
-        public Color ColorMoveBack
-        {
-            get { return this._colorMoveBack; }
-            set
-            {
-                _colorMoveBack = value;
-                if (value.A > _trans)
-                {
-                    _colorMoveBack = Color.FromArgb(_trans, value.R, value.G, value.B);
-                }
-                Invalidate(true);
-            }
-        }
-
-        private Color _colorDownBack = Color.Transparent;
-        /// <summary>
-        /// 选中状态的背景颜色
-        /// 背景色为Color.White时使用默认背景
-        /// </summary>
-        [Description("选中状态的背景颜色,背景色为Color.Transparent时使用默认背景")]
-        [DefaultValue(typeof(Color), "Transparent")]
-        public Color ColorDownBack
-        {
-            get { return this._colorDownBack; }
-            set
-            {
-                _colorDownBack = value;
-                if (value.A > _trans)
-                {
-                    _colorDownBack = Color.FromArgb(_trans, value.R, value.G, value.B);
-                }
-                Invalidate(true);
-            }
-        }
-
         private int _trans = 255;
         /// <summary>
         /// 控件透明度
