@@ -57,12 +57,6 @@
             // 
             // toolBar1
             // 
-            this.toolBar1.AProperties.BackGround = ((Paway.Forms.TProperties)(resources.GetObject("toolBar1.AProperties.BackGround")));
-            this.toolBar1.AProperties.Desc = ((Paway.Forms.TProperties)(resources.GetObject("toolBar1.AProperties.Desc")));
-            this.toolBar1.AProperties.EndDesc = ((Paway.Forms.TProperties)(resources.GetObject("toolBar1.AProperties.EndDesc")));
-            this.toolBar1.AProperties.HeadDesc = ((Paway.Forms.TProperties)(resources.GetObject("toolBar1.AProperties.HeadDesc")));
-            this.toolBar1.AProperties.Text = ((Paway.Forms.TProperties)(resources.GetObject("toolBar1.AProperties.Text")));
-            this.toolBar1.AProperties.TextSencond = ((Paway.Forms.TProperties)(resources.GetObject("toolBar1.AProperties.TextSencond")));
             this.toolBar1.Dock = System.Windows.Forms.DockStyle.Top;
             this.toolBar1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             toolItem10.Color = System.Drawing.Color.Empty;

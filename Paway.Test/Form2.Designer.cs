@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
@@ -40,9 +39,7 @@
             // 
             // toolBar1
             // 
-            this.toolBar1.AProperties = ((Paway.Forms.ToolBarProperties)(resources.GetObject("toolBar1.AProperties")));
             this.toolBar1.AutoScroll = true;
-            this.toolBar1.ICheckEvent = true;
             this.toolBar1.IImageShow = false;
             this.toolBar1.ImageSize = new System.Drawing.Size(16, 16);
             toolItem1.Color = System.Drawing.Color.Maroon;
@@ -78,12 +75,36 @@
             this.toolBar1.Items.Add(toolItem6);
             this.toolBar1.ItemSize = new System.Drawing.Size(93, 34);
             this.toolBar1.ItemSpace = 5;
-            this.toolBar1.Location = new System.Drawing.Point(44, 12);
+            this.toolBar1.Location = new System.Drawing.Point(51, 12);
             this.toolBar1.Name = "toolBar1";
             this.toolBar1.ProgressImage = global::Paway.Test.Properties.Resources.process;
             this.toolBar1.Size = new System.Drawing.Size(302, 241);
-            this.toolBar1.TabIndex = 19;
+            this.toolBar1.TabIndex = 20;
+            this.toolBar1.TBackGround.ColorDown = System.Drawing.Color.Empty;
+            this.toolBar1.TBackGround.ColorMove = System.Drawing.Color.Empty;
+            this.toolBar1.TBackGround.ColorNormal = System.Drawing.Color.Empty;
+            this.toolBar1.TBackGround.ColorSpace = System.Drawing.Color.Empty;
+            this.toolBar1.TDesc.ColorDown = System.Drawing.Color.Empty;
+            this.toolBar1.TDesc.ColorMove = System.Drawing.Color.Empty;
+            this.toolBar1.TDesc.ColorNormal = System.Drawing.Color.Empty;
+            this.toolBar1.TDesc.ColorSpace = System.Drawing.Color.Empty;
+            this.toolBar1.TEndDesc.ColorDown = System.Drawing.Color.Empty;
+            this.toolBar1.TEndDesc.ColorMove = System.Drawing.Color.Empty;
+            this.toolBar1.TEndDesc.ColorNormal = System.Drawing.Color.Empty;
+            this.toolBar1.TEndDesc.ColorSpace = System.Drawing.Color.Empty;
             this.toolBar1.TEvent = Paway.Forms.TEvent.Up;
+            this.toolBar1.TextFirst.ColorDown = System.Drawing.Color.Empty;
+            this.toolBar1.TextFirst.ColorMove = System.Drawing.Color.Empty;
+            this.toolBar1.TextFirst.ColorNormal = System.Drawing.Color.Empty;
+            this.toolBar1.TextFirst.ColorSpace = System.Drawing.Color.Empty;
+            this.toolBar1.TextSencond.ColorDown = System.Drawing.Color.Empty;
+            this.toolBar1.TextSencond.ColorMove = System.Drawing.Color.Empty;
+            this.toolBar1.TextSencond.ColorNormal = System.Drawing.Color.Empty;
+            this.toolBar1.TextSencond.ColorSpace = System.Drawing.Color.Empty;
+            this.toolBar1.THeadDesc.ColorDown = System.Drawing.Color.Empty;
+            this.toolBar1.THeadDesc.ColorMove = System.Drawing.Color.Empty;
+            this.toolBar1.THeadDesc.ColorNormal = System.Drawing.Color.Empty;
+            this.toolBar1.THeadDesc.ColorSpace = System.Drawing.Color.Empty;
             this.toolBar1.TLocation = Paway.Forms.TILocation.Left;
             // 
             // Form2
@@ -103,5 +124,6 @@
         #endregion
 
         private Forms.ToolBar toolBar1;
+
     }
 }

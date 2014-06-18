@@ -20,7 +20,6 @@ namespace Paway.Forms
         /// 默认字体
         /// </summary>
         [Description("默认字体"), DefaultValue(typeof(Font), "宋体, 9pt")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public Font FontNormal
         {
             get { return _fNormal; }
@@ -32,7 +31,6 @@ namespace Paway.Forms
         /// 鼠标移过时的字体
         /// </summary>
         [Description("鼠标移过时的字体"), DefaultValue(typeof(Font), "宋体, 9pt")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public Font FontMove
         {
             get { return _fMove; }
@@ -44,7 +42,6 @@ namespace Paway.Forms
         /// 鼠标按下时的字体
         /// </summary>
         [Description("鼠标按下时的字体"), DefaultValue(typeof(Font), "宋体, 9pt")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public Font FontDown
         {
             get { return _fDown; }
@@ -56,7 +53,6 @@ namespace Paway.Forms
         /// 默认颜色
         /// </summary>
         [Description("默认颜色"), DefaultValue(typeof(Color), "Empty")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public Color ColorNormal
         {
             get { return _cNormal; }
@@ -68,7 +64,6 @@ namespace Paway.Forms
         /// 鼠标移过时的颜色
         /// </summary>
         [Description("鼠标移过时的颜色"), DefaultValue(typeof(Color), "Empty")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public Color ColorMove
         {
             get { return _cMove; }
@@ -80,7 +75,6 @@ namespace Paway.Forms
         /// 鼠标按下时的颜色
         /// </summary>
         [Description("鼠标按下时的颜色"), DefaultValue(typeof(Color), "Empty")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public Color ColorDown
         {
             get { return _cDown; }
@@ -92,7 +86,6 @@ namespace Paway.Forms
         /// 项间隔的颜色
         /// </summary>
         [Description("项间隔的颜色"), DefaultValue(typeof(Color), "Empty")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public Color ColorSpace
         {
             get { return _cSpace; }
@@ -104,7 +97,6 @@ namespace Paway.Forms
         /// 文字水平对齐
         /// </summary>
         [Description("文字水平对齐"), DefaultValue(typeof(StringAlignment), "Center")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public StringAlignment StringVertical
         {
             get { return _stringVertical; }
@@ -116,7 +108,6 @@ namespace Paway.Forms
         /// 文字垂直对齐
         /// </summary>
         [Description("文字垂直对齐"), DefaultValue(typeof(StringAlignment), "Center")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public StringAlignment StringHorizontal
         {
             get { return _stringHorizontal; }
@@ -129,7 +120,7 @@ namespace Paway.Forms
         /// <returns></returns>
         public override string ToString()
         {
-            return "Properties";
+            return null;
         }
     }
 }

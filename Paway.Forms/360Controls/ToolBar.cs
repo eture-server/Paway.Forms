@@ -86,17 +86,107 @@ namespace Paway.Forms
         #endregion
 
         #region 属性
-        private ToolBarProperties _Properties = new ToolBarProperties();
+        private TProperties _text;
         /// <summary>
-        /// 自定义属性
+        /// 文字
         /// </summary>
-        [Description("自定义属性"), DefaultValue(typeof(ToolBarProperties), "ToolBar.Properties")]
-        [EditorBrowsable(EditorBrowsableState.Always)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public ToolBarProperties AProperties
+        [DefaultValue(typeof(TProperties), "TextFirst")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public TProperties TextFirst
         {
-            get { return _Properties; }
-            set { _Properties = value; }
+            get
+            {
+                if (_text == null)
+                    _text = new TProperties();
+                return _text;
+            }
+        }
+        private TProperties _textSencond;
+        /// <summary>
+        /// 文字
+        /// </summary>
+        [DefaultValue(typeof(TProperties), "TextSencond")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public TProperties TextSencond
+        {
+            get
+            {
+                if (_textSencond == null)
+                {
+                    _textSencond = new TProperties();
+                    _textSencond.StringVertical = StringAlignment.Near;
+                }
+                return _textSencond;
+            }
+            set { _textSencond = value; }
+        }
+        private TProperties _desc;
+        /// <summary>
+        /// 正文描述
+        /// </summary>
+        [DefaultValue(typeof(TProperties), "Desc")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public TProperties TDesc
+        {
+            get
+            {
+                if (_desc == null)
+                    _desc = new TProperties();
+                return _desc;
+            }
+            set { _desc = value; }
+        }
+        private TProperties _headDesc;
+        /// <summary>
+        /// 头部描述
+        /// </summary>
+        [DefaultValue(typeof(TProperties), "HeadDesc")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public TProperties THeadDesc
+        {
+            get
+            {
+                if (_headDesc == null)
+                {
+                    _headDesc = new TProperties();
+                    _headDesc.StringVertical = StringAlignment.Near;
+                }
+                return _headDesc;
+            }
+            set { _headDesc = value; }
+        }
+        private TProperties _endDesc;
+        /// <summary>
+        /// 尾部描述
+        /// </summary>
+        [DefaultValue(typeof(TProperties), "EndDesc")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public TProperties TEndDesc
+        {
+            get
+            {
+                if (_endDesc == null)
+                {
+                    _endDesc = new TProperties();
+                    _endDesc.StringVertical = StringAlignment.Far;
+                }
+                return _endDesc;
+            }
+        }
+        private TProperties _backGround;
+        /// <summary>
+        /// 背景
+        /// </summary>
+        [DefaultValue(typeof(TProperties), "BackGround")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public TProperties TBackGround
+        {
+            get
+            {
+                if (_backGround == null)
+                    _backGround = new TProperties();
+                return _backGround;
+            }
         }
         private Color _backColor;
         /// <summary>
@@ -391,9 +481,7 @@ namespace Paway.Forms
             base.OnPaint(e);
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
-            if (_Properties == null) MessageBox.Show("1");
-            if (_Properties.BackGround == null) MessageBox.Show("2");
-            backColor = _Properties.BackGround.ColorSpace;
+            backColor = TBackGround.ColorSpace;
             g.FillRectangle(new SolidBrush(backColor), new Rectangle(-1, -1, this.Width + 1, this.Height + 1));
 
             int xPos = this.Padding.Left;
@@ -475,7 +563,7 @@ namespace Paway.Forms
             {
                 case TMouseState.Normal:
                 case TMouseState.Leave:
-                    backColor = item.Color == Color.Empty ? _Properties.BackGround.ColorNormal : item.Color;
+                    backColor = item.Color == Color.Empty ? TBackGround.ColorNormal : item.Color;
                     g.FillRectangle(new SolidBrush(backColor), item.Rectangle);
                     break;
                 case TMouseState.Move:
@@ -489,13 +577,13 @@ namespace Paway.Forms
                     }
                     else
                     {
-                        if (_Properties.BackGround.ColorDown == Color.Empty)
+                        if (TBackGround.ColorDown == Color.Empty)
                         {
                             g.DrawImage(this._pushedImage, item.Rectangle);
                         }
                         else
                         {
-                            backColor = _Properties.BackGround.ColorDown;
+                            backColor = TBackGround.ColorDown;
                             g.FillRectangle(new SolidBrush(backColor), item.Rectangle);
                         }
                         IsContextMenu(g, item);
@@ -513,13 +601,13 @@ namespace Paway.Forms
         private void DrawMoveBack(Graphics g, ToolItem item)
         {
             if (!item.Enable) return;
-            if (_Properties.BackGround.ColorMove == Color.Empty)
+            if (TBackGround.ColorMove == Color.Empty)
             {
                 g.DrawImage(this._hoverImage, item.Rectangle);
             }
             else
             {
-                backColor = _Properties.BackGround.ColorMove;
+                backColor = TBackGround.ColorMove;
                 g.FillRectangle(new SolidBrush(backColor), item.Rectangle);
             }
             IsContextMenu(g, item);
@@ -586,8 +674,8 @@ namespace Paway.Forms
                 string[] text = item.Text.Split(new string[] { "\r\n", "&" }, StringSplitOptions.RemoveEmptyEntries);
                 if (text.Length > 0)
                 {
-                    int tHight = GetFont(item.MouseState, _Properties.Text).GetHeight(g).ToInt();
-                    int sHight = GetFont(item.MouseState, _Properties.TextSencond).GetHeight(g).ToInt();
+                    int tHight = GetFont(item.MouseState, TextFirst).GetHeight(g).ToInt();
+                    int sHight = GetFont(item.MouseState, TextSencond).GetHeight(g).ToInt();
                     int height = textRect.Height - tHight;
                     height -= (text.Length - 1) * sHight;
                     height -= (text.Length - 1) * 6;
@@ -600,7 +688,7 @@ namespace Paway.Forms
                         Width = textRect.Width,
                         Height = tHight,
                     };
-                    DrawOtherDesc(g, item.Enable, item.MouseState, _Properties.Text, text[0], rect);
+                    DrawOtherDesc(g, item.Enable, item.MouseState, TextFirst, text[0], rect);
                     for (int i = 1; i < text.Length; i++)
                     {
                         rect = new Rectangle()
@@ -610,13 +698,13 @@ namespace Paway.Forms
                             Width = textRect.Width,
                             Height = sHight,
                         };
-                        DrawOtherDesc(g, item.Enable, item.MouseState, _Properties.Text, text[i], rect);
+                        DrawOtherDesc(g, item.Enable, item.MouseState, TextFirst, text[i], rect);
                     }
                 }
             }
             if (!string.IsNullOrEmpty(item.HeadDesc))
             {
-                int dHeight = GetFont(item.MouseState, _Properties.HeadDesc).GetHeight(g).ToInt() + 6;
+                int dHeight = GetFont(item.MouseState, THeadDesc).GetHeight(g).ToInt() + 6;
                 Rectangle rect = new Rectangle()
                 {
                     X = textRect.X,
@@ -624,11 +712,11 @@ namespace Paway.Forms
                     Width = textRect.Width,
                     Height = dHeight,
                 };
-                DrawOtherDesc(g, item.Enable, item.MouseState, _Properties.HeadDesc, item.HeadDesc, rect);
+                DrawOtherDesc(g, item.Enable, item.MouseState, THeadDesc, item.HeadDesc, rect);
             }
             if (!string.IsNullOrEmpty(item.EndDesc))
             {
-                int dHeight = GetFont(item.MouseState, _Properties.EndDesc).GetHeight(g).ToInt() + 6;
+                int dHeight = GetFont(item.MouseState, TEndDesc).GetHeight(g).ToInt() + 6;
                 Rectangle rect = new Rectangle()
                 {
                     X = textRect.X,
@@ -636,7 +724,7 @@ namespace Paway.Forms
                     Width = textRect.Width,
                     Height = dHeight,
                 };
-                DrawOtherDesc(g, item.Enable, item.MouseState, _Properties.EndDesc, item.EndDesc, rect);
+                DrawOtherDesc(g, item.Enable, item.MouseState, TEndDesc, item.EndDesc, rect);
             }
             DrawDesc(g, item, textRect);
         }
@@ -664,9 +752,9 @@ namespace Paway.Forms
         private void DrawDesc(Graphics g, ToolItem item, Rectangle rect)
         {
             if (string.IsNullOrEmpty(item.Desc)) return;
-            SizeF size = g.MeasureString(item.Desc, GetFont(item.MouseState, _Properties.Desc));
+            SizeF size = g.MeasureString(item.Desc, GetFont(item.MouseState, TDesc));
             item.RectDesc = new Rectangle(rect.X + rect.Width - size.Width.ToInt(), rect.Y + (rect.Height - size.Height.ToInt()) / 2, size.Width.ToInt() + 2, size.Height.ToInt());
-            DrawOtherDesc(g, item.Enable, item.IMouseState, _Properties.Desc, item.Desc, item.RectDesc);
+            DrawOtherDesc(g, item.Enable, item.IMouseState, TDesc, item.Desc, item.RectDesc);
         }
         /// <summary>
         /// 绘制其它描述

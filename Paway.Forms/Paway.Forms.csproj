@@ -55,7 +55,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="360Controls\ToolBarProperties.cs" />
     <Compile Include="TControls\TProperties.cs" />
     <Compile Include="Interface\IControl.cs" />
     <Compile Include="TControls\AboutForm.cs">
@@ -199,6 +198,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TControls\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TControls\Demo360.resx">
+      <DependentUpon>Demo360.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TControls\TPager.resx">
       <DependentUpon>TPager.cs</DependentUpon>

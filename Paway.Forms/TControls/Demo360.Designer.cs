@@ -31,8 +31,8 @@ namespace Paway.Forms
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.toolBar1 = new Paway.Forms.ToolBar();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -40,8 +40,8 @@ namespace Paway.Forms
             // 
             this.panel1.BackColor = System.Drawing.Color.LightSteelBlue;
             this.panel1.Controls.Add(this.panel3);
-            this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.toolBar1);
+            this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 26);
             this.panel1.Name = "panel1";
@@ -56,15 +56,7 @@ namespace Paway.Forms
             this.panel3.Location = new System.Drawing.Point(1, 66);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(898, 420);
-            this.panel3.TabIndex = 3;
-            // 
-            // panel2
-            // 
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(1, 486);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(898, 26);
-            this.panel2.TabIndex = 2;
+            this.panel3.TabIndex = 11;
             // 
             // toolBar1
             // 
@@ -76,8 +68,39 @@ namespace Paway.Forms
             this.toolBar1.Location = new System.Drawing.Point(1, 0);
             this.toolBar1.Name = "toolBar1";
             this.toolBar1.Size = new System.Drawing.Size(898, 66);
-            this.toolBar1.TabIndex = 1;
-            this.toolBar1.Text = "toolBar1";
+            this.toolBar1.TabIndex = 10;
+            this.toolBar1.TBackGround.ColorDown = System.Drawing.Color.Empty;
+            this.toolBar1.TBackGround.ColorMove = System.Drawing.Color.Empty;
+            this.toolBar1.TBackGround.ColorNormal = System.Drawing.Color.Empty;
+            this.toolBar1.TBackGround.ColorSpace = System.Drawing.Color.Empty;
+            this.toolBar1.TDesc.ColorDown = System.Drawing.Color.Empty;
+            this.toolBar1.TDesc.ColorMove = System.Drawing.Color.Empty;
+            this.toolBar1.TDesc.ColorNormal = System.Drawing.Color.Empty;
+            this.toolBar1.TDesc.ColorSpace = System.Drawing.Color.Empty;
+            this.toolBar1.TEndDesc.ColorDown = System.Drawing.Color.Empty;
+            this.toolBar1.TEndDesc.ColorMove = System.Drawing.Color.Empty;
+            this.toolBar1.TEndDesc.ColorNormal = System.Drawing.Color.Empty;
+            this.toolBar1.TEndDesc.ColorSpace = System.Drawing.Color.Empty;
+            this.toolBar1.TextFirst.ColorDown = System.Drawing.Color.Empty;
+            this.toolBar1.TextFirst.ColorMove = System.Drawing.Color.Empty;
+            this.toolBar1.TextFirst.ColorNormal = System.Drawing.Color.Empty;
+            this.toolBar1.TextFirst.ColorSpace = System.Drawing.Color.Empty;
+            this.toolBar1.TextSencond.ColorDown = System.Drawing.Color.Empty;
+            this.toolBar1.TextSencond.ColorMove = System.Drawing.Color.Empty;
+            this.toolBar1.TextSencond.ColorNormal = System.Drawing.Color.Empty;
+            this.toolBar1.TextSencond.ColorSpace = System.Drawing.Color.Empty;
+            this.toolBar1.THeadDesc.ColorDown = System.Drawing.Color.Empty;
+            this.toolBar1.THeadDesc.ColorMove = System.Drawing.Color.Empty;
+            this.toolBar1.THeadDesc.ColorNormal = System.Drawing.Color.Empty;
+            this.toolBar1.THeadDesc.ColorSpace = System.Drawing.Color.Empty;
+            // 
+            // panel2
+            // 
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(1, 486);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(898, 26);
+            this.panel2.TabIndex = 2;
             // 
             // Demo360
             // 
@@ -107,20 +130,19 @@ namespace Paway.Forms
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         protected System.Windows.Forms.Panel panel2;
         /// <summary>
-        /// 工具栏
-        /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        protected ToolBar toolBar1;
-        /// <summary>
-        /// 状态栏
-        /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        protected System.Windows.Forms.Panel panel3;
-        /// <summary>
         /// 主容器
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         protected System.Windows.Forms.Panel panel1;
+        /// <summary>
+        /// 控件
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        protected System.Windows.Forms.Panel panel3;
+        /// <summary>
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        protected ToolBar toolBar1;
 
     }
 }
