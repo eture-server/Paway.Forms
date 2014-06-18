@@ -1,7 +1,6 @@
 @echo off
 @set ILMerge="C:\Program Files (x86)\Microsoft\ILMerge\ILMerge.exe"
 @set VS_HOME="C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat"
-@set POSTBUILD_HOME="C:\Program Files\Xenocode\Postbuild 2010 for .NET\XBuild.exe"
 
 @echo off
 @echo 发布目录更新脚本

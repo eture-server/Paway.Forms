@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
@@ -39,27 +40,34 @@
             // 
             // toolBar1
             // 
+            this.toolBar1.AProperties = ((Paway.Forms.ToolBarProperties)(resources.GetObject("toolBar1.AProperties")));
             this.toolBar1.AutoScroll = true;
             this.toolBar1.ICheckEvent = true;
             this.toolBar1.IImageShow = false;
             this.toolBar1.ImageSize = new System.Drawing.Size(16, 16);
             toolItem1.Color = System.Drawing.Color.Maroon;
+            toolItem1.First = "创建宝贝";
             toolItem1.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
             toolItem1.Rectangle = new System.Drawing.Rectangle(0, 0, 93, 34);
             toolItem1.Text = "创建宝贝";
             toolItem2.Color = System.Drawing.Color.Empty;
+            toolItem2.First = "上传宝贝";
             toolItem2.Rectangle = new System.Drawing.Rectangle(98, 0, 93, 34);
             toolItem2.Text = "上传宝贝";
             toolItem3.Color = System.Drawing.Color.Empty;
+            toolItem3.First = "Hello";
             toolItem3.Rectangle = new System.Drawing.Rectangle(196, 0, 93, 34);
             toolItem3.Text = "Hello";
             toolItem4.Color = System.Drawing.Color.Empty;
+            toolItem4.First = "World";
             toolItem4.Rectangle = new System.Drawing.Rectangle(0, 39, 93, 34);
             toolItem4.Text = "World";
             toolItem5.Color = System.Drawing.Color.Empty;
+            toolItem5.First = "5";
             toolItem5.Rectangle = new System.Drawing.Rectangle(98, 39, 93, 34);
             toolItem5.Text = "5";
             toolItem6.Color = System.Drawing.Color.Empty;
+            toolItem6.First = "6";
             toolItem6.Rectangle = new System.Drawing.Rectangle(196, 39, 93, 34);
             toolItem6.Text = "6";
             this.toolBar1.Items.Add(toolItem1);
@@ -70,10 +78,10 @@
             this.toolBar1.Items.Add(toolItem6);
             this.toolBar1.ItemSize = new System.Drawing.Size(93, 34);
             this.toolBar1.ItemSpace = 5;
-            this.toolBar1.Location = new System.Drawing.Point(33, 12);
+            this.toolBar1.Location = new System.Drawing.Point(44, 12);
             this.toolBar1.Name = "toolBar1";
             this.toolBar1.ProgressImage = global::Paway.Test.Properties.Resources.process;
-            this.toolBar1.Size = new System.Drawing.Size(302, 82);
+            this.toolBar1.Size = new System.Drawing.Size(302, 241);
             this.toolBar1.TabIndex = 19;
             this.toolBar1.TEvent = Paway.Forms.TEvent.Up;
             this.toolBar1.TLocation = Paway.Forms.TILocation.Left;

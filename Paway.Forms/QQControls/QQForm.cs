@@ -17,7 +17,6 @@ namespace Paway.Forms
     /// </summary>
     public class QQForm : FormBase
     {
-
         #region 构造函数
         /// <summary>
         /// </summary>
@@ -40,8 +39,11 @@ namespace Paway.Forms
                     case TSysButton.Normal:
                         x = this.Width - this.CloseRect.Width - width;
                         break;
+                    default:
+                        x = this.TMargin;
+                        break;
                 }
-                return new Rectangle(x, -1, width, 20);
+                return new Rectangle(x, TMargin - 1, width, 20);
             }
         }
         /// <summary>
@@ -61,8 +63,11 @@ namespace Paway.Forms
                     case TSysButton.Close_Mini:
                         x = this.Width - width - this.CloseRect.Width;
                         break;
+                    default:
+                        x = this.TMargin;
+                        break;
                 }
-                Rectangle rect = new Rectangle(x, -1, width, 20);
+                Rectangle rect = new Rectangle( x, TMargin - 1, width, 20);
                 return rect;
             }
         }
@@ -74,9 +79,9 @@ namespace Paway.Forms
             get
             {
                 if (base._sysButton == TSysButton.Normal)
-                    return new Rectangle(this.Width - 28 * 2 - 39, 0, 39 + 28 + 28, 20);
+                    return new Rectangle(this.Width - 28 * 2 - 39, TMargin + 0, 39 + 28 + 28, 20);
                 else if (base._sysButton == TSysButton.Close_Mini)
-                    return new Rectangle(this.Width - 28 - 39, 0, 39 + 28, 20);
+                    return new Rectangle(this.Width - 28 - 39, TMargin + 0, 39 + 28, 20);
                 else
                     return this.CloseRect;
             }
@@ -86,7 +91,7 @@ namespace Paway.Forms
         /// </summary>
         protected override Rectangle CloseRect
         {
-            get { return new Rectangle(this.Width - 39, -1, 39, 20); }
+            get { return new Rectangle(this.Width - 39, TMargin - 1, 39, 20); }
         }
         #endregion
 
@@ -149,6 +154,84 @@ namespace Paway.Forms
             }
 
             base.OnPaint(e);
+        }
+
+        #endregion
+
+        #region NewDemo
+        private bool _tDemo;
+        /// <summary>
+        /// 新Demo
+        /// </summary>
+        protected bool TDemo
+        {
+            get { return _tDemo; }
+            set { _tDemo = value; }
+        }
+        private int _tMargin;
+        /// <summary>
+        /// 新边框大小
+        /// </summary>
+        protected int Raw { get; set; }
+        /// <summary>
+        /// 裁剪大小
+        /// </summary>
+        protected int TMargin
+        {
+            get
+            {
+                if (_tDemo)
+                {
+                    return _tMargin + Raw;
+                }
+                else return 0;
+            }
+            set
+            {
+                _tMargin = value;
+            }
+        }
+        /// <summary>
+        /// 新Demo宽度
+        /// </summary>
+        public new int Width
+        {
+            get
+            {
+                if (TDemo)
+                {
+                    return base.Width - TMargin;
+                }
+                else
+                {
+                    return base.Width;
+                }
+            }
+            set
+            {
+                base.Width = value;
+            }
+        }
+        /// <summary>
+        /// 新Demo高度
+        /// </summary>
+        public new int Height
+        {
+            get
+            {
+                if (TDemo)
+                {
+                    return base.Height - TMargin;
+                }
+                else
+                {
+                    return base.Height;
+                }
+            }
+            set
+            {
+                base.Height = value;
+            }
         }
 
         #endregion

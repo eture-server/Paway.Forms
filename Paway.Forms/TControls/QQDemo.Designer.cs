@@ -1,4 +1,5 @@
-﻿namespace Paway.Forms
+﻿using System.ComponentModel;
+namespace Paway.Forms
 {
     partial class QQDemo
     {
@@ -62,6 +63,7 @@
         #endregion
         /// <summary>
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         protected System.Windows.Forms.Panel panel1;
     }
 }

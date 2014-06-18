@@ -92,10 +92,11 @@ namespace Paway.Forms
         /// </summary>
         [Description("自定义属性"), DefaultValue(typeof(ToolBarProperties), "ToolBar.Properties")]
         [EditorBrowsable(EditorBrowsableState.Always)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public ToolBarProperties AProperties
         {
             get { return _Properties; }
+            set { _Properties = value; }
         }
         private Color _backColor;
         /// <summary>
@@ -488,7 +489,7 @@ namespace Paway.Forms
                     }
                     else
                     {
-                        if (_Properties.BackGround.ColorDown == Color.Transparent)
+                        if (_Properties.BackGround.ColorDown == Color.Empty)
                         {
                             g.DrawImage(this._pushedImage, item.Rectangle);
                         }
@@ -512,7 +513,7 @@ namespace Paway.Forms
         private void DrawMoveBack(Graphics g, ToolItem item)
         {
             if (!item.Enable) return;
-            if (_Properties.BackGround.ColorMove == Color.Transparent)
+            if (_Properties.BackGround.ColorMove == Color.Empty)
             {
                 g.DrawImage(this._hoverImage, item.Rectangle);
             }

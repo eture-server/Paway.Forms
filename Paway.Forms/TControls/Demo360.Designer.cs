@@ -1,4 +1,5 @@
-﻿namespace Paway.Forms
+﻿using System.ComponentModel;
+namespace Paway.Forms
 {
     partial class Demo360
     {
@@ -103,18 +104,22 @@
         /// <summary>
         /// 主控件窗口
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         protected System.Windows.Forms.Panel panel2;
         /// <summary>
         /// 工具栏
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         protected ToolBar toolBar1;
         /// <summary>
         /// 状态栏
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         protected System.Windows.Forms.Panel panel3;
         /// <summary>
         /// 主容器
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         protected System.Windows.Forms.Panel panel1;
 
     }

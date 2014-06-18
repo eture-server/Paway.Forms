@@ -450,8 +450,10 @@ namespace Paway.Forms
                 blend.BlendFlags = 0;
                 blend.SourceConstantAlpha = opacity;
                 blend.AlphaFormat = Consts.AC_SRC_ALPHA;
-
-                NativeMethods.UpdateLayeredWindow(Handle, screenDc, ref topPos, ref size, memDc, ref pointSource, 0, ref blend, Consts.ULW_ALPHA);
+                if (!this.IsDisposed)
+                {
+                    NativeMethods.UpdateLayeredWindow(Handle, screenDc, ref topPos, ref size, memDc, ref pointSource, 0, ref blend, Consts.ULW_ALPHA);
+                }
             }
             finally
             {
@@ -543,7 +545,10 @@ namespace Paway.Forms
             //调用API，将窗体剪成圆角
             int ellipse = (_isDrawRound && this.WindowState != FormWindowState.Maximized) ? 4 : 0;
             int rgn = NativeMethods.CreateRoundRectRgn(0, 0, this.Width + 1, this.Height + 1, ellipse, ellipse);
-            NativeMethods.SetWindowRgn(this.Handle, rgn, true);
+            if (!this.IsDisposed)
+            {
+                NativeMethods.SetWindowRgn(this.Handle, rgn, true);
+            }
         }
         /// <summary>
         /// 引发 System.Windows.Forms.Form.Load 事件。
@@ -729,7 +734,7 @@ namespace Paway.Forms
         {
             Control control = sender as Control;
             Graphics g = control.CreateGraphics();
-            DrawHelper.CreateBelowPath(g, control.Bounds, this.BackColor);
+            DrawHelper.CreateBelowPath(g, control.ClientRectangle, this.BackColor);
         }
 
         #endregion
@@ -775,6 +780,68 @@ namespace Paway.Forms
             }
         }
 
+        #endregion
+
+        #region MyRegion
+        private int raw;
+        /// <summary>
+        /// 将控件剪成圆角
+        /// </summary>
+        protected void TDrawRoundRect(Control control, int raw)
+        {
+            if (control == null) return;
+            this.raw = raw;
+            control.SizeChanged += control_SizeChanged;
+            control_SizeChanged(control, EventArgs.Empty);
+        }
+
+        void control_SizeChanged(object sender, EventArgs e)
+        {
+            Control control = sender as Control;
+            int rgn = NativeMethods.CreateRoundRectRgn(control.ClientRectangle.X, control.ClientRectangle.Y,
+                control.ClientRectangle.Width + 1 - control.ClientRectangle.X,
+                control.ClientRectangle.Height + 1 - control.ClientRectangle.Y,
+                raw, raw);
+            if (!control.IsDisposed)
+            {
+                NativeMethods.SetWindowRgn(control.Handle, rgn, true);
+            }
+        }
+        /// <summary>
+        /// 将控件剪成圆角
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="ellipse"></param>
+        protected void DrawRoundRect(Control control, int ellipse)
+        {
+            if (control == null) return;
+
+            int rgn = NativeMethods.CreateRoundRectRgn(control.ClientRectangle.X, control.ClientRectangle.Y,
+                control.ClientRectangle.Width + 1 - control.ClientRectangle.X,
+                control.ClientRectangle.Height + 1 - control.ClientRectangle.Y,
+                ellipse, ellipse);
+            if (!control.IsDisposed)
+            {
+                NativeMethods.SetWindowRgn(control.Handle, rgn, true);
+            }
+
+        }
+        /// <summary>
+        /// 将控件剪成圆角
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="rect"></param>
+        /// <param name="ellipse"></param>
+        protected void DrawRoundRect(Control control, Rectangle rect, int ellipse)
+        {
+            if (control == null) return;
+
+            int rgn = NativeMethods.CreateRoundRectRgn(rect.X, rect.Y, rect.Width + 1 - rect.X, rect.Height + 1 - rect.Y, ellipse, ellipse);
+            if (!control.IsDisposed)
+            {
+                NativeMethods.SetWindowRgn(control.Handle, rgn, true);
+            }
+        }
         #endregion
 
         #region 接口

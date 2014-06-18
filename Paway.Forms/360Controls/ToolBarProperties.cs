@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -18,13 +19,16 @@ namespace Paway.Forms
         /// 文字
         /// </summary>
         [DefaultValue(typeof(TProperties), "Properties")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties Text
         {
             get
             {
                 if (_text == null)
+                {
                     _text = new TProperties();
+                    _text.StringVertical = StringAlignment.Near;
+                }
                 return _text;
             }
             set { _text = value; }
@@ -34,13 +38,16 @@ namespace Paway.Forms
         /// 文字
         /// </summary>
         [DefaultValue(typeof(TProperties), "Properties")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties TextSencond
         {
             get
             {
                 if (_textSencond == null)
+                {
                     _textSencond = new TProperties();
+                    _textSencond.StringVertical = StringAlignment.Near;
+                }
                 return _textSencond;
             }
             set { _textSencond = value; }
@@ -50,7 +57,7 @@ namespace Paway.Forms
         /// 正文描述
         /// </summary>
         [DefaultValue(typeof(TProperties), "Properties")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties Desc
         {
             get
@@ -66,13 +73,16 @@ namespace Paway.Forms
         /// 头部描述
         /// </summary>
         [DefaultValue(typeof(TProperties), "Properties")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties HeadDesc
         {
             get
             {
                 if (_headDesc == null)
+                {
                     _headDesc = new TProperties();
+                    _headDesc.StringVertical = StringAlignment.Near;
+                }
                 return _headDesc;
             }
             set { _headDesc = value; }
@@ -82,13 +92,16 @@ namespace Paway.Forms
         /// 尾部描述
         /// </summary>
         [DefaultValue(typeof(TProperties), "Properties")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties EndDesc
         {
             get
             {
                 if (_endDesc == null)
+                {
                     _endDesc = new TProperties();
+                    _endDesc.StringVertical = StringAlignment.Far;
+                }
                 return _endDesc;
             }
             set { _endDesc = value; }
@@ -98,7 +111,7 @@ namespace Paway.Forms
         /// 背景
         /// </summary>
         [DefaultValue(typeof(TProperties), "Properties")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties BackGround
         {
             get

@@ -108,7 +108,7 @@ namespace Paway.Helper
         public static void CreateBelowPath(Graphics g, Rectangle rect,Color color)
         {
             g.DrawPath(new Pen(new SolidBrush(color)),
-                CreateBelowPath(new Rectangle(0, 0, rect.Width - 1, rect.Height - 1), 3));
+                CreateBelowPath(new Rectangle(rect.X, rect.Y, rect.Width - 1, rect.Height - 1), 3));
         }
         /// <summary>
         /// 构建下圆角路径
