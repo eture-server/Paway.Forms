@@ -15,33 +15,33 @@ namespace Paway.Forms
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class TProperties
     {
-        private Font _fNormal = new Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
+        private Font _fNormal = new Font("微软雅黑", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
         /// <summary>
         /// 默认字体
         /// </summary>
-        [Description("默认字体"), DefaultValue(typeof(Font), "宋体, 9pt")]
+        [Description("默认字体"), DefaultValue(typeof(Font), "微软雅黑, 9pt")]
         public Font FontNormal
         {
             get { return _fNormal; }
             set { _fNormal = value; }
         }
 
-        private Font _fMove = new Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
+        private Font _fMove = new Font("微软雅黑", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
         /// <summary>
         /// 鼠标移过时的字体
         /// </summary>
-        [Description("鼠标移过时的字体"), DefaultValue(typeof(Font), "宋体, 9pt")]
+        [Description("鼠标移过时的字体"), DefaultValue(typeof(Font), "微软雅黑, 9pt")]
         public Font FontMove
         {
             get { return _fMove; }
             set { _fMove = value; }
         }
 
-        private Font _fDown = new Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
+        private Font _fDown = new Font("微软雅黑", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
         /// <summary>
         /// 鼠标按下时的字体
         /// </summary>
-        [Description("鼠标按下时的字体"), DefaultValue(typeof(Font), "宋体, 9pt")]
+        [Description("鼠标按下时的字体"), DefaultValue(typeof(Font), "微软雅黑, 9pt")]
         public Font FontDown
         {
             get { return _fDown; }

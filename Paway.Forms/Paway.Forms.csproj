@@ -67,7 +67,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="TControls\TControl.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="TControls\Demo360.cs">
       <SubType>Form</SubType>
@@ -121,7 +121,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="360Controls\ToolBar.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="360Controls\ToolItem.cs" />
     <Compile Include="360Controls\ToolItemCollection.cs" />

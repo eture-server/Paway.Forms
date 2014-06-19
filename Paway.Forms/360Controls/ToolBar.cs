@@ -698,7 +698,7 @@ namespace Paway.Forms
                             Width = textRect.Width,
                             Height = sHight,
                         };
-                        DrawOtherDesc(g, item.Enable, item.MouseState, TextFirst, text[i], rect);
+                        DrawOtherDesc(g, item.Enable, item.MouseState, TextSencond, text[i], rect);
                     }
                 }
             }

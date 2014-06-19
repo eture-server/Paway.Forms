@@ -39,7 +39,6 @@
             // 
             // toolBar1
             // 
-            this.toolBar1.AutoScroll = true;
             this.toolBar1.IImageShow = false;
             this.toolBar1.ImageSize = new System.Drawing.Size(16, 16);
             toolItem1.Color = System.Drawing.Color.Maroon;

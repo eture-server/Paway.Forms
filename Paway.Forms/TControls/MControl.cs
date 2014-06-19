@@ -11,7 +11,7 @@ namespace Paway.Forms
     /// <summary>
     /// 多控件切换方法
     /// </summary>
-    public class MControl : TControl
+    public class MControl : UserControl
     {
         /// <summary>
         /// 从其它控件切换过来时重新激活

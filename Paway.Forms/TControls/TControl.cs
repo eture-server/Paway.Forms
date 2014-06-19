@@ -11,7 +11,7 @@ namespace Paway.Forms
     /// <summary>
     /// 自定义基控件
     /// </summary>
-    public class TControl : UserControl, IControl
+    public class TControl : Control, IControl
     {
         #region 变量
         private List<Locate> tList;

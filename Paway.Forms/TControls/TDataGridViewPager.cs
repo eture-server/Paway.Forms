@@ -140,6 +140,8 @@ namespace Paway.Forms
                 Type[] types = type.GetGenericArguments();
                 if (types.Length != 1) return;
                 type = types[0];
+
+                PagerInfo.RecordCount = list.Count;
                 List<object> temp = new List<object>();
                 int index = PagerInfo.PageSize * (PagerInfo.CurrenetPageIndex - 1);
                 for (int i = index; i < index + PagerInfo.PageSize; i++)
