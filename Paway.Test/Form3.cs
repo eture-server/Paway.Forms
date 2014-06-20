@@ -14,6 +14,11 @@ namespace Paway.Test
         public Form3()
         {
             InitializeComponent();
+            toolSet.EditClick += toolSet_EditClick;
+        }
+
+        void toolSet_EditClick(object sender, EventArgs e)
+        {
         }
     }
 }

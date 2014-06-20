@@ -52,13 +52,14 @@ namespace Paway.Forms
                 {
                     First = text[0];
                 }
+                Sencond = null;
                 for (int i = 1; i < text.Length; i++)
                 {
                     Sencond = string.Format("{0}{1}\r\n", Sencond, text[i]);
                 }
                 if (Sencond != null)
                 {
-                    Sencond.TrimEnd(new Char[] { '\r', '\n' });
+                    Sencond = Sencond.TrimEnd(new Char[] { '\r', '\n' });
                 }
             }
         }

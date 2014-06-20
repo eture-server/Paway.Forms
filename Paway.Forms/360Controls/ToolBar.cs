@@ -112,13 +112,9 @@ namespace Paway.Forms
             get
             {
                 if (_textSencond == null)
-                {
                     _textSencond = new TProperties();
-                    _textSencond.StringVertical = StringAlignment.Near;
-                }
                 return _textSencond;
             }
-            set { _textSencond = value; }
         }
         private TProperties _desc;
         /// <summary>
@@ -134,7 +130,6 @@ namespace Paway.Forms
                     _desc = new TProperties();
                 return _desc;
             }
-            set { _desc = value; }
         }
         private TProperties _headDesc;
         /// <summary>
@@ -147,13 +142,9 @@ namespace Paway.Forms
             get
             {
                 if (_headDesc == null)
-                {
                     _headDesc = new TProperties();
-                    _headDesc.StringVertical = StringAlignment.Near;
-                }
                 return _headDesc;
             }
-            set { _headDesc = value; }
         }
         private TProperties _endDesc;
         /// <summary>
@@ -166,10 +157,7 @@ namespace Paway.Forms
             get
             {
                 if (_endDesc == null)
-                {
                     _endDesc = new TProperties();
-                    _endDesc.StringVertical = StringAlignment.Far;
-                }
                 return _endDesc;
             }
         }
@@ -203,6 +191,21 @@ namespace Paway.Forms
                 return _backColor;
             }
             set { _backColor = value; }
+        }
+
+        private bool _tAdd;
+        /// <summary>
+        /// 补充整行\列
+        /// </summary>
+        [Description("补充整行\\列"), DefaultValue(false)]
+        public bool TAdd
+        {
+            get { return _tAdd; }
+            set
+            {
+                _tAdd = value;
+                this.Invalidate();
+            }
         }
 
         /// <summary>
@@ -356,15 +359,6 @@ namespace Paway.Forms
             set
             {
                 this._imageSize = value;
-                switch (_tLocation)
-                {
-                    case TILocation.Up:
-                        this._itemSize = new Size(this._itemSize.Width, 34 + value.Height);
-                        break;
-                    case TILocation.Left:
-                        this._itemSize = new Size(58 + _rightLen + value.Width, this._itemSize.Height);
-                        break;
-                }
                 if (value.Height == 0)
                 {
                     this._iImageShow = false;
@@ -500,10 +494,13 @@ namespace Paway.Forms
                 if (this.Items.Count % count == 0) count = 0;
                 else count = count - this.Items.Count % count;
             }
-            //填充空Item
-            for (int i = 0; i < count; i++)
+            if (_tAdd)
             {
-                DrawItem(g, new ToolItem(), ref xPos, ref yPos, i == count - 1);
+                //填充空Item
+                for (int i = 0; i < count; i++)
+                {
+                    DrawItem(g, new ToolItem(), ref xPos, ref yPos, i == count - 1);
+                }
             }
         }
         #region 绘制方法
@@ -571,7 +568,7 @@ namespace Paway.Forms
                     DrawMoveBack(g, item);
                     break;
                 case TMouseState.Down:
-                    if (IsContextMenu(g, item))
+                    if (IsContextMenu(g, item) || item.IMouseState == TMouseState.Down)
                     {
                         DrawMoveBack(g, item);
                     }
@@ -663,11 +660,15 @@ namespace Paway.Forms
                             textRect.Height = item.Rectangle.Height / 5 * 2;
                             break;
                         case TILocation.Left:
-                            textRect.X = item.Rectangle.X + 2 * 2 + _imageSize.Width;
+                            textRect.X = item.Rectangle.X + pad + _imageSize.Width;
                             textRect.Height = item.Rectangle.Height;
-                            textRect.Width = item.Rectangle.Width + item.Rectangle.X - textRect.X - _rightLen;
+                            textRect.Width = item.Rectangle.Width + item.Rectangle.X - textRect.X;
                             break;
                     }
+                }
+                if (item.ContextMenuStrip != null)
+                {
+                    textRect.Width -= _rightLen;
                 }
                 textRect.Width -= pad * 2;
                 textRect.Height -= pad * 2;
@@ -753,7 +754,8 @@ namespace Paway.Forms
         {
             if (string.IsNullOrEmpty(item.Desc)) return;
             SizeF size = g.MeasureString(item.Desc, GetFont(item.MouseState, TDesc));
-            item.RectDesc = new Rectangle(rect.X + rect.Width - size.Width.ToInt(), rect.Y + (rect.Height - size.Height.ToInt()) / 2, size.Width.ToInt() + 2, size.Height.ToInt());
+            item.RectDesc = new Rectangle(rect.X + rect.Width - size.Width.ToInt() + (item.ContextMenuStrip == null ? 0 : 4),
+                rect.Y + (rect.Height - size.Height.ToInt()) / 2, size.Width.ToInt() + 2, size.Height.ToInt());
             DrawOtherDesc(g, item.Enable, item.IMouseState, TDesc, item.Desc, item.RectDesc);
         }
         /// <summary>
@@ -826,7 +828,8 @@ namespace Paway.Forms
                     {
                         btnArrowImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_highlight.png");
                     }
-                    this._btnArrowRect = new Rectangle(item.Rectangle.X + item.Rectangle.Width - btnArrowImage.Width, item.Rectangle.Y, btnArrowImage.Width, btnArrowImage.Height);
+                    this._btnArrowRect = new Rectangle(item.Rectangle.X + item.Rectangle.Width - btnArrowImage.Width,
+                        item.Rectangle.Y + (item.Rectangle.Height - btnArrowImage.Height) / 2, btnArrowImage.Width, btnArrowImage.Height);
                 }
             }
             if (btnArrowImage != null)
@@ -923,6 +926,11 @@ namespace Paway.Forms
                     if (item.RectDesc.Contains(point))
                     {
                         item.IMouseState = TMouseState.Down;
+                        if (item.ContextMenuStrip != null)
+                        {
+                            this._iFocus = true;
+                            base.Invalidate(this._btnArrowRect);
+                        }
                         if (_tEvent == TEvent.Down)
                         {
                             this.OnEditClick(item, EventArgs.Empty);

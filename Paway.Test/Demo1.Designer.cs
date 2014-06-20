@@ -1,6 +1,6 @@
 ﻿namespace Paway.Test
 {
-    partial class Form1
+    partial class Demo1
     {
         /// <summary>
         /// Required designer variable.

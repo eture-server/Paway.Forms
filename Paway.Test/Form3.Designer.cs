@@ -28,119 +28,142 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
-            this.toolBar1 = new Paway.Forms.ToolBar();
-            this.toolBar2 = new Paway.Forms.ToolBar();
+            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem5 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem6 = new Paway.Forms.ToolItem();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.aToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolSet = new Paway.Forms.ToolBar();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // toolBar1
+            // contextMenuStrip1
             // 
-            this.toolBar1.IImageShow = false;
-            this.toolBar1.ImageSize = new System.Drawing.Size(0, 0);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aToolStripMenuItem,
+            this.bToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(83, 48);
+            // 
+            // aToolStripMenuItem
+            // 
+            this.aToolStripMenuItem.Name = "aToolStripMenuItem";
+            this.aToolStripMenuItem.Size = new System.Drawing.Size(82, 22);
+            this.aToolStripMenuItem.Text = "a";
+            // 
+            // bToolStripMenuItem
+            // 
+            this.bToolStripMenuItem.Name = "bToolStripMenuItem";
+            this.bToolStripMenuItem.Size = new System.Drawing.Size(82, 22);
+            this.bToolStripMenuItem.Text = "b";
+            // 
+            // toolSet
+            // 
+            this.toolSet.Dock = System.Windows.Forms.DockStyle.Left;
+            this.toolSet.Font = new System.Drawing.Font("Tahoma", 15F);
+            this.toolSet.ForeColor = System.Drawing.Color.Black;
+            this.toolSet.ICheckEvent = true;
+            this.toolSet.IImageShow = false;
+            this.toolSet.ImageSize = new System.Drawing.Size(60, 48);
             toolItem1.Color = System.Drawing.Color.Empty;
-            toolItem1.Desc = "x1好";
-            toolItem1.EndDesc = "呵呵";
-            toolItem1.First = "你在哪里啊";
-            toolItem1.HeadDesc = "你好";
-            toolItem1.Rectangle = new System.Drawing.Rectangle(0, 0, 170, 170);
-            toolItem1.Sencond = "我在这里啊\r\n我在这里啊\r\n我在这里啊\r\n我在这里啊\r\n我在这里啊\r\n我在这里啊\r\n我在这里啊\r\n我在这里啊\r\n我在这里啊\r\n我在这里啊\r\n";
-            toolItem1.Text = "你在哪里啊\r\n我在这里啊";
-            this.toolBar1.Items.Add(toolItem1);
-            this.toolBar1.ItemSize = new System.Drawing.Size(170, 170);
-            this.toolBar1.Location = new System.Drawing.Point(28, 30);
-            this.toolBar1.Name = "toolBar1";
-            this.toolBar1.Size = new System.Drawing.Size(170, 170);
-            this.toolBar1.TabIndex = 1;
-            this.toolBar1.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.toolBar1.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.toolBar1.TBackGround.ColorNormal = System.Drawing.Color.Blue;
-            this.toolBar1.TBackGround.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar1.TDesc.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar1.TDesc.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar1.TDesc.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar1.TDesc.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar1.TEndDesc.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar1.TEndDesc.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar1.TEndDesc.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar1.TEndDesc.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar1.TextFirst.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar1.TextFirst.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar1.TextFirst.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.toolBar1.TextFirst.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar1.TextFirst.FontNormal = new System.Drawing.Font("宋体", 12F);
-            this.toolBar1.TextFirst.StringVertical = System.Drawing.StringAlignment.Near;
-            this.toolBar1.TextSencond.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar1.TextSencond.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar1.TextSencond.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar1.TextSencond.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar1.THeadDesc.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar1.THeadDesc.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar1.THeadDesc.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar1.THeadDesc.ColorSpace = System.Drawing.Color.Empty;
-            // 
-            // toolBar2
-            // 
-            this.toolBar2.IImageShow = false;
-            this.toolBar2.ImageSize = new System.Drawing.Size(0, 0);
+            toolItem1.ContextMenuStrip = this.contextMenuStrip1;
+            toolItem1.Desc = "编辑";
+            toolItem1.First = "开始点菜";
+            toolItem1.Rectangle = new System.Drawing.Rectangle(0, 0, 240, 120);
+            toolItem1.Text = "开始点菜";
             toolItem2.Color = System.Drawing.Color.Empty;
-            toolItem2.First = "关于";
-            toolItem2.Image = global::Paway.Test.Properties.Resources.busy;
-            toolItem2.Rectangle = new System.Drawing.Rectangle(0, 0, 63, 44);
-            toolItem2.Text = "关于";
-            this.toolBar2.Items.Add(toolItem2);
-            this.toolBar2.ItemSize = new System.Drawing.Size(63, 44);
-            this.toolBar2.Location = new System.Drawing.Point(209, 205);
-            this.toolBar2.Name = "toolBar2";
-            this.toolBar2.Size = new System.Drawing.Size(63, 44);
-            this.toolBar2.TabIndex = 2;
-            this.toolBar2.TBackGround.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar2.TBackGround.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar2.TBackGround.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar2.TBackGround.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar2.TDesc.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar2.TDesc.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar2.TDesc.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar2.TDesc.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar2.TEndDesc.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar2.TEndDesc.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar2.TEndDesc.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar2.TEndDesc.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar2.TEndDesc.StringVertical = System.Drawing.StringAlignment.Far;
-            this.toolBar2.TextFirst.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar2.TextFirst.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar2.TextFirst.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar2.TextFirst.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar2.TextFirst.StringVertical = System.Drawing.StringAlignment.Near;
-            this.toolBar2.TextSencond.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar2.TextSencond.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar2.TextSencond.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar2.TextSencond.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar2.TextSencond.StringVertical = System.Drawing.StringAlignment.Near;
-            this.toolBar2.THeadDesc.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar2.THeadDesc.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar2.THeadDesc.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar2.THeadDesc.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar2.THeadDesc.StringVertical = System.Drawing.StringAlignment.Near;
+            toolItem2.ContextMenuStrip = this.contextMenuStrip1;
+            toolItem2.First = "1";
+            toolItem2.Rectangle = new System.Drawing.Rectangle(0, 125, 240, 120);
+            toolItem2.Text = "1";
+            toolItem3.Color = System.Drawing.Color.Empty;
+            toolItem3.ContextMenuStrip = this.contextMenuStrip1;
+            toolItem3.First = "2";
+            toolItem3.Rectangle = new System.Drawing.Rectangle(245, 0, 240, 120);
+            toolItem3.Text = "2";
+            toolItem4.Color = System.Drawing.Color.Empty;
+            toolItem4.First = "3";
+            toolItem4.Rectangle = new System.Drawing.Rectangle(245, 125, 240, 120);
+            toolItem4.Text = "3";
+            toolItem5.Color = System.Drawing.Color.Empty;
+            toolItem5.Desc = "编辑";
+            toolItem5.First = "4";
+            toolItem5.Rectangle = new System.Drawing.Rectangle(490, 0, 240, 120);
+            toolItem5.Text = "4";
+            toolItem6.Color = System.Drawing.Color.Empty;
+            toolItem6.First = "5";
+            toolItem6.Rectangle = new System.Drawing.Rectangle(490, 125, 240, 120);
+            toolItem6.Text = "5";
+            this.toolSet.Items.Add(toolItem1);
+            this.toolSet.Items.Add(toolItem2);
+            this.toolSet.Items.Add(toolItem3);
+            this.toolSet.Items.Add(toolItem4);
+            this.toolSet.Items.Add(toolItem5);
+            this.toolSet.Items.Add(toolItem6);
+            this.toolSet.ItemSize = new System.Drawing.Size(240, 120);
+            this.toolSet.ItemSpace = 5;
+            this.toolSet.Location = new System.Drawing.Point(0, 0);
+            this.toolSet.Name = "toolSet";
+            this.toolSet.Size = new System.Drawing.Size(747, 328);
+            this.toolSet.TabIndex = 15;
+            this.toolSet.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(0)))), ((int)(((byte)(108)))));
+            this.toolSet.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(77)))), ((int)(((byte)(185)))));
+            this.toolSet.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(0)))), ((int)(((byte)(155)))));
+            this.toolSet.TBackGround.ColorSpace = System.Drawing.Color.Empty;
+            this.toolSet.TDesc.ColorDown = System.Drawing.Color.Blue;
+            this.toolSet.TDesc.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.toolSet.TDesc.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.toolSet.TDesc.ColorSpace = System.Drawing.Color.Empty;
+            this.toolSet.TDirection = Paway.Forms.TDirection.Vertical;
+            this.toolSet.TEndDesc.ColorDown = System.Drawing.Color.Empty;
+            this.toolSet.TEndDesc.ColorMove = System.Drawing.Color.Empty;
+            this.toolSet.TEndDesc.ColorNormal = System.Drawing.Color.Empty;
+            this.toolSet.TEndDesc.ColorSpace = System.Drawing.Color.Empty;
+            this.toolSet.TEvent = Paway.Forms.TEvent.Up;
+            this.toolSet.TextFirst.ColorDown = System.Drawing.Color.White;
+            this.toolSet.TextFirst.ColorMove = System.Drawing.Color.White;
+            this.toolSet.TextFirst.ColorNormal = System.Drawing.Color.Black;
+            this.toolSet.TextFirst.ColorSpace = System.Drawing.Color.Empty;
+            this.toolSet.TextSencond.ColorDown = System.Drawing.Color.Empty;
+            this.toolSet.TextSencond.ColorMove = System.Drawing.Color.Empty;
+            this.toolSet.TextSencond.ColorNormal = System.Drawing.Color.Empty;
+            this.toolSet.TextSencond.ColorSpace = System.Drawing.Color.Empty;
+            this.toolSet.THeadDesc.ColorDown = System.Drawing.Color.Empty;
+            this.toolSet.THeadDesc.ColorMove = System.Drawing.Color.Empty;
+            this.toolSet.THeadDesc.ColorNormal = System.Drawing.Color.Empty;
+            this.toolSet.THeadDesc.ColorSpace = System.Drawing.Color.Empty;
+            this.toolSet.TLocation = Paway.Forms.TILocation.Left;
+            this.toolSet.Trans = 150;
             // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Controls.Add(this.toolBar2);
-            this.Controls.Add(this.toolBar1);
+            this.ClientSize = new System.Drawing.Size(847, 328);
+            this.Controls.Add(this.toolSet);
             this.Name = "Form3";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form3";
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private Forms.ToolBar toolBar1;
-        private Forms.ToolBar toolBar2;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem aToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem bToolStripMenuItem;
+        private Forms.ToolBar toolSet;
+
+
+
+
 
     }
 }

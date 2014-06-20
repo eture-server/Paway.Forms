@@ -12,10 +12,10 @@ using System.Windows.Forms;
 
 namespace Paway.Test
 {
-    public partial class Form1 : QQForm
+    public partial class Demo1 : QQForm
     {
         private int[] cs = new int[] { 200, 214, 226, 236, 244, 254, 255 };
-        public Form1()
+        public Demo1()
         {
             //this.Opacity = 0.5;
             this.TMargin = 20;

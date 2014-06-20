@@ -11,7 +11,7 @@ namespace Paway.Forms
     /// <summary>
     /// 自定义基控件
     /// </summary>
-    public class TControl : Control, IControl
+    public class TControl : UserControl, IControl
     {
         #region 变量
         private List<Locate> tList;
@@ -30,12 +30,12 @@ namespace Paway.Forms
         public TControl()
         {
             this.SetStyle(
+                ControlStyles.UserPaint |
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.DoubleBuffer |
                 ControlStyles.SupportsTransparentBackColor, true);
             this.UpdateStyles();
-            this.BackColor = Color.Transparent;
         }
 
         #endregion
