@@ -1,6 +1,7 @@
 ﻿using Paway.Helper;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -21,19 +22,18 @@ namespace Paway.Forms
         /// <summary>
         /// 控件数据
         /// </summary>
-        public virtual Object Data { get; set; }
+        [Description("控件数据"), DefaultValue(null)]
+        public new virtual Object Tag { get; set; }
 
         /// <summary>
-        /// 传入的数据
+        /// 刷新数据
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public virtual void Afferent(object sender, EventArgs e) { }
+        public virtual void Refresh(object sender, EventArgs e) { }
 
         /// <summary>
         /// 控件传出事件
         /// </summary>
-        public event EventHandler Efferent;
+        public event EventHandler ChangeEvent;
         /// <summary>
         /// 引发传出事件
         /// </summary>
@@ -41,9 +41,9 @@ namespace Paway.Forms
         /// <param name="e"></param>
         protected virtual void OnEfferent(object sender, EventArgs e)
         {
-            if (Efferent != null)
+            if (ChangeEvent != null)
             {
-                Efferent(sender, e);
+                ChangeEvent(sender, e);
             }
         }
 
@@ -114,6 +114,17 @@ namespace Paway.Forms
             }
             Current = null;
             _iList.Clear();
+        }
+        /// <summary>
+        /// 刷新所有控件数据
+        /// </summary>
+        public static void RefreshAll(object sender, EventArgs e)
+        {
+            for (int i = 0; i < _iList.Count; i++)
+            {
+                var item = _iList.ElementAt(i);
+                item.Value.Refresh(sender, e);
+            }
         }
 
         #endregion

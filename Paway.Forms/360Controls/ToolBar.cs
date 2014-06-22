@@ -503,6 +503,22 @@ namespace Paway.Forms
                 }
             }
         }
+        /// <summary>
+        /// 强制控件使其工作区无效并立即重绘自己和任何子控件。
+        /// </summary>
+        public override void Refresh()
+        {
+            base.Refresh();
+            Graphics g = this.CreateGraphics();
+            int xPos = this.Padding.Left;
+            int yPos = this.Padding.Top;
+            this.CountColumn = 1;
+            this.CountLine = 1;
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                DrawItem(g, this.Items[i], ref xPos, ref yPos, i == this.Items.Count - 1);
+            }
+        }
         #region 绘制方法
         private void DrawItem(Graphics g, ToolItem item, ref int xPos, ref int yPos, bool iLast)
         {
@@ -675,9 +691,9 @@ namespace Paway.Forms
                 string[] text = item.Text.Split(new string[] { "\r\n", "&" }, StringSplitOptions.RemoveEmptyEntries);
                 if (text.Length > 0)
                 {
-                    int tHight = GetFont(item.MouseState, TextFirst).GetHeight(g).ToInt();
+                    int fHight = GetFont(item.MouseState, TextFirst).GetHeight(g).ToInt();
                     int sHight = GetFont(item.MouseState, TextSencond).GetHeight(g).ToInt();
-                    int height = textRect.Height - tHight;
+                    int height = textRect.Height - fHight;
                     height -= (text.Length - 1) * sHight;
                     height -= (text.Length - 1) * 6;
                     height /= 2;
@@ -687,15 +703,15 @@ namespace Paway.Forms
                         X = textRect.X,
                         Y = textRect.Y + height,
                         Width = textRect.Width,
-                        Height = tHight,
+                        Height = fHight,
                     };
                     DrawOtherDesc(g, item.Enable, item.MouseState, TextFirst, text[0], rect);
                     for (int i = 1; i < text.Length; i++)
                     {
                         rect = new Rectangle()
                         {
-                            X = textRect.X + (tHight - sHight) / 2,
-                            Y = textRect.Y + height + (tHight + 6) * i,
+                            X = textRect.X + (fHight - sHight) / 2,
+                            Y = textRect.Y + height + fHight + 6 * i + sHight * (i - 1),
                             Width = textRect.Width,
                             Height = sHight,
                         };
@@ -766,7 +782,7 @@ namespace Paway.Forms
             if (string.IsNullOrEmpty(text)) return;
 
             Color color = this.ForeColor;
-            Font font = this.Font;
+            Font font = desc.FontNormal;
             StringFormat format = new StringFormat()
             {
                 Alignment = desc.StringVertical,
@@ -924,17 +940,14 @@ namespace Paway.Forms
                 for (int i = 0; i < this.Items.Count; i++)
                 {
                     ToolItem item = this.Items[i];
-                    if (item.RectDesc.Contains(point))
+                    bool idesc = item.RectDesc.Contains(point);
+                    if (idesc)
                     {
                         item.IMouseState = TMouseState.Down;
                         if (item.ContextMenuStrip != null)
                         {
                             this._iFocus = true;
                             base.Invalidate(this._btnArrowRect);
-                        }
-                        if (_tEvent == TEvent.Down)
-                        {
-                            this.OnEditClick(item, EventArgs.Empty);
                         }
                     }
                     else
@@ -946,7 +959,7 @@ namespace Paway.Forms
                         if (item != this.SelectedItem)
                         {
                             this._selectedItem = item;
-                            if (_tEvent == TEvent.Down)
+                            if (!idesc && _tEvent == TEvent.Down)
                             {
                                 this._selectedIndex = this.Items.GetIndexOfRange(item);
                                 this.OnSelectedItemChanged(item, EventArgs.Empty);
@@ -955,7 +968,14 @@ namespace Paway.Forms
                         }
                         if (_tEvent == TEvent.Down)
                         {
-                            this.OnItemClick(item, EventArgs.Empty);
+                            if (idesc)
+                            {
+                                this.OnEditClick(item, EventArgs.Empty);
+                            }
+                            else
+                            {
+                                this.OnItemClick(item, EventArgs.Empty);
+                            }
                         }
                         if (_isMultiple)
                         {
@@ -1004,16 +1024,19 @@ namespace Paway.Forms
                             if (_tEvent == TEvent.Up)
                             {
                                 this._selectedIndex = this.Items.GetIndexOfRange(item);
-                                this.OnSelectedItemChanged(item, EventArgs.Empty);
-                                this.OnSelectedIndexChanged(item, EventArgs.Empty);
-                                this.OnItemClick(item, EventArgs.Empty);
                                 if (item.RectDesc.Contains(point))
                                 {
                                     this.OnEditClick(item, EventArgs.Empty);
                                 }
+                                else
+                                {
+                                    this.OnSelectedItemChanged(item, EventArgs.Empty);
+                                    this.OnSelectedIndexChanged(item, EventArgs.Empty);
+                                    this.OnItemClick(item, EventArgs.Empty);
+                                }
                             }
                         }
-                        if (item != this.SelectedItem)
+                        else
                         {
                             if (item.RectDesc.Contains(point))
                             {
@@ -1098,6 +1121,16 @@ namespace Paway.Forms
                 }
             }
             this.Invalidate();
+        }
+        /// <summary>
+        /// 刷新高度
+        /// </summary>
+        public void TRefresh()
+        {
+            this.Refresh();
+            this.Height = this.Padding.Top + this.Padding.Bottom;
+            this.Height += this.CountLine * this.ItemSize.Height;
+            this.Height += (this.CountLine - 1) * this.ItemSpace;
         }
         #endregion
 

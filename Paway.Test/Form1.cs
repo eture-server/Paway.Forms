@@ -14,7 +14,13 @@ namespace Paway.Test
         public Form1()
         {
             InitializeComponent();
+            toolClose.SelectedItemChanged += toolClose_SelectedItemChanged;
             toolClose.EditClick += toolClose_EditClick;
+            toolClose.TRefresh();
+        }
+
+        void toolClose_SelectedItemChanged(object sender, EventArgs e)
+        {
         }
 
         void toolClose_EditClick(object sender, EventArgs e)
