@@ -64,8 +64,6 @@ namespace Paway.Helper
 
                     Rectangle rect = new Rectangle((destWidth - sW) / 2, (destHeight - sH) / 2, sW, sH);
                     g.DrawImage(source, rect, 0, 0, source.Width, source.Height, GraphicsUnit.Pixel);
-
-                    source.Dispose();
                 }
             }
             catch (Exception ex)
@@ -90,7 +88,7 @@ namespace Paway.Helper
             {
                 using (Image source = Image.FromFile(filePath))
                 {
-                    BitmapHelper.GetThumbnail(source, destWidth, destHeight);
+                    bitmap = BitmapHelper.GetThumbnail(source, destWidth, destHeight);
                 }
             }
             catch (Exception ex)
@@ -134,9 +132,6 @@ namespace Paway.Helper
             Bitmap bitmap = new Bitmap(image);
             try
             {
-                image.Dispose();
-                image = null;
-
                 int width = bitmap.Width;
                 int height = bitmap.Height;
                 Rectangle rect = new Rectangle(0, 0, width, height);
@@ -236,132 +231,158 @@ namespace Paway.Helper
         /// <param name="type">转换类型</param>
         /// <param name="param">参数值</param>
         /// <returns>返回新图片</returns>
-        public static Bitmap ConvertTo(Bitmap image, BConvertType type, object param = null)
+        public static Bitmap ConvertTo(Image image, BConvertType type, object param = null)
         {
             if (image == null) throw new ArgumentNullException("image");
             switch (type)
             {
-                case BConvertType.Relief:
-                    return RevPicFD(image, image.Width, image.Height);
                 case BConvertType.LeftRight:
-                    return RevPicLR(image, image.Width, image.Height);
+                    return RevPicLR(image);
                 case BConvertType.UpDown:
-                    return RevPicUD(image, image.Width, image.Height);
+                    return RevPicUD(image);
             }
-            Bitmap bitmap = new Bitmap(image.Width, image.Height);//初始化一个记录经过处理后的图片对象
-            int x, y;//x、y是循环次数，后面三个是记录红绿蓝三个值的
-            Color pixel;
-            Color result = Color.White;
-            for (x = 0; x < image.Width; x++)
+            //生成图
+            Bitmap bitmap = new Bitmap(image);
+            int width = bitmap.Width;
+            int height = bitmap.Height;
+            Rectangle rect = new Rectangle(0, 0, width, height);
+            //用可读写的方式锁定全部位图像素
+            BitmapData bmpData = bitmap.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            byte gray = 0;
+            int val = param.ToInt();
+            unsafe//启用不安全模式
             {
-                for (y = 0; y < image.Height; y++)
+                byte* p = (byte*)bmpData.Scan0;//获取首地址
+                int offset = bmpData.Stride - width * 4;
+                switch (type)
                 {
-                    pixel = image.GetPixel(x, y);//获取当前像素的值
-                    switch (type)
+                    case BConvertType.Relief:
+                    case BConvertType.Brightness:
+                        width -= 1;
+                        height -= 1;
+                        break;
+                }
+                //二维图像循环
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
                     {
-                        case BConvertType.Brightness:
-                            result = Color.FromArgb(
-                                CheckPixel(pixel.R + param.ToInt()),
-                                CheckPixel(pixel.G + param.ToInt()),
-                                CheckPixel(pixel.B + param.ToInt()));
-                            break;
-                        case BConvertType.Anti:
-                            result = Color.FromArgb(
-                                255 - pixel.R,
-                                255 - pixel.G,
-                                255 - pixel.B);
-                            break;
-                        case BConvertType.Color:
-                            result = Color.FromArgb(0, pixel.G, pixel.B);
-                            break;
-                        case BConvertType.BlackWhite:
-                            int rgb = pixel.R + pixel.G + pixel.B;
-                            rgb /= 3;
-                            result = Color.FromArgb(rgb, rgb, rgb);
-                            break;
-                        case BConvertType.Grayscale:
-                            rgb = Convert.ToInt32((double)(((0.3 * pixel.R) + (0.59 * pixel.G)) + (0.11 * pixel.B)));
-                            result = Color.FromArgb(rgb, rgb, rgb);
-                            break;
+                        switch (type)
+                        {
+                            case BConvertType.Relief:
+                                p[0] = CheckPixel(Math.Abs(p[0] - p[(width + 2) * 4] + 128));
+                                p[1] = CheckPixel(Math.Abs(p[1] - p[(width + 2) * 4 + 1] + 128));
+                                p[2] = CheckPixel(Math.Abs(p[2] - p[(width + 2) * 4 + 2] + 128));
+                                break;
+                            case BConvertType.Brightness:
+                                p[0] = CheckPixel(p[0] + val);
+                                p[1] = CheckPixel(p[1] + val);
+                                p[2] = CheckPixel(p[2] + val);
+                                break;
+                            case BConvertType.Anti:
+                                p[0] = (byte)(255 - p[0]);
+                                p[1] = (byte)(255 - p[1]);
+                                p[2] = (byte)(255 - p[2]);
+                                break;
+                            case BConvertType.Color:
+                                p[2] = (byte)(255 - p[0]);
+                                break;
+                            case BConvertType.BlackWhite:
+                                gray = (byte)((float)(p[0] + p[1] + p[2]) / 3.0f);
+                                p[2] = p[1] = p[0] = gray;
+                                break;
+                            case BConvertType.Grayscale:
+                                gray = (byte)((float)(p[0] * 0.114f + p[1] * 0.587f + p[2] * 0.299f) / 3.0f);
+                                p[2] = p[1] = p[0] = gray;
+                                break;
+                            case BConvertType.Trans:
+                                p[3] = (byte)val;
+                                break;
+                        }
+                        p += 4;
                     }
-                    bitmap.SetPixel(x, y, result);//绘图
+                    p += offset;
                 }
             }
+            bitmap.UnlockBits(bmpData);
             return bitmap;
-
         }
 
-        #region 浮雕处理
-        /// <summary>
-        /// 浮雕处理
-        /// </summary>
-        /// <param name="oldBitmap">原始图片</param>
-        /// <param name="Width">原始图片的长度</param>
-        /// <param name="Height">原始图片的高度</param>
-        public static Bitmap RevPicFD(Bitmap oldBitmap, int Width, int Height)
-        {
-            Bitmap newBitmap = new Bitmap(Width, Height);
-            Color color1, color2;
-            for (int x = 0; x < Width - 1; x++)
-            {
-                for (int y = 0; y < Height - 1; y++)
-                {
-                    int r = 0, g = 0, b = 0;
-                    color1 = oldBitmap.GetPixel(x, y);
-                    color2 = oldBitmap.GetPixel(x + 1, y + 1);
-                    r = CheckPixel(Math.Abs(color1.R - color2.R + 128));
-                    g = CheckPixel(Math.Abs(color1.G - color2.G + 128));
-                    b = CheckPixel(Math.Abs(color1.B - color2.B + 128));
-                    newBitmap.SetPixel(x, y, Color.FromArgb(r, g, b));
-                }
-            }
-            return newBitmap;
-        }
-        #endregion
         #region 左右翻转
         /// <summary>
         /// 左右翻转
         /// </summary>
-        /// <param name="mybm">原始图片</param>
-        /// <param name="width">原始图片的长度</param>
-        /// <param name="height">原始图片的高度</param>
-        public static Bitmap RevPicLR(Bitmap mybm, int width, int height)
+        /// <param name="image">原始图片</param>
+        public static Bitmap RevPicLR(Image image)
         {
-            Bitmap bm = new Bitmap(width, height);
-            int x, y, z; //x,y是循环次数,z是用来记录像素点的x坐标的变化的
-            Color pixel;
-            for (y = height - 1; y >= 0; y--)
+            //生成图
+            Bitmap bitmap = new Bitmap(image);
+            //对照图
+            Bitmap copy = new Bitmap(image);
+            int width = bitmap.Width;
+            int height = bitmap.Height;
+            Rectangle rect = new Rectangle(0, 0, width, height);
+            //用可读写的方式锁定全部位图像素
+            BitmapData bmpData = bitmap.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            BitmapData copyData = copy.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            unsafe//启用不安全模式
             {
-                for (x = width - 1, z = 0; x >= 0; x--)
+                byte* p = (byte*)bmpData.Scan0;//获取首地址
+                byte* f = (byte*)copyData.Scan0;//获取首地址
+                int offset = bmpData.Stride - width * 4;
+                //二维图像循环
+                //for (int y = height - 1; y >= 0; y--)
+                for (int y = 0; y < height; y++)
                 {
-                    pixel = mybm.GetPixel(x, y);//获取当前像素的值
-                    bm.SetPixel(z++, y, Color.FromArgb(pixel.R, pixel.G, pixel.B));//绘图
+                    for (int x = width - 1, z = 0; x >= 0; x--)
+                    {
+                        p[y * width * 4 + z * 4 + 0] = f[y * width * 4 + x * 4];
+                        p[y * width * 4 + z * 4 + 1] = f[y * width * 4 + x * 4 + 1];
+                        p[y * width * 4 + z * 4 + 2] = f[y * width * 4 + x * 4 + 2];
+                        z++;
+                    }
                 }
             }
-            return bm;
+            bitmap.UnlockBits(bmpData);
+            return bitmap;
         }
         #endregion
         #region 上下翻转
         /// <summary>
         /// 上下翻转
         /// </summary>
-        /// <param name="mybm">原始图片</param>
-        /// <param name="width">原始图片的长度</param>
-        /// <param name="height">原始图片的高度</param>
-        public static Bitmap RevPicUD(Bitmap mybm, int width, int height)
+        /// <param name="image">原始图片</param>
+        public static Bitmap RevPicUD(Image image)
         {
-            Bitmap bm = new Bitmap(width, height);
-            int x, y, z;
-            Color pixel;
-            for (x = 0; x < width; x++)
+            //生成图
+            Bitmap bitmap = new Bitmap(image);
+            //对照图
+            Bitmap copy = new Bitmap(image);
+            int width = bitmap.Width;
+            int height = bitmap.Height;
+            Rectangle rect = new Rectangle(0, 0, width, height);
+            //用可读写的方式锁定全部位图像素
+            BitmapData bmpData = bitmap.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            BitmapData copyData = copy.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            unsafe//启用不安全模式
             {
-                for (y = height - 1, z = 0; y >= 0; y--)
+                byte* p = (byte*)bmpData.Scan0;//获取首地址
+                byte* f = (byte*)copyData.Scan0;//获取首地址
+                int offset = bmpData.Stride - width * 4;
+                //二维图像循环
+                for (int x = 0; x < width; x++)
                 {
-                    pixel = mybm.GetPixel(x, y);//获取当前像素的值
-                    bm.SetPixel(x, z++, Color.FromArgb(pixel.R, pixel.G, pixel.B));//绘图
+                    for (int y = height - 1, z = 0; y >= 0; y--)
+                    {
+                        p[z * width * 4 + x * 4 + 0] = f[y * width * 4 + x * 4];
+                        p[z * width * 4 + x * 4 + 1] = f[y * width * 4 + x * 4 + 1];
+                        p[z * width * 4 + x * 4 + 2] = f[y * width * 4 + x * 4 + 2];
+                        z++;
+                    }
                 }
             }
-            return bm;
+            bitmap.UnlockBits(bmpData);
+            return bitmap;
         }
         #endregion
 
@@ -370,11 +391,11 @@ namespace Paway.Helper
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        private static int CheckPixel(int val)
+        private static byte CheckPixel(int val)
         {
             if (val < 0) return 0;
             if (val > 255) return 25; ;
-            return val;
+            return (byte)val;
         }
 
         #endregion
@@ -420,5 +441,9 @@ namespace Paway.Helper
         /// 灰度
         /// </summary>
         Grayscale,
+        /// <summary>
+        /// 透明
+        /// </summary>
+        Trans,
     }
 }

@@ -431,6 +431,35 @@ namespace Paway.Utils.Data
         /// <summary>
         /// 删除列
         /// </summary>
+        public bool Delete<T>(long id)
+        {
+            string sql = null;
+            DbCommand cmd = null;
+            try
+            {
+                sql = default(T).Delete<T>();
+                Assembly asmb = Assembly.GetAssembly(paramType);
+                DbParameter param = asmb.CreateInstance(paramType.FullName) as DbParameter;
+                param.ParameterName = string.Format("@Id");
+                param.Value = id;
+                cmd = CommandStart(sql);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.Add(param);
+                return cmd.ExecuteNonQuery() == 1;
+            }
+            catch (Exception ex)
+            {
+                log.Error(string.Format("Delete.Error[{0}]\r\n{1}", sql, ex));
+                throw;
+            }
+            finally
+            {
+                CommandEnd(cmd);
+            }
+        }
+        /// <summary>
+        /// 删除列
+        /// </summary>
         public bool Delete<T>(T t)
         {
             List<T> list = new List<T>() { t };

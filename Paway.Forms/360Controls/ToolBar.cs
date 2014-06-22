@@ -822,6 +822,7 @@ namespace Paway.Forms
                     if (this._iFocus)
                     {
                         btnArrowImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_down.png");
+                        contextMenuStrip.Tag = item;
                         contextMenuStrip.Show(contextMenuLocation);
                     }
                     else
@@ -1083,15 +1084,18 @@ namespace Paway.Forms
                     _items[i].MouseState = TMouseState.Normal;
                 }
             }
-            this._selectedItem = this._items[index];
-            if (!_iCheckEvent)
+            if (index >= 0)
             {
-                this._selectedItem.MouseState = TMouseState.Down;
-                OnSelectedItemChanged(_items[index], EventArgs.Empty);
-            }
-            else
-            {
-                OnItemClick(_items[index], EventArgs.Empty);
+                this._selectedItem = this._items[index];
+                if (!_iCheckEvent)
+                {
+                    this._selectedItem.MouseState = TMouseState.Down;
+                    OnSelectedItemChanged(_items[index], EventArgs.Empty);
+                }
+                else
+                {
+                    OnItemClick(_items[index], EventArgs.Empty);
+                }
             }
             this.Invalidate();
         }
@@ -1134,7 +1138,7 @@ namespace Paway.Forms
             {
                 EventHandler handler = base.Events[EventItemClick] as EventHandler;
                 if (handler != null)
-                    handler(this, e);
+                    handler(item, e);
             }
         }
         /// <summary>
@@ -1147,7 +1151,7 @@ namespace Paway.Forms
             if (!item.Enable) return;
             EventHandler handler = base.Events[EventEditClick] as EventHandler;
             if (handler != null)
-                handler(this, e);
+                handler(item, e);
         }
 
         #endregion

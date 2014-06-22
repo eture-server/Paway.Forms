@@ -50,7 +50,9 @@ namespace Paway.Forms
         {
             get
             {
-                if (_color == Color.Empty)
+                if (_color == Color.Empty || _color == SystemColors.Control)
+                    _color = Color.Transparent;
+                if (_color.R == SystemColors.Control.R && _color.G == SystemColors.Control.G && _color.B == SystemColors.Control.B)
                     _color = Color.Transparent;
                 return _color;
             }
@@ -59,7 +61,7 @@ namespace Paway.Forms
                 _color = value;
                 if (value.A > _trans)
                 {
-                    base.BackColor = Color.FromArgb(_trans, value.R, value.G, value.B);
+                    _color = Color.FromArgb(_trans, value.R, value.G, value.B);
                 }
             }
         }

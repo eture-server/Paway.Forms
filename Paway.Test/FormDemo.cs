@@ -107,6 +107,9 @@ namespace Paway.Test
                 case "黑白":
                     image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, BConvertType.BlackWhite);
                     break;
+                case "透明":
+                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, BConvertType.Trans, 200);
+                    break;
             }
             pictureBox2.Image = image;
         }
