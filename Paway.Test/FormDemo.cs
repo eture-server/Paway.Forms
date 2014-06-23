@@ -27,18 +27,10 @@ namespace Paway.Test
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            this.tbDesc.Font = new System.Drawing.Font(this.tbDesc.Font.Name, 12f);
-            drawCombobox2.SelectedIndex = 0;
             DataTable dt = new DataTable();
             dt.Columns.Add("Name", typeof(string));
             dt.Columns.Add("Value", typeof(string));
-            tComboBox1.DataSource = dt;
-            tComboBox1.DisplayMember = "Name";
-            tComboBox1.ValueMember = "Value";
             BindingList<Data> list = new BindingList<Data>();
-            tComboBox2.DataSource = list;
-            tComboBox2.DisplayMember = "Name";
-            tComboBox2.ValueMember = "Value";
             for (int i = 0; i < 5; i++)
             {
                 DataRow dr = dt.NewRow();
@@ -109,6 +101,9 @@ namespace Paway.Test
                     break;
                 case "透明":
                     image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, BConvertType.Trans, 200);
+                    break;
+                case "换色":
+                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, BConvertType.Replace, 255);
                     break;
             }
             pictureBox2.Image = image;

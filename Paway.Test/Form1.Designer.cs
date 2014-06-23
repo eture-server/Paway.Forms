@@ -34,7 +34,9 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.aToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button1 = new System.Windows.Forms.Button();
             this.toolClose = new Paway.Forms.ToolBar();
+            this.tControl1 = new Paway.Forms.TControl();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,6 +59,16 @@
             this.bToolStripMenuItem.Name = "bToolStripMenuItem";
             this.bToolStripMenuItem.Size = new System.Drawing.Size(82, 22);
             this.bToolStripMenuItem.Text = "b";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(253, 32);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 14;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // toolClose
             // 
@@ -110,6 +122,14 @@
             this.toolClose.THeadDesc.ColorSpace = System.Drawing.Color.Empty;
             this.toolClose.Trans = 150;
             // 
+            // tControl1
+            // 
+            this.tControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tControl1.Location = new System.Drawing.Point(0, 0);
+            this.tControl1.Name = "tControl1";
+            this.tControl1.Size = new System.Drawing.Size(329, 261);
+            this.tControl1.TabIndex = 15;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -117,6 +137,8 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(329, 261);
             this.Controls.Add(this.toolClose);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.tControl1);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
@@ -131,6 +153,8 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem aToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bToolStripMenuItem;
+        private System.Windows.Forms.Button button1;
+        private Forms.TControl tControl1;
 
 
 

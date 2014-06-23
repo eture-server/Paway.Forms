@@ -47,9 +47,10 @@
             Paway.Forms.ToolItem toolItem7 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem8 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem9 = new Paway.Forms.ToolItem();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDemo));
             Paway.Forms.ToolItem toolItem10 = new Paway.Forms.ToolItem();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDemo));
             Paway.Forms.ToolItem toolItem11 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem12 = new Paway.Forms.ToolItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.在线ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.离开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -121,16 +122,12 @@
             this.tbCat = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.tbDesc = new Paway.Forms.QQTextBox();
             this.toolBar3 = new Paway.Forms.ToolBar();
             this.btTTsRead = new Paway.Forms.QQButton();
-            this.tNumTestBox2 = new Paway.Forms.TNumTestBox();
             this.tNumTestBox1 = new Paway.Forms.TNumTestBox();
             this.tbPrompt = new Paway.Forms.QQTextBox();
             this.tComboBox21 = new Paway.Forms.TComboBox();
             this.qqTextBoxEx1 = new Paway.Forms.QQTextBox();
-            this.tComboBox2 = new Paway.Forms.TComboBoxBase();
-            this.tComboBox1 = new Paway.Forms.TComboBoxBase();
             this.btAbout = new Paway.Forms.QQButton();
             this.btGridView = new Paway.Forms.QQButton();
             this.btSearch = new Paway.Forms.QQButton();
@@ -143,7 +140,6 @@
             this.qqTabPage4 = new Paway.Forms.QQTabPage();
             this.btQQ = new Paway.Forms.QQButton();
             this.bt360 = new Paway.Forms.QQButton();
-            this.drawCombobox2 = new Paway.Forms.TComboBoxBase();
             this.numEditTestBox2 = new Paway.Forms.TNumTestBox();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -646,34 +642,21 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(364, 122);
+            this.pictureBox1.Location = new System.Drawing.Point(364, 13);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(121, 147);
+            this.pictureBox1.Size = new System.Drawing.Size(121, 123);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 40;
             this.pictureBox1.TabStop = false;
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(547, 122);
+            this.pictureBox2.Location = new System.Drawing.Point(364, 150);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(124, 147);
+            this.pictureBox2.Size = new System.Drawing.Size(121, 123);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 41;
             this.pictureBox2.TabStop = false;
-            // 
-            // tbDesc
-            // 
-            this.tbDesc.Icon = null;
-            this.tbDesc.IsPasswordChat = '\0';
-            this.tbDesc.Lines = new string[] {
-        "hello"};
-            this.tbDesc.Location = new System.Drawing.Point(233, 90);
-            this.tbDesc.Name = "tbDesc";
-            this.tbDesc.SelectedText = "";
-            this.tbDesc.Size = new System.Drawing.Size(109, 24);
-            this.tbDesc.TabIndex = 43;
-            this.tbDesc.WaterText = "";
             // 
             // toolBar3
             // 
@@ -716,6 +699,10 @@
             toolItem9.First = "透明";
             toolItem9.Rectangle = new System.Drawing.Rectangle(0, 144, 50, 18);
             toolItem9.Text = "透明";
+            toolItem10.Color = System.Drawing.Color.Empty;
+            toolItem10.First = "换色";
+            toolItem10.Rectangle = new System.Drawing.Rectangle(0, 162, 50, 18);
+            toolItem10.Text = "换色";
             this.toolBar3.Items.Add(toolItem1);
             this.toolBar3.Items.Add(toolItem2);
             this.toolBar3.Items.Add(toolItem3);
@@ -725,11 +712,12 @@
             this.toolBar3.Items.Add(toolItem7);
             this.toolBar3.Items.Add(toolItem8);
             this.toolBar3.Items.Add(toolItem9);
+            this.toolBar3.Items.Add(toolItem10);
             this.toolBar3.ItemSize = new System.Drawing.Size(50, 18);
             this.toolBar3.ItemSpace = 0;
-            this.toolBar3.Location = new System.Drawing.Point(491, 104);
+            this.toolBar3.Location = new System.Drawing.Point(491, 12);
             this.toolBar3.Name = "toolBar3";
-            this.toolBar3.Size = new System.Drawing.Size(50, 165);
+            this.toolBar3.Size = new System.Drawing.Size(50, 261);
             this.toolBar3.TabIndex = 42;
             this.toolBar3.TBackGround.ColorDown = System.Drawing.Color.Empty;
             this.toolBar3.TBackGround.ColorMove = System.Drawing.Color.Empty;
@@ -773,28 +761,13 @@
             this.btTTsRead.Text = "朗读";
             this.btTTsRead.UseVisualStyleBackColor = false;
             // 
-            // tNumTestBox2
-            // 
-            this.tNumTestBox2.DecimalLength = 2;
-            this.tNumTestBox2.Icon = null;
-            this.tNumTestBox2.IsPasswordChat = '\0';
-            this.tNumTestBox2.Lines = new string[] {
-        "0.00"};
-            this.tNumTestBox2.Location = new System.Drawing.Point(233, 152);
-            this.tNumTestBox2.MaxLength = 10;
-            this.tNumTestBox2.Name = "tNumTestBox2";
-            this.tNumTestBox2.SelectedText = "";
-            this.tNumTestBox2.Size = new System.Drawing.Size(109, 24);
-            this.tNumTestBox2.TabIndex = 38;
-            this.tNumTestBox2.WaterText = "";
-            // 
             // tNumTestBox1
             // 
             this.tNumTestBox1.Icon = null;
             this.tNumTestBox1.IsPasswordChat = '\0';
             this.tNumTestBox1.Lines = new string[] {
         "2"};
-            this.tNumTestBox1.Location = new System.Drawing.Point(233, 122);
+            this.tNumTestBox1.Location = new System.Drawing.Point(118, 180);
             this.tNumTestBox1.MaxLength = 10;
             this.tNumTestBox1.Name = "tNumTestBox1";
             this.tNumTestBox1.Regex = "[0-9]*[1-9][0-9]*";
@@ -857,34 +830,6 @@
             this.qqTextBoxEx1.TabIndex = 30;
             this.qqTextBoxEx1.WaterText = "请输入密码";
             // 
-            // tComboBox2
-            // 
-            this.tComboBox2.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.tComboBox2.DropDownHeight = 96;
-            this.tComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.tComboBox2.FormattingEnabled = true;
-            this.tComboBox2.IntegralHeight = false;
-            this.tComboBox2.Items.AddRange(new object[] {
-            "DrawCombobox"});
-            this.tComboBox2.Location = new System.Drawing.Point(114, 180);
-            this.tComboBox2.Name = "tComboBox2";
-            this.tComboBox2.Size = new System.Drawing.Size(100, 22);
-            this.tComboBox2.TabIndex = 29;
-            // 
-            // tComboBox1
-            // 
-            this.tComboBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.tComboBox1.DropDownHeight = 96;
-            this.tComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.tComboBox1.FormattingEnabled = true;
-            this.tComboBox1.IntegralHeight = false;
-            this.tComboBox1.Items.AddRange(new object[] {
-            "DrawCombobox"});
-            this.tComboBox1.Location = new System.Drawing.Point(114, 150);
-            this.tComboBox1.Name = "tComboBox1";
-            this.tComboBox1.Size = new System.Drawing.Size(100, 22);
-            this.tComboBox1.TabIndex = 28;
-            // 
             // btAbout
             // 
             this.btAbout.DownImage = ((System.Drawing.Image)(resources.GetObject("btAbout.DownImage")));
@@ -945,23 +890,23 @@
             // 
             this.toolBar2.ICheckEvent = true;
             this.toolBar2.ImageSize = new System.Drawing.Size(16, 16);
-            toolItem10.Color = System.Drawing.Color.Empty;
-            toolItem10.ContextMenuStrip = this.contextMenuStrip1;
-            toolItem10.First = "创建宝贝";
-            toolItem10.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
-            toolItem10.Rectangle = new System.Drawing.Rectangle(0, 0, 93, 34);
-            toolItem10.Text = "创建宝贝";
             toolItem11.Color = System.Drawing.Color.Empty;
-            toolItem11.First = "上传宝贝";
-            toolItem11.Rectangle = new System.Drawing.Rectangle(0, 34, 93, 34);
-            toolItem11.Text = "上传宝贝";
-            this.toolBar2.Items.Add(toolItem10);
+            toolItem11.ContextMenuStrip = this.contextMenuStrip1;
+            toolItem11.First = "创建宝贝";
+            toolItem11.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
+            toolItem11.Rectangle = new System.Drawing.Rectangle(0, 0, 116, 34);
+            toolItem11.Text = "创建宝贝";
+            toolItem12.Color = System.Drawing.Color.Empty;
+            toolItem12.First = "上传宝贝";
+            toolItem12.Rectangle = new System.Drawing.Rectangle(0, 34, 116, 34);
+            toolItem12.Text = "上传宝贝";
             this.toolBar2.Items.Add(toolItem11);
-            this.toolBar2.ItemSize = new System.Drawing.Size(93, 34);
+            this.toolBar2.Items.Add(toolItem12);
+            this.toolBar2.ItemSize = new System.Drawing.Size(116, 34);
             this.toolBar2.ItemSpace = 0;
-            this.toolBar2.Location = new System.Drawing.Point(364, 16);
+            this.toolBar2.Location = new System.Drawing.Point(238, 13);
             this.toolBar2.Name = "toolBar2";
-            this.toolBar2.Size = new System.Drawing.Size(98, 100);
+            this.toolBar2.Size = new System.Drawing.Size(116, 93);
             this.toolBar2.TabIndex = 17;
             this.toolBar2.TBackGround.ColorDown = System.Drawing.Color.Empty;
             this.toolBar2.TBackGround.ColorMove = System.Drawing.Color.Empty;
@@ -1074,22 +1019,6 @@
             this.bt360.Text = "360";
             this.bt360.UseVisualStyleBackColor = false;
             // 
-            // drawCombobox2
-            // 
-            this.drawCombobox2.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.drawCombobox2.DropDownHeight = 96;
-            this.drawCombobox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.drawCombobox2.FormattingEnabled = true;
-            this.drawCombobox2.IntegralHeight = false;
-            this.drawCombobox2.Items.AddRange(new object[] {
-            "Draw",
-            "Combo",
-            "box"});
-            this.drawCombobox2.Location = new System.Drawing.Point(114, 122);
-            this.drawCombobox2.Name = "drawCombobox2";
-            this.drawCombobox2.Size = new System.Drawing.Size(100, 22);
-            this.drawCombobox2.TabIndex = 7;
-            // 
             // numEditTestBox2
             // 
             this.numEditTestBox2.Icon = null;
@@ -1110,20 +1039,16 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.ClientSize = new System.Drawing.Size(699, 289);
-            this.Controls.Add(this.tbDesc);
+            this.ClientSize = new System.Drawing.Size(560, 289);
             this.Controls.Add(this.toolBar3);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btTTsRead);
-            this.Controls.Add(this.tNumTestBox2);
             this.Controls.Add(this.tNumTestBox1);
             this.Controls.Add(this.tbCat);
             this.Controls.Add(this.tbPrompt);
             this.Controls.Add(this.tComboBox21);
             this.Controls.Add(this.qqTextBoxEx1);
-            this.Controls.Add(this.tComboBox2);
-            this.Controls.Add(this.tComboBox1);
             this.Controls.Add(this.btAbout);
             this.Controls.Add(this.btGridView);
             this.Controls.Add(this.btSearch);
@@ -1132,7 +1057,6 @@
             this.Controls.Add(this.qqTabControl1);
             this.Controls.Add(this.btQQ);
             this.Controls.Add(this.bt360);
-            this.Controls.Add(this.drawCombobox2);
             this.Controls.Add(this.numEditTestBox2);
             this.Name = "FormDemo";
             this.ShowIcon = false;
@@ -1213,7 +1137,6 @@
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn8;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn40;
         private Forms.TNumTestBox numEditTestBox2;
-        private Forms.TComboBoxBase drawCombobox2;
         private Forms.QQButton bt360;
         private Forms.QQButton btQQ;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
@@ -1229,21 +1152,17 @@
         private Forms.QQButton btSearch;
         private Forms.QQButton btGridView;
         private Forms.QQButton btAbout;
-        private Forms.TComboBoxBase tComboBox1;
-        private Forms.TComboBoxBase tComboBox2;
         private Forms.QQTextBox qqTextBoxEx1;
         private Forms.TComboBox tComboBox21;
         private System.Windows.Forms.TextBox tbCat;
         private Forms.QQTextBox tbPrompt;
         private Forms.TNumTestBox tNumTestBox1;
-        private Forms.TNumTestBox tNumTestBox2;
         private Forms.QQButton btTTsRead;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private Forms.ToolBar toolBar3;
         private Forms.QQTabPage qqTabPage3;
         private Forms.QQTabPage qqTabPage4;
-        private Forms.QQTextBox tbDesc;
 
     }
 }

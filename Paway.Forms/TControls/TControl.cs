@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Paway.Helper;
+using Paway.Resource;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -20,6 +22,10 @@ namespace Paway.Forms
         /// 指定窗体窗口如何显示
         /// </summary>
         protected FormWindowState _windowState = FormWindowState.Normal;
+        /// <summary>
+        /// 星星图
+        /// </summary>
+        private Image star = AssemblyHelper.GetImage("Controls.t.png");
 
         #endregion
 
@@ -170,6 +176,73 @@ namespace Paway.Forms
                 tList[i].Control.Location = new Point(x - left, y - top);
             }
         }
+        #endregion
+
+        #region 动态星星
+        private BackgroundWorker timer;
+        /// <summary>
+        /// 消灭星星
+        /// </summary>
+        public void Star()
+        {
+            if (timer == null)
+            {
+                timer = new BackgroundWorker();
+                timer.WorkerSupportsCancellation = true;
+                timer.DoWork += timer_DoWork;
+            }
+            if (!timer.IsBusy)
+            {
+                timer.RunWorkerAsync();
+            }
+        }
+
+        void timer_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+            Random ran = new Random();
+            Graphics g = this.CreateGraphics();
+            Image star = BitmapHelper.ConvertTo(this.star, BConvertType.Trans, 30);
+            while (true)
+            {
+                if (worker.CancellationPending) break;
+
+                int width = ran.Next(20, 20);
+                Rectangle rect = new Rectangle(ran.Next(this.Width - width), ran.Next(this.Height - width), width, width);
+                rect = new Rectangle(100, 60, 20, 20);
+                Point point = new Point(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
+                for (int i = 1; i <= width / 2; i++)
+                {
+                    rect = new Rectangle(point.X - i, point.Y - i, i * 2, i * 2);
+                    g.DrawImage(star, rect);
+                    System.Threading.Thread.Sleep(100 + i * 10);
+                }
+                System.Threading.Thread.Sleep(ran.Next(300));
+                g.FillRectangle(new SolidBrush(Color.Transparent), rect);
+                star = BitmapHelper.ConvertTo(this.star, BConvertType.Trans, 0);
+                g.DrawImage(star, rect);
+                //System.Threading.Thread.Sleep(100);
+                //g.DrawImage(BitmapHelper.ConvertTo(this.star, BConvertType.Trans, 50), rect);
+                //System.Threading.Thread.Sleep(100);
+                //g.DrawImage(BitmapHelper.ConvertTo(this.star, BConvertType.Trans, 0), rect);
+                //System.Threading.Thread.Sleep(100);
+
+                System.Threading.Thread.Sleep(ran.Next(3000));
+            }
+        }
+        /// <summary>
+        /// 消灭星星
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (timer != null && timer.IsBusy)
+            {
+                timer.CancelAsync();
+            }
+        }
+
         #endregion
     }
 }

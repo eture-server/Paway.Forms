@@ -26,5 +26,10 @@ namespace Paway.Test
         void toolClose_EditClick(object sender, EventArgs e)
         {
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            tControl1.Star();
+        }
     }
 }

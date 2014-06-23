@@ -202,6 +202,35 @@ namespace Paway.Helper
             return image;
         }
 
+        /// <summary>
+        /// 替换图像像素点
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        public static Bitmap ReplaceByPixel(Image image, int x, int y, Color color)
+        {
+            //生成图
+            Bitmap bitmap = new Bitmap(image);
+            int width = bitmap.Width;
+            int height = bitmap.Height;
+            Rectangle rect = new Rectangle(0, 0, width, height);
+            //用可读写的方式锁定全部位图像素
+            BitmapData bmpData = bitmap.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            unsafe//启用不安全模式
+            {
+                byte* p = (byte*)bmpData.Scan0;//获取首地址
+                p[y * width * 4 + x * 4 + 0] = color.B;
+                p[y * width * 4 + x * 4 + 1] = color.G;
+                p[y * width * 4 + x * 4 + 2] = color.R;
+                p[y * width * 4 + x * 4 + 3] = color.A;
+            }
+            bitmap.UnlockBits(bmpData);
+            return bitmap;
+        }
+
         #endregion
 
         #region 获取Gif图片中的各帧
@@ -296,7 +325,16 @@ namespace Paway.Helper
                                 p[2] = p[1] = p[0] = gray;
                                 break;
                             case BConvertType.Trans:
-                                p[3] = (byte)val;
+                                if (p[3] != 0)
+                                {
+                                    p[3] = (byte)val;
+                                }
+                                break;
+                            case BConvertType.Replace:
+                                if (p[3] != 0)
+                                {
+                                    p[2] = p[1] = p[0] = (byte)val;
+                                }
                                 break;
                         }
                         p += 4;
@@ -445,5 +483,9 @@ namespace Paway.Helper
         /// 透明
         /// </summary>
         Trans,
+        /// <summary>
+        /// 替换
+        /// </summary>
+        Replace,
     }
 }
