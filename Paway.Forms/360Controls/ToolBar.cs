@@ -32,7 +32,7 @@ namespace Paway.Forms
 
         #region 变量
         /// <summary>
-        /// 是否获取了焦点
+        /// 右键弹出
         /// </summary>
         private bool _iFocus = false;
         /// <summary>
@@ -383,6 +383,7 @@ namespace Paway.Forms
                 this.Invalidate();
             }
         }
+        private ToolItem _tempItem = null;
         /// <summary>
         /// 当前选中项
         /// </summary>
@@ -584,27 +585,20 @@ namespace Paway.Forms
                     DrawMoveBack(g, item);
                     break;
                 case TMouseState.Down:
-                    if (IsContextMenu(g, item) || item.IMouseState == TMouseState.Down)
+                    if (TBackGround.ColorDown == Color.Empty)
                     {
-                        DrawMoveBack(g, item);
+                        g.DrawImage(this._pushedImage, item.Rectangle);
                     }
                     else
                     {
-                        if (TBackGround.ColorDown == Color.Empty)
-                        {
-                            g.DrawImage(this._pushedImage, item.Rectangle);
-                        }
-                        else
-                        {
-                            backColor = TBackGround.ColorDown;
-                            g.FillRectangle(new SolidBrush(backColor), item.Rectangle);
-                        }
-                        IsContextMenu(g, item);
+                        backColor = TBackGround.ColorDown;
+                        g.FillRectangle(new SolidBrush(backColor), item.Rectangle);
                     }
                     if (_isMultiple)
                     {
                         g.DrawImage(this._selectImage, new Rectangle(item.Rectangle.Right - this._selectImage.Width, item.Rectangle.Bottom - this._selectImage.Height, this._selectImage.Width, this._selectImage.Height));
                     }
+                    IsContextMenu(g, item);
                     break;
             }
         }
@@ -613,7 +607,6 @@ namespace Paway.Forms
         /// </summary>
         private void DrawMoveBack(Graphics g, ToolItem item)
         {
-            if (!item.Enable) return;
             if (TBackGround.ColorMove == Color.Empty)
             {
                 g.DrawImage(this._hoverImage, item.Rectangle);
@@ -818,7 +811,7 @@ namespace Paway.Forms
         /// 判断右键菜单
         /// </summary>
         /// <returns>返回是否有焦点 true时不触发down事件</returns>
-        private bool IsContextMenu(Graphics g, ToolItem item)
+        private void IsContextMenu(Graphics g, ToolItem item)
         {
             Point cursorPoint = this.PointToClient(MousePosition);
             Image btnArrowImage = null;
@@ -835,11 +828,14 @@ namespace Paway.Forms
                 }
                 if (item.Rectangle.Contains(cursorPoint))
                 {
-                    if (this._iFocus)
+                    if (this._btnArrowRect.Contains(cursorPoint) || item.RectDesc.Contains(cursorPoint))
                     {
                         btnArrowImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_down.png");
-                        contextMenuStrip.Tag = item;
-                        contextMenuStrip.Show(contextMenuLocation);
+                        if (this._iFocus)
+                        {
+                            contextMenuStrip.Tag = item;
+                            contextMenuStrip.Show(contextMenuLocation);
+                        }
                     }
                     else
                     {
@@ -854,7 +850,6 @@ namespace Paway.Forms
                 //当鼠标进入当前选中的的选项卡时，显示下拉按钮
                 g.DrawImage(btnArrowImage, this._btnArrowRect);
             }
-            return _iFocus;
         }
         /// <summary>
         /// 右键菜单关闭刷新项
@@ -863,7 +858,15 @@ namespace Paway.Forms
         {
             this._iFocus = false;
             ToolItem item = (sender as ContextMenuStrip).Tag as ToolItem;
-            item.MouseState = TMouseState.Leave;
+            Point cursorPoint = this.PointToClient(MousePosition);
+            if (!this.ClientRectangle.Contains(cursorPoint))
+            {
+                if (item.MouseState != TMouseState.Down)
+                {
+                    item.MouseState = TMouseState.Leave;
+                }
+                item.IMouseState = TMouseState.Leave;
+            }
             this.Invalidate(item.Rectangle);
         }
 
@@ -881,7 +884,17 @@ namespace Paway.Forms
                 Point point = e.Location;
                 foreach (ToolItem item in this.Items)
                 {
-                    item.IMouseState = item.RectDesc.Contains(point) ? TMouseState.Move : TMouseState.Leave;
+                    if (item.RectDesc.Contains(point))
+                    {
+                        if (item.IMouseState != TMouseState.Down)
+                        {
+                            item.IMouseState = TMouseState.Move;
+                        }
+                    }
+                    else
+                    {
+                        item.IMouseState = TMouseState.Leave;
+                    }
                     if (!_iCheckEvent && item.MouseState == TMouseState.Down)
                     {
                         continue;
@@ -928,77 +941,86 @@ namespace Paway.Forms
         {
             base.OnMouseDown(e);
             if (e.Button != MouseButtons.Left) return;
+            if (_iFocus) return;
+
             if (!this.DesignMode)
             {
-                Point point = e.Location;
-                if (this._btnArrowRect.Contains(point))
-                {
-                    this._iFocus = true;
-                    base.Invalidate(this._btnArrowRect);
-                }
-                bool iIn = Contain(point);
                 for (int i = 0; i < this.Items.Count; i++)
                 {
                     ToolItem item = this.Items[i];
-                    bool idesc = item.RectDesc.Contains(point);
-                    if (idesc)
+                    OnMouseDown(e.Location, item);
+                }
+                this.Invalidate();
+            }
+        }
+        private void OnMouseDown(Point point, ToolItem item)
+        {
+            if (item.Rectangle.Contains(point))
+            {
+                if (item != this._tempItem)
+                {
+                    this._tempItem = item;
+                }
+                //事件
+                if (item != this._selectedItem)
+                {
+                    if (!item.RectDesc.Contains(point) && _tEvent == TEvent.Down)
                     {
-                        item.IMouseState = TMouseState.Down;
+                        this._selectedItem = item;
+                        this._selectedIndex = this.Items.GetIndexOfRange(item);
+                        this.OnSelectedItemChanged(item, EventArgs.Empty);
+                        this.OnSelectedIndexChanged(item, EventArgs.Empty);
+                    }
+                }
+                //事件
+                if (_tEvent == TEvent.Down)
+                {
+                    if (item.RectDesc.Contains(point))
+                    {
+                        this.OnEditClick(item, EventArgs.Empty);
                         if (item.ContextMenuStrip != null)
                         {
                             this._iFocus = true;
                             base.Invalidate(this._btnArrowRect);
                         }
                     }
+                    else if (this._btnArrowRect.Contains(point))
+                    {
+                        this._iFocus = true;
+                        base.Invalidate(this._btnArrowRect);
+                    }
                     else
                     {
-                        item.IMouseState = TMouseState.Normal;
+                        this.OnItemClick(item, EventArgs.Empty);
                     }
-                    if (item.Rectangle.Contains(point))
+                }
+                if (item.RectDesc.Contains(point))
+                {
+                    item.IMouseState = TMouseState.Down;
+                }
+                else
+                {
+                    item.IMouseState = TMouseState.Normal;
+                    if (_isMultiple)
                     {
-                        if (item != this.SelectedItem)
-                        {
-                            this._selectedItem = item;
-                            if (!idesc && _tEvent == TEvent.Down)
-                            {
-                                this._selectedIndex = this.Items.GetIndexOfRange(item);
-                                this.OnSelectedItemChanged(item, EventArgs.Empty);
-                                this.OnSelectedIndexChanged(item, EventArgs.Empty);
-                            }
-                        }
-                        if (_tEvent == TEvent.Down)
-                        {
-                            if (idesc)
-                            {
-                                this.OnEditClick(item, EventArgs.Empty);
-                            }
-                            else
-                            {
-                                this.OnItemClick(item, EventArgs.Empty);
-                            }
-                        }
-                        if (_isMultiple)
-                        {
-                            if (item.MouseState != TMouseState.Down)
-                            {
-                                item.MouseState = TMouseState.Down;
-                            }
-                            else
-                            {
-                                item.MouseState = TMouseState.Normal;
-                            }
-                        }
-                        else
+                        if (item.MouseState != TMouseState.Down)
                         {
                             item.MouseState = TMouseState.Down;
                         }
+                        else
+                        {
+                            item.MouseState = TMouseState.Normal;
+                        }
                     }
-                    else if (!_isMultiple && iIn)
+                    else
                     {
-                        item.MouseState = TMouseState.Normal;
+                        item.MouseState = TMouseState.Down;
                     }
                 }
-                this.Invalidate();
+            }
+            else if (!_isMultiple && Contain(point) && !ContainDesc(point))
+            {
+                item.MouseState = TMouseState.Normal;
             }
         }
         /// <summary>
@@ -1009,42 +1031,53 @@ namespace Paway.Forms
         {
             base.OnMouseUp(e);
             if (e.Button != MouseButtons.Left) return;
-            if (_iFocus) return;
 
             if (!this.DesignMode)
             {
-                Point point = e.Location;
                 for (int i = 0; i < this.Items.Count; i++)
                 {
                     ToolItem item = this.Items[i];
-                    if (item.Rectangle.Contains(point))
+                    OnMouseUp(e.Location, item);
+                }
+                this.Invalidate();
+            }
+        }
+        private void OnMouseUp(Point point, ToolItem item)
+        {
+            if (item.Rectangle.Contains(point))
+            {
+                item.IMouseState = item.RectDesc.Contains(point) ? TMouseState.Up : TMouseState.Leave;
+                //事件
+                if (item != this._selectedItem && item == _tempItem)
+                {
+                    if (!item.RectDesc.Contains(point) && _tEvent == TEvent.Up)
                     {
-                        if (item == this.SelectedItem)
+                        this._selectedItem = item;
+                        this._selectedIndex = this.Items.GetIndexOfRange(item);
+                        this.OnSelectedItemChanged(item, EventArgs.Empty);
+                        this.OnSelectedIndexChanged(item, EventArgs.Empty);
+                    }
+                }
+                //事件
+                if (_tEvent == TEvent.Up)
+                {
+                    if (item.RectDesc.Contains(point))
+                    {
+                        this.OnEditClick(item, EventArgs.Empty);
+                        if (item.ContextMenuStrip != null)
                         {
-                            if (_tEvent == TEvent.Up)
-                            {
-                                this._selectedIndex = this.Items.GetIndexOfRange(item);
-                                if (item.RectDesc.Contains(point))
-                                {
-                                    this.OnEditClick(item, EventArgs.Empty);
-                                }
-                                else
-                                {
-                                    this.OnSelectedItemChanged(item, EventArgs.Empty);
-                                    this.OnSelectedIndexChanged(item, EventArgs.Empty);
-                                    this.OnItemClick(item, EventArgs.Empty);
-                                }
-                            }
+                            this._iFocus = true;
+                            base.Invalidate(this._btnArrowRect);
                         }
-                        else
-                        {
-                            if (item.RectDesc.Contains(point))
-                            {
-                                item.IMouseState = TMouseState.Up;
-                            }
-                            item.MouseState = TMouseState.Up;
-                            this.Invalidate(item.Rectangle);
-                        }
+                    }
+                    else if (this._btnArrowRect.Contains(point))
+                    {
+                        this._iFocus = true;
+                        base.Invalidate(this._btnArrowRect);
+                    }
+                    else
+                    {
+                        this.OnItemClick(item, EventArgs.Empty);
                     }
                 }
             }
@@ -1079,6 +1112,22 @@ namespace Paway.Forms
             for (int i = 0; i < this.Items.Count; i++)
             {
                 if (this.Items[i].Rectangle.Contains(point))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        /// <summary>
+        /// 坐标点是否包含在项中
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public bool ContainDesc(Point point)
+        {
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                if (this.Items[i].RectDesc.Contains(point))
                 {
                     return true;
                 }

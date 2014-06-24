@@ -58,7 +58,6 @@ namespace Mobot.Imaging
             {
                 stopwatch.Stop();
                 Console.SetCursorPosition(0, Console.CursorTop);
-                Console.WriteLine(message);
             }
             
             Process p = Process.GetCurrentProcess();

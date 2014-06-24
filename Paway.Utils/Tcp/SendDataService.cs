@@ -35,7 +35,8 @@ namespace Paway.Utils.Tcp
         /// </summary>
         public SendDataService(SocketBase socket)
         {
-            Licence.Checking();
+            if (!Licence.Checking()) return;
+
             if (socket == null) return;
             Socket = socket;
             Socket.IPPort = socket.Socket.RemoteEndPoint.ToString();

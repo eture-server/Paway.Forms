@@ -36,7 +36,8 @@ namespace Paway.Resource
         /// <returns></returns>
         public static Image GetImage(string name)
         {
-            Licence.Checking();
+            if (!Licence.Checking()) return null;
+
             Image image = null;
             try
             {

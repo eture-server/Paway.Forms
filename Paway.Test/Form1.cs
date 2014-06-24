@@ -21,6 +21,7 @@ namespace Paway.Test
 
         void toolClose_SelectedItemChanged(object sender, EventArgs e)
         {
+            this.Text = "选中：" + toolClose.SelectedItem.Text + "=>" + DateTime.Now.Second;
         }
 
         void toolClose_EditClick(object sender, EventArgs e)

@@ -113,7 +113,6 @@ namespace Paway.Test
 
         void contextMenuStrip1_Paint(object sender, PaintEventArgs e)
         {
-            Console.WriteLine("contextMenuStrip1_Paint");
         }
 
         void contextMenuStrip1_HandleCreated(object sender, EventArgs e)

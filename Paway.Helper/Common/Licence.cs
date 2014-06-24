@@ -49,22 +49,23 @@ namespace Paway.Helper
         /// <summary>
         /// 检查文件创建日期，过期无效
         /// </summary>
-        public static void Checking()
+        public static bool Checking()
         {
-            Checking(15);
+            return Checking(15);
         }
         /// <summary>
         /// 检查文件创建日期，过期无效
         /// </summary>
         /// <param name="days"></param>
-        public static void Checking(int days)
+        public static bool Checking(int days)
         {
             FileInfo file = new FileInfo(Assembly.GetExecutingAssembly().Location);
             TimeSpan ts = DateTime.Now.Subtract(file.LastWriteTime);
             if (ts < TimeSpan.Zero || ts > new TimeSpan(days, 0, 0, 0))
             {
-                throw new Exception("The system is out of date!");
+                return false;
             }
+            return true;
         }
     }
 }
