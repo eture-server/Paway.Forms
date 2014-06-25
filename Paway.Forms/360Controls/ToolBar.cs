@@ -1003,6 +1003,7 @@ namespace Paway.Forms
                     item.IMouseState = TMouseState.Normal;
                     if (_isMultiple)
                     {
+                        _selectedItem = null;
                         if (item.MouseState != TMouseState.Down)
                         {
                             item.MouseState = TMouseState.Down;
@@ -1172,14 +1173,32 @@ namespace Paway.Forms
             this.Invalidate();
         }
         /// <summary>
-        /// 刷新高度
+        /// 刷新高度/宽度
         /// </summary>
         public void TRefresh()
         {
+            TRefresh(0);
+        }
+        /// <summary>
+        /// 刷新高度/宽度
+        /// </summary>
+        public void TRefresh(int count)
+        {
             this.Refresh();
-            this.Height = this.Padding.Top + this.Padding.Bottom;
-            this.Height += this.CountLine * this.ItemSize.Height;
-            this.Height += (this.CountLine - 1) * this.ItemSpace;
+            if (this.CountLine < count) this.CountLine = count;
+            switch (TDirection)
+            {
+                case TDirection.Level:
+                    this.Height = this.Padding.Top + this.Padding.Bottom;
+                    this.Height += this.CountLine * this.ItemSize.Height;
+                    this.Height += (this.CountLine - 1) * this.ItemSpace;
+                    break;
+                case TDirection.Vertical:
+                    this.Width = this.Padding.Left + this.Padding.Right;
+                    this.Width += this.CountColumn * this.ItemSize.Width;
+                    this.Width += (this.CountLine - 1) * this.ItemSpace;
+                    break;
+            }
         }
         #endregion
 

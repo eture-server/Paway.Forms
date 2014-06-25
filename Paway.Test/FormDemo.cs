@@ -43,7 +43,9 @@ namespace Paway.Test
                     Value = "Value" + i + 10
                 });
             }
-
+            //this.tComboBox21.Edit.Items.Clear();
+            //this.tComboBox21.Edit.Items.Add(4);
+            //this.tComboBox21.Edit.Items.Add(2);
             this.tComboBox21.Edit.DataSource = list;
             this.tComboBox21.Edit.DisplayMember = "Name";
             this.tComboBox21.Edit.ValueMember = "Value";

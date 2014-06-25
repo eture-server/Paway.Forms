@@ -102,20 +102,23 @@ namespace Paway.Forms
                 DataRowView dr = obj as DataRowView;
                 str = dr[this.DisplayMember].ToString();
             }
-            else if (obj is string)
-            {
-                str = this.Items[e.Index].ToString();
-            }
             else
             {
                 PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
-                for (int i = 0; i < properties.Count; i++)
+                if (properties.Count > 0)
                 {
-                    if (properties[i].Name == this.DisplayMember)
+                    for (int i = 0; i < properties.Count; i++)
                     {
-                        str = properties[i].GetValue(obj).ToString();
-                        break;
+                        if (properties[i].Name == this.DisplayMember)
+                        {
+                            str = properties[i].GetValue(obj).ToString();
+                            break;
+                        }
                     }
+                }
+                else
+                {
+                    str = this.Items[e.Index].ToString();
                 }
             }
             //选中项ComboBoxEdit

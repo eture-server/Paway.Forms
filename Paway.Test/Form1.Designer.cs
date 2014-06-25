@@ -78,6 +78,7 @@
             this.toolClose.ForeColor = System.Drawing.Color.Black;
             this.toolClose.IImageShow = false;
             this.toolClose.ImageSize = new System.Drawing.Size(0, 0);
+            this.toolClose.IsMultiple = true;
             toolItem1.Color = System.Drawing.Color.Empty;
             toolItem1.ContextMenuStrip = this.contextMenuStrip1;
             toolItem1.Desc = "x1";
