@@ -26,6 +26,83 @@ namespace Paway.Forms
 
         #endregion
 
+        #region 构造
+        /// <summary>
+        /// 构造
+        /// </summary>
+        public TForm()
+        {
+            this.SetStyle(
+                ControlStyles.UserPaint |
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.DoubleBuffer |
+                ControlStyles.SupportsTransparentBackColor, true);
+            this.UpdateStyles();
+        }
+
+        #endregion
+
+        #region 固定窗体背景
+        private bool _fixedBackground = true;
+        /// <summary>
+        /// 固定背景
+        /// </summary>
+        [Category("Appearance"), DefaultValue(false)]
+        public bool TFixedBackground
+        {
+            get { return _fixedBackground; }
+            set { _fixedBackground = value; }
+        }
+        /// <summary>
+        /// 处理滚动条事件
+        /// </summary>
+        /// <param name="se"></param>
+        protected override void OnScroll(ScrollEventArgs se)
+        {
+            if (_fixedBackground)
+            {
+                // 执行固定背景的操作
+                if (se.Type == ScrollEventType.ThumbTrack)
+                {
+                    // 若滚动框正在移动，解除对控件用户界面的锁定
+                    NativeMethods.LockWindowUpdate(IntPtr.Zero);
+                    // 立即重新绘制控件所有的用户界面
+                    this.Refresh();
+                    // 锁定控件的用户界面
+                    NativeMethods.LockWindowUpdate(this.Handle);
+                }
+                else
+                {
+                    // 解除对控件用户界面的锁定
+                    NativeMethods.LockWindowUpdate(IntPtr.Zero);
+                    // 声明控件的所有的内容无效，但不立即重新绘制
+                    this.Invalidate();
+                }
+            }
+            base.OnScroll(se);
+        }
+        /// <summary>
+        /// 处理鼠标滚轮事件
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            if (_fixedBackground)
+            {
+                NativeMethods.LockWindowUpdate(this.Handle);
+                base.OnMouseWheel(e);
+                NativeMethods.LockWindowUpdate(IntPtr.Zero);
+                this.Invalidate();
+            }
+            else
+            {
+                base.OnMouseWheel(e);
+            }
+        }
+
+        #endregion
+
         #region 移动窗体
         /// <summary>
         /// 移动窗体

@@ -72,13 +72,9 @@ namespace Paway.Forms
         public FormBase()
         {
             this.SetStyle(
-               ControlStyles.AllPaintingInWmPaint |
-               ControlStyles.OptimizedDoubleBuffer |
                ControlStyles.ResizeRedraw |
                ControlStyles.Selectable |
-               ControlStyles.ContainerControl |
-               ControlStyles.SupportsTransparentBackColor |
-               ControlStyles.UserPaint, true);
+               ControlStyles.ContainerControl, true);
             this.SetStyle(ControlStyles.Opaque, false);
             this.UpdateStyles();
             this.Initialize();

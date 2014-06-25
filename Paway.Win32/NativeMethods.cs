@@ -128,6 +128,25 @@ namespace Paway.Win32
 
         #region user32.dll
         /// <summary>
+        /// 获取Windows操作系统的 拖动时显示窗口内容 设置
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="param"></param>
+        /// <param name="vparam"></param>
+        /// <param name="init"></param>
+        /// <returns>允许时vparam=true</returns>
+        [DllImport("user32.dll", EntryPoint = "SystemParametersInfo", SetLastError = true)]
+        public static extern bool SystemParametersInfoGetBool(int action, uint param, ref bool vparam, uint init);
+        /// <summary>
+        /// 锁定指定窗口，禁止它更新。
+        /// Windows系统下同时只能有一个窗口处于锁定状态。
+        /// </summary>
+        /// <param name="hWnd">将被锁定的窗口句柄。如果此句柄为NULL，则是解锁该窗口。</param>
+        /// <returns>非零表示成功，零表示失败（比如另外已有一个窗口锁定）</returns>
+        [DllImport("user32.dll")]
+        public static extern bool LockWindowUpdate(IntPtr hWnd);
+
+        /// <summary>
         /// 返回hWnd参数所指定的窗口的设备环境
         /// </summary>
         [DllImport("user32.dll")]

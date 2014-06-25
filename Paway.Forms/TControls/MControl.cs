@@ -24,7 +24,7 @@ namespace Paway.Forms
 
         #region 事件
         /// <summary>
-        /// 控件传出事件
+        /// 当控件数据更新时发生
         /// </summary>
         public event EventHandler ChangeEvent;
 
@@ -48,7 +48,7 @@ namespace Paway.Forms
         public virtual void Refresh(object sender, EventArgs e) { }
 
         /// <summary>
-        /// 引发传出事件
+        /// 引发ChangeEvent事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -72,63 +72,84 @@ namespace Paway.Forms
         /// </summary>
         public static MControl Current { get; private set; }
         /// <summary>
-        /// 切换主界面控件
+        /// 切换界面控件
+        /// 如已加载，则调用ReLoad()
         /// </summary>
         public static MControl ReLoad(Control parent, Type type)
         {
             if (!Licence.Checking()) return null;
 
-            //不重复加载
-            if (Current != null)
-            {
-                if (Current.GetType() == type) return null;
-            }
-
-            //加载控件
             MControl control = null;
-            if (_iList.ContainsKey(type.Name))
+            try
             {
-                control = _iList[type.Name] as MControl;
-                if (control.iLoad)
+                //不重复加载
+                if (Current != null)
+                {
+                    if (Current.GetType() == type) return null;
+                }
+
+                //加载控件
+                if (_iList.ContainsKey(type.Name))
+                {
+                    control = _iList[type.Name] as MControl;
+                    if (control.iLoad) return control;
+                }
+
+                parent.SuspendLayout();
+                if (parent.Controls.Count > 0)
+                {
+                    if (parent.Controls[0] is MControl)
+                    {
+                        (parent.Controls[0] as MControl).iLoad = false;
+                    }
+                    parent.Controls.Clear();
+                }
+                //加载控件
+                if (control == null)
+                {
+                    Assembly asmb = Assembly.GetAssembly(type);
+                    control = asmb.CreateInstance(type.FullName) as MControl;
+                }
+                if (control == null)
+                {
+                    throw new ArgumentException(string.Format("{0} 不是有效的MControl", type.GetType().FullName));
+                }
+                else
+                {
+                    parent.Controls.Add(control);
+                    control.Dock = System.Windows.Forms.DockStyle.Fill;
+                    if (!_iList.ContainsKey(control.Name))
+                    {
+                        _iList.Add(control.Name, control);
+                    }
+                }
+                parent.ResumeLayout();
+                return control;
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                if (control != null)
                 {
                     Current = control;
-                    return null;
                 }
+                Current.iLoad = true;
+                Current.ReLoad();
             }
-
-            parent.SuspendLayout();
-            if (parent.Controls.Count > 0)
+        }
+        /// <summary>
+        /// 将已定义控件加入列表
+        /// </summary>
+        /// <param name="control"></param>
+        public static void Add(MControl control)
+        {
+            if (!_iList.ContainsKey(control.Name))
             {
-                if (parent.Controls[0] is MControl)
-                {
-                    (parent.Controls[0] as MControl).iLoad = false;
-                }
-                parent.Controls.Clear();
+                _iList.Add(control.Name, control);
             }
-            //加载控件
-            if (control == null)
-            {
-                Assembly asmb = Assembly.GetAssembly(type);
-                control = asmb.CreateInstance(type.FullName) as MControl;
-            }
-            if (control == null)
-            {
-                throw new ArgumentException(string.Format("{0} 不是有效的IControl", type.GetType().FullName));
-            }
-            else
-            {
-                control.iLoad = true;
-                parent.Controls.Add(control);
-                control.Dock = System.Windows.Forms.DockStyle.Fill;
-                if (!_iList.ContainsKey(control.Name))
-                {
-                    _iList.Add(control.Name, control);
-                }
-            }
-            Current = control;
-            parent.ResumeLayout();
-
-            return control;
         }
         /// <summary>
         /// 重置子控件

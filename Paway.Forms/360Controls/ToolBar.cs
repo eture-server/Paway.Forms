@@ -32,6 +32,10 @@ namespace Paway.Forms
 
         #region 变量
         /// <summary>
+        /// 鼠标弹按下
+        /// </summary>
+        private bool _iDown = false;
+        /// <summary>
         /// 右键弹出
         /// </summary>
         private bool _iFocus = false;
@@ -79,6 +83,7 @@ namespace Paway.Forms
             this.SetStyle(ControlStyles.Opaque, false);
             this.UpdateStyles();
             InitializeComponent();
+            CustomScroll();
             timer.Interval = 30;
             this.timer.Tick += timer_Tick;
         }
@@ -238,6 +243,7 @@ namespace Paway.Forms
             set
             {
                 this._tDirection = value;
+                UpdateScroll();
                 base.Invalidate(true);
             }
         }
@@ -475,6 +481,7 @@ namespace Paway.Forms
         {
             base.OnPaint(e);
             Graphics g = e.Graphics;
+            g.TranslateTransform(BodyBounds.X, BodyBounds.Y);
             g.SmoothingMode = SmoothingMode.AntiAlias;
             backColor = TBackGround.ColorSpace;
             g.FillRectangle(new SolidBrush(backColor), new Rectangle(-1, -1, this.Width + 1, this.Height + 1));
@@ -531,7 +538,7 @@ namespace Paway.Forms
             switch (_tDirection)
             {
                 case TDirection.Level:
-                    if (xPos + item.Rectangle.Width * 2 + this._itemSpace > this.Width)
+                    if (xPos + item.Rectangle.Width * 2 + this._itemSpace + this.Padding.Right > this.Width)
                     {
                         xPos = this.Padding.Left;
                         if (!iLast)
@@ -547,7 +554,7 @@ namespace Paway.Forms
                     }
                     break;
                 case TDirection.Vertical:
-                    if (yPos + item.Rectangle.Height * 2 + this._itemSpace > this.Height)
+                    if (yPos + item.Rectangle.Height * 2 + this._itemSpace + this.Padding.Bottom > this.Height)
                     {
                         yPos = this.Padding.Top;
                         if (!iLast)
@@ -813,7 +820,9 @@ namespace Paway.Forms
         /// <returns>返回是否有焦点 true时不触发down事件</returns>
         private void IsContextMenu(Graphics g, ToolItem item)
         {
-            Point cursorPoint = this.PointToClient(MousePosition);
+            Point point = this.PointToClient(MousePosition);
+            point.X -= BodyBounds.X;
+            point.Y -= BodyBounds.Y;
             Image btnArrowImage = null;
             Point contextMenuLocation = this.PointToScreen(new Point(this._btnArrowRect.Left, this._btnArrowRect.Top + this._btnArrowRect.Height + 2));
             ContextMenuStrip contextMenuStrip = item.ContextMenuStrip;
@@ -826,20 +835,20 @@ namespace Paway.Forms
                 {
                     contextMenuLocation.X = Screen.PrimaryScreen.WorkingArea.Width - contextMenuStrip.Width - 50;
                 }
-                if (item.Rectangle.Contains(cursorPoint))
+                if (item.Rectangle.Contains(point))
                 {
-                    if (this._btnArrowRect.Contains(cursorPoint) || item.RectDesc.Contains(cursorPoint))
+                    if (_iDown && (this._btnArrowRect.Contains(point) || item.RectDesc.Contains(point)))
                     {
                         btnArrowImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_down.png");
-                        if (this._iFocus)
-                        {
-                            contextMenuStrip.Tag = item;
-                            contextMenuStrip.Show(contextMenuLocation);
-                        }
                     }
                     else
                     {
                         btnArrowImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_highlight.png");
+                    }
+                    if (this._iFocus && (this._btnArrowRect.Contains(point) || item.RectDesc.Contains(point)))
+                    {
+                        contextMenuStrip.Tag = item;
+                        contextMenuStrip.Show(contextMenuLocation);
                     }
                     this._btnArrowRect = new Rectangle(item.Rectangle.X + item.Rectangle.Width - btnArrowImage.Width,
                         item.Rectangle.Y + (item.Rectangle.Height - btnArrowImage.Height) / 2, btnArrowImage.Width, btnArrowImage.Height);
@@ -882,9 +891,11 @@ namespace Paway.Forms
             if (!this.DesignMode)
             {
                 Point point = e.Location;
+                point.X -= BodyBounds.X;
+                point.Y -= BodyBounds.Y;
                 foreach (ToolItem item in this.Items)
                 {
-                    if (item.RectDesc.Contains(point))
+                    if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
                     {
                         if (item.IMouseState != TMouseState.Down)
                         {
@@ -922,6 +933,7 @@ namespace Paway.Forms
 
             if (!this.DesignMode)
             {
+                _iDown = false;
                 foreach (ToolItem item in this.Items)
                 {
                     item.IMouseState = TMouseState.Leave;
@@ -945,10 +957,13 @@ namespace Paway.Forms
 
             if (!this.DesignMode)
             {
+                Point point = e.Location;
+                point.X -= BodyBounds.X;
+                point.Y -= BodyBounds.Y;
                 for (int i = 0; i < this.Items.Count; i++)
                 {
                     ToolItem item = this.Items[i];
-                    OnMouseDown(e.Location, item);
+                    OnMouseDown(point, item);
                 }
                 this.Invalidate();
             }
@@ -975,27 +990,26 @@ namespace Paway.Forms
                 //事件
                 if (_tEvent == TEvent.Down)
                 {
-                    if (item.RectDesc.Contains(point))
+                    if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
                     {
-                        this.OnEditClick(item, EventArgs.Empty);
+                        if (item.RectDesc.Contains(point))
+                        {
+                            this.OnEditClick(item, EventArgs.Empty);
+                        }
                         if (item.ContextMenuStrip != null)
                         {
                             this._iFocus = true;
                             base.Invalidate(this._btnArrowRect);
                         }
                     }
-                    else if (this._btnArrowRect.Contains(point))
-                    {
-                        this._iFocus = true;
-                        base.Invalidate(this._btnArrowRect);
-                    }
                     else
                     {
                         this.OnItemClick(item, EventArgs.Empty);
                     }
                 }
-                if (item.RectDesc.Contains(point))
+                if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
                 {
+                    _iDown = true;
                     item.IMouseState = TMouseState.Down;
                 }
                 else
@@ -1035,10 +1049,13 @@ namespace Paway.Forms
 
             if (!this.DesignMode)
             {
+                Point point = e.Location;
+                point.X -= BodyBounds.X;
+                point.Y -= BodyBounds.Y;
                 for (int i = 0; i < this.Items.Count; i++)
                 {
                     ToolItem item = this.Items[i];
-                    OnMouseUp(e.Location, item);
+                    OnMouseUp(point, item);
                 }
                 this.Invalidate();
             }
@@ -1047,7 +1064,7 @@ namespace Paway.Forms
         {
             if (item.Rectangle.Contains(point))
             {
-                item.IMouseState = item.RectDesc.Contains(point) ? TMouseState.Up : TMouseState.Leave;
+                _iDown = false;
                 //事件
                 if (item != this._selectedItem && item == _tempItem)
                 {
@@ -1062,24 +1079,30 @@ namespace Paway.Forms
                 //事件
                 if (_tEvent == TEvent.Up)
                 {
-                    if (item.RectDesc.Contains(point))
+                    if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
                     {
-                        this.OnEditClick(item, EventArgs.Empty);
+                        if (item.RectDesc.Contains(point))
+                        {
+                            this.OnEditClick(item, EventArgs.Empty);
+                        }
                         if (item.ContextMenuStrip != null)
                         {
                             this._iFocus = true;
                             base.Invalidate(this._btnArrowRect);
                         }
                     }
-                    else if (this._btnArrowRect.Contains(point))
-                    {
-                        this._iFocus = true;
-                        base.Invalidate(this._btnArrowRect);
-                    }
                     else
                     {
                         this.OnItemClick(item, EventArgs.Empty);
                     }
+                }
+                if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
+                {
+                    item.IMouseState = TMouseState.Up;
+                }
+                else
+                {
+                    item.IMouseState = TMouseState.Leave;
                 }
             }
         }
@@ -1171,34 +1194,6 @@ namespace Paway.Forms
                 }
             }
             this.Invalidate();
-        }
-        /// <summary>
-        /// 刷新高度/宽度
-        /// </summary>
-        public void TRefresh()
-        {
-            TRefresh(0);
-        }
-        /// <summary>
-        /// 刷新高度/宽度
-        /// </summary>
-        public void TRefresh(int count)
-        {
-            this.Refresh();
-            if (this.CountLine < count) this.CountLine = count;
-            switch (TDirection)
-            {
-                case TDirection.Level:
-                    this.Height = this.Padding.Top + this.Padding.Bottom;
-                    this.Height += this.CountLine * this.ItemSize.Height;
-                    this.Height += (this.CountLine - 1) * this.ItemSpace;
-                    break;
-                case TDirection.Vertical:
-                    this.Width = this.Padding.Left + this.Padding.Right;
-                    this.Width += this.CountColumn * this.ItemSize.Width;
-                    this.Width += (this.CountLine - 1) * this.ItemSpace;
-                    break;
-            }
         }
         #endregion
 
@@ -1341,6 +1336,220 @@ namespace Paway.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
+        }
+
+        #endregion
+
+        #region 滚动条
+        /// <summary>  
+        /// 垂直滚动条  
+        /// </summary>  
+        private VScrollBar _vScroll;
+        /// <summary>  
+        /// 水平滚动条  
+        /// </summary>  
+        private HScrollBar _hScroll;
+        private bool _scroll = true;
+        /// <summary>
+        /// 是否显示滚动条
+        /// </summary>
+        [Description("是否显示滚动条"), DefaultValue(true)]
+        public bool IScroll
+        {
+            get { return _scroll; }
+            set
+            {
+                _scroll = value;
+                if (value)
+                {
+                    UpdateScroll();
+                }
+                else
+                {
+                    _vScroll.Visible = false;
+                    _hScroll.Visible = false;
+                }
+            }
+        }
+        /// <summary>
+        /// 滚动条是否显示
+        /// </summary>
+        [Browsable(false), Description("滚动条是否显示"), DefaultValue(false)]
+        public bool TScroll
+        {
+            get
+            {
+                switch (TDirection)
+                {
+                    case Forms.TDirection.Level:
+                        return _vScroll.Visible;
+                    case Forms.TDirection.Vertical:
+                        return _hScroll.Visible;
+                }
+                return false;
+            }
+        }
+        /// <summary>
+        /// 控件宽度
+        /// </summary>
+        public new int Width
+        {
+            get { return _vScroll.Visible ? base.Width - _vScroll.Width : base.Width; }
+            set { base.Width = value; }
+        }
+        /// <summary>
+        /// 控件高度
+        /// </summary>
+        public new int Height
+        {
+            get { return _hScroll.Visible ? base.Height - _hScroll.Height : base.Height; }
+            set { base.Height = value; }
+        }
+        /// <summary>
+        /// 控件显示区域
+        /// </summary>
+        private Rectangle BodyBounds = Rectangle.Empty;
+        /// <summary>
+        /// 初始化滚动条
+        /// </summary>
+        private void CustomScroll()
+        {
+            _hScroll = new HScrollBar();
+            _hScroll.Scroll += _hScroll_Scroll;
+            _hScroll.Dock = DockStyle.Bottom;
+            Controls.Add(_hScroll);
+
+            _vScroll = new VScrollBar();
+            _vScroll.Scroll += _vScroll_Scroll;
+            _vScroll.Dock = DockStyle.Right;
+            Controls.Add(_vScroll);
+
+            BodyBounds = new Rectangle(0, 0, this.Width, this.Height);
+            _hScroll.Visible = false;
+            _vScroll.Visible = false;
+        }
+
+        /// <summary>
+        /// 重写滚轮滚动
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            if (!_scroll) return;
+            if (_vScroll.Visible)
+            {
+                int value = _vScroll.Value - e.Delta * _vScroll.Maximum / 10 / 120;
+                if (value < 0) value = 0;
+                if (value > _vScroll.Maximum) value = _vScroll.Maximum;
+                _vScroll.Value = value;
+                BodyBounds.Y = -value;
+                Invalidate();
+            }
+            else if (_hScroll.Visible)
+            {
+                int value = _hScroll.Value - e.Delta * _hScroll.Maximum / 10 / 120;
+                if (value < 0) value = 0;
+                if (value > _hScroll.Maximum) value = _hScroll.Maximum;
+                _hScroll.Value = value;
+                BodyBounds.X = -value;
+                Invalidate();
+            }
+            base.OnMouseWheel(e);
+        }
+        /// <summary>
+        /// 大小改变时
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            UpdateScroll();
+        }
+        /// <summary>
+        /// 更新滚动条状态
+        /// </summary>
+        private void UpdateScroll()
+        {
+            if (!_scroll) return;
+            this.Refresh();
+            _vScroll.Visible = false;
+            _hScroll.Visible = false;
+            switch (TDirection)
+            {
+                case TDirection.Level:
+                    int height = GetHeight();
+                    if (this.Height < height)
+                    {
+                        _vScroll.Visible = true;
+                        _vScroll.Maximum = GetHeight() - this.Height;
+                        _vScroll.Value = 0;
+                    }
+                    break;
+                case TDirection.Vertical:
+                    int width = GetWidth();
+                    if (this.Width < width)
+                    {
+                        _hScroll.Visible = true;
+                        _hScroll.Maximum = GetWidth() - this.Width;
+                        _hScroll.Value = 0;
+                    }
+                    break;
+            }
+        }
+        /// <summary>
+        /// 水平滚动
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void _hScroll_Scroll(object sender, ScrollEventArgs e)
+        {
+            int diff = e.NewValue - e.OldValue;
+            if (e.NewValue == 0)
+            {
+                diff = 0;
+                BodyBounds.X = 0;
+            }
+            BodyBounds.Offset(-diff, 0);
+            Invalidate();
+        }
+        /// <summary>
+        /// 垂直滚动
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void _vScroll_Scroll(object sender, ScrollEventArgs e)
+        {
+            int diff = e.NewValue - e.OldValue;
+            if (e.NewValue == 0)
+            {
+                diff = 0;
+                BodyBounds.Y = 0;
+            }
+            BodyBounds.Offset(0, -diff);
+            Invalidate();
+        }
+
+        /// <summary>
+        /// 需要的高度
+        /// </summary>
+        /// <returns></returns>
+        private int GetHeight()
+        {
+            int height = this.Padding.Top + this.Padding.Bottom;
+            height += this.CountLine * this.ItemSize.Height;
+            height += (this.CountLine - 1) * this.ItemSpace;
+            return height;
+        }
+        /// <summary>
+        /// 需要的宽度
+        /// </summary>
+        /// <returns></returns>
+        private int GetWidth()
+        {
+            int width = this.Padding.Left + this.Padding.Right;
+            width += this.CountColumn * this.ItemSize.Width;
+            width += (this.CountColumn - 1) * this.ItemSpace;
+            return width;
         }
 
         #endregion

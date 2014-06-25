@@ -6,7 +6,8 @@ using System.Text;
 namespace Paway.Helper
 {
     /// <summary>
-    /// BASE64
+    /// BASE64 - 0x3F - 111111
+    /// Base32 - 0x1F - 11111
     /// </summary>
     public abstract class Base64Helper
     {
