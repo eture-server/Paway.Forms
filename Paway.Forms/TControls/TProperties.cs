@@ -63,7 +63,7 @@ namespace Paway.Forms
         /// <summary>
         /// 默认颜色
         /// </summary>
-        [Description("默认颜色"), DefaultValue(typeof(Color), "Empty")]
+        [Description("默认颜色"), DefaultValue(typeof(Color), "")]
         public Color ColorNormal
         {
             get { return _cNormal; }
@@ -85,7 +85,7 @@ namespace Paway.Forms
         /// <summary>
         /// 鼠标移过时的颜色
         /// </summary>
-        [Description("鼠标移过时的颜色"), DefaultValue(typeof(Color), "Empty")]
+        [Description("鼠标移过时的颜色"), DefaultValue(typeof(Color), "")]
         public Color ColorMove
         {
             get { return _cMove; }
@@ -96,7 +96,7 @@ namespace Paway.Forms
         /// <summary>
         /// 鼠标按下时的颜色
         /// </summary>
-        [Description("鼠标按下时的颜色"), DefaultValue(typeof(Color), "Empty")]
+        [Description("鼠标按下时的颜色"), DefaultValue(typeof(Color), "")]
         public Color ColorDown
         {
             get { return _cDown; }
@@ -107,7 +107,7 @@ namespace Paway.Forms
         /// <summary>
         /// 项间隔的颜色
         /// </summary>
-        [Description("项间隔的颜色"), DefaultValue(typeof(Color), "Empty")]
+        [Description("项间隔的颜色"), DefaultValue(typeof(Color), "")]
         public Color ColorSpace
         {
             get { return _cSpace; }

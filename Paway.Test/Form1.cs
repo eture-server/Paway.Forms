@@ -19,7 +19,8 @@ namespace Paway.Test
             InitializeComponent();
             toolClose.SelectedItemChanged += toolClose_SelectedItemChanged;
             toolClose.EditClick += toolClose_EditClick;
-            this.AutoValidate = AutoValidate.Disable;
+            BindingList<int> a = new BindingList<int>();
+
         }
         void toolClose_SelectedItemChanged(object sender, EventArgs e)
         {
@@ -37,7 +38,17 @@ namespace Paway.Test
 
         private void btSearch_Click(object sender, EventArgs e)
         {
-            toolClose.TAutoHeight();
+            string dt = DateTime.Now.Second.ToString(); ;
+            toolClose.Items.Add(new ToolItem(dt) { Desc = dt });
+            //toolClose.Items[0].Text = "text2";
+        }
+
+        private void qqButton1_Click(object sender, EventArgs e)
+        {
+            if (toolClose.SelectedItem != null)
+            {
+                toolClose.Items.Remove(toolClose.SelectedItem);
+            }
         }
     }
 }

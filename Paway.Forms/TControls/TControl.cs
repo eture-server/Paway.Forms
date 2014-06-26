@@ -1,5 +1,6 @@
 ﻿using Paway.Helper;
 using Paway.Resource;
+using Paway.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -91,6 +92,17 @@ namespace Paway.Forms
             }
         }
 
+        private bool _mousemove = false;
+        /// <summary>
+        /// 移动控件父窗体
+        /// </summary>
+        [Description("移动控件父窗体"), DefaultValue(false)]
+        public bool TMouseMove
+        {
+            get { return _mousemove; }
+            set { _mousemove = value; }
+        }
+
         #endregion
 
         #region 接口
@@ -177,6 +189,25 @@ namespace Paway.Forms
                 tList[i].Control.Location = new Point(x - left, y - top);
             }
         }
+        #endregion
+
+        #region 移动窗体
+        /// <summary>
+        /// 移动控件父窗体
+        /// </summary>
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+            if (!_mousemove) return;
+            if (e.Button != MouseButtons.Left) return;
+            if (this.Contain(e.Location)) return;
+            if (this.ParentForm != null && this.ParentForm.WindowState != FormWindowState.Maximized)
+            {
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(this.ParentForm.Handle, 274, 61440 + 9, 0);
+            }
+        }
+
         #endregion
 
         #region 动态星星

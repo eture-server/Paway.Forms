@@ -38,6 +38,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDemo));
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
@@ -48,7 +49,6 @@
             Paway.Forms.ToolItem toolItem8 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem9 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem10 = new Paway.Forms.ToolItem();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDemo));
             Paway.Forms.ToolItem toolItem11 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem12 = new Paway.Forms.ToolItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -122,7 +122,6 @@
             this.tbCat = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.toolBar3 = new Paway.Forms.ToolBar();
             this.btTTsRead = new Paway.Forms.QQButton();
             this.tNumTestBox1 = new Paway.Forms.TNumTestBox();
             this.tbPrompt = new Paway.Forms.QQTextBox();
@@ -132,7 +131,6 @@
             this.btGridView = new Paway.Forms.QQButton();
             this.btSearch = new Paway.Forms.QQButton();
             this.btImage = new Paway.Forms.QQButton();
-            this.toolBar2 = new Paway.Forms.ToolBar();
             this.qqTabControl1 = new Paway.Forms.QQTabControl();
             this.qqTabPage1 = new Paway.Forms.QQTabPage();
             this.qqTabPage2 = new Paway.Forms.QQTabPage();
@@ -141,6 +139,8 @@
             this.btQQ = new Paway.Forms.QQButton();
             this.bt360 = new Paway.Forms.QQButton();
             this.numEditTestBox2 = new Paway.Forms.TNumTestBox();
+            this.toolBar2 = new Paway.Forms.ToolBar();
+            this.toolBar3 = new Paway.Forms.ToolBar();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -658,85 +658,6 @@
             this.pictureBox2.TabIndex = 41;
             this.pictureBox2.TabStop = false;
             // 
-            // toolBar3
-            // 
-            this.toolBar3.ICheckEvent = true;
-            this.toolBar3.IImageShow = false;
-            this.toolBar3.ImageSize = new System.Drawing.Size(16, 16);
-            toolItem1.Color = System.Drawing.Color.Empty;
-            toolItem1.First = "光暗";
-            toolItem1.Text = "光暗";
-            toolItem2.Color = System.Drawing.Color.Empty;
-            toolItem2.First = "反色";
-            toolItem2.Text = "反色";
-            toolItem3.Color = System.Drawing.Color.Empty;
-            toolItem3.First = "浮雕";
-            toolItem3.Text = "浮雕";
-            toolItem4.Color = System.Drawing.Color.Empty;
-            toolItem4.First = "滤色";
-            toolItem4.Text = "滤色";
-            toolItem5.Color = System.Drawing.Color.Empty;
-            toolItem5.First = "左右";
-            toolItem5.Text = "左右";
-            toolItem6.Color = System.Drawing.Color.Empty;
-            toolItem6.First = "上下";
-            toolItem6.Text = "上下";
-            toolItem7.Color = System.Drawing.Color.Empty;
-            toolItem7.First = "灰度";
-            toolItem7.Text = "灰度";
-            toolItem8.Color = System.Drawing.Color.Empty;
-            toolItem8.First = "黑白";
-            toolItem8.Text = "黑白";
-            toolItem9.Color = System.Drawing.Color.Empty;
-            toolItem9.First = "透明";
-            toolItem9.Text = "透明";
-            toolItem10.Color = System.Drawing.Color.Empty;
-            toolItem10.First = "换色";
-            toolItem10.Text = "换色";
-            this.toolBar3.Items.Add(toolItem1);
-            this.toolBar3.Items.Add(toolItem2);
-            this.toolBar3.Items.Add(toolItem3);
-            this.toolBar3.Items.Add(toolItem4);
-            this.toolBar3.Items.Add(toolItem5);
-            this.toolBar3.Items.Add(toolItem6);
-            this.toolBar3.Items.Add(toolItem7);
-            this.toolBar3.Items.Add(toolItem8);
-            this.toolBar3.Items.Add(toolItem9);
-            this.toolBar3.Items.Add(toolItem10);
-            this.toolBar3.ItemSize = new System.Drawing.Size(50, 18);
-            this.toolBar3.ItemSpace = 0;
-            this.toolBar3.Location = new System.Drawing.Point(491, 12);
-            this.toolBar3.Name = "toolBar3";
-            this.toolBar3.Size = new System.Drawing.Size(50, 261);
-            this.toolBar3.TabIndex = 42;
-            this.toolBar3.TBackGround.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar3.TBackGround.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar3.TBackGround.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar3.TBackGround.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar3.TDesc.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar3.TDesc.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar3.TDesc.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar3.TDesc.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar3.TDirection = Paway.Forms.TDirection.Vertical;
-            this.toolBar3.TEndDesc.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar3.TEndDesc.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar3.TEndDesc.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar3.TEndDesc.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar3.TEvent = Paway.Forms.TEvent.Up;
-            this.toolBar3.TextFirst.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar3.TextFirst.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar3.TextFirst.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar3.TextFirst.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar3.TextSencond.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar3.TextSencond.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar3.TextSencond.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar3.TextSencond.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar3.THeadDesc.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar3.THeadDesc.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar3.THeadDesc.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar3.THeadDesc.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar3.TLocation = Paway.Forms.TILocation.Left;
-            // 
             // btTTsRead
             // 
             this.btTTsRead.DownImage = ((System.Drawing.Image)(resources.GetObject("btTTsRead.DownImage")));
@@ -878,54 +799,6 @@
             this.btImage.Text = "Image";
             this.btImage.UseVisualStyleBackColor = false;
             // 
-            // toolBar2
-            // 
-            this.toolBar2.ICheckEvent = true;
-            this.toolBar2.ImageSize = new System.Drawing.Size(16, 16);
-            toolItem11.Color = System.Drawing.Color.Empty;
-            toolItem11.ContextMenuStrip = this.contextMenuStrip1;
-            toolItem11.First = "创建宝贝";
-            toolItem11.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
-            toolItem11.Text = "创建宝贝";
-            toolItem12.Color = System.Drawing.Color.Empty;
-            toolItem12.First = "上传宝贝";
-            toolItem12.Text = "上传宝贝";
-            this.toolBar2.Items.Add(toolItem11);
-            this.toolBar2.Items.Add(toolItem12);
-            this.toolBar2.ItemSize = new System.Drawing.Size(116, 34);
-            this.toolBar2.ItemSpace = 0;
-            this.toolBar2.Location = new System.Drawing.Point(238, 13);
-            this.toolBar2.Name = "toolBar2";
-            this.toolBar2.Size = new System.Drawing.Size(116, 93);
-            this.toolBar2.TabIndex = 17;
-            this.toolBar2.TBackGround.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar2.TBackGround.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar2.TBackGround.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar2.TBackGround.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar2.TDesc.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar2.TDesc.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar2.TDesc.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar2.TDesc.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar2.TDirection = Paway.Forms.TDirection.Vertical;
-            this.toolBar2.TEndDesc.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar2.TEndDesc.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar2.TEndDesc.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar2.TEndDesc.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar2.TEvent = Paway.Forms.TEvent.Up;
-            this.toolBar2.TextFirst.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar2.TextFirst.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar2.TextFirst.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar2.TextFirst.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar2.TextSencond.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar2.TextSencond.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar2.TextSencond.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar2.TextSencond.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar2.THeadDesc.ColorDown = System.Drawing.Color.Empty;
-            this.toolBar2.THeadDesc.ColorMove = System.Drawing.Color.Empty;
-            this.toolBar2.THeadDesc.ColorNormal = System.Drawing.Color.Empty;
-            this.toolBar2.THeadDesc.ColorSpace = System.Drawing.Color.Empty;
-            this.toolBar2.TLocation = Paway.Forms.TILocation.Left;
-            // 
             // qqTabControl1
             // 
             this.qqTabControl1.Controls.Add(this.qqTabPage1);
@@ -1024,6 +897,85 @@
             this.numEditTestBox2.TabIndex = 5;
             this.numEditTestBox2.WaterText = "";
             // 
+            // toolBar2
+            // 
+            this.toolBar2.ICheckEvent = true;
+            this.toolBar2.ImageSize = new System.Drawing.Size(16, 16);
+            toolItem1.Color = System.Drawing.Color.Empty;
+            toolItem1.ContextMenuStrip = this.contextMenuStrip1;
+            toolItem1.First = "创建宝贝";
+            toolItem1.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
+            toolItem1.Text = "创建宝贝";
+            toolItem2.Color = System.Drawing.Color.Empty;
+            toolItem2.First = "上传宝贝";
+            toolItem2.Text = "上传宝贝";
+            this.toolBar2.Items.Add(toolItem1);
+            this.toolBar2.Items.Add(toolItem2);
+            this.toolBar2.ItemSize = new System.Drawing.Size(116, 34);
+            this.toolBar2.ItemSpace = 0;
+            this.toolBar2.Location = new System.Drawing.Point(242, 20);
+            this.toolBar2.Name = "toolBar2";
+            this.toolBar2.Size = new System.Drawing.Size(116, 93);
+            this.toolBar2.TabIndex = 43;
+            this.toolBar2.TDirection = Paway.Forms.TDirection.Vertical;
+            this.toolBar2.TEvent = Paway.Forms.TEvent.Up;
+            this.toolBar2.TLocation = Paway.Forms.TILocation.Left;
+            // 
+            // toolBar3
+            // 
+            this.toolBar3.ICheckEvent = true;
+            this.toolBar3.IImageShow = false;
+            this.toolBar3.ImageSize = new System.Drawing.Size(16, 16);
+            toolItem3.Color = System.Drawing.Color.Empty;
+            toolItem3.First = "光暗";
+            toolItem3.Text = "光暗";
+            toolItem4.Color = System.Drawing.Color.Empty;
+            toolItem4.First = "反色";
+            toolItem4.Text = "反色";
+            toolItem5.Color = System.Drawing.Color.Empty;
+            toolItem5.First = "浮雕";
+            toolItem5.Text = "浮雕";
+            toolItem6.Color = System.Drawing.Color.Empty;
+            toolItem6.First = "滤色";
+            toolItem6.Text = "滤色";
+            toolItem7.Color = System.Drawing.Color.Empty;
+            toolItem7.First = "左右";
+            toolItem7.Text = "左右";
+            toolItem8.Color = System.Drawing.Color.Empty;
+            toolItem8.First = "上下";
+            toolItem8.Text = "上下";
+            toolItem9.Color = System.Drawing.Color.Empty;
+            toolItem9.First = "灰度";
+            toolItem9.Text = "灰度";
+            toolItem10.Color = System.Drawing.Color.Empty;
+            toolItem10.First = "黑白";
+            toolItem10.Text = "黑白";
+            toolItem11.Color = System.Drawing.Color.Empty;
+            toolItem11.First = "透明";
+            toolItem11.Text = "透明";
+            toolItem12.Color = System.Drawing.Color.Empty;
+            toolItem12.First = "换色";
+            toolItem12.Text = "换色";
+            this.toolBar3.Items.Add(toolItem3);
+            this.toolBar3.Items.Add(toolItem4);
+            this.toolBar3.Items.Add(toolItem5);
+            this.toolBar3.Items.Add(toolItem6);
+            this.toolBar3.Items.Add(toolItem7);
+            this.toolBar3.Items.Add(toolItem8);
+            this.toolBar3.Items.Add(toolItem9);
+            this.toolBar3.Items.Add(toolItem10);
+            this.toolBar3.Items.Add(toolItem11);
+            this.toolBar3.Items.Add(toolItem12);
+            this.toolBar3.ItemSize = new System.Drawing.Size(50, 18);
+            this.toolBar3.ItemSpace = 0;
+            this.toolBar3.Location = new System.Drawing.Point(498, 16);
+            this.toolBar3.Name = "toolBar3";
+            this.toolBar3.Size = new System.Drawing.Size(50, 261);
+            this.toolBar3.TabIndex = 44;
+            this.toolBar3.TDirection = Paway.Forms.TDirection.Vertical;
+            this.toolBar3.TEvent = Paway.Forms.TEvent.Up;
+            this.toolBar3.TLocation = Paway.Forms.TILocation.Left;
+            // 
             // FormDemo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1031,6 +983,7 @@
             this.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.ClientSize = new System.Drawing.Size(560, 289);
             this.Controls.Add(this.toolBar3);
+            this.Controls.Add(this.toolBar2);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btTTsRead);
@@ -1043,7 +996,6 @@
             this.Controls.Add(this.btGridView);
             this.Controls.Add(this.btSearch);
             this.Controls.Add(this.btImage);
-            this.Controls.Add(this.toolBar2);
             this.Controls.Add(this.qqTabControl1);
             this.Controls.Add(this.btQQ);
             this.Controls.Add(this.bt360);
@@ -1137,7 +1089,6 @@
         private Forms.QQTabControl qqTabControl1;
         private Forms.QQTabPage qqTabPage2;
         private Forms.QQTabPage qqTabPage1;
-        private Forms.ToolBar toolBar2;
         private Forms.QQButton btImage;
         private Forms.QQButton btSearch;
         private Forms.QQButton btGridView;
@@ -1150,9 +1101,10 @@
         private Forms.QQButton btTTsRead;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private Forms.ToolBar toolBar3;
         private Forms.QQTabPage qqTabPage3;
         private Forms.QQTabPage qqTabPage4;
+        private Forms.ToolBar toolBar2;
+        private Forms.ToolBar toolBar3;
 
     }
 }

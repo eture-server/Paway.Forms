@@ -199,9 +199,6 @@
     <EmbeddedResource Include="TControls\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TControls\Demo360.resx">
-      <DependentUpon>Demo360.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="TControls\TPager.resx">
       <DependentUpon>TPager.cs</DependentUpon>
     </EmbeddedResource>

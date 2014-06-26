@@ -9,7 +9,7 @@ namespace Paway.Forms
     /// 代表 ToolBar 中项的集合。
     /// </summary>
     [ListBindable(false)]
-    public class ToolItemCollection : List<ToolItem>
+    public class ToolItemCollection : BindingList<ToolItem>
     {
         #region 变量
         /// <summary>

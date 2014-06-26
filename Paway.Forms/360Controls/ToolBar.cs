@@ -16,7 +16,7 @@ namespace Paway.Forms
     /// 工具栏
     /// </summary>
     [DefaultProperty("Items")]
-    [DefaultEvent("SelectedIndexChanged")]
+    [DefaultEvent("SelectedItemChanged")]
     public class ToolBar : TControl
     {
         #region 资源图片
@@ -330,7 +330,10 @@ namespace Paway.Forms
             get
             {
                 if (this._items == null)
+                {
                     this._items = new ToolItemCollection(this);
+                    this._items.ListChanged += _items_ListChanged;
+                }
                 return this._items;
             }
         }
@@ -433,6 +436,10 @@ namespace Paway.Forms
         /// </summary>
         [Browsable(false), Description("多行列排列时的列数"), DefaultValue(1)]
         public int CountColumn { get; private set; }
+        /// <summary>
+        /// 列数量
+        /// </summary>
+        private int LastItemCount;
 
         #endregion
 
@@ -481,7 +488,6 @@ namespace Paway.Forms
         {
             base.OnPaint(e);
             TPaint(e.Graphics);
-            UpdateScroll();
         }
         /// <summary>
         /// g == null 时 计算宽高
@@ -1103,6 +1109,15 @@ namespace Paway.Forms
                 }
             }
         }
+        /// <summary>
+        /// 引发 System.Windows.Forms.Form.MouseEnter 事件。
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            base.OnMouseEnter(e);
+            this.Focus();
+        }
 
         #endregion
 
@@ -1171,6 +1186,7 @@ namespace Paway.Forms
             if (this._items.Count <= index) return;
             if (!_isMultiple)
             {
+                _selectedItem = null;
                 for (int i = 0; i < _items.Count; i++)
                 {
                     if (i == index) continue;
@@ -1193,6 +1209,20 @@ namespace Paway.Forms
             this.Invalidate();
         }
         /// <summary>
+        /// 刷新控件到原点
+        /// </summary>
+        public void TStart()
+        {
+            FixScroll(0);
+        }
+        /// <summary>
+        /// 刷新控件到指定位置
+        /// </summary>
+        public void TStart(int value)
+        {
+            FixScroll(value);
+        }
+        /// <summary>
         /// 自适应高度/宽度
         /// </summary>
         public void TAutoHeight()
@@ -1205,7 +1235,6 @@ namespace Paway.Forms
         /// <param name="count">最小行/列</param>
         public void TAutoHeight(int count)
         {
-            if (_scroll) return;
             if (this.CountLine < count) this.CountLine = count;
             switch (TDirection)
             {
@@ -1217,6 +1246,48 @@ namespace Paway.Forms
                     break;
             }
         }
+        /// <summary>
+        /// 刷新项
+        /// </summary>
+        /// <param name="item"></param>
+        public void TRefresh(ToolItem item)
+        {
+            int index = this.Items.GetIndexOfRange(item);
+            TRefresh(index);
+        }
+        /// <summary>
+        /// 刷新项
+        /// </summary>
+        /// <param name="index"></param>
+        public void TRefresh(int index)
+        {
+            if (index < 0 || index > Items.Count - 1) return;
+            this.Invalidate(this.Items[index].Rectangle);
+        }
+        /// <summary>
+        /// 刷新控件
+        /// </summary>
+        public void TRefresh()
+        {
+            if (LastItemCount != Items.Count)
+            {
+                this.TPaint(null);
+                UpdateScroll(true, Items.Count > LastItemCount);
+                LastItemCount = Items.Count;
+                this.Invalidate();
+            }
+        }
+        #endregion
+
+        #region TRefresh
+        void _items_ListChanged(object sender, ListChangedEventArgs e)
+        {
+            if (this.ParentForm != null)
+            {
+                TRefresh();
+            }
+        }
+
         #endregion
 
         #region 激发事件的方法
@@ -1461,22 +1532,34 @@ namespace Paway.Forms
             if (_vScroll.Visible)
             {
                 int value = _vScroll.Value - e.Delta * _vScroll.Maximum / 10 / 120;
-                if (value < 0) value = 0;
-                if (value > _vScroll.Maximum) value = _vScroll.Maximum;
-                _vScroll.Value = value;
-                BodyBounds.Y = -value;
-                Invalidate();
+                FixScroll(value);
             }
             else if (_hScroll.Visible)
             {
                 int value = _hScroll.Value - e.Delta * _hScroll.Maximum / 10 / 120;
-                if (value < 0) value = 0;
-                if (value > _hScroll.Maximum) value = _hScroll.Maximum;
-                _hScroll.Value = value;
-                BodyBounds.X = -value;
-                Invalidate();
+                FixScroll(value);
             }
             base.OnMouseWheel(e);
+        }
+        private void FixScroll(int value)
+        {
+            if (!_scroll) return;
+            switch (TDirection)
+            {
+                case TDirection.Level:
+                    if (value < 0) value = 0;
+                    if (value > _vScroll.Maximum) value = _vScroll.Maximum;
+                    _vScroll.Value = value;
+                    BodyBounds.Y = -value;
+                    break;
+                case TDirection.Vertical:
+                    if (value < 0) value = 0;
+                    if (value > _hScroll.Maximum) value = _hScroll.Maximum;
+                    _hScroll.Value = value;
+                    BodyBounds.X = -value;
+                    break;
+            }
+            Invalidate();
         }
         /// <summary>
         /// 大小改变时
@@ -1485,12 +1568,17 @@ namespace Paway.Forms
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
+            TPaint(null);
             UpdateScroll();
         }
         /// <summary>
         /// 更新滚动条状态
         /// </summary>
         private void UpdateScroll()
+        {
+            UpdateScroll(false, false);
+        }
+        private void UpdateScroll(bool fix, bool toLast)
         {
             if (!_scroll) return;
             if (CountColumn == 0 || CountLine == 0)
@@ -1506,8 +1594,21 @@ namespace Paway.Forms
                     if (this.Height < height)
                     {
                         _vScroll.Visible = true;
-                        _vScroll.Maximum = GetHeight() - this.Height;
-                        _vScroll.Value = 0;
+                        int max = GetHeight() - this.Height;
+                        if (_vScroll.Value > max)
+                        {
+                            FixScroll(max);
+                        }
+                        _vScroll.Maximum = max;
+                        if (!fix) _vScroll.Value = 0;
+                        if (toLast)
+                        {
+                            FixScroll(_vScroll.Maximum);
+                        }
+                    }
+                    else if (_vScroll.Value > 0)
+                    {
+                        FixScroll(0);
                     }
                     break;
                 case TDirection.Vertical:
@@ -1515,8 +1616,21 @@ namespace Paway.Forms
                     if (this.Width < width)
                     {
                         _hScroll.Visible = true;
-                        _hScroll.Maximum = GetWidth() - this.Width;
-                        _hScroll.Value = 0;
+                        int max = GetWidth() - this.Width;
+                        if (_hScroll.Value > max)
+                        {
+                            FixScroll(max);
+                        }
+                        _hScroll.Maximum = max;
+                        if (!fix) _hScroll.Value = 0;
+                        if (toLast)
+                        {
+                            FixScroll(_hScroll.Maximum);
+                        }
+                    }
+                    else if (_hScroll.Value > 0)
+                    {
+                        FixScroll(0);
                     }
                     break;
             }
