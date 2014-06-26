@@ -105,7 +105,7 @@ namespace Paway.Forms
             else
             {
                 PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
-                if (properties.Count > 0)
+                if (properties.Count > 1)
                 {
                     for (int i = 0; i < properties.Count; i++)
                     {

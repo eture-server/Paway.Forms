@@ -43,12 +43,12 @@ namespace Paway.Test
                     Value = "Value" + i + 10
                 });
             }
-            //this.tComboBox21.Edit.Items.Clear();
-            //this.tComboBox21.Edit.Items.Add(4);
-            //this.tComboBox21.Edit.Items.Add(2);
-            this.tComboBox21.Edit.DataSource = list;
-            this.tComboBox21.Edit.DisplayMember = "Name";
-            this.tComboBox21.Edit.ValueMember = "Value";
+            this.tComboBox21.Edit.Items.Clear();
+            this.tComboBox21.Edit.Items.Add("ds");
+            this.tComboBox21.Edit.Items.Add("dd");
+            //this.tComboBox21.Edit.DataSource = list;
+            //this.tComboBox21.Edit.DisplayMember = "Name";
+            //this.tComboBox21.Edit.ValueMember = "Value";
             this.tComboBox21.Edit.SelectedIndex =0;
 
             pictureBox1.Click += pictureBox1_Click;
