@@ -44,11 +44,11 @@ namespace Paway.Forms
         #endregion
 
         #region 固定窗体背景
-        private bool _fixedBackground = true;
+        private bool _fixedBackground = false;
         /// <summary>
-        /// 固定背景
+        /// 固定窗体背景
         /// </summary>
-        [Category("Appearance"), DefaultValue(false)]
+        [Category("Appearance"), Description("固定窗体背景"), DefaultValue(false)]
         public bool TFixedBackground
         {
             get { return _fixedBackground; }

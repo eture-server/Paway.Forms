@@ -480,12 +480,22 @@ namespace Paway.Forms
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            Graphics g = e.Graphics;
-            g.TranslateTransform(BodyBounds.X, BodyBounds.Y);
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            backColor = TBackGround.ColorSpace;
-            g.FillRectangle(new SolidBrush(backColor), new Rectangle(-1, -1, this.Width + 1, this.Height + 1));
-
+            TPaint(e.Graphics);
+            UpdateScroll();
+        }
+        /// <summary>
+        /// g == null 时 计算宽高
+        /// </summary>
+        /// <param name="g"></param>
+        private void TPaint(Graphics g)
+        {
+            if (g != null)
+            {
+                g.TranslateTransform(BodyBounds.X, BodyBounds.Y);
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                backColor = TBackGround.ColorSpace;
+                g.FillRectangle(new SolidBrush(backColor), new Rectangle(-1, -1, this.Width + 1, this.Height + 1));
+            }
             int xPos = this.Padding.Left;
             int yPos = this.Padding.Top;
             this.CountColumn = 1;
@@ -511,30 +521,17 @@ namespace Paway.Forms
                 }
             }
         }
-        /// <summary>
-        /// 强制控件使其工作区无效并立即重绘自己和任何子控件。
-        /// </summary>
-        public override void Refresh()
-        {
-            base.Refresh();
-            Graphics g = this.CreateGraphics();
-            int xPos = this.Padding.Left;
-            int yPos = this.Padding.Top;
-            this.CountColumn = 1;
-            this.CountLine = 1;
-            for (int i = 0; i < this.Items.Count; i++)
-            {
-                DrawItem(g, this.Items[i], ref xPos, ref yPos, i == this.Items.Count - 1);
-            }
-        }
         #region 绘制方法
         private void DrawItem(Graphics g, ToolItem item, ref int xPos, ref int yPos, bool iLast)
         {
             // 当前 Item 所在的矩型区域
             item.Rectangle = new Rectangle(xPos, yPos, this._itemSize.Width, this._itemSize.Height);
-            DrawBackground(g, item);
-            DrawImage(g, item);
-            DrawText(g, item);
+            if (g != null)
+            {
+                DrawBackground(g, item);
+                DrawImage(g, item);
+                DrawText(g, item);
+            }
             switch (_tDirection)
             {
                 case TDirection.Level:
@@ -1195,6 +1192,31 @@ namespace Paway.Forms
             }
             this.Invalidate();
         }
+        /// <summary>
+        /// 自适应高度/宽度
+        /// </summary>
+        public void TAutoHeight()
+        {
+            TAutoHeight(0);
+        }
+        /// <summary>
+        /// 自适应高度/宽度
+        /// </summary>
+        /// <param name="count">最小行/列</param>
+        public void TAutoHeight(int count)
+        {
+            if (_scroll) return;
+            if (this.CountLine < count) this.CountLine = count;
+            switch (TDirection)
+            {
+                case TDirection.Level:
+                    this.Height = GetHeight();
+                    break;
+                case TDirection.Vertical:
+                    this.Width = GetWidth();
+                    break;
+            }
+        }
         #endregion
 
         #region 激发事件的方法
@@ -1471,7 +1493,10 @@ namespace Paway.Forms
         private void UpdateScroll()
         {
             if (!_scroll) return;
-            this.Refresh();
+            if (CountColumn == 0 || CountLine == 0)
+            {
+                TPaint(null);
+            }
             _vScroll.Visible = false;
             _hScroll.Visible = false;
             switch (TDirection)

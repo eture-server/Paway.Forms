@@ -34,5 +34,10 @@ namespace Paway.Test
         {
             //tControl1.Star();
         }
+
+        private void btSearch_Click(object sender, EventArgs e)
+        {
+            toolClose.TAutoHeight();
+        }
     }
 }

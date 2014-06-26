@@ -144,12 +144,16 @@ namespace Paway.Forms
         /// 将已定义控件加入列表
         /// </summary>
         /// <param name="control"></param>
-        public static void Add(MControl control)
+        /// <returns>成功返回列表中的已加入的MControl控件</returns>
+        public static MControl Add(MControl control)
         {
-            if (!_iList.ContainsKey(control.Name))
+            Type type = control.GetType();
+            if (!_iList.ContainsKey(type.Name))
             {
-                _iList.Add(control.Name, control);
+                _iList.Add(type.Name, control);
+                return control;
             }
+            return _iList[type.Name];
         }
         /// <summary>
         /// 重置子控件
