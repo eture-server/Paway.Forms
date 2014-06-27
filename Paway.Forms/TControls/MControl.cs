@@ -62,7 +62,7 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 界面切换
+        #region 界面切换控制
         /// <summary>
         /// 基类控件列表
         /// </summary>
@@ -137,6 +137,7 @@ namespace Paway.Forms
                     Current = control;
                 }
                 Current.iLoad = true;
+                Current.Focus();
                 Current.ReLoad();
             }
         }

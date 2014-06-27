@@ -245,6 +245,7 @@ namespace Paway.Forms
                 this._tDirection = value;
                 TPaint(null);
                 UpdateScroll();
+                BodyBounds.X = 0; BodyBounds.Y = 0;
                 this.Invalidate(this.ClientRectangle);
             }
         }
@@ -825,7 +826,7 @@ namespace Paway.Forms
             point.X -= BodyBounds.X;
             point.Y -= BodyBounds.Y;
             Image btnArrowImage = null;
-            Point contextMenuLocation = this.PointToScreen(new Point(this._btnArrowRect.Left, this._btnArrowRect.Top + this._btnArrowRect.Height + 2));
+            Point contextMenuLocation = this.PointToScreen(new Point(this._btnArrowRect.Left + BodyBounds.X, this._btnArrowRect.Top + BodyBounds.Y + this._btnArrowRect.Height + 2));
             ContextMenuStrip contextMenuStrip = item.ContextMenuStrip;
             if (contextMenuStrip != null)
             {
@@ -877,7 +878,7 @@ namespace Paway.Forms
                 }
                 InvaRectDesc(item, TMouseState.Normal);
             }
-            this.Invalidate(item.Rectangle);
+            InvaOther(item.Rectangle);
         }
 
         #endregion
@@ -892,8 +893,8 @@ namespace Paway.Forms
             if (item.IMouseState != state)
             {
                 item.IMouseState = state;
-                this.Invalidate(item.RectDesc);
-                this.Invalidate(_btnArrowRect);
+                this.Invalidate(new Rectangle(item.RectDesc.X + BodyBounds.X, item.RectDesc.Y + BodyBounds.Y, item.RectDesc.Width, item.RectDesc.Height));
+                this.Invalidate(new Rectangle(_btnArrowRect.X + BodyBounds.X, _btnArrowRect.Y + BodyBounds.Y, _btnArrowRect.Width, _btnArrowRect.Height));
             }
         }
         /// <summary>
@@ -906,8 +907,16 @@ namespace Paway.Forms
             if (item.MouseState != state)
             {
                 item.MouseState = state;
-                this.Invalidate(item.Rectangle);
+                this.Invalidate(new Rectangle(item.Rectangle.X + BodyBounds.X, item.Rectangle.Y + BodyBounds.Y, item.Rectangle.Width, item.Rectangle.Height));
             }
+        }
+        /// <summary>
+        /// 重绘Item
+        /// </summary>
+        /// <param name="rect"></param>
+        private void InvaOther(Rectangle rect)
+        {
+            this.Invalidate(new Rectangle(rect.X + BodyBounds.X, rect.Y + BodyBounds.Y, rect.Width, rect.Height));
         }
         /// <summary>
         /// 引发 System.Windows.Forms.Form.MouseMove 事件。
@@ -1024,7 +1033,7 @@ namespace Paway.Forms
                         if (item.ContextMenuStrip != null)
                         {
                             this._iFocus = true;
-                            base.Invalidate(this._btnArrowRect);
+                            InvaOther(this._btnArrowRect);
                         }
                     }
                     else
@@ -1082,7 +1091,6 @@ namespace Paway.Forms
                     ToolItem item = this.Items[i];
                     OnMouseUp(point, item);
                 }
-                this.Invalidate(BodyBounds);
             }
         }
         private void OnMouseUp(Point point, ToolItem item)
@@ -1113,7 +1121,7 @@ namespace Paway.Forms
                         if (item.ContextMenuStrip != null)
                         {
                             this._iFocus = true;
-                            base.Invalidate(this._btnArrowRect);
+                            InvaOther(this._btnArrowRect);
                         }
                     }
                     else
@@ -1139,7 +1147,9 @@ namespace Paway.Forms
         {
             base.OnMouseEnter(e);
             if (this.ParentForm.ContainsFocus)
+            {
                 this.Focus();
+            }
         }
 
         #endregion
@@ -1284,7 +1294,7 @@ namespace Paway.Forms
         public void TRefresh(int index)
         {
             if (index < 0 || index > Items.Count - 1) return;
-            this.Invalidate(this.Items[index].Rectangle);
+            InvaOther(this.Items[index].Rectangle);
         }
         /// <summary>
         /// 刷新控件
@@ -1429,7 +1439,7 @@ namespace Paway.Forms
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            this.Invalidate(this._items[pIndex].Rectangle);
+            InvaOther(this._items[pIndex].Rectangle);
         }
         private void InitializeComponent()
         {
