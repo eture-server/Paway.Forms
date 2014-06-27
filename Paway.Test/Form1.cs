@@ -49,5 +49,15 @@ namespace Paway.Test
             //    toolClose.Items.Remove(toolClose.SelectedItem);
             //}
         }
+
+        private void btSearch_Click_1(object sender, EventArgs e)
+        {
+            toolBar1.TDirection = TDirection.Vertical;
+        }
+
+        private void qqButton1_Click_1(object sender, EventArgs e)
+        {
+            toolBar1.TDirection = TDirection.Level;
+        }
     }
 }

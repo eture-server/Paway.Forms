@@ -209,7 +209,7 @@ namespace Paway.Forms
             set
             {
                 _tAdd = value;
-                this.Invalidate();
+                this.Invalidate(this.ClientRectangle);
             }
         }
 
@@ -243,8 +243,9 @@ namespace Paway.Forms
             set
             {
                 this._tDirection = value;
+                TPaint(null);
                 UpdateScroll();
-                base.Invalidate(true);
+                this.Invalidate(this.ClientRectangle);
             }
         }
         /// <summary>
@@ -261,7 +262,7 @@ namespace Paway.Forms
             set
             {
                 this._tLocation = value;
-                base.Invalidate(true);
+                this.Invalidate(this.ClientRectangle);
             }
         }
         /// <summary>
@@ -277,11 +278,7 @@ namespace Paway.Forms
         public bool ICheckEvent
         {
             get { return this._iCheckEvent; }
-            set
-            {
-                this._iCheckEvent = value;
-                this.Invalidate();
-            }
+            set { this._iCheckEvent = value; }
         }
         /// <summary>
         /// 图片显示开关
@@ -297,7 +294,7 @@ namespace Paway.Forms
             set
             {
                 this._iImageShow = value;
-                this.Invalidate();
+                this.Invalidate(this.ClientRectangle);
             }
         }
         /// <summary>
@@ -314,7 +311,7 @@ namespace Paway.Forms
             set
             {
                 this._isMultiple = value;
-                this.Invalidate();
+                this.Invalidate(this.ClientRectangle);
             }
         }
         /// <summary>
@@ -351,7 +348,7 @@ namespace Paway.Forms
             set
             {
                 this._itemSize = value;
-                this.Invalidate();
+                this.Invalidate(this.ClientRectangle);
             }
         }
         /// <summary>
@@ -372,7 +369,7 @@ namespace Paway.Forms
                 {
                     this._iImageShow = false;
                 }
-                this.Invalidate();
+                this.Invalidate(this.ClientRectangle);
             }
         }
         /// <summary>
@@ -389,7 +386,7 @@ namespace Paway.Forms
             set
             {
                 this._itemSpace = value;
-                this.Invalidate();
+                this.Invalidate(this.ClientRectangle);
             }
         }
         private ToolItem _tempItem = null;
@@ -582,6 +579,7 @@ namespace Paway.Forms
             if (!item.Enable)
             {
                 item.MouseState = TMouseState.Normal;
+                item.IMouseState = TMouseState.Normal;
             }
             switch (item.MouseState)
             {
@@ -875,15 +873,42 @@ namespace Paway.Forms
             {
                 if (item.MouseState != TMouseState.Down)
                 {
-                    item.MouseState = TMouseState.Leave;
+                    InvaItem(item, TMouseState.Normal);
                 }
-                item.IMouseState = TMouseState.Leave;
+                InvaRectDesc(item, TMouseState.Normal);
             }
             this.Invalidate(item.Rectangle);
         }
 
         #endregion
 
+        /// <summary>
+        /// 重绘正文描述
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="state"></param>
+        private void InvaRectDesc(ToolItem item, TMouseState state)
+        {
+            if (item.IMouseState != state)
+            {
+                item.IMouseState = state;
+                this.Invalidate(item.RectDesc);
+                this.Invalidate(_btnArrowRect);
+            }
+        }
+        /// <summary>
+        /// 重绘Item
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="state"></param>
+        private void InvaItem(ToolItem item, TMouseState state)
+        {
+            if (item.MouseState != state)
+            {
+                item.MouseState = state;
+                this.Invalidate(item.Rectangle);
+            }
+        }
         /// <summary>
         /// 引发 System.Windows.Forms.Form.MouseMove 事件。
         /// </summary>
@@ -902,12 +927,12 @@ namespace Paway.Forms
                     {
                         if (item.IMouseState != TMouseState.Down)
                         {
-                            item.IMouseState = TMouseState.Move;
+                            InvaRectDesc(item, TMouseState.Move);
                         }
                     }
                     else
                     {
-                        item.IMouseState = TMouseState.Leave;
+                        InvaRectDesc(item, TMouseState.Normal);
                     }
                     if (!_iCheckEvent && item.MouseState == TMouseState.Down)
                     {
@@ -915,14 +940,13 @@ namespace Paway.Forms
                     }
                     else if (item.Rectangle.Contains(point))
                     {
-                        item.MouseState = TMouseState.Move;
+                        InvaItem(item, TMouseState.Move);
                     }
                     else
                     {
-                        item.MouseState = TMouseState.Leave;
+                        InvaItem(item, TMouseState.Normal);
                     }
                 }
-                this.Invalidate();
             }
         }
         /// <summary>
@@ -939,13 +963,12 @@ namespace Paway.Forms
                 _iDown = false;
                 foreach (ToolItem item in this.Items)
                 {
-                    item.IMouseState = TMouseState.Leave;
+                    InvaRectDesc(item, TMouseState.Normal);
                     if ((_iCheckEvent && !_isMultiple) || item.MouseState != TMouseState.Down)
                     {
-                        item.MouseState = TMouseState.Leave;
+                        InvaItem(item, TMouseState.Normal);
                     }
                 }
-                this.Invalidate();
             }
         }
         /// <summary>
@@ -968,7 +991,6 @@ namespace Paway.Forms
                     ToolItem item = this.Items[i];
                     OnMouseDown(point, item);
                 }
-                this.Invalidate();
             }
         }
         private void OnMouseDown(Point point, ToolItem item)
@@ -1013,32 +1035,32 @@ namespace Paway.Forms
                 if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
                 {
                     _iDown = true;
-                    item.IMouseState = TMouseState.Down;
+                    InvaRectDesc(item, TMouseState.Down);
                 }
                 else
                 {
-                    item.IMouseState = TMouseState.Normal;
+                    InvaRectDesc(item, TMouseState.Normal);
                     if (_isMultiple)
                     {
                         _selectedItem = null;
                         if (item.MouseState != TMouseState.Down)
                         {
-                            item.MouseState = TMouseState.Down;
+                            InvaItem(item, TMouseState.Down);
                         }
                         else
                         {
-                            item.MouseState = TMouseState.Normal;
+                            InvaItem(item, TMouseState.Normal);
                         }
                     }
                     else
                     {
-                        item.MouseState = TMouseState.Down;
+                        InvaItem(item, TMouseState.Down);
                     }
                 }
             }
             else if (!_isMultiple && Contain(point) && !ContainDesc(point))
             {
-                item.MouseState = TMouseState.Normal;
+                InvaItem(item, TMouseState.Normal);
             }
         }
         /// <summary>
@@ -1060,7 +1082,7 @@ namespace Paway.Forms
                     ToolItem item = this.Items[i];
                     OnMouseUp(point, item);
                 }
-                this.Invalidate();
+                this.Invalidate(BodyBounds);
             }
         }
         private void OnMouseUp(Point point, ToolItem item)
@@ -1101,11 +1123,11 @@ namespace Paway.Forms
                 }
                 if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
                 {
-                    item.IMouseState = TMouseState.Up;
+                    InvaRectDesc(item, TMouseState.Move);
                 }
                 else
                 {
-                    item.IMouseState = TMouseState.Leave;
+                    InvaRectDesc(item, TMouseState.Normal);
                 }
             }
         }
@@ -1116,7 +1138,8 @@ namespace Paway.Forms
         protected override void OnMouseEnter(EventArgs e)
         {
             base.OnMouseEnter(e);
-            this.Focus();
+            if (this.ParentForm.ContainsFocus)
+                this.Focus();
         }
 
         #endregion
@@ -1190,7 +1213,7 @@ namespace Paway.Forms
                 for (int i = 0; i < _items.Count; i++)
                 {
                     if (i == index) continue;
-                    _items[i].MouseState = TMouseState.Normal;
+                    InvaItem(_items[i], TMouseState.Normal);
                 }
             }
             if (index >= 0)
@@ -1198,7 +1221,7 @@ namespace Paway.Forms
                 this._selectedItem = this._items[index];
                 if (!_iCheckEvent)
                 {
-                    this._selectedItem.MouseState = TMouseState.Down;
+                    InvaItem(_selectedItem, TMouseState.Down);
                     OnSelectedItemChanged(_items[index], EventArgs.Empty);
                 }
                 else
@@ -1206,7 +1229,6 @@ namespace Paway.Forms
                     OnItemClick(_items[index], EventArgs.Empty);
                 }
             }
-            this.Invalidate();
         }
         /// <summary>
         /// 刷新控件到原点
@@ -1274,7 +1296,7 @@ namespace Paway.Forms
                 this.TPaint(null);
                 UpdateScroll(true, Items.Count > LastItemCount);
                 LastItemCount = Items.Count;
-                this.Invalidate();
+                this.Invalidate(this.ClientRectangle);
             }
         }
         #endregion
@@ -1517,7 +1539,6 @@ namespace Paway.Forms
             _vScroll.Dock = DockStyle.Right;
             Controls.Add(_vScroll);
 
-            BodyBounds = new Rectangle(0, 0, this.Width, this.Height);
             _hScroll.Visible = false;
             _vScroll.Visible = false;
         }
@@ -1559,7 +1580,7 @@ namespace Paway.Forms
                     BodyBounds.X = -value;
                     break;
             }
-            Invalidate();
+            this.Invalidate(this.ClientRectangle);
         }
         /// <summary>
         /// 大小改变时
@@ -1568,6 +1589,8 @@ namespace Paway.Forms
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
+            BodyBounds.Width = this.Width;
+            BodyBounds.Height = this.Height;
             TPaint(null);
             UpdateScroll();
         }
@@ -1649,7 +1672,7 @@ namespace Paway.Forms
                 BodyBounds.X = 0;
             }
             BodyBounds.Offset(-diff, 0);
-            Invalidate();
+            this.Invalidate(this.ClientRectangle);
         }
         /// <summary>
         /// 垂直滚动
@@ -1665,7 +1688,7 @@ namespace Paway.Forms
                 BodyBounds.Y = 0;
             }
             BodyBounds.Offset(0, -diff);
-            Invalidate();
+            this.Invalidate(this.ClientRectangle);
         }
 
         /// <summary>
