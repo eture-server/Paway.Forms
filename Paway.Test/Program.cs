@@ -1,5 +1,6 @@
 ﻿using Paway.Forms;
 using Paway.Forms.Metro;
+using Paway.Helper;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,7 +22,8 @@ namespace Paway.Test
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             log.Error("log.Error:" + DateTime.Now);
-            Application.Run(new FormDemo());
+            InitConfig.IMouseMove = true;
+            Application.Run(new Form1());
         }
     }
 }

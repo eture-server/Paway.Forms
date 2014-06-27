@@ -14,16 +14,22 @@ namespace Paway.Forms
     /// <summary>
     /// 窗体自定义基类
     /// </summary>
-    public partial class TForm : Form
+    public partial class TForm : Form, IControl
     {
-        #region 变量
-        private List<Locate> tList;
-        private Size normal = Size.Empty;
+        #region 属性
         /// <summary>
         /// 指定窗体窗口如何显示
         /// </summary>
         protected FormWindowState _windowState = FormWindowState.Normal;
-
+        /// <summary>
+        /// 指定窗体窗口如何显示
+        /// </summary>
+        [Description("指定窗体窗口如何显示"), DefaultValue(typeof(FormWindowState), "Normal")]
+        public virtual new FormWindowState WindowState
+        {
+            get { return this._windowState; }
+            set { this._windowState = value; }
+        }
         #endregion
 
         #region 构造
@@ -111,6 +117,7 @@ namespace Paway.Forms
         protected void TMouseMove(Control control)
         {
             if (control == null) return;
+            if (control is IControl && !(control is TForm) && (control as IControl).IMouseMove) return;
             control.MouseDown += control_MouseDown;
         }
         void control_MouseDown(object sender, MouseEventArgs e)
@@ -130,116 +137,43 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 在窗体上固定控件位置
+        #region 接口
         /// <summary>
+        /// 坐标点是否包含在项中
         /// </summary>
-        /// <param name="e"></param>
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-            ToLocate();
-        }
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public virtual bool Contain(Point p) { return false; }
+
+        private int _trans = 255;
         /// <summary>
-        /// 在窗体上固定控件位置
+        /// 控件透明度
         /// </summary>
-        protected void AddLocate(Control control)
+        [Browsable(false), Description("透明度 - 无效的"), DefaultValue(255)]
+        public int Trans
         {
-            AddLocate(control, StringAlignment.Center, StringAlignment.Center);
-        }
-        /// <summary>
-        /// 在窗体上固定控件位置
-        /// </summary>
-        protected void AddLocate(Control control, StringAlignment lLocation)
-        {
-            AddLocate(control, lLocation, lLocation);
-        }
-        /// <summary>
-        /// 在窗体上固定控件位置
-        /// </summary>
-        protected void AddLocate(Control control, StringAlignment xLocation, StringAlignment yLocation)
-        {
-            if (normal == Size.Empty)
+            get { return _trans; }
+            set
             {
-                normal = this.Size;
-            }
-            if (tList == null)
-            {
-                tList = new List<Locate>();
-            }
-            tList.Add(new Locate(control, control.Location, xLocation, yLocation));
-        }
-        private void ToLocate()
-        {
-            if (tList == null) return;
-            for (int i = 0; i < tList.Count; i++)
-            {
-                int left = 0;
-                int top = 0;
-                switch (tList[i].XLocation)
+                if (value < 0 || value > 255)
                 {
-                    case StringAlignment.Near:
-                        left = 0;
-                        break;
-                    case StringAlignment.Center:
-                        left = tList[i].Control.Width / 2;
-                        break;
-                    case StringAlignment.Far:
-                        left = tList[i].Control.Width;
-                        break;
+                    value = 255;
                 }
-                switch (tList[i].YLocation)
-                {
-                    case StringAlignment.Near:
-                        top = 0;
-                        break;
-                    case StringAlignment.Center:
-                        top = tList[i].Control.Height / 2;
-                        break;
-                    case StringAlignment.Far:
-                        top = tList[i].Control.Height;
-                        break;
-                }
-                int x = this.Width * (tList[i].Point.X + left) / normal.Width;
-                int y = this.Height * (tList[i].Point.Y + top) / normal.Height;
-                tList[i].Control.Location = new Point(x - left, y - top);
+                _trans = value;
             }
         }
+
+        private bool _iMousemove = true;
+        /// <summary>
+        /// 移动窗体
+        /// </summary>
+        [Browsable(false), Description("移动窗体"), DefaultValue(true)]
+        public bool IMouseMove
+        {
+            get { return _iMousemove; }
+            set { _iMousemove = value; }
+        }
+
         #endregion
-    }
-    /// <summary>
-    /// 定位属性
-    /// </summary>
-    public class Locate
-    {
-        /// <summary>
-        /// 控件
-        /// </summary>
-        public Control Control { get; set; }
-
-        /// <summary>
-        /// 原坐标
-        /// </summary>
-        public Point Point { get; set; }
-
-        /// <summary>
-        /// x点对齐方式
-        /// </summary>
-        public StringAlignment XLocation { get; set; }
-
-        /// <summary>
-        /// y点对齐方式
-        /// </summary>
-        public StringAlignment YLocation { get; set; }
-
-        /// <summary>
-        /// 构造
-        /// </summary>
-        public Locate(Control control, Point point, StringAlignment xLocation, StringAlignment yLocation)
-        {
-            this.Control = control;
-            this.Point = point;
-            this.XLocation = xLocation;
-            this.YLocation = yLocation;
-        }
     }
 }

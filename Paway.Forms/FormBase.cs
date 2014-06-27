@@ -16,7 +16,7 @@ namespace Paway.Forms
     /// <summary>
     /// 窗体的基类，完成一部分共有的功能
     /// </summary>
-    public class FormBase : TForm, IControl
+    public class FormBase : TForm
     {
         #region 变量
         /// <summary>
@@ -79,7 +79,11 @@ namespace Paway.Forms
             this.UpdateStyles();
             this.Initialize();
             base.Padding = new Padding(1, 26, 1, 1);
-            this.TMouseMove(this);
+            InitMethod.Init(this);
+            if (IMouseMove)
+            {
+                this.TMouseMove(this);
+            }
         }
         #endregion
 
@@ -97,7 +101,7 @@ namespace Paway.Forms
         /// 指定窗体窗口如何显示
         /// </summary>
         [Description("指定窗体窗口如何显示"), DefaultValue(typeof(FormWindowState), "Normal")]
-        public virtual new FormWindowState WindowState
+        public override FormWindowState WindowState
         {
             get { return this._windowState; }
             set
@@ -778,7 +782,7 @@ namespace Paway.Forms
 
         #endregion
 
-        #region MyRegion
+        #region 将控件剪成圆角
         private int raw;
         /// <summary>
         /// 将控件剪成圆角
@@ -846,7 +850,7 @@ namespace Paway.Forms
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
-        public bool Contain(Point p)
+        public override bool Contain(Point p)
         {
             return this.SysBtnRect.Contains(p);
         }

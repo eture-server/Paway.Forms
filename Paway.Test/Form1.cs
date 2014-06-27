@@ -12,19 +12,18 @@ using System.Windows.Forms;
 
 namespace Paway.Test
 {
-    public partial class Form1 : Form
+    public partial class Form1 : QQForm
     {
         public Form1()
         {
             InitializeComponent();
-            toolClose.SelectedItemChanged += toolClose_SelectedItemChanged;
-            toolClose.EditClick += toolClose_EditClick;
-            BindingList<int> a = new BindingList<int>();
+            //toolClose.SelectedItemChanged += toolClose_SelectedItemChanged;
+            //toolClose.EditClick += toolClose_EditClick;
 
         }
         void toolClose_SelectedItemChanged(object sender, EventArgs e)
         {
-            this.Text = "选中：" + toolClose.SelectedItem.Text + "=>" + DateTime.Now.Second;
+            //this.Text = "选中：" + toolClose.SelectedItem.Text + "=>" + DateTime.Now.Second;
         }
 
         void toolClose_EditClick(object sender, EventArgs e)
@@ -39,16 +38,16 @@ namespace Paway.Test
         private void btSearch_Click(object sender, EventArgs e)
         {
             string dt = DateTime.Now.Second.ToString(); ;
-            toolClose.Items.Add(new ToolItem(dt) { Desc = dt });
+            //toolClose.Items.Add(new ToolItem(dt) { Desc = dt });
             //toolClose.Items[0].Text = "text2";
         }
 
         private void qqButton1_Click(object sender, EventArgs e)
         {
-            if (toolClose.SelectedItem != null)
-            {
-                toolClose.Items.Remove(toolClose.SelectedItem);
-            }
+            //if (toolClose.SelectedItem != null)
+            //{
+            //    toolClose.Items.Remove(toolClose.SelectedItem);
+            //}
         }
     }
 }
