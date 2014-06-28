@@ -78,11 +78,22 @@ namespace Paway.Forms
         /// </summary>
         [Description("Item 上显示的尾部描述信息"), DefaultValue(null)]
         public string EndDesc { get; set; }
+
+        private TProperties _color;
         /// <summary>
-        /// Item 当前默认颜色
+        /// 优先应用于项的背景色
         /// </summary>
-        [Description("Item 当前默认颜色")]
-        public Color Color { get; set; }
+        [DefaultValue(typeof(TProperties), "TColor")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public TProperties TColor
+        {
+            get
+            {
+                if (_color == null)
+                    _color = new TProperties();
+                return _color;
+            }
+        }
         /// <summary>
         /// 当前 Item 在 ToolBar 中的 Rectangle
         /// </summary>

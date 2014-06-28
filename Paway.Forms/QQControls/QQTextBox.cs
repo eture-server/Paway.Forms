@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Paway.Resource;
 using Paway.Helper;
 using System.Reflection;
+using System.Drawing.Design;
 
 namespace Paway.Forms
 {
@@ -183,6 +184,11 @@ namespace Paway.Forms
                 }
             }
         }
+        /// <summary>
+        /// 最小输入字符数
+        /// </summary>
+        [Description("最小输入字符数"), DefaultValue(0)]
+        public int RLength { get; set; }
         private bool _isTrans = false;
         /// <summary>
         /// 背景是否透明
@@ -328,6 +334,7 @@ namespace Paway.Forms
         /// <summary>
         /// 
         /// </summary>
+        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
         [Description("水印文字"), Category("自定义属性")]
         public virtual string WaterText
         {
@@ -428,6 +435,7 @@ namespace Paway.Forms
             this.BaseText.KeyUp += new KeyEventHandler(BaseText_KeyUp);
             this.BaseText.TextChanged += BaseText_TextChanged;
             this.BaseText.LostFocus += BaseText_LostFocus;
+            this.BaseText.MouseEnter += BaseText_MouseEnter;
         }
 
         /// <summary>
@@ -521,6 +529,22 @@ namespace Paway.Forms
         protected void BaseText_MouseLeave(object sender, EventArgs e)
         {
             this.MouseState = TMouseState.Leave;
+            if (string.IsNullOrEmpty(BaseText.Text))
+            {
+                this.ParentForm.SelectNextControl(this.ParentForm, true, false, false, true);
+            }
+        }
+        /// <summary>
+        /// 鼠标进入控件激活
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void BaseText_MouseEnter(object sender, EventArgs e)
+        {
+            if (this.ParentForm.ContainsFocus)
+            {
+                this.Focus();
+            }
         }
         /// <summary>
         /// 鼠标进入子TextBox
@@ -559,24 +583,27 @@ namespace Paway.Forms
         /// <param name="e"></param>
         void BaseText_LostFocus(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(BaseText.Text))
+            if (BaseText.TextLength < RLength)
             {
+                string result = null;
                 switch (_regexType)
                 {
                     case Helper.RegexType.Ip:
-                        error.SetError(this, "请输入Ip");
+                        result = "请输入{0}位Ip";
                         break;
                     case Helper.RegexType.Password:
-                        error.SetError(this, "请输入密码");
+                        result = "请输入{0}位密码";
                         break;
                     case Helper.RegexType.PosInt:
-                        error.SetError(this, "请输入一个正整数");
+                        result = "请输入{0}位正整数";
                         break;
                     case Helper.RegexType.Normal:
                     case Helper.RegexType.Custom:
-                        error.SetError(this, "请输入字符");
+                        result = "请输入{0}位字符";
                         break;
                 }
+                result = string.Format(result, RLength);
+                error.SetError(this, result);
                 return;
             }
             switch (_regexType)

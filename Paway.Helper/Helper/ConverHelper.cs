@@ -1117,7 +1117,7 @@ namespace Paway.Helper
                 }
             }
             sql = sql.TrimEnd(',');
-            sql = string.Format("{0} from {1}", sql, attrList[0].Table);
+            sql = string.Format("{0} from '{1}'", sql, attrList[0].Table);
             if (find != null)
             {
                 sql = string.Format("{0} where {1}", sql, find);
@@ -1134,7 +1134,7 @@ namespace Paway.Helper
             if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
             if (attrList[0].Key == null && attrList[0].Mark == null) throw new ArgumentException("没有指定主键或主列名称");
 
-            string sql = "delete from {0} where {1}=@{1}";
+            string sql = "delete from '{0}' where {1}=@{1}";
             sql = string.Format(sql, attrList[0].Table, attrList[0].Key ?? attrList[0].Mark);
             return sql;
         }
@@ -1219,7 +1219,7 @@ namespace Paway.Helper
             if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
             if (attrList[0].Key == null && attrList[0].Mark == null) throw new ArgumentException("没有指定主键或主列名称");
 
-            string sql = "if exists(select 0 from {1} where {0}=@{0})";
+            string sql = "if exists(select 0 from '{1}' where {0}=@{0})";
             sql = string.Format(sql, attrList[0].Key ?? attrList[0].Mark, attrList[0].Table);
 
             string update = null;

@@ -35,6 +35,7 @@
             this.toolAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.toolDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolClose = new Paway.Forms.ToolBar();
+            this.qqTextBox1 = new Paway.Forms.QQTextBox();
             this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -66,7 +67,6 @@
             this.toolClose.ICheckEvent = true;
             this.toolClose.IImageShow = false;
             this.toolClose.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem1.Color = System.Drawing.Color.Empty;
             toolItem1.First = "关闭系统";
             toolItem1.Text = "关闭系统";
             this.toolClose.Items.Add(toolItem1);
@@ -86,6 +86,19 @@
             this.toolClose.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
             this.toolClose.Trans = 150;
             // 
+            // qqTextBox1
+            // 
+            this.qqTextBox1.Icon = null;
+            this.qqTextBox1.IsPasswordChat = '\0';
+            this.qqTextBox1.Lines = new string[0];
+            this.qqTextBox1.Location = new System.Drawing.Point(133, 30);
+            this.qqTextBox1.Name = "qqTextBox1";
+            this.qqTextBox1.RegexType = Paway.Helper.RegexType.Normal;
+            this.qqTextBox1.SelectedText = "";
+            this.qqTextBox1.Size = new System.Drawing.Size(120, 24);
+            this.qqTextBox1.TabIndex = 14;
+            this.qqTextBox1.WaterText = "你好";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -95,6 +108,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(394, 275);
+            this.Controls.Add(this.qqTextBox1);
             this.Controls.Add(this.toolClose);
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Name = "Form1";
@@ -111,6 +125,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolAdd;
         private System.Windows.Forms.ToolStripMenuItem toolDelete;
         private Forms.ToolBar toolClose;
+        private Forms.QQTextBox qqTextBox1;
 
 
 

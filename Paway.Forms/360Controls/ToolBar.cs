@@ -586,7 +586,14 @@ namespace Paway.Forms
             {
                 case TMouseState.Normal:
                 case TMouseState.Leave:
-                    backColor = item.Color == Color.Empty ? TBackGround.ColorNormal : item.Color;
+                    if (!item.Enable)
+                    {
+                        backColor = Color.Gray;
+                    }
+                    else
+                    {
+                        backColor = item.TColor.ColorNormal == Color.Empty ? TBackGround.ColorNormal : item.TColor.ColorNormal;
+                    }
                     g.FillRectangle(new SolidBrush(backColor), item.Rectangle);
                     break;
                 case TMouseState.Move:
@@ -594,13 +601,13 @@ namespace Paway.Forms
                     DrawMoveBack(g, item);
                     break;
                 case TMouseState.Down:
-                    if (TBackGround.ColorDown == Color.Empty)
+                    backColor = item.TColor.ColorDown == Color.Empty ? TBackGround.ColorDown : item.TColor.ColorDown;
+                    if (backColor == Color.Empty)
                     {
                         g.DrawImage(this._pushedImage, item.Rectangle);
                     }
                     else
                     {
-                        backColor = TBackGround.ColorDown;
                         g.FillRectangle(new SolidBrush(backColor), item.Rectangle);
                     }
                     if (_isMultiple)
@@ -616,13 +623,13 @@ namespace Paway.Forms
         /// </summary>
         private void DrawMoveBack(Graphics g, ToolItem item)
         {
-            if (TBackGround.ColorMove == Color.Empty)
+            backColor = item.TColor.ColorMove == Color.Empty ? TBackGround.ColorMove : item.TColor.ColorMove;
+            if (backColor == Color.Empty)
             {
                 g.DrawImage(this._hoverImage, item.Rectangle);
             }
             else
             {
-                backColor = TBackGround.ColorMove;
                 g.FillRectangle(new SolidBrush(backColor), item.Rectangle);
             }
             IsContextMenu(g, item);
@@ -1146,7 +1153,7 @@ namespace Paway.Forms
         protected override void OnMouseEnter(EventArgs e)
         {
             base.OnMouseEnter(e);
-            if (this.ParentForm.ContainsFocus)
+            if (TScroll && this.ParentForm.ContainsFocus)
             {
                 this.Focus();
             }
@@ -1211,6 +1218,14 @@ namespace Paway.Forms
             TClickItem(0);
         }
         /// <summary>
+        /// 选中项
+        /// </summary>
+        public void TClickItem(ToolItem item)
+        {
+            int index = this.Items.GetIndexOfRange(item);
+            TClickItem(index);
+        }
+        /// <summary>
         /// 选中第index项
         /// </summary>
         public void TClickItem(int index)
@@ -1222,7 +1237,6 @@ namespace Paway.Forms
                 _selectedItem = null;
                 for (int i = 0; i < _items.Count; i++)
                 {
-                    if (i == index) continue;
                     InvaItem(_items[i], TMouseState.Normal);
                 }
             }
