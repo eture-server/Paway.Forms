@@ -67,14 +67,15 @@
             this.toolClose.ICheckEvent = true;
             this.toolClose.IImageShow = false;
             this.toolClose.ImageSize = new System.Drawing.Size(0, 0);
+            toolItem1.Desc = "15元/份";
             toolItem1.First = "关闭系统";
             toolItem1.Text = "关闭系统";
             this.toolClose.Items.Add(toolItem1);
-            this.toolClose.ItemSize = new System.Drawing.Size(120, 120);
+            this.toolClose.ItemSize = new System.Drawing.Size(163, 120);
             this.toolClose.ItemSpace = 5;
             this.toolClose.Location = new System.Drawing.Point(133, 69);
             this.toolClose.Name = "toolClose";
-            this.toolClose.Size = new System.Drawing.Size(120, 120);
+            this.toolClose.Size = new System.Drawing.Size(163, 120);
             this.toolClose.TabIndex = 13;
             this.toolClose.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
             this.toolClose.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(127)))), ((int)(((byte)(104)))));
@@ -83,7 +84,6 @@
             this.toolClose.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolClose.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolClose.TextFirst.ColorNormal = System.Drawing.Color.Black;
-            this.toolClose.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
             this.toolClose.Trans = 150;
             // 
             // qqTextBox1

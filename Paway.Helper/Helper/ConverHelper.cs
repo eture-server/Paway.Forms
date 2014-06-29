@@ -1148,7 +1148,7 @@ namespace Paway.Helper
             if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
             if (attrList[0].Key == null && attrList[0].Mark == null) throw new ArgumentException("没有指定主键或主列名称");
 
-            string sql = "update {0} set";
+            string sql = "update '{0}' set";
             sql = string.Format(sql, attrList[0].Table);
 
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
@@ -1205,7 +1205,7 @@ namespace Paway.Helper
             }
             insert = insert.TrimEnd(',');
             values = values.TrimEnd(',');
-            string sql = string.Format("insert into {0}({1}) values({2})", attrList[0].Table, insert, values);
+            string sql = string.Format("insert into '{0}'({1}) values({2})", attrList[0].Table, insert, values);
             sql = string.Format("{0};{1}", sql, getId);
             return sql;
         }
@@ -1248,7 +1248,7 @@ namespace Paway.Helper
             update = update.TrimEnd(',');
             insert = insert.TrimEnd(',');
             values = values.TrimEnd(',');
-            sql = string.Format("{0} update {1} set {2} where {3}=@{3} else insert into {1}({4}) values({5})",
+            sql = string.Format("{0} update '{1}' set {2} where {3}=@{3} else insert into {1}({4}) values({5})",
                 sql, attrList[0].Table, update, attrList[0].Key ?? attrList[0].Mark, insert, values);
 
             sql = string.Format("{0};{1}", sql, getid);

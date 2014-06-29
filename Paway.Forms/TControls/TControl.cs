@@ -135,6 +135,66 @@ namespace Paway.Forms
 
         #endregion
 
+        #region 固定窗体背景 - 同TForm
+        private bool _fixedBackground = false;
+        /// <summary>
+        /// 固定窗体背景
+        /// </summary>
+        [Category("Appearance"), Description("固定窗体背景"), DefaultValue(false)]
+        public bool TFixedBackground
+        {
+            get { return _fixedBackground; }
+            set { _fixedBackground = value; }
+        }
+        /// <summary>
+        /// 处理滚动条事件
+        /// </summary>
+        /// <param name="se"></param>
+        protected override void OnScroll(ScrollEventArgs se)
+        {
+            if (_fixedBackground)
+            {
+                // 执行固定背景的操作
+                if (se.Type == ScrollEventType.ThumbTrack)
+                {
+                    // 若滚动框正在移动，解除对控件用户界面的锁定
+                    NativeMethods.LockWindowUpdate(IntPtr.Zero);
+                    // 立即重新绘制控件所有的用户界面
+                    this.Refresh();
+                    // 锁定控件的用户界面
+                    NativeMethods.LockWindowUpdate(this.Handle);
+                }
+                else
+                {
+                    // 解除对控件用户界面的锁定
+                    NativeMethods.LockWindowUpdate(IntPtr.Zero);
+                    // 声明控件的所有的内容无效，但不立即重新绘制
+                    this.Invalidate();
+                }
+            }
+            base.OnScroll(se);
+        }
+        /// <summary>
+        /// 处理鼠标滚轮事件
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            if (_fixedBackground)
+            {
+                NativeMethods.LockWindowUpdate(this.Handle);
+                base.OnMouseWheel(e);
+                NativeMethods.LockWindowUpdate(IntPtr.Zero);
+                this.Invalidate();
+            }
+            else
+            {
+                base.OnMouseWheel(e);
+            }
+        }
+
+        #endregion
+
         #region 动态星星
         private BackgroundWorker timer;
         /// <summary>
