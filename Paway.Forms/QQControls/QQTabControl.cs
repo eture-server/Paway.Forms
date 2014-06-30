@@ -165,8 +165,11 @@ namespace Paway.Forms
             {
                 if (e.Button == MouseButtons.Left && this._btnArrowRect.Contains(e.Location))
                 {
-                    this._isFocus = true;
-                    base.Invalidate(this._btnArrowRect);
+                    if (!this._isFocus)
+                    {
+                        this._isFocus = true;
+                        base.Invalidate(this._btnArrowRect);
+                    }
                 }
             }
         }

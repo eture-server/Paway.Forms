@@ -50,26 +50,6 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 事件对像
-        /// <summary>
-        /// 当选中项的索引发生改变时事件的 Key
-        /// </summary>
-        private static readonly object EventSelectedIndexChanged = new object();
-        /// <summary>
-        /// 当选中项的发生改变时事件的 Key
-        /// </summary>
-        private static readonly object EventSelectedItemChanged = new object();
-        /// <summary>
-        /// 当单击项时事件的 Key
-        /// </summary>
-        private static readonly object EventItemClick = new object();
-        /// <summary>
-        /// 当单击项编辑时事件的 Key
-        /// </summary>
-        private static readonly object EventEditClick = new object();
-
-        #endregion
-
         #region 构造函数
         /// <summary>
         /// 初始化 Paway.Forms.ToolBar 新的实例。
@@ -78,14 +58,12 @@ namespace Paway.Forms
         {
             this.SetStyle(
                ControlStyles.ResizeRedraw |
-               ControlStyles.Selectable |
-               ControlStyles.UserPaint, true);
+               ControlStyles.Selectable, true);
             this.SetStyle(ControlStyles.Opaque, false);
             this.UpdateStyles();
             InitializeComponent();
+            Progress();
             CustomScroll();
-            timer.Interval = 30;
-            this.timer.Tick += timer_Tick;
         }
 
         #endregion
@@ -301,17 +279,17 @@ namespace Paway.Forms
         /// <summary>
         /// 多选开关
         /// </summary>
-        private bool _isMultiple = false;
+        private bool _iMultiple = false;
         /// <summary>
         /// 多选开关
         /// </summary>
         [Description("多选开关"), DefaultValue(false)]
-        public bool IsMultiple
+        public bool IMultiple
         {
-            get { return this._isMultiple; }
+            get { return this._iMultiple; }
             set
             {
-                this._isMultiple = value;
+                this._iMultiple = value;
                 this.Invalidate(this.ClientRectangle);
             }
         }
@@ -442,6 +420,81 @@ namespace Paway.Forms
         #endregion
 
         #region 事件
+        #region 事件对像
+        /// <summary>
+        /// 当选中项的索引发生改变时事件的 Key
+        /// </summary>
+        private static readonly object EventSelectedIndexChanged = new object();
+        /// <summary>
+        /// 当选中项的发生改变时事件的 Key
+        /// </summary>
+        private static readonly object EventSelectedItemChanged = new object();
+        /// <summary>
+        /// 当单击项时事件的 Key
+        /// </summary>
+        private static readonly object EventItemClick = new object();
+        /// <summary>
+        /// 当单击项编辑时事件的 Key
+        /// </summary>
+        private static readonly object EventEditClick = new object();
+
+        #endregion
+
+        #region 激发事件的方法
+        /// <summary>
+        /// 当选择的 Item 发生改变时激发。
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="e">包含事件数据的 System.EventArgs。</param>
+        public virtual void OnSelectedItemChanged(ToolItem item, EventArgs e)
+        {
+            if (!item.Enable) return;
+            EventHandler handler = base.Events[EventSelectedItemChanged] as EventHandler;
+            if (handler != null)
+                handler(this, e);
+        }
+        /// <summary>
+        /// 当选择的 Item 索引发生改变时激发。
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="e">包含事件数据的 System.EventArgs。</param>
+        public virtual void OnSelectedIndexChanged(ToolItem item, EventArgs e)
+        {
+            if (!item.Enable) return;
+            EventHandler handler = base.Events[EventSelectedIndexChanged] as EventHandler;
+            if (handler != null)
+                handler(this, e);
+        }
+        /// <summary>
+        /// 当单击项时激发。
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="e">包含事件数据的 System.EventArgs。</param>
+        public virtual void OnItemClick(ToolItem item, EventArgs e)
+        {
+            if (!item.Enable) return;
+            if (_iCheckEvent)
+            {
+                EventHandler handler = base.Events[EventItemClick] as EventHandler;
+                if (handler != null)
+                    handler(item, e);
+            }
+        }
+        /// <summary>
+        /// 当编辑项时激发。
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="e">包含事件数据的 System.EventArgs。</param>
+        public virtual void OnEditClick(ToolItem item, EventArgs e)
+        {
+            if (!item.Enable) return;
+            EventHandler handler = base.Events[EventEditClick] as EventHandler;
+            if (handler != null)
+                handler(item, e);
+        }
+
+        #endregion
+
         /// <summary>
         /// 当选中项的索引发生改变时
         /// </summary>
@@ -610,7 +663,7 @@ namespace Paway.Forms
                     {
                         g.FillRectangle(new SolidBrush(backColor), item.Rectangle);
                     }
-                    if (_isMultiple)
+                    if (_iMultiple)
                     {
                         g.DrawImage(this._selectImage, new Rectangle(item.Rectangle.Right - this._selectImage.Width, item.Rectangle.Bottom - this._selectImage.Height, this._selectImage.Width, this._selectImage.Height));
                     }
@@ -980,7 +1033,7 @@ namespace Paway.Forms
                 foreach (ToolItem item in this.Items)
                 {
                     InvaRectDesc(item, TMouseState.Normal);
-                    if ((_iCheckEvent && !_isMultiple) || item.MouseState != TMouseState.Down)
+                    if ((_iCheckEvent && !_iMultiple) || item.MouseState != TMouseState.Down)
                     {
                         InvaItem(item, TMouseState.Normal);
                     }
@@ -1056,7 +1109,7 @@ namespace Paway.Forms
                 else
                 {
                     InvaRectDesc(item, TMouseState.Normal);
-                    if (_isMultiple)
+                    if (_iMultiple)
                     {
                         _selectedItem = null;
                         if (item.MouseState != TMouseState.Down)
@@ -1074,7 +1127,7 @@ namespace Paway.Forms
                     }
                 }
             }
-            else if (!_isMultiple && Contain(point) && !ContainDesc(point))
+            else if (!_iMultiple && Contain(point) && !ContainDesc(point))
             {
                 InvaItem(item, TMouseState.Normal);
             }
@@ -1158,6 +1211,21 @@ namespace Paway.Forms
                 this.Focus();
             }
         }
+        /// <summary>
+        /// 数据源更新-  BindingList提供
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void _items_ListChanged(object sender, ListChangedEventArgs e)
+        {
+            if (this.ParentForm != null)
+            {
+                if (LastItemCount != Items.Count)
+                {
+                    TRefresh();
+                }
+            }
+        }
 
         #endregion
 
@@ -1213,7 +1281,7 @@ namespace Paway.Forms
         /// <summary>
         /// 选中第一项
         /// </summary>
-        public void TFirstItem()
+        public void TClickFirst()
         {
             TClickItem(0);
         }
@@ -1232,7 +1300,7 @@ namespace Paway.Forms
         {
             if (this._items.Count == 0) return;
             if (this._items.Count <= index) return;
-            if (!_isMultiple)
+            if (!_iMultiple)
             {
                 _selectedItem = null;
                 for (int i = 0; i < _items.Count; i++)
@@ -1315,80 +1383,11 @@ namespace Paway.Forms
         /// </summary>
         public void TRefresh()
         {
-            if (LastItemCount != Items.Count)
-            {
-                this.TPaint(null);
-                UpdateScroll(true, Items.Count > LastItemCount);
-                LastItemCount = Items.Count;
-                this.Invalidate(this.ClientRectangle);
-            }
+            this.TPaint(null);
+            UpdateScroll(true, Items.Count > LastItemCount);
+            LastItemCount = Items.Count;
+            this.Invalidate(this.ClientRectangle);
         }
-        #endregion
-
-        #region TRefresh
-        void _items_ListChanged(object sender, ListChangedEventArgs e)
-        {
-            if (this.ParentForm != null)
-            {
-                TRefresh();
-            }
-        }
-
-        #endregion
-
-        #region 激发事件的方法
-        /// <summary>
-        /// 当选择的 Item 发生改变时激发。
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="e">包含事件数据的 System.EventArgs。</param>
-        public virtual void OnSelectedItemChanged(ToolItem item, EventArgs e)
-        {
-            if (!item.Enable) return;
-            EventHandler handler = base.Events[EventSelectedItemChanged] as EventHandler;
-            if (handler != null)
-                handler(this, e);
-        }
-        /// <summary>
-        /// 当选择的 Item 索引发生改变时激发。
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="e">包含事件数据的 System.EventArgs。</param>
-        public virtual void OnSelectedIndexChanged(ToolItem item, EventArgs e)
-        {
-            if (!item.Enable) return;
-            EventHandler handler = base.Events[EventSelectedIndexChanged] as EventHandler;
-            if (handler != null)
-                handler(this, e);
-        }
-        /// <summary>
-        /// 当单击项时激发。
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="e">包含事件数据的 System.EventArgs。</param>
-        public virtual void OnItemClick(ToolItem item, EventArgs e)
-        {
-            if (!item.Enable) return;
-            if (_iCheckEvent)
-            {
-                EventHandler handler = base.Events[EventItemClick] as EventHandler;
-                if (handler != null)
-                    handler(item, e);
-            }
-        }
-        /// <summary>
-        /// 当编辑项时激发。
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="e">包含事件数据的 System.EventArgs。</param>
-        public virtual void OnEditClick(ToolItem item, EventArgs e)
-        {
-            if (!item.Enable) return;
-            EventHandler handler = base.Events[EventEditClick] as EventHandler;
-            if (handler != null)
-                handler(item, e);
-        }
-
         #endregion
 
         #region 扩展方法 - 动态显示项的图像
@@ -1409,34 +1408,44 @@ namespace Paway.Forms
             set { pictureBox1.Image = value; }
         }
         /// <summary>
+        /// 初始化动态方法
+        /// </summary>
+        private void Progress()
+        {
+            timer.Interval = 30;
+            this.timer.Tick += timer_Tick;
+        }
+        /// <summary>
         /// 动态显示项的图像
         /// </summary>
         /// <param name="text">项文本</param>
         /// <param name="newText">项新文本</param>
-        public void ProgressStart(string text, string newText = null)
+        public void ProgressItem(string text, string newText = null)
         {
             for (int i = 0; i < _items.Count; i++)
             {
                 if (_items[i].Text == text)
                 {
-                    this.pIndex = i;
+                    ProgressItem(i, newText);
                     break;
                 }
             }
-            ProgressStart(this.pIndex, newText);
         }
         /// <summary>
         /// 动态显示项的图像
         /// </summary>
         /// <param name="index">项索引</param>
-        /// <param name="text">项文本</param>
-        public void ProgressStart(int index, string text = null)
+        /// <param name="newText">项新文本</param>
+        public void ProgressItem(int index, string newText = null)
         {
-            timer.Enabled = true;
             this.pIndex = index;
-            if (!string.IsNullOrEmpty(text)) this._items[pIndex].Text = text;
+            if (!string.IsNullOrEmpty(newText)) this._items[pIndex].Text = newText;
             image = this._items[pIndex].Image;
-            this._items[pIndex].Image = pictureBox1.Image;
+            if (pictureBox1.Image != null)
+            {
+                this._items[pIndex].Image = pictureBox1.Image;
+            }
+            timer.Enabled = true;
         }
         /// <summary>
         /// 停止动态显示

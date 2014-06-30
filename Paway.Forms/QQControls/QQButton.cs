@@ -146,8 +146,11 @@ namespace Paway.Forms
             get { return base.Text; }
             set
             {
-                base.Text = value;
-                base.Invalidate(this.TextRect);
+                if (base.Text != value)
+                {
+                    base.Text = value;
+                    base.Invalidate(this.TextRect);
+                }
             }
         }
         /// <summary>

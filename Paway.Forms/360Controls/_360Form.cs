@@ -67,8 +67,11 @@ namespace Paway.Forms
             get { return this._sysButtonPos; }
             set
             {
-                this._sysButtonPos = value;
-                this.Invalidate(this.SysBtnRect);
+                if (this._sysButtonPos != value)
+                {
+                    this._sysButtonPos = value;
+                    this.Invalidate(this.SysBtnRect);
+                }
             }
         }
         /// <summary>
@@ -202,8 +205,11 @@ namespace Paway.Forms
             get { return this._titleBarMenuState; }
             set
             {
-                this._titleBarMenuState = value;
-                this.Invalidate(this.TitleBarMenuRect);
+                if (this._titleBarMenuState != value)
+                {
+                    this._titleBarMenuState = value;
+                    this.Invalidate(this.TitleBarMenuRect);
+                }
             }
         }
         /// <summary>

@@ -126,6 +126,15 @@ namespace Paway.Forms
             get { return _enable; }
             set { _enable = value; }
         }
+        /// <summary>
+        /// Item 当前选中状态
+        /// </summary>
+        [Browsable(false), Description("Item 当前选中状态"), DefaultValue(true)]
+        public bool Selete
+        {
+            get { return MouseState == TMouseState.Down; }
+            set { MouseState = value ? TMouseState.Down : TMouseState.Normal; }
+        }
 
         #region 构造
         /// <summary>

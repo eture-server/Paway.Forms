@@ -226,6 +226,8 @@
     <Content Include="alog.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\i1_trans.png" />
+    <None Include="Resources\i1.jpg" />
     <None Include="Resources\1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

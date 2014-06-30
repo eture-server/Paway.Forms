@@ -94,8 +94,11 @@ namespace Paway.Forms
             get { return this._notifyText; }
             set
             {
-                this._notifyText = value;
-                this.Invalidate(this.NotifyTextRect);
+                if (this._notifyText != value)
+                {
+                    this._notifyText = value;
+                    this.Invalidate(this.NotifyTextRect);
+                }
             }
         }
         /// <summary>
@@ -111,8 +114,11 @@ namespace Paway.Forms
             get { return this._notifyForeColor; }
             set
             {
-                this._notifyForeColor = value;
-                this.Invalidate(this.NotifyTextRect);
+                if (this._notifyForeColor != value)
+                {
+                    this._notifyForeColor = value;
+                    this.Invalidate(this.NotifyTextRect);
+                }
             }
         }
         /// <summary>
@@ -128,8 +134,11 @@ namespace Paway.Forms
             get { return this._notifyFont; }
             set
             {
-                this._notifyFont = value;
-                this.Invalidate(this.NotifyTextRect);
+                if (this._notifyFont != value)
+                {
+                    this._notifyFont = value;
+                    this.Invalidate(this.NotifyTextRect);
+                }
             }
         }
         /// <summary>

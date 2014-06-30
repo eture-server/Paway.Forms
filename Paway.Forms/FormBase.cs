@@ -171,8 +171,11 @@ namespace Paway.Forms
             get { return this._showIcon; }
             set
             {
-                this._showIcon = value;
-                base.Invalidate(this.TitleBarRect);
+                if (this._showIcon != value)
+                {
+                    this._showIcon = value;
+                    base.Invalidate(this.TitleBarRect);
+                }
             }
         }
         /// <summary>
@@ -183,8 +186,11 @@ namespace Paway.Forms
             get { return base.Text; }
             set
             {
-                base.Text = value;
-                base.Invalidate(this.TitleBarRect);
+                if (base.Text != value)
+                {
+                    base.Text = value;
+                    base.Invalidate(this.TitleBarRect);
+                }
             }
         }
         /// <summary>
@@ -195,8 +201,11 @@ namespace Paway.Forms
             get { return _textShow; }
             set
             {
-                _textShow = value;
-                base.Invalidate(this.TitleBarRect);
+                if (this._textShow != value)
+                {
+                    this._textShow = value;
+                    base.Invalidate(this.TitleBarRect);
+                }
             }
         }
 
@@ -209,8 +218,11 @@ namespace Paway.Forms
             get { return this._sysButton; }
             set
             {
-                this._sysButton = value;
-                base.Invalidate(this.TitleBarRect);
+                if (this._sysButton != value)
+                {
+                    this._sysButton = value;
+                    base.Invalidate(this.TitleBarRect);
+                }
             }
         }
         /// <summary>
@@ -284,8 +296,11 @@ namespace Paway.Forms
             get { return this._closeState; }
             set
             {
-                this._closeState = value;
-                base.Invalidate(this.CloseRect);
+                if (this._closeState != value)
+                {
+                    this._closeState = value;
+                    base.Invalidate(this.CloseRect);
+                }
             }
         }
         /// <summary>
@@ -297,8 +312,11 @@ namespace Paway.Forms
             get { return this._maxState; }
             set
             {
-                this._maxState = value;
-                base.Invalidate(this.MaxRect);
+                if (this._maxState != value)
+                {
+                    this._maxState = value;
+                    base.Invalidate(this.MaxRect);
+                }
             }
         }
         /// <summary>
@@ -310,8 +328,11 @@ namespace Paway.Forms
             get { return this._minState; }
             set
             {
-                this._minState = value;
-                base.Invalidate(this.MiniRect);
+                if (this._minState != value)
+                {
+                    this._minState = value;
+                    base.Invalidate(this.MiniRect);
+                }
             }
         }
 
