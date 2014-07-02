@@ -25,31 +25,41 @@ namespace Paway.Forms
         public AboutForm()
         {
             InitializeComponent();
+            //输出软件名称和版本号
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            Version(assembly);
+            lbDesc.Text = null;
         }
 
         /// <summary>
         /// 重置显示描述
         /// </summary>
         /// <param name="desc"></param>
-        public void ReSet(string desc)
+        public void ReDescription(string desc)
         {
             lbDesc.Text = desc;
         }
-
         /// <summary>
+        /// 显示引用程序集版本
         /// </summary>
-        /// <param name="e"></param>
-        protected override void OnLoad(EventArgs e)
+        /// <param name="type"></param>
+        public void ReVersion(Type type)
         {
-            base.OnLoad(e);
-            //输出软件名称和版本号
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            Assembly assembly = Assembly.GetAssembly(type);
+            Version(assembly);
+        }
+
+        private void Version(Assembly assembly = null)
+        {
             AssemblyTitleAttribute attrTitle = Attribute.GetCustomAttribute(assembly, typeof(AssemblyTitleAttribute)) as AssemblyTitleAttribute;
             AssemblyCopyrightAttribute attrCopyright = Attribute.GetCustomAttribute(assembly, typeof(AssemblyCopyrightAttribute)) as AssemblyCopyrightAttribute;
             ProcessorArchitecture plat = assembly.GetName().ProcessorArchitecture;
-            lbTitle.Text = string.Format("Platform:{0}", plat == ProcessorArchitecture.MSIL ? "Any" : plat.ToString());
-            lbTitle.Text = string.Format("{0}\r\n\r\n{1} v{2} ({3})", lbTitle.Text, attrTitle.Title, assembly.GetName().Version, Environment.MachineName);
-            lbTitle.Text = string.Format("{0}\r\n\r\n{1}", lbTitle.Text, attrCopyright.Copyright.Replace("\u00A9", "(C)"));
+            if (lbPlatform.Text == "<Platform>")
+            {
+                lbCopyright.Text = string.Format("{0}", attrCopyright.Copyright.Replace("\u00A9", "(C)"));
+            }
+            lbPlatform.Text = string.Format("Platform:{0}", plat == ProcessorArchitecture.MSIL ? "Any" : plat.ToString());
+            lbVersion.Text = string.Format("{0} v{1} ({2})", attrTitle.Title, assembly.GetName().Version, Environment.MachineName);
         }
 
         /// <summary>

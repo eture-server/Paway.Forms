@@ -96,11 +96,11 @@ namespace Paway.Forms
             //绑定字段
             object obj = this.Items[e.Index];
             var type = obj.GetType();
-            string str = null;
+            object str = null;
             if (obj is DataRowView)
             {
                 DataRowView dr = obj as DataRowView;
-                str = dr[this.DisplayMember].ToString();
+                str = dr[this.DisplayMember];
             }
             else
             {
@@ -111,14 +111,14 @@ namespace Paway.Forms
                     {
                         if (properties[i].Name == this.DisplayMember)
                         {
-                            str = properties[i].GetValue(obj).ToString();
+                            str = properties[i].GetValue(obj);
                             break;
                         }
                     }
                 }
                 else
                 {
-                    str = this.Items[e.Index].ToString();
+                    str = this.Items[e.Index];
                 }
             }
             //选中项ComboBoxEdit
@@ -141,7 +141,7 @@ namespace Paway.Forms
             //g.DrawImage(ico, new Point(rect.Left, rect.Top));
             //在当前项图形表面上划上当前Item的文本
             //g.DrawString(tempString, font, new SolidBrush(Color.Black), rect.Left + ico.Size.Width, rect.Top);
-            e.Graphics.DrawString(str, font, brush, rect, DrawParam.VerticalString);
+            e.Graphics.DrawString(str == null ? null : str.ToString(), font, brush, rect, DrawParam.VerticalString);
             //将绘制聚焦框
             e.DrawFocusRectangle();
         }

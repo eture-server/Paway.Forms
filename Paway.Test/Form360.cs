@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Paway.Forms;
 using Paway.Forms.Metro;
+using System.Reflection;
 
 namespace Paway.Test
 {
@@ -34,7 +35,7 @@ namespace Paway.Test
         void tsmAbout_Click(object sender, EventArgs e)
         {
             AboutForm about = new AboutForm();
-            about.ReSet("hello");
+            about.ReVersion(MethodBase.GetCurrentMethod().DeclaringType);
             about.ShowDialog(this);
         }
 

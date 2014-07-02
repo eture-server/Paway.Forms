@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using System.Xml;
 using Paway.Test.Properties;
 using DotNetSpeech;
+using System.Reflection;
 
 namespace Paway.Test
 {
@@ -122,7 +123,7 @@ namespace Paway.Test
             base.OnShown(e);
             this.bt360.Click += delegate { new Form360().Show(); };
             this.btQQ.Click += delegate { new FormQQ().ShowDialog(this); };
-            this.btAbout.Click += delegate { new AboutForm().ShowDialog(); };
+            this.btAbout.Click += btAbout_Click;
             this.btGridView.Click += delegate { new FormGridView().Show(); };
             this.btImage.Click += btImage_Click;
             toolBar2.ItemClick += toolBar2_ItemClick;
@@ -131,6 +132,13 @@ namespace Paway.Test
             this.tbCat.MouseEnter += tbCat_MouseEnter;
             this.tbCat.MouseLeave += tbCat_MouseLeave;
             this.btTTsRead.Click += btTTsRead_Click;
+        }
+
+        void btAbout_Click(object sender, EventArgs e)
+        {
+            AboutForm about = new AboutForm();
+            //about.ReVersion(MethodBase.GetCurrentMethod().DeclaringType);
+            about.ShowDialog(this);
         }
 
         void btTTsRead_Click(object sender, EventArgs e)
