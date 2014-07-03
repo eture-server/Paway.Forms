@@ -992,7 +992,7 @@ namespace Paway.Forms
                 point.Y -= BodyBounds.Y;
                 foreach (ToolItem item in this.Items)
                 {
-                    if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
+                    if (item.Rectangle.Contains(point) && (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point)))
                     {
                         if (item.IMouseState != TMouseState.Down)
                         {
@@ -1585,12 +1585,12 @@ namespace Paway.Forms
             if (!_scroll) return;
             if (_vScroll.Visible)
             {
-                int value = _vScroll.Value - e.Delta * _vScroll.Maximum / 10 / 120;
+                int value = _vScroll.Value - e.Delta * this.ItemSize.Height / 2 / 120;
                 FixScroll(value);
             }
             else if (_hScroll.Visible)
             {
-                int value = _hScroll.Value - e.Delta * _hScroll.Maximum / 10 / 120;
+                int value = _hScroll.Value - e.Delta * this.ItemSize.Width / 2 / 120;
                 FixScroll(value);
             }
             base.OnMouseWheel(e);

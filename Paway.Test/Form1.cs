@@ -31,10 +31,10 @@ namespace Paway.Test
             control.Dock = DockStyle.Fill;
             this.Controls.Add(control);
 
-            this.pictureBox1.Image = Resources.process;
-            this.BackgroundImage = pictureBox1.Image;
-            this.timer.Tick += timer_Tick;
-            timer.Enabled = true;
+            //this.pictureBox1.Image = Resources.process;
+            //this.BackgroundImage = pictureBox1.Image;
+            //this.timer.Tick += timer_Tick;
+            //timer.Enabled = true;
         }
 
         void timer_Tick(object sender, EventArgs e)

@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.toolDelete = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,18 +50,18 @@
             this.toolAdd,
             this.toolDelete});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(99, 48);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(101, 48);
             // 
             // toolAdd
             // 
             this.toolAdd.Name = "toolAdd";
-            this.toolAdd.Size = new System.Drawing.Size(98, 22);
+            this.toolAdd.Size = new System.Drawing.Size(100, 22);
             this.toolAdd.Text = "添加";
             // 
             // toolDelete
             // 
             this.toolDelete.Name = "toolDelete";
-            this.toolDelete.Size = new System.Drawing.Size(98, 22);
+            this.toolDelete.Size = new System.Drawing.Size(100, 22);
             this.toolDelete.Text = "删除";
             // 
             // pictureBox1
@@ -105,17 +107,26 @@
             this.toolClose.ICheckEvent = true;
             this.toolClose.IImageShow = false;
             this.toolClose.ImageSize = new System.Drawing.Size(0, 0);
+            toolItem1.ContextMenuStrip = this.contextMenuStrip2;
             toolItem1.Desc = "x1";
             toolItem1.First = "World";
             toolItem1.HeadDesc = "hello";
             toolItem1.Selete = false;
             toolItem1.Text = "World";
+            toolItem2.ContextMenuStrip = this.contextMenuStrip2;
+            toolItem2.Desc = "x2";
+            toolItem2.First = "呵呵";
+            toolItem2.Selete = false;
+            toolItem2.Text = "呵呵";
+            toolItem3.Selete = false;
             this.toolClose.Items.Add(toolItem1);
+            this.toolClose.Items.Add(toolItem2);
+            this.toolClose.Items.Add(toolItem3);
             this.toolClose.ItemSize = new System.Drawing.Size(120, 120);
             this.toolClose.ItemSpace = 5;
-            this.toolClose.Location = new System.Drawing.Point(99, 109);
+            this.toolClose.Location = new System.Drawing.Point(33, 109);
             this.toolClose.Name = "toolClose";
-            this.toolClose.Size = new System.Drawing.Size(120, 120);
+            this.toolClose.Size = new System.Drawing.Size(170, 150);
             this.toolClose.TabIndex = 29;
             this.toolClose.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
             this.toolClose.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(127)))), ((int)(((byte)(104)))));
@@ -135,6 +146,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
+            this.BackgroundImage = global::Paway.Test.Properties.Resources.i1;
             this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(318, 275);
             this.Controls.Add(this.toolClose);
