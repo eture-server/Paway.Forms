@@ -35,7 +35,6 @@ namespace Paway.Test
         void tsmAbout_Click(object sender, EventArgs e)
         {
             AboutForm about = new AboutForm();
-            about.ReVersion(MethodBase.GetCurrentMethod().DeclaringType);
             about.ShowDialog(this);
         }
 

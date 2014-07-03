@@ -27,8 +27,7 @@ namespace Paway.Forms
             InitializeComponent();
             //输出软件名称和版本号
             Assembly assembly = Assembly.GetExecutingAssembly();
-            Version(assembly);
-            lbDesc.Text = null;
+            lbDesc.Text = "宁波欢迎您";
         }
 
         /// <summary>
@@ -39,27 +38,29 @@ namespace Paway.Forms
         {
             lbDesc.Text = desc;
         }
-        /// <summary>
-        /// 显示引用程序集版本
-        /// </summary>
-        /// <param name="type"></param>
-        public void ReVersion(Type type)
-        {
-            Assembly assembly = Assembly.GetAssembly(type);
-            Version(assembly);
-        }
 
-        private void Version(Assembly assembly = null)
+        /// <summary>
+        /// 输出软件名称和版本号
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnLoad(EventArgs e)
         {
-            AssemblyTitleAttribute attrTitle = Attribute.GetCustomAttribute(assembly, typeof(AssemblyTitleAttribute)) as AssemblyTitleAttribute;
-            AssemblyCopyrightAttribute attrCopyright = Attribute.GetCustomAttribute(assembly, typeof(AssemblyCopyrightAttribute)) as AssemblyCopyrightAttribute;
-            ProcessorArchitecture plat = assembly.GetName().ProcessorArchitecture;
-            if (lbPlatform.Text == "<Platform>")
+            base.OnLoad(e);
+            Assembly assembly = null;
+            if (this.Owner == null)
             {
-                lbCopyright.Text = string.Format("{0}", attrCopyright.Copyright.Replace("\u00A9", "(C)"));
+                assembly = Assembly.GetExecutingAssembly();
             }
+            else
+            {
+                assembly = Assembly.GetAssembly(this.Owner.GetType());
+            }
+            AssemblyTitleAttribute attrTitle = Attribute.GetCustomAttribute(assembly, typeof(AssemblyTitleAttribute)) as AssemblyTitleAttribute;
+            AssemblyCopyrightAttribute attrCopyright = Attribute.GetCustomAttribute(Assembly.GetExecutingAssembly(), typeof(AssemblyCopyrightAttribute)) as AssemblyCopyrightAttribute;
+            ProcessorArchitecture plat = assembly.GetName().ProcessorArchitecture;
             lbPlatform.Text = string.Format("Platform:{0}", plat == ProcessorArchitecture.MSIL ? "Any" : plat.ToString());
             lbVersion.Text = string.Format("{0} v{1} ({2})", attrTitle.Title, assembly.GetName().Version, Environment.MachineName);
+            lbCopyright.Text = string.Format("{0}", attrCopyright.Copyright.Replace("\u00A9", "(C)"));
         }
 
         /// <summary>
