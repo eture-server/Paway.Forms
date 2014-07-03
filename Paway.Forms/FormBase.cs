@@ -79,7 +79,6 @@ namespace Paway.Forms
             this.UpdateStyles();
             this.Initialize();
             base.Padding = new Padding(1, 26, 1, 1);
-            InitMethod.Init(this);
             if (IMouseMove)
             {
                 this.TMouseMove(this);

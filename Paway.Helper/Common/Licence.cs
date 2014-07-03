@@ -59,6 +59,7 @@ namespace Paway.Helper
         /// <param name="days"></param>
         public static bool Checking(int days)
         {
+            EncryptHelper.EncryptMD5(days.ToString());
             FileInfo file = new FileInfo(Assembly.GetExecutingAssembly().Location);
             TimeSpan ts = DateTime.Now.Subtract(file.LastWriteTime);
             if (ts < TimeSpan.Zero || ts > new TimeSpan(days, 0, 0, 0))

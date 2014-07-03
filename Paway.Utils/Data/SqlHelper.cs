@@ -19,9 +19,9 @@ namespace Paway.Utils.Data
         /// 初始化
         /// </summary>
         public SqlHelper()
+            : base(typeof(SqlConnection), typeof(SqlCommand), typeof(SqlParameter))
         {
             base.GetId = "select @@IDENTITY Id";
-            this.InitType(typeof(SqlConnection), typeof(SqlCommand), typeof(SqlParameter));
         }
         /// <summary>
         /// 传入连接字符

@@ -34,6 +34,7 @@ namespace Paway.Utils.Data
         /// </summary>
         protected string ConnString { get; set; }
 
+        #region 构造.加载数据类型
         private Type connType;
         private Type cmdType;
         private Type paramType;
@@ -43,12 +44,16 @@ namespace Paway.Utils.Data
         /// <param name="connType">连接类型</param>
         /// <param name="cmdType">执行</param>
         /// <param name="paramType">参数</param>
-        protected void InitType(Type connType, Type cmdType, Type paramType)
+        protected DataBase(Type connType, Type cmdType, Type paramType)
         {
+            if (!Licence.Checking()) return;
+
             this.connType = connType;
             this.cmdType = cmdType;
             this.paramType = paramType;
         }
+
+        #endregion
 
         #region 扩展.方法
         /// <summary>

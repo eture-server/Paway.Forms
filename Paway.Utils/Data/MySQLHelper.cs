@@ -20,9 +20,9 @@ namespace Paway.Utils.Data
         /// 没有
         /// </summary>
         public MySQLHelper()
+            : base(typeof(MySQLConnection), typeof(MySQLCommand), typeof(MySQLParameter))
         {
             base.GetId = "SELECT LAST_INSERT_ID() Id";
-            this.InitType(typeof(MySQLConnection), typeof(MySQLCommand), typeof(MySQLParameter));
         }
         /// <summary>
         /// 传入连接字符

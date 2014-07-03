@@ -17,9 +17,9 @@ namespace Paway.Utils.Data
         /// 初始化
         /// </summary>
         public SQLiteHelper()
+            : base(typeof(SQLiteConnection), typeof(SQLiteCommand), typeof(SQLiteParameter))
         {
             base.GetId = "select LAST_INSERT_ROWID() Id";
-            this.InitType(typeof(SQLiteConnection), typeof(SQLiteCommand), typeof(SQLiteParameter));
         }
         /// <summary>
         /// 文件名

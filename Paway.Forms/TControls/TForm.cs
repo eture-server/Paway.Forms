@@ -45,6 +45,7 @@ namespace Paway.Forms
                 ControlStyles.DoubleBuffer |
                 ControlStyles.SupportsTransparentBackColor, true);
             this.UpdateStyles();
+            InitMethod.Init(this);
         }
 
         #endregion
