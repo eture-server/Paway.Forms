@@ -886,7 +886,12 @@ namespace Paway.Forms
             point.X -= BodyBounds.X;
             point.Y -= BodyBounds.Y;
             Image btnArrowImage = null;
-            Point contextMenuLocation = this.PointToScreen(new Point(this._btnArrowRect.Left + BodyBounds.X, this._btnArrowRect.Top + BodyBounds.Y + this._btnArrowRect.Height + 2));
+            int x = this._btnArrowRect.Left;
+            if (item.RectDesc.Width != 0)
+            {
+                x = item.RectDesc.Left;
+            }
+            Point contextMenuLocation = this.PointToScreen(new Point(x + BodyBounds.X, this._btnArrowRect.Top + BodyBounds.Y + this._btnArrowRect.Height + 2));
             ContextMenuStrip contextMenuStrip = item.ContextMenuStrip;
             if (contextMenuStrip != null)
             {

@@ -105,15 +105,9 @@ namespace Paway.Forms
             get { return this._windowState; }
             set
             {
-                this._windowState = value;
+                base.WindowState = value;
                 switch (this._windowState)
                 {
-                    case FormWindowState.Normal:
-                        base.WindowState = FormWindowState.Normal;
-                        break;
-                    case FormWindowState.Minimized:
-                        base.WindowState = FormWindowState.Minimized;
-                        break;
                     case FormWindowState.Maximized:
                         this._formSize = this.Size;
                         this._formPoint = this.Location;

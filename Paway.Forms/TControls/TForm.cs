@@ -28,7 +28,19 @@ namespace Paway.Forms
         public virtual new FormWindowState WindowState
         {
             get { return this._windowState; }
-            set { this._windowState = value; }
+            set
+            {
+                this._windowState = value;
+                switch (this._windowState)
+                {
+                    case FormWindowState.Normal:
+                        base.WindowState = FormWindowState.Normal;
+                        break;
+                    case FormWindowState.Minimized:
+                        base.WindowState = FormWindowState.Minimized;
+                        break;
+                }
+            }
         }
         #endregion
 
