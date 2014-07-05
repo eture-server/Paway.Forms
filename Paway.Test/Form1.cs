@@ -17,18 +17,28 @@ namespace Paway.Test
     public partial class Form1 : QQForm
     {
         private Timer timer = new Timer();
+        readonly System.Threading.AutoResetEvent eventRead = new System.Threading.AutoResetEvent(true);
         public Form1()
         {
             InitializeComponent();
             toolClose.ItemClick += toolClose_ItemClick;
+            toolClose.EditClick += toolClose_EditClick;
             btName.Click += btName_Click;
             btName_Click(this, EventArgs.Empty);
+        }
+
+        void toolClose_EditClick(object sender, EventArgs e)
+        {
+            new QQDemo().ShowDialog(this);
         }
 
         void btName_Click(object sender, EventArgs e)
         {
             TControl control = new TControl();
             control.Dock = DockStyle.Fill;
+            //eventRead.WaitOne(3000);
+            //eventRead.Set();
+            //eventRead.Reset();
             this.Controls.Add(control);
 
             //this.pictureBox1.Image = Resources.process;

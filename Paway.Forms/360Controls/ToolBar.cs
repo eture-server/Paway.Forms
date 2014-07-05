@@ -485,12 +485,16 @@ namespace Paway.Forms
         /// </summary>
         /// <param name="item"></param>
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
-        public virtual void OnEditClick(ToolItem item, EventArgs e)
+        public virtual bool OnEditClick(ToolItem item, EventArgs e)
         {
-            if (!item.Enable) return;
+            if (!item.Enable) return false;
             EventHandler handler = base.Events[EventEditClick] as EventHandler;
             if (handler != null)
+            {
                 handler(item, e);
+                return true;
+            }
+            return false;
         }
 
         #endregion
@@ -716,7 +720,7 @@ namespace Paway.Forms
         private void DrawText(Graphics g, ToolItem item)
         {
             Rectangle textRect = Rectangle.Empty;
-            if (!string.IsNullOrEmpty(item.Text))
+            if (string.IsNullOrEmpty(item.Text)) item.Text = string.Empty;
             {
                 int pad = 2;
                 textRect = new Rectangle
@@ -1091,11 +1095,12 @@ namespace Paway.Forms
                 {
                     if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
                     {
+                        bool ifocus = false;
                         if (item.RectDesc.Contains(point))
                         {
-                            this.OnEditClick(item, EventArgs.Empty);
+                            ifocus = this.OnEditClick(item, EventArgs.Empty);
                         }
-                        if (item.ContextMenuStrip != null)
+                        if (!ifocus && item.ContextMenuStrip != null)
                         {
                             this._iFocus = true;
                             InvaOther(this._btnArrowRect);
@@ -1179,11 +1184,12 @@ namespace Paway.Forms
                 {
                     if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
                     {
+                        bool ifocus = false;
                         if (item.RectDesc.Contains(point))
                         {
-                            this.OnEditClick(item, EventArgs.Empty);
+                            ifocus = this.OnEditClick(item, EventArgs.Empty);
                         }
-                        if (item.ContextMenuStrip != null)
+                        if (!ifocus && item.ContextMenuStrip != null)
                         {
                             this._iFocus = true;
                             InvaOther(this._btnArrowRect);

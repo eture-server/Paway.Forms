@@ -199,6 +199,7 @@ namespace Paway.Helper
             {
                 graphics.DrawImage(bitmap, 0, 0, bitmap.Width, bitmap.Height);
             }
+            bitmap.Dispose();
             return image;
         }
 

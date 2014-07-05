@@ -531,7 +531,7 @@ namespace Paway.Forms
             this.MouseState = TMouseState.Leave;
             if (string.IsNullOrEmpty(BaseText.Text))
             {
-                this.ParentForm.SelectNextControl(this.ParentForm, true, false, false, true);
+                //this.ParentForm.SelectNextControl(this.ParentForm, true, false, false, true);
             }
         }
         /// <summary>
@@ -543,7 +543,7 @@ namespace Paway.Forms
         {
             if (this.ParentForm.ContainsFocus)
             {
-                this.Focus();
+                //this.Focus();
             }
         }
         /// <summary>
