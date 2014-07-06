@@ -15,6 +15,11 @@ namespace Paway.Forms
     {
         #region 属性
         /// <summary>
+        /// 拥有者
+        /// </summary>
+        [Browsable(false), Description("拥有者"), DefaultValue(typeof(ToolBar), "Tinn")]
+        public ToolBar Owner { get; internal set; }
+        /// <summary>
         /// Item 显示的图片
         /// </summary>
         [Description("Item 显示的图片"), DefaultValue(typeof(Image), "null")]

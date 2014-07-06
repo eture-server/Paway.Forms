@@ -451,7 +451,10 @@ namespace Paway.Forms
             if (!item.Enable) return;
             EventHandler handler = base.Events[EventSelectedItemChanged] as EventHandler;
             if (handler != null)
-                handler(this, e);
+            {
+                item.Owner = this;
+                handler(item, e);
+            }
         }
         /// <summary>
         /// 当选择的 Item 索引发生改变时激发。
@@ -463,7 +466,10 @@ namespace Paway.Forms
             if (!item.Enable) return;
             EventHandler handler = base.Events[EventSelectedIndexChanged] as EventHandler;
             if (handler != null)
-                handler(this, e);
+            {
+                item.Owner = this;
+                handler(item, e);
+            }
         }
         /// <summary>
         /// 当单击项时激发。
@@ -477,7 +483,10 @@ namespace Paway.Forms
             {
                 EventHandler handler = base.Events[EventItemClick] as EventHandler;
                 if (handler != null)
+                {
+                    item.Owner = this;
                     handler(item, e);
+                }
             }
         }
         /// <summary>
@@ -491,6 +500,7 @@ namespace Paway.Forms
             EventHandler handler = base.Events[EventEditClick] as EventHandler;
             if (handler != null)
             {
+                item.Owner = this;
                 handler(item, e);
                 return true;
             }
@@ -1236,6 +1246,14 @@ namespace Paway.Forms
                     TRefresh();
                 }
             }
+        }
+        /// <summary>
+        /// 返回包含 System.ComponentModel.Component 的名称的 System.String（如果有）
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return "Tinn";
         }
 
         #endregion

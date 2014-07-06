@@ -121,10 +121,10 @@
             this.toolClose.Items.Add(toolItem2);
             this.toolClose.ItemSize = new System.Drawing.Size(120, 120);
             this.toolClose.ItemSpace = 5;
-            this.toolClose.Location = new System.Drawing.Point(33, 109);
+            this.toolClose.Location = new System.Drawing.Point(49, 75);
             this.toolClose.Name = "toolClose";
             this.toolClose.Size = new System.Drawing.Size(209, 150);
-            this.toolClose.TabIndex = 29;
+            this.toolClose.TabIndex = 31;
             this.toolClose.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
             this.toolClose.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(127)))), ((int)(((byte)(104)))));
             this.toolClose.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(72)))), ((int)(((byte)(38)))));
