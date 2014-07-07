@@ -72,13 +72,21 @@ namespace Paway.Helper
     {
         private bool _select = true;
         /// <summary>
-        /// 是否生成列
-        /// 默认生成，在Db
+        /// 是否生成列, 默认生成，在Db
         /// </summary>
         public bool Select
         {
             get { return _select; }
             set { _select = value; }
+        }
+        private bool _clone = true;
+        /// <summary>
+        /// 是否复制列，默认复制
+        /// </summary>
+        public bool Clone
+        {
+            get { return _clone; }
+            set { _clone = value; }
         }
         private bool _show = true;
         /// <summary>

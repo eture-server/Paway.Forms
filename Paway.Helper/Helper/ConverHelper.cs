@@ -1333,5 +1333,31 @@ namespace Paway.Helper
         }
 
         #endregion
+
+        #region 其它
+        /// <summary>
+        /// 复制
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public static T Clone<T>(this T t)
+        {
+            T copy = Activator.CreateInstance<T>();
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
+            for (int i = 0; i < properties.Count; i++)
+            {
+                System.Reflection.PropertyInfo pro = typeof(T).GetProperty(properties[i].Name, properties[i].PropertyType);
+                PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+                if (itemList == null || itemList.Length == 0 || itemList[0].Clone)
+                {
+                    properties[i].SetValue(copy, properties[i].GetValue(t));
+                }
+            }
+
+            return copy;
+        }
+
+        #endregion
     }
 }

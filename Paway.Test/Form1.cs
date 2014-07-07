@@ -54,6 +54,7 @@ namespace Paway.Test
 
         void toolClose_ItemClick(object sender, EventArgs e)
         {
+            this.TextShow = DateTime.Now.ToString();
         }
     }
 }

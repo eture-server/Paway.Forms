@@ -1179,19 +1179,15 @@ namespace Paway.Forms
             {
                 _iDown = false;
                 //事件
-                if (item != this._selectedItem && item == _tempItem)
+                if (_tEvent == TEvent.Up && item == _tempItem)
                 {
-                    if (!item.RectDesc.Contains(point) && _tEvent == TEvent.Up)
+                    if (item != this._selectedItem && !item.RectDesc.Contains(point))
                     {
                         this._selectedItem = item;
                         this._selectedIndex = this.Items.GetIndexOfRange(item);
                         this.OnSelectedItemChanged(item, EventArgs.Empty);
                         this.OnSelectedIndexChanged(item, EventArgs.Empty);
                     }
-                }
-                //事件
-                if (_tEvent == TEvent.Up)
-                {
                     if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
                     {
                         bool ifocus = false;
