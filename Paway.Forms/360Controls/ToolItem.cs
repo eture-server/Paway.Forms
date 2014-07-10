@@ -102,6 +102,7 @@ namespace Paway.Forms
         /// <summary>
         /// 当前 Item 在 ToolBar 中的 Rectangle
         /// </summary>
+        [Browsable(false)]
         public Rectangle Rectangle { get; internal set; }
         /// <summary>
         /// 描述信息边框

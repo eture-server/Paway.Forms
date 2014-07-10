@@ -1343,6 +1343,17 @@ namespace Paway.Helper
         /// <returns></returns>
         public static T Clone<T>(this T t)
         {
+            return t.Clone(false);
+        }
+        /// <summary>
+        /// 复制,含IList子级
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="t"></param>
+        /// <param name="child">含IList子级</param>
+        /// <returns></returns>
+        public static T Clone<T>(this T t, bool child)
+        {
             T copy = Activator.CreateInstance<T>();
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
             for (int i = 0; i < properties.Count; i++)
@@ -1351,11 +1362,64 @@ namespace Paway.Helper
                 PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
                 if (itemList == null || itemList.Length == 0 || itemList[0].Clone)
                 {
-                    properties[i].SetValue(copy, properties[i].GetValue(t));
+                    object value = properties[i].GetValue(t);
+                    properties[i].SetValue(copy, value);
+                    if (child && value is IList)
+                    {
+                        IList clist = properties[i].GetValue(copy) as IList;
+                        IList list = value as IList;
+                        Type type = list.GetType();
+                        Type[] types = type.GetGenericArguments();
+                        if (types.Length != 1) continue;
+                        type = types[0];
+                        Assembly asmb = Assembly.GetAssembly(type);
+                        for (int j = 0; j < list.Count; j++)
+                        {
+                            object obj = asmb.CreateInstance(type.FullName);
+                            type.Clone(ref obj, list[j]);
+                            clist.Add(obj);
+                        }
+                    }
                 }
             }
 
             return copy;
+        }
+        /// <summary>
+        /// 复制子级
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="copy"></param>
+        /// <param name="t"></param>
+        public static void Clone(this Type parent, ref object copy, object t)
+        {
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(parent);
+            for (int i = 0; i < properties.Count; i++)
+            {
+                System.Reflection.PropertyInfo pro = parent.GetProperty(properties[i].Name, properties[i].PropertyType);
+                PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+                if (itemList == null || itemList.Length == 0 || itemList[0].Clone)
+                {
+                    object value = properties[i].GetValue(t);
+                    properties[i].SetValue(copy, value);
+                    if (value is IList)
+                    {
+                        IList clist = properties[i].GetValue(copy) as IList;
+                        IList list = value as IList;
+                        Type type = list.GetType();
+                        Type[] types = type.GetGenericArguments();
+                        if (types.Length != 1) continue;
+                        type = types[0];
+                        Assembly asmb = Assembly.GetAssembly(type);
+                        for (int j = 0; j < list.Count; j++)
+                        {
+                            object obj = asmb.CreateInstance(type.FullName);
+                            type.Clone(ref obj, list[j]);
+                            clist.Add(obj);
+                        }
+                    }
+                }
+            }
         }
 
         #endregion
