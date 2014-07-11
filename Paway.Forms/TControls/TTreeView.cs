@@ -339,19 +339,18 @@ namespace Paway.Forms
         {
             if (_dataSource == null || _id == null || _parentId == null || _root == null) return;
             DataTable dt = null;
-            if (_dataSource is DataTable)
+            Type type = _dataSource.GetType();
+            if (type == typeof(DataTable))
             {
                 dt = _dataSource as DataTable;
             }
-            else if (_dataSource is IList)
+            else if (type == typeof(IList))
             {
                 IList list = _dataSource as IList;
-                Type type = list.GetType();
-                Type[] types = type.GetGenericArguments();
-                if (types.Length != 1) return;
-                dt = types[0].ToDataTable(list);
+                type = list.GetList();
+                dt = type.ToDataTable(list);
             }
-            else if (_dataSource is string)
+            else if (type == typeof(String) || type.IsValueType)
             {
                 TreeNode node = new TreeNode();
                 node.Text = _dataSource.ToString();

@@ -95,14 +95,14 @@ namespace Paway.Forms
             //获得当前Item的文本
             //绑定字段
             object obj = this.Items[e.Index];
-            var type = obj.GetType();
+            Type type = obj.GetType();
             object str = null;
-            if (obj is DataRowView)
+            if (type == typeof(DataRowView))
             {
                 DataRowView dr = obj as DataRowView;
                 str = dr[this.DisplayMember];
             }
-            else
+            else if (type != typeof(String) && !type.IsValueType)
             {
                 PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
                 if (properties.Count > 1)
@@ -116,10 +116,10 @@ namespace Paway.Forms
                         }
                     }
                 }
-                else
-                {
-                    str = this.Items[e.Index];
-                }
+            }
+            else
+            {
+                str = this.Items[e.Index];
             }
             //选中项ComboBoxEdit
             if ((e.State & DrawItemState.ComboBoxEdit) == DrawItemState.ComboBoxEdit)

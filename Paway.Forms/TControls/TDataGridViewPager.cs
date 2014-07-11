@@ -136,10 +136,7 @@ namespace Paway.Forms
             else if (dataSource is IList)
             {
                 IList list = dataSource as IList;
-                Type type = list.GetType();
-                Type[] types = type.GetGenericArguments();
-                if (types.Length != 1) return;
-                type = types[0];
+                Type type = list.GetList();
 
                 PagerInfo.RecordCount = list.Count;
                 List<object> temp = new List<object>();

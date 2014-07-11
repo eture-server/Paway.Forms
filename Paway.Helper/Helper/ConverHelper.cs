@@ -361,207 +361,6 @@ namespace Paway.Helper
             return false;
         }
 
-        #region IList 与　DataTable 互转
-        /// <summary>
-        /// IList转为 DataTable
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list"></param>
-        /// <returns></returns>
-        public static DataTable ToDataTable<T>(this IList<T> list)
-        {
-            DataTable table = CreateTable<T>();
-            Type entityType = typeof(T);
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(entityType);
-
-            foreach (T item in list)
-            {
-                DataRow row = table.NewRow();
-
-                foreach (PropertyDescriptor prop in properties)
-                {
-                    row[prop.Name] = prop.GetValue(item);
-                }
-
-                table.Rows.Add(row);
-            }
-            return table;
-        }
-        /// <summary>
-        /// IList转为 DataTable
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="list"></param>
-        /// <returns></returns>
-        public static DataTable ToDataTable(this Type type, IList list)
-        {
-            DataTable table = type.CreateTable();
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
-            for (int i = 0; i < list.Count; i++)
-            {
-                DataRow row = table.NewRow();
-                for (int j = 0; j < properties.Count; j++)
-                {
-                    row[properties[j].Name] = properties[j].GetValue(list[i]);
-                }
-                table.Rows.Add(row);
-            }
-            return table;
-        }
-
-        /// <summary>
-        /// 将指定类型转为DataTable
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static DataTable CreateTable<T>()
-        {
-            Type entityType = typeof(T);
-            DataTable table = new DataTable(entityType.Name);
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(entityType);
-
-            foreach (PropertyDescriptor prop in properties)
-            {
-                table.Columns.Add(prop.Name, prop.PropertyType);
-            }
-
-            return table;
-        }
-        /// <summary>
-        /// 将指定类型转为DataTable
-        /// </summary>
-        /// <returns></returns>
-        public static DataTable CreateTable(this Type type)
-        {
-            DataTable table = new DataTable(type.Name);
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
-            for (int i = 0; i < properties.Count; i++)
-            {
-                table.Columns.Add(properties[i].Name, properties[i].PropertyType);
-            }
-            return table;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="rows"></param>
-        /// <returns></returns>
-        public static IList<T> ConvertTo<T>(IList<DataRow> rows)
-        {
-            IList<T> list = null;
-
-            if (rows != null)
-            {
-                list = new List<T>();
-
-                foreach (DataRow row in rows)
-                {
-                    T item = CreateItem<T>(row);
-                    list.Add(item);
-                }
-            }
-
-            return list;
-        }
-
-        /// <summary>
-        /// 将DataTable转为IList
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="table"></param>
-        /// <returns></returns>
-        public static IList<T> ConvertTo<T>(this DataTable table)
-        {
-            if (table == null)
-            {
-                return null;
-            }
-
-            List<DataRow> rows = new List<DataRow>();
-
-            foreach (DataRow row in table.Rows)
-            {
-                rows.Add(row);
-            }
-
-            return ConvertTo<T>(rows);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="row"></param>
-        /// <returns></returns>
-        public static T CreateItem<T>(this DataRow row)
-        {
-            T obj = default(T);
-            if (row != null)
-            {
-                obj = Activator.CreateInstance<T>();//string 类型不支持无参的反射
-                PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
-
-                foreach (DataColumn column in row.Table.Columns)
-                {
-                    for (int i = 0; i < properties.Count; i++)
-                    {
-                        PropertyInfo pro = typeof(T).GetProperty(properties[i].Name, properties[i].PropertyType);
-                        PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-                        if (itemList == null || itemList.Length == 0 || itemList[0].Select)
-                        {
-                            string name = properties[i].Name;
-                            if (itemList != null && itemList.Length == 1 && itemList[0].Column != null)
-                            {
-                                name = itemList[0].Column;
-                            }
-                            if (name != column.ColumnName) continue;
-                            try
-                            {
-                                object value = row[column.ColumnName];
-                                if (value != DBNull.Value)
-                                {
-                                    if (pro.PropertyType == typeof(Image) && value is byte[])
-                                    {
-                                        pro.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image, null);
-                                    }
-                                    else
-                                    {
-                                        pro.SetValue(obj, value, null);
-                                    }
-                                }
-                                break;
-                            }
-                            catch
-                            {
-                                throw;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return obj;
-        }
-
-        /// <summary>
-        /// 该方法仅能转换DataTable的首列
-        /// </summary>
-        /// <param name="table"></param>
-        /// <returns></returns>
-        public static List<string> ConvertToListWithFirstColumn(this DataTable table)
-        {
-            if (table == null)
-            {
-                return null;
-            }
-            List<string> list = new List<string>();
-            foreach (DataRow row in table.Rows)
-            {
-                list.Add(row[0].ToString());
-            }
-            return list;
-        }
-        #endregion
         /// <summary>
         /// </summary>
         /// <param name="oldDic"></param>
@@ -1080,6 +879,209 @@ namespace Paway.Helper
 
         #endregion
 
+        #region IList 与　DataTable 互转
+        /// <summary>
+        /// IList转为 DataTable
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static DataTable ToDataTable<T>(this IList<T> list)
+        {
+            DataTable table = CreateTable<T>();
+            Type entityType = typeof(T);
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(entityType);
+
+            foreach (T item in list)
+            {
+                DataRow row = table.NewRow();
+
+                foreach (PropertyDescriptor prop in properties)
+                {
+                    row[prop.Name] = prop.GetValue(item);
+                }
+
+                table.Rows.Add(row);
+            }
+            return table;
+        }
+        /// <summary>
+        /// IList转为 DataTable
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static DataTable ToDataTable(this Type type, IList list)
+        {
+            DataTable table = type.CreateTable();
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
+            for (int i = 0; i < list.Count; i++)
+            {
+                DataRow row = table.NewRow();
+                for (int j = 0; j < properties.Count; j++)
+                {
+                    row[properties[j].Name] = properties[j].GetValue(list[i]);
+                }
+                table.Rows.Add(row);
+            }
+            return table;
+        }
+
+        /// <summary>
+        /// 将指定类型转为DataTable
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static DataTable CreateTable<T>()
+        {
+            Type entityType = typeof(T);
+            DataTable table = new DataTable(entityType.Name);
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(entityType);
+
+            foreach (PropertyDescriptor prop in properties)
+            {
+                table.Columns.Add(prop.Name, prop.PropertyType);
+            }
+
+            return table;
+        }
+        /// <summary>
+        /// 将指定类型转为DataTable
+        /// </summary>
+        /// <returns></returns>
+        public static DataTable CreateTable(this Type type)
+        {
+            DataTable table = new DataTable(type.Name);
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
+            for (int i = 0; i < properties.Count; i++)
+            {
+                table.Columns.Add(properties[i].Name, properties[i].PropertyType);
+            }
+            return table;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="rows"></param>
+        /// <returns></returns>
+        public static IList<T> ConvertTo<T>(IList<DataRow> rows)
+        {
+            IList<T> list = null;
+
+            if (rows != null)
+            {
+                list = new List<T>();
+
+                foreach (DataRow row in rows)
+                {
+                    T item = CreateItem<T>(row);
+                    list.Add(item);
+                }
+            }
+
+            return list;
+        }
+
+        /// <summary>
+        /// 将DataTable转为IList
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public static IList<T> ConvertTo<T>(this DataTable table)
+        {
+            if (table == null)
+            {
+                return null;
+            }
+
+            List<DataRow> rows = new List<DataRow>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                rows.Add(row);
+            }
+
+            return ConvertTo<T>(rows);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="row"></param>
+        /// <returns></returns>
+        public static T CreateItem<T>(this DataRow row)
+        {
+            T obj = default(T);
+            if (row != null)
+            {
+                obj = Activator.CreateInstance<T>();//string 类型不支持无参的反射
+                PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
+
+                foreach (DataColumn column in row.Table.Columns)
+                {
+                    for (int i = 0; i < properties.Count; i++)
+                    {
+                        PropertyInfo pro = typeof(T).GetProperty(properties[i].Name, properties[i].PropertyType);
+                        PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+                        if (itemList == null || itemList.Length == 0 || itemList[0].Select)
+                        {
+                            string name = properties[i].Name;
+                            if (itemList != null && itemList.Length == 1 && itemList[0].Column != null)
+                            {
+                                name = itemList[0].Column;
+                            }
+                            if (name != column.ColumnName) continue;
+                            try
+                            {
+                                object value = row[column.ColumnName];
+                                if (value != DBNull.Value)
+                                {
+                                    if (pro.PropertyType == typeof(Image) && value is byte[])
+                                    {
+                                        pro.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image, null);
+                                    }
+                                    else
+                                    {
+                                        pro.SetValue(obj, value, null);
+                                    }
+                                }
+                                break;
+                            }
+                            catch
+                            {
+                                throw;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return obj;
+        }
+
+        /// <summary>
+        /// 该方法仅能转换DataTable的首列
+        /// </summary>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public static List<string> ConvertToListWithFirstColumn(this DataTable table)
+        {
+            if (table == null)
+            {
+                return null;
+            }
+            List<string> list = new List<string>();
+            foreach (DataRow row in table.Rows)
+            {
+                list.Add(row[0].ToString());
+            }
+            return list;
+        }
+
+        #endregion
+
         #region 基本Sql语句
         /// <summary>
         /// 将指定类型转为Select语句
@@ -1334,9 +1336,21 @@ namespace Paway.Helper
 
         #endregion
 
-        #region 其它
+        #region Clone
         /// <summary>
-        /// 复制
+        /// 返回泛型实参数类型
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static Type GetList(this IList list)
+        {
+            Type type = list.GetType();
+            Type[] types = type.GetGenericArguments();
+            if (types.Length == 1) return types[0];
+            return null;
+        }
+        /// <summary>
+        /// 一般复制
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="t"></param>
@@ -1346,44 +1360,21 @@ namespace Paway.Helper
             return t.Clone(false);
         }
         /// <summary>
-        /// 复制,含IList子级
+        /// 深度复制：引用、IList子级。
+        /// 不要使用嵌套参数
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="t"></param>
-        /// <param name="child">含IList子级</param>
+        /// <param name="child">是否深度复制 引用、IList子级</param>
         /// <returns></returns>
         public static T Clone<T>(this T t, bool child)
         {
-            T copy = Activator.CreateInstance<T>();
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
-            for (int i = 0; i < properties.Count; i++)
-            {
-                System.Reflection.PropertyInfo pro = typeof(T).GetProperty(properties[i].Name, properties[i].PropertyType);
-                PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-                if (itemList == null || itemList.Length == 0 || itemList[0].Clone)
-                {
-                    object value = properties[i].GetValue(t);
-                    properties[i].SetValue(copy, value);
-                    if (child && value is IList)
-                    {
-                        IList clist = properties[i].GetValue(copy) as IList;
-                        IList list = value as IList;
-                        Type type = list.GetType();
-                        Type[] types = type.GetGenericArguments();
-                        if (types.Length != 1) continue;
-                        type = types[0];
-                        Assembly asmb = Assembly.GetAssembly(type);
-                        for (int j = 0; j < list.Count; j++)
-                        {
-                            object obj = asmb.CreateInstance(type.FullName);
-                            type.Clone(ref obj, list[j]);
-                            clist.Add(obj);
-                        }
-                    }
-                }
-            }
+            Type type = typeof(T);
+            Assembly asmb = Assembly.GetAssembly(type);
+            object copy = asmb.CreateInstance(type.FullName);
+            type.Clone(ref copy, t, child);
 
-            return copy;
+            return (T)copy;
         }
         /// <summary>
         /// 复制子级
@@ -1391,7 +1382,8 @@ namespace Paway.Helper
         /// <param name="parent"></param>
         /// <param name="copy"></param>
         /// <param name="t"></param>
-        public static void Clone(this Type parent, ref object copy, object t)
+        /// <param name="child"></param>
+        public static void Clone(this Type parent, ref object copy, object t, bool child)
         {
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(parent);
             for (int i = 0; i < properties.Count; i++)
@@ -1402,21 +1394,33 @@ namespace Paway.Helper
                 {
                     object value = properties[i].GetValue(t);
                     properties[i].SetValue(copy, value);
+                    if (!child) continue;
                     if (value is IList)
                     {
                         IList clist = properties[i].GetValue(copy) as IList;
                         IList list = value as IList;
-                        Type type = list.GetType();
-                        Type[] types = type.GetGenericArguments();
-                        if (types.Length != 1) continue;
-                        type = types[0];
+                        Type type = list.GetList();
                         Assembly asmb = Assembly.GetAssembly(type);
                         for (int j = 0; j < list.Count; j++)
                         {
-                            object obj = asmb.CreateInstance(type.FullName);
-                            type.Clone(ref obj, list[j]);
-                            clist.Add(obj);
+                            if (!type.IsValueType && type != typeof(String))
+                            {
+                                object obj = asmb.CreateInstance(type.FullName);
+                                type.Clone(ref obj, list[j], child);
+                                clist.Add(obj);
+                            }
+                            else
+                            {
+                                clist.Add(list[j]);
+                            }
                         }
+                    }
+                    else if (value != null && !value.GetType().IsValueType && value.GetType() != typeof(String))
+                    {
+                        Type type = value.GetType();
+                        Assembly asmb = Assembly.GetAssembly(type);
+                        object obj = asmb.CreateInstance(type.FullName);
+                        type.Clone(ref obj, value, child);
                     }
                 }
             }

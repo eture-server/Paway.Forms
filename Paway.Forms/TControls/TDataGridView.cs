@@ -134,10 +134,7 @@ namespace Paway.Forms
             if (base.DataSource is IList)
             {
                 IList list = base.DataSource as IList;
-                type = list.GetType();
-                Type[] types = type.GetGenericArguments();
-                if (types.Length != 1) return;
-                type = types[0];
+                type = list.GetList();
             }
             if (type == null || type is object) return;
             UpdateColumns(type);
