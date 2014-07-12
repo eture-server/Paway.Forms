@@ -583,9 +583,9 @@ namespace Paway.Forms
         /// <param name="e"></param>
         void BaseText_LostFocus(object sender, EventArgs e)
         {
+            string result = null;
             if (BaseText.TextLength < RLength)
             {
-                string result = null;
                 switch (_regexType)
                 {
                     case Helper.RegexType.Ip:
@@ -612,27 +612,19 @@ namespace Paway.Forms
                 case RegexType.Normal:
                 case RegexType.Password:
                 case RegexType.PosInt:
-                    int index = StringHelper.RegexChecked(BaseText.Text, _regexType);
-                    if (index != BaseText.Text.Length)
-                    {
-                        error.SetError(this, string.Format("不可以输入字符:{0}", BaseText.Text[index]));
-                    }
-                    else
-                    {
-                        error.SetError(this, null);
-                    }
+                    result = StringHelper.RegexChecked(BaseText.Text, _regexType);
                     break;
                 case RegexType.Custom:
-                    index = StringHelper.RegexChecked(BaseText.Text, _regex);
-                    if (index != BaseText.Text.Length)
-                    {
-                        error.SetError(this, string.Format("不可以输入字符:{0}", BaseText.Text[index]));
-                    }
-                    else
-                    {
-                        error.SetError(this, null);
-                    }
+                    result = StringHelper.RegexChecked(BaseText.Text, _regex);
                     break;
+            }
+            if (result != null)
+            {
+                error.SetError(this, string.Format("不可以输入字符:{0}", result));
+            }
+            else
+            {
+                error.SetError(this, null);
             }
         }
         /// <summary>

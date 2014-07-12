@@ -592,6 +592,7 @@ namespace Paway.Forms
                 }
             }
         }
+
         #region 绘制方法
         private void DrawItem(Graphics g, ToolItem item, ref int xPos, ref int yPos, bool iLast)
         {
@@ -767,8 +768,10 @@ namespace Paway.Forms
                 string[] text = item.Text.Split(new string[] { "\r\n", "&" }, StringSplitOptions.RemoveEmptyEntries);
                 if (text.Length > 0)
                 {
-                    int fHight = GetFont(item.MouseState, TextFirst).GetHeight(g).ToInt();
-                    int sHight = GetFont(item.MouseState, TextSencond).GetHeight(g).ToInt();
+                    int fHight = TextRenderer.MeasureText("你好", GetFont(item.MouseState, TextFirst)).Height;
+                    //GetFont(item.MouseState, TextFirst).GetHeight(g).ToInt();
+                    int sHight = TextRenderer.MeasureText("你好", GetFont(item.MouseState, TextSencond)).Height;
+                    //GetFont(item.MouseState, TextSencond).GetHeight(g).ToInt();
                     int height = textRect.Height - fHight;
                     height -= (text.Length - 1) * sHight;
                     height -= (text.Length - 1) * 6;
@@ -797,7 +800,8 @@ namespace Paway.Forms
             }
             if (!string.IsNullOrEmpty(item.HeadDesc))
             {
-                int dHeight = GetFont(item.MouseState, THeadDesc).GetHeight(g).ToInt() + 6;
+                int dHeight = TextRenderer.MeasureText("你好", GetFont(item.MouseState, THeadDesc)).Height + 6;
+                //GetFont(item.MouseState, THeadDesc).GetHeight(g).ToInt() + 6;
                 Rectangle rect = new Rectangle()
                 {
                     X = textRect.X,
@@ -809,7 +813,8 @@ namespace Paway.Forms
             }
             if (!string.IsNullOrEmpty(item.EndDesc))
             {
-                int dHeight = GetFont(item.MouseState, TEndDesc).GetHeight(g).ToInt() + 6;
+                int dHeight = TextRenderer.MeasureText("你好", GetFont(item.MouseState, TEndDesc)).Height + 6;
+                //GetFont(item.MouseState, TEndDesc).GetHeight(g).ToInt() + 6;
                 Rectangle rect = new Rectangle()
                 {
                     X = textRect.X,
@@ -845,9 +850,10 @@ namespace Paway.Forms
         private void DrawDesc(Graphics g, ToolItem item, Rectangle rect)
         {
             if (string.IsNullOrEmpty(item.Desc)) return;
-            SizeF size = g.MeasureString(item.Desc, GetFont(item.MouseState, TDesc));
-            item.RectDesc = new Rectangle(rect.X + rect.Width - size.Width.ToInt() + (item.ContextMenuStrip == null ? 0 : 4),
-                rect.Y + (rect.Height - size.Height.ToInt()) / 2, size.Width.ToInt() + 2, size.Height.ToInt());
+            Size size = TextRenderer.MeasureText(item.Desc, GetFont(item.MouseState, TDesc));
+            //g.MeasureString(item.Desc, GetFont(item.MouseState, TDesc));
+            item.RectDesc = new Rectangle(rect.X + rect.Width - size.Width + (item.ContextMenuStrip == null ? 0 : 4),
+                rect.Y + (rect.Height - size.Height) / 2, size.Width, size.Height);
             DrawOtherDesc(g, item.Enable, item.IMouseState, TDesc, item.Desc, item.RectDesc);
         }
         /// <summary>
@@ -859,6 +865,8 @@ namespace Paway.Forms
 
             Color color = this.ForeColor;
             Font font = desc.FontNormal;
+
+
             StringFormat format = new StringFormat()
             {
                 Alignment = desc.StringVertical,
@@ -866,7 +874,9 @@ namespace Paway.Forms
             };
             if (!enable)
             {
-                g.DrawString(text, font, new SolidBrush(color), rect, format);
+                //g.DrawString(text, font, new SolidBrush(color), rect, format);
+                Rectangle temp = new Rectangle(rect.X + BodyBounds.X, rect.Y + BodyBounds.Y, rect.Width, rect.Height);
+                TextRenderer.DrawText(g, text, font, temp, color, TextFormat(format));
                 return;
             }
             switch (state)
@@ -888,7 +898,40 @@ namespace Paway.Forms
                     break;
             }
             if (color == Color.Empty) color = this.ForeColor;
-            g.DrawString(text, font, new SolidBrush(color), rect, format);
+            //g.DrawString(text, font, new SolidBrush(color), rect, format);
+            {
+                Rectangle temp = new Rectangle(rect.X + BodyBounds.X, rect.Y + BodyBounds.Y, rect.Width, rect.Height);
+                TextRenderer.DrawText(g, text, font, temp, color, TextFormat(format));
+            }
+        }
+        private TextFormatFlags TextFormat(StringFormat format)
+        {
+            TextFormatFlags text = TextFormatFlags.EndEllipsis;
+            switch (format.Alignment)
+            {
+                case StringAlignment.Near:
+                    text |= TextFormatFlags.Left;
+                    break;
+                case StringAlignment.Center:
+                    text |= TextFormatFlags.HorizontalCenter;
+                    break;
+                case StringAlignment.Far:
+                    text |= TextFormatFlags.Right;
+                    break;
+            }
+            switch (format.LineAlignment)
+            {
+                case StringAlignment.Near:
+                    text |= TextFormatFlags.Top;
+                    break;
+                case StringAlignment.Center:
+                    text |= TextFormatFlags.VerticalCenter;
+                    break;
+                case StringAlignment.Far:
+                    text |= TextFormatFlags.Bottom;
+                    break;
+            }
+            return text;
         }
         /// <summary>
         /// 判断右键菜单

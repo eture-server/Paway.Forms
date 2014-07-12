@@ -155,29 +155,29 @@
             this.toolStripSeparator1,
             this.离开ToolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(99, 76);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(101, 76);
             // 
             // 在线ToolStripMenuItem
             // 
             this.在线ToolStripMenuItem.Name = "在线ToolStripMenuItem";
-            this.在线ToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.在线ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.在线ToolStripMenuItem.Text = "在线";
             // 
             // 离开ToolStripMenuItem
             // 
             this.离开ToolStripMenuItem.Name = "离开ToolStripMenuItem";
-            this.离开ToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.离开ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.离开ToolStripMenuItem.Text = "离开";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(95, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(97, 6);
             // 
             // 离开ToolStripMenuItem1
             // 
             this.离开ToolStripMenuItem1.Name = "离开ToolStripMenuItem1";
-            this.离开ToolStripMenuItem1.Size = new System.Drawing.Size(98, 22);
+            this.离开ToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
             this.离开ToolStripMenuItem1.Text = "离开";
             // 
             // IsSelect2
@@ -737,7 +737,7 @@
             this.qqTextBoxEx1.Location = new System.Drawing.Point(16, 122);
             this.qqTextBoxEx1.Name = "qqTextBoxEx1";
             this.qqTextBoxEx1.Regex = "[0-9]{1,5}";
-            this.qqTextBoxEx1.RegexType = Paway.Helper.RegexType.Custom;
+            this.qqTextBoxEx1.RegexType = Paway.Helper.RegexType.PosInt;
             this.qqTextBoxEx1.SelectedText = "";
             this.qqTextBoxEx1.Size = new System.Drawing.Size(92, 24);
             this.qqTextBoxEx1.TabIndex = 30;
@@ -904,8 +904,10 @@
             toolItem1.ContextMenuStrip = this.contextMenuStrip1;
             toolItem1.First = "创建宝贝";
             toolItem1.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
+            toolItem1.Selete = false;
             toolItem1.Text = "创建宝贝";
             toolItem2.First = "上传宝贝";
+            toolItem2.Selete = false;
             toolItem2.Text = "上传宝贝";
             this.toolBar2.Items.Add(toolItem1);
             this.toolBar2.Items.Add(toolItem2);
@@ -925,24 +927,34 @@
             this.toolBar3.IImageShow = false;
             this.toolBar3.ImageSize = new System.Drawing.Size(16, 16);
             toolItem3.First = "光暗";
+            toolItem3.Selete = false;
             toolItem3.Text = "光暗";
             toolItem4.First = "反色";
+            toolItem4.Selete = false;
             toolItem4.Text = "反色";
             toolItem5.First = "浮雕";
+            toolItem5.Selete = false;
             toolItem5.Text = "浮雕";
             toolItem6.First = "滤色";
+            toolItem6.Selete = false;
             toolItem6.Text = "滤色";
             toolItem7.First = "左右";
+            toolItem7.Selete = false;
             toolItem7.Text = "左右";
             toolItem8.First = "上下";
+            toolItem8.Selete = false;
             toolItem8.Text = "上下";
             toolItem9.First = "灰度";
+            toolItem9.Selete = false;
             toolItem9.Text = "灰度";
             toolItem10.First = "黑白";
+            toolItem10.Selete = false;
             toolItem10.Text = "黑白";
             toolItem11.First = "透明";
+            toolItem11.Selete = false;
             toolItem11.Text = "透明";
             toolItem12.First = "换色";
+            toolItem12.Selete = false;
             toolItem12.Text = "换色";
             this.toolBar3.Items.Add(toolItem3);
             this.toolBar3.Items.Add(toolItem4);

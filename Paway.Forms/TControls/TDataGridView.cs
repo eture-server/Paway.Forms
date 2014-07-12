@@ -619,7 +619,7 @@ namespace Paway.Forms
 
                 //画字符串
                 e.Graphics.DrawString(e.Value.ToString(), e.CellStyle.Font, foreColorBrush,
-                    new Rectangle(e.CellBounds.Left + bitmap.Width + 10, e.CellBounds.Top, e.CellBounds.Width, e.CellBounds.Height), DrawParam.VerticalString);
+                    new Rectangle(e.CellBounds.Left + bitmap.Width + 10, e.CellBounds.Top, e.CellBounds.Width, e.CellBounds.Height), DrawParam.StringVertical);
                 e.Handled = true;
             }
         }

@@ -15,7 +15,7 @@ namespace Paway.Helper
         /// <summary>
         /// 字符垂直对齐
         /// </summary>
-        public static StringFormat VerticalString
+        public static StringFormat StringVertical
         {
             get
             {

@@ -67,7 +67,7 @@ namespace Paway.Helper
         /// <param name="str"></param>
         /// <param name="type"></param>
         /// <returns>返回识别到的字符数</returns>
-        public static int RegexChecked(string str, RegexType type)
+        public static string RegexChecked(string str, RegexType type)
         {
             string pattern = null;
             switch (type)
@@ -92,17 +92,28 @@ namespace Paway.Helper
         /// </summary>
         /// <param name="str"></param>
         /// <param name="pattern"></param>
-        /// <returns>返回识别到的字符数</returns>
-        public static int RegexChecked(string str, string pattern)
+        /// <returns>返回识未别到的字符</returns>
+        public static string RegexChecked(string str, string pattern)
         {
-            if (pattern == null) return 0;
+            if (pattern == null) return null;
             Regex regex = new Regex(pattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
             Match match = regex.Match(str);
             if (!match.Success || match.Groups[0].Value != str)
             {
-                return match.Groups[0].Value.Length;
+                if (match.Groups[0].Value != str)
+                {
+                    if (match.Groups[0].Index != 0)
+                    {
+                        return str.Substring(0, match.Groups[0].Index);
+                    }
+                    else
+                    {
+                        return str.Remove(match.Groups[0].Index + match.Groups[0].Length);
+                    }
+                }
+                else { return string.Empty; }
             }
-            return str.Length;
+            return null;
         }
         #endregion
     }

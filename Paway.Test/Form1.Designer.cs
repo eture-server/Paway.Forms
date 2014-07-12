@@ -30,8 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem5 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem6 = new Paway.Forms.ToolItem();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.toolDelete = new System.Windows.Forms.ToolStripMenuItem();
@@ -106,24 +110,37 @@
             this.toolClose.ICheckEvent = true;
             this.toolClose.IImageShow = false;
             this.toolClose.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem3.ContextMenuStrip = this.contextMenuStrip2;
-            toolItem3.Desc = "x1";
-            toolItem3.First = "World";
-            toolItem3.HeadDesc = "hello";
+            toolItem1.ContextMenuStrip = this.contextMenuStrip2;
+            toolItem1.Desc = "x1";
+            toolItem1.EndDesc = "";
+            toolItem1.First = "呵呵0呵呵1呵呵2呵呵3呵呵4";
+            toolItem1.Selete = false;
+            toolItem1.Sencond = "呵呵5呵呵6呵呵7呵呵8呵呵9";
+            toolItem1.Text = "呵呵0呵呵1呵呵2呵呵3呵呵4\r\n呵呵5呵呵6呵呵7呵呵8呵呵9";
+            toolItem2.Desc = "呵呵";
+            toolItem2.EndDesc = "";
+            toolItem2.First = "你好";
+            toolItem2.Selete = false;
+            toolItem2.Text = "你好";
             toolItem3.Selete = false;
             toolItem3.Text = "";
-            toolItem4.ContextMenuStrip = this.contextMenuStrip2;
-            toolItem4.Desc = "呵呵";
-            toolItem4.First = "呵呵";
             toolItem4.Selete = false;
             toolItem4.Text = "";
+            toolItem5.Selete = false;
+            toolItem5.Text = "";
+            toolItem6.Selete = false;
+            toolItem6.Text = "";
+            this.toolClose.Items.Add(toolItem1);
+            this.toolClose.Items.Add(toolItem2);
             this.toolClose.Items.Add(toolItem3);
             this.toolClose.Items.Add(toolItem4);
+            this.toolClose.Items.Add(toolItem5);
+            this.toolClose.Items.Add(toolItem6);
             this.toolClose.ItemSize = new System.Drawing.Size(120, 120);
             this.toolClose.ItemSpace = 5;
             this.toolClose.Location = new System.Drawing.Point(50, 121);
             this.toolClose.Name = "toolClose";
-            this.toolClose.Size = new System.Drawing.Size(276, 128);
+            this.toolClose.Size = new System.Drawing.Size(265, 150);
             this.toolClose.TabIndex = 31;
             this.toolClose.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
             this.toolClose.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(127)))), ((int)(((byte)(104)))));
@@ -134,7 +151,6 @@
             this.toolClose.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolClose.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolClose.TextFirst.ColorNormal = System.Drawing.Color.Black;
-            this.toolClose.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
             this.toolClose.Trans = 150;
             // 
             // Form1
