@@ -113,13 +113,10 @@
             toolItem1.ContextMenuStrip = this.contextMenuStrip2;
             toolItem1.Desc = "x1";
             toolItem1.EndDesc = "";
-            toolItem1.First = "呵呵0呵呵1呵呵2呵呵3呵呵4";
             toolItem1.Selete = false;
-            toolItem1.Sencond = "呵呵5呵呵6呵呵7呵呵8呵呵9";
             toolItem1.Text = "呵呵0呵呵1呵呵2呵呵3呵呵4\r\n呵呵5呵呵6呵呵7呵呵8呵呵9";
             toolItem2.Desc = "呵呵";
             toolItem2.EndDesc = "";
-            toolItem2.First = "你好";
             toolItem2.Selete = false;
             toolItem2.Text = "你好";
             toolItem3.Selete = false;

@@ -34,12 +34,12 @@ namespace Paway.Forms
         /// 首行文字
         /// </summary>
         [Browsable(false), Description("首行文字"), DefaultValue(null)]
-        public string First { get; set; }
+        public string First { get; private set; }
         /// <summary>
         /// 其它行文字
         /// </summary>
         [Browsable(false), Description("其它行文字"), DefaultValue(null)]
-        public string Sencond { get; set; }
+        public string Sencond { get; private set; }
         private string _text;
         /// <summary>
         /// Item 上显示的文字信息

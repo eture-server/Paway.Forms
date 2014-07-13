@@ -23,7 +23,7 @@ namespace Paway.Test
             Application.SetCompatibleTextRenderingDefault(false);
             log.Error("log.Error:" + DateTime.Now);
             InitConfig.IMouseMove = true;
-            Application.Run(new Form1());
+            Application.Run(new FormSql());
         }
     }
 }

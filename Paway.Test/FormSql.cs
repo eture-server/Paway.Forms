@@ -28,7 +28,7 @@ namespace Paway.Test
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 10; i++)
             {
                 TestData data = new TestData
                 {
@@ -42,7 +42,7 @@ namespace Paway.Test
         }
         private void btInsert_Click(object sender, EventArgs e)
         {
-            service.Insert<TestData>(list[0]);
+            service.Insert<TestData>(list);
         }
 
         private void btUpdate_Click(object sender, EventArgs e)
@@ -57,7 +57,7 @@ namespace Paway.Test
 
         private void btDelete_Click(object sender, EventArgs e)
         {
-            service.Delete<TestData>(list[0]);
+            service.Delete<TestData>(5);
         }
 
         private void btSelect_Click(object sender, EventArgs e)

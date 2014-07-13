@@ -443,13 +443,35 @@ namespace Paway.Utils.Data
             try
             {
                 sql = default(T).Delete<T>();
-                Assembly asmb = Assembly.GetAssembly(paramType);
-                DbParameter param = asmb.CreateInstance(paramType.FullName) as DbParameter;
-                param.ParameterName = string.Format("@Id");
-                param.Value = id;
+                DbParameter parame = default(T).AddParameter<T>(paramType, id);
+                
                 cmd = CommandStart(sql);
                 cmd.CommandType = CommandType.Text;
-                cmd.Parameters.Add(param);
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add(parame);
+                return cmd.ExecuteNonQuery() == 1;
+            }
+            catch (Exception ex)
+            {
+                log.Error(string.Format("Delete.Error[{0}]\r\n{1}", sql, ex));
+                throw;
+            }
+            finally
+            {
+                CommandEnd(cmd);
+            }
+        }
+        /// <summary>
+        /// 删除指定条件下的数据
+        /// </summary>
+        public bool Delete<T>(string find)
+        {
+            string sql = null;
+            DbCommand cmd = null;
+            try
+            {
+                sql = default(T).Delete<T>(find);
+                cmd = CommandStart(sql);
                 return cmd.ExecuteNonQuery() == 1;
             }
             catch (Exception ex)

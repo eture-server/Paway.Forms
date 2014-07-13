@@ -44,9 +44,7 @@ namespace Paway.Test
                     Value = "Value" + i + 10
                 });
             }
-            this.tComboBox21.Edit.Items.Clear();
-            this.tComboBox21.Edit.Items.Add("ds");
-            this.tComboBox21.Edit.Items.Add("dd");
+            InitEnum();
             //this.tComboBox21.Edit.DataSource = list;
             //this.tComboBox21.Edit.DisplayMember = "Name";
             //this.tComboBox21.Edit.ValueMember = "Value";
@@ -54,6 +52,17 @@ namespace Paway.Test
 
             pictureBox1.Click += pictureBox1_Click;
             this.toolBar3.SelectedItemChanged += toolBar3_SelectedItemChanged;
+        }
+
+        private void InitEnum()
+        {
+            this.tComboBox21.Edit.Items.Clear();
+            this.tComboBox21.Edit.Items.Add("dd");
+            TDirection[] tList = (TDirection[])Enum.GetValues(typeof(TDirection));
+            for (int i = 0; i < tList.Length; i++)
+            {
+                this.tComboBox21.Edit.Items.Add(EntityHelper.GetEnumTextValue((TDirection)tList[i]));
+            }
         }
 
         void pictureBox1_Click(object sender, EventArgs e)

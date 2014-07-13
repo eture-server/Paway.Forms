@@ -1119,7 +1119,7 @@ namespace Paway.Helper
                 }
             }
             sql = sql.TrimEnd(',');
-            sql = string.Format("{0} from '{1}'", sql, attrList[0].Table);
+            sql = string.Format("{0} from [{1}]", sql, attrList[0].Table);
             if (find != null)
             {
                 sql = string.Format("{0} where {1}", sql, find);
@@ -1131,12 +1131,20 @@ namespace Paway.Helper
         /// </summary>
         public static string Delete<T>(this T t)
         {
+            return t.Delete(null);
+        }
+        /// <summary>
+        /// 将指定类型转为Delete语句
+        /// 指定删除条件
+        /// </summary>
+        public static string Delete<T>(this T t, string find)
+        {
             PropertyAttribute[] attrList = typeof(T).GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             if (attrList == null || attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", typeof(T)));
             if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
             if (attrList[0].Key == null && attrList[0].Mark == null) throw new ArgumentException("没有指定主键或主列名称");
 
-            string sql = "delete from '{0}' where {1}=@{1}";
+            string sql = string.Format("delete from [{0}] where {1}", "{0}", find == null ? "{1}=@{1}" : find);
             sql = string.Format(sql, attrList[0].Table, attrList[0].Key ?? attrList[0].Mark);
             return sql;
         }
@@ -1150,7 +1158,7 @@ namespace Paway.Helper
             if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
             if (attrList[0].Key == null && attrList[0].Mark == null) throw new ArgumentException("没有指定主键或主列名称");
 
-            string sql = "update '{0}' set";
+            string sql = "update [{0}] set";
             sql = string.Format(sql, attrList[0].Table);
 
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
@@ -1207,7 +1215,7 @@ namespace Paway.Helper
             }
             insert = insert.TrimEnd(',');
             values = values.TrimEnd(',');
-            string sql = string.Format("insert into '{0}'({1}) values({2})", attrList[0].Table, insert, values);
+            string sql = string.Format("insert into [{0}]({1}) values({2})", attrList[0].Table, insert, values);
             sql = string.Format("{0};{1}", sql, getId);
             return sql;
         }
@@ -1221,7 +1229,7 @@ namespace Paway.Helper
             if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
             if (attrList[0].Key == null && attrList[0].Mark == null) throw new ArgumentException("没有指定主键或主列名称");
 
-            string sql = "if exists(select 0 from '{1}' where {0}=@{0})";
+            string sql = "if exists(select 0 from [{1}] where {0}=@{0})";
             sql = string.Format(sql, attrList[0].Key ?? attrList[0].Mark, attrList[0].Table);
 
             string update = null;
@@ -1250,7 +1258,7 @@ namespace Paway.Helper
             update = update.TrimEnd(',');
             insert = insert.TrimEnd(',');
             values = values.TrimEnd(',');
-            sql = string.Format("{0} update '{1}' set {2} where {3}=@{3} else insert into {1}({4}) values({5})",
+            sql = string.Format("{0} update [{1}] set {2} where {3}=@{3} else insert into {1}({4}) values({5})",
                 sql, attrList[0].Table, update, attrList[0].Key ?? attrList[0].Mark, insert, values);
 
             sql = string.Format("{0};{1}", sql, getid);
@@ -1289,6 +1297,22 @@ namespace Paway.Helper
                 }
             }
             return false;
+        }
+        /// <summary>
+        /// 添加参数值到参数列表
+        /// 主键
+        /// </summary>
+        public static DbParameter AddParameter<T>(this T t, Type ptype, object value)
+        {
+            PropertyAttribute[] attrList = typeof(T).GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+            if (attrList == null || attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", typeof(T)));
+            if (attrList[0].Key == null && attrList[0].Mark == null) throw new ArgumentException("没有指定主键或主列名称");
+
+            Assembly asmb = Assembly.GetAssembly(ptype);
+            DbParameter param = asmb.CreateInstance(ptype.FullName) as DbParameter;
+            param.ParameterName = string.Format("@{0}", attrList[0].Key ?? attrList[0].Mark);
+            param.Value = value;
+            return param;
         }
         /// <summary>
         /// 添加参数值到参数列表

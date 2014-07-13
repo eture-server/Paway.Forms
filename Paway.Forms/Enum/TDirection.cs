@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Paway.Helper;
+using System;
 using System.Text;
 
 namespace Paway.Forms
@@ -47,10 +48,12 @@ namespace Paway.Forms
         /// <summary>
         /// 水平
         /// </summary>
+        [EnumTextValue("水平")]
         Level,
         /// <summary>
         /// 垂直
         /// </summary>
+        [EnumTextValue("垂直")]
         Vertical,
     }
     /// <summary>
