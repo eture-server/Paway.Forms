@@ -340,11 +340,11 @@ namespace Paway.Forms
             if (_dataSource == null || _id == null || _parentId == null || _root == null) return;
             DataTable dt = null;
             Type type = _dataSource.GetType();
-            if (type == typeof(DataTable))
+            if (_dataSource is DataTable)
             {
                 dt = _dataSource as DataTable;
             }
-            else if (type == typeof(IList))
+            else if (_dataSource is IList)
             {
                 IList list = _dataSource as IList;
                 type = list.GetList();
