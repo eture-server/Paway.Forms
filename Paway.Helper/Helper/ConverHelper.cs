@@ -1188,6 +1188,22 @@ namespace Paway.Helper
         /// </summary>
         public static string Insert<T>(this T t, string getId)
         {
+            return t.Insert<T>(getId, "insert");
+        }
+        /// <summary>
+        /// 将指定类型转为Replace语句
+        /// Sqlite更新、插入方法，需将Key键设为唯一索引
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="t"></param>
+        /// <param name="getId"></param>
+        /// <returns></returns>
+        public static string Replace<T>(this T t, string getId)
+        {
+            return t.Insert<T>(getId, "replace");
+        }
+        private static string Insert<T>(this T t, string getId, string type)
+        {
             PropertyAttribute[] attrList = typeof(T).GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             if (attrList == null || attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", typeof(T)));
             if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
@@ -1215,7 +1231,7 @@ namespace Paway.Helper
             }
             insert = insert.TrimEnd(',');
             values = values.TrimEnd(',');
-            string sql = string.Format("insert into [{0}]({1}) values({2})", attrList[0].Table, insert, values);
+            string sql = string.Format("{0} into [{1}]({2}) values({3})", type, attrList[0].Table, insert, values);
             sql = string.Format("{0};{1}", sql, getId);
             return sql;
         }

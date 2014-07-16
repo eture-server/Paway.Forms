@@ -320,10 +320,6 @@ namespace Paway.Utils.Data
                 DataTable dt = new DataTable();
                 dt.Load(dr);
                 IList<T> list = dt.ConvertTo<T>();
-                if (list == null)
-                {
-                    list = new List<T>(); 
-                }
                 return list;
             }
             catch (Exception ex)
