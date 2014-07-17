@@ -29,20 +29,16 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem5 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem6 = new Paway.Forms.ToolItem();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.toolDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.tbName = new Paway.Forms.QQTextBox();
-            this.btName = new Paway.Forms.QQButton();
             this.toolClose = new Paway.Forms.ToolBar();
+            this.btName = new Paway.Forms.QQButton();
+            this.tbName = new Paway.Forms.QQTextBox();
             this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -75,64 +71,25 @@
             this.pictureBox1.TabIndex = 25;
             this.pictureBox1.TabStop = false;
             // 
-            // tbName
-            // 
-            this.tbName.Icon = null;
-            this.tbName.IsPasswordChat = '\0';
-            this.tbName.Lines = new string[0];
-            this.tbName.Location = new System.Drawing.Point(99, 45);
-            this.tbName.Name = "tbName";
-            this.tbName.RegexType = Paway.Helper.RegexType.Normal;
-            this.tbName.SelectedText = "";
-            this.tbName.Size = new System.Drawing.Size(120, 24);
-            this.tbName.TabIndex = 29;
-            this.tbName.WaterText = "你好";
-            // 
-            // btName
-            // 
-            this.btName.DownImage = ((System.Drawing.Image)(resources.GetObject("btName.DownImage")));
-            this.btName.ForeColor = System.Drawing.Color.Black;
-            this.btName.Image = null;
-            this.btName.Location = new System.Drawing.Point(110, 75);
-            this.btName.MoveImage = ((System.Drawing.Image)(resources.GetObject("btName.MoveImage")));
-            this.btName.Name = "btName";
-            this.btName.NormalImage = ((System.Drawing.Image)(resources.GetObject("btName.NormalImage")));
-            this.btName.Size = new System.Drawing.Size(59, 28);
-            this.btName.TabIndex = 30;
-            this.btName.Text = "hello";
-            this.btName.UseVisualStyleBackColor = false;
-            // 
             // toolClose
             // 
             this.toolClose.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.toolClose.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolClose.ForeColor = System.Drawing.Color.Black;
             this.toolClose.ICheckEvent = true;
-            this.toolClose.IImageShow = false;
-            this.toolClose.ImageSize = new System.Drawing.Size(0, 0);
+            this.toolClose.ImageSize = new System.Drawing.Size(32, 32);
             toolItem1.ContextMenuStrip = this.contextMenuStrip2;
             toolItem1.Desc = "x1";
             toolItem1.EndDesc = "";
+            toolItem1.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
             toolItem1.Selete = false;
             toolItem1.Text = "呵呵0呵呵1呵呵2呵呵3呵呵4\r\n呵呵5呵呵6呵呵7呵呵8呵呵9";
             toolItem2.Desc = "呵呵";
             toolItem2.EndDesc = "";
             toolItem2.Selete = false;
             toolItem2.Text = "你好";
-            toolItem3.Selete = false;
-            toolItem3.Text = "";
-            toolItem4.Selete = false;
-            toolItem4.Text = "";
-            toolItem5.Selete = false;
-            toolItem5.Text = "";
-            toolItem6.Selete = false;
-            toolItem6.Text = "";
             this.toolClose.Items.Add(toolItem1);
             this.toolClose.Items.Add(toolItem2);
-            this.toolClose.Items.Add(toolItem3);
-            this.toolClose.Items.Add(toolItem4);
-            this.toolClose.Items.Add(toolItem5);
-            this.toolClose.Items.Add(toolItem6);
             this.toolClose.ItemSize = new System.Drawing.Size(120, 120);
             this.toolClose.ItemSpace = 5;
             this.toolClose.Location = new System.Drawing.Point(50, 121);
@@ -149,6 +106,33 @@
             this.toolClose.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolClose.TextFirst.ColorNormal = System.Drawing.Color.Black;
             this.toolClose.Trans = 150;
+            // 
+            // btName
+            // 
+            this.btName.DownImage = ((System.Drawing.Image)(resources.GetObject("btName.DownImage")));
+            this.btName.ForeColor = System.Drawing.Color.Black;
+            this.btName.Image = null;
+            this.btName.Location = new System.Drawing.Point(110, 75);
+            this.btName.MoveImage = ((System.Drawing.Image)(resources.GetObject("btName.MoveImage")));
+            this.btName.Name = "btName";
+            this.btName.NormalImage = ((System.Drawing.Image)(resources.GetObject("btName.NormalImage")));
+            this.btName.Size = new System.Drawing.Size(59, 28);
+            this.btName.TabIndex = 30;
+            this.btName.Text = "hello";
+            this.btName.UseVisualStyleBackColor = false;
+            // 
+            // tbName
+            // 
+            this.tbName.Icon = null;
+            this.tbName.IsPasswordChat = '\0';
+            this.tbName.Lines = new string[0];
+            this.tbName.Location = new System.Drawing.Point(99, 45);
+            this.tbName.Name = "tbName";
+            this.tbName.RegexType = Paway.Helper.RegexType.Normal;
+            this.tbName.SelectedText = "";
+            this.tbName.Size = new System.Drawing.Size(120, 24);
+            this.tbName.TabIndex = 29;
+            this.tbName.WaterText = "你好";
             // 
             // Form1
             // 

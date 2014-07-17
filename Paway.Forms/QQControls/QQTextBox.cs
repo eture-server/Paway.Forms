@@ -90,6 +90,7 @@ namespace Paway.Forms
             this.InitEvents();
             this.BackColor = Color.Transparent;
             this.UpdateStyles();
+            this.Padding = new Padding(0, 0, 0, 3);
         }
 
         /// <summary>
@@ -145,6 +146,15 @@ namespace Paway.Forms
         #endregion
 
         #region 属性
+        /// <summary>
+        /// 获取或设置控件内的空白。
+        /// </summary>
+        [Description("获取或设置控件内的空白"), DefaultValue(typeof(Padding), "0,0,0,3")]
+        public new Padding Padding
+        {
+            get { return base.Padding; }
+            set { base.Padding = value; }
+        }
         /// <summary>
         /// 是否通过正则表达式
         /// </summary>
@@ -477,6 +487,7 @@ namespace Paway.Forms
             this.BackColor = System.Drawing.Color.Black;
             this.Controls.Add(this.BaseText);
             this.Name = "QQTextBox";
+            this.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
             this.Size = new System.Drawing.Size(178, 24);
             ((System.ComponentModel.ISupportInitialize)(this.error)).EndInit();
             this.ResumeLayout(false);

@@ -69,6 +69,35 @@ namespace Paway.Forms
         #endregion
 
         #region 属性
+        private int _textSpace = 6;
+        /// <summary>
+        /// 项文本间的间隔
+        /// </summary>
+        [Description("项文本间的间隔"), DefaultValue(6)]
+        public int TextSpace
+        {
+            get { return this._textSpace; }
+            set
+            {
+                this._textSpace = value;
+                this.Invalidate(this.ClientRectangle);
+            }
+        }
+        private Padding _textPading = new Padding(2);
+        /// <summary>
+        /// 获取或设置项内的空白
+        /// </summary>
+        [Description("获取或设置项内的空白"), DefaultValue(typeof(Padding), "2,2,2,2")]
+        public Padding TextPading
+        {
+            get { return this._textPading; }
+            set
+            {
+                this._textPading = value;
+                UpdateImageSize();
+                this.Invalidate(this.ClientRectangle);
+            }
+        }
         private TProperties _text;
         /// <summary>
         /// 文字
@@ -327,6 +356,7 @@ namespace Paway.Forms
             set
             {
                 this._itemSize = value;
+                UpdateImageSize();
                 this.Invalidate(this.ClientRectangle);
             }
         }
@@ -334,6 +364,7 @@ namespace Paway.Forms
         /// 每一项图片显示的大小
         /// </summary>
         private Size _imageSize = new Size(48, 48);
+        private Size _imageSizeShow = Size.Empty;
         /// <summary>
         /// Item Image 的大小
         /// </summary>
@@ -344,16 +375,10 @@ namespace Paway.Forms
             set
             {
                 this._imageSize = value;
-                if (value.Height == 0)
-                {
-                    this._iImageShow = false;
-                }
+                UpdateImageSize();
                 this.Invalidate(this.ClientRectangle);
             }
         }
-        /// <summary>
-        /// 项与项之间的间隔
-        /// </summary>
         private int _itemSpace = 1;
         /// <summary>
         /// 项与项之间的间隔
@@ -417,6 +442,38 @@ namespace Paway.Forms
         /// </summary>
         private int LastItemCount;
 
+        #endregion
+
+        #region Private Method
+        /// <summary>
+        /// 更新图片区域
+        /// </summary>
+        private void UpdateImageSize()
+        {
+            if (_iImageShow)
+            {
+                _imageSizeShow = _imageSize;
+                switch (_tLocation)
+                {
+                    case TILocation.Up:
+                        int width = (_itemSize.Width - _imageSize.Width - _textPading.Left - _textPading.Right) / 2;
+                        if (width < 0)
+                        {
+                            _imageSizeShow.Width = _itemSize.Width - _textPading.Left - _textPading.Right;
+                            _imageSizeShow.Height = (_imageSizeShow.Width * _imageSize.Height * 1.0 / _imageSize.Width).ToInt();
+                        }
+                        break;
+                    case TILocation.Left:
+                        int height = (_itemSize.Height - _imageSize.Height - _textPading.Top - _textPading.Bottom) / 2;
+                        if (height < 0)
+                        {
+                            _imageSizeShow.Height = _itemSize.Height - _textPading.Top - _textPading.Bottom;
+                            _imageSizeShow.Width = (_imageSizeShow.Height * _imageSize.Width * 1.0 / _imageSize.Height).ToInt();
+                        }
+                        break;
+                }
+            }
+        }
         #endregion
 
         #region 事件
@@ -709,19 +766,21 @@ namespace Paway.Forms
         {
             if (_iImageShow && item.Image != null)
             {
-                Rectangle imageRect = new Rectangle();
+                Rectangle imageRect = Rectangle.Empty;
                 switch (_tLocation)
                 {
                     case TILocation.Up:
-                        imageRect.X = item.Rectangle.X + (item.Rectangle.Width - this._imageSize.Width) / 2;
-                        imageRect.Y = 6;
+                        int width = (_itemSize.Width - _imageSizeShow.Width - _textPading.Left - _textPading.Right) / 2;
+                        imageRect.X = item.Rectangle.X + _textPading.Left + width;
+                        imageRect.Y = _textPading.Top;
                         break;
                     case TILocation.Left:
-                        imageRect.X = item.Rectangle.X + 2;
-                        imageRect.Y = item.Rectangle.Y + (item.Rectangle.Height - this._imageSize.Height) / 2;
+                        int height = (_itemSize.Height - _imageSizeShow.Height - _textPading.Top - _textPading.Bottom) / 2;
+                        imageRect.X = item.Rectangle.X + _textPading.Left;
+                        imageRect.Y = item.Rectangle.Y + _textPading.Top + height;
                         break;
                 }
-                imageRect.Size = this._imageSize;
+                imageRect.Size = this._imageSizeShow;
                 g.DrawImage(item.Image, imageRect);
             }
         }
@@ -733,29 +792,24 @@ namespace Paway.Forms
             Rectangle textRect = Rectangle.Empty;
             if (string.IsNullOrEmpty(item.Text)) item.Text = string.Empty;
             {
-                int pad = 2;
                 textRect = new Rectangle
                 {
-                    X = item.Rectangle.X + pad,
-                    Y = item.Rectangle.Y + pad,
-                    Width = item.Rectangle.Width,
+                    X = item.Rectangle.X + _textPading.Left,
+                    Y = item.Rectangle.Y + _textPading.Top,
+                    Width = item.Rectangle.Width - _textPading.Left - _textPading.Right,
+                    Height = item.Rectangle.Height - _textPading.Top - _textPading.Bottom,
                 };
-                if (!_iImageShow)
-                {
-                    textRect.Height = item.Rectangle.Height;
-                }
-                else
+                if (_iImageShow && item.Image != null)
                 {
                     switch (_tLocation)
                     {
                         case TILocation.Up:
-                            textRect.Y = item.Rectangle.Height / 5 * 3;
-                            textRect.Height = item.Rectangle.Height / 5 * 2;
+                            textRect.Y += _imageSizeShow.Height + _textPading.Top;
+                            textRect.Height = item.Rectangle.Height - _imageSizeShow.Height - _textPading.Top * 2 - _textPading.Bottom;
                             break;
                         case TILocation.Left:
-                            textRect.X = item.Rectangle.X + pad + _imageSize.Width;
-                            textRect.Height = item.Rectangle.Height;
-                            textRect.Width = item.Rectangle.Width + item.Rectangle.X - textRect.X;
+                            textRect.X += _imageSizeShow.Width + _textPading.Left;
+                            textRect.Width = item.Rectangle.Width - _imageSizeShow.Width - _textPading.Left * 2 - _textPading.Right;
                             break;
                     }
                 }
@@ -763,8 +817,6 @@ namespace Paway.Forms
                 {
                     textRect.Width -= _rightLen;
                 }
-                textRect.Width -= pad * 2;
-                textRect.Height -= pad * 2;
                 string[] text = item.Text.Split(new string[] { "\r\n", "&" }, StringSplitOptions.RemoveEmptyEntries);
                 if (text.Length > 0)
                 {
@@ -774,7 +826,7 @@ namespace Paway.Forms
                     //GetFont(item.MouseState, TextSencond).GetHeight(g).ToInt();
                     int height = textRect.Height - fHight;
                     height -= (text.Length - 1) * sHight;
-                    height -= (text.Length - 1) * 6;
+                    height -= (text.Length - 1) * _textSpace;
                     height /= 2;
 
                     Rectangle rect = new Rectangle()
@@ -790,7 +842,7 @@ namespace Paway.Forms
                         rect = new Rectangle()
                         {
                             X = textRect.X + (fHight - sHight) / 2,
-                            Y = textRect.Y + height + fHight + 6 * i + sHight * (i - 1),
+                            Y = textRect.Y + height + fHight + _textSpace * i + sHight * (i - 1),
                             Width = textRect.Width,
                             Height = sHight,
                         };
@@ -800,8 +852,8 @@ namespace Paway.Forms
             }
             if (!string.IsNullOrEmpty(item.HeadDesc))
             {
-                int dHeight = TextRenderer.MeasureText("你好", GetFont(item.MouseState, THeadDesc)).Height + 6;
-                //GetFont(item.MouseState, THeadDesc).GetHeight(g).ToInt() + 6;
+                int dHeight = TextRenderer.MeasureText("你好", GetFont(item.MouseState, THeadDesc)).Height + _textSpace;
+                //GetFont(item.MouseState, THeadDesc).GetHeight(g).ToInt() + _textSpace;
                 Rectangle rect = new Rectangle()
                 {
                     X = textRect.X,
@@ -813,8 +865,8 @@ namespace Paway.Forms
             }
             if (!string.IsNullOrEmpty(item.EndDesc))
             {
-                int dHeight = TextRenderer.MeasureText("你好", GetFont(item.MouseState, TEndDesc)).Height + 6;
-                //GetFont(item.MouseState, TEndDesc).GetHeight(g).ToInt() + 6;
+                int dHeight = TextRenderer.MeasureText("你好", GetFont(item.MouseState, TEndDesc)).Height + _textSpace;
+                //GetFont(item.MouseState, TEndDesc).GetHeight(g).ToInt() + _textSpace;
                 Rectangle rect = new Rectangle()
                 {
                     X = textRect.X,
