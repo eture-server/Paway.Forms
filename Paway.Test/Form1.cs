@@ -21,10 +21,14 @@ namespace Paway.Test
         public Form1()
         {
             InitializeComponent();
-            toolClose.ItemClick += toolClose_ItemClick;
-            toolClose.EditClick += toolClose_EditClick;
+            toolBar.ItemClick += toolClose_ItemClick;
+            toolBar.EditClick += toolClose_EditClick;
             btName.Click += btName_Click;
             btName_Click(this, EventArgs.Empty);
+        }
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
         }
 
         void toolClose_EditClick(object sender, EventArgs e)

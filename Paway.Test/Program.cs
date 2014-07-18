@@ -3,6 +3,7 @@ using Paway.Forms.Metro;
 using Paway.Helper;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -23,6 +24,9 @@ namespace Paway.Test
             Application.SetCompatibleTextRenderingDefault(false);
             log.Error("log.Error:" + DateTime.Now);
             InitConfig.IMouseMove = true;
+            //InitConfig.BackColor = Color.Green;
+            //InitConfig.ForeColor = Color.Red;
+            //InitConfig.Font = new Font("微软雅黑", 16f);
             Application.Run(new Form1());
         }
     }

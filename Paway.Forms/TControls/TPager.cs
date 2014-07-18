@@ -20,7 +20,7 @@ namespace Paway.Forms
     /// <summary>
     /// 分页工具栏
     /// </summary>
-    public partial class TPager : UserControl
+    public partial class TPager : TControl
     {
         private int m_PageSize = 20;
         private int m_PageCount;
@@ -365,7 +365,6 @@ namespace Paway.Forms
             // btnFirst
             // 
             this.btnFirst.DownImage = ((System.Drawing.Image)(resources.GetObject("btnFirst.DownImage")));
-            this.btnFirst.ForeColor = System.Drawing.Color.Black;
             this.btnFirst.Image = null;
             this.btnFirst.Location = new System.Drawing.Point(21, 1);
             this.btnFirst.MoveImage = ((System.Drawing.Image)(resources.GetObject("btnFirst.MoveImage")));
@@ -378,11 +377,12 @@ namespace Paway.Forms
             // 
             // txtCurrentPage
             // 
+            this.txtCurrentPage.ForeColor = System.Drawing.Color.Black;
             this.txtCurrentPage.Icon = null;
             this.txtCurrentPage.IsPasswordChat = '\0';
             this.txtCurrentPage.Lines = new string[] {
         "1"};
-            this.txtCurrentPage.Location = new System.Drawing.Point(85, 3);
+            this.txtCurrentPage.Location = new System.Drawing.Point(86, 3);
             this.txtCurrentPage.MaxLength = 10;
             this.txtCurrentPage.Name = "txtCurrentPage";
             this.txtCurrentPage.SelectedText = "";
@@ -393,7 +393,6 @@ namespace Paway.Forms
             // btnPrevious
             // 
             this.btnPrevious.DownImage = ((System.Drawing.Image)(resources.GetObject("btnPrevious.DownImage")));
-            this.btnPrevious.ForeColor = System.Drawing.Color.Black;
             this.btnPrevious.Image = null;
             this.btnPrevious.Location = new System.Drawing.Point(53, 1);
             this.btnPrevious.MoveImage = ((System.Drawing.Image)(resources.GetObject("btnPrevious.MoveImage")));
@@ -407,9 +406,8 @@ namespace Paway.Forms
             // btnNext
             // 
             this.btnNext.DownImage = ((System.Drawing.Image)(resources.GetObject("btnNext.DownImage")));
-            this.btnNext.ForeColor = System.Drawing.Color.Black;
             this.btnNext.Image = null;
-            this.btnNext.Location = new System.Drawing.Point(113, 1);
+            this.btnNext.Location = new System.Drawing.Point(114, 1);
             this.btnNext.MoveImage = ((System.Drawing.Image)(resources.GetObject("btnNext.MoveImage")));
             this.btnNext.Name = "btnNext";
             this.btnNext.NormalImage = ((System.Drawing.Image)(resources.GetObject("btnNext.NormalImage")));
@@ -421,9 +419,8 @@ namespace Paway.Forms
             // btnLast
             // 
             this.btnLast.DownImage = ((System.Drawing.Image)(resources.GetObject("btnLast.DownImage")));
-            this.btnLast.ForeColor = System.Drawing.Color.Black;
             this.btnLast.Image = null;
-            this.btnLast.Location = new System.Drawing.Point(145, 1);
+            this.btnLast.Location = new System.Drawing.Point(146, 1);
             this.btnLast.MoveImage = ((System.Drawing.Image)(resources.GetObject("btnLast.MoveImage")));
             this.btnLast.Name = "btnLast";
             this.btnLast.NormalImage = ((System.Drawing.Image)(resources.GetObject("btnLast.NormalImage")));

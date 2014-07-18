@@ -27,7 +27,6 @@ namespace Paway.Forms
 
         #region 属性
         /// <summary>
-        /// 
         /// </summary>
         [Description("水印文字"), Category("自定义属性")]
         public string WaterText
@@ -52,6 +51,7 @@ namespace Paway.Forms
                 base.Invalidate();
             }
         }
+
         #endregion
 
         #region 方法

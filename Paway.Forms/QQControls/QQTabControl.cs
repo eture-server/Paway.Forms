@@ -6,6 +6,7 @@ using System.Drawing;
 using System.ComponentModel;
 using Paway.Resource;
 using Paway.Win32;
+using Paway.Helper;
 
 namespace Paway.Forms
 {
@@ -38,16 +39,18 @@ namespace Paway.Forms
         public QQTabControl()
             : base()
         {
-            base.SetStyle(
+            this.SetStyle(
                 ControlStyles.UserPaint |
-                ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.DoubleBuffer |
                 ControlStyles.ResizeRedraw |
+                ControlStyles.Selectable |
                 ControlStyles.SupportsTransparentBackColor, true);
+            this.UpdateStyles();
+            InitMethod.Init(this);
             base.SizeMode = TabSizeMode.Fixed;
             base.ItemSize = new Size(80, 32);
-            base.UpdateStyles();
         }
         #endregion
 

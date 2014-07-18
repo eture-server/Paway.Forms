@@ -36,9 +36,8 @@
             this.toolAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.toolDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.toolClose = new Paway.Forms.ToolBar();
+            this.toolBar = new Paway.Forms.ToolBar();
             this.btName = new Paway.Forms.QQButton();
-            this.tbName = new Paway.Forms.QQTextBox();
             this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -71,13 +70,11 @@
             this.pictureBox1.TabIndex = 25;
             this.pictureBox1.TabStop = false;
             // 
-            // toolClose
+            // toolBar
             // 
-            this.toolClose.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.toolClose.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolClose.ForeColor = System.Drawing.Color.Black;
-            this.toolClose.ICheckEvent = true;
-            this.toolClose.ImageSize = new System.Drawing.Size(32, 32);
+            this.toolBar.Font = new System.Drawing.Font("Tahoma", 15F);
+            this.toolBar.ICheckEvent = true;
+            this.toolBar.ImageSize = new System.Drawing.Size(32, 32);
             toolItem1.ContextMenuStrip = this.contextMenuStrip2;
             toolItem1.Desc = "x1";
             toolItem1.EndDesc = "";
@@ -88,51 +85,37 @@
             toolItem2.EndDesc = "";
             toolItem2.Selete = false;
             toolItem2.Text = "你好";
-            this.toolClose.Items.Add(toolItem1);
-            this.toolClose.Items.Add(toolItem2);
-            this.toolClose.ItemSize = new System.Drawing.Size(120, 120);
-            this.toolClose.ItemSpace = 5;
-            this.toolClose.Location = new System.Drawing.Point(50, 121);
-            this.toolClose.Name = "toolClose";
-            this.toolClose.Size = new System.Drawing.Size(265, 150);
-            this.toolClose.TabIndex = 31;
-            this.toolClose.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
-            this.toolClose.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(127)))), ((int)(((byte)(104)))));
-            this.toolClose.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(72)))), ((int)(((byte)(38)))));
-            this.toolClose.TDesc.ColorDown = System.Drawing.Color.White;
-            this.toolClose.TDesc.ColorMove = System.Drawing.Color.White;
-            this.toolClose.TEvent = Paway.Forms.TEvent.Up;
-            this.toolClose.TextFirst.ColorDown = System.Drawing.Color.White;
-            this.toolClose.TextFirst.ColorMove = System.Drawing.Color.White;
-            this.toolClose.TextFirst.ColorNormal = System.Drawing.Color.Black;
-            this.toolClose.Trans = 150;
+            this.toolBar.Items.Add(toolItem1);
+            this.toolBar.Items.Add(toolItem2);
+            this.toolBar.ItemSize = new System.Drawing.Size(120, 120);
+            this.toolBar.ItemSpace = 5;
+            this.toolBar.Location = new System.Drawing.Point(35, 63);
+            this.toolBar.Name = "toolBar";
+            this.toolBar.Size = new System.Drawing.Size(266, 138);
+            this.toolBar.TabIndex = 31;
+            this.toolBar.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
+            this.toolBar.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(127)))), ((int)(((byte)(104)))));
+            this.toolBar.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(72)))), ((int)(((byte)(38)))));
+            this.toolBar.TDesc.ColorDown = System.Drawing.Color.White;
+            this.toolBar.TDesc.ColorMove = System.Drawing.Color.White;
+            this.toolBar.TEvent = Paway.Forms.TEvent.Up;
+            this.toolBar.TextFirst.ColorDown = System.Drawing.Color.White;
+            this.toolBar.TextFirst.ColorMove = System.Drawing.Color.White;
+            this.toolBar.TextFirst.ColorNormal = System.Drawing.Color.Black;
+            this.toolBar.Trans = 150;
             // 
             // btName
             // 
             this.btName.DownImage = ((System.Drawing.Image)(resources.GetObject("btName.DownImage")));
-            this.btName.ForeColor = System.Drawing.Color.Black;
             this.btName.Image = null;
-            this.btName.Location = new System.Drawing.Point(110, 75);
+            this.btName.Location = new System.Drawing.Point(35, 25);
             this.btName.MoveImage = ((System.Drawing.Image)(resources.GetObject("btName.MoveImage")));
             this.btName.Name = "btName";
             this.btName.NormalImage = ((System.Drawing.Image)(resources.GetObject("btName.NormalImage")));
-            this.btName.Size = new System.Drawing.Size(59, 28);
+            this.btName.Size = new System.Drawing.Size(64, 32);
             this.btName.TabIndex = 30;
             this.btName.Text = "hello";
             this.btName.UseVisualStyleBackColor = false;
-            // 
-            // tbName
-            // 
-            this.tbName.Icon = null;
-            this.tbName.IsPasswordChat = '\0';
-            this.tbName.Lines = new string[0];
-            this.tbName.Location = new System.Drawing.Point(99, 45);
-            this.tbName.Name = "tbName";
-            this.tbName.RegexType = Paway.Helper.RegexType.Normal;
-            this.tbName.SelectedText = "";
-            this.tbName.Size = new System.Drawing.Size(120, 24);
-            this.tbName.TabIndex = 29;
-            this.tbName.WaterText = "你好";
             // 
             // Form1
             // 
@@ -142,10 +125,9 @@
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.BackgroundImage = global::Paway.Test.Properties.Resources.i1;
             this.CausesValidation = false;
-            this.ClientSize = new System.Drawing.Size(399, 275);
-            this.Controls.Add(this.toolClose);
+            this.ClientSize = new System.Drawing.Size(328, 222);
+            this.Controls.Add(this.toolBar);
             this.Controls.Add(this.btName);
-            this.Controls.Add(this.tbName);
             this.Controls.Add(this.pictureBox1);
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ForeColor = System.Drawing.Color.White;
@@ -164,9 +146,8 @@
         private System.Windows.Forms.ToolStripMenuItem toolAdd;
         private System.Windows.Forms.ToolStripMenuItem toolDelete;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private Forms.QQTextBox tbName;
         private Forms.QQButton btName;
-        private Forms.ToolBar toolClose;
+        private Forms.ToolBar toolBar;
 
 
 

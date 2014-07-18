@@ -17,6 +17,11 @@ namespace Paway.Helper
         /// </summary>
         public static Color? BackColor { get; set; }
 
+        /// <summary>
+        /// 获取或设置控件的前景色
+        /// </summary>
+        public static Color? ForeColor { get; set; }
+
         private static Font _font = new Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
         /// <summary>
         /// 获取或设置控件显示的文字的字体

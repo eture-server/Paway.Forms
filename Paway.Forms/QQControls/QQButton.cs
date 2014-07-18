@@ -41,8 +41,8 @@ namespace Paway.Forms
                 ControlStyles.SupportsTransparentBackColor |
                 ControlStyles.UserPaint, true);
             this.SetStyle(ControlStyles.Opaque, false);
-            base.BackColor = Color.Transparent;
             this.UpdateStyles();
+            InitMethod.Init(this);
             this.Validated += QQButton_LostFocus;
         }
 
@@ -267,9 +267,31 @@ namespace Paway.Forms
         public override Color BackColor
         {
             get { return base.BackColor; }
-            set { base.BackColor = value; }
+            set
+            {
+                if (value == Color.Empty)
+                {
+                    value = Color.Transparent;
+                }
+                base.BackColor = value;
+            }
         }
-
+        /// <summary>
+        /// 获取或设置控件的前景色。
+        /// </summary>
+        [Description("获取或设置控件的前景色"), DefaultValue(typeof(Color), "Black")]
+        public override Color ForeColor
+        {
+            get { return base.ForeColor; }
+            set
+            {
+                if (value == Color.Empty)
+                {
+                    value = Color.Black;
+                }
+                base.ForeColor = value;
+            }
+        }
         #endregion
 
         #region 方法

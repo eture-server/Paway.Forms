@@ -345,11 +345,11 @@ namespace Paway.Forms
         /// <summary>
         /// 每一项的大小
         /// </summary>
-        private Size _itemSize = new Size(74, 82);
+        private Size _itemSize = new Size(78, 82);
         /// <summary>
         /// Item 的大小
         /// </summary>
-        [Description("Item 的大小"), DefaultValue(typeof(Size), "74,82")]
+        [Description("Item 的大小"), DefaultValue(typeof(Size), "78,82")]
         public Size ItemSize
         {
             get { return this._itemSize; }

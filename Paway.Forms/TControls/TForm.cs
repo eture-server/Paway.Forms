@@ -55,6 +55,8 @@ namespace Paway.Forms
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.DoubleBuffer |
+                ControlStyles.ResizeRedraw |
+                ControlStyles.Selectable |
                 ControlStyles.SupportsTransparentBackColor, true);
             this.UpdateStyles();
             InitMethod.Init(this);

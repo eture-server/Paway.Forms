@@ -38,7 +38,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDemo));
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
@@ -51,6 +50,7 @@
             Paway.Forms.ToolItem toolItem10 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem11 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem12 = new Paway.Forms.ToolItem();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDemo));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.在线ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.离开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -122,11 +122,13 @@
             this.tbCat = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.qqTextBox1 = new Paway.Forms.QQTextBox();
+            this.toolBar3 = new Paway.Forms.ToolBar();
+            this.toolBar2 = new Paway.Forms.ToolBar();
             this.btTTsRead = new Paway.Forms.QQButton();
             this.tNumTestBox1 = new Paway.Forms.TNumTestBox();
             this.tbPrompt = new Paway.Forms.QQTextBox();
             this.tComboBox21 = new Paway.Forms.TComboBox();
-            this.qqTextBoxEx1 = new Paway.Forms.QQTextBox();
             this.btAbout = new Paway.Forms.QQButton();
             this.btGridView = new Paway.Forms.QQButton();
             this.btSearch = new Paway.Forms.QQButton();
@@ -139,8 +141,6 @@
             this.btQQ = new Paway.Forms.QQButton();
             this.bt360 = new Paway.Forms.QQButton();
             this.numEditTestBox2 = new Paway.Forms.TNumTestBox();
-            this.toolBar2 = new Paway.Forms.ToolBar();
-            this.toolBar3 = new Paway.Forms.ToolBar();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -658,10 +658,94 @@
             this.pictureBox2.TabIndex = 41;
             this.pictureBox2.TabStop = false;
             // 
+            // qqTextBox1
+            // 
+            this.qqTextBox1.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.qqTextBox1.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.qqTextBox1.Icon = null;
+            this.qqTextBox1.IsPasswordChat = '\0';
+            this.qqTextBox1.Lines = new string[] {
+        "qqTextBox1"};
+            this.qqTextBox1.Location = new System.Drawing.Point(102, 130);
+            this.qqTextBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.qqTextBox1.Name = "qqTextBox1";
+            this.qqTextBox1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.qqTextBox1.SelectedText = "";
+            this.qqTextBox1.Size = new System.Drawing.Size(197, 32);
+            this.qqTextBox1.TabIndex = 3;
+            this.qqTextBox1.WaterText = "";
+            // 
+            // toolBar3
+            // 
+            this.toolBar3.ICheckEvent = true;
+            this.toolBar3.IImageShow = false;
+            this.toolBar3.ImageSize = new System.Drawing.Size(16, 16);
+            toolItem1.Selete = false;
+            toolItem1.Text = "光暗";
+            toolItem2.Selete = false;
+            toolItem2.Text = "反色";
+            toolItem3.Selete = false;
+            toolItem3.Text = "浮雕";
+            toolItem4.Selete = false;
+            toolItem4.Text = "滤色";
+            toolItem5.Selete = false;
+            toolItem5.Text = "左右";
+            toolItem6.Selete = false;
+            toolItem6.Text = "上下";
+            toolItem7.Selete = false;
+            toolItem7.Text = "灰度";
+            toolItem8.Selete = false;
+            toolItem8.Text = "黑白";
+            toolItem9.Selete = false;
+            toolItem9.Text = "透明";
+            toolItem10.Selete = false;
+            toolItem10.Text = "换色";
+            this.toolBar3.Items.Add(toolItem1);
+            this.toolBar3.Items.Add(toolItem2);
+            this.toolBar3.Items.Add(toolItem3);
+            this.toolBar3.Items.Add(toolItem4);
+            this.toolBar3.Items.Add(toolItem5);
+            this.toolBar3.Items.Add(toolItem6);
+            this.toolBar3.Items.Add(toolItem7);
+            this.toolBar3.Items.Add(toolItem8);
+            this.toolBar3.Items.Add(toolItem9);
+            this.toolBar3.Items.Add(toolItem10);
+            this.toolBar3.ItemSize = new System.Drawing.Size(50, 18);
+            this.toolBar3.ItemSpace = 0;
+            this.toolBar3.Location = new System.Drawing.Point(498, 16);
+            this.toolBar3.Name = "toolBar3";
+            this.toolBar3.Size = new System.Drawing.Size(50, 261);
+            this.toolBar3.TabIndex = 44;
+            this.toolBar3.TDirection = Paway.Forms.TDirection.Vertical;
+            this.toolBar3.TEvent = Paway.Forms.TEvent.Up;
+            this.toolBar3.TLocation = Paway.Forms.TILocation.Left;
+            // 
+            // toolBar2
+            // 
+            this.toolBar2.ICheckEvent = true;
+            this.toolBar2.ImageSize = new System.Drawing.Size(16, 16);
+            toolItem11.ContextMenuStrip = this.contextMenuStrip1;
+            toolItem11.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
+            toolItem11.Selete = false;
+            toolItem11.Text = "创建宝贝";
+            toolItem12.Selete = false;
+            toolItem12.Text = "上传宝贝";
+            this.toolBar2.Items.Add(toolItem11);
+            this.toolBar2.Items.Add(toolItem12);
+            this.toolBar2.ItemSize = new System.Drawing.Size(116, 34);
+            this.toolBar2.ItemSpace = 0;
+            this.toolBar2.Location = new System.Drawing.Point(242, 20);
+            this.toolBar2.Name = "toolBar2";
+            this.toolBar2.Size = new System.Drawing.Size(116, 93);
+            this.toolBar2.TabIndex = 43;
+            this.toolBar2.TDirection = Paway.Forms.TDirection.Vertical;
+            this.toolBar2.TEvent = Paway.Forms.TEvent.Up;
+            this.toolBar2.TLocation = Paway.Forms.TILocation.Left;
+            // 
             // btTTsRead
             // 
             this.btTTsRead.DownImage = ((System.Drawing.Image)(resources.GetObject("btTTsRead.DownImage")));
-            this.btTTsRead.ForeColor = System.Drawing.Color.Black;
+            this.btTTsRead.Font = new System.Drawing.Font("Tahoma", 12F);
             this.btTTsRead.Image = null;
             this.btTTsRead.Location = new System.Drawing.Point(283, 210);
             this.btTTsRead.MoveImage = ((System.Drawing.Image)(resources.GetObject("btTTsRead.MoveImage")));
@@ -674,13 +758,16 @@
             // 
             // tNumTestBox1
             // 
+            this.tNumTestBox1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tNumTestBox1.Icon = null;
             this.tNumTestBox1.IsPasswordChat = '\0';
             this.tNumTestBox1.Lines = new string[] {
         "2"};
             this.tNumTestBox1.Location = new System.Drawing.Point(118, 180);
+            this.tNumTestBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tNumTestBox1.MaxLength = 10;
             this.tNumTestBox1.Name = "tNumTestBox1";
+            this.tNumTestBox1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.tNumTestBox1.Regex = "[0-9]*[1-9][0-9]*";
             this.tNumTestBox1.RegexType = Paway.Helper.RegexType.Custom;
             this.tNumTestBox1.SelectedText = "";
@@ -692,12 +779,16 @@
             // 
             this.tbPrompt.BackColor = System.Drawing.Color.White;
             this.tbPrompt.Enabled = false;
+            this.tbPrompt.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tbPrompt.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tbPrompt.Icon = null;
             this.tbPrompt.IsPasswordChat = '\0';
             this.tbPrompt.Lines = new string[] {
         "请输入类目关键字"};
             this.tbPrompt.Location = new System.Drawing.Point(16, 210);
+            this.tbPrompt.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbPrompt.Name = "tbPrompt";
+            this.tbPrompt.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.tbPrompt.ReadOnly = true;
             this.tbPrompt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbPrompt.SelectedText = "";
@@ -729,24 +820,9 @@
             this.tComboBox21.Size = new System.Drawing.Size(92, 24);
             this.tComboBox21.TabIndex = 31;
             // 
-            // qqTextBoxEx1
-            // 
-            this.qqTextBoxEx1.Icon = null;
-            this.qqTextBoxEx1.IsPasswordChat = '\0';
-            this.qqTextBoxEx1.Lines = new string[0];
-            this.qqTextBoxEx1.Location = new System.Drawing.Point(16, 122);
-            this.qqTextBoxEx1.Name = "qqTextBoxEx1";
-            this.qqTextBoxEx1.Regex = "[0-9]{1,5}";
-            this.qqTextBoxEx1.RegexType = Paway.Helper.RegexType.PosInt;
-            this.qqTextBoxEx1.SelectedText = "";
-            this.qqTextBoxEx1.Size = new System.Drawing.Size(92, 24);
-            this.qqTextBoxEx1.TabIndex = 30;
-            this.qqTextBoxEx1.WaterText = "请输入密码";
-            // 
             // btAbout
             // 
             this.btAbout.DownImage = ((System.Drawing.Image)(resources.GetObject("btAbout.DownImage")));
-            this.btAbout.ForeColor = System.Drawing.Color.Black;
             this.btAbout.Image = null;
             this.btAbout.Location = new System.Drawing.Point(285, 241);
             this.btAbout.MoveImage = ((System.Drawing.Image)(resources.GetObject("btAbout.MoveImage")));
@@ -760,7 +836,6 @@
             // btGridView
             // 
             this.btGridView.DownImage = ((System.Drawing.Image)(resources.GetObject("btGridView.DownImage")));
-            this.btGridView.ForeColor = System.Drawing.Color.Black;
             this.btGridView.Image = null;
             this.btGridView.Location = new System.Drawing.Point(233, 180);
             this.btGridView.MoveImage = ((System.Drawing.Image)(resources.GetObject("btGridView.MoveImage")));
@@ -774,7 +849,6 @@
             // btSearch
             // 
             this.btSearch.DownImage = ((System.Drawing.Image)(resources.GetObject("btSearch.DownImage")));
-            this.btSearch.ForeColor = System.Drawing.Color.Black;
             this.btSearch.Image = null;
             this.btSearch.Location = new System.Drawing.Point(220, 241);
             this.btSearch.MoveImage = ((System.Drawing.Image)(resources.GetObject("btSearch.MoveImage")));
@@ -788,7 +862,6 @@
             // btImage
             // 
             this.btImage.DownImage = ((System.Drawing.Image)(resources.GetObject("btImage.DownImage")));
-            this.btImage.ForeColor = System.Drawing.Color.Black;
             this.btImage.Image = null;
             this.btImage.Location = new System.Drawing.Point(155, 241);
             this.btImage.MoveImage = ((System.Drawing.Image)(resources.GetObject("btImage.MoveImage")));
@@ -857,7 +930,6 @@
             // btQQ
             // 
             this.btQQ.DownImage = ((System.Drawing.Image)(resources.GetObject("btQQ.DownImage")));
-            this.btQQ.ForeColor = System.Drawing.Color.Black;
             this.btQQ.Image = null;
             this.btQQ.Location = new System.Drawing.Point(81, 241);
             this.btQQ.MoveImage = ((System.Drawing.Image)(resources.GetObject("btQQ.MoveImage")));
@@ -871,7 +943,6 @@
             // bt360
             // 
             this.bt360.DownImage = ((System.Drawing.Image)(resources.GetObject("bt360.DownImage")));
-            this.bt360.ForeColor = System.Drawing.Color.Black;
             this.bt360.Image = null;
             this.bt360.Location = new System.Drawing.Point(16, 241);
             this.bt360.MoveImage = ((System.Drawing.Image)(resources.GetObject("bt360.MoveImage")));
@@ -884,85 +955,21 @@
             // 
             // numEditTestBox2
             // 
+            this.numEditTestBox2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.numEditTestBox2.Icon = null;
             this.numEditTestBox2.IsPasswordChat = '\0';
             this.numEditTestBox2.IsTrans = true;
             this.numEditTestBox2.Lines = new string[] {
         "0"};
             this.numEditTestBox2.Location = new System.Drawing.Point(16, 155);
+            this.numEditTestBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numEditTestBox2.MaxLength = 10;
             this.numEditTestBox2.Name = "numEditTestBox2";
+            this.numEditTestBox2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.numEditTestBox2.SelectedText = "";
             this.numEditTestBox2.Size = new System.Drawing.Size(92, 24);
             this.numEditTestBox2.TabIndex = 5;
             this.numEditTestBox2.WaterText = "";
-            // 
-            // toolBar2
-            // 
-            this.toolBar2.ICheckEvent = true;
-            this.toolBar2.ImageSize = new System.Drawing.Size(16, 16);
-            toolItem1.ContextMenuStrip = this.contextMenuStrip1;
-            toolItem1.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
-            toolItem1.Selete = false;
-            toolItem1.Text = "创建宝贝";
-            toolItem2.Selete = false;
-            toolItem2.Text = "上传宝贝";
-            this.toolBar2.Items.Add(toolItem1);
-            this.toolBar2.Items.Add(toolItem2);
-            this.toolBar2.ItemSize = new System.Drawing.Size(116, 34);
-            this.toolBar2.ItemSpace = 0;
-            this.toolBar2.Location = new System.Drawing.Point(242, 20);
-            this.toolBar2.Name = "toolBar2";
-            this.toolBar2.Size = new System.Drawing.Size(116, 93);
-            this.toolBar2.TabIndex = 43;
-            this.toolBar2.TDirection = Paway.Forms.TDirection.Vertical;
-            this.toolBar2.TEvent = Paway.Forms.TEvent.Up;
-            this.toolBar2.TLocation = Paway.Forms.TILocation.Left;
-            // 
-            // toolBar3
-            // 
-            this.toolBar3.ICheckEvent = true;
-            this.toolBar3.IImageShow = false;
-            this.toolBar3.ImageSize = new System.Drawing.Size(16, 16);
-            toolItem3.Selete = false;
-            toolItem3.Text = "光暗";
-            toolItem4.Selete = false;
-            toolItem4.Text = "反色";
-            toolItem5.Selete = false;
-            toolItem5.Text = "浮雕";
-            toolItem6.Selete = false;
-            toolItem6.Text = "滤色";
-            toolItem7.Selete = false;
-            toolItem7.Text = "左右";
-            toolItem8.Selete = false;
-            toolItem8.Text = "上下";
-            toolItem9.Selete = false;
-            toolItem9.Text = "灰度";
-            toolItem10.Selete = false;
-            toolItem10.Text = "黑白";
-            toolItem11.Selete = false;
-            toolItem11.Text = "透明";
-            toolItem12.Selete = false;
-            toolItem12.Text = "换色";
-            this.toolBar3.Items.Add(toolItem3);
-            this.toolBar3.Items.Add(toolItem4);
-            this.toolBar3.Items.Add(toolItem5);
-            this.toolBar3.Items.Add(toolItem6);
-            this.toolBar3.Items.Add(toolItem7);
-            this.toolBar3.Items.Add(toolItem8);
-            this.toolBar3.Items.Add(toolItem9);
-            this.toolBar3.Items.Add(toolItem10);
-            this.toolBar3.Items.Add(toolItem11);
-            this.toolBar3.Items.Add(toolItem12);
-            this.toolBar3.ItemSize = new System.Drawing.Size(50, 18);
-            this.toolBar3.ItemSpace = 0;
-            this.toolBar3.Location = new System.Drawing.Point(498, 16);
-            this.toolBar3.Name = "toolBar3";
-            this.toolBar3.Size = new System.Drawing.Size(50, 261);
-            this.toolBar3.TabIndex = 44;
-            this.toolBar3.TDirection = Paway.Forms.TDirection.Vertical;
-            this.toolBar3.TEvent = Paway.Forms.TEvent.Up;
-            this.toolBar3.TLocation = Paway.Forms.TILocation.Left;
             // 
             // FormDemo
             // 
@@ -970,6 +977,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.ClientSize = new System.Drawing.Size(560, 289);
+            this.Controls.Add(this.qqTextBox1);
             this.Controls.Add(this.toolBar3);
             this.Controls.Add(this.toolBar2);
             this.Controls.Add(this.pictureBox2);
@@ -979,7 +987,6 @@
             this.Controls.Add(this.tbCat);
             this.Controls.Add(this.tbPrompt);
             this.Controls.Add(this.tComboBox21);
-            this.Controls.Add(this.qqTextBoxEx1);
             this.Controls.Add(this.btAbout);
             this.Controls.Add(this.btGridView);
             this.Controls.Add(this.btSearch);
@@ -1081,7 +1088,6 @@
         private Forms.QQButton btSearch;
         private Forms.QQButton btGridView;
         private Forms.QQButton btAbout;
-        private Forms.QQTextBox qqTextBoxEx1;
         private Forms.TComboBox tComboBox21;
         private System.Windows.Forms.TextBox tbCat;
         private Forms.QQTextBox tbPrompt;
@@ -1093,6 +1099,7 @@
         private Forms.QQTabPage qqTabPage4;
         private Forms.ToolBar toolBar2;
         private Forms.ToolBar toolBar3;
+        private Forms.QQTextBox qqTextBox1;
 
     }
 }

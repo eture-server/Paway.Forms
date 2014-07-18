@@ -14,7 +14,7 @@ namespace Paway.Forms
     /// <summary>
     /// DataGridView分页控件
     /// </summary>
-    public partial class TDataGridViewPager : UserControl
+    public partial class TDataGridViewPager : TControl
     {
         /// <summary>
         /// 页面切换的时候触发

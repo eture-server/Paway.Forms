@@ -14,14 +14,24 @@ namespace Paway.Forms
     /// <summary>
     /// 
     /// </summary>
-    public partial class QQTextBox : UserControl
+    public partial class QQTextBox : TControl
     {
         #region 变量
+        private Image _borderImage = AssemblyHelper.GetImage("QQ.TextBox.normal.png");
+        private Cursor _cursor = Cursors.IBeam;
+        private TMouseState _mouseState = TMouseState.Normal;
+        private TMouseState _iconMouseState = TMouseState.Normal;
+        private bool _iconIsButton;
+        private ErrorProvider error;
+        private Image _icon;
+
+        #endregion
+
+        #region 重载属性
         /// <summary>
         /// BaseText
         /// </summary>
         protected QQTextBoxBase BaseText;
-
         /// <summary>
         /// BaseText
         /// </summary>
@@ -63,89 +73,172 @@ namespace Paway.Forms
         {
             get { return BaseText.TextLength; }
         }
-
-        private Image _borderImage = AssemblyHelper.GetImage("QQ.TextBox.normal.png");
-        private Cursor _cursor = Cursors.IBeam;
-        private TMouseState _mouseState = TMouseState.Normal;
-        private TMouseState _iconMouseState = TMouseState.Normal;
-        private bool _iconIsButton;
-        private ErrorProvider error;
-        private IContainer components;
-        private Image _icon;
-        #endregion
-
-        #region 构造函数
+        /// <summary>
+        /// 指定可以在编辑控件中输入的最大字符数
+        /// </summary>
+        [Description("指定可以在编辑控件中输入的最大字符数。"), Category("行为"), DefaultValue(32767)]
+        public virtual int MaxLength
+        {
+            get { return this.BaseText.MaxLength; }
+            set { this.BaseText.MaxLength = value; }
+        }
+        /// <summary>
+        /// 控件编辑控件的文本是否能够跨越多行
+        /// </summary>
+        [Description("控件编辑控件的文本是否能够跨越多行。"), Category("行为"), DefaultValue(false)]
+        public virtual bool Multiline
+        {
+            get { return this.BaseText.Multiline; }
+            set { this.BaseText.Multiline = value; }
+        }
+        /// <summary>
+        /// 指示将为单行编辑控件的密码输入显示的字符
+        /// </summary>
+        [Description("指示将为单行编辑控件的密码输入显示的字符。"), Category("行为"), DefaultValue(false)]
+        public char IsPasswordChat
+        {
+            get { return this.BaseText.PasswordChar; }
+            set { this.BaseText.PasswordChar = value; }
+        }
+        /// <summary>
+        /// 控制能否更改编辑控件中的文本
+        /// </summary>
+        [Description("控制能否更改编辑控件中的文本。"), Category("行为"), DefaultValue(false)]
+        public virtual bool ReadOnly
+        {
+            get { return this.BaseText.ReadOnly; }
+            set { this.BaseText.ReadOnly = value; }
+        }
+        /// <summary>
+        /// 指示编辑控件中的文本是否以默认的密码字符显示
+        /// </summary>
+        [Description("指示编辑控件中的文本是否以默认的密码字符显示。"), Category("行为"), DefaultValue(false)]
+        public virtual bool IsSystemPasswordChar
+        {
+            get { return this.BaseText.UseSystemPasswordChar; }
+            set { this.BaseText.UseSystemPasswordChar = value; }
+        }
+        /// <summary>
+        /// 指示多行编辑控件是否自动换行
+        /// </summary>
+        [Description("指示多行编辑控件是否自动换行。"), Category("行为"), DefaultValue(true)]
+        public virtual bool WordWrap
+        {
+            get { return this.BaseText.WordWrap; }
+            set { this.BaseText.WordWrap = value; }
+        }
+        /// <summary>
+        /// 多行编辑中的文本行，作为字符串值的数组
+        /// </summary>
+        [Description("多行编辑中的文本行，作为字符串值的数组。"), Category("外观")]
+        public virtual string[] Lines
+        {
+            get { return this.BaseText.Lines; }
+            set { this.BaseText.Lines = value; }
+        }
+        /// <summary>
+        /// 指示对于多行编辑控件，将为此控件显示哪些滚动条
+        /// </summary>
+        [Description("指示对于多行编辑控件，将为此控件显示哪些滚动条。"), Category("外观")]
+        [DefaultValue(typeof(ScrollBars), "None")]
+        public virtual ScrollBars ScrollBars
+        {
+            get { return this.BaseText.ScrollBars; }
+            set { this.BaseText.ScrollBars = value; }
+        }
+        /// <summary>
+        /// 指示应该如何对齐编辑控件的文本
+        /// </summary>
+        [Description("指示应该如何对齐编辑控件的文本。"), Category("外观")]
+        [DefaultValue(typeof(HorizontalAlignment), "Left")]
+        public virtual HorizontalAlignment TextAlign
+        {
+            get { return this.BaseText.TextAlign; }
+            set { this.BaseText.TextAlign = value; }
+        }
+        /// <summary>
+        /// 获取或设置 System.Windows.Forms.TextBox 中的当前文本
+        /// </summary>
+        [Description("获取或设置 System.Windows.Forms.TextBox 中的当前文本"), Browsable(true)]
+        public override string Text
+        {
+            get { return this.BaseText.Text; }
+            set { this.BaseText.Text = value; }
+        }
         /// <summary>
         /// 
         /// </summary>
-        public QQTextBox()
+        [DefaultValue(typeof(Cursor), "IBeam")]
+        public override Cursor Cursor
         {
-            this.SetStyle(
-                ControlStyles.UserPaint |
-                ControlStyles.AllPaintingInWmPaint |
-                ControlStyles.OptimizedDoubleBuffer |
-                ControlStyles.ResizeRedraw |
-                ControlStyles.DoubleBuffer, true);
-            InitializeComponent();
-            this.InitEvents();
-            this.BackColor = Color.Transparent;
-            this.UpdateStyles();
-            this.Padding = new Padding(0, 0, 0, 3);
+            get { return this._cursor; }
+            set { this._cursor = value; }
         }
-
-        /// <summary>
-        /// 控件背景
-        /// </summary>
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-            if (this.Parent != null)
-            {
-                BaseText.BackColor = _isTrans ? this.Parent.BackColor : Color.White;
-            }
-            this.KeyDown += QQTextBox_KeyDown;
-        }
-
-        #endregion
-
-        #region 扩展
-        void QQTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.A && Control.ModifierKeys == Keys.Control)
-            {
-                this.BaseText.SelectAll();
-            }
-        }
-
-        #endregion
-
-        #region 自定义事件 && 激发事件的方法
         /// <summary>
         /// 
         /// </summary>
-        public event EventHandler IconClick;
-        /// <summary>
-        /// 
-        /// </summary>
-        private void OnIconClick()
+        [DefaultValue(typeof(Size), "20,24")]
+        public override Size MinimumSize
         {
-            if (this.IconClick != null)
-                this.IconClick(this, EventArgs.Empty);
+            get { return new Size(20, 24); }
+            set { base.MinimumSize = value; }
         }
         /// <summary>
-        /// 在 Text 属性值更改时发生
+        /// 获取或设置控件的高度和宽度
         /// </summary>
-        public new event EventHandler TextChanged;
-        private void OnTextChang()
+        [Description("获取或设置控件的高度和宽度"), DefaultValue(typeof(Size), "166,24")]
+        public new Size Size
         {
-            if (TextChanged != null)
+            get { return base.Size; }
+            set
             {
-                TextChanged(this, EventArgs.Empty);
+                if (value == Size.Empty)
+                {
+                    value = new Size(166, 24);
+                }
+                base.Size = value;
+                int width = TextRenderer.MeasureText("你好", this.Font).Width;
+                BaseText.Size = new Size(value.Width - width / 4, value.Height - 8);
+                this.Invalidate();
             }
         }
-        #endregion
+        /// <summary>
+        /// 获取或设置控件显示的文字的字体
+        /// </summary>
+        [Description("获取或设置控件显示的文字的字体"), DefaultValue(typeof(Font), "微软雅黑, 9pt")]
+        public override Font Font
+        {
+            get { return base.Font; }
+            set
+            {
+                if (BaseText == null) return;
+                if (value == null)
+                {
+                    value = new Font("微软雅黑", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
+                }
+                base.Font = value;
+                BaseText.Font = value;
+                this.Invalidate();
+            }
+        }
+        /// <summary>
+        /// 此组件的前景色，用于显示文本
+        /// </summary>
+        [Description("此组件的前景色，用于显示文本。"), Category("外观"), DefaultValue(typeof(Color), "Black")]
+        public override Color ForeColor
+        {
+            get { return this.BaseText.ForeColor; }
+            set
+            {
+                if (value == Color.Empty)
+                {
+                    value = Color.Black;
+                }
+                if (BaseText == null) return;
+                BaseText.ForeColor = value;
+            }
+        }
 
-        #region 属性
         /// <summary>
         /// 获取或设置控件内的空白。
         /// </summary>
@@ -155,6 +248,10 @@ namespace Paway.Forms
             get { return base.Padding; }
             set { base.Padding = value; }
         }
+
+        #endregion
+
+        #region 新属性
         /// <summary>
         /// 是否通过正则表达式
         /// </summary>
@@ -178,6 +275,7 @@ namespace Paway.Forms
             set { _regex = value; }
         }
         private RegexType _regexType;
+        private IContainer components;
         /// <summary>
         /// 在控件失去焦点时使用正则表达示验证字符
         /// </summary>
@@ -218,108 +316,7 @@ namespace Paway.Forms
             }
         }
         /// <summary>
-        /// 
-        /// </summary>
-        [Description("指定可以在编辑控件中输入的最大字符数。"), Category("行为"), DefaultValue(32767)]
-        public virtual int MaxLength
-        {
-            get { return this.BaseText.MaxLength; }
-            set { this.BaseText.MaxLength = value; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Description("控件编辑控件的文本是否能够跨越多行。"), Category("行为"), DefaultValue(false)]
-        public virtual bool Multiline
-        {
-            get { return this.BaseText.Multiline; }
-            set { this.BaseText.Multiline = value; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Description("指示将为单行编辑控件的密码输入显示的字符。"), Category("行为"), DefaultValue(false)]
-        public char IsPasswordChat
-        {
-            get { return this.BaseText.PasswordChar; }
-            set { this.BaseText.PasswordChar = value; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Description("控制能否更改编辑控件中的文本。"), Category("行为"), DefaultValue(false)]
-        public virtual bool ReadOnly
-        {
-            get { return this.BaseText.ReadOnly; }
-            set { this.BaseText.ReadOnly = value; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Description("指示编辑控件中的文本是否以默认的密码字符显示。"), Category("行为"), DefaultValue(false)]
-        public virtual bool IsSystemPasswordChar
-        {
-            get { return this.BaseText.UseSystemPasswordChar; }
-            set { this.BaseText.UseSystemPasswordChar = value; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Description("指示多行编辑控件是否自动换行。"), Category("行为"), DefaultValue(true)]
-        public virtual bool WordWrap
-        {
-            get { return this.BaseText.WordWrap; }
-            set { this.BaseText.WordWrap = value; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Description("用于显示控件中文本的字体。"), Category("外观")]
-        new public virtual Font Font
-        {
-            get { return this.BaseText.Font; }
-            set { this.BaseText.Font = value; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Description("此组件的前景色，用于显示文本。"), Category("外观")]
-        new public virtual Color ForeColor
-        {
-            get { return this.BaseText.ForeColor; }
-            set { this.BaseText.ForeColor = value; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Description("多行编辑中的文本行，作为字符串值的数组。"), Category("外观")]
-        public virtual string[] Lines
-        {
-            get { return this.BaseText.Lines; }
-            set { this.BaseText.Lines = value; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Description("指示对于多行编辑控件，将为此控件显示哪些滚动条。"), Category("外观")]
-        [DefaultValue(typeof(ScrollBars), "None")]
-        public virtual ScrollBars ScrollBars
-        {
-            get { return this.BaseText.ScrollBars; }
-            set { this.BaseText.ScrollBars = value; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Description("指示应该如何对齐编辑控件的文本。"), Category("外观")]
-        [DefaultValue(typeof(HorizontalAlignment), "Left")]
-        public virtual HorizontalAlignment TextAlign
-        {
-            get { return this.BaseText.TextAlign; }
-            set { this.BaseText.TextAlign = value; }
-        }
-        /// <summary>
-        /// 
+        /// 文本框的图标
         /// </summary>
         [Description("文本框的图标"), Category("自定义属性")]
         public virtual Image Icon
@@ -333,7 +330,7 @@ namespace Paway.Forms
             }
         }
         /// <summary>
-        /// 
+        /// 文本框的图标是否是按钮
         /// </summary>
         [Description("文本框的图标是否是按钮"), Category("自定义属性"), DefaultValue(false)]
         public virtual bool IconIsButton
@@ -360,33 +357,6 @@ namespace Paway.Forms
         {
             get { return this.BaseText.WaterColor; }
             set { this.BaseText.WaterColor = value; }
-        }
-        /// <summary>
-        /// 获取或设置 System.Windows.Forms.TextBox 中的当前文本
-        /// </summary>
-        [Description("获取或设置 System.Windows.Forms.TextBox 中的当前文本"), Browsable(true)]
-        public override string Text
-        {
-            get { return this.BaseText.Text; }
-            set { this.BaseText.Text = value; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [DefaultValue(typeof(Cursor), "IBeam")]
-        public override Cursor Cursor
-        {
-            get { return this._cursor; }
-            set { this._cursor = value; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [DefaultValue(typeof(Size), "20, 24")]
-        public override Size MinimumSize
-        {
-            get { return new Size(20, 24); }
-            set { base.MinimumSize = value; }
         }
         /// <summary>
         /// 
@@ -421,33 +391,21 @@ namespace Paway.Forms
         {
             get { return new Rectangle(3, 3, 20, 20); }
         }
-        /// <summary>
-        /// 获取或设置控件的背景色
-        /// </summary>
-        [Description("获取或设置控件的背景色"), DefaultValue(typeof(Color), "Transparent")]
-        public override Color BackColor
-        {
-            get { return base.BackColor; }
-            set { base.BackColor = value; }
-        }
+
         #endregion
 
-        #region 方法
+        #region 构造函数
         /// <summary>
-        /// 加载事件
+        /// 
         /// </summary>
-        private void InitEvents()
+        public QQTextBox()
         {
-            this.BaseText.MouseMove += new MouseEventHandler(BaseText_MouseMove);
-            this.BaseText.MouseLeave += new EventHandler(BaseText_MouseLeave);
-            this.BaseText.KeyDown += new KeyEventHandler(BaseText_KeyDown);
-            this.BaseText.KeyPress += BaseText_KeyPress;
-            this.BaseText.KeyUp += new KeyEventHandler(BaseText_KeyUp);
-            this.BaseText.TextChanged += BaseText_TextChanged;
-            this.BaseText.LostFocus += BaseText_LostFocus;
-            this.BaseText.MouseEnter += BaseText_MouseEnter;
+            InitializeComponent();
+            this.InitEvents();
+            InitMethod.Init(this);
+            this.Padding = new Padding(0, 0, 0, 3);
+            InitMethod.Init(this);
         }
-
         /// <summary>
         /// 设计界面
         /// </summary>
@@ -455,24 +413,10 @@ namespace Paway.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QQTextBox));
-            this.BaseText = new Paway.Forms.QQTextBoxBase();
             this.error = new System.Windows.Forms.ErrorProvider(this.components);
+            this.BaseText = new Paway.Forms.QQTextBoxBase();
             ((System.ComponentModel.ISupportInitialize)(this.error)).BeginInit();
             this.SuspendLayout();
-            // 
-            // BaseText
-            // 
-            this.BaseText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.BaseText.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.BaseText.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.BaseText.Location = new System.Drawing.Point(3, 4);
-            this.BaseText.Margin = new System.Windows.Forms.Padding(0);
-            this.BaseText.Name = "BaseText";
-            this.BaseText.Size = new System.Drawing.Size(172, 16);
-            this.BaseText.TabIndex = 0;
-            this.BaseText.WaterText = "";
             // 
             // error
             // 
@@ -480,21 +424,59 @@ namespace Paway.Forms
             this.error.ContainerControl = this;
             this.error.Icon = ((System.Drawing.Icon)(resources.GetObject("error.Icon")));
             // 
+            // BaseText
+            // 
+            this.BaseText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.BaseText.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.BaseText.Location = new System.Drawing.Point(3, 4);
+            this.BaseText.Name = "BaseText";
+            this.BaseText.Size = new System.Drawing.Size(100, 16);
+            this.BaseText.TabIndex = 0;
+            this.BaseText.WaterText = "";
+            // 
             // QQTextBox
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.Controls.Add(this.BaseText);
+            this.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.Name = "QQTextBox";
-            this.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.Size = new System.Drawing.Size(178, 24);
+            this.Size = new System.Drawing.Size(166, 24);
             ((System.ComponentModel.ISupportInitialize)(this.error)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
+        #endregion
+
+        #region 外部方法
+        /// <summary>
+        /// 
+        /// </summary>
+        public event EventHandler IconClick;
+        /// <summary>
+        /// 
+        /// </summary>
+        private void OnIconClick()
+        {
+            if (this.IconClick != null)
+                this.IconClick(this, EventArgs.Empty);
+        }
+        /// <summary>
+        /// 在 Text 属性值更改时发生
+        /// </summary>
+        public new event EventHandler TextChanged;
+        private void OnTextChang()
+        {
+            if (TextChanged != null)
+            {
+                TextChanged(this, EventArgs.Empty);
+            }
+        }
         /// <summary>
         /// 偏移文本框
         /// </summary>
@@ -509,54 +491,6 @@ namespace Paway.Forms
                     this.BaseText.Location.Y);
             }
         }
-
-        #endregion
-
-        #region 事件
-        /// <summary>
-        /// 触发 Text 属性值更改时发生
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void BaseText_TextChanged(object sender, EventArgs e)
-        {
-            if (TextChanged != null)
-            {
-                TextChanged(sender, e);
-            }
-        }
-        /// <summary>
-        /// 鼠标移开子TextBox
-        /// </summary>
-        public void TMouseLeave()
-        {
-            BaseText_MouseLeave(this, null);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void BaseText_MouseLeave(object sender, EventArgs e)
-        {
-            this.MouseState = TMouseState.Leave;
-            if (string.IsNullOrEmpty(BaseText.Text))
-            {
-                //this.ParentForm.SelectNextControl(this.ParentForm, true, false, false, true);
-            }
-        }
-        /// <summary>
-        /// 鼠标进入控件激活
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void BaseText_MouseEnter(object sender, EventArgs e)
-        {
-            if (this.ParentForm.ContainsFocus)
-            {
-                //this.Focus();
-            }
-        }
         /// <summary>
         /// 鼠标进入子TextBox
         /// </summary>
@@ -565,34 +499,73 @@ namespace Paway.Forms
             BaseText_MouseMove(this, null);
         }
         /// <summary>
-        /// 
+        /// 鼠标移开子TextBox
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void BaseText_MouseMove(object sender, MouseEventArgs e)
+        public void TMouseLeave()
+        {
+            BaseText_MouseLeave(this, null);
+        }
+
+        #endregion
+
+        #region 事件方法
+        /// <summary>
+        /// 加载事件
+        /// </summary>
+        private void InitEvents()
+        {
+            this.BaseText.MouseMove += BaseText_MouseMove;
+            this.BaseText.MouseLeave += BaseText_MouseLeave;
+            this.BaseText.KeyDown += BaseText_KeyDown;
+            this.BaseText.KeyPress += BaseText_KeyPress;
+            this.BaseText.KeyUp += BaseText_KeyUp;
+            this.BaseText.TextChanged += BaseText_TextChanged;
+            this.BaseText.LostFocus += BaseText_LostFocus;
+            this.BaseText.MouseEnter += BaseText_MouseEnter;
+            this.KeyDown += QQTextBox_KeyDown;
+        }
+        private void BaseText_MouseMove(object sender, MouseEventArgs e)
         {
             this.MouseState = TMouseState.Move;
         }
-
+        private void BaseText_MouseLeave(object sender, EventArgs e)
+        {
+            this.MouseState = TMouseState.Leave;
+            if (string.IsNullOrEmpty(BaseText.Text))
+            {
+                //this.ParentForm.SelectNextControl(this.ParentForm, true, false, false, true);
+            }
+        }
+        private void BaseText_KeyDown(object sender, KeyEventArgs e)
+        {
+            this.OnKeyDown(e);
+        }
+        private void BaseText_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            this.OnKeyPress(e);
+        }
         private void BaseText_KeyUp(object sender, KeyEventArgs e)
         {
             this.OnKeyUp(e);
         }
         /// <summary>
-        /// 
+        /// 触发 Text 属性值更改时发生
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void BaseText_KeyPress(object sender, KeyPressEventArgs e)
+        private void BaseText_TextChanged(object sender, EventArgs e)
         {
-            this.OnKeyPress(e);
+            if (TextChanged != null)
+            {
+                TextChanged(sender, e);
+            }
         }
         /// <summary>
         /// 失去焦点验证正则
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void BaseText_LostFocus(object sender, EventArgs e)
+        private void BaseText_LostFocus(object sender, EventArgs e)
         {
             string result = null;
             if (BaseText.TextLength < RLength)
@@ -639,30 +612,40 @@ namespace Paway.Forms
             }
         }
         /// <summary>
-        /// 
+        /// 鼠标进入控件激活
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void BaseText_KeyDown(object sender, KeyEventArgs e)
+        private void BaseText_MouseEnter(object sender, EventArgs e)
         {
-            this.OnKeyDown(e);
+            if (this.ParentForm.ContainsFocus)
+            {
+                //this.Focus();
+            }
         }
+        private void QQTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.A && Control.ModifierKeys == Keys.Control)
+            {
+                this.BaseText.SelectAll();
+            }
+        }
+
         #endregion
 
         #region Override Methods
         /// <summary>
-        /// 当文本框的大小发生改变时，将文本框的类型换成多行文本
+        /// 控件背景
         /// </summary>
-        protected override void OnSizeChanged(EventArgs e)
+        protected override void OnLoad(EventArgs e)
         {
-            base.OnSizeChanged(e);
-            if (this.Height > 26)
-                this.BaseText.Multiline = true;
-            else
-                this.BaseText.Multiline = false;
+            base.OnLoad(e);
+            if (this.Parent != null)
+            {
+                BaseText.BackColor = _isTrans ? this.Parent.BackColor : Color.White;
+            }
         }
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)

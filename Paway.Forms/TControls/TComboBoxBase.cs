@@ -16,6 +16,7 @@ namespace Paway.Forms
     /// 重绘DrawCombobox
     /// 当鼠标指针移到该项上时的高亮度颜色
     /// </summary>
+    [DefaultProperty("Items")]
     public class TComboBoxBase : ComboBox
     {
         /// <summary>
@@ -27,10 +28,9 @@ namespace Paway.Forms
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.DoubleBuffer, true);
             this.UpdateStyles();
-
             this.DrawMode = DrawMode.OwnerDrawFixed;
             this.DrawItem += DrawCombobox_DrawItem;
-            this.ItemHeight = 16;
+            this.ItemHeight = 17;
         }
 
         #region 属性
@@ -68,7 +68,7 @@ namespace Paway.Forms
         /// <summary>
         /// 获取或设置组合框中的某项的高度
         /// </summary>
-        [Description("获取或设置组合框中的某项的高度"), DefaultValue(16)]
+        [Description("获取或设置组合框中的某项的高度"), DefaultValue(17)]
         public new int ItemHeight
         {
             get { return base.ItemHeight; }

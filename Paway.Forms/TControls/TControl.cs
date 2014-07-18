@@ -40,6 +40,8 @@ namespace Paway.Forms
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.DoubleBuffer |
+                ControlStyles.ResizeRedraw |
+                ControlStyles.Selectable |
                 ControlStyles.SupportsTransparentBackColor, true);
             this.UpdateStyles();
             InitMethod.Init(this);
@@ -55,21 +57,35 @@ namespace Paway.Forms
         [Description("获取或设置控件的背景色"), DefaultValue(typeof(Color), "Transparent")]
         public override Color BackColor
         {
-            get
-            {
-                if (_color == Color.Empty || _color == SystemColors.Control)
-                    _color = Color.Transparent;
-                if (_color.R == SystemColors.Control.R && _color.G == SystemColors.Control.G && _color.B == SystemColors.Control.B)
-                    _color = Color.Transparent;
-                return _color;
-            }
+            get { return _color; }
             set
             {
+                if (value == Color.Empty)
+                {
+                    value = Color.Transparent;
+                }
                 _color = value;
                 if (value.A > _trans)
                 {
                     _color = Color.FromArgb(_trans, value.R, value.G, value.B);
                 }
+            }
+        }
+
+        /// <summary>
+        /// 获取或设置控件的前景色。
+        /// </summary>
+        [Description("获取或设置控件的前景色"), DefaultValue(typeof(Color), "Black")]
+        public override Color ForeColor
+        {
+            get { return base.ForeColor; }
+            set
+            {
+                if (value == Color.Empty)
+                {
+                    value = Color.Black;
+                }
+                base.ForeColor = value;
             }
         }
 

@@ -602,5 +602,24 @@ namespace Paway.Forms
 
         #endregion
 
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // BaseText
+            // 
+            this.BaseText.BackColor = System.Drawing.Color.White;
+            // 
+            // TNumTestBox
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.Lines = new string[0];
+            this.Name = "TNumTestBox";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
     }
 }

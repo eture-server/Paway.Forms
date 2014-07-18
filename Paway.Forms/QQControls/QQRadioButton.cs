@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using Paway.Resource;
+using Paway.Helper;
 
 namespace Paway.Forms
 {
@@ -36,9 +37,12 @@ namespace Paway.Forms
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.ResizeRedraw |
                 ControlStyles.Selectable |
+                ControlStyles.DoubleBuffer |
+                ControlStyles.SupportsTransparentBackColor |
                 ControlStyles.UserPaint, true);
             this.SetStyle(ControlStyles.Opaque, false);
             this.UpdateStyles();
+            InitMethod.Init(this);
         }
 
         #endregion
@@ -87,8 +91,32 @@ namespace Paway.Forms
         public override Color BackColor
         {
             get { return base.BackColor; }
-            set { base.BackColor = value; }
+            set
+            {
+                if (value == Color.Empty)
+                {
+                    value = Color.Transparent;
+                }
+                base.BackColor = value;
+            }
         }
+        /// <summary>
+        /// 获取或设置控件的前景色。
+        /// </summary>
+        [Description("获取或设置控件的前景色"), DefaultValue(typeof(Color), "Black")]
+        public override Color ForeColor
+        {
+            get { return base.ForeColor; }
+            set
+            {
+                if (value == Color.Empty)
+                {
+                    value = Color.Black;
+                }
+                base.ForeColor = value;
+            }
+        }
+
         #endregion
 
         #region Override 方法

@@ -136,7 +136,6 @@ namespace Paway.Test
             this.btGridView.Click += delegate { new FormGridView().Show(); };
             this.btImage.Click += btImage_Click;
             toolBar2.ItemClick += toolBar2_ItemClick;
-            this.qqTextBoxEx1.TextChanged += qqTextBox1_TextChanged;
             this.btSearch.Click += btSearch_Click;
             this.tbCat.MouseEnter += tbCat_MouseEnter;
             this.tbCat.MouseLeave += tbCat_MouseLeave;

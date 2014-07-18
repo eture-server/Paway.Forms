@@ -13,7 +13,7 @@ namespace Paway.Forms
     /// <summary>
     /// TComboBox+边框
     /// </summary>
-    public class TComboBox : UserControl
+    public class TComboBox : TControl
     {
         #region 属性
         private TComboBoxBase tComboBox1;
@@ -40,13 +40,42 @@ namespace Paway.Forms
             }
         }
         /// <summary>
-        /// 获取或设置控件的背景色
+        /// 获取或设置控件显示的文字的字体
         /// </summary>
-        [Description("获取或设置控件的背景色"), DefaultValue(typeof(Color), "Transparent")]
-        public override Color BackColor
+        [Description("获取或设置控件显示的文字的字体"), DefaultValue(typeof(Font), "微软雅黑, 9pt")]
+        public override Font Font
         {
-            get { return base.BackColor; }
-            set { base.BackColor = value; }
+            get { return base.Font; }
+            set
+            {
+                if (tComboBox1 == null) return;
+                if (value == null)
+                {
+                    value = new Font("微软雅黑", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
+                }
+                base.Font = value;
+                tComboBox1.Font = value;
+                int hight = TextRenderer.MeasureText("你好", value).Height;
+                tComboBox1.ItemHeight = hight;
+                this.Invalidate();
+            }
+        }
+        /// <summary>
+        /// 此组件的前景色，用于显示文本
+        /// </summary>
+        [Description("此组件的前景色，用于显示文本。"), Category("外观"), DefaultValue(typeof(Color), "Black")]
+        public override Color ForeColor
+        {
+            get { return this.tComboBox1.ForeColor; }
+            set
+            {
+                if (tComboBox1 == null) return;
+                if (value == Color.Empty)
+                {
+                    value = Color.Black;
+                }
+                tComboBox1.ForeColor = value;
+            }
         }
 
         #endregion
@@ -57,14 +86,8 @@ namespace Paway.Forms
         /// </summary>
         public TComboBox()
         {
-            this.SetStyle(
-                ControlStyles.AllPaintingInWmPaint |
-                ControlStyles.OptimizedDoubleBuffer |
-                ControlStyles.DoubleBuffer, true);
-            this.UpdateStyles();
-
             InitializeComponent();
-            this.BackColor = Color.Transparent;
+            InitMethod.Init(this);
             this.tComboBox1.SizeChanged += tComboBox1_SizeChanged;
         }
         void tComboBox1_SizeChanged(object sender, EventArgs e)
@@ -136,25 +159,23 @@ namespace Paway.Forms
             // 
             // tComboBox1
             // 
-            this.tComboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.tComboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tComboBox1.ColorFore = System.Drawing.Color.Black;
-            this.tComboBox1.ColorSelect = System.Drawing.Color.PaleTurquoise;
             this.tComboBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.tComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.tComboBox1.FormattingEnabled = true;
-            this.tComboBox1.ItemHeight = 16;
             this.tComboBox1.Location = new System.Drawing.Point(1, 1);
             this.tComboBox1.Name = "tComboBox1";
             this.tComboBox1.Size = new System.Drawing.Size(121, 22);
             this.tComboBox1.TabIndex = 0;
             // 
-            // TControl
+            // TComboBox
             // 
-            this.BackColor = System.Drawing.Color.Black;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.Controls.Add(this.tComboBox1);
-            this.Name = "TControl";
+            this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(1)));
+            this.Name = "TComboBox";
             this.Size = new System.Drawing.Size(123, 24);
             this.ResumeLayout(false);
 
