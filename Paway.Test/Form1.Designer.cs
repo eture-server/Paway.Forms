@@ -125,7 +125,7 @@
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.BackgroundImage = global::Paway.Test.Properties.Resources.i1;
             this.CausesValidation = false;
-            this.ClientSize = new System.Drawing.Size(328, 222);
+            this.ClientSize = new System.Drawing.Size(319, 222);
             this.Controls.Add(this.toolBar);
             this.Controls.Add(this.btName);
             this.Controls.Add(this.pictureBox1);

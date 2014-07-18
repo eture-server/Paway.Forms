@@ -50,25 +50,24 @@ namespace Paway.Forms
         #endregion
 
         #region 接口 属性
-        private Color _color;
         /// <summary>
         /// 获取或设置控件的背景色
         /// </summary>
         [Description("获取或设置控件的背景色"), DefaultValue(typeof(Color), "Transparent")]
         public override Color BackColor
         {
-            get { return _color; }
+            get { return base.BackColor; }
             set
             {
-                if (value == Color.Empty)
+                if (value == Color.Empty || value == SystemColors.Control)
                 {
                     value = Color.Transparent;
                 }
-                _color = value;
                 if (value.A > _trans)
                 {
-                    _color = Color.FromArgb(_trans, value.R, value.G, value.B);
+                    value = Color.FromArgb(_trans, value.R, value.G, value.B);
                 }
+                base.BackColor = value;
             }
         }
 

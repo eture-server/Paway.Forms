@@ -52,12 +52,14 @@ namespace Paway.Forms
             set
             {
                 _text = value;
+                First = null;
+                Sencond = null;
+                if (string.IsNullOrEmpty(value)) return;
                 string[] text = _text.Split(new string[] { "\r\n", "&" }, StringSplitOptions.RemoveEmptyEntries);
                 if (text.Length > 0)
                 {
                     First = text[0];
                 }
-                Sencond = null;
                 for (int i = 1; i < text.Length; i++)
                 {
                     Sencond = string.Format("{0}{1}\r\n", Sencond, text[i]);
