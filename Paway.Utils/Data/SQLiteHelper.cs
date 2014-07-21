@@ -107,5 +107,17 @@ namespace Paway.Utils.Data
         }
 
         #endregion
+
+        #region 扩展重载
+        /// <summary>
+        /// 更新或插入列表
+        /// 需要标记唯一键为唯一索引
+        /// </summary>
+        public override bool Replace<T>(IList<T> list)
+        {
+            return base.Replace<T>(list, true);
+        }
+
+        #endregion
     }
 }

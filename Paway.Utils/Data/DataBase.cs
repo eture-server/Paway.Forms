@@ -444,7 +444,7 @@ namespace Paway.Utils.Data
             {
                 sql = default(T).Delete<T>();
                 DbParameter parame = default(T).AddParameter<T>(paramType, id);
-                
+
                 cmd = CommandStart(sql);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.Clear();
@@ -536,7 +536,7 @@ namespace Paway.Utils.Data
         public bool UpdateOrInsert<T>(T t)
         {
             List<T> list = new List<T>() { t };
-            return UpdateOrInsert<T>(list);
+            return Replace<T>(list);
         }
         /// <summary>
         /// 更新或插入列表
@@ -544,12 +544,19 @@ namespace Paway.Utils.Data
         public void UpdateOrInsert<T>(DataTable dt)
         {
             IList<T> list = dt.ConvertTo<T>();
-            UpdateOrInsert<T>(list);
+            Replace<T>(list);
         }
         /// <summary>
         /// 更新或插入列表
         /// </summary>
-        public bool UpdateOrInsert<T>(IList<T> list)
+        public virtual bool Replace<T>(IList<T> list)
+        {
+            return Replace<T>(list, false);
+        }
+        /// <summary>
+        /// 更新或插入列表
+        /// </summary>
+        protected bool Replace<T>(IList<T> list, bool isSqlite)
         {
             DbCommand cmd = null;
             try
@@ -557,7 +564,15 @@ namespace Paway.Utils.Data
                 cmd = TransStart();
                 for (int i = 0; i < list.Count; i++)
                 {
-                    string sql = list[i].UpdateOrInsert<T>(GetId);
+                    string sql = null;
+                    if (isSqlite)
+                    {
+                        sql = list[i].Replace<T>(GetId);
+                    }
+                    else
+                    {
+                        sql = list[i].UpdateOrInsert<T>(GetId);
+                    }
                     cmd.CommandText = sql;
                     DbParameter[] pList = list[i].AddParameters<T>(paramType).ToArray();
                     cmd.Parameters.Clear();
