@@ -533,7 +533,7 @@ namespace Paway.Utils.Data
         /// <summary>
         /// 更新或插入列
         /// </summary>
-        public bool UpdateOrInsert<T>(T t)
+        public bool Replace<T>(T t)
         {
             List<T> list = new List<T>() { t };
             return Replace<T>(list);
@@ -541,7 +541,7 @@ namespace Paway.Utils.Data
         /// <summary>
         /// 更新或插入列表
         /// </summary>
-        public void UpdateOrInsert<T>(DataTable dt)
+        public void Replace<T>(DataTable dt)
         {
             IList<T> list = dt.ConvertTo<T>();
             Replace<T>(list);

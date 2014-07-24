@@ -52,7 +52,7 @@ namespace Paway.Test
 
         private void btUpOrIn_Click(object sender, EventArgs e)
         {
-            service.UpdateOrInsert<TestData>(list[0]);
+            service.Replace<TestData>(list[0]);
         }
 
         private void btDelete_Click(object sender, EventArgs e)
