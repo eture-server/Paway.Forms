@@ -69,7 +69,7 @@ namespace Paway.Helper
         /// <summary>    
         /// 获取网页内容
         /// </summary>    
-        public static string GetHtml(string url)
+        public static string GetHtml(string url, Encoding format)
         {
             WebRequest wrq = null;
             WebResponse wrp = null;
@@ -80,7 +80,7 @@ namespace Paway.Helper
 
                 string html = string.Empty;
                 Stream stream = wrp.GetResponseStream();
-                using (StreamReader sr = new StreamReader(stream, Encoding.UTF8))
+                using (StreamReader sr = new StreamReader(stream, format))
                 {
                     html = sr.ReadToEnd();
                 }

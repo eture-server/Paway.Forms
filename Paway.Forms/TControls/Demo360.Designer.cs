@@ -30,17 +30,17 @@ namespace Paway.Forms
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.toolBar1 = new Paway.Forms.ToolBar();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.panel1.Controls.Add(this.toolBar1);
             this.panel1.Controls.Add(this.panel3);
+            this.panel1.Controls.Add(this.toolBar1);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 26);
@@ -49,14 +49,16 @@ namespace Paway.Forms
             this.panel1.Size = new System.Drawing.Size(900, 514);
             this.panel1.TabIndex = 2;
             // 
-            // panel3
+            // toolBar1
             // 
-            this.panel3.BackColor = System.Drawing.Color.White;
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(1, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(898, 486);
-            this.panel3.TabIndex = 11;
+            this.toolBar1.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.toolBar1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.toolBar1.ImageSize = new System.Drawing.Size(32, 32);
+            this.toolBar1.ItemSize = new System.Drawing.Size(64, 66);
+            this.toolBar1.Location = new System.Drawing.Point(1, 0);
+            this.toolBar1.Name = "toolBar1";
+            this.toolBar1.Size = new System.Drawing.Size(898, 66);
+            this.toolBar1.TabIndex = 12;
             // 
             // panel2
             // 
@@ -66,17 +68,14 @@ namespace Paway.Forms
             this.panel2.Size = new System.Drawing.Size(898, 26);
             this.panel2.TabIndex = 2;
             // 
-            // toolBar1
+            // panel3
             // 
-            this.toolBar1.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.toolBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.toolBar1.ForeColor = System.Drawing.Color.Black;
-            this.toolBar1.ImageSize = new System.Drawing.Size(32, 32);
-            this.toolBar1.ItemSize = new System.Drawing.Size(64, 66);
-            this.toolBar1.Location = new System.Drawing.Point(1, 0);
-            this.toolBar1.Name = "toolBar1";
-            this.toolBar1.Size = new System.Drawing.Size(898, 66);
-            this.toolBar1.TabIndex = 12;
+            this.panel3.BackColor = System.Drawing.Color.White;
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(1, 66);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(898, 420);
+            this.panel3.TabIndex = 13;
             // 
             // Demo360
             // 
@@ -111,15 +110,14 @@ namespace Paway.Forms
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         protected System.Windows.Forms.Panel panel1;
         /// <summary>
-        /// 控件
-        /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        protected System.Windows.Forms.Panel panel3;
-        /// <summary>
         /// 工具栏
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         protected ToolBar toolBar1;
+        /// <summary>
+        /// 控件区
+        /// </summary>
+        protected System.Windows.Forms.Panel panel3;
 
     }
 }

@@ -112,31 +112,41 @@ namespace Paway.Forms
             get { return base.DataSource; }
             set
             {
-                base.DataSource = value;
-                for (int i = 0; i < this.Columns.Count; i++)
-                {
-                    if (this.Columns[i].Name == ColumnImageText)
-                    {
-                        _columnImageText = i;
-                        break;
-                    }
-                }
-                UpdateColumns();
+                UpdateColumns(value);
             }
         }
         /// <summary>
         /// 更新列名称
         /// </summary>
-        private void UpdateColumns()
+        private void UpdateColumns(object value)
         {
-            if (base.DataSource == null) return;
+            if (value == null) return;
             Type type = null;
-            if (base.DataSource is IList)
+            if (value is IList)
             {
-                IList list = base.DataSource as IList;
-                type = list.GetList();
+                IList list = value as IList;
+                type = list.GetListType();
+                base.DataSource = type.ToDataTable(value as IList);
             }
-            if (type == null || type is object) return;
+            else if (value is DataTable)
+            {
+                base.DataSource = value;
+            }
+            else
+            {
+                type = value.GetType();
+                IList temp = type.CreateList();
+                temp.Add(value);
+                base.DataSource = temp;
+            }
+            for (int i = 0; i < this.Columns.Count; i++)
+            {
+                if (this.Columns[i].Name == ColumnImageText)
+                {
+                    _columnImageText = i;
+                    break;
+                }
+            }
             UpdateColumns(type);
         }
         /// <summary>
@@ -144,6 +154,8 @@ namespace Paway.Forms
         /// </summary>
         public void UpdateColumns(Type type)
         {
+            if (type == null || type == typeof(String) || type.IsValueType) return;
+
             for (int i = 0; i < this.Columns.Count; i++)
             {
                 PropertyInfo pro = type.GetProperty(this.Columns[i].Name);
@@ -618,7 +630,7 @@ namespace Paway.Forms
                 e.Graphics.DrawImage(bitmap, newRect);
 
                 //画字符串
-                e.Graphics.DrawString(e.Value.ToString(), e.CellStyle.Font, foreColorBrush,
+                e.Graphics.DrawString(e.Value == null ? null : e.Value.ToString(), e.CellStyle.Font, foreColorBrush,
                     new Rectangle(e.CellBounds.Left + bitmap.Width + 10, e.CellBounds.Top, e.CellBounds.Width, e.CellBounds.Height), DrawParam.StringVertical);
                 e.Handled = true;
             }

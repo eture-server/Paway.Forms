@@ -22,6 +22,12 @@ namespace Paway.Forms
         public event EventHandler PageChanged;
 
         #region 属性
+        /// <summary>
+        /// 导航栏
+        /// </summary>
+        [Category("Properties"), Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public TPager TPager { get { return pager1; } }
         private TDataGridView tDataGridView1;
         /// <summary>
         /// 编辑控件
@@ -73,6 +79,10 @@ namespace Paway.Forms
                 BingData();
             }
         }
+        /// <summary>
+        /// 数据类型
+        /// </summary>
+        private Type DType;
 
         /// <summary>
         /// 获取或设置当前页码
@@ -132,14 +142,16 @@ namespace Paway.Forms
                     temp.Rows.Add(dt.Rows[i].ItemArray);
                 }
                 this.tDataGridView1.DataSource = temp;
+                this.tDataGridView1.UpdateColumns(this.DType);
             }
             else if (dataSource is IList)
             {
                 IList list = dataSource as IList;
-                Type type = list.GetList();
+                this.DType = list.GetListType();
 
                 PagerInfo.RecordCount = list.Count;
-                List<object> temp = new List<object>();
+                IList temp = DType.CreateList();
+
                 int index = PagerInfo.PageSize * (PagerInfo.CurrenetPageIndex - 1);
                 for (int i = index; i < index + PagerInfo.PageSize; i++)
                 {
@@ -147,7 +159,10 @@ namespace Paway.Forms
                     temp.Add(list[i]);
                 }
                 this.tDataGridView1.DataSource = temp;
-                this.tDataGridView1.UpdateColumns(type);
+            }
+            else
+            {
+                this.tDataGridView1.DataSource = dataSource;
             }
             this.pager1.InitPageInfo(PagerInfo.RecordCount, PagerInfo.PageSize);
         }
@@ -231,11 +246,10 @@ namespace Paway.Forms
             this.tDataGridView1.ColumnImageText = "";
             this.tDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id});
-            this.tDataGridView1.DataSource = null;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;

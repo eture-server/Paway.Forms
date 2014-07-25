@@ -35,6 +35,7 @@ namespace Paway.Test
         Bitmap last;
         void comBoxGridView1_CurrentCellChanged(object sender, EventArgs e)
         {
+            if (this.tDataGridView1.CurrentCell == null) return;
             if (this.tDataGridView1.CurrentCell.RowIndex == index) return;
             if (index != -1) this.tDataGridView1.Rows[index].Cells[0].Value = false;
             int old = index;
@@ -55,7 +56,7 @@ namespace Paway.Test
         protected void WaitDrawDataGridView()
         {
             BindingList<WaitDrawDataGridViewData> list = new BindingList<WaitDrawDataGridViewData>();
-            gridView1.DataSource = list;
+            tDataGridViewPager1.DataSource = new WaitDrawDataGridViewData() { Device = "正在加载" };
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "image");
             for (int i = 0; i < 10; i++)
             {
@@ -74,13 +75,7 @@ namespace Paway.Test
                 };
                 list.Add(dti);
             }
-            //int height = this.gridView1.ColumnHeadersHeight;
-            //if (height < Resources.online.Height)
-            //{
-            //    height = Resources.online.Height;
-            //}
-            //this.Height = (gridView1.Rows.Count + 1) * (height + 1) + 26;
-            //this.Height = gridView1.Rows.Count * (Resources.online.Height + 1) + this.gridView1.ColumnHeadersHeight;
+            //tDataGridViewPager1.DataSource = list;
         }
         protected void CheckBoxDataGridView()
         {
@@ -134,7 +129,6 @@ namespace Paway.Test
                     B = i.ToString(),
                 });
             }
-            dataGridView1.DataSource = list2.ToDataTable();
         }
     }
     public class Data2
@@ -168,12 +162,14 @@ namespace Paway.Test
 
         public string CommandType { get; set; }
 
+        [Property(Show = false)]
         public string ActionTime { get; set; }
 
         public Image Image { get; set; }
 
         public string NameStr { get; set; }
 
+        [Property(Show = false)]
         public Guid ComponentId { get; set; }
     }
     public class CheckBoxData

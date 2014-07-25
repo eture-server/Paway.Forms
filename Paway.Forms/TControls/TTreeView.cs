@@ -347,7 +347,7 @@ namespace Paway.Forms
             else if (_dataSource is IList)
             {
                 IList list = _dataSource as IList;
-                type = list.GetList();
+                type = list.GetListType();
                 dt = type.ToDataTable(list);
             }
             else if (type == typeof(String) || type.IsValueType)

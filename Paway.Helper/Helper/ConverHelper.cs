@@ -1382,12 +1382,24 @@ namespace Paway.Helper
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static Type GetList(this IList list)
+        public static Type GetListType(this IList list)
         {
             Type type = list.GetType();
             Type[] types = type.GetGenericArguments();
             if (types.Length == 1) return types[0];
             return null;
+        }
+        /// <summary>
+        /// 返回泛型实参实例
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static IList CreateList(this Type type)
+        {
+            var listType = typeof(List<>);
+            listType = listType.MakeGenericType(new[] { type });
+            IList list = Activator.CreateInstance(listType) as IList;
+            return list;
         }
         /// <summary>
         /// 一般复制
@@ -1439,7 +1451,7 @@ namespace Paway.Helper
                     {
                         IList clist = properties[i].GetValue(copy) as IList;
                         IList list = value as IList;
-                        Type type = list.GetList();
+                        Type type = list.GetListType();
                         Assembly asmb = Assembly.GetAssembly(type);
                         for (int j = 0; j < list.Count; j++)
                         {
