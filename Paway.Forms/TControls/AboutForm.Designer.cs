@@ -63,7 +63,7 @@
             this.label5.BackColor = System.Drawing.Color.LightSkyBlue;
             this.label5.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(8, 99);
+            this.label5.Location = new System.Drawing.Point(8, 105);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(283, 1);
             this.label5.TabIndex = 9;
@@ -71,33 +71,33 @@
             // lbCopyright
             // 
             this.lbCopyright.AutoSize = true;
-            this.lbCopyright.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.lbCopyright.Font = new System.Drawing.Font("微软雅黑", 10F);
             this.lbCopyright.ForeColor = System.Drawing.Color.Black;
-            this.lbCopyright.Location = new System.Drawing.Point(20, 74);
+            this.lbCopyright.Location = new System.Drawing.Point(20, 76);
             this.lbCopyright.Name = "lbCopyright";
-            this.lbCopyright.Size = new System.Drawing.Size(83, 17);
+            this.lbCopyright.Size = new System.Drawing.Size(95, 20);
             this.lbCopyright.TabIndex = 8;
             this.lbCopyright.Text = "<Copyright>";
             // 
             // lbVersion
             // 
             this.lbVersion.AutoSize = true;
-            this.lbVersion.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.lbVersion.Font = new System.Drawing.Font("微软雅黑", 10F);
             this.lbVersion.ForeColor = System.Drawing.Color.Black;
-            this.lbVersion.Location = new System.Drawing.Point(20, 45);
+            this.lbVersion.Location = new System.Drawing.Point(20, 46);
             this.lbVersion.Name = "lbVersion";
-            this.lbVersion.Size = new System.Drawing.Size(70, 17);
+            this.lbVersion.Size = new System.Drawing.Size(79, 20);
             this.lbVersion.TabIndex = 7;
             this.lbVersion.Text = "<Version>";
             // 
             // lbDesc
             // 
             this.lbDesc.AutoSize = true;
-            this.lbDesc.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.lbDesc.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.lbDesc.ForeColor = System.Drawing.Color.Black;
-            this.lbDesc.Location = new System.Drawing.Point(20, 110);
+            this.lbDesc.Location = new System.Drawing.Point(20, 116);
             this.lbDesc.Name = "lbDesc";
-            this.lbDesc.Size = new System.Drawing.Size(92, 17);
+            this.lbDesc.Size = new System.Drawing.Size(115, 20);
             this.lbDesc.TabIndex = 5;
             this.lbDesc.Text = "<Description>";
             // 
@@ -116,7 +116,6 @@
             // 
             this.qqButton1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.qqButton1.DownImage = ((System.Drawing.Image)(resources.GetObject("qqButton1.DownImage")));
-            this.qqButton1.ForeColor = System.Drawing.Color.Black;
             this.qqButton1.Image = null;
             this.qqButton1.Location = new System.Drawing.Point(112, 4);
             this.qqButton1.MoveImage = ((System.Drawing.Image)(resources.GetObject("qqButton1.MoveImage")));
@@ -140,7 +139,6 @@
             // 
             this.btOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btOk.DownImage = ((System.Drawing.Image)(resources.GetObject("btOk.DownImage")));
-            this.btOk.ForeColor = System.Drawing.Color.Black;
             this.btOk.Image = null;
             this.btOk.Location = new System.Drawing.Point(113, 4);
             this.btOk.MoveImage = ((System.Drawing.Image)(resources.GetObject("btOk.MoveImage")));
@@ -154,11 +152,11 @@
             // lbPlatform
             // 
             this.lbPlatform.AutoSize = true;
-            this.lbPlatform.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.lbPlatform.Font = new System.Drawing.Font("微软雅黑", 10F);
             this.lbPlatform.ForeColor = System.Drawing.Color.Black;
             this.lbPlatform.Location = new System.Drawing.Point(20, 17);
             this.lbPlatform.Name = "lbPlatform";
-            this.lbPlatform.Size = new System.Drawing.Size(75, 17);
+            this.lbPlatform.Size = new System.Drawing.Size(87, 20);
             this.lbPlatform.TabIndex = 3;
             this.lbPlatform.Text = "<Platform>";
             // 

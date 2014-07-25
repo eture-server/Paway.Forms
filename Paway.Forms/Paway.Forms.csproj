@@ -195,12 +195,6 @@
     <EmbeddedResource Include="QQControls\QQTextBox.resx">
       <DependentUpon>QQTextBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TControls\AboutForm.resx">
-      <DependentUpon>AboutForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TControls\TDataGridViewPager.resx">
-      <DependentUpon>TDataGridViewPager.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="TControls\TPager.resx">
       <DependentUpon>TPager.cs</DependentUpon>
     </EmbeddedResource>
