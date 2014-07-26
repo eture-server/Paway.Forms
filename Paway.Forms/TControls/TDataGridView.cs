@@ -112,9 +112,21 @@ namespace Paway.Forms
             get { return base.DataSource; }
             set
             {
+                this.source = value;
                 UpdateColumns(value);
             }
         }
+        /// <summary>
+        /// 刷新数据
+        /// </summary>
+        public void RefreshData()
+        {
+            this.DataSource = source;
+        }
+        /// <summary>
+        /// 原数据源
+        /// </summary>
+        private object source;
         /// <summary>
         /// 更新列名称
         /// </summary>
