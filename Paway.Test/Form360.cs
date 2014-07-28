@@ -17,6 +17,7 @@ namespace Paway.Test
         public Form360()
         {
             InitializeComponent();
+            this.TMouseMove(toolBar1);
         }
 
         protected override void OnShown(EventArgs e)

@@ -30,9 +30,9 @@ namespace Paway.Forms
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.toolBar1 = new Paway.Forms.ToolBar();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,9 +45,18 @@ namespace Paway.Forms
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 26);
             this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(1, 0, 1, 2);
+            this.panel1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.panel1.Size = new System.Drawing.Size(900, 514);
             this.panel1.TabIndex = 2;
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.White;
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(0, 66);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(900, 420);
+            this.panel3.TabIndex = 13;
             // 
             // toolBar1
             // 
@@ -55,27 +64,18 @@ namespace Paway.Forms
             this.toolBar1.Dock = System.Windows.Forms.DockStyle.Top;
             this.toolBar1.ImageSize = new System.Drawing.Size(32, 32);
             this.toolBar1.ItemSize = new System.Drawing.Size(64, 66);
-            this.toolBar1.Location = new System.Drawing.Point(1, 0);
+            this.toolBar1.Location = new System.Drawing.Point(0, 0);
             this.toolBar1.Name = "toolBar1";
-            this.toolBar1.Size = new System.Drawing.Size(898, 66);
+            this.toolBar1.Size = new System.Drawing.Size(900, 66);
             this.toolBar1.TabIndex = 12;
             // 
             // panel2
             // 
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(1, 486);
+            this.panel2.Location = new System.Drawing.Point(0, 486);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(898, 26);
+            this.panel2.Size = new System.Drawing.Size(900, 26);
             this.panel2.TabIndex = 2;
-            // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.Color.White;
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(1, 66);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(898, 420);
-            this.panel3.TabIndex = 13;
             // 
             // Demo360
             // 

@@ -29,17 +29,19 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.toolDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.toolBar = new Paway.Forms.ToolBar();
             this.btName = new Paway.Forms.QQButton();
+            this.toolBar = new Paway.Forms.ToolBar();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // contextMenuStrip2
@@ -69,6 +71,19 @@
             this.pictureBox1.Size = new System.Drawing.Size(1, 1);
             this.pictureBox1.TabIndex = 25;
             this.pictureBox1.TabStop = false;
+            // 
+            // btName
+            // 
+            this.btName.DownImage = ((System.Drawing.Image)(resources.GetObject("btName.DownImage")));
+            this.btName.Image = null;
+            this.btName.Location = new System.Drawing.Point(35, 25);
+            this.btName.MoveImage = ((System.Drawing.Image)(resources.GetObject("btName.MoveImage")));
+            this.btName.Name = "btName";
+            this.btName.NormalImage = ((System.Drawing.Image)(resources.GetObject("btName.NormalImage")));
+            this.btName.Size = new System.Drawing.Size(64, 32);
+            this.btName.TabIndex = 30;
+            this.btName.Text = "hello";
+            this.btName.UseVisualStyleBackColor = false;
             // 
             // toolBar
             // 
@@ -104,18 +119,15 @@
             this.toolBar.TextFirst.ColorNormal = System.Drawing.Color.Black;
             this.toolBar.Trans = 150;
             // 
-            // btName
+            // pictureBox2
             // 
-            this.btName.DownImage = ((System.Drawing.Image)(resources.GetObject("btName.DownImage")));
-            this.btName.Image = null;
-            this.btName.Location = new System.Drawing.Point(35, 25);
-            this.btName.MoveImage = ((System.Drawing.Image)(resources.GetObject("btName.MoveImage")));
-            this.btName.Name = "btName";
-            this.btName.NormalImage = ((System.Drawing.Image)(resources.GetObject("btName.NormalImage")));
-            this.btName.Size = new System.Drawing.Size(64, 32);
-            this.btName.TabIndex = 30;
-            this.btName.Text = "hello";
-            this.btName.UseVisualStyleBackColor = false;
+            this.pictureBox2.Image = global::Paway.Test.Properties.Resources.imgLoadding_Image;
+            this.pictureBox2.Location = new System.Drawing.Point(5, 212);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(309, 2);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 32;
+            this.pictureBox2.TabStop = false;
             // 
             // Form1
             // 
@@ -123,19 +135,24 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
-            this.BackgroundImage = global::Paway.Test.Properties.Resources.i1;
+            this.BackColor = System.Drawing.Color.Transparent;
+            this.BackgroundImage = global::Paway.Test.Properties.Resources.noon;
             this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(319, 222);
+            this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.toolBar);
             this.Controls.Add(this.btName);
             this.Controls.Add(this.pictureBox1);
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ForeColor = System.Drawing.Color.White;
+            this.IsResize = true;
             this.Name = "Form1";
+            this.Padding = new System.Windows.Forms.Padding(3, 26, 3, 3);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.contextMenuStrip2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -148,6 +165,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private Forms.QQButton btName;
         private Forms.ToolBar toolBar;
+        private System.Windows.Forms.PictureBox pictureBox2;
 
 
 

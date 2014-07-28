@@ -25,6 +25,14 @@ namespace Paway.Test
             toolBar.EditClick += toolClose_EditClick;
             btName.Click += btName_Click;
             btName_Click(this, EventArgs.Empty);
+            this.MouseMove += Demo1_MouseMove;
+            tip = new ToolTip();
+        }
+
+        private ToolTip tip;
+        void Demo1_MouseMove(object sender, MouseEventArgs e)
+        {
+            //tip.SetToolTip(this, "hello");
         }
         protected override void OnShown(EventArgs e)
         {

@@ -127,6 +127,40 @@ namespace Paway.Win32
         #endregion
 
         #region user32.dll
+        #region 窗体阴影
+        /// <summary>
+        /// 获得有关指定窗口的信息，函数也获得在额外窗口内存中指定偏移位地址的32位度整型值。
+        /// </summary>
+        [DllImport("user32.DLL", CharSet = CharSet.Auto)]
+        public static extern int GetWindowLong(IntPtr hwnd, int nIndex);
+        /// <summary>
+        /// 获得有关指定窗口的信息，函数也获得在额外窗口内存中指定偏移位地址的32位度整型值。
+        /// </summary>
+        [DllImport("user32.DLL", CharSet = CharSet.Auto)]
+        public static extern int GetWindowLong(HandleRef hWnd, int nIndex);
+        /// <summary>
+        /// 改变指定窗口的属性．函数也将指定的一个32位值设置在窗口的额外存储空间的指定偏移位置。
+        /// </summary>
+        [DllImport("user32.DLL", CharSet = CharSet.Auto)]
+        public static extern int SetWindowLong(IntPtr hwnd, int nIndex, int dwNewLong);
+        /// <summary>
+        /// 改变指定窗口的属性．函数也将指定的一个32位值设置在窗口的额外存储空间的指定偏移位置。
+        /// </summary>
+        [DllImport("user32.DLL", CharSet = CharSet.Auto)]
+        public static extern IntPtr SetWindowLong(HandleRef hWnd, int nIndex, int dwNewLong);
+        /// <summary>
+        /// 更新一个分层的窗口的位置，大小，形状，内容和半透明度;
+        /// </summary>
+        [DllImport("user32.DLL", SetLastError = true, ExactSpelling = true)]
+        public static extern bool UpdateLayeredWindow(IntPtr hwnd, IntPtr hdcDst, ref SIZE pptDst, ref SIZE psize, IntPtr hdcSrc, ref POINT pprSrc, int crKey, ref BLENDFUNCTION pblend, int dwFlags);
+        /// <summary>
+        /// 该函数能在显示与隐藏窗口时能产生特殊的效果。有两种类型的动画效果：滚动动画和滑动动画。
+        /// </summary>
+        [DllImport("user32.DLL")]
+        public static extern bool AnimateWindow(IntPtr whnd, int dwtime, int dwflag);
+
+        #endregion
+
         /// <summary>
         /// 获取Windows操作系统的 拖动时显示窗口内容 设置
         /// </summary>
@@ -350,7 +384,7 @@ namespace Paway.Win32
         public static extern bool PostMessage(IntPtr hWnd, int Msg, int wParam, IntPtr lParam);
 
         /// <summary>
-        /// 
+        /// 释放设备上下文环境（DC）供其他应用程序使用。函数的效果与设备上下文环境类型有关。它只释放公用的和设备上下文环境，对于类或私有的则无效。
         /// </summary>
         /// <param name="hWnd"></param>
         /// <param name="hDC"></param>
@@ -507,7 +541,7 @@ namespace Paway.Win32
         /// <param name="Point">Point指定一个被检测的点，该点为struct类型</param>
         /// <returns>返回值为包含该点的窗口的句柄。如果包含指定点的窗口不存在，返回值为NULL</returns>
         [DllImport("user32.dll", EntryPoint = "WindowFromPoint")]
-        public static extern IntPtr WindowFromPoint(POINT Point); 
+        public static extern IntPtr WindowFromPoint(POINT Point);
 
         #region hook
         /// <summary>
@@ -562,7 +596,7 @@ namespace Paway.Win32
 
         #region gdi32.dll
         /// <summary>
-        /// 
+        /// 创建一个与指定设备兼容的内存设备上下文环境（DC）。通过GetDc()获取的HDC直接与相关设备沟通，而本函数创建的DC，则是与内存中的一个表面相关联。
         /// </summary>
         /// <param name="hDC"></param>
         /// <returns></returns>
@@ -570,21 +604,21 @@ namespace Paway.Win32
         public static extern IntPtr CreateCompatibleDC(IntPtr hDC);
 
         /// <summary>
-        /// 
+        /// 删除指定的设备上下文环境（Dc）
         /// </summary>
         /// <param name="hdc"></param>
         /// <returns></returns>
         [DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
         public static extern bool DeleteDC(IntPtr hdc);
         /// <summary>
-        /// 
+        /// 删除一个逻辑笔、画笔、字体、位图、区域或者调色板，释放所有与该对象有关的系统资源，在对象被删除之后，指定的句柄也就失效了。
         /// </summary>
         /// <param name="hObject"></param>
         /// <returns></returns>
         [DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
         public static extern bool DeleteObject(IntPtr hObject);
         /// <summary>
-        /// 
+        /// 选择一对象到指定的设备上下文环境中，该新对象替换先前的相同类型的对象。
         /// </summary>
         /// <param name="hDC"></param>
         /// <param name="hObject"></param>

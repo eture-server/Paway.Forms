@@ -50,7 +50,7 @@ namespace Paway.Forms
         /// <summary>
         /// 是否允许改变窗口大小
         /// </summary>
-        protected bool _isResize = false;
+        protected bool _isResize = true;
         /// <summary>
         /// 是否显示图标
         /// </summary>
@@ -332,11 +332,11 @@ namespace Paway.Forms
         /// <summary>
         /// 是否绘制边框
         /// </summary>
-        protected bool _isDrawBorder = true;
+        protected bool _isDrawBorder = false;
         /// <summary>
         /// 是否绘制边框
         /// </summary>
-        [Browsable(true), Description("是否绘制边框"), DefaultValue(true)]
+        [Browsable(true), Description("是否绘制边框"), DefaultValue(false)]
         public bool IsDrawBorder
         {
             get { return _isDrawBorder; }
@@ -557,7 +557,7 @@ namespace Paway.Forms
         {
             base.OnResize(e);
             //调用API，将窗体剪成圆角
-            int ellipse = (_isDrawRound && this.WindowState != FormWindowState.Maximized) ? 4 : 0;
+            int ellipse = (_isDrawRound && this.WindowState != FormWindowState.Maximized) ? base.TRadius : 0;
             int rgn = NativeMethods.CreateRoundRectRgn(0, 0, this.Width + 1, this.Height + 1, ellipse, ellipse);
             if (!this.IsDisposed)
             {

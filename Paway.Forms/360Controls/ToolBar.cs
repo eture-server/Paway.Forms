@@ -603,6 +603,14 @@ namespace Paway.Forms
 
         #region Override Methods
         /// <summary>
+        /// 重绘
+        /// </summary>
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+            this.Invalidate(this.ClientRectangle);
+        }
+        /// <summary>
         /// 引发 System.Windows.Forms.Form.Paint 事件。
         /// </summary>
         /// <param name="e">包含事件数据的 System.Windows.Forms.PaintEventArgs。</param>

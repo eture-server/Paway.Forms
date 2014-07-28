@@ -174,6 +174,7 @@
             this.IsDrawRound = false;
             this.Name = "AboutForm";
             this.ShowIcon = false;
+            this.Special = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.SysButton = Paway.Forms.TSysButton.Close;
             this.Text = "关于我们";

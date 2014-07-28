@@ -42,6 +42,85 @@ namespace Paway.Forms
                 }
             }
         }
+        private int _radius = 4;
+        /// <summary>
+        /// 设置或获取窗体的圆角的大小
+        /// </summary>
+        [Category("TForm"), Description("设置或获取窗体的圆角的大小"), DefaultValue(4)]
+        public int TRadius
+        {
+            get { return this._radius; }
+            set
+            {
+                if (this._radius != value)
+                {
+                    this._radius = (value < 1) ? 1 : value;
+                    this.OnResize(EventArgs.Empty);
+                    //base.Invalidate();
+                }
+            }
+        }
+        private int shadowWidth = 4;
+        /// <summary>
+        /// 窗体阴影宽度
+        /// </summary>
+        [Category("TForm"), Description("窗体阴影宽度"), DefaultValue(typeof(int), "4")]
+        public int ShadowWidth
+        {
+            get { return this.shadowWidth; }
+            set
+            {
+                if (this.shadowWidth != value)
+                {
+                    this.shadowWidth = (value < 1) ? 1 : value;
+                    if (this.skin != null)
+                    {
+                        this.skin.SetBits();
+                    }
+                }
+            }
+        }
+        private Color shadowColor = Color.Black;
+        /// <summary>
+        /// 窗体阴影颜色
+        /// </summary>
+        [Category("TForm"), DefaultValue(typeof(Color), "Black"), Description("窗体阴影颜色")]
+        public Color ShadowColor
+        {
+            get { return this.shadowColor; }
+            set
+            {
+                if (this.shadowColor != value)
+                {
+                    this.shadowColor = value;
+                    if (this.skin != null)
+                    {
+                        this.skin.SetBits();
+                    }
+                }
+            }
+        }
+        private bool _special = true;
+        /// <summary>
+        /// 是否启用窗口淡入淡出
+        /// </summary>
+        [Category("TForm"), Description("是否启用窗口淡入淡出"), DefaultValue(true)]
+        public bool Special
+        {
+            get { return _special; }
+            set { _special = value; }
+        }
+        private bool _shadow = true;
+        /// <summary>
+        /// 是否启用窗体阴影
+        /// </summary>
+        [Category("Shadow"), DefaultValue(true), Description("是否启用窗体阴影")]
+        public bool Shadow
+        {
+            get { return this._shadow; }
+            set { _shadow = value; }
+        }
+
         #endregion
 
         #region 构造
@@ -187,6 +266,56 @@ namespace Paway.Forms
         {
             get { return _iMousemove; }
             set { _iMousemove = value; }
+        }
+
+        #endregion
+
+        #region 阴影部分
+        private SkinForm skin;
+        /// <summary>
+        /// 显示阴影
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            if (base.Visible)
+            {
+                if (!base.DesignMode && _special)
+                {
+                    NativeMethods.AnimateWindow(base.Handle, 300, 0xa0000);
+                    this.Refresh();
+                }
+                if ((!base.DesignMode && _shadow && (this.skin == null)))
+                {
+                    this.skin = new SkinForm(this);
+                    this.skin.Show(this);
+                }
+                base.OnVisibleChanged(e);
+            }
+            else
+            {
+                base.OnVisibleChanged(e);
+                if (!base.DesignMode && _special)
+                {
+                    NativeMethods.AnimateWindow(base.Handle, 150, 0x90000);
+                    base.Update();
+                }
+            }
+        }
+        /// <summary>
+        /// </summary>
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            if (this.skin != null)
+            {
+                this.skin.Close();
+            }
+            if (!base.DesignMode && _special)
+            {
+                NativeMethods.AnimateWindow(base.Handle, 150, 0x90000);
+                base.Update();
+            }
         }
 
         #endregion

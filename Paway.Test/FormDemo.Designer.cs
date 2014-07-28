@@ -122,7 +122,6 @@
             this.tbCat = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.qqTextBox1 = new Paway.Forms.QQTextBox();
             this.toolBar3 = new Paway.Forms.ToolBar();
             this.toolBar2 = new Paway.Forms.ToolBar();
             this.btTTsRead = new Paway.Forms.QQButton();
@@ -141,6 +140,8 @@
             this.btQQ = new Paway.Forms.QQButton();
             this.bt360 = new Paway.Forms.QQButton();
             this.numEditTestBox2 = new Paway.Forms.TNumTestBox();
+            this.btQQDemo = new Paway.Forms.QQButton();
+            this.btDemo360 = new Paway.Forms.QQButton();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -658,23 +659,6 @@
             this.pictureBox2.TabIndex = 41;
             this.pictureBox2.TabStop = false;
             // 
-            // qqTextBox1
-            // 
-            this.qqTextBox1.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.qqTextBox1.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.qqTextBox1.Icon = null;
-            this.qqTextBox1.IsPasswordChat = '\0';
-            this.qqTextBox1.Lines = new string[] {
-        "qqTextBox1"};
-            this.qqTextBox1.Location = new System.Drawing.Point(102, 130);
-            this.qqTextBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.qqTextBox1.Name = "qqTextBox1";
-            this.qqTextBox1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            this.qqTextBox1.SelectedText = "";
-            this.qqTextBox1.Size = new System.Drawing.Size(197, 32);
-            this.qqTextBox1.TabIndex = 3;
-            this.qqTextBox1.WaterText = "";
-            // 
             // toolBar3
             // 
             this.toolBar3.ICheckEvent = true;
@@ -759,6 +743,7 @@
             // tNumTestBox1
             // 
             this.tNumTestBox1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tNumTestBox1.ForeColor = System.Drawing.Color.Black;
             this.tNumTestBox1.Icon = null;
             this.tNumTestBox1.IsPasswordChat = '\0';
             this.tNumTestBox1.Lines = new string[] {
@@ -813,11 +798,12 @@
             "gwegweg"});
             this.tComboBox21.Edit.Location = new System.Drawing.Point(1, 1);
             this.tComboBox21.Edit.Name = "tComboBox1";
-            this.tComboBox21.Edit.Size = new System.Drawing.Size(90, 22);
+            this.tComboBox21.Edit.Size = new System.Drawing.Size(90, 23);
             this.tComboBox21.Edit.TabIndex = 0;
+            this.tComboBox21.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tComboBox21.Location = new System.Drawing.Point(16, 180);
             this.tComboBox21.Name = "tComboBox21";
-            this.tComboBox21.Size = new System.Drawing.Size(92, 24);
+            this.tComboBox21.Size = new System.Drawing.Size(92, 25);
             this.tComboBox21.TabIndex = 31;
             // 
             // btAbout
@@ -878,6 +864,7 @@
             this.qqTabControl1.Controls.Add(this.qqTabPage2);
             this.qqTabControl1.Controls.Add(this.qqTabPage3);
             this.qqTabControl1.Controls.Add(this.qqTabPage4);
+            this.qqTabControl1.ForeColor = System.Drawing.Color.Black;
             this.qqTabControl1.ItemSize = new System.Drawing.Size(80, 32);
             this.qqTabControl1.Location = new System.Drawing.Point(12, 13);
             this.qqTabControl1.Name = "qqTabControl1";
@@ -956,6 +943,7 @@
             // numEditTestBox2
             // 
             this.numEditTestBox2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.numEditTestBox2.ForeColor = System.Drawing.Color.Black;
             this.numEditTestBox2.Icon = null;
             this.numEditTestBox2.IsPasswordChat = '\0';
             this.numEditTestBox2.IsTrans = true;
@@ -971,13 +959,40 @@
             this.numEditTestBox2.TabIndex = 5;
             this.numEditTestBox2.WaterText = "";
             // 
+            // btQQDemo
+            // 
+            this.btQQDemo.DownImage = ((System.Drawing.Image)(resources.GetObject("btQQDemo.DownImage")));
+            this.btQQDemo.Image = null;
+            this.btQQDemo.Location = new System.Drawing.Point(233, 150);
+            this.btQQDemo.MoveImage = ((System.Drawing.Image)(resources.GetObject("btQQDemo.MoveImage")));
+            this.btQQDemo.Name = "btQQDemo";
+            this.btQQDemo.NormalImage = ((System.Drawing.Image)(resources.GetObject("btQQDemo.NormalImage")));
+            this.btQQDemo.Size = new System.Drawing.Size(109, 28);
+            this.btQQDemo.TabIndex = 45;
+            this.btQQDemo.Text = "QQDemo";
+            this.btQQDemo.UseVisualStyleBackColor = false;
+            // 
+            // btDemo360
+            // 
+            this.btDemo360.DownImage = ((System.Drawing.Image)(resources.GetObject("btDemo360.DownImage")));
+            this.btDemo360.Image = null;
+            this.btDemo360.Location = new System.Drawing.Point(233, 119);
+            this.btDemo360.MoveImage = ((System.Drawing.Image)(resources.GetObject("btDemo360.MoveImage")));
+            this.btDemo360.Name = "btDemo360";
+            this.btDemo360.NormalImage = ((System.Drawing.Image)(resources.GetObject("btDemo360.NormalImage")));
+            this.btDemo360.Size = new System.Drawing.Size(109, 28);
+            this.btDemo360.TabIndex = 46;
+            this.btDemo360.Text = "Demo360";
+            this.btDemo360.UseVisualStyleBackColor = false;
+            // 
             // FormDemo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.ClientSize = new System.Drawing.Size(560, 289);
-            this.Controls.Add(this.qqTextBox1);
+            this.Controls.Add(this.btDemo360);
+            this.Controls.Add(this.btQQDemo);
             this.Controls.Add(this.toolBar3);
             this.Controls.Add(this.toolBar2);
             this.Controls.Add(this.pictureBox2);
@@ -1099,7 +1114,8 @@
         private Forms.QQTabPage qqTabPage4;
         private Forms.ToolBar toolBar2;
         private Forms.ToolBar toolBar3;
-        private Forms.QQTextBox qqTextBox1;
+        private Forms.QQButton btQQDemo;
+        private Forms.QQButton btDemo360;
 
     }
 }
