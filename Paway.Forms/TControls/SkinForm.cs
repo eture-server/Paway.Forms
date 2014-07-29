@@ -26,18 +26,26 @@ namespace Paway.Forms
         /// </summary>
         public SkinForm(TForm main)
         {
+            this.SetStyle(
+                ControlStyles.UserPaint |
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.DoubleBuffer |
+                ControlStyles.ResizeRedraw |
+                ControlStyles.Selectable |
+                ControlStyles.SupportsTransparentBackColor, true);
+            this.UpdateStyles();
             this.ShadowColors = new Color[] { Color.FromArgb(60, Color.Black), Color.Transparent };
             this.CornerColors = new Color[] { Color.FromArgb(180, Color.Black), Color.Transparent };
             this.Main = main;
             this.InitializeComponent();
-            this.SetStyles();
             this.Init();
         }
 
         private void CanPenetrate()
         {
-            NativeMethods.GetWindowLong(base.Handle, -20);
-            NativeMethods.SetWindowLong(base.Handle, -20, 0x80020);
+            //NativeMethods.GetWindowLong(base.Handle, -20);
+            //NativeMethods.SetWindowLong(base.Handle, -20, 0x80020);
         }
 
         private void DrawCorners(Graphics g, System.Drawing.Size corSize)
@@ -172,6 +180,7 @@ namespace Paway.Forms
             this.Main.LocationChanged += new EventHandler(this.Main_LocationChanged);
             this.Main.SizeChanged += new EventHandler(this.Main_SizeChanged);
             this.Main.VisibleChanged += new EventHandler(this.Main_VisibleChanged);
+            this.Main.FormClosing += Main_FormClosing;
             this.SetBits();
             this.CanPenetrate();
         }
@@ -250,22 +259,38 @@ namespace Paway.Forms
             throw new ApplicationException("图片必须是32位带Alhpa通道的图片。");
         }
 
-        private void SetStyles()
-        {
-            base.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.DoubleBuffer | ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw | ControlStyles.UserPaint, true);
-            base.UpdateStyles();
-        }
-
         /// <summary>
-        /// 
         /// </summary>
-        protected override System.Windows.Forms.CreateParams CreateParams
+        protected override CreateParams CreateParams
         {
             get
             {
                 System.Windows.Forms.CreateParams createParams = base.CreateParams;
                 createParams.ExStyle |= 0x80000;
                 return createParams;
+            }
+        }
+        void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.Close();
+        }
+        /// <summary>
+        /// 处理 Windows 消息。
+        /// 邮阴影部分手动主窗体
+        /// </summary>
+        /// <param name="m">要处理的 WindowsMessage。</param>
+        protected override void WndProc(ref Message m)
+        {
+            m.HWnd = this.Main.Handle;
+            switch (m.Msg)
+            {
+                case (int)WindowsMessage.WM_NCHITTEST:
+                    base.WndProc(ref m);
+                    this.Main.WmNcHitTest(ref m);
+                    break;
+                default:
+                    base.WndProc(ref m);
+                    break;
             }
         }
     }

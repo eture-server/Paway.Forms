@@ -380,7 +380,7 @@ namespace Paway.Forms
         /// 拖动窗口大小
         /// </summary>
         /// <param name="m"></param>
-        private void WmNcHitTest(ref Message m)
+        public override void WmNcHitTest(ref Message m)
         {
             if (this.WindowState != FormWindowState.Maximized)
             {

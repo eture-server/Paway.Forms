@@ -307,16 +307,17 @@ namespace Paway.Forms
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
-            if (this.skin != null)
-            {
-                this.skin.Close();
-            }
             if (!base.DesignMode && _special)
             {
                 NativeMethods.AnimateWindow(base.Handle, 150, 0x90000);
                 base.Update();
             }
         }
+        /// <summary>
+        /// 拖动窗口大小
+        /// </summary>
+        /// <param name="m"></param>
+        public virtual void WmNcHitTest(ref Message m) { }
 
         #endregion
     }

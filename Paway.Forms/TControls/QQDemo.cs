@@ -24,7 +24,7 @@ namespace Paway.Forms
         public QQDemo()
         {
             InitializeComponent();
-            this.TDrawBelowBorder(panel1);
+            //this.TDrawBelowBorder(panel1);
             this.TMouseMove(panel1);
         }
         /// <summary>
@@ -37,6 +37,17 @@ namespace Paway.Forms
             if (this.Owner != null)
             {
                 Owner.Activate();
+            }
+        }
+        /// <summary>
+        /// 底边线颜色
+        /// </summary>
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            if (panel1.Visible)
+            {
+                e.Graphics.DrawLine(new Pen(panel1.BackColor), 2, this.Height - 2, this.Width - 3, this.Height - 2);
             }
         }
     }

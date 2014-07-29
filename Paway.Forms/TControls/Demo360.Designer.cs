@@ -86,6 +86,7 @@ namespace Paway.Forms
             this.ClientSize = new System.Drawing.Size(900, 540);
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.Color.White;
+            this.IsResize = true;
             this.Name = "Demo360";
             this.Padding = new System.Windows.Forms.Padding(0, 26, 0, 0);
             this.ShowIcon = false;
