@@ -9,6 +9,7 @@ using Paway.Resource;
 using Paway.Helper;
 using System.Runtime.InteropServices;
 using System.Drawing.Text;
+using Paway.Win32;
 
 namespace Paway.Forms
 {
@@ -64,6 +65,7 @@ namespace Paway.Forms
             InitializeComponent();
             Progress();
             CustomScroll();
+            InitShow();
         }
 
         #endregion
@@ -441,6 +443,26 @@ namespace Paway.Forms
         /// 列数量
         /// </summary>
         private int LastItemCount;
+        private TDirection _mDirection = TDirection.Vertical;
+        /// <summary>
+        /// 移动特效方向
+        /// </summary>
+        [Description("移动特效方向"), DefaultValue(typeof(TDirection), "Vertical")]
+        public TDirection MDirection
+        {
+            get { return _mDirection; }
+            set { _mDirection = value; }
+        }
+        /// <summary>
+        /// 移动特效开关
+        /// </summary>
+        [Description("移动特效开关"), DefaultValue(false)]
+        public bool MEffect { get; set; }
+        /// <summary>
+        /// 移动特效状态
+        /// </summary>
+        [Description("移动特效正在运行"), DefaultValue(false)]
+        public bool MStatus { get { return timer != null && sTimer.Enabled; } }
 
         #endregion
 
@@ -1873,6 +1895,109 @@ namespace Paway.Forms
             width += this.CountColumn * this.ItemSize.Width;
             width += (this.CountColumn - 1) * this.ItemSpace;
             return width;
+        }
+
+        #endregion
+
+        #region 按指定方向显示移动特效
+        private Timer sTimer;
+        private int distance;
+        private void InitShow()
+        {
+            sTimer = new Timer();
+            sTimer.Interval = 1;
+            sTimer.Tick += sTimer_Tick;
+        }
+        /// <summary>
+        /// 初始化控件位置
+        /// </summary>
+        protected override void OnLoad(EventArgs e)
+        {
+            switch (this.MDirection)
+            {
+                case TDirection.Level:
+                    this.distance = this.Left;
+                    break;
+                case TDirection.Vertical:
+                    this.distance = this.Top;
+                    break;
+            }
+            base.OnLoad(e);
+        }
+        /// <summary>
+        /// 移动特效开始
+        /// </summary>
+        public void MStart()
+        {
+            if (!sTimer.Enabled)
+            {
+                sTimer.Start();
+            }
+        }
+
+        void sTimer_Tick(object sender, EventArgs e)
+        {
+            if ((bool)this.Tag)
+            {
+                NativeMethods.LockWindowUpdate(this.Handle);
+                switch (this.MDirection)
+                {
+                    case TDirection.Level:
+                        if (this.Left < distance)
+                        {
+                            this.Left += 4;
+                        }
+                        else
+                        {
+                            this.Left = distance;
+                            sTimer.Stop(); 
+                        }
+                        break;
+                    case TDirection.Vertical:
+                        if (this.Top < distance)
+                        {
+                            this.Top += 4;
+                        }
+                        else
+                        {
+                            this.Top = distance;
+                            sTimer.Stop();
+                        }
+                        break;
+                }
+                NativeMethods.LockWindowUpdate(IntPtr.Zero);
+            }
+            else
+            {
+                NativeMethods.LockWindowUpdate(this.Handle);
+
+                switch (this.MDirection)
+                {
+                    case TDirection.Level:
+                        if (this.Left > -this.Width)
+                        {
+                            this.Left -= 4;
+                        }
+                        else
+                        {
+                            this.Left = -this.Width;
+                            sTimer.Stop();
+                        }
+                        break;
+                    case TDirection.Vertical:
+                        if (this.Top > -this.Height)
+                        {
+                            this.Top -= 4;
+                        }
+                        else
+                        {
+                            this.Top = -this.Height;
+                            sTimer.Stop();
+                        }
+                        break;
+                }
+                NativeMethods.LockWindowUpdate(IntPtr.Zero);
+            }
         }
 
         #endregion

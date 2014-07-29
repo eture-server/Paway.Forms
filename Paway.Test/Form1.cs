@@ -26,7 +26,26 @@ namespace Paway.Test
             btName.Click += btName_Click;
             btName_Click(this, EventArgs.Empty);
             this.MouseMove += Demo1_MouseMove;
+            toolBar.MouseLeave += toolBar_MouseLeave;
             tip = new ToolTip();
+            this.MouseMove += Form1_MouseMove;
+        }
+
+        void toolBar_MouseLeave(object sender, EventArgs e)
+        {
+            if (toolBar.MStatus) return;
+            Console.WriteLine(toolBar.MStatus);
+            Console.WriteLine("leave");
+            toolBar.Tag = false;
+            toolBar.MStart();
+        }
+
+        void Form1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (toolBar.MStatus) return;
+            toolBar.Tag = e.Y <= (63 + toolBar.Width) ? true : false;
+            //Console.WriteLine(toolBar.Tag);
+            toolBar.MStart();
         }
 
         private ToolTip tip;
@@ -58,11 +77,6 @@ namespace Paway.Test
             //this.BackgroundImage = pictureBox1.Image;
             //this.timer.Tick += timer_Tick;
             //timer.Enabled = true;
-        }
-
-        void timer_Tick(object sender, EventArgs e)
-        {
-            this.Invalidate();
         }
 
         void toolClose_ItemClick(object sender, EventArgs e)
