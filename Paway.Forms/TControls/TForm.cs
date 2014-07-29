@@ -120,6 +120,7 @@ namespace Paway.Forms
             get { return this._shadow; }
             set { _shadow = value; }
         }
+        private ToolTip toolTop;
 
         #endregion
 
@@ -139,6 +140,7 @@ namespace Paway.Forms
                 ControlStyles.SupportsTransparentBackColor, true);
             this.UpdateStyles();
             InitMethod.Init(this);
+            toolTop = new ToolTip();
         }
 
         #endregion
@@ -307,6 +309,7 @@ namespace Paway.Forms
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
+            this.toolTop.Dispose();
             if (!base.DesignMode && _special)
             {
                 NativeMethods.AnimateWindow(base.Handle, 150, 0x90000);
@@ -318,6 +321,27 @@ namespace Paway.Forms
         /// </summary>
         /// <param name="m"></param>
         public virtual void WmNcHitTest(ref Message m) { }
+
+        #endregion
+
+        #region ToolTip
+        /// <summary>
+        /// 表示一个长方形的小弹出窗口，该窗口在用户将指针悬停在一个控件上时显示有关该控件用途的简短说明。
+        /// </summary>
+        protected void ShowTooTip(string toolTipText)
+        {
+            this.toolTop.Active = true;
+            //if (toolTop.)
+            this.toolTop.SetToolTip(this, toolTipText);
+            //HideToolTip();
+        }
+        /// <summary>
+        /// 弹出窗口不活动
+        /// </summary>
+        protected void HideToolTip()
+        {
+            this.toolTop.Active = false;
+        }
 
         #endregion
     }

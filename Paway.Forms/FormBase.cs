@@ -653,19 +653,52 @@ namespace Paway.Forms
             base.OnMouseMove(e);
             if (e.Button == MouseButtons.Left)
                 return;
+            bool flag = true;
+            string tipText = null;
             Point point = e.Location;
             if (this.CloseRect.Contains(point))
-                this.CloseState = TMouseState.Move;
+            {
+                flag = false;
+                if (CloseState != TMouseState.Move)
+                {
+                    this.CloseState = TMouseState.Move;
+                    tipText = "关闭";
+                }
+            }
             else
                 this.CloseState = TMouseState.Normal;
             if (this.MiniRect.Contains(point))
-                this.MinState = TMouseState.Move;
+            {
+                flag = false;
+                if (MinState != TMouseState.Move)
+                {
+                    this.MinState = TMouseState.Move;
+                    tipText = "最小化";
+                }
+            }
             else
                 this.MinState = TMouseState.Normal;
             if (this.MaxRect.Contains(point))
-                this.MaxState = TMouseState.Move;
+            {
+                flag = false;
+                if (MaxState != TMouseState.Move)
+                {
+                    this.MaxState = TMouseState.Move;
+                    tipText = (this.WindowState == FormWindowState.Maximized) ? "还原" : "最大化";
+                }
+            }
             else
+            {
                 this.MaxState = TMouseState.Normal;
+            }
+            if (tipText != null)
+            {
+                this.ShowTooTip(tipText);
+            }
+            if (flag)
+            {
+                this.HideToolTip();
+            }
         }
         /// <summary>
         /// 引发 System.Windows.Forms.Form.MouseLeave。

@@ -35,7 +35,6 @@ namespace Paway.Test
         {
             if (toolBar.MStatus) return;
             Console.WriteLine(toolBar.MStatus);
-            Console.WriteLine("leave");
             toolBar.Tag = false;
             toolBar.MStart();
         }
