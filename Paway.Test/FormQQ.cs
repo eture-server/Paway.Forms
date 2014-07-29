@@ -25,12 +25,10 @@ namespace Paway.Test
         private void AnimalShow()
         {
             string caption = "消息提示";
-            string text = @"“末日”前晒出流逝的岁月，1上传一组证明您岁月痕迹的新老对比照片，2上传一组证明您岁月痕迹的新老对比照片1
-3上传一组证明您岁月痕迹的新老对比照片2
-4上传一组证明您岁月痕迹的新老对比照片3
-5上传一组证明您岁月痕迹的新老对比照片4
-6即可获得抽奖资格和微博积分";
-            text = string.Format("{0} {1}", text, DateTime.Now.ToLongTimeString());
+            string text = @"“末日”前晒出流逝的岁月
+上传一组证明您岁月痕迹的新老对比照片
+即可获得抽奖资格和微博积分";
+            text = string.Format("{0}\r\n{1}", text, DateTime.Now.ToLongTimeString());
             NotifyForm form = new NotifyForm();
             form.AnimalShow(caption, text, int.MaxValue);
         }

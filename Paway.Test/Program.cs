@@ -27,7 +27,7 @@ namespace Paway.Test
             //InitConfig.BackColor = Color.Green;
             //InitConfig.ForeColor = Color.Red;
             //InitConfig.Font = new Font("微软雅黑", 16f);
-            Application.Run(new Form1());
+            Application.Run(new FormQQ());
         }
     }
 }

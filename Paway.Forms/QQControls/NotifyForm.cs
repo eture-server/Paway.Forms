@@ -124,11 +124,11 @@ namespace Paway.Forms
         /// <summary>
         /// 提示信息的字体
         /// </summary>
-        private Font _notifyFont = new Font("宋体", 10f, FontStyle.Bold, GraphicsUnit.Point, (byte)1);
+        private Font _notifyFont = new Font("微软雅黑", 9f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
         /// <summary>
         /// 提示信息的字体
         /// </summary>
-        [Description("提示信息的字体"), DefaultValue(typeof(Font), "宋体, 10pt, style=Bold")]
+        [Description("提示信息的字体"), DefaultValue(typeof(Font), "微软雅黑, 9pt")]
         public Font NotifyFont
         {
             get { return this._notifyFont; }
@@ -210,7 +210,7 @@ namespace Paway.Forms
                     this.Notify = new NotifyForm();
                 if (this.Timer == null)
                     this.Timer = new Timer();
-                if (!string.IsNullOrEmpty(caption)) this.Notify.Text = caption;
+                if (!string.IsNullOrEmpty(caption)) this.Notify.TextShow = caption;
                 if (!string.IsNullOrEmpty(text)) this.Notify.NotifyText = text;
                 this.Timer.Interval = 100;
                 this.Timer.Tick += new EventHandler(Timer_Tick);
@@ -315,6 +315,7 @@ namespace Paway.Forms
                 this.TopLevel = true;
                 this.ShowIcon = false;
                 base.IsResize = false;
+                base.IsDrawBorder = true;
                 this.SysButton = TSysButton.Close;
                 base.BackColor = Color.FromArgb(0, 122, 204);
             }
@@ -340,7 +341,7 @@ namespace Paway.Forms
             }
         }
         /// <summary>
-        /// 
+        /// 填充背景
         /// </summary>
         /// <param name="e"></param>
         protected override void OnPaintBackground(PaintEventArgs e)
