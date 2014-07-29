@@ -211,6 +211,84 @@ namespace Paway.Helper
 
         #endregion
 
+        #region MD5文件与数组加密
+        /// <summary>
+        /// 实现对一个文件md5的读取，path为文件路径
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static string GetMD5(string path)
+        {
+            try
+            {
+                using (Stream file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    return GetMD5(file);
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+        }
+        /// <summary>
+        /// 获取流的 MD5 值
+        /// </summary>
+        /// <param name="s">流</param>
+        /// <returns>MD5 值</returns>
+        public static string GetMD5(Stream s)
+        {
+            byte[] hash_byte;
+            using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+            {
+                hash_byte = md5.ComputeHash(s);
+            }
+            return GetMD5String(hash_byte);
+        }
+        /// <summary>
+        /// 获取数组的 MD5 值
+        /// </summary>
+        /// <param name="buffer">数组</param>
+        /// <returns>MD5 值</returns>
+        public static string GetMD5(byte[] buffer)
+        {
+            byte[] hash_byte;
+            using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+            {
+                hash_byte = md5.ComputeHash(buffer);
+            }
+            return GetMD5String(hash_byte);
+        }
+        /// <summary>
+        /// 获取数组的 MD5 值
+        /// </summary>
+        /// <param name="buffer">数组</param>
+        /// <param name="offset">偏移</param>
+        /// <param name="count">长度</param>
+        /// <returns>MD5 值</returns>
+        public static string GetMD5(byte[] buffer, int offset, int count)
+        {
+            byte[] hash_byte;
+            using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+            {
+                hash_byte = md5.ComputeHash(buffer, offset, count);
+            }
+            return GetMD5String(hash_byte);
+        }
+        /// <summary>
+        /// 获取数组的 MD5 值
+        /// </summary>
+        /// <param name="hash_byte">数组</param>
+        /// <returns>MD5 值</returns>
+        private static string GetMD5String(byte[] hash_byte)
+        {
+            string resule = BitConverter.ToString(hash_byte);
+            resule = resule.Replace("-", "");
+            return resule;
+        }
+
+        #endregion
+
         #region 文件加解密
         private static object fileLock = new object();
         private static string keys = "ningboyichang@#$";//密钥,128位
