@@ -42,6 +42,22 @@ namespace Paway.Forms
             this.Init();
         }
 
+        #region 新加 - 移动窗体
+        /// <summary>
+        /// 移动窗体
+        /// </summary>
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+            if (this.Main.WindowState != FormWindowState.Maximized)
+            {
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(this.Main.Handle, 274, 61440 + 9, 0);
+            }
+        }
+
+        #endregion
+
         private void CanPenetrate()
         {
             //NativeMethods.GetWindowLong(base.Handle, -20);
@@ -281,6 +297,11 @@ namespace Paway.Forms
         /// <param name="m">要处理的 WindowsMessage。</param>
         protected override void WndProc(ref Message m)
         {
+            if (!this.Main.IsResize)
+            {
+                base.WndProc(ref m);
+                return;
+            }
             m.HWnd = this.Main.Handle;
             switch (m.Msg)
             {

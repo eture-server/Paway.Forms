@@ -122,6 +122,20 @@ namespace Paway.Forms
         }
         private ToolTip toolTop;
 
+        /// <summary>
+        /// 是否允许改变窗口大小
+        /// </summary>
+        protected bool _isResize = true;
+        /// <summary>
+        /// 是否允许改变窗口大小
+        /// </summary>
+        [Description("是否允许改变窗口大小"), DefaultValue(true)]
+        public virtual bool IsResize
+        {
+            get { return this._isResize; }
+            set { _isResize = value; }
+        }
+
         #endregion
 
         #region 构造

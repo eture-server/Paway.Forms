@@ -48,10 +48,6 @@ namespace Paway.Forms
         /// </summary>
         protected Point _formPoint = Point.Empty;
         /// <summary>
-        /// 是否允许改变窗口大小
-        /// </summary>
-        protected bool _isResize = true;
-        /// <summary>
         /// 是否显示图标
         /// </summary>
         protected bool _showIcon = true;
@@ -87,15 +83,6 @@ namespace Paway.Forms
         #endregion
 
         #region 属性
-        /// <summary>
-        /// 是否允许改变窗口大小
-        /// </summary>
-        [Description("是否允许改变窗口大小"), DefaultValue(true)]
-        public virtual bool IsResize
-        {
-            get { return this._isResize; }
-            set { _isResize = value; }
-        }
         /// <summary>
         /// 指定窗体窗口如何显示
         /// </summary>
