@@ -100,11 +100,11 @@ namespace Paway.Forms
                 }
             }
         }
-        private bool _special = true;
+        private bool _special = false;
         /// <summary>
         /// 是否启用窗口淡入淡出
         /// </summary>
-        [Category("TForm"), Description("是否启用窗口淡入淡出"), DefaultValue(true)]
+        [Category("TForm"), Description("是否启用窗口淡入淡出"), DefaultValue(false)]
         public bool Special
         {
             get { return _special; }
@@ -285,7 +285,7 @@ namespace Paway.Forms
                 if (!base.DesignMode && _special)
                 {
                     NativeMethods.AnimateWindow(base.Handle, 300, 0xa0000);
-                    this.Refresh();
+                    this.Update();
                 }
                 if ((!base.DesignMode && _shadow && (this.skin == null)))
                 {
