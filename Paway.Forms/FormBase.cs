@@ -245,6 +245,11 @@ namespace Paway.Forms
             get { return Rectangle.Empty; }
         }
         /// <summary>
+        /// 标题栏菜单按钮的矩形区域
+        /// </summary>
+        [Description("标题栏菜单按钮的矩形区域"), DefaultValue(typeof(Rectangle), "Empty")]
+        protected virtual Rectangle TitleBarMenuRect { get { return Rectangle.Empty; } }
+        /// <summary>
         /// 图标显示区域
         /// </summary>
         [Description("图标显示区域"), DefaultValue(typeof(Rectangle), "4, 4, 16, 16")]
@@ -315,6 +320,11 @@ namespace Paway.Forms
                 }
             }
         }
+        /// <summary>
+        /// 标题栏菜单按钮的鼠标的状态
+        /// </summary>
+        [Description("标题栏菜单按钮的鼠标的状态"), DefaultValue(typeof(TMouseState), "Normal")]
+        protected virtual TMouseState TitleBarMenuState { get; set; }
 
         /// <summary>
         /// 是否绘制边框
@@ -677,6 +687,19 @@ namespace Paway.Forms
             else
             {
                 this.MaxState = TMouseState.Normal;
+            }
+            if (this.TitleBarMenuRect.Contains(e.Location))
+            {
+                flag = false;
+                if (this.TitleBarMenuState != TMouseState.Move)
+                {
+                    this.TitleBarMenuState = TMouseState.Move;
+                    tipText = "菜单栏";
+                }
+            }
+            else
+            {
+                this.TitleBarMenuState = TMouseState.Normal;
             }
             if (tipText != null)
             {

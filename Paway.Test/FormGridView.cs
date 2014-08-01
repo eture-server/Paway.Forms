@@ -75,7 +75,7 @@ namespace Paway.Test
                 };
                 list.Add(dti);
             }
-            //tDataGridViewPager1.DataSource = list;
+            tDataGridViewPager1.DataSource = list;
         }
         protected void CheckBoxDataGridView()
         {

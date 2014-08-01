@@ -171,7 +171,7 @@ namespace Paway.Forms
         /// <summary>
         /// 标题栏菜单按钮的矩形区域
         /// </summary>
-        protected virtual Rectangle TitleBarMenuRect
+        protected override Rectangle TitleBarMenuRect
         {
             get
             {
@@ -199,8 +199,7 @@ namespace Paway.Forms
         /// <summary>
         /// 标题栏菜单按钮的鼠标的状态
         /// </summary>
-        [Description("标题栏菜单按钮的鼠标的状态"), DefaultValue(typeof(TMouseState), "Normal")]
-        protected virtual TMouseState TitleBarMenuState
+        protected override TMouseState TitleBarMenuState
         {
             get { return this._titleBarMenuState; }
             set
@@ -300,24 +299,6 @@ namespace Paway.Forms
             }
 
             base.OnPaint(e);
-        }
-        /// <summary>
-        /// 引发 System.Windows.Forms.Form.MouseMove。
-        /// </summary>
-        /// <param name="e">包含事件数据的 System.Windows.Forms.MouseEventArgs。</param>
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            base.OnMouseMove(e);
-            if (e.Button == MouseButtons.Left)
-                return;
-            if (this.TitleBarMenuRect.Contains(e.Location))
-            {
-                this.TitleBarMenuState = TMouseState.Move;
-            }
-            else
-            {
-                this.TitleBarMenuState = TMouseState.Normal;
-            }
         }
         /// <summary>
         /// 引发 System.Windows.Forms.Form.MouseDown。

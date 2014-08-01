@@ -1183,6 +1183,9 @@ namespace Paway.Forms
                     }
                 }
             }
+            if (this.MStatus) return;
+            this.Tag = false;
+            this.MStart();
         }
         /// <summary>
         /// 引发 System.Windows.Forms.Form.MouseDown 事件。
@@ -1922,6 +1925,10 @@ namespace Paway.Forms
                     this.distance = this.Top;
                     break;
             }
+            if (ParentForm != null)
+            {
+                this.ParentForm.MouseMove += ParentForm_MouseMove;
+            }
             base.OnLoad(e);
         }
         /// <summary>
@@ -1929,10 +1936,25 @@ namespace Paway.Forms
         /// </summary>
         public void MStart()
         {
-            if (!sTimer.Enabled)
+            if (MEffect && !sTimer.Enabled)
             {
                 sTimer.Start();
             }
+        }
+
+        void ParentForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!MEffect || this.MStatus) return;
+            switch (_mDirection)
+            {
+                case Forms.TDirection.Vertical:
+                    this.Tag = e.Y <= (distance + this.Height) ? true : false;
+                    break;
+                case Forms.TDirection.Level:
+                    this.Tag = e.X <= (distance + this.Width) ? true : false;
+                    break;
+            }
+            this.MStart();
         }
 
         void sTimer_Tick(object sender, EventArgs e)
@@ -1950,7 +1972,7 @@ namespace Paway.Forms
                         else
                         {
                             this.Left = distance;
-                            sTimer.Stop(); 
+                            sTimer.Stop();
                         }
                         break;
                     case TDirection.Vertical:

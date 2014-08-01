@@ -43,6 +43,11 @@ namespace Paway.Forms
         public virtual void ReLoad() { }
 
         /// <summary>
+        /// 移除当前界面时，是否允许移除
+        /// </summary>
+        public virtual bool UnLoad() { return true; }
+
+        /// <summary>
         /// 刷新数据
         /// </summary>
         public virtual void Refresh(object sender, EventArgs e) { }
@@ -87,7 +92,11 @@ namespace Paway.Forms
                 {
                     if (Current.GetType() == type) return null;
                 }
-
+                //拒绝移除
+                if (Current != null && !Current.UnLoad())
+                {
+                    return null;
+                }
                 //加载控件
                 if (_iList.ContainsKey(type.Name))
                 {

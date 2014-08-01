@@ -25,33 +25,15 @@ namespace Paway.Test
             toolBar.EditClick += toolClose_EditClick;
             btName.Click += btName_Click;
             btName_Click(this, EventArgs.Empty);
-            this.MouseMove += Demo1_MouseMove;
-            toolBar.MouseLeave += toolBar_MouseLeave;
             tip = new ToolTip();
             this.MouseMove += Form1_MouseMove;
         }
 
-        void toolBar_MouseLeave(object sender, EventArgs e)
-        {
-            if (toolBar.MStatus) return;
-            Console.WriteLine(toolBar.MStatus);
-            toolBar.Tag = false;
-            toolBar.MStart();
-        }
-
         void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (toolBar.MStatus) return;
-            toolBar.Tag = e.Y <= (63 + toolBar.Width) ? true : false;
-            //Console.WriteLine(toolBar.Tag);
-            toolBar.MStart();
         }
 
         private ToolTip tip;
-        void Demo1_MouseMove(object sender, MouseEventArgs e)
-        {
-            //tip.SetToolTip(this, "hello");
-        }
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
@@ -80,7 +62,7 @@ namespace Paway.Test
 
         void toolClose_ItemClick(object sender, EventArgs e)
         {
-            this.TextShow = DateTime.Now.ToString();
+            //this.TextShow = DateTime.Now.ToString();
         }
     }
 }

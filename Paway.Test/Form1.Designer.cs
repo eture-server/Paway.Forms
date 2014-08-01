@@ -105,6 +105,7 @@
             this.toolBar.ItemSize = new System.Drawing.Size(120, 120);
             this.toolBar.ItemSpace = 5;
             this.toolBar.Location = new System.Drawing.Point(35, 63);
+            this.toolBar.MEffect = true;
             this.toolBar.Name = "toolBar";
             this.toolBar.Size = new System.Drawing.Size(247, 125);
             this.toolBar.TabIndex = 31;
