@@ -521,6 +521,7 @@ namespace Paway.Forms
             this.BaseText.KeyUp += BaseText_KeyUp;
             this.BaseText.TextChanged += BaseText_TextChanged;
             this.BaseText.LostFocus += BaseText_LostFocus;
+            this.BaseText.GotFocus += BaseText_GotFocus;
             this.BaseText.MouseEnter += BaseText_MouseEnter;
             this.KeyDown += QQTextBox_KeyDown;
         }
@@ -559,6 +560,13 @@ namespace Paway.Forms
             {
                 TextChanged(sender, e);
             }
+        }
+        /// <summary>
+        /// 获得焦点时清空错误提示
+        /// </summary>
+        void BaseText_GotFocus(object sender, EventArgs e)
+        {
+            error.SetError(this, null);
         }
         /// <summary>
         /// 失去焦点验证正则

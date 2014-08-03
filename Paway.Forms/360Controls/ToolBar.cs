@@ -516,6 +516,10 @@ namespace Paway.Forms
         /// 当单击项编辑时事件的 Key
         /// </summary>
         private static readonly object EventEditClick = new object();
+        /// <summary>
+        /// 当项菜单弹出时事件
+        /// </summary>
+        private static readonly object EventOpening = new object();
 
         #endregion
 
@@ -585,6 +589,23 @@ namespace Paway.Forms
             }
             return false;
         }
+        /// <summary>
+        /// 当项菜单弹出时事件发生。
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="e">包含事件数据的 System.EventArgs。</param>
+        public virtual bool OnEventOpening(ToolItem item, EventArgs e)
+        {
+            if (!item.Enable) return false;
+            EventHandler handler = base.Events[EventOpening] as EventHandler;
+            if (handler != null)
+            {
+                item.Owner = this;
+                handler(item, e);
+                return true;
+            }
+            return false;
+        }
 
         #endregion
 
@@ -619,6 +640,14 @@ namespace Paway.Forms
         {
             add { base.Events.AddHandler(EventEditClick, value); }
             remove { base.Events.RemoveHandler(EventEditClick, value); }
+        }
+        /// <summary>
+        /// 当编辑项时事件发生
+        /// </summary>
+        public event EventHandler MenuOpening
+        {
+            add { base.Events.AddHandler(EventOpening, value); }
+            remove { base.Events.RemoveHandler(EventOpening, value); }
         }
 
         #endregion
@@ -948,7 +977,6 @@ namespace Paway.Forms
             Color color = this.ForeColor;
             Font font = desc.FontNormal;
 
-
             StringFormat format = new StringFormat()
             {
                 Alignment = desc.StringVertical,
@@ -1035,6 +1063,8 @@ namespace Paway.Forms
             if (contextMenuStrip != null)
             {
                 contextMenuStrip.Tag = item;
+                contextMenuStrip.Opening -= contextMenuStrip_Opening;
+                contextMenuStrip.Opening += contextMenuStrip_Opening;
                 contextMenuStrip.Closed -= contextMenuStrip_Closed;
                 contextMenuStrip.Closed += contextMenuStrip_Closed;
                 if (contextMenuLocation.X + contextMenuStrip.Width > Screen.PrimaryScreen.WorkingArea.Width - 20)
@@ -1065,6 +1095,14 @@ namespace Paway.Forms
                 //当鼠标进入当前选中的的选项卡时，显示下拉按钮
                 g.DrawImage(btnArrowImage, this._btnArrowRect);
             }
+        }
+        /// <summary>
+        /// 当项菜单弹出时事件发生
+        /// </summary>
+        void contextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+            ToolItem item = (sender as ContextMenuStrip).Tag as ToolItem;
+            OnEventOpening(item, e);
         }
         /// <summary>
         /// 右键菜单关闭刷新项

@@ -39,6 +39,7 @@
             this.btName = new Paway.Forms.QQButton();
             this.toolBar = new Paway.Forms.ToolBar();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.qqTextBox1 = new Paway.Forms.QQTextBox();
             this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -130,16 +131,30 @@
             this.pictureBox2.TabIndex = 32;
             this.pictureBox2.TabStop = false;
             // 
+            // qqTextBox1
+            // 
+            this.qqTextBox1.Icon = null;
+            this.qqTextBox1.IsPasswordChat = '\0';
+            this.qqTextBox1.Lines = new string[0];
+            this.qqTextBox1.Location = new System.Drawing.Point(130, 30);
+            this.qqTextBox1.Name = "qqTextBox1";
+            this.qqTextBox1.RegexType = Paway.Helper.RegexType.Normal;
+            this.qqTextBox1.RLength = 1;
+            this.qqTextBox1.SelectedText = "";
+            this.qqTextBox1.Size = new System.Drawing.Size(135, 24);
+            this.qqTextBox1.TabIndex = 33;
+            this.qqTextBox1.WaterText = "";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
-            this.BackColor = System.Drawing.Color.Transparent;
-            this.BackgroundImage = global::Paway.Test.Properties.Resources.noon;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(77)))), ((int)(((byte)(185)))));
             this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(319, 222);
+            this.Controls.Add(this.qqTextBox1);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.toolBar);
             this.Controls.Add(this.btName);
@@ -168,6 +183,7 @@
         private Forms.QQButton btName;
         private Forms.ToolBar toolBar;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private Forms.QQTextBox qqTextBox1;
 
 
 
