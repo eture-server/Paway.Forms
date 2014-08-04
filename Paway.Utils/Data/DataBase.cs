@@ -319,7 +319,7 @@ namespace Paway.Utils.Data
                 DbDataReader dr = cmd.ExecuteReader();
                 DataTable dt = new DataTable();
                 dt.Load(dr);
-                IList<T> list = dt.ConvertTo<T>();
+                IList<T> list = dt.ToIList<T>();
                 return list;
             }
             catch (Exception ex)
@@ -345,7 +345,7 @@ namespace Paway.Utils.Data
         /// </summary>
         public bool Insert<T>(DataTable dt)
         {
-            IList<T> list = dt.ConvertTo<T>();
+            IList<T> list = dt.ToIList<T>();
             return Insert<T>(list);
         }
         /// <summary>
@@ -400,7 +400,7 @@ namespace Paway.Utils.Data
         /// </summary>
         public bool Update<T>(DataTable dt)
         {
-            IList<T> list = dt.ConvertTo<T>();
+            IList<T> list = dt.ToIList<T>();
             return Update<T>(list);
         }
         /// <summary>
@@ -497,7 +497,7 @@ namespace Paway.Utils.Data
         /// </summary>
         public bool Delete<T>(DataTable dt)
         {
-            IList<T> list = dt.ConvertTo<T>();
+            IList<T> list = dt.ToIList<T>();
             return Delete<T>(list);
         }
         /// <summary>
@@ -543,7 +543,7 @@ namespace Paway.Utils.Data
         /// </summary>
         public void Replace<T>(DataTable dt)
         {
-            IList<T> list = dt.ConvertTo<T>();
+            IList<T> list = dt.ToIList<T>();
             Replace<T>(list);
         }
         /// <summary>

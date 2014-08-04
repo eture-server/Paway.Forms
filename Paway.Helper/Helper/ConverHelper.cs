@@ -965,7 +965,7 @@ namespace Paway.Helper
         /// <typeparam name="T"></typeparam>
         /// <param name="rows"></param>
         /// <returns></returns>
-        public static IList<T> ConvertTo<T>(IList<DataRow> rows)
+        public static IList<T> ToIList<T>(IList<DataRow> rows)
         {
             IList<T> list = null;
 
@@ -989,7 +989,7 @@ namespace Paway.Helper
         /// <typeparam name="T"></typeparam>
         /// <param name="table"></param>
         /// <returns></returns>
-        public static IList<T> ConvertTo<T>(this DataTable table)
+        public static IList<T> ToIList<T>(this DataTable table)
         {
             if (table == null)
             {
@@ -1003,7 +1003,7 @@ namespace Paway.Helper
                 rows.Add(row);
             }
 
-            return ConvertTo<T>(rows);
+            return ToIList<T>(rows);
         }
 
         /// <summary>
@@ -1242,6 +1242,7 @@ namespace Paway.Helper
                 PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
                 if (itemList == null || itemList.Length == 0 || itemList[0].Select)
                 {
+                    if (attrList[0].Key != null && properties[i].Name == attrList[0].Key) continue;
                     if (properties[i].GetValue(t) == null) continue;
 
                     string column = properties[i].Name;

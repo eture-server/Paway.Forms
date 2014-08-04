@@ -71,7 +71,7 @@
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.tDataGridView1);
             this.panel1.Padding = new System.Windows.Forms.Padding(10, 10, 10, 2);
-            this.panel1.Size = new System.Drawing.Size(459, 548);
+            this.panel1.Size = new System.Drawing.Size(457, 546);
             // 
             // tDataGridView1
             // 
@@ -132,7 +132,7 @@
             this.tDataGridView1.RowTemplate.Height = 32;
             this.tDataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tDataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tDataGridView1.Size = new System.Drawing.Size(439, 149);
+            this.tDataGridView1.Size = new System.Drawing.Size(437, 149);
             this.tDataGridView1.TabIndex = 8;
             // 
             // IsSelect
@@ -199,7 +199,7 @@
             this.panel3.Location = new System.Drawing.Point(10, 316);
             this.panel3.Name = "panel3";
             this.panel3.Padding = new System.Windows.Forms.Padding(1, 0, 1, 1);
-            this.panel3.Size = new System.Drawing.Size(439, 220);
+            this.panel3.Size = new System.Drawing.Size(437, 220);
             this.panel3.TabIndex = 10;
             // 
             // tDataGridView2
@@ -236,7 +236,7 @@
             this.tDataGridView2.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.tDataGridView2.RowTemplate.Height = 23;
             this.tDataGridView2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tDataGridView2.Size = new System.Drawing.Size(437, 219);
+            this.tDataGridView2.Size = new System.Drawing.Size(435, 219);
             this.tDataGridView2.TabIndex = 9;
             // 
             // ProColor
@@ -288,7 +288,7 @@
             this.panel2.Location = new System.Drawing.Point(10, 159);
             this.panel2.Name = "panel2";
             this.panel2.Padding = new System.Windows.Forms.Padding(0, 1, 0, 0);
-            this.panel2.Size = new System.Drawing.Size(439, 157);
+            this.panel2.Size = new System.Drawing.Size(437, 157);
             this.panel2.TabIndex = 9;
             // 
             // tDataGridViewPager1
@@ -347,11 +347,11 @@
             this.tDataGridViewPager1.Edit.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.tDataGridViewPager1.Edit.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tDataGridViewPager1.Edit.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tDataGridViewPager1.Edit.Size = new System.Drawing.Size(439, 126);
+            this.tDataGridViewPager1.Edit.Size = new System.Drawing.Size(437, 126);
             this.tDataGridViewPager1.Edit.TabIndex = 12;
             this.tDataGridViewPager1.Location = new System.Drawing.Point(0, 1);
             this.tDataGridViewPager1.Name = "tDataGridViewPager1";
-            this.tDataGridViewPager1.Size = new System.Drawing.Size(439, 156);
+            this.tDataGridViewPager1.Size = new System.Drawing.Size(437, 156);
             this.tDataGridViewPager1.TabIndex = 0;
             // 
             // 
@@ -363,7 +363,7 @@
             this.tDataGridViewPager1.TPager.Name = "pager1";
             this.tDataGridViewPager1.TPager.PageSize = 50;
             this.tDataGridViewPager1.TPager.RecordCount = 0;
-            this.tDataGridViewPager1.TPager.Size = new System.Drawing.Size(439, 30);
+            this.tDataGridViewPager1.TPager.Size = new System.Drawing.Size(437, 30);
             this.tDataGridViewPager1.TPager.TabIndex = 11;
             // 
             // FormGridView
