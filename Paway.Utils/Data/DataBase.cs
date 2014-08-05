@@ -198,13 +198,15 @@ namespace Paway.Utils.Data
         /// <param name="cmd"></param>
         protected void CommandEnd(DbCommand cmd)
         {
-            if (cmd == null || cmd.Connection == null) return;
             try
             {
-                if (cmd.Connection.State == ConnectionState.Open)
+                if (cmd != null)
                 {
-                    cmd.Connection.Close();
-                    cmd.Connection.Dispose();
+                    if (cmd.Connection != null && cmd.Connection.State == ConnectionState.Open)
+                    {
+                        cmd.Connection.Close();
+                        cmd.Connection.Dispose();
+                    }
                     cmd.Dispose();
                 }
             }

@@ -142,6 +142,7 @@
             this.numEditTestBox2 = new Paway.Forms.TNumTestBox();
             this.btQQDemo = new Paway.Forms.QQButton();
             this.btDemo360 = new Paway.Forms.QQButton();
+            this.qqTextBox1 = new Paway.Forms.QQTextBox();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -791,6 +792,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tComboBox21.Edit.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.tComboBox21.Edit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tComboBox21.Edit.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tComboBox21.Edit.FormattingEnabled = true;
             this.tComboBox21.Edit.Items.AddRange(new object[] {
             "dfsewf",
@@ -985,12 +987,26 @@
             this.btDemo360.Text = "Demo360";
             this.btDemo360.UseVisualStyleBackColor = false;
             // 
+            // qqTextBox1
+            // 
+            this.qqTextBox1.Icon = null;
+            this.qqTextBox1.IsPasswordChat = '\0';
+            this.qqTextBox1.Lines = new string[] {
+        "qqTextBox1"};
+            this.qqTextBox1.Location = new System.Drawing.Point(118, 150);
+            this.qqTextBox1.Name = "qqTextBox1";
+            this.qqTextBox1.SelectedText = "";
+            this.qqTextBox1.Size = new System.Drawing.Size(109, 24);
+            this.qqTextBox1.TabIndex = 47;
+            this.qqTextBox1.WaterText = "";
+            // 
             // FormDemo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.ClientSize = new System.Drawing.Size(560, 289);
+            this.Controls.Add(this.qqTextBox1);
             this.Controls.Add(this.btDemo360);
             this.Controls.Add(this.btQQDemo);
             this.Controls.Add(this.toolBar3);
@@ -1116,6 +1132,7 @@
         private Forms.ToolBar toolBar3;
         private Forms.QQButton btQQDemo;
         private Forms.QQButton btDemo360;
+        private Forms.QQTextBox qqTextBox1;
 
     }
 }

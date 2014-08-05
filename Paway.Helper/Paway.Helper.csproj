@@ -51,10 +51,12 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Compare.cs" />
     <Compile Include="Common\DrawParam.cs" />
     <Compile Include="Common\Licence.cs" />
     <Compile Include="Common\InitConfig.cs" />
     <Compile Include="Common\TMethod.cs" />
+    <Compile Include="Helper\ExcelHelper.cs" />
     <Compile Include="Helper\WebHelper.cs" />
     <Compile Include="Helper\Base64Helper.cs" />
     <Compile Include="Helper\BitmapHelper.cs" />
