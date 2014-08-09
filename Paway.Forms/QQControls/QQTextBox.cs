@@ -199,6 +199,7 @@ namespace Paway.Forms
                 base.Size = value;
                 int width = TextRenderer.MeasureText("你好", this.Font).Width;
                 BaseText.Size = new Size(value.Width - width / 4, value.Height - 8);
+                this.PositionTextBox();
                 this.Invalidate();
             }
         }
@@ -487,7 +488,7 @@ namespace Paway.Forms
                 int position = 23;
                 this.BaseText.Width -= position;
                 this.BaseText.Location = new Point(
-                    this.BaseText.Location.X + position,
+                    position + 3,
                     this.BaseText.Location.Y);
             }
         }

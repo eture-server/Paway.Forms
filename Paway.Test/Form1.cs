@@ -39,9 +39,6 @@ namespace Paway.Test
         {
             base.OnShown(e);
             toolBar.Items[1].Text = string.Format("{0}&{1}", "你好", null);
-            qqTextBox1.Text = null;
-            qqTextBox1.Focus();
-            qqTextBox1.Focus();
         }
 
         void toolClose_EditClick(object sender, EventArgs e)
@@ -51,8 +48,6 @@ namespace Paway.Test
 
         void btName_Click(object sender, EventArgs e)
         {
-            qqTextBox1.Focus();
-            qqTextBox1.Focus();
             //TControl control = new TControl();
             //control.Dock = DockStyle.Fill;
             //eventRead.WaitOne(3000);

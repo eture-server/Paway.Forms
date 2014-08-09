@@ -9,9 +9,10 @@ namespace Paway.Helper
     /// 比较委托
     /// </summary>
     public delegate bool EqualsComparer<T>(T x, T y);
+
     /// <summary>
     /// 比较方法
-    /// 用法：new List<T>.Distinct(new Compare<T>((x, y) => x.Value == y.Value))
+    /// 用法：new List(T).Distinct(new Compare(T)((x, y) => x.Value == y.Value))
     /// </summary>
     public class Compare<T> : IEqualityComparer<T>
     {

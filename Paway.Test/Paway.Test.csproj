@@ -217,6 +217,7 @@
     <Content Include="alog.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\serrch.png" />
     <None Include="Resources\noon.jpg" />
     <None Include="Resources\imgLoadding.Image.gif" />
     <None Include="Resources\i1_trans.png" />
