@@ -170,7 +170,7 @@ namespace Paway.Forms
         /// </summary>
         public static void ReSet()
         {
-            for (int i = _iList.Count; i >= 0; i--)
+            for (int i = _iList.Count - 1; i >= 0; i--)
             {
                 string item = _iList.Keys.ElementAt<string>(i);
                 if (_iList[item] == Current)
@@ -179,6 +179,7 @@ namespace Paway.Forms
                     {
                         _iList[item].Dispose();
                     }
+                    Current = null;
                     _iList[item] = null;
                     _iList.Remove(item);
                     break;
@@ -190,11 +191,15 @@ namespace Paway.Forms
         /// </summary>
         public static void ReSet(Control parent)
         {
-            for (int i = _iList.Count; i >= 0; i--)
+            for (int i = _iList.Count - 1; i >= 0; i--)
             {
                 string item = _iList.Keys.ElementAt<string>(i);
                 if (_iList[item].Parent == parent)
                 {
+                    if (_iList[item] == Current)
+                    {
+                        Current = null;
+                    }
                     if (!_iList[item].IsDisposed)
                     {
                         _iList[item].Dispose();
@@ -209,7 +214,7 @@ namespace Paway.Forms
         /// </summary>
         public static void ReSetAll()
         {
-            for (int i = _iList.Count; i >= 0; i--)
+            for (int i = _iList.Count - 1; i >= 0; i--)
             {
                 string item = _iList.Keys.ElementAt<string>(i);
                 if (!_iList[item].IsDisposed)
@@ -218,6 +223,7 @@ namespace Paway.Forms
                 }
                 _iList[item] = null;
             }
+            Current = null;
             _iList.Clear();
         }
         /// <summary>
