@@ -56,6 +56,7 @@ namespace Paway.Forms
             : base()
         {
             this.ShowInTaskbar = false;
+            this.Shadow = false;
         }
 
         #endregion

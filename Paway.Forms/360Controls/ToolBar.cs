@@ -1479,6 +1479,20 @@ namespace Paway.Forms
         /// <summary>
         /// 选中项
         /// </summary>
+        public void TClickItem(string text)
+        {
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                if (this.Items[i].First == text)
+                {
+                    TClickItem(i);
+                    break;
+                }
+            }
+        }
+        /// <summary>
+        /// 选中项
+        /// </summary>
         public void TClickItem(ToolItem item)
         {
             int index = this.Items.GetIndexOfRange(item);
