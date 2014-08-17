@@ -19,6 +19,7 @@ namespace Paway.Test
         [STAThread]
         static void Main()
         {
+            //DateTime dt = WebHelper.GetBeijingTime();
             //log4net.Config.XmlConfigurator.Configure();
             log4net.Config.XmlConfigurator.Configure(new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "alog.xml")));
             Application.EnableVisualStyles();

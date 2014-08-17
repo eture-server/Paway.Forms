@@ -144,6 +144,12 @@ namespace Paway.Forms
             set { MouseState = value ? TMouseState.Down : TMouseState.Normal; }
         }
 
+        /// <summary>
+        /// 文本内容
+        /// </summary>
+        [Description("文本内容"), DefaultValue(false)]
+        public bool IText { get; set; }
+
         #region 构造
         /// <summary>
         /// 构造

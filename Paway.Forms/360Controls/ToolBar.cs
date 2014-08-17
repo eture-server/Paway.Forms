@@ -876,64 +876,74 @@ namespace Paway.Forms
                 {
                     textRect.Width -= _rightLen;
                 }
-                string[] text = item.Text.Split(new string[] { "\r\n", "&" }, StringSplitOptions.RemoveEmptyEntries);
-                if (text.Length > 0)
+                int headHeight = 0;
+                if (!string.IsNullOrEmpty(item.HeadDesc))
                 {
-                    int fHight = TextRenderer.MeasureText("你好", GetFont(item.MouseState, TextFirst)).Height;
-                    //GetFont(item.MouseState, TextFirst).GetHeight(g).ToInt();
-                    int sHight = TextRenderer.MeasureText("你好", GetFont(item.MouseState, TextSencond)).Height;
-                    //GetFont(item.MouseState, TextSencond).GetHeight(g).ToInt();
-                    int height = textRect.Height - fHight;
-                    height -= (text.Length - 1) * sHight;
-                    height -= (text.Length - 1) * _textSpace;
-                    height /= 2;
-
+                    headHeight = TextRenderer.MeasureText("你好", GetFont(item.MouseState, THeadDesc)).Height + _textSpace;
+                    //GetFont(item.MouseState, THeadDesc).GetHeight(g).ToInt() + _textSpace;
                     Rectangle rect = new Rectangle()
                     {
                         X = textRect.X,
-                        Y = textRect.Y + height,
+                        Y = textRect.Y,
                         Width = textRect.Width,
-                        Height = fHight,
+                        Height = headHeight,
                     };
-                    DrawOtherDesc(g, item.Enable, item.MouseState, TextFirst, text[0], rect);
-                    for (int i = 1; i < text.Length; i++)
+                    DrawOtherDesc(g, item, THeadDesc, item.HeadDesc, rect);
+                }
+                int endHeight = 0;
+                if (!string.IsNullOrEmpty(item.EndDesc))
+                {
+                    endHeight = TextRenderer.MeasureText("你好", GetFont(item.MouseState, TEndDesc)).Height + _textSpace;
+                    //GetFont(item.MouseState, TEndDesc).GetHeight(g).ToInt() + _textSpace;
+                    Rectangle rect = new Rectangle()
                     {
-                        rect = new Rectangle()
+                        X = textRect.X,
+                        Y = textRect.Y + textRect.Height - endHeight,
+                        Width = textRect.Width,
+                        Height = endHeight,
+                    };
+                    DrawOtherDesc(g, item, TEndDesc, item.EndDesc, rect);
+                }
+                if (item.IText)
+                {
+                    Rectangle rect = new Rectangle(textRect.X, textRect.Y + headHeight + endHeight, textRect.Width, textRect.Height - headHeight - endHeight);
+                    DrawOtherDesc(g, item, TextFirst, item.Text, rect);
+                }
+                else
+                {
+                    string[] text = item.Text.Split(new string[] { "\r\n", "&" }, StringSplitOptions.RemoveEmptyEntries);
+                    if (text.Length > 0)
+                    {
+                        int fHight = TextRenderer.MeasureText("你好", GetFont(item.MouseState, TextFirst)).Height;
+                        //GetFont(item.MouseState, TextFirst).GetHeight(g).ToInt();
+                        int sHight = TextRenderer.MeasureText("你好", GetFont(item.MouseState, TextSencond)).Height;
+                        //GetFont(item.MouseState, TextSencond).GetHeight(g).ToInt();
+                        int height = textRect.Height - fHight;
+                        height -= (text.Length - 1) * sHight;
+                        height -= (text.Length - 1) * _textSpace;
+                        height /= 2;
+
+                        Rectangle rect = new Rectangle()
                         {
-                            X = textRect.X + (fHight - sHight) / 2,
-                            Y = textRect.Y + height + fHight + _textSpace * i + sHight * (i - 1),
+                            X = textRect.X,
+                            Y = textRect.Y + height,
                             Width = textRect.Width,
-                            Height = sHight,
+                            Height = fHight,
                         };
-                        DrawOtherDesc(g, item.Enable, item.MouseState, TextSencond, text[i], rect);
+                        DrawOtherDesc(g, item, TextFirst, text[0], rect);
+                        for (int i = 1; i < text.Length; i++)
+                        {
+                            rect = new Rectangle()
+                            {
+                                X = textRect.X + (fHight - sHight) / 2,
+                                Y = textRect.Y + height + fHight + _textSpace * i + sHight * (i - 1),
+                                Width = textRect.Width,
+                                Height = sHight,
+                            };
+                            DrawOtherDesc(g, item, TextSencond, text[i], rect);
+                        }
                     }
                 }
-            }
-            if (!string.IsNullOrEmpty(item.HeadDesc))
-            {
-                int dHeight = TextRenderer.MeasureText("你好", GetFont(item.MouseState, THeadDesc)).Height + _textSpace;
-                //GetFont(item.MouseState, THeadDesc).GetHeight(g).ToInt() + _textSpace;
-                Rectangle rect = new Rectangle()
-                {
-                    X = textRect.X,
-                    Y = textRect.Y,
-                    Width = textRect.Width,
-                    Height = dHeight,
-                };
-                DrawOtherDesc(g, item.Enable, item.MouseState, THeadDesc, item.HeadDesc, rect);
-            }
-            if (!string.IsNullOrEmpty(item.EndDesc))
-            {
-                int dHeight = TextRenderer.MeasureText("你好", GetFont(item.MouseState, TEndDesc)).Height + _textSpace;
-                //GetFont(item.MouseState, TEndDesc).GetHeight(g).ToInt() + _textSpace;
-                Rectangle rect = new Rectangle()
-                {
-                    X = textRect.X,
-                    Y = textRect.Y + textRect.Height - dHeight,
-                    Width = textRect.Width,
-                    Height = dHeight,
-                };
-                DrawOtherDesc(g, item.Enable, item.MouseState, TEndDesc, item.EndDesc, rect);
             }
             DrawDesc(g, item, textRect);
         }
@@ -965,12 +975,12 @@ namespace Paway.Forms
             //g.MeasureString(item.Desc, GetFont(item.MouseState, TDesc));
             item.RectDesc = new Rectangle(rect.X + rect.Width - size.Width + (item.ContextMenuStrip == null ? 0 : 4),
                 rect.Y + (rect.Height - size.Height) / 2, size.Width, size.Height);
-            DrawOtherDesc(g, item.Enable, item.IMouseState, TDesc, item.Desc, item.RectDesc);
+            DrawOtherDesc(g, item, TDesc, item.Desc, item.RectDesc);
         }
         /// <summary>
         /// 绘制其它描述
         /// </summary>
-        private void DrawOtherDesc(Graphics g, bool enable, TMouseState state, TProperties desc, string text, Rectangle rect)
+        private void DrawOtherDesc(Graphics g, ToolItem item, TProperties desc, string text, Rectangle rect)
         {
             if (string.IsNullOrEmpty(text)) return;
 
@@ -980,16 +990,23 @@ namespace Paway.Forms
             StringFormat format = new StringFormat()
             {
                 Alignment = desc.StringVertical,
-                LineAlignment = desc.StringHorizontal
+                LineAlignment = desc.StringHorizontal,
+                Trimming = StringTrimming.EllipsisWord
             };
-            if (!enable)
+            if (!item.Enable)
             {
-                //g.DrawString(text, font, new SolidBrush(color), rect, format);
-                Rectangle temp = new Rectangle(rect.X + BodyBounds.X, rect.Y + BodyBounds.Y, rect.Width, rect.Height);
-                TextRenderer.DrawText(g, text, font, temp, color, TextFormat(format));
+                if (item.IText)
+                {
+                    g.DrawString(text, font, new SolidBrush(color), rect, format);
+                }
+                else
+                {
+                    Rectangle temp = new Rectangle(rect.X + BodyBounds.X, rect.Y + BodyBounds.Y, rect.Width, rect.Height);
+                    TextRenderer.DrawText(g, text, font, temp, color, TextFormat(format));
+                }
                 return;
             }
-            switch (state)
+            switch (item.MouseState)
             {
                 case TMouseState.Normal:
                 case TMouseState.Leave:
@@ -1008,7 +1025,11 @@ namespace Paway.Forms
                     break;
             }
             if (color == Color.Empty) color = this.ForeColor;
-            //g.DrawString(text, font, new SolidBrush(color), rect, format);
+            if (item.IText)
+            {
+                g.DrawString(text, font, new SolidBrush(color), rect, format);
+            }
+            else
             {
                 Rectangle temp = new Rectangle(rect.X + BodyBounds.X, rect.Y + BodyBounds.Y, rect.Width, rect.Height);
                 TextRenderer.DrawText(g, text, font, temp, color, TextFormat(format));

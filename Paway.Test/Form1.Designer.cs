@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.toolDelete = new System.Windows.Forms.ToolStripMenuItem();
@@ -91,24 +90,19 @@
             this.toolBar.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolBar.ICheckEvent = true;
             this.toolBar.ImageSize = new System.Drawing.Size(32, 32);
-            toolItem1.ContextMenuStrip = this.contextMenuStrip2;
-            toolItem1.Desc = "x1";
+            toolItem1.Desc = "";
             toolItem1.EndDesc = "";
-            toolItem1.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
+            toolItem1.HeadDesc = "呵呵";
+            toolItem1.IText = true;
             toolItem1.Selete = false;
-            toolItem1.Text = "呵呵0呵呵1呵呵2呵呵3呵呵4\r\n呵呵5呵呵6呵呵7呵呵8呵呵9";
-            toolItem2.Desc = "呵呵";
-            toolItem2.EndDesc = "";
-            toolItem2.Selete = false;
-            toolItem2.Text = "你好";
+            toolItem1.Text = "头部";
             this.toolBar.Items.Add(toolItem1);
-            this.toolBar.Items.Add(toolItem2);
-            this.toolBar.ItemSize = new System.Drawing.Size(120, 120);
+            this.toolBar.ItemSize = new System.Drawing.Size(128, 120);
             this.toolBar.ItemSpace = 5;
             this.toolBar.Location = new System.Drawing.Point(35, 63);
             this.toolBar.MEffect = true;
             this.toolBar.Name = "toolBar";
-            this.toolBar.Size = new System.Drawing.Size(247, 125);
+            this.toolBar.Size = new System.Drawing.Size(137, 125);
             this.toolBar.TabIndex = 31;
             this.toolBar.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
             this.toolBar.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(127)))), ((int)(((byte)(104)))));
@@ -119,6 +113,8 @@
             this.toolBar.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolBar.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolBar.TextFirst.ColorNormal = System.Drawing.Color.Black;
+            this.toolBar.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
+            this.toolBar.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
             this.toolBar.Trans = 150;
             // 
             // pictureBox2
@@ -134,11 +130,12 @@
             // tbName
             // 
             this.tbName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbName.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.tbName.Icon = global::Paway.Test.Properties.Resources.serrch;
             this.tbName.IconIsButton = true;
             this.tbName.IsPasswordChat = '\0';
             this.tbName.Lines = new string[0];
-            this.tbName.Location = new System.Drawing.Point(138, 31);
+            this.tbName.Location = new System.Drawing.Point(121, 18);
             this.tbName.Margin = new System.Windows.Forms.Padding(4);
             this.tbName.MaxLength = 10;
             this.tbName.Name = "tbName";
@@ -146,7 +143,7 @@
             this.tbName.Regex = "";
             this.tbName.RegexType = Paway.Helper.RegexType.Normal;
             this.tbName.SelectedText = "";
-            this.tbName.Size = new System.Drawing.Size(144, 26);
+            this.tbName.Size = new System.Drawing.Size(129, 29);
             this.tbName.TabIndex = 59;
             this.tbName.WaterText = "";
             // 

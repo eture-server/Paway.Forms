@@ -199,6 +199,8 @@ namespace Paway.Forms
                 base.Size = value;
                 int width = TextRenderer.MeasureText("你好", this.Font).Width;
                 BaseText.Size = new Size(value.Width - width / 4, value.Height - 8);
+                UpdateHeight();
+                _iconRect.Y = (this.Height - _iconRect.Height) / 2;
                 this.PositionTextBox();
                 this.Invalidate();
             }
@@ -219,7 +221,19 @@ namespace Paway.Forms
                 }
                 base.Font = value;
                 BaseText.Font = value;
+                UpdateHeight();
                 this.Invalidate();
+            }
+        }
+        /// <summary>
+        /// 自动更新高度
+        /// </summary>
+        private void UpdateHeight()
+        {
+            if (!this.Multiline)
+            {
+                int hight = TextRenderer.MeasureText("你好", this.Font).Height;
+                this.Height = hight + 8;
             }
         }
         /// <summary>
@@ -385,12 +399,14 @@ namespace Paway.Forms
                 base.Invalidate();
             }
         }
+        private Rectangle _iconRect = new Rectangle(3, 3, 20, 20);
         /// <summary>
         /// 图标的绘制区域
         /// </summary>
         protected virtual Rectangle IconRect
         {
-            get { return new Rectangle(3, 3, 20, 20); }
+            get { return _iconRect; }
+            set { _iconRect = value; }
         }
 
         #endregion
