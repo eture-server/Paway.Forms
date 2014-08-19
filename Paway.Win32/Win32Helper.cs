@@ -40,11 +40,6 @@ namespace Paway.Win32
         /// <summary>
         /// 发送跨进程自定义消息
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="form"></param>
-        /// <param name="type"></param>
-        /// <param name="msg"></param>
-        /// <returns></returns>
         public static IntPtr SendMessage<T>(string form, int type, T msg)
         {
             IntPtr hWnd = FindWindow(form);
@@ -59,6 +54,26 @@ namespace Paway.Win32
                 return hWnd;
             }
             return IntPtr.Zero;
+        }
+        /// <summary>
+        /// 发送跨进程自定义消息 到所有指定结尾的窗体
+        /// </summary>
+        public static void SendMessageAll<T>(string form, int type, T msg)
+        {
+            Dictionary<IntPtr, string> hList = FindWindowEnd(form);
+            for (int i = 0; i < hList.Count; i++)
+            {
+                IntPtr hWnd = hList.Keys.ElementAt(i);
+                if (hWnd != IntPtr.Zero)
+                {
+                    int size = Marshal.SizeOf(typeof(T));
+                    UserDataStruct cds;
+                    cds.vData = IntPtr.Zero;
+                    cds.lData = Marshal.SizeOf(typeof(T));
+                    cds.uData = SctructHelper.StructureToByte(msg);
+                    NativeMethods.SendMessage(hWnd, (int)WindowsMessage.WM_COPYDATA, type, ref cds);
+                }
+            }
         }
         /// <summary>
         /// 解析自定义消息 - 形参
@@ -92,6 +107,24 @@ namespace Paway.Win32
                 return hWnd;
             }
             return IntPtr.Zero;
+        }
+        /// <summary>
+        /// 发送跨进程自定义消息 到所有指定结尾的窗体
+        /// </summary>
+        /// <param name="form">窗体名称</param>
+        /// <param name="type">消息类型</param>
+        /// <param name="msg">消息内容</param>
+        public static void SendMessageAll(string form, int type, string msg)
+        {
+            Dictionary<IntPtr, string> hList = FindWindowEnd(form);
+            for (int i = 0; i < hList.Count; i++)
+            {
+                IntPtr hWnd = hList.Keys.ElementAt(i);
+                if (hWnd != IntPtr.Zero)
+                {
+                    SendMessage(hWnd, type, msg);
+                }
+            }
         }
         /// <summary>
         /// 发送消息到指定句柄的窗体
