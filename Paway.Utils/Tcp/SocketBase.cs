@@ -117,12 +117,12 @@ namespace Paway.Utils.Tcp
                     }
                     else
                     {
-                        //先处理接受的数据，去掉前两个字节
+                        //先处理接受的数据，去掉前四个字节
                         object[] buffer = state.LstBuffer.ToArray();
-                        byte[] data = new byte[buffer.Length - 2];
+                        byte[] data = new byte[buffer.Length - 4];
                         for (int i = 0; i < data.Length; i++)
                         {
-                            data[i] = (byte)buffer[i + 2];
+                            data[i] = (byte)buffer[i + 4];
                         }
                         HandleMessage(data);
                         WaitForData(state);
@@ -155,13 +155,15 @@ namespace Paway.Utils.Tcp
         /// </summary>
         private void SendMessage(byte[] byteData)
         {
-            //先处理发送的数据，加上字节长度
-            byte[] msgBuffer = new byte[byteData.Length + 2];
-            msgBuffer[0] = Convert.ToByte(byteData.Length / 256);
-            msgBuffer[1] = Convert.ToByte(byteData.Length % 256);
+            //先处理发送的数据，加上四字节长度
+            byte[] msgBuffer = new byte[byteData.Length + 4];
+            msgBuffer[0] = (byte)(byteData.Length >> 24);
+            msgBuffer[1] = (byte)(byteData.Length >> 16);
+            msgBuffer[2] = (byte)(byteData.Length >> 8);
+            msgBuffer[3] = (byte)(byteData.Length);
             for (int i = 0; i < byteData.Length; i++)
             {
-                msgBuffer[i + 2] = byteData[i];
+                msgBuffer[i + 4] = byteData[i];
             }
             if (!SendStop) this.socket.Send(msgBuffer);
         }

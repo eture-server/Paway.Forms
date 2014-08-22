@@ -26,6 +26,10 @@ namespace Paway.Forms
         private int m_PageCount;
         private int m_RecordCount = 0;
         private int m_CurrentPageIndex = 1;
+        private ToolBar toolLast;
+        private ToolBar toolNext;
+        private ToolBar toolPrevious;
+        private ToolBar toolFirst;
         private PagerInfo pagerInfo = null;
         /// <summary>
         /// 页面切换的时候触发
@@ -87,11 +91,24 @@ namespace Paway.Forms
             this.m_RecordCount = recordCount;
             this.m_CurrentPageIndex = 1; //默认为第一页
             this.InitPageInfo();
-            this.btnFirst.Click += btnFirst_Click;
-            this.btnPrevious.Click += btnPrevious_Click;
+            this.toolFirst.ItemClick += toolFirst_ItemClick;
+            this.toolPrevious.ItemClick += toolPrevious_ItemClick;
+            this.txtCurrentPage.Edit.GotFocus += txtCurrentPage_GotFocus;
+            this.txtCurrentPage.Edit.LostFocus += txtCurrentPage_LostFocus;
             this.txtCurrentPage.KeyDown += txtCurrentPage_KeyDown;
-            this.btnNext.Click += btnNext_Click;
-            this.btnLast.Click += btnLast_Click;
+
+            this.toolNext.ItemClick += toolNext_ItemClick;
+            this.toolLast.ItemClick += toolLast_ItemClick;
+        }
+
+        void txtCurrentPage_LostFocus(object sender, EventArgs e)
+        {
+            txtCurrentPage.IsTrans = true;
+        }
+
+        void txtCurrentPage_GotFocus(object sender, EventArgs e)
+        {
+            txtCurrentPage.IsTrans = false;
         }
 
         #endregion
@@ -233,10 +250,10 @@ namespace Paway.Forms
 
             //设置按钮的可用性
             bool enable = (this.CurrentPageIndex > 1);
-            this.btnPrevious.Enabled = enable;
+            this.toolPrevious.Enabled = enable;
 
             enable = (this.CurrentPageIndex < this.PageCount);
-            this.btnNext.Enabled = enable;
+            this.toolNext.Enabled = enable;
 
             this.txtCurrentPage.Text = this.m_CurrentPageIndex.ToString();
             this.lblPageInfo.Text = string.Format("共 {0} 条记录，每页 {1} 条，共 {2} 页", this.m_RecordCount, this.m_PageSize, this.m_PageCount);
@@ -252,12 +269,12 @@ namespace Paway.Forms
             OnPageChanged(EventArgs.Empty);
         }
 
-        private void btnFirst_Click(object sender, System.EventArgs e)
+        void toolFirst_ItemClick(object sender, EventArgs e)
         {
             this.RefreshData(1);
         }
 
-        private void btnPrevious_Click(object sender, System.EventArgs e)
+        void toolPrevious_ItemClick(object sender, EventArgs e)
         {
             if (this.m_CurrentPageIndex > 1)
             {
@@ -269,7 +286,7 @@ namespace Paway.Forms
             }
         }
 
-        private void btnNext_Click(object sender, System.EventArgs e)
+        void toolNext_ItemClick(object sender, EventArgs e)
         {
             if (this.m_CurrentPageIndex < this.m_PageCount)
             {
@@ -285,7 +302,7 @@ namespace Paway.Forms
             }
         }
 
-        private void btnLast_Click(object sender, System.EventArgs e)
+        void toolLast_ItemClick(object sender, EventArgs e)
         {
             if (this.m_PageCount > 0)
             {
@@ -341,13 +358,16 @@ namespace Paway.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TPager));
+            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
             this.lblPageInfo = new System.Windows.Forms.Label();
-            this.btnFirst = new Paway.Forms.QQButton();
             this.txtCurrentPage = new Paway.Forms.TNumTestBox();
-            this.btnPrevious = new Paway.Forms.QQButton();
-            this.btnNext = new Paway.Forms.QQButton();
-            this.btnLast = new Paway.Forms.QQButton();
+            this.toolLast = new Paway.Forms.ToolBar();
+            this.toolNext = new Paway.Forms.ToolBar();
+            this.toolPrevious = new Paway.Forms.ToolBar();
+            this.toolFirst = new Paway.Forms.ToolBar();
             this.SuspendLayout();
             // 
             // lblPageInfo
@@ -362,83 +382,144 @@ namespace Paway.Forms
             this.lblPageInfo.TabIndex = 0;
             this.lblPageInfo.Text = "共 {0} 条记录，每页 {1} 条，共 {2} 页";
             // 
-            // btnFirst
-            // 
-            this.btnFirst.DownImage = ((System.Drawing.Image)(resources.GetObject("btnFirst.DownImage")));
-            this.btnFirst.Image = null;
-            this.btnFirst.Location = new System.Drawing.Point(21, 1);
-            this.btnFirst.MoveImage = ((System.Drawing.Image)(resources.GetObject("btnFirst.MoveImage")));
-            this.btnFirst.Name = "btnFirst";
-            this.btnFirst.NormalImage = ((System.Drawing.Image)(resources.GetObject("btnFirst.NormalImage")));
-            this.btnFirst.Size = new System.Drawing.Size(33, 28);
-            this.btnFirst.TabIndex = 5;
-            this.btnFirst.Text = "|<";
-            this.btnFirst.UseVisualStyleBackColor = false;
-            // 
             // txtCurrentPage
             // 
             this.txtCurrentPage.ForeColor = System.Drawing.Color.Black;
             this.txtCurrentPage.Icon = null;
             this.txtCurrentPage.IsPasswordChat = '\0';
+            this.txtCurrentPage.IsTrans = true;
             this.txtCurrentPage.Lines = new string[] {
         "1"};
             this.txtCurrentPage.Location = new System.Drawing.Point(86, 3);
             this.txtCurrentPage.MaxLength = 10;
             this.txtCurrentPage.Name = "txtCurrentPage";
             this.txtCurrentPage.SelectedText = "";
-            this.txtCurrentPage.Size = new System.Drawing.Size(28, 24);
+            this.txtCurrentPage.Size = new System.Drawing.Size(28, 25);
             this.txtCurrentPage.TabIndex = 1;
             this.txtCurrentPage.WaterText = "";
             // 
-            // btnPrevious
+            // toolLast
             // 
-            this.btnPrevious.DownImage = ((System.Drawing.Image)(resources.GetObject("btnPrevious.DownImage")));
-            this.btnPrevious.Image = null;
-            this.btnPrevious.Location = new System.Drawing.Point(53, 1);
-            this.btnPrevious.MoveImage = ((System.Drawing.Image)(resources.GetObject("btnPrevious.MoveImage")));
-            this.btnPrevious.Name = "btnPrevious";
-            this.btnPrevious.NormalImage = ((System.Drawing.Image)(resources.GetObject("btnPrevious.NormalImage")));
-            this.btnPrevious.Size = new System.Drawing.Size(33, 28);
-            this.btnPrevious.TabIndex = 4;
-            this.btnPrevious.Text = "<";
-            this.btnPrevious.UseVisualStyleBackColor = false;
+            this.toolLast.ICheckEvent = true;
+            this.toolLast.IImageShow = false;
+            this.toolLast.ImageSize = new System.Drawing.Size(0, 0);
+            toolItem1.Selete = false;
+            toolItem1.Text = ">|";
+            this.toolLast.Items.Add(toolItem1);
+            this.toolLast.ItemSize = new System.Drawing.Size(30, 24);
+            this.toolLast.ItemSpace = 5;
+            this.toolLast.Location = new System.Drawing.Point(146, 1);
+            this.toolLast.Name = "toolLast";
+            this.toolLast.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            this.toolLast.Size = new System.Drawing.Size(30, 28);
+            this.toolLast.TabIndex = 44;
+            this.toolLast.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
+            this.toolLast.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
+            this.toolLast.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
+            this.toolLast.TEvent = Paway.Forms.TEvent.Up;
+            this.toolLast.TextFirst.ColorDown = System.Drawing.Color.White;
+            this.toolLast.TextFirst.ColorMove = System.Drawing.Color.White;
+            this.toolLast.TextFirst.ColorNormal = System.Drawing.Color.Black;
+            this.toolLast.TextFirst.FontDown = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolLast.TextFirst.FontMove = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolLast.TextFirst.FontNormal = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolLast.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolLast.Trans = 150;
             // 
-            // btnNext
+            // toolNext
             // 
-            this.btnNext.DownImage = ((System.Drawing.Image)(resources.GetObject("btnNext.DownImage")));
-            this.btnNext.Image = null;
-            this.btnNext.Location = new System.Drawing.Point(114, 1);
-            this.btnNext.MoveImage = ((System.Drawing.Image)(resources.GetObject("btnNext.MoveImage")));
-            this.btnNext.Name = "btnNext";
-            this.btnNext.NormalImage = ((System.Drawing.Image)(resources.GetObject("btnNext.NormalImage")));
-            this.btnNext.Size = new System.Drawing.Size(33, 28);
-            this.btnNext.TabIndex = 2;
-            this.btnNext.Text = ">";
-            this.btnNext.UseVisualStyleBackColor = false;
+            this.toolNext.ICheckEvent = true;
+            this.toolNext.IImageShow = false;
+            this.toolNext.ImageSize = new System.Drawing.Size(0, 0);
+            toolItem2.Selete = false;
+            toolItem2.Text = ">";
+            this.toolNext.Items.Add(toolItem2);
+            this.toolNext.ItemSize = new System.Drawing.Size(30, 24);
+            this.toolNext.ItemSpace = 5;
+            this.toolNext.Location = new System.Drawing.Point(114, 1);
+            this.toolNext.Name = "toolNext";
+            this.toolNext.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            this.toolNext.Size = new System.Drawing.Size(30, 28);
+            this.toolNext.TabIndex = 45;
+            this.toolNext.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
+            this.toolNext.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
+            this.toolNext.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
+            this.toolNext.TEvent = Paway.Forms.TEvent.Up;
+            this.toolNext.TextFirst.ColorDown = System.Drawing.Color.White;
+            this.toolNext.TextFirst.ColorMove = System.Drawing.Color.White;
+            this.toolNext.TextFirst.ColorNormal = System.Drawing.Color.Black;
+            this.toolNext.TextFirst.FontDown = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolNext.TextFirst.FontMove = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolNext.TextFirst.FontNormal = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolNext.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolNext.Trans = 150;
             // 
-            // btnLast
+            // toolPrevious
             // 
-            this.btnLast.DownImage = ((System.Drawing.Image)(resources.GetObject("btnLast.DownImage")));
-            this.btnLast.Image = null;
-            this.btnLast.Location = new System.Drawing.Point(146, 1);
-            this.btnLast.MoveImage = ((System.Drawing.Image)(resources.GetObject("btnLast.MoveImage")));
-            this.btnLast.Name = "btnLast";
-            this.btnLast.NormalImage = ((System.Drawing.Image)(resources.GetObject("btnLast.NormalImage")));
-            this.btnLast.Size = new System.Drawing.Size(33, 28);
-            this.btnLast.TabIndex = 3;
-            this.btnLast.Text = ">|";
-            this.btnLast.UseVisualStyleBackColor = false;
+            this.toolPrevious.ICheckEvent = true;
+            this.toolPrevious.IImageShow = false;
+            this.toolPrevious.ImageSize = new System.Drawing.Size(0, 0);
+            toolItem3.Selete = false;
+            toolItem3.Text = "<";
+            this.toolPrevious.Items.Add(toolItem3);
+            this.toolPrevious.ItemSize = new System.Drawing.Size(30, 24);
+            this.toolPrevious.ItemSpace = 5;
+            this.toolPrevious.Location = new System.Drawing.Point(53, 1);
+            this.toolPrevious.Name = "toolPrevious";
+            this.toolPrevious.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            this.toolPrevious.Size = new System.Drawing.Size(30, 28);
+            this.toolPrevious.TabIndex = 46;
+            this.toolPrevious.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
+            this.toolPrevious.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
+            this.toolPrevious.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
+            this.toolPrevious.TEvent = Paway.Forms.TEvent.Up;
+            this.toolPrevious.TextFirst.ColorDown = System.Drawing.Color.White;
+            this.toolPrevious.TextFirst.ColorMove = System.Drawing.Color.White;
+            this.toolPrevious.TextFirst.ColorNormal = System.Drawing.Color.Black;
+            this.toolPrevious.TextFirst.FontDown = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolPrevious.TextFirst.FontMove = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolPrevious.TextFirst.FontNormal = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolPrevious.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolPrevious.Trans = 150;
+            // 
+            // toolFirst
+            // 
+            this.toolFirst.ICheckEvent = true;
+            this.toolFirst.IImageShow = false;
+            this.toolFirst.ImageSize = new System.Drawing.Size(0, 0);
+            toolItem4.Selete = false;
+            toolItem4.Text = "|<";
+            this.toolFirst.Items.Add(toolItem4);
+            this.toolFirst.ItemSize = new System.Drawing.Size(30, 24);
+            this.toolFirst.ItemSpace = 5;
+            this.toolFirst.Location = new System.Drawing.Point(21, 1);
+            this.toolFirst.Name = "toolFirst";
+            this.toolFirst.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            this.toolFirst.Size = new System.Drawing.Size(30, 28);
+            this.toolFirst.TabIndex = 47;
+            this.toolFirst.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
+            this.toolFirst.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
+            this.toolFirst.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
+            this.toolFirst.TEvent = Paway.Forms.TEvent.Up;
+            this.toolFirst.TextFirst.ColorDown = System.Drawing.Color.White;
+            this.toolFirst.TextFirst.ColorMove = System.Drawing.Color.White;
+            this.toolFirst.TextFirst.ColorNormal = System.Drawing.Color.Black;
+            this.toolFirst.TextFirst.FontDown = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolFirst.TextFirst.FontMove = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolFirst.TextFirst.FontNormal = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolFirst.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolFirst.Trans = 150;
             // 
             // TPager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
-            this.Controls.Add(this.btnLast);
-            this.Controls.Add(this.btnNext);
-            this.Controls.Add(this.btnPrevious);
+            this.Controls.Add(this.toolFirst);
+            this.Controls.Add(this.toolPrevious);
+            this.Controls.Add(this.toolNext);
+            this.Controls.Add(this.toolLast);
             this.Controls.Add(this.txtCurrentPage);
-            this.Controls.Add(this.btnFirst);
             this.Controls.Add(this.lblPageInfo);
             this.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Name = "TPager";
@@ -451,11 +532,7 @@ namespace Paway.Forms
         #endregion
 
         private System.Windows.Forms.Label lblPageInfo;
-        private Paway.Forms.QQButton btnFirst;
         private Paway.Forms.TNumTestBox txtCurrentPage;
-        private Paway.Forms.QQButton btnPrevious;
-        private Paway.Forms.QQButton btnNext;
-        private Paway.Forms.QQButton btnLast;
 
         #endregion
     }

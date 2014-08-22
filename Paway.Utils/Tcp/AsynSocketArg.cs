@@ -35,11 +35,11 @@ namespace Paway.Utils.Tcp
         {
             get
             {
-                int size = 2;
-                // 先获取2字节数据
+                int size = 4;
+                // 先获取4字节数据
                 if (length == -1)
                 {
-                    size = 2;
+                    size = 4;
                 }
                 // 中间数据设置1024缓冲区
                 else if (length - lstBuffer.Count > BufferSize)
@@ -63,9 +63,9 @@ namespace Paway.Utils.Tcp
         {
             get
             {
-                if (length == -1 && lstBuffer.Count >= 2)
+                if (length == -1 && lstBuffer.Count >= 4)
                 {
-                    length = ((byte)lstBuffer[0] << 8 | (byte)lstBuffer[1] << 0) + 2;
+                    length = ((byte)lstBuffer[0] << 14 | (byte)lstBuffer[1] << 16 | (byte)lstBuffer[2] << 8 | (byte)lstBuffer[3] << 0) + 4;
                 }
                 return length;
             }
