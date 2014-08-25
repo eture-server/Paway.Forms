@@ -21,7 +21,7 @@ namespace Paway.Utils.Tcp
         /// <summary>
         /// 获取远程终结点
         /// </summary>
-        public string IPPort { get; set; }
+        public string IPPort { get; internal set; }
 
         private Socket socket;
         /// <summary>
@@ -29,8 +29,8 @@ namespace Paway.Utils.Tcp
         /// </summary>
         public Socket Socket
         {
-            set { socket = value; }
             get { return socket; }
+            internal set { socket = value; }
         }
 
         /// <summary>
@@ -46,32 +46,32 @@ namespace Paway.Utils.Tcp
         /// <summary>
         /// 客户端注册
         /// </summary>
-        public object Client { set; get; }
+        public object Client { get; set; }
 
         /// <summary>
         /// 客户端数据
         /// </summary>
-        public object Tag { set; get; }
+        public object Tag { get; set; }
 
         /// <summary>
         /// 连接时间
         /// </summary>
-        public DateTime DateTime { set; get; }
+        public DateTime DateTime { get; internal set; }
 
         /// <summary>
         /// 是否连接客户端
         /// </summary>
-        public bool IsConnected { set; get; }
+        public bool IsConnected { get; internal set; }
 
         /// <summary>
         /// 是否注册客户端
         /// </summary>
-        public bool IsRegisted { set; get; }
+        public bool IsRegisted { get; internal set; }
 
         /// <summary>
         /// 是否注销客户端
         /// </summary>
-        public bool IsUNRegisted { set; get; }
+        public bool IsUNRegisted { get; internal set; }
 
         /// <summary>
         /// 连接错误

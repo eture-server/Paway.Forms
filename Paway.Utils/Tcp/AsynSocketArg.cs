@@ -17,7 +17,7 @@ namespace Paway.Utils.Tcp
         /// <summary>
         /// 接收的Socket实例对象
         /// </summary>
-        public Socket WorkSocket { set; get; }
+        public Socket WorkSocket { get; private set; }
 
         private byte[] buffer = new byte[BufferSize];
         /// <summary>

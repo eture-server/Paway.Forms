@@ -45,7 +45,7 @@ namespace Paway.Utils.Tcp
         /// <summary>
         /// 监听端口
         /// </summary>
-        public IPEndPoint IpPort { get; set; }
+        public IPEndPoint IpPort { get; private set; }
         /// <summary>
         /// 开始监听
         /// </summary>
@@ -200,6 +200,28 @@ namespace Paway.Utils.Tcp
                 foreach (SocketBase socket in SocketConfig.ClientList)
                 {
                     socket.InsertSendData(msg);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 发送消息到指定端口
+        /// </summary>
+        public void SendToPort(object msg, string ipPort)
+        {
+            try
+            {
+                foreach (SocketBase socket in SocketConfig.ClientList)
+                {
+                    if (socket.IPPort == ipPort)
+                    {
+                        socket.InsertSendData(msg);
+                        break;
+                    }
                 }
             }
             catch
