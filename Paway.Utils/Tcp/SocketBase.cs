@@ -56,7 +56,7 @@ namespace Paway.Utils.Tcp
         /// <summary>
         /// 连接时间
         /// </summary>
-        public DateTime DateTime { get; internal set; }
+        public DateTime ConnectTime { get; internal set; }
 
         /// <summary>
         /// 是否连接客户端

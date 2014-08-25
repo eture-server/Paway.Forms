@@ -31,6 +31,14 @@ namespace Paway.Utils.Data
         {
             ConnString = ConfigurationManager.ConnectionStrings[connectName].ConnectionString;
         }
+        /// <summary>
+        /// 传入连接参数
+        /// Data Source={0};Initial Catalog={1};Persist Security Info=True;User ID={2};Password={3};
+        /// </summary>
+        protected void InitConnect(string host, string source, string user, string pad)
+        {
+            ConnString = string.Format(DbConnect, host, source, user, pad);
+        }
 
         #endregion
 

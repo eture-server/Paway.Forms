@@ -110,6 +110,18 @@ namespace Paway.Utils.Data
 
         #region 扩展重载
         /// <summary>
+        /// 查找指定查询语句
+        /// 填充 System.Data.DataSet 并返回一个IList列表
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="find"></param>
+        /// <param name="count">返回指定行数</param>
+        /// <returns></returns>
+        public override IList<T> FindTop<T>(string find, int count)
+        {
+            return base.FindTop<T>(find, count, true);
+        }
+        /// <summary>
         /// 更新或插入列表
         /// 需要标记唯一键为唯一索引
         /// </summary>

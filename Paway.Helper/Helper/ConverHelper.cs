@@ -1099,10 +1099,26 @@ namespace Paway.Helper
         /// <returns></returns>
         public static string Select<T>(this T t, string find)
         {
+            return t.Select(find, null);
+        }
+        /// <summary>
+        /// 将指定类型转为Select语句
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="t"></param>
+        /// <param name="find"></param>
+        /// <param name="count">返回指定行数</param>
+        /// <returns></returns>
+        public static string Select<T>(this T t, string find, int? count)
+        {
             PropertyAttribute[] attrList = typeof(T).GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             if (attrList == null || attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", typeof(T)));
 
             string sql = "select";
+            if (count != null)
+            {
+                sql = string.Format("{0} Top {1}", sql, count);
+            }
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
             for (int i = 0; i < properties.Count; i++)
             {
@@ -1115,7 +1131,7 @@ namespace Paway.Helper
                     {
                         column = itemList[0].Column;
                     }
-                    sql = string.Format("{0} {1},", sql, column);
+                    sql = string.Format("{0} [{1}],", sql, column);
                 }
             }
             sql = sql.TrimEnd(',');
@@ -1144,7 +1160,7 @@ namespace Paway.Helper
             if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
             if (attrList[0].Key == null && attrList[0].Mark == null) throw new ArgumentException("没有指定主键或主列名称");
 
-            string sql = string.Format("delete from [{0}] where {1}", "{0}", find == null ? "{1}=@{1}" : find);
+            string sql = string.Format("delete from [{0}] where {1}", "{0}", find == null ? "[{1}]=@{1}" : find);
             sql = string.Format(sql, attrList[0].Table, attrList[0].Key ?? attrList[0].Mark);
             return sql;
         }
@@ -1176,11 +1192,11 @@ namespace Paway.Helper
                     {
                         column = itemList[0].Column;
                     }
-                    sql = string.Format("{0} {1}=@{1},", sql, column);
+                    sql = string.Format("{0} [{1}]=@{1},", sql, column);
                 }
             }
             sql = sql.TrimEnd(',');
-            sql = string.Format("{0} where {1}=@{1}", sql, attrList[0].Key ?? attrList[0].Mark);
+            sql = string.Format("{0} where [{1}]=@{1}", sql, attrList[0].Key ?? attrList[0].Mark);
             return sql;
         }
         /// <summary>
@@ -1209,7 +1225,7 @@ namespace Paway.Helper
                     {
                         column = itemList[0].Column;
                     }
-                    insert = string.Format("{0}{1},", insert, column);
+                    insert = string.Format("{0}[{1}],", insert, column);
                     values = string.Format("{0}@{1},", values, column);
                 }
             }
@@ -1250,7 +1266,7 @@ namespace Paway.Helper
                     {
                         column = itemList[0].Column;
                     }
-                    insert = string.Format("{0}{1},", insert, column);
+                    insert = string.Format("{0}[{1}],", insert, column);
                     values = string.Format("{0}@{1},", values, column);
                 }
             }
@@ -1270,7 +1286,7 @@ namespace Paway.Helper
             if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
             if (attrList[0].Key == null && attrList[0].Mark == null) throw new ArgumentException("没有指定主键或主列名称");
 
-            string sql = "if exists(select 0 from [{1}] where {0}=@{0})";
+            string sql = "if exists(select 0 from [{1}] where [{0}]=@{0})";
             sql = string.Format(sql, attrList[0].Key ?? attrList[0].Mark, attrList[0].Table);
 
             string update = null;
@@ -1291,8 +1307,8 @@ namespace Paway.Helper
                     {
                         column = itemList[0].Column;
                     }
-                    update = string.Format("{0}{1}=@{1},", update, column);
-                    insert = string.Format("{0}{1},", insert, column);
+                    update = string.Format("{0}[{1}]=@{1},", update, column);
+                    insert = string.Format("{0}[{1}],", insert, column);
                     values = string.Format("{0}@{1},", values, column);
                 }
             }
@@ -1382,6 +1398,12 @@ namespace Paway.Helper
                     if (properties[i].PropertyType == typeof(Image) && value is Image)
                     {
                         value = SctructHelper.GetByteFromObject(value);
+                    }
+                    if (properties[i].PropertyType == typeof(DateTime) && value is DateTime)
+                    {
+                        DateTime dt = (DateTime)value;
+                        if (dt == DateTime.MinValue)
+                            value = new DateTime(2000, 1, 1);
                     }
                     Assembly asmb = Assembly.GetAssembly(ptype);
                     DbParameter param = asmb.CreateInstance(ptype.FullName) as DbParameter;

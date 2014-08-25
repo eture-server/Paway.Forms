@@ -18,6 +18,7 @@ namespace Paway.Utils.Data
     {
         /// <summary>
         /// 连接字符模板
+        /// Data Source={0};Initial Catalog={1};Persist Security Info=True;User ID={2};Password={3};
         /// </summary>
         protected const string DbConnect = @"Data Source={0};Initial Catalog={1};Persist Security Info=True;User ID={2};Password={3};";
         /// <summary>
@@ -312,11 +313,47 @@ namespace Paway.Utils.Data
         /// <returns></returns>
         public IList<T> Find<T>(string find)
         {
+            return FindTop<T>(find, null, false);
+        }
+        /// <summary>
+        /// 查找指定查询语句
+        /// 填充 System.Data.DataSet 并返回一个IList列表
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="find"></param>
+        /// <param name="count">返回指定行数</param>
+        /// <returns></returns>
+        public virtual IList<T> FindTop<T>(string find, int count)
+        {
+            return FindTop<T>(find, count, false);
+        }
+        /// <summary> 
+        /// 查找指定查询语句
+        /// 填充 System.Data.DataSet 并返回一个IList列表
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="find"></param>
+        /// <param name="count"></param>
+        /// <param name="isSqlite">是否Sqlite</param>
+        /// <returns></returns>
+        protected IList<T> FindTop<T>(string find, int? count, bool isSqlite)
+        {
             DbCommand cmd = null;
             string sql = null;
             try
             {
                 sql = default(T).Select(find);
+                if (count != null)
+                {
+                    if (isSqlite)
+                    {
+                        sql = string.Format("{0} limit {1}", sql, count);
+                    }
+                    else
+                    {
+                        sql = default(T).Select(find, count);
+                    }
+                }
                 cmd = CommandStart(sql);
                 DbDataReader dr = cmd.ExecuteReader();
                 DataTable dt = new DataTable();

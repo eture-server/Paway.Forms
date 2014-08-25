@@ -69,7 +69,7 @@ namespace Paway.Utils.Tcp
             {
                 if (e.SocketError == SocketError.Success)
                 {
-                    this.DateTime = DateTime.Now;
+                    this.ConnectTime = DateTime.Now;
                 }
                 if (ConnectFinished != null)
                 {
