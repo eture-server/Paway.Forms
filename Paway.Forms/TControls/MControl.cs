@@ -127,9 +127,9 @@ namespace Paway.Forms
                 {
                     parent.Controls.Add(control);
                     control.Dock = System.Windows.Forms.DockStyle.Fill;
-                    if (!_iList.ContainsKey(control.Name))
+                    if (!_iList.ContainsKey(type.Name))
                     {
-                        _iList.Add(control.Name, control);
+                        _iList.Add(type.Name, control);
                     }
                 }
                 parent.ResumeLayout();
