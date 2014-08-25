@@ -142,6 +142,7 @@ namespace Paway.Utils.Tcp
                 OnClientConnect(client);
                 SocketConfig.ClientList.Add(client);
                 client.ConnectError += client_ConnectError;
+                client.DateTime = DateTime.Now;
                 OnClientFinished(client.IPPort);
 
                 //等待客户端发送来的数据

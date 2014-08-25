@@ -44,9 +44,19 @@ namespace Paway.Utils.Tcp
         public volatile bool SendStop;
 
         /// <summary>
-        /// 客户端数据
+        /// 客户端注册
         /// </summary>
         public object Client { set; get; }
+
+        /// <summary>
+        /// 客户端数据
+        /// </summary>
+        public object Tag { set; get; }
+
+        /// <summary>
+        /// 连接时间
+        /// </summary>
+        public DateTime DateTime { set; get; }
 
         /// <summary>
         /// 是否连接客户端

@@ -67,6 +67,10 @@ namespace Paway.Utils.Tcp
         {
             try
             {
+                if (e.SocketError == SocketError.Success)
+                {
+                    this.DateTime = DateTime.Now;
+                }
                 if (ConnectFinished != null)
                 {
                     ConnectFinished(this.IPPort, e);
