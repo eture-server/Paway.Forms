@@ -513,14 +513,15 @@ namespace Paway.Utils.Data
         /// <summary>
         /// 更新列
         /// 指定列名与添加值，由数据库直接操作
+        /// 只支持数据类型
         /// </summary>
-        public bool Update<T>(T t, string name, object value)
+        public bool Update<T>(T t, string name, object value, string name1 = null, object value1 = null, string name2 = null, object value2 = null)
         {
             string sql = null;
             DbCommand cmd = null;
             try
             {
-                sql = default(T).Update<T>(name, value);
+                sql = default(T).Update<T>(name, value, name1, value1, name2, value2);
                 cmd = CommandStart(sql);
                 return cmd.ExecuteNonQuery() == 1;
             }

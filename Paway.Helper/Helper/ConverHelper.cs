@@ -1231,7 +1231,7 @@ namespace Paway.Helper
         /// 将指定类型转为Update语句
         /// 指定列名与值
         /// </summary>
-        public static string Update<T>(this T t, string name, object value)
+        public static string Update<T>(this T t, string name, object value, string name1, object value1, string name2, object value2)
         {
             PropertyAttribute attr = AttrMark(typeof(T));
             string sql = "update [{0}] set";
@@ -1253,11 +1253,19 @@ namespace Paway.Helper
                     }
                     if (column == name)
                     {
-                        sql = string.Format("{0} [{1}]=[{1}]+@{2}", sql, column, value);
-                        break;
+                        sql = string.Format("{0} [{1}]=[{1}]+@{2},", sql, column, value);
+                    }
+                    if (column == name1)
+                    {
+                        sql = string.Format("{0} [{1}]=[{1}]+@{2},", sql, column, value1);
+                    }
+                    if (column == name2)
+                    {
+                        sql = string.Format("{0} [{1}]=[{1}]+@{2},", sql, column, value2);
                     }
                 }
             }
+            sql = sql.TrimEnd(',');
             sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Key ?? attr.Mark);
             return sql;
         }
