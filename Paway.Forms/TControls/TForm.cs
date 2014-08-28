@@ -42,11 +42,11 @@ namespace Paway.Forms
                 }
             }
         }
-        private int _radius = 4;
+        private int _radius = 3;
         /// <summary>
         /// 设置或获取窗体的圆角的大小
         /// </summary>
-        [Category("TForm"), Description("设置或获取窗体的圆角的大小"), DefaultValue(4)]
+        [Category("TForm"), Description("设置或获取窗体的圆角的大小"), DefaultValue(3)]
         public int TRadius
         {
             get { return this._radius; }

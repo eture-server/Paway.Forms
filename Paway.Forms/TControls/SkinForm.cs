@@ -115,13 +115,13 @@ namespace Paway.Forms
                     System.Drawing.Point location = new System.Drawing.Point(point.X + ((size.Width - size2.Width) / 2), point.Y + ((size.Height - size2.Height) / 2));
                     Rectangle rectangle2 = new Rectangle(location, size2);
                     path.AddArc(rect, num2, 91f);
-                    if (Main.TRadius > 3)
+                    //if (Main.TRadius > 3)
                     {
                         path.AddArc(rectangle2, num2 + 90f, -91f);
                     }
-                    else
+                    //else
                     {
-                        path.AddLine(point2, point3);
+                        //path.AddLine(point2, point3);
                     }
                     using (PathGradientBrush brush = new PathGradientBrush(path))
                     {

@@ -1182,8 +1182,7 @@ namespace Paway.Helper
         public static string Delete<T>(this T t)
         {
             PropertyAttribute attr = AttrMark(typeof(T));
-            string sql = string.Format("delete from [{0}] where [{1}]=@{1}");
-            sql = string.Format(sql, attr.Table, attr.Key ?? attr.Mark);
+            string sql = string.Format("delete from [{0}] where [{1}]=@{1}", attr.Table, attr.Key ?? attr.Mark);
             return sql;
         }
         /// <summary>
@@ -1193,8 +1192,7 @@ namespace Paway.Helper
         public static string Delete<T>(this T t, string find)
         {
             PropertyAttribute attr = AttrTable(typeof(T));
-            string sql = string.Format("delete from [{0}] where {1}");
-            sql = string.Format(sql, attr.Table, find);
+            string sql = string.Format("delete from [{0}] where {1}", attr.Table, find);
             return sql;
         }
         /// <summary>
