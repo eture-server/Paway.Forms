@@ -1084,6 +1084,37 @@ namespace Paway.Helper
 
         #region 基本Sql语句
         /// <summary>
+        /// 返回特性，检查表名
+        /// </summary>
+        private static PropertyAttribute AttrTable(Type type)
+        {
+            PropertyAttribute[] attrList = type.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+            if (attrList == null || attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", type));
+            if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
+            return attrList[0];
+        }
+        /// <summary>
+        /// 返回特性，检查表名及主键或主列
+        /// </summary>
+        private static PropertyAttribute AttrMark(Type type)
+        {
+            PropertyAttribute attr = AttrTable(type);
+            if (attr.Key == null && attr.Mark == null) throw new ArgumentException("没有指定主键或主列名称");
+            return attr;
+        }
+        /// <summary>
+        /// 将指定类型转为Select语句
+        /// 指定查询条件为主列
+        /// </summary>
+        public static string SelectOne<T>(this T t)
+        {
+            PropertyAttribute attr = AttrMark(typeof(T));
+            string sql = SelectSql(typeof(T), null);
+            sql = string.Format("{0} from [{1}]", sql, attr.Table);
+            sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Key ?? attr.Mark);
+            return sql;
+        }
+        /// <summary>
         /// 将指定类型转为Select语句
         /// </summary>
         public static string Select<T>(this T t)
@@ -1111,18 +1142,26 @@ namespace Paway.Helper
         /// <returns></returns>
         public static string Select<T>(this T t, string find, int? count)
         {
-            PropertyAttribute[] attrList = typeof(T).GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            if (attrList == null || attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", typeof(T)));
-
+            PropertyAttribute attr = AttrTable(typeof(T));
+            string sql = SelectSql(typeof(T), count);
+            sql = string.Format("{0} from [{1}]", sql, attr.Table);
+            if (find != null)
+            {
+                sql = string.Format("{0} where {1}", sql, find);
+            }
+            return sql;
+        }
+        private static string SelectSql(Type type, int? count)
+        {
             string sql = "select";
             if (count != null)
             {
                 sql = string.Format("{0} Top {1}", sql, count);
             }
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < properties.Count; i++)
             {
-                PropertyInfo pro = typeof(T).GetProperty(properties[i].Name, properties[i].PropertyType);
+                PropertyInfo pro = type.GetProperty(properties[i].Name, properties[i].PropertyType);
                 PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
                 if (itemList == null || itemList.Length == 0 || itemList[0].Select)
                 {
@@ -1135,11 +1174,6 @@ namespace Paway.Helper
                 }
             }
             sql = sql.TrimEnd(',');
-            sql = string.Format("{0} from [{1}]", sql, attrList[0].Table);
-            if (find != null)
-            {
-                sql = string.Format("{0} where {1}", sql, find);
-            }
             return sql;
         }
         /// <summary>
@@ -1147,7 +1181,10 @@ namespace Paway.Helper
         /// </summary>
         public static string Delete<T>(this T t)
         {
-            return t.Delete(null);
+            PropertyAttribute attr = AttrMark(typeof(T));
+            string sql = string.Format("delete from [{0}] where [{1}]=@{1}");
+            sql = string.Format(sql, attr.Table, attr.Key ?? attr.Mark);
+            return sql;
         }
         /// <summary>
         /// 将指定类型转为Delete语句
@@ -1155,13 +1192,9 @@ namespace Paway.Helper
         /// </summary>
         public static string Delete<T>(this T t, string find)
         {
-            PropertyAttribute[] attrList = typeof(T).GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            if (attrList == null || attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", typeof(T)));
-            if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
-            if (attrList[0].Key == null && attrList[0].Mark == null) throw new ArgumentException("没有指定主键或主列名称");
-
-            string sql = string.Format("delete from [{0}] where {1}", "{0}", find == null ? "[{1}]=@{1}" : find);
-            sql = string.Format(sql, attrList[0].Table, attrList[0].Key ?? attrList[0].Mark);
+            PropertyAttribute attr = AttrTable(typeof(T));
+            string sql = string.Format("delete from [{0}] where {1}");
+            sql = string.Format(sql, attr.Table, find);
             return sql;
         }
         /// <summary>
@@ -1169,18 +1202,13 @@ namespace Paway.Helper
         /// </summary>
         public static string Update<T>(this T t)
         {
-            PropertyAttribute[] attrList = typeof(T).GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            if (attrList == null || attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", typeof(T)));
-            if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
-            if (attrList[0].Key == null && attrList[0].Mark == null) throw new ArgumentException("没有指定主键或主列名称");
-
+            PropertyAttribute attr = AttrMark(typeof(T));
             string sql = "update [{0}] set";
-            sql = string.Format(sql, attrList[0].Table);
-
+            sql = string.Format(sql, attr.Table);
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
             for (int i = 0; i < properties.Count; i++)
             {
-                if (attrList[0].Key != null && properties[i].Name == attrList[0].Key) continue;
+                if (attr.Key != null && properties[i].Name == attr.Key) continue;
                 if (properties[i].GetValue(t) == null) continue;
 
                 PropertyInfo pro = typeof(T).GetProperty(properties[i].Name, properties[i].PropertyType);
@@ -1196,7 +1224,41 @@ namespace Paway.Helper
                 }
             }
             sql = sql.TrimEnd(',');
-            sql = string.Format("{0} where [{1}]=@{1}", sql, attrList[0].Key ?? attrList[0].Mark);
+            sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Key ?? attr.Mark);
+            return sql;
+        }
+        /// <summary>
+        /// 将指定类型转为Update语句
+        /// 指定列名与值
+        /// </summary>
+        public static string Update<T>(this T t, string name, object value)
+        {
+            PropertyAttribute attr = AttrMark(typeof(T));
+            string sql = "update [{0}] set";
+            sql = string.Format(sql, attr.Table);
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
+            for (int i = 0; i < properties.Count; i++)
+            {
+                if (attr.Key != null && properties[i].Name == attr.Key) continue;
+                if (properties[i].GetValue(t) == null) continue;
+
+                PropertyInfo pro = typeof(T).GetProperty(properties[i].Name, properties[i].PropertyType);
+                PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+                if (itemList == null || itemList.Length == 0 || itemList[0].Select)
+                {
+                    string column = properties[i].Name;
+                    if (itemList != null && itemList.Length == 1 && itemList[0].Column != null)
+                    {
+                        column = itemList[0].Column;
+                    }
+                    if (column == name)
+                    {
+                        sql = string.Format("{0} [{1}]=[{1}]+@{2}", sql, column, value);
+                        break;
+                    }
+                }
+            }
+            sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Key ?? attr.Mark);
             return sql;
         }
         /// <summary>
@@ -1204,34 +1266,12 @@ namespace Paway.Helper
         /// </summary>
         public static string Insert<T>(this T t, string getId)
         {
-            PropertyAttribute[] attrList = typeof(T).GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            if (attrList == null || attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", typeof(T)));
-            if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
+            PropertyAttribute attr = AttrTable(typeof(T));
 
             string insert = null;
-            string values = null;
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
-            for (int i = 0; i < properties.Count; i++)
-            {
-                PropertyInfo pro = typeof(T).GetProperty(properties[i].Name, properties[i].PropertyType);
-                PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-                if (itemList == null || itemList.Length == 0 || itemList[0].Select)
-                {
-                    if (attrList[0].Key != null && properties[i].Name == attrList[0].Key) continue;
-                    if (properties[i].GetValue(t) == null) continue;
-
-                    string column = properties[i].Name;
-                    if (itemList != null && itemList.Length == 1 && itemList[0].Column != null)
-                    {
-                        column = itemList[0].Column;
-                    }
-                    insert = string.Format("{0}[{1}],", insert, column);
-                    values = string.Format("{0}@{1},", values, column);
-                }
-            }
-            insert = insert.TrimEnd(',');
-            values = values.TrimEnd(',');
-            string sql = string.Format("insert into [{0}]({1}) values({2})", attrList[0].Table, insert, values);
+            string update = null;
+            InsertSql(t, attr, typeof(T), ref insert, ref update);
+            string sql = string.Format("insert into [{0}]({1}) values({2})", attr.Table, insert, update);
             sql = string.Format("{0};{1}", sql, getId);
             return sql;
         }
@@ -1245,20 +1285,25 @@ namespace Paway.Helper
         /// <returns></returns>
         public static string Replace<T>(this T t, string getId)
         {
-            PropertyAttribute[] attrList = typeof(T).GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            if (attrList == null || attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", typeof(T)));
-            if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
+            PropertyAttribute attr = AttrTable(typeof(T));
 
             string insert = null;
-            string values = null;
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
+            string update = null;
+            InsertSql(t, attr, typeof(T), ref insert, ref update);
+            string sql = string.Format("replace into [{0}]({1}) values({2})", attr.Table, insert, update);
+            sql = string.Format("{0};{1}", sql, getId);
+            return sql;
+        }
+        private static void InsertSql<T>(T t, PropertyAttribute attr, Type type, ref string insert, ref string update)
+        {
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < properties.Count; i++)
             {
-                PropertyInfo pro = typeof(T).GetProperty(properties[i].Name, properties[i].PropertyType);
+                PropertyInfo pro = type.GetProperty(properties[i].Name, properties[i].PropertyType);
                 PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
                 if (itemList == null || itemList.Length == 0 || itemList[0].Select)
                 {
-                    if (attrList[0].Key != null && properties[i].Name == attrList[0].Key) continue;
+                    if (attr.Key != null && properties[i].Name == attr.Key) continue;
                     if (properties[i].GetValue(t) == null) continue;
 
                     string column = properties[i].Name;
@@ -1267,27 +1312,21 @@ namespace Paway.Helper
                         column = itemList[0].Column;
                     }
                     insert = string.Format("{0}[{1}],", insert, column);
-                    values = string.Format("{0}@{1},", values, column);
+                    update = string.Format("{0}@{1},", update, column);
                 }
             }
             insert = insert.TrimEnd(',');
-            values = values.TrimEnd(',');
-            string sql = string.Format("replace into [{0}]({1}) values({2})", attrList[0].Table, insert, values);
-            sql = string.Format("{0};{1}", sql, getId);
-            return sql;
+            update = update.TrimEnd(',');
         }
         /// <summary>
         /// 将指定类型转为UpdateOrInsert语句
         /// </summary>
         public static string UpdateOrInsert<T>(this T t, string getid)
         {
-            PropertyAttribute[] attrList = typeof(T).GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            if (attrList == null || attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", typeof(T)));
-            if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
-            if (attrList[0].Key == null && attrList[0].Mark == null) throw new ArgumentException("没有指定主键或主列名称");
+            PropertyAttribute attr = AttrMark(typeof(T));
 
             string sql = "if exists(select 0 from [{1}] where [{0}]=@{0})";
-            sql = string.Format(sql, attrList[0].Key ?? attrList[0].Mark, attrList[0].Table);
+            sql = string.Format(sql, attr.Key ?? attr.Mark, attr.Table);
 
             string update = null;
             string insert = null;
@@ -1295,7 +1334,7 @@ namespace Paway.Helper
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
             for (int i = 0; i < properties.Count; i++)
             {
-                if (attrList[0].Key != null && properties[i].Name == attrList[0].Key) continue;
+                if (attr.Key != null && properties[i].Name == attr.Key) continue;
                 if (properties[i].GetValue(t) == null) continue;
 
                 PropertyInfo pro = typeof(T).GetProperty(properties[i].Name, properties[i].PropertyType);
@@ -1316,7 +1355,7 @@ namespace Paway.Helper
             insert = insert.TrimEnd(',');
             values = values.TrimEnd(',');
             sql = string.Format("{0} update [{1}] set {2} where {3}=@{3} else insert into {1}({4}) values({5})",
-                sql, attrList[0].Table, update, attrList[0].Key ?? attrList[0].Mark, insert, values);
+                sql, attr.Table, update, attr.Key ?? attr.Mark, insert, values);
 
             sql = string.Format("{0};{1}", sql, getid);
             return sql;
@@ -1332,14 +1371,12 @@ namespace Paway.Helper
         {
             if (value == null || value == DBNull.Value) return false;
 
-            PropertyAttribute[] attrList = typeof(T).GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            if (attrList == null || attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", typeof(T)));
-            if (attrList[0].Key == null && attrList[0].Mark == null) throw new ArgumentException("没有指定主键或主列名称");
+            PropertyAttribute attr = AttrMark(typeof(T));
 
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
             for (int i = 0; i < properties.Count; i++)
             {
-                if (properties[i].Name == attrList[0].Key)
+                if (properties[i].Name == attr.Key)
                 {
                     object result = properties[i].GetValue(t);
                     if (properties[i].PropertyType == typeof(int))
@@ -1361,13 +1398,11 @@ namespace Paway.Helper
         /// </summary>
         public static DbParameter AddParameter<T>(this T t, Type ptype, object value)
         {
-            PropertyAttribute[] attrList = typeof(T).GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            if (attrList == null || attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", typeof(T)));
-            if (attrList[0].Key == null && attrList[0].Mark == null) throw new ArgumentException("没有指定主键或主列名称");
+            PropertyAttribute attr = AttrMark(typeof(T));
 
             Assembly asmb = Assembly.GetAssembly(ptype);
             DbParameter param = asmb.CreateInstance(ptype.FullName) as DbParameter;
-            param.ParameterName = string.Format("@{0}", attrList[0].Key ?? attrList[0].Mark);
+            param.ParameterName = string.Format("@{0}", attr.Key ?? attr.Mark);
             param.Value = value;
             return param;
         }

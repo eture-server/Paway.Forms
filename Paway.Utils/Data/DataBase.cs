@@ -298,6 +298,38 @@ namespace Paway.Utils.Data
 
         #region 扩展.语句
         /// <summary>
+        /// 查找指定主列的数据
+        /// </summary>
+        public T Find<T>(long id)
+        {
+            DbCommand cmd = null;
+            string sql = null;
+            try
+            {
+                sql = default(T).SelectOne();
+                DbParameter parame = default(T).AddParameter<T>(paramType, id);
+                cmd = CommandStart(sql);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add(parame);
+
+                DbDataReader dr = cmd.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(dr);
+                IList<T> list = dt.ToIList<T>();
+                return list.Count == 1 ? list[0] : default(T);
+            }
+            catch (Exception ex)
+            {
+                log.Error(string.Format("Find.Error[{0}]\r\n{1}", sql, ex));
+                throw;
+            }
+            finally
+            {
+                CommandEnd(cmd);
+            }
+        }
+        /// <summary>
         /// 填充 System.Data.DataSet 并返回一个IList列表
         /// </summary>
         public IList<T> Find<T>()
@@ -305,8 +337,8 @@ namespace Paway.Utils.Data
             return Find<T>(null);
         }
         /// <summary>
-        /// 查找指定查询语句
         /// 填充 System.Data.DataSet 并返回一个IList列表
+        /// 查找指定查询语句
         /// </summary>
         /// <typeparam name="T">class.Type</typeparam>
         /// <param name="find">查询条件</param>
@@ -316,36 +348,42 @@ namespace Paway.Utils.Data
             return FindTop<T>(find, null, false);
         }
         /// <summary>
-        /// 查找指定查询语句
         /// 填充 System.Data.DataSet 并返回一个IList列表
+        /// 查找指定查询语句
+        /// 指定返回行数
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="find"></param>
-        /// <param name="count">返回指定行数</param>
+        /// <param name="count"></param>
         /// <returns></returns>
         public virtual IList<T> FindTop<T>(string find, int count)
         {
             return FindTop<T>(find, count, false);
         }
         /// <summary> 
-        /// 查找指定查询语句
         /// 填充 System.Data.DataSet 并返回一个IList列表
+        /// 查找指定查询语句
+        /// 指定返回行数
+        /// 是否SQLite
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="find"></param>
         /// <param name="count"></param>
-        /// <param name="isSqlite">是否Sqlite</param>
+        /// <param name="isSQLite"></param>
         /// <returns></returns>
-        protected IList<T> FindTop<T>(string find, int? count, bool isSqlite)
+        protected IList<T> FindTop<T>(string find, int? count, bool isSQLite)
         {
             DbCommand cmd = null;
             string sql = null;
             try
             {
-                sql = default(T).Select(find);
-                if (count != null)
+                if (count == null)
                 {
-                    if (isSqlite)
+                    sql = default(T).Select(find);
+                }
+                else
+                {
+                    if (isSQLite)
                     {
                         sql = string.Format("{0} limit {1}", sql, count);
                     }
@@ -471,6 +509,37 @@ namespace Paway.Utils.Data
             {
                 CommandEnd(cmd);
             }
+        }
+        /// <summary>
+        /// 更新列
+        /// 指定列名与添加值，由数据库直接操作
+        /// </summary>
+        public bool Update<T>(T t, string name, object value)
+        {
+            string sql = null;
+            DbCommand cmd = null;
+            try
+            {
+                sql = default(T).Update<T>(name, value);
+                cmd = CommandStart(sql);
+                return cmd.ExecuteNonQuery() == 1;
+            }
+            catch (Exception ex)
+            {
+                log.Error(string.Format("Delete.Error[{0}]\r\n{1}", sql, ex));
+                throw;
+            }
+            finally
+            {
+                CommandEnd(cmd);
+            }
+        }
+        /// <summary>
+        /// 删除所有行
+        /// </summary>
+        public bool Delete<T>()
+        {
+            return this.Delete<T>("1=1");
         }
         /// <summary>
         /// 删除列
