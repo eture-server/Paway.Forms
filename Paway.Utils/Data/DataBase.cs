@@ -521,8 +521,12 @@ namespace Paway.Utils.Data
             DbCommand cmd = null;
             try
             {
-                sql = default(T).Update<T>(name, value, name1, value1, name2, value2);
+                sql = t.Update<T>(name, value, name1, value1, name2, value2);
                 cmd = CommandStart(sql);
+                cmd.CommandType = CommandType.Text;
+                DbParameter[] pList = t.AddParameters<T>(paramType).ToArray();
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddRange(pList);
                 return cmd.ExecuteNonQuery() == 1;
             }
             catch (Exception ex)
@@ -553,7 +557,6 @@ namespace Paway.Utils.Data
             {
                 sql = default(T).Delete<T>();
                 DbParameter parame = default(T).AddParameter<T>(paramType, id);
-
                 cmd = CommandStart(sql);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.Clear();

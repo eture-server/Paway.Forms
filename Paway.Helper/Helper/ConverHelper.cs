@@ -1253,15 +1253,15 @@ namespace Paway.Helper
                     }
                     if (column == name)
                     {
-                        sql = string.Format("{0} [{1}]=[{1}]+@{2},", sql, column, value);
+                        sql = string.Format("{0} [{1}]=[{1}]+{2},", sql, column, value);
                     }
                     if (column == name1)
                     {
-                        sql = string.Format("{0} [{1}]=[{1}]+@{2},", sql, column, value1);
+                        sql = string.Format("{0} [{1}]=[{1}]+{2},", sql, column, value1);
                     }
                     if (column == name2)
                     {
-                        sql = string.Format("{0} [{1}]=[{1}]+@{2},", sql, column, value2);
+                        sql = string.Format("{0} [{1}]=[{1}]+{2},", sql, column, value2);
                     }
                 }
             }
