@@ -127,25 +127,6 @@ namespace Paway.Forms
             set { base.MinimumSize = value; }
         }
         /// <summary>
-        /// 封装创建控件时所需的信息。
-        /// </summary>
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams param = base.CreateParams;
-                if (this._isTransfer)
-                {
-                    param.ExStyle = 0x00080000;
-                }
-                if (this._sysButton != TSysButton.Close)
-                {
-                    param.Style = param.Style | (int)WindowStyle.WS_MINIMIZEBOX;   // 允许最小化操作
-                }
-                return param;
-            }
-        }
-        /// <summary>
         /// 是否显示图标
         /// </summary>
         [Description("是否显示图标"), DefaultValue(true)]
@@ -776,6 +757,25 @@ namespace Paway.Forms
             else
             {
                 this.WindowState = FormWindowState.Maximized;
+            }
+        }
+        /// <summary>
+        /// 封装创建控件时所需的信息。
+        /// </summary>
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams param = base.CreateParams;
+                if (this._isTransfer)
+                {
+                    param.ExStyle = 0x00080000;
+                }
+                if (this._sysButton != TSysButton.Close)
+                {
+                    param.Style = param.Style | (int)WindowStyle.WS_MINIMIZEBOX;   // 允许最小化操作
+                }
+                return param;
             }
         }
         #endregion
