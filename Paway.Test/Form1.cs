@@ -8,7 +8,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
@@ -38,6 +37,7 @@ namespace Paway.Test
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
+
             //toolBar.Items[1].Text = string.Format("{0}&{1}", "你好", null);
         }
 

@@ -282,7 +282,7 @@ namespace Paway.Forms
             get
             {
                 System.Windows.Forms.CreateParams createParams = base.CreateParams;
-                createParams.ExStyle |= 0x80000;
+                createParams.ExStyle |= (int)WindowStyle.WS_SYSMENU;
                 return createParams;
             }
         }

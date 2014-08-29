@@ -10,6 +10,7 @@ using System.Drawing.Text;
 using System.Drawing.Imaging;
 using Paway.Helper;
 using Paway.Resource;
+using System.Runtime.InteropServices;
 
 namespace Paway.Forms
 {
@@ -79,6 +80,8 @@ namespace Paway.Forms
             {
                 this.TMouseMove(this);
             }
+            int windowLong = NativeMethods.GetWindowLong(new HandleRef(this, this.Handle), -16);
+            NativeMethods.SetWindowLong(new HandleRef(this, this.Handle), -16, windowLong | (int)WindowStyle.WS_SYSMENU);
         }
         #endregion
 

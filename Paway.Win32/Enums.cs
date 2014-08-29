@@ -895,7 +895,8 @@ namespace Paway.Win32
         /// </summary>
         WS_HSCROLL = 0x00100000,
         /// <summary>
-        /// 
+        /// 透明
+        /// 0x00080000
         /// </summary>
         WS_SYSMENU = 0x00080000,
         /// <summary>
@@ -912,6 +913,7 @@ namespace Paway.Win32
         WS_TABSTOP = 0x00010000,
         /// <summary>
         /// 允许最小化操作
+        /// 0x00020000
         /// </summary>
         WS_MINIMIZEBOX = 0x00020000,
         /// <summary>
