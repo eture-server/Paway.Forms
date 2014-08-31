@@ -150,7 +150,15 @@ namespace Paway.Utils.Tcp
         /// <param name="buffer"></param>
         private void HandleMessage(byte[] buffer)
         {
-            object message = SctructHelper.GetObjectFromByte(buffer);
+            object message = null;
+            try
+            {
+                message = SctructHelper.GetObjectFromByte(buffer);
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+            }
             try
             {
                 if (MessageEvent != null)
