@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SQLite;
 using System.IO;
 using System.Reflection;
@@ -117,17 +118,17 @@ namespace Paway.Utils.Data
         /// <param name="find"></param>
         /// <param name="count">返回指定行数</param>
         /// <returns></returns>
-        public override IList<T> FindTop<T>(string find, int count)
+        public override IList<T> FindTop<T>(string find, int count, DbCommand cmd = null)
         {
-            return base.FindTop<T>(find, count, true);
+            return base.FindTop<T>(find, count, true, cmd);
         }
         /// <summary>
         /// 更新或插入列表
         /// 需要标记唯一键为唯一索引
         /// </summary>
-        public override bool Replace<T>(IList<T> list)
+        public override bool Replace<T>(IList<T> list, DbCommand cmd = null)
         {
-            return base.Replace<T>(list, true);
+            return base.Replace<T>(list, true, cmd);
         }
 
         #endregion

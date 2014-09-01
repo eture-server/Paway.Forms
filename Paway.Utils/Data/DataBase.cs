@@ -300,15 +300,16 @@ namespace Paway.Utils.Data
         /// <summary>
         /// 查找指定主列的数据
         /// </summary>
-        public T Find<T>(long id)
+        public T Find<T>(long id, DbCommand cmd = null)
         {
-            DbCommand cmd = null;
+            bool iTrans = cmd == null;
             string sql = null;
             try
             {
+                if (iTrans) cmd = CommandStart();
                 sql = default(T).SelectOne();
                 DbParameter parame = default(T).AddParameter<T>(paramType, id);
-                cmd = CommandStart(sql);
+                cmd.CommandText = sql;
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add(parame);
@@ -326,15 +327,15 @@ namespace Paway.Utils.Data
             }
             finally
             {
-                CommandEnd(cmd);
+                if (iTrans) CommandEnd(cmd);
             }
         }
         /// <summary>
         /// 填充 System.Data.DataSet 并返回一个IList列表
         /// </summary>
-        public IList<T> Find<T>()
+        public IList<T> Find<T>(DbCommand cmd = null)
         {
-            return Find<T>(null);
+            return Find<T>(null, cmd);
         }
         /// <summary>
         /// 填充 System.Data.DataSet 并返回一个IList列表
@@ -343,9 +344,9 @@ namespace Paway.Utils.Data
         /// <typeparam name="T">class.Type</typeparam>
         /// <param name="find">查询条件</param>
         /// <returns></returns>
-        public IList<T> Find<T>(string find)
+        public IList<T> Find<T>(string find, DbCommand cmd = null)
         {
-            return FindTop<T>(find, null, false);
+            return FindTop<T>(find, null, false, cmd);
         }
         /// <summary>
         /// 填充 System.Data.DataSet 并返回一个IList列表
@@ -356,9 +357,9 @@ namespace Paway.Utils.Data
         /// <param name="find"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public virtual IList<T> FindTop<T>(string find, int count)
+        public virtual IList<T> FindTop<T>(string find, int count, DbCommand cmd = null)
         {
-            return FindTop<T>(find, count, false);
+            return FindTop<T>(find, count, false, cmd);
         }
         /// <summary> 
         /// 填充 System.Data.DataSet 并返回一个IList列表
@@ -371,12 +372,13 @@ namespace Paway.Utils.Data
         /// <param name="count"></param>
         /// <param name="isSQLite"></param>
         /// <returns></returns>
-        protected IList<T> FindTop<T>(string find, int? count, bool isSQLite)
+        protected IList<T> FindTop<T>(string find, int? count, bool isSQLite, DbCommand cmd = null)
         {
-            DbCommand cmd = null;
+            bool iTrans = cmd == null;
             string sql = null;
             try
             {
+                if (iTrans) cmd = CommandStart();
                 if (count == null)
                 {
                     sql = default(T).Select(find);
@@ -392,7 +394,7 @@ namespace Paway.Utils.Data
                         sql = default(T).Select(find, count);
                     }
                 }
-                cmd = CommandStart(sql);
+                cmd.CommandText = sql;
                 DbDataReader dr = cmd.ExecuteReader();
                 DataTable dt = new DataTable();
                 dt.Load(dr);
@@ -406,34 +408,34 @@ namespace Paway.Utils.Data
             }
             finally
             {
-                CommandEnd(cmd);
+                if (iTrans) CommandEnd(cmd);
             }
         }
         /// <summary>
         /// 插入列
         /// </summary>
-        public bool Insert<T>(T t)
+        public bool Insert<T>(T t, DbCommand cmd = null)
         {
             List<T> list = new List<T>() { t };
-            return Insert<T>(list);
+            return Insert<T>(list, cmd);
         }
         /// <summary>
         /// 插入列表
         /// </summary>
-        public bool Insert<T>(DataTable dt)
+        public bool Insert<T>(DataTable dt, DbCommand cmd = null)
         {
             IList<T> list = dt.ToIList<T>();
-            return Insert<T>(list);
+            return Insert<T>(list, cmd);
         }
         /// <summary>
         /// 插入列表
         /// </summary>
-        public bool Insert<T>(IList<T> list)
+        public bool Insert<T>(IList<T> list, DbCommand cmd = null)
         {
-            DbCommand cmd = null;
+            bool iTrans = cmd == null;
             try
             {
-                cmd = TransStart();
+                if (iTrans) cmd = TransStart();
                 for (int i = 0; i < list.Count; i++)
                 {
                     string sql = list[i].Insert<T>(GetId);
@@ -452,43 +454,44 @@ namespace Paway.Utils.Data
                     }
                     dr.Close();
                 }
-                return TransCommit(cmd);
+                if (iTrans) return TransCommit(cmd);
+                else return true;
             }
             catch (Exception ex)
             {
-                TransError(cmd, ex);
+                if (iTrans) TransError(cmd, ex);
                 throw;
             }
             finally
             {
-                CommandEnd(cmd);
+                if (iTrans) CommandEnd(cmd);
             }
         }
         /// <summary>
         /// 更新列
         /// </summary>
-        public bool Update<T>(T t)
+        public bool Update<T>(T t, DbCommand cmd = null)
         {
             List<T> list = new List<T>() { t };
-            return Update<T>(list);
+            return Update<T>(list, cmd);
         }
         /// <summary>
         /// 更新列表
         /// </summary>
-        public bool Update<T>(DataTable dt)
+        public bool Update<T>(DataTable dt, DbCommand cmd = null)
         {
             IList<T> list = dt.ToIList<T>();
-            return Update<T>(list);
+            return Update<T>(list, cmd);
         }
         /// <summary>
         /// 更新列表
         /// </summary>
-        public bool Update<T>(IList<T> list)
+        public bool Update<T>(IList<T> list, DbCommand cmd = null)
         {
-            DbCommand cmd = null;
+            bool iTrans = cmd == null;
             try
             {
-                cmd = TransStart();
+                if (iTrans) cmd = TransStart();
                 for (int i = 0; i < list.Count; i++)
                 {
                     string sql = list[i].Update<T>();
@@ -498,16 +501,17 @@ namespace Paway.Utils.Data
                     cmd.Parameters.AddRange(pList);
                     cmd.ExecuteNonQuery();
                 }
-                return TransCommit(cmd);
+                if (iTrans) return TransCommit(cmd);
+                else return true;
             }
             catch (Exception ex)
             {
-                TransError(cmd, ex);
+                if (iTrans) TransError(cmd, ex);
                 throw;
             }
             finally
             {
-                CommandEnd(cmd);
+                if (iTrans) CommandEnd(cmd);
             }
         }
         /// <summary>
@@ -515,14 +519,24 @@ namespace Paway.Utils.Data
         /// 指定列名与添加值，由数据库直接操作
         /// 只支持数据类型
         /// </summary>
-        public bool Update<T>(T t, string name, object value, string name1 = null, object value1 = null, string name2 = null, object value2 = null)
+        public bool Update<T>(T t, string name, object value, DbCommand cmd = null)
         {
+            return Update<T>(t, name, value, cmd);
+        }
+        /// <summary>
+        /// 更新列
+        /// 指定列名与添加值，由数据库直接操作
+        /// 只支持数据类型
+        /// </summary>
+        public bool Update<T>(T t, string name, object value, string name1 = null, object value1 = null, string name2 = null, object value2 = null, DbCommand cmd = null)
+        {
+            bool iTrans = cmd == null;
             string sql = null;
-            DbCommand cmd = null;
             try
             {
+                if (iTrans) cmd = CommandStart();
                 sql = t.Update<T>(name, value, name1, value1, name2, value2);
-                cmd = CommandStart(sql);
+                cmd.CommandText = sql;
                 cmd.CommandType = CommandType.Text;
                 DbParameter[] pList = t.AddParameters<T>(paramType).ToArray();
                 cmd.Parameters.Clear();
@@ -536,28 +550,29 @@ namespace Paway.Utils.Data
             }
             finally
             {
-                CommandEnd(cmd);
+                if (iTrans) CommandEnd(cmd);
             }
         }
         /// <summary>
         /// 删除所有行
         /// </summary>
-        public bool Delete<T>()
+        public bool Delete<T>(DbCommand cmd = null)
         {
-            return this.Delete<T>("1=1");
+            return this.Delete<T>("1=1", cmd);
         }
         /// <summary>
         /// 删除列
         /// </summary>
-        public bool Delete<T>(long id)
+        public bool Delete<T>(long id, DbCommand cmd = null)
         {
+            bool iTrans = cmd == null;
             string sql = null;
-            DbCommand cmd = null;
             try
             {
+                if (iTrans) cmd = CommandStart();
                 sql = default(T).Delete<T>();
                 DbParameter parame = default(T).AddParameter<T>(paramType, id);
-                cmd = CommandStart(sql);
+                cmd.CommandText = sql;
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add(parame);
@@ -570,20 +585,21 @@ namespace Paway.Utils.Data
             }
             finally
             {
-                CommandEnd(cmd);
+                if (iTrans) CommandEnd(cmd);
             }
         }
         /// <summary>
         /// 删除指定条件下的数据
         /// </summary>
-        public bool Delete<T>(string find)
+        public bool Delete<T>(string find, DbCommand cmd = null)
         {
+            bool iTrans = cmd == null;
             string sql = null;
-            DbCommand cmd = null;
             try
             {
+                if (iTrans) cmd = CommandStart();
                 sql = default(T).Delete<T>(find);
-                cmd = CommandStart(sql);
+                cmd.CommandText = sql;
                 return cmd.ExecuteNonQuery() == 1;
             }
             catch (Exception ex)
@@ -593,35 +609,35 @@ namespace Paway.Utils.Data
             }
             finally
             {
-                CommandEnd(cmd);
+                if (iTrans) CommandEnd(cmd);
             }
         }
         /// <summary>
         /// 删除列
         /// </summary>
-        public bool Delete<T>(T t)
+        public bool Delete<T>(T t, DbCommand cmd = null)
         {
             List<T> list = new List<T>() { t };
-            return Delete<T>(list);
+            return Delete<T>(list, cmd);
         }
         /// <summary>
         /// 删除列表
         /// </summary>
-        public bool Delete<T>(DataTable dt)
+        public bool Delete<T>(DataTable dt, DbCommand cmd = null)
         {
             IList<T> list = dt.ToIList<T>();
-            return Delete<T>(list);
+            return Delete<T>(list, cmd);
         }
         /// <summary>
         /// 删除列表
         /// </summary>
-        public bool Delete<T>(IList<T> list)
+        public bool Delete<T>(IList<T> list, DbCommand cmd = null)
         {
+            bool iTrans = cmd == null;
             string sql = default(T).Delete<T>();
-            DbCommand cmd = null;
             try
             {
-                cmd = TransStart();
+                if (iTrans) cmd = TransStart();
                 for (int i = 0; i < list.Count; i++)
                 {
                     cmd.CommandText = sql;
@@ -630,50 +646,51 @@ namespace Paway.Utils.Data
                     cmd.Parameters.AddRange(pList);
                     cmd.ExecuteNonQuery();
                 }
-                return TransCommit(cmd);
+                if (iTrans) return TransCommit(cmd);
+                else return true;
             }
             catch (Exception ex)
             {
-                TransError(cmd, ex);
+                if (iTrans) TransError(cmd, ex);
                 throw;
             }
             finally
             {
-                CommandEnd(cmd);
+                if (iTrans) CommandEnd(cmd);
             }
         }
         /// <summary>
         /// 更新或插入列
         /// </summary>
-        public bool Replace<T>(T t)
+        public bool Replace<T>(T t, DbCommand cmd = null)
         {
             List<T> list = new List<T>() { t };
-            return Replace<T>(list);
+            return Replace<T>(list, cmd);
         }
         /// <summary>
         /// 更新或插入列表
         /// </summary>
-        public void Replace<T>(DataTable dt)
+        public void Replace<T>(DataTable dt, DbCommand cmd = null)
         {
             IList<T> list = dt.ToIList<T>();
-            Replace<T>(list);
+            Replace<T>(list, cmd);
         }
         /// <summary>
         /// 更新或插入列表
         /// </summary>
-        public virtual bool Replace<T>(IList<T> list)
+        public virtual bool Replace<T>(IList<T> list, DbCommand cmd = null)
         {
-            return Replace<T>(list, false);
+            return Replace<T>(list, false, cmd);
         }
         /// <summary>
         /// 更新或插入列表
         /// </summary>
-        protected bool Replace<T>(IList<T> list, bool isSqlite)
+        protected bool Replace<T>(IList<T> list, bool isSqlite, DbCommand cmd = null)
         {
-            DbCommand cmd = null;
+            bool iTrans = cmd == null;
             try
             {
-                cmd = TransStart();
+                if (iTrans) cmd = TransStart();
                 for (int i = 0; i < list.Count; i++)
                 {
                     string sql = null;
@@ -700,16 +717,17 @@ namespace Paway.Utils.Data
                     }
                     dr.Close();
                 }
-                return TransCommit(cmd);
+                if (iTrans) return TransCommit(cmd);
+                else return true;
             }
             catch (Exception ex)
             {
-                TransError(cmd, ex);
+                if (iTrans) TransError(cmd, ex);
                 throw;
             }
             finally
             {
-                CommandEnd(cmd);
+                if (iTrans) CommandEnd(cmd);
             }
         }
 
