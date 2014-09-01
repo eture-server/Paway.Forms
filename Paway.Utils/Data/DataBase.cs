@@ -521,7 +521,16 @@ namespace Paway.Utils.Data
         /// </summary>
         public bool Update<T>(T t, string name, object value, DbCommand cmd = null)
         {
-            return Update<T>(t, name, value, cmd);
+            return Update<T>(t, name, value, null, null, cmd);
+        }
+        /// <summary>
+        /// 更新列
+        /// 指定列名与添加值，由数据库直接操作
+        /// 只支持数据类型
+        /// </summary>
+        public bool Update<T>(T t, string name, object value, string name1 = null, object value1 = null, DbCommand cmd = null)
+        {
+            return Update<T>(t, name, value, name1, value1, null, null, cmd);
         }
         /// <summary>
         /// 更新列
