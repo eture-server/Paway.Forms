@@ -117,6 +117,7 @@ namespace Paway.Utils.Data
         /// <typeparam name="T"></typeparam>
         /// <param name="find"></param>
         /// <param name="count">返回指定行数</param>
+        /// <param name="cmd"></param>
         /// <returns></returns>
         public override IList<T> FindTop<T>(string find, int count, DbCommand cmd = null)
         {

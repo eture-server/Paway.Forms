@@ -343,6 +343,7 @@ namespace Paway.Utils.Data
         /// </summary>
         /// <typeparam name="T">class.Type</typeparam>
         /// <param name="find">查询条件</param>
+        /// <param name="cmd"></param>
         /// <returns></returns>
         public IList<T> Find<T>(string find, DbCommand cmd = null)
         {
@@ -353,10 +354,6 @@ namespace Paway.Utils.Data
         /// 查找指定查询语句
         /// 指定返回行数
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="find"></param>
-        /// <param name="count"></param>
-        /// <returns></returns>
         public virtual IList<T> FindTop<T>(string find, int count, DbCommand cmd = null)
         {
             return FindTop<T>(find, count, false, cmd);
@@ -367,11 +364,6 @@ namespace Paway.Utils.Data
         /// 指定返回行数
         /// 是否SQLite
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="find"></param>
-        /// <param name="count"></param>
-        /// <param name="isSQLite"></param>
-        /// <returns></returns>
         protected IList<T> FindTop<T>(string find, int? count, bool isSQLite, DbCommand cmd = null)
         {
             bool iTrans = cmd == null;
