@@ -166,6 +166,21 @@ namespace Paway.Forms
             return _iList[type.Name];
         }
         /// <summary>
+        /// 返回控件上的当前子控件
+        /// </summary>
+        public static MControl Get(Control parent)
+        {
+            for (int i = 0; i < _iList.Count; i++)
+            {
+                string item = _iList.Keys.ElementAt<string>(i);
+                if (_iList[item].Parent == parent)
+                {
+                    return _iList[item];
+                }
+            }
+            return null;
+        }
+        /// <summary>
         /// 重置子控件
         /// </summary>
         public static void ReSet()
