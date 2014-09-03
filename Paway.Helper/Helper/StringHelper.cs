@@ -98,20 +98,20 @@ namespace Paway.Helper
             if (pattern == null) return null;
             Regex regex = new Regex(pattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
             Match match = regex.Match(str);
-            if (!match.Success || match.Groups[0].Value != str)
+            if (!match.Success)
             {
-                if (match.Groups[0].Value != str)
+                return "请重新输入";
+            }
+            else if (match.Groups[0].Value != str)
+            {
+                if (match.Groups[0].Index != 0)
                 {
-                    if (match.Groups[0].Index != 0)
-                    {
-                        return str.Substring(0, match.Groups[0].Index);
-                    }
-                    else
-                    {
-                        return str.Remove(match.Groups[0].Index + match.Groups[0].Length);
-                    }
+                    return str.Substring(0, match.Groups[0].Index);
                 }
-                else { return string.Empty; }
+                else
+                {
+                    return str.Remove(match.Groups[0].Index, match.Groups[0].Length);
+                }
             }
             return null;
         }

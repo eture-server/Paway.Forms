@@ -602,6 +602,25 @@ namespace Paway.Forms
 
         #endregion
 
+        #region вўВие§дђ
+        /// <summary>
+        /// </summary>
+        [Browsable(false)]
+        public override string Regex
+        {
+            get { return null; }
+            set { }
+        }
+        /// <summary>
+        /// </summary>
+        [Browsable(false)]
+        public override Helper.RegexType RegexType
+        {
+            get { return Helper.RegexType.None; }
+            set { }
+        }
+        #endregion
+
         private void InitializeComponent()
         {
             this.SuspendLayout();

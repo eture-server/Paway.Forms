@@ -39,6 +39,7 @@
             this.toolBar = new Paway.Forms.ToolBar();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.tbName = new Paway.Forms.QQTextBox();
+            this.tbRsa2 = new Paway.Forms.QQTextBox();
             this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -136,7 +137,7 @@
             this.tbName.IsPasswordChat = '\0';
             this.tbName.Lines = new string[0];
             this.tbName.Location = new System.Drawing.Point(121, 18);
-            this.tbName.Margin = new System.Windows.Forms.Padding(4);
+            this.tbName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tbName.MaxLength = 10;
             this.tbName.Name = "tbName";
             this.tbName.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
@@ -147,6 +148,24 @@
             this.tbName.TabIndex = 59;
             this.tbName.WaterText = "";
             // 
+            // tbRsa2
+            // 
+            this.tbRsa2.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.tbRsa2.Icon = null;
+            this.tbRsa2.IsPasswordChat = '\0';
+            this.tbRsa2.Lines = new string[0];
+            this.tbRsa2.Location = new System.Drawing.Point(52, 97);
+            this.tbRsa2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbRsa2.MaxLength = 128;
+            this.tbRsa2.Name = "tbRsa2";
+            this.tbRsa2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
+            this.tbRsa2.Regex = "[0-9]+(\\.[0-9]+)?";
+            this.tbRsa2.RegexType = Paway.Helper.RegexType.Custom;
+            this.tbRsa2.SelectedText = "";
+            this.tbRsa2.Size = new System.Drawing.Size(215, 29);
+            this.tbRsa2.TabIndex = 60;
+            this.tbRsa2.WaterText = "请输入Rsa值";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -156,6 +175,7 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(77)))), ((int)(((byte)(185)))));
             this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(319, 222);
+            this.Controls.Add(this.tbRsa2);
             this.Controls.Add(this.tbName);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.toolBar);
@@ -165,6 +185,7 @@
             this.ForeColor = System.Drawing.Color.White;
             this.IsDrawBorder = true;
             this.IsResize = false;
+            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "Form1";
             this.Padding = new System.Windows.Forms.Padding(0, 26, 3, 3);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -186,6 +207,7 @@
         private Forms.ToolBar toolBar;
         private System.Windows.Forms.PictureBox pictureBox2;
         private Forms.QQTextBox tbName;
+        private Forms.QQTextBox tbRsa2;
 
 
 

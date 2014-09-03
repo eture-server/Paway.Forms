@@ -284,7 +284,7 @@ namespace Paway.Forms
         /// 自定义正则表达式
         /// </summary>
         [Browsable(true), Description("自定义正则表达式"), DefaultValue(null)]
-        public string Regex
+        public virtual string Regex
         {
             get { return _regex; }
             set { _regex = value; }
@@ -295,7 +295,7 @@ namespace Paway.Forms
         /// 在控件失去焦点时使用正则表达示验证字符
         /// </summary>
         [Description("在控件失去焦点时使用正则表达示验证字符"), DefaultValue(typeof(RegexType), "None")]
-        public RegexType RegexType
+        public virtual RegexType RegexType
         {
             get { return _regexType; }
             set
@@ -615,6 +615,7 @@ namespace Paway.Forms
                 error.SetError(this, result);
                 return;
             }
+            if (string.IsNullOrEmpty(BaseText.Text)) return;
             switch (_regexType)
             {
                 case RegexType.Ip:
@@ -627,7 +628,7 @@ namespace Paway.Forms
                     result = StringHelper.RegexChecked(BaseText.Text, _regex);
                     break;
             }
-            if (result != null)
+            if (!string.IsNullOrEmpty(result))
             {
                 error.SetError(this, string.Format("不可以输入字符:{0}", result));
             }
