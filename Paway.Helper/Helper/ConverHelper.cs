@@ -1025,7 +1025,7 @@ namespace Paway.Helper
                     {
                         PropertyInfo pro = typeof(T).GetProperty(properties[i].Name, properties[i].PropertyType);
                         PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-                        if (itemList == null || itemList.Length == 0 || itemList[0].Select)
+                        if (itemList == null || itemList.Length == 0 || itemList[0].Select || itemList[0].Excel)
                         {
                             string name = properties[i].Name;
                             if (itemList != null && itemList.Length == 1 && itemList[0].Column != null)
@@ -1041,6 +1041,14 @@ namespace Paway.Helper
                                     if (pro.PropertyType == typeof(Image) && value is byte[])
                                     {
                                         pro.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image, null);
+                                    }
+                                    else if (pro.PropertyType == typeof(Double))
+                                    {
+                                        pro.SetValue(obj, value.ToDouble(), null);
+                                    }
+                                    else if (pro.PropertyType == typeof(Int32))
+                                    {
+                                        pro.SetValue(obj, value.ToInt(), null);
                                     }
                                     else
                                     {

@@ -88,6 +88,15 @@ namespace Paway.Helper
             get { return _clone; }
             set { _clone = value; }
         }
+        private bool _excel = true;
+        /// <summary>
+        /// 是否复制导入列，默认导入
+        /// </summary>
+        public bool Excel
+        {
+            get { return _excel; }
+            set { _excel = value; }
+        }
         private bool _show = true;
         /// <summary>
         /// 是否显示列
