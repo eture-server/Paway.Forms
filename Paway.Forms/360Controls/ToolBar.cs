@@ -71,6 +71,11 @@ namespace Paway.Forms
         #endregion
 
         #region 属性
+        /// <summary>
+        /// 文本内容
+        /// </summary>
+        [Description("文本内容"), DefaultValue(false)]
+        public bool IText { get; set; }
         private int _textSpace = 6;
         /// <summary>
         /// 项文本间的间隔
@@ -904,7 +909,7 @@ namespace Paway.Forms
                     };
                     DrawOtherDesc(g, item, TEndDesc, item.EndDesc, rect);
                 }
-                if (item.IText)
+                if (this.IText || item.IText)
                 {
                     Rectangle rect = new Rectangle(textRect.X, textRect.Y + headHeight + endHeight, textRect.Width, textRect.Height - headHeight - endHeight);
                     DrawOtherDesc(g, item, TextFirst, item.Text, rect);
@@ -995,7 +1000,7 @@ namespace Paway.Forms
             };
             if (!item.Enable)
             {
-                if (item.IText)
+                if (this.IText || item.IText)
                 {
                     g.DrawString(text, font, new SolidBrush(color), rect, format);
                 }
@@ -1025,7 +1030,7 @@ namespace Paway.Forms
                     break;
             }
             if (color == Color.Empty) color = this.ForeColor;
-            if (item.IText)
+            if (this.IText || item.IText)
             {
                 g.DrawString(text, font, new SolidBrush(color), rect, format);
             }
@@ -1827,14 +1832,16 @@ namespace Paway.Forms
             switch (TDirection)
             {
                 case TDirection.Level:
+                    int max = _vScroll.Maximum - _vScroll.SmallChange;
                     if (value < 0) value = 0;
-                    if (value > _vScroll.Maximum) value = _vScroll.Maximum;
+                    if (value > max) value = max;
                     _vScroll.Value = value;
                     BodyBounds.Y = -value;
                     break;
                 case TDirection.Vertical:
+                    max = _hScroll.Maximum - _hScroll.SmallChange;
                     if (value < 0) value = 0;
-                    if (value > _hScroll.Maximum) value = _hScroll.Maximum;
+                    if (value > max) value = max;
                     _hScroll.Value = value;
                     BodyBounds.X = -value;
                     break;
@@ -1882,6 +1889,9 @@ namespace Paway.Forms
                             FixScroll(max);
                         }
                         _vScroll.Maximum = max;
+                        _vScroll.LargeChange = max / 10;
+                        _vScroll.SmallChange = max / 10;
+                        _vScroll.Maximum = max + max / 10;
                         if (!fix) _vScroll.Value = 0;
                         if (toLast)
                         {
@@ -1904,6 +1914,9 @@ namespace Paway.Forms
                             FixScroll(max);
                         }
                         _hScroll.Maximum = max;
+                        _hScroll.LargeChange = max / 10;
+                        _hScroll.SmallChange = max / 10;
+                        _hScroll.Maximum = max + max / 10;
                         if (!fix) _hScroll.Value = 0;
                         if (toLast)
                         {
