@@ -144,7 +144,6 @@
             this.toolBar.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(72)))), ((int)(((byte)(38)))));
             this.toolBar.TDesc.ColorDown = System.Drawing.Color.White;
             this.toolBar.TDesc.ColorMove = System.Drawing.Color.White;
-            this.toolBar.TDirection = Paway.Forms.TDirection.Vertical;
             this.toolBar.TEvent = Paway.Forms.TEvent.Up;
             this.toolBar.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolBar.TextFirst.ColorMove = System.Drawing.Color.White;

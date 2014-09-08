@@ -72,9 +72,14 @@ namespace Paway.Forms
 
         #region 属性
         /// <summary>
-        /// 头文字长度
+        /// 文本内容
         /// </summary>
-        [Browsable(false), Description("头文字长度"), DefaultValue(0)]
+        [Description("启用分组"), DefaultValue(false)]
+        public bool IGroup { get; set; }
+        /// <summary>
+        /// 头文字总长度
+        /// </summary>
+        [Browsable(false), Description("头文字总长度"), DefaultValue(0)]
         public int HeardLength { get; private set; }
         /// <summary>
         /// 文本内容
@@ -697,7 +702,7 @@ namespace Paway.Forms
             int yPos = this.Padding.Top;
             this.CountColumn = 1;
             this.CountLine = 1;
-            this.HeardLength = 1;
+            this.HeardLength = 0;
             this.isLastNew = true;
             for (int i = 0; i < this.Items.Count; i++)
             {
@@ -771,11 +776,11 @@ namespace Paway.Forms
                             {
                                 if (!isLastNew)
                                 {
-                                    yPos += this._itemSize.Height;
+                                    yPos += this._itemSize.Height + this._itemSpace;
                                     this.CountLine++;
                                 }
                                 item.Rectangle = new Rectangle(xPos, yPos, this.Width, size.Height);
-                                this.HeardLength += size.Height + this._itemSpace;
+                                this.HeardLength += size.Height + this._itemSpace * 2;
                             }
                             else
                             {
@@ -801,11 +806,11 @@ namespace Paway.Forms
                             {
                                 if (!isLastNew)
                                 {
-                                    xPos += this._itemSize.Width;
+                                    xPos += this._itemSize.Width + this._itemSpace;
                                     this.CountColumn++;
                                 }
                                 item.Rectangle = new Rectangle(xPos, yPos, size.Width, this.Height);
-                                this.HeardLength += size.Width + this._itemSpace;
+                                this.HeardLength += size.Width + this._itemSpace * 2;
                             }
                             else
                             {
@@ -829,9 +834,9 @@ namespace Paway.Forms
                 }
                 else
                 {
-                    DrawText(g, item);
                     DrawBackground(g, item);
                     DrawImage(g, item);
+                    DrawText(g, item);
                 }
             }
         }

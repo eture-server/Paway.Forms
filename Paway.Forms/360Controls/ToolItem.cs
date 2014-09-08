@@ -31,6 +31,11 @@ namespace Paway.Forms
         [TypeConverter(typeof(StringConverter))]
         public object Tag { get; set; }
         /// <summary>
+        /// 分组文字
+        /// </summary>
+        [Description("分组文字"), DefaultValue(null)]
+        public string Group { get; private set; }
+        /// <summary>
         /// 首行文字
         /// </summary>
         [Browsable(false), Description("首行文字"), DefaultValue(null)]
