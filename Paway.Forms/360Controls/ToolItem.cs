@@ -150,6 +150,12 @@ namespace Paway.Forms
         [Description("文本内容"), DefaultValue(false)]
         public bool IText { get; set; }
 
+        /// <summary>
+        /// 头文字
+        /// </summary>
+        [Description("头文字"), DefaultValue(false)]
+        public bool IHeard { get; set; }
+
         #region 构造
         /// <summary>
         /// 构造

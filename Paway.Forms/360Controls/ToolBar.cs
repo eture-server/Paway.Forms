@@ -72,6 +72,11 @@ namespace Paway.Forms
 
         #region 属性
         /// <summary>
+        /// 头文字长度
+        /// </summary>
+        [Browsable(false), Description("头文字长度"), DefaultValue(0)]
+        public int HeardLength { get; private set; }
+        /// <summary>
         /// 文本内容
         /// </summary>
         [Description("文本内容"), DefaultValue(false)]
@@ -692,6 +697,8 @@ namespace Paway.Forms
             int yPos = this.Padding.Top;
             this.CountColumn = 1;
             this.CountLine = 1;
+            this.HeardLength = 1;
+            this.isLastNew = true;
             for (int i = 0; i < this.Items.Count; i++)
             {
                 DrawItem(g, this.Items[i], ref xPos, ref yPos, i == this.Items.Count - 1);
@@ -715,26 +722,66 @@ namespace Paway.Forms
         }
 
         #region 绘制方法
+        private bool isLastNew;
+        private void DrawHeard(Graphics g, ToolItem item)
+        {
+            if (!string.IsNullOrEmpty(item.Text))
+            {
+                if (g != null)
+                {
+                    StringFormat format = new StringFormat()
+                    {
+                        Alignment = item.TColor.StringVertical,
+                        LineAlignment = item.TColor.StringHorizontal,
+                        Trimming = StringTrimming.EllipsisWord
+                    };
+                    Rectangle temp = new Rectangle(item.Rectangle.X + BodyBounds.X, item.Rectangle.Y + BodyBounds.Y,
+                        item.Rectangle.Width, item.Rectangle.Height);
+                    switch (_tDirection)
+                    {
+                        case TDirection.Level:
+                            TextRenderer.DrawText(g, item.Text, item.TColor.FontNormal, temp, item.TColor.ColorNormal, TextFormat(format));
+                            break;
+                        case TDirection.Vertical:
+                            format.Alignment = item.TColor.StringHorizontal;
+                            format.LineAlignment = item.TColor.StringVertical;
+                            Color color = item.TColor.ColorNormal;
+                            if (color == Color.Empty) color = Color.Black;
+                            g.DrawString(item.Text, item.TColor.FontNormal, new SolidBrush(color), temp, format);
+                            break;
+                    }
+                }
+            }
+        }
         private void DrawItem(Graphics g, ToolItem item, ref int xPos, ref int yPos, bool iLast)
         {
             // 当前 Item 所在的矩型区域
             item.Rectangle = new Rectangle(xPos, yPos, this._itemSize.Width, this._itemSize.Height);
-            if (g != null)
-            {
-                DrawBackground(g, item);
-                DrawImage(g, item);
-                DrawText(g, item);
-            }
+            Size size = TextRenderer.MeasureText("你", this.Font);
             switch (_tDirection)
             {
                 case TDirection.Level:
-                    if (xPos + item.Rectangle.Width * 2 + this._itemSpace + this.Padding.Right > this.Width)
+                    bool isNew = xPos + item.Rectangle.Width * 2 + this._itemSpace + this.Padding.Right > this.Width;
+                    if (item.IHeard || isNew)
                     {
                         xPos = this.Padding.Left;
                         if (!iLast)
                         {
+                            if (item.IHeard)
+                            {
+                                if (!isLastNew)
+                                {
+                                    yPos += this._itemSize.Height;
+                                    this.CountLine++;
+                                }
+                                item.Rectangle = new Rectangle(xPos, yPos, this.Width, size.Height);
+                                this.HeardLength += size.Height + this._itemSpace;
+                            }
+                            else
+                            {
+                                this.CountLine++;
+                            }
                             yPos += item.Rectangle.Height + this._itemSpace;
-                            this.CountLine++;
                         }
                     }
                     else
@@ -742,15 +789,29 @@ namespace Paway.Forms
                         xPos += item.Rectangle.Width + this._itemSpace;
                         if (this.CountLine == 1 && !iLast) this.CountColumn++;
                     }
+                    this.isLastNew = isNew;
                     break;
                 case TDirection.Vertical:
-                    if (yPos + item.Rectangle.Height * 2 + this._itemSpace + this.Padding.Bottom > this.Height)
+                    if (item.IHeard || yPos + item.Rectangle.Height * 2 + this._itemSpace + this.Padding.Bottom > this.Height)
                     {
                         yPos = this.Padding.Top;
                         if (!iLast)
                         {
+                            if (item.IHeard)
+                            {
+                                if (!isLastNew)
+                                {
+                                    xPos += this._itemSize.Width;
+                                    this.CountColumn++;
+                                }
+                                item.Rectangle = new Rectangle(xPos, yPos, size.Width, this.Height);
+                                this.HeardLength += size.Width + this._itemSpace;
+                            }
+                            else
+                            {
+                                this.CountColumn++;
+                            }
                             xPos += item.Rectangle.Width + this._itemSpace;
-                            this.CountColumn++;
                         }
                     }
                     else
@@ -759,6 +820,19 @@ namespace Paway.Forms
                         if (this.CountColumn == 1 && !iLast) this.CountLine++;
                     }
                     break;
+            }
+            if (g != null)
+            {
+                if (item.IHeard)
+                {
+                    DrawHeard(g, item);
+                }
+                else
+                {
+                    DrawText(g, item);
+                    DrawBackground(g, item);
+                    DrawImage(g, item);
+                }
             }
         }
         /// <summary>
@@ -1972,6 +2046,7 @@ namespace Paway.Forms
             int height = this.Padding.Top + this.Padding.Bottom;
             height += this.CountLine * this.ItemSize.Height;
             height += (this.CountLine - 1) * this.ItemSpace;
+            height += this.HeardLength;
             return height;
         }
         /// <summary>
@@ -1983,6 +2058,7 @@ namespace Paway.Forms
             int width = this.Padding.Left + this.Padding.Right;
             width += this.CountColumn * this.ItemSize.Width;
             width += (this.CountColumn - 1) * this.ItemSpace;
+            width += this.HeardLength;
             return width;
         }
 

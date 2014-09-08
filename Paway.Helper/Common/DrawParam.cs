@@ -49,7 +49,7 @@ namespace Paway.Helper
             }
         }
         /// <summary>
-        /// 文本靠右垂直
+        /// 文本靠左垂直
         /// </summary>
         public static TextFormatFlags TextLeft
         {
