@@ -48,6 +48,7 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.tbName = new Paway.Forms.QQTextBox();
             this.tbRsa2 = new Paway.Forms.QQTextBox();
+            this.tControl1 = new Paway.Forms.TControl();
             this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -200,6 +201,13 @@
             this.tbRsa2.TabIndex = 60;
             this.tbRsa2.WaterText = "请输入Rsa值";
             // 
+            // tControl1
+            // 
+            this.tControl1.Location = new System.Drawing.Point(399, 136);
+            this.tControl1.Name = "tControl1";
+            this.tControl1.Size = new System.Drawing.Size(116, 101);
+            this.tControl1.TabIndex = 61;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -209,6 +217,7 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(77)))), ((int)(((byte)(185)))));
             this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(523, 292);
+            this.Controls.Add(this.tControl1);
             this.Controls.Add(this.tbRsa2);
             this.Controls.Add(this.tbName);
             this.Controls.Add(this.pictureBox2);
@@ -242,6 +251,7 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private Forms.QQTextBox tbName;
         private Forms.QQTextBox tbRsa2;
+        private Forms.TControl tControl1;
 
 
 

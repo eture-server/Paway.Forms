@@ -1968,9 +1968,9 @@ namespace Paway.Forms
                             FixScroll(max);
                         }
                         _vScroll.Maximum = max;
-                        _vScroll.LargeChange = max / 10;
-                        _vScroll.SmallChange = max / 10;
-                        _vScroll.Maximum = max + max / 10;
+                        _vScroll.LargeChange = max / CountLine;
+                        _vScroll.SmallChange = max / CountLine;
+                        _vScroll.Maximum = max + max / CountLine;
                         if (!fix) _vScroll.Value = 0;
                         if (toLast)
                         {
@@ -1993,9 +1993,9 @@ namespace Paway.Forms
                             FixScroll(max);
                         }
                         _hScroll.Maximum = max;
-                        _hScroll.LargeChange = max / 10;
-                        _hScroll.SmallChange = max / 10;
-                        _hScroll.Maximum = max + max / 10;
+                        _hScroll.LargeChange = max / CountColumn;
+                        _hScroll.SmallChange = max / CountColumn;
+                        _hScroll.Maximum = max + max / CountColumn;
                         if (!fix) _hScroll.Value = 0;
                         if (toLast)
                         {
