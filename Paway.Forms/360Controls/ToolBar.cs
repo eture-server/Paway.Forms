@@ -1895,12 +1895,12 @@ namespace Paway.Forms
             if (!_scroll) return;
             if (_vScroll.Visible)
             {
-                int value = _vScroll.Value - e.Delta * this.ItemSize.Height / 2 / 120;
+                int value = _vScroll.Value - e.Delta * this.ItemSize.Height / 120;
                 FixScroll(value);
             }
             else if (_hScroll.Visible)
             {
-                int value = _hScroll.Value - e.Delta * this.ItemSize.Width / 2 / 120;
+                int value = _hScroll.Value - e.Delta * this.ItemSize.Width / 120;
                 FixScroll(value);
             }
             base.OnMouseWheel(e);
@@ -1968,9 +1968,9 @@ namespace Paway.Forms
                             FixScroll(max);
                         }
                         _vScroll.Maximum = max;
-                        _vScroll.LargeChange = max / CountLine;
-                        _vScroll.SmallChange = max / CountLine;
-                        _vScroll.Maximum = max + max / CountLine;
+                        _vScroll.LargeChange = this.Height / 2;
+                        _vScroll.SmallChange = _vScroll.LargeChange;
+                        _vScroll.Maximum = max + _vScroll.LargeChange;
                         if (!fix) _vScroll.Value = 0;
                         if (toLast)
                         {
@@ -1993,9 +1993,9 @@ namespace Paway.Forms
                             FixScroll(max);
                         }
                         _hScroll.Maximum = max;
-                        _hScroll.LargeChange = max / CountColumn;
-                        _hScroll.SmallChange = max / CountColumn;
-                        _hScroll.Maximum = max + max / CountColumn;
+                        _hScroll.LargeChange = this.Width / 2;
+                        _hScroll.SmallChange = _hScroll.LargeChange;
+                        _hScroll.Maximum = max + _hScroll.LargeChange;
                         if (!fix) _hScroll.Value = 0;
                         if (toLast)
                         {
