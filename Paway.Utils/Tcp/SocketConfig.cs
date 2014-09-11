@@ -11,6 +11,26 @@ namespace Paway.Utils.Tcp
     /// </summary>
     public abstract class SocketConfig
     {
+        private static int _current = 100;
+        /// <summary>
+        /// 10分钟内的限制连接数
+        /// 默认100
+        /// </summary>
+        public static int Current
+        {
+            get { return _current; }
+            set { _current = value; }
+        }
+        /// <summary>
+        /// 总的限制连接数
+        /// </summary>
+        public static int Limit { get; set; }
+
+        /// <summary>
+        /// 当前连接数
+        /// </summary>
+        public static int Count { get { return ClientList.Count; } }
+
         private static ConcurrentDictionary<int, string> threadList;
         /// <summary>
         /// 线程列表

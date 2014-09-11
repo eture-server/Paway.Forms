@@ -1,6 +1,7 @@
 ﻿using Paway.Forms;
 using Paway.Helper;
 using Paway.Test.Properties;
+using Paway.Utils.Tcp;
 using Paway.Win32;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,6 @@ namespace Paway.Test
             toolBar.ItemClick += toolClose_ItemClick;
             toolBar.EditClick += toolClose_EditClick;
             btName.Click += btName_Click;
-            btName_Click(this, EventArgs.Empty);
             tip = new ToolTip();
             this.Opacity = 0.8;
             this.MouseMove += Form1_MouseMove;
@@ -48,6 +48,16 @@ namespace Paway.Test
 
         void btName_Click(object sender, EventArgs e)
         {
+            string ip = HardWareHandler.GetIpAddress();
+            try
+            {
+                for (int i = 0; i < 1000; i++)
+                {
+                    Client client = new Client(ip, 9998);
+                    client.Connect();
+                }
+            }
+            catch { }
             //TControl control = new TControl();
             //control.Dock = DockStyle.Fill;
             //eventRead.WaitOne(3000);

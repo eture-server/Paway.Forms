@@ -38,7 +38,7 @@ namespace Paway.Utils.Tcp
         /// </summary>
         protected override void OnSocketException()
         {
-            SocketBase[] socketList = SocketConfig.ClientList.Where(c => (c.IsUNRegisted || !c.IsConnected) && !c.Disposed && c.IPPort == IPPort).ToArray();
+            SocketBase[] socketList = SocketConfig.ClientList.Where(c => (c.IsUNRegisted || !c.IsConnected) && !c.Disposed && c.IPPoint == IPPoint).ToArray();
             ClearClientSocket(socketList);
             base.OnSocketException();
         }
@@ -61,7 +61,7 @@ namespace Paway.Utils.Tcp
                             {
                                 j--; continue;
                             }
-                            if (!socket.IPPort.Equals(socketList[i].IPPort))
+                            if (!socket.IPPoint.Equals(socketList[i].IPPoint))
                             {
                                 SocketConfig.ClientList.Add(socket);
                             }
@@ -74,7 +74,7 @@ namespace Paway.Utils.Tcp
                 }
                 catch (Exception ex)
                 {
-                    log.ErrorFormat("清理连接列表异常：{0}", ex);
+                    OnClientEvent(string.Format("清理连接列表异常：{0}", ex));
                 }
             }
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using Paway.Helper;
+using System.Net;
 
 namespace Paway.Utils.Tcp
 {
@@ -21,7 +22,7 @@ namespace Paway.Utils.Tcp
         /// <summary>
         /// 获取远程终结点
         /// </summary>
-        public string IPPort { get; internal set; }
+        public IPEndPoint IPPoint { get; internal set; }
 
         private Socket socket;
         /// <summary>
@@ -74,9 +75,9 @@ namespace Paway.Utils.Tcp
         public bool IsUNRegisted { get; internal set; }
 
         /// <summary>
-        /// 连接错误
+        /// 客户端事件
         /// </summary>
-        public event EventHandler ConnectError;
+        public event EventHandler<ServiceEventArgs> ClientEvent;
         /// <summary>
         /// 接收到的消息
         /// </summary>
@@ -154,19 +155,12 @@ namespace Paway.Utils.Tcp
             try
             {
                 message = SctructHelper.GetObjectFromByte(buffer);
+                OnMessageEvent(message);
             }
             catch (Exception ex)
             {
-                message = ex.Message;
+                OnClientEvent(ex.Message);
             }
-            try
-            {
-                if (MessageEvent != null)
-                {
-                    MessageEvent(message, EventArgs.Empty);
-                }
-            }
-            catch { }
         }
         /// <summary>
         /// 写入缓冲,发送数据
@@ -198,15 +192,52 @@ namespace Paway.Utils.Tcp
             OnSocketException();
         }
         /// <summary>
-        /// 触发socker异常事件
+        /// 触发接收到的消息事件
+        /// </summary>
+        /// <param name="msg"></param>
+        private void OnMessageEvent(object msg)
+        {
+            try
+            {
+                if (MessageEvent != null)
+                {
+                    MessageEvent(msg, EventArgs.Empty);
+                }
+            }
+            catch { }
+        }
+        /// <summary>
+        /// 触发客户端日志
+        /// </summary>
+        /// <param name="message"></param>
+        protected void OnClientEvent(string message)
+        {
+            try
+            {
+                ServiceEventArgs msg = new ServiceEventArgs(ServiceType.Client);
+                msg.Ip = this.IPPoint.ToString();
+                msg.Port = this.IPPoint.Port;
+                msg.Message = message;
+                if (ClientEvent != null)
+                {
+                    ClientEvent(this, msg);
+                }
+            }
+            catch { }
+        }
+        /// <summary>
+        /// 触发socker异常事件->断开
         /// </summary>
         protected virtual void OnSocketException()
         {
             try
             {
-                if (ConnectError != null)
+                ServiceEventArgs msg = new ServiceEventArgs(ServiceType.DisConnect);
+                msg.Ip = this.IPPoint.ToString();
+                msg.Port = this.IPPoint.Port;
+                if (ClientEvent != null)
                 {
-                    ConnectError(this.IPPort, EventArgs.Empty);
+                    ClientEvent(this, msg);
                 }
             }
             catch { }

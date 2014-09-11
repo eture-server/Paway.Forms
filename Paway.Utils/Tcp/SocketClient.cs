@@ -15,11 +15,6 @@ namespace Paway.Utils.Tcp
     public class SocketClient : SocketBase
     {
         #region fields
-        private IPEndPoint _host;
-        /// <summary>
-        /// Listener endpoint.
-        /// </summary>
-        public IPEndPoint EndPoint { get { return _host; } }
         /// <summary>
         /// 连接完成
         /// </summary>
@@ -34,9 +29,8 @@ namespace Paway.Utils.Tcp
         /// <param name="port"></param>
         public SocketClient(String ipAddress, Int32 port)
         {
-            this._host = new IPEndPoint(IPAddress.Parse(ipAddress), port);
-            this.IPPort = _host.ToString();
-            this.Socket = new Socket(this._host.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            this.IPPoint = new IPEndPoint(IPAddress.Parse(ipAddress), port);
+            this.Socket = new Socket(this.IPPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
         }
 
         #endregion
@@ -73,7 +67,7 @@ namespace Paway.Utils.Tcp
                 }
                 if (ConnectFinished != null)
                 {
-                    ConnectFinished(this.IPPort, e);
+                    ConnectFinished(this.IPPoint, e);
                 }
             }
             catch { }
@@ -90,7 +84,7 @@ namespace Paway.Utils.Tcp
             using (SocketAsyncEventArgs connectArgs = new SocketAsyncEventArgs())
             {
                 connectArgs.UserToken = this.Socket;
-                connectArgs.RemoteEndPoint = this._host;
+                connectArgs.RemoteEndPoint = this.IPPoint;
                 connectArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnConnect);
                 try
                 {

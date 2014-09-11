@@ -35,13 +35,9 @@ namespace Paway.Utils.Tcp
         /// </summary>
         private volatile bool ForceStop = false;
         /// <summary>
-        /// 连接错误
+        /// 服务端事件
         /// </summary>
-        public event EventHandler ConnectError;
-        /// <summary>
-        /// 客户端连接
-        /// </summary>
-        public event EventHandler ConnectFinished;
+        public event EventHandler<ServiceEventArgs> SystemEvent;
         /// <summary>
         /// 监听端口
         /// </summary>
@@ -89,7 +85,7 @@ namespace Paway.Utils.Tcp
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("心跳服务失败：{0}", ex);
+                OnSystemEvent(string.Format("心跳服务失败：{0}", ex));
             }
             finally
             {
@@ -114,7 +110,7 @@ namespace Paway.Utils.Tcp
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("监听服务失败：{0}", ex);
+                OnSystemEvent(string.Format("监听服务失败：{0}", ex));
             }
             finally
             {
@@ -129,21 +125,23 @@ namespace Paway.Utils.Tcp
         {
             try
             {
-                Socket socket = null;
-                try
+                if (SocketConfig.Limit != 0 && SocketConfig.ClientList.Count > SocketConfig.Limit)
                 {
-                    socket = socketListener.EndAccept(asyn);
+                    OnSystemEvent(ServiceType.Limit, string.Format("超出连接限制：{0}，拒绝连接。", SocketConfig.Limit));
+                    return;
                 }
-                finally
+                if (SocketConfig.ClientList.ToList().FindAll(c => c.ConnectTime > DateTime.Now.AddMinutes(-10)).Count > SocketConfig.Current)
                 {
-                    allDone.Set();
+                    OnSystemEvent(ServiceType.Current, string.Format("限定时间内连接数超出限制：{0}，拒绝连接。", SocketConfig.Current));
+                    return;
                 }
+                Socket socket = socketListener.EndAccept(asyn);
                 SocketPackage client = new SocketPackage(this, socket);
                 OnClientConnect(client);
                 SocketConfig.ClientList.Add(client);
-                client.ConnectError += client_ConnectError;
+                client.ClientEvent += client_ClientEvent;
                 client.ConnectTime = DateTime.Now;
-                OnClientFinished(client.IPPort);
+                ClientFinished(client.IPPoint);
 
                 //等待客户端发送来的数据
                 AsynSocketArg state = new AsynSocketArg();
@@ -152,40 +150,72 @@ namespace Paway.Utils.Tcp
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("客户端连接失败：{0}", ex);
+                OnSystemEvent(string.Format("客户端连接失败：{0}", ex));
             }
+            finally
+            {
+                allDone.Set();
+            }
+        }
+        /// <summary>
+        /// 系统事件
+        /// </summary>
+        private void OnSystemEvent(string message)
+        {
+            ServiceEventArgs msg = new ServiceEventArgs(ServiceType.Error);
+            OnSystemEvent(msg);
+        }
+        /// <summary>
+        /// 系统事件
+        /// </summary>
+        private void OnSystemEvent(ServiceType type, string message)
+        {
+            ServiceEventArgs msg = new ServiceEventArgs(type);
+            msg.Message = message;
+            OnSystemEvent(msg);
+        }
+        /// <summary>
+        /// 系统事件
+        /// </summary>
+        private void OnSystemEvent(ServiceEventArgs msg)
+        {
+            try
+            {
+                if (msg.Message != null)
+                {
+                    if (msg.Type == ServiceType.Error) log.Error(msg.Message);
+                    else log.Warn(msg.Message);
+                }
+                if (SystemEvent != null)
+                {
+                    SystemEvent(this, msg);
+                }
+            }
+            catch { }
         }
         /// <summary>
         /// 抛出连接完成事件
         /// </summary>
-        /// <param name="ipport"></param>
-        protected virtual void OnClientFinished(string ipport)
+        protected virtual void ClientFinished(IPEndPoint point)
         {
-            try
-            {
-                if (ConnectFinished != null)
-                {
-                    ConnectFinished(ipport, EventArgs.Empty);
-                }
-            }
-            catch { }
+            ServiceEventArgs msg = new ServiceEventArgs(ServiceType.Connect);
+            msg.Ip = point.ToString();
+            msg.Port = point.Port;
+            OnSystemEvent(msg);
         }
         /// <summary>
         /// 抛出单个连接对象，用于消息发送
         /// </summary>
-        /// <param name="client"></param>
         protected virtual void OnClientConnect(SocketPackage client) { }
 
-        void client_ConnectError(object sender, EventArgs e)
+        /// <summary>
+        /// 客户端事件与断开连接事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void client_ClientEvent(object sender, ServiceEventArgs e)
         {
-            try
-            {
-                if (ConnectError != null)
-                {
-                    ConnectError(sender, EventArgs.Empty);
-                }
-            }
-            catch { }
+            OnSystemEvent(e);
         }
 
         #endregion
@@ -211,13 +241,13 @@ namespace Paway.Utils.Tcp
         /// <summary>
         /// 发送消息到指定端口
         /// </summary>
-        public void SendToPort(object msg, string ipPort)
+        public void SendToPort(object msg, IPEndPoint ipPort)
         {
             try
             {
                 foreach (SocketBase socket in SocketConfig.ClientList)
                 {
-                    if (socket.IPPort == ipPort)
+                    if (socket.IPPoint == ipPort)
                     {
                         socket.InsertSendData(msg);
                         break;

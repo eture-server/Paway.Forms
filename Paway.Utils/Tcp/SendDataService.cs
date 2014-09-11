@@ -3,6 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 
@@ -39,8 +40,8 @@ namespace Paway.Utils.Tcp
 
             if (socket == null) return;
             Socket = socket;
-            Socket.IPPort = socket.Socket.RemoteEndPoint.ToString();
-            ThreadPool.QueueUserWorkItem(new WaitCallback(IntervalSendData), Socket.IPPort);
+            Socket.IPPoint = socket.Socket.RemoteEndPoint as IPEndPoint;
+            ThreadPool.QueueUserWorkItem(new WaitCallback(IntervalSendData), Socket.IPPoint);
         }
 
         /// <summary>

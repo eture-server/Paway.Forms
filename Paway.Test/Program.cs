@@ -1,6 +1,7 @@
 ﻿using Paway.Forms;
 using Paway.Forms.Metro;
 using Paway.Helper;
+using Paway.Utils.Tcp;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -19,6 +20,8 @@ namespace Paway.Test
         [STAThread]
         static void Main()
         {
+            //Service server = new Service();
+            //server.Listener(HardWareHandler.GetIpAddress(), 9998);
             //DateTime dt = WebHelper.GetBeijingTime();
             //log4net.Config.XmlConfigurator.Configure();
             log4net.Config.XmlConfigurator.Configure(new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "alog.xml")));
