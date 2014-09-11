@@ -199,7 +199,7 @@ namespace Paway.Utils.Tcp
         protected virtual void ClientFinished(IPEndPoint point)
         {
             ServiceEventArgs msg = new ServiceEventArgs(ServiceType.Connect);
-            msg.Ip = point.ToString();
+            msg.Ip = point.Address.ToString();
             msg.Port = point.Port;
             OnSystemEvent(msg);
         }

@@ -233,7 +233,7 @@ namespace Paway.Utils.Tcp
             try
             {
                 ServiceEventArgs msg = new ServiceEventArgs(ServiceType.DisConnect);
-                msg.Ip = this.IPPoint.ToString();
+                msg.Ip = this.IPPoint.Address.ToString();
                 msg.Port = this.IPPoint.Port;
                 if (ClientEvent != null)
                 {
