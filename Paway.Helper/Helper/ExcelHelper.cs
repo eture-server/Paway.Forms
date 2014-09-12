@@ -108,7 +108,7 @@ namespace Paway.Helper
                                 name = itemList[0].CnName;
                             }
                         }
-                        sql = string.Format("{0}'{1}',", sql, name);
+                        sql = string.Format("{0}'{1}',", sql, name.Replace("'", "''"));
                     }
                     sql = sql.TrimEnd(',');
                     sql = string.Format("insert into [{0}$]({1}) values({2})", sheet, insert, sql);
@@ -122,7 +122,7 @@ namespace Paway.Helper
                     sql = null;
                     for (int j = 0; j < dt.Columns.Count; j++)
                     {
-                        sql = string.Format("{0}'{1}',", sql, dr[j]);
+                        sql = string.Format("{0}'{1}',", sql, dr[j].ToString().Replace("'", "''"));
                     }
                     sql = sql.TrimEnd(',');
                     sql = string.Format("insert into [{0}$]({1}) values({2})", sheet, insert, sql);
