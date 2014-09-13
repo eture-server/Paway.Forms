@@ -187,6 +187,7 @@ namespace Paway.Forms
 
             g.FillRectangle(new SolidBrush(backColor), rect);
             C_DrawString(g, node, rect, foreColor);
+            g.Dispose();
         }
         /// <summary>
         /// 通过绘制实现多列

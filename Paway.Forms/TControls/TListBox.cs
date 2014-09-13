@@ -194,6 +194,7 @@ namespace Paway.Forms
             };
             g.FillRectangle(new SolidBrush(backColor), rect);
             g.DrawString(this.Items[index].ToString(), this.Font, new SolidBrush(foreColor), rect, format);
+            g.Dispose();
         }
 
         #endregion

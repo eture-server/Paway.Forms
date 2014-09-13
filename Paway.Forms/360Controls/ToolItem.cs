@@ -161,6 +161,12 @@ namespace Paway.Forms
         [Description("头文字"), DefaultValue(false)]
         public bool IHeard { get; set; }
 
+        /// <summary>
+        /// 变色项
+        /// </summary>
+        [Description("变色项"), DefaultValue(false)]
+        public bool IChange { get; set; }
+
         #region 构造
         /// <summary>
         /// 构造

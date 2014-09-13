@@ -67,18 +67,7 @@ namespace Paway.Forms
         public Color ColorNormal
         {
             get { return _cNormal; }
-            set
-            {
-                _cNormal = value;
-                if (_cMove.ToArgb() == 0)
-                {
-                    _cMove = value;
-                }
-                if (_cDown.ToArgb() == 0)
-                {
-                    _cDown = value;
-                }
-            }
+            set { _cNormal = value; }
         }
 
         private Color _cMove = Color.Empty;

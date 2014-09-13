@@ -795,6 +795,7 @@ namespace Paway.Forms
             Control control = sender as Control;
             Graphics g = control.CreateGraphics();
             DrawHelper.CreateBelowPath(g, control.ClientRectangle, this.BackColor);
+            g.Dispose();
         }
 
         #endregion
@@ -838,6 +839,7 @@ namespace Paway.Forms
                 //下边
                 g.DrawImage(this._borderImage, new Rectangle(2, control.Height - 1, control.Width - 4, 1), new Rectangle(8, 5, 6, 1), GraphicsUnit.Pixel);
             }
+            g.Dispose();
         }
 
         #endregion

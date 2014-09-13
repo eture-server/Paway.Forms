@@ -19,6 +19,10 @@ namespace Paway.Utils.Tcp
         /// 连接完成
         /// </summary>
         public event EventHandler<SocketAsyncEventArgs> ConnectFinished;
+        /// <summary>
+        /// 本地终结点
+        /// </summary>
+        public IPEndPoint EndPoint { get; internal set; }
 
         #endregion
 
@@ -31,6 +35,7 @@ namespace Paway.Utils.Tcp
         {
             this.IPPoint = new IPEndPoint(IPAddress.Parse(ipAddress), port);
             this.Socket = new Socket(this.IPPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            this.EndPoint = this.Socket.LocalEndPoint as IPEndPoint;
         }
 
         #endregion

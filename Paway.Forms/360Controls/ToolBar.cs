@@ -64,6 +64,7 @@ namespace Paway.Forms
             this.UpdateStyles();
             InitializeComponent();
             Progress();
+            InitChange();
             CustomScroll();
             InitShow();
         }
@@ -113,6 +114,21 @@ namespace Paway.Forms
                 this._textPading = value;
                 UpdateImageSize();
                 this.Invalidate(this.ClientRectangle);
+            }
+        }
+        private TProperties _change;
+        /// <summary>
+        /// 变色项颜色
+        /// </summary>
+        [DefaultValue(typeof(TProperties), "Change")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public TProperties TChange
+        {
+            get
+            {
+                if (_change == null)
+                    _change = new TProperties();
+                return _change;
             }
         }
         private TProperties _text;
@@ -1794,6 +1810,63 @@ namespace Paway.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
+        }
+
+        #endregion
+
+        #region 变色项
+        private Timer change = new Timer();
+        private int index;
+        private void InitChange()
+        {
+            change.Interval = 600;
+            change.Tick += change_Tick;
+        }
+        /// <summary>
+        /// 开始变色
+        /// </summary>
+        public void ChangeStart()
+        {
+            change.Enabled = true;
+        }
+        /// <summary>
+        /// 停止变色
+        /// </summary>
+        public void ChangeStop()
+        {
+            change.Enabled = true;
+        }
+
+        void change_Tick(object sender, EventArgs e)
+        {
+            bool result = false;
+            Graphics g = this.CreateGraphics();
+            for (int i = 0; i < Items.Count; i++)
+            {
+                if (Items[i].IChange)
+                {
+                    result = true;
+                    Color color = Items[i].TColor.ColorNormal;
+                    switch (index % 3)
+                    {
+                        case 0:
+                            Items[i].TColor.ColorNormal = TChange.ColorNormal;
+                            break;
+                        case 1:
+                            Items[i].TColor.ColorNormal = TChange.ColorMove;
+                            break;
+                        case 2:
+                            Items[i].TColor.ColorNormal = TChange.ColorDown;
+                            break;
+                    }
+                    this.InvaOther(Items[i].Rectangle);
+                    Application.DoEvents();
+                    Items[i].TColor.ColorNormal = color;
+                    g.Dispose();
+                }
+            }
+            index++;
+            if (!result) ChangeStop();
         }
 
         #endregion

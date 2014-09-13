@@ -261,6 +261,7 @@ namespace Paway.Forms
 
                 System.Threading.Thread.Sleep(ran.Next(3000));
             }
+            g.Dispose();
         }
         /// <summary>
         /// 消灭星星

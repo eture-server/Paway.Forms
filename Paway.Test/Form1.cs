@@ -37,7 +37,7 @@ namespace Paway.Test
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
-
+            toolBar.ChangeStart();
             //toolBar.Items[1].Text = string.Format("{0}&{1}", "你好", null);
         }
 
@@ -73,6 +73,8 @@ namespace Paway.Test
 
         void toolClose_ItemClick(object sender, EventArgs e)
         {
+            ToolItem item = sender as ToolItem;
+            item.IChange = false;
             //this.TextShow = DateTime.Now.ToString();
         }
     }
