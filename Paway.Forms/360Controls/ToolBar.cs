@@ -2040,7 +2040,7 @@ namespace Paway.Forms
                         {
                             FixScroll(max);
                         }
-                        _vScroll.Maximum = max;
+                        _vScroll.Maximum = GetHeight();
                         _vScroll.LargeChange = this.Height / 2;
                         _vScroll.SmallChange = _vScroll.LargeChange;
                         _vScroll.Maximum = max + _vScroll.LargeChange;
@@ -2065,7 +2065,7 @@ namespace Paway.Forms
                         {
                             FixScroll(max);
                         }
-                        _hScroll.Maximum = max;
+                        _hScroll.Maximum = GetWidth();
                         _hScroll.LargeChange = this.Width / 2;
                         _hScroll.SmallChange = _hScroll.LargeChange;
                         _hScroll.Maximum = max + _hScroll.LargeChange;
