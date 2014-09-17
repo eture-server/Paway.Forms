@@ -32,7 +32,23 @@ namespace Paway.Test
             //InitConfig.BackColor = Color.Green;
             //InitConfig.ForeColor = Color.Red;
             //InitConfig.Font = new Font("微软雅黑", 16f);
-            Application.Run(new Form1());
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            Form1 form = null;
+            try
+            {
+                form = new Form1();
+                Application.Run(new Form1());
+            }
+            catch (Exception ex)
+            {
+                if (form!=null)
+                MessageBox.Show(form, ex.Message, "Tinn", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            log.Error("软件出现未处理的异常，即將退出。" + e.ExceptionObject);
         }
     }
 }

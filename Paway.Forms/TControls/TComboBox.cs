@@ -119,6 +119,9 @@ namespace Paway.Forms
                         DrawHelper.RendererBackground(g, this.ClientRectangle, hotLine, true);
                     }
                     break;
+                default:
+                    DrawHelper.RendererBackground(g, this.ClientRectangle, this._borderImage, true);
+                    break;
             }
         }
 
@@ -141,11 +144,13 @@ namespace Paway.Forms
 
         void TComboBox2_MouseLeave(object sender, EventArgs e)
         {
+            this.tComboBox1.IsBorder = false;
             this.MouseState = TMouseState.Leave;
         }
 
         void TComboBox2_MouseMove(object sender, MouseEventArgs e)
         {
+            this.tComboBox1.IsBorder = true;
             this.MouseState = TMouseState.Move;
         }
 
