@@ -74,58 +74,10 @@ namespace Paway.Forms
             get { return base.ItemHeight; }
             set { base.ItemHeight = value; }
         }
-        private bool _isBorder = true;
-        /// <summary>
-        /// 是否显示边框
-        /// </summary>
-        [Description("是否显示边框"), DefaultValue(true)]
-        public bool IsBorder
-        {
-            get { return _isBorder; }
-            set
-            {
-                if (_isBorder != value)
-                {
-                    _isBorder = value;
-                    this.Invalidate();
-                }
-            }
-        }
 
         #endregion
 
-        #region 方法 //导入API函数
-        /// <summary>
-        ///去除默认的边框
-        /// </summary>
-        protected override void WndProc(ref   Message m)
-        {
-            try
-            {
-                base.WndProc(ref m);
-                if (IsBorder) return;
-                if (m.Msg == (int)WindowsMessage.WM_PAINT || m.Msg == (int)WindowsMessage.WM_CTLCOLOREDIT)
-                {
-                    IntPtr hDC = NativeMethods.GetWindowDC(m.HWnd);
-                    if (hDC.ToInt32() == 0) //如果取设备上下文失败则返回
-                    {
-                        return;
-                    }
-
-                    //建立Graphics对像
-                    Graphics g = Graphics.FromHdc(hDC);
-                    //画边框的 
-                    ControlPaint.DrawBorder(g, new Rectangle(0, 0, Width, Height), Color.White, ButtonBorderStyle.Solid);
-                    //画坚线
-                    Rectangle rect = new Rectangle(this.Width - 18, 0, 18, this.Height);
-                    ControlPaint.DrawBorder(g, rect, Color.White, ButtonBorderStyle.Solid);
-                    //g.DrawLine(new Pen(Brushes.Blue, 2), new PointF(this.Width - this.Height, 0), new PointF(this.Width - this.Height, this.Height));
-                    //释放DC  
-                    NativeMethods.ReleaseDC(m.HWnd, hDC);
-                }
-            }
-            catch { }
-        }
+        #region 方法
         void DrawCombobox_DrawItem(object sender, DrawItemEventArgs e)
         {
             //如果当前控件为空
