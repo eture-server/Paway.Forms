@@ -35,8 +35,11 @@ namespace Paway.Forms
             get { return this._mouseState; }
             set
             {
-                this._mouseState = value;
-                base.Invalidate();
+                if (this._mouseState != value)
+                {
+                    this._mouseState = value;
+                    base.Invalidate();
+                }
             }
         }
         /// <summary>
@@ -116,9 +119,6 @@ namespace Paway.Forms
                         DrawHelper.RendererBackground(g, this.ClientRectangle, hotLine, true);
                     }
                     break;
-                default:
-                    DrawHelper.RendererBackground(g, this.ClientRectangle, this._borderImage, true);
-                    break;
             }
         }
 
@@ -136,7 +136,7 @@ namespace Paway.Forms
             this.tComboBox1.MouseMove += TComboBox2_MouseMove;
             this.MouseLeave += TComboBox2_MouseLeave;
             this.tComboBox1.MouseLeave += TComboBox2_MouseLeave;
-            this.Validated += TComboBox2_MouseLeave;
+            this.Edit.DropDownClosed += TComboBox2_MouseLeave;
         }
 
         void TComboBox2_MouseLeave(object sender, EventArgs e)
@@ -159,24 +159,23 @@ namespace Paway.Forms
             // 
             // tComboBox1
             // 
-            this.tComboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tComboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tComboBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.tComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.tComboBox1.FormattingEnabled = true;
             this.tComboBox1.Location = new System.Drawing.Point(1, 1);
             this.tComboBox1.Name = "tComboBox1";
-            this.tComboBox1.Size = new System.Drawing.Size(121, 22);
+            this.tComboBox1.Size = new System.Drawing.Size(121, 23);
             this.tComboBox1.TabIndex = 0;
             // 
             // TComboBox
             // 
-            this.BackColor = System.Drawing.SystemColors.Control;
             this.Controls.Add(this.tComboBox1);
-            this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(1)));
+            this.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.Name = "TComboBox";
-            this.Size = new System.Drawing.Size(123, 24);
+            this.Size = new System.Drawing.Size(123, 25);
             this.ResumeLayout(false);
 
         }

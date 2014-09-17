@@ -53,6 +53,8 @@
             this.tbName = new Paway.Forms.QQTextBox();
             this.tbRsa2 = new Paway.Forms.QQTextBox();
             this.tControl1 = new Paway.Forms.TControl();
+            this.qqTextBox1 = new Paway.Forms.QQTextBox();
+            this.tComboBox1 = new Paway.Forms.TComboBox();
             this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -156,7 +158,7 @@
             this.toolBar.ItemSpace = 5;
             this.toolBar.Location = new System.Drawing.Point(35, 63);
             this.toolBar.Name = "toolBar";
-            this.toolBar.Size = new System.Drawing.Size(412, 245);
+            this.toolBar.Size = new System.Drawing.Size(200, 174);
             this.toolBar.TabIndex = 31;
             this.toolBar.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
             this.toolBar.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(127)))), ((int)(((byte)(104)))));
@@ -177,7 +179,7 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = global::Paway.Test.Properties.Resources.imgLoadding_Image;
-            this.pictureBox2.Location = new System.Drawing.Point(5, 324);
+            this.pictureBox2.Location = new System.Drawing.Point(5, 266);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(510, 2);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -192,7 +194,7 @@
             this.tbName.IconIsButton = true;
             this.tbName.IsPasswordChat = '\0';
             this.tbName.Lines = new string[0];
-            this.tbName.Location = new System.Drawing.Point(310, 27);
+            this.tbName.Location = new System.Drawing.Point(364, 27);
             this.tbName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tbName.MaxLength = 10;
             this.tbName.Name = "tbName";
@@ -229,16 +231,58 @@
             this.tControl1.Size = new System.Drawing.Size(62, 56);
             this.tControl1.TabIndex = 61;
             // 
+            // qqTextBox1
+            // 
+            this.qqTextBox1.BackColor = System.Drawing.Color.White;
+            this.qqTextBox1.Icon = null;
+            this.qqTextBox1.IsBorder = false;
+            this.qqTextBox1.IsPasswordChat = '\0';
+            this.qqTextBox1.Lines = new string[] {
+        "qqTextBox1"};
+            this.qqTextBox1.Location = new System.Drawing.Point(301, 101);
+            this.qqTextBox1.Name = "qqTextBox1";
+            this.qqTextBox1.SelectedText = "";
+            this.qqTextBox1.Size = new System.Drawing.Size(166, 25);
+            this.qqTextBox1.TabIndex = 62;
+            this.qqTextBox1.WaterText = "";
+            // 
+            // tComboBox1
+            // 
+            // 
+            // 
+            // 
+            this.tComboBox1.Edit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tComboBox1.Edit.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.tComboBox1.Edit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tComboBox1.Edit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.tComboBox1.Edit.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.tComboBox1.Edit.ForeColor = System.Drawing.Color.Black;
+            this.tComboBox1.Edit.FormattingEnabled = true;
+            this.tComboBox1.Edit.Items.AddRange(new object[] {
+            "11",
+            "22",
+            "33"});
+            this.tComboBox1.Edit.Location = new System.Drawing.Point(1, 1);
+            this.tComboBox1.Edit.Name = "tComboBox1";
+            this.tComboBox1.Edit.TabIndex = 0;
+            this.tComboBox1.Location = new System.Drawing.Point(301, 145);
+            this.tComboBox1.Name = "tComboBox1";
+            this.tComboBox1.Size = new System.Drawing.Size(123, 25);
+            this.tComboBox1.TabIndex = 63;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(77)))), ((int)(((byte)(185)))));
-            this.BackgroundImage = global::Paway.Test.Properties.Resources.i1;
+            this.BackColor = System.Drawing.Color.Gainsboro;
             this.CausesValidation = false;
-            this.ClientSize = new System.Drawing.Size(523, 346);
+            this.ClientSize = new System.Drawing.Size(577, 294);
+            this.Controls.Add(this.tComboBox1);
+            this.Controls.Add(this.qqTextBox1);
             this.Controls.Add(this.tControl1);
             this.Controls.Add(this.tbRsa2);
             this.Controls.Add(this.tbName);
@@ -274,6 +318,8 @@
         private Forms.QQTextBox tbName;
         private Forms.QQTextBox tbRsa2;
         private Forms.TControl tControl1;
+        private Forms.QQTextBox qqTextBox1;
+        private Forms.TComboBox tComboBox1;
 
 
 

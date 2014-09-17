@@ -63,8 +63,7 @@ namespace Paway.Forms
             using (Graphics g = Graphics.FromHwnd(base.Handle))
             {
                 if (this.Text.Length == 0 &&
-                    !string.IsNullOrEmpty(this._waterText) &&
-                    !this.Focused)
+                    !string.IsNullOrEmpty(this._waterText))
                 {
                     TextFormatFlags flags = TextFormatFlags.EndEllipsis | TextFormatFlags.VerticalCenter;
                     if (this.RightToLeft == System.Windows.Forms.RightToLeft.Yes)

@@ -312,6 +312,20 @@ namespace Paway.Forms
         /// </summary>
         [Description("最小输入字符数"), DefaultValue(0)]
         public int RLength { get; set; }
+        private bool _isBorder = true;
+        /// <summary>
+        /// 是否显示边框
+        /// </summary>
+        [Description("是否显示边框"), DefaultValue(true)]
+        public bool IsBorder
+        {
+            get { return _isBorder; }
+            set
+            {
+                _isBorder = value;
+                this.Invalidate();
+            }
+        }
         private bool _isTrans = false;
         /// <summary>
         /// 背景是否透明
@@ -326,6 +340,7 @@ namespace Paway.Forms
                 if (this.Parent != null)
                 {
                     BaseText.BackColor = value ? this.Parent.BackColor : Color.White;
+                    this.BackColor = value ? this.Parent.BackColor : Color.White;
                 }
                 this.Invalidate();
             }
@@ -677,19 +692,24 @@ namespace Paway.Forms
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            if (_isTrans) return;
             Graphics g = e.Graphics;
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             switch (this._mouseState)
             {
                 case TMouseState.Move:
-                    using (Image hotLine = AssemblyHelper.GetImage("QQ.TextBox.move.png"))
+                    if (!_isTrans)
                     {
-                        DrawHelper.RendererBackground(g, this.ClientRectangle, hotLine, true);
+                        using (Image hotLine = AssemblyHelper.GetImage("QQ.TextBox.move.png"))
+                        {
+                            DrawHelper.RendererBackground(g, this.ClientRectangle, hotLine, true);
+                        }
                     }
                     break;
                 default:
-                    DrawHelper.RendererBackground(g, this.ClientRectangle, this._borderImage, true);
+                    if (!_isTrans && _isBorder)
+                    {
+                        DrawHelper.RendererBackground(g, this.ClientRectangle, this._borderImage, true);
+                    }
                     break;
             }
             if (this._icon != null)
