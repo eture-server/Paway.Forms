@@ -485,7 +485,7 @@ namespace Paway.Forms
             //绘制标题文字
             if (!string.IsNullOrEmpty(this._textShow))
             {
-                TextRenderer.DrawText(g, this._textShow, new Font("宋体", 9f, FontStyle.Bold), this.TextRect, this.ForeColor, TextFormatFlags.VerticalCenter);
+                TextRenderer.DrawText(g, this._textShow, this.Font, this.TextRect, this.ForeColor, TextFormatFlags.VerticalCenter);
             }
             DrawFrameBorder(g);
         }

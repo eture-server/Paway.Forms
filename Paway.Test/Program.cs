@@ -1,4 +1,5 @@
-﻿using Paway.Forms;
+﻿using Mobot.Imaging;
+using Paway.Forms;
 using Paway.Forms.Metro;
 using Paway.Helper;
 using Paway.Utils.Tcp;
@@ -36,13 +37,19 @@ namespace Paway.Test
             Form1 form = null;
             try
             {
+                //被识别的主图
+                //Bitmap on = Paway.Helper.BitmapHelper.GetBitmapFormFile(@"d:\23.jpg");
+                //需要识别的小图
+                //Bitmap fo = Paway.Helper.BitmapHelper.GetBitmapFormFile(@"d:\4.png");
+                //var a = ImageRecognitionHelper.SearchBitmap_Test(fo, on);
+
                 form = new Form1();
-                Application.Run(new Form1());
+                Application.Run(form);
             }
             catch (Exception ex)
             {
-                if (form!=null)
-                MessageBox.Show(form, ex.Message, "Tinn", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (form != null)
+                    MessageBox.Show(form, ex.Message, "Tinn", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

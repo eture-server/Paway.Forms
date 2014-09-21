@@ -106,6 +106,7 @@
             this.toolBar.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolBar.ICheckEvent = true;
             this.toolBar.ImageSize = new System.Drawing.Size(32, 32);
+            this.toolBar.IShowToolTop = true;
             toolItem1.IHeard = true;
             toolItem1.Selete = false;
             toolItem1.TColor.StringVertical = System.Drawing.StringAlignment.Center;
@@ -158,7 +159,7 @@
             this.toolBar.ItemSpace = 5;
             this.toolBar.Location = new System.Drawing.Point(35, 63);
             this.toolBar.Name = "toolBar";
-            this.toolBar.Size = new System.Drawing.Size(200, 174);
+            this.toolBar.Size = new System.Drawing.Size(251, 174);
             this.toolBar.TabIndex = 31;
             this.toolBar.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
             this.toolBar.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(127)))), ((int)(((byte)(104)))));
@@ -168,6 +169,7 @@
             this.toolBar.TChange.ColorNormal = System.Drawing.Color.Yellow;
             this.toolBar.TDesc.ColorDown = System.Drawing.Color.White;
             this.toolBar.TDesc.ColorMove = System.Drawing.Color.White;
+            this.toolBar.TDirection = Paway.Forms.TDirection.Vertical;
             this.toolBar.TEvent = Paway.Forms.TEvent.Up;
             this.toolBar.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolBar.TextFirst.ColorMove = System.Drawing.Color.White;

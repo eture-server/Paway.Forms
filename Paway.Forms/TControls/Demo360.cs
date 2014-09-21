@@ -25,5 +25,16 @@ namespace Paway.Forms
             this.TDrawBelowBorder(panel1);
             this.TMouseMove(toolBar1);
         }
+        /// <summary>
+        /// 底边线颜色
+        /// </summary>
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            if (panel1.Visible)
+            {
+                e.Graphics.DrawLine(new Pen(panel2.BackColor), 2, this.Height - 2, this.Width - 3, this.Height - 2);
+            }
+        }
     }
 }

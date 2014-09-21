@@ -67,11 +67,18 @@ namespace Paway.Forms
             InitChange();
             CustomScroll();
             InitShow();
+            toolTop = new ToolTip();
         }
 
         #endregion
 
         #region 属性
+        private ToolTip toolTop;
+        /// <summary>
+        /// 显示简短说明
+        /// </summary>
+        [Description("显示简短说明"), DefaultValue(false)]
+        public bool IShowToolTop { get; set; }
         /// <summary>
         /// 文本内容
         /// </summary>
@@ -756,7 +763,7 @@ namespace Paway.Forms
                         LineAlignment = item.TColor.StringHorizontal,
                         Trimming = StringTrimming.EllipsisWord
                     };
-                    Rectangle temp = new Rectangle(item.Rectangle.X + BodyBounds.X, item.Rectangle.Y + BodyBounds.Y,
+                    Rectangle temp = new Rectangle(item.Rectangle.X, item.Rectangle.Y + BodyBounds.Y,
                         item.Rectangle.Width, item.Rectangle.Height);
                     switch (_tDirection)
                     {
@@ -813,7 +820,8 @@ namespace Paway.Forms
                     this.isLastNew = isNew;
                     break;
                 case TDirection.Vertical:
-                    if (item.IHeard || yPos + item.Rectangle.Height * 2 + this._itemSpace + this.Padding.Bottom > this.Height)
+                    isNew = yPos + item.Rectangle.Height * 2 + this._itemSpace + this.Padding.Bottom > this.Height;
+                    if (item.IHeard || isNew)
                     {
                         yPos = this.Padding.Top;
                         if (!iLast)
@@ -840,6 +848,7 @@ namespace Paway.Forms
                         yPos += item.Rectangle.Height + this._itemSpace;
                         if (this.CountColumn == 1 && !iLast) this.CountLine++;
                     }
+                    this.isLastNew = isNew;
                     break;
             }
             if (g != null)
@@ -1293,6 +1302,7 @@ namespace Paway.Forms
                 Point point = e.Location;
                 point.X -= BodyBounds.X;
                 point.Y -= BodyBounds.Y;
+                bool flag = true;
                 foreach (ToolItem item in this.Items)
                 {
                     if (item.Rectangle.Contains(point) && (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point)))
@@ -1312,12 +1322,21 @@ namespace Paway.Forms
                     }
                     else if (item.Rectangle.Contains(point))
                     {
+                        flag = false;
+                        if (IShowToolTop && item.MouseState != TMouseState.Move)
+                        {
+                            this.ShowTooTip(item.First);
+                        }
                         InvaItem(item, TMouseState.Move);
                     }
                     else
                     {
                         InvaItem(item, TMouseState.Normal);
                     }
+                }
+                if (flag)
+                {
+                    this.HideToolTip();
                 }
             }
         }
@@ -1364,11 +1383,11 @@ namespace Paway.Forms
                 for (int i = 0; i < this.Items.Count; i++)
                 {
                     ToolItem item = this.Items[i];
-                    OnMouseDown(point, item);
+                    OnMouseDown(point, item, e);
                 }
             }
         }
-        private void OnMouseDown(Point point, ToolItem item)
+        private void OnMouseDown(Point point, ToolItem item, EventArgs e)
         {
             if (item.Rectangle.Contains(point))
             {
@@ -1383,8 +1402,8 @@ namespace Paway.Forms
                     {
                         this._selectedItem = item;
                         this._selectedIndex = this.Items.GetIndexOfRange(item);
-                        this.OnSelectedItemChanged(item, EventArgs.Empty);
-                        this.OnSelectedIndexChanged(item, EventArgs.Empty);
+                        this.OnSelectedItemChanged(item, e);
+                        this.OnSelectedIndexChanged(item, e);
                     }
                 }
                 //事件
@@ -1395,7 +1414,7 @@ namespace Paway.Forms
                         bool ifocus = false;
                         if (item.RectDesc.Contains(point))
                         {
-                            ifocus = this.OnEditClick(item, EventArgs.Empty);
+                            ifocus = this.OnEditClick(item, e);
                         }
                         if (!ifocus && item.ContextMenuStrip != null)
                         {
@@ -1405,7 +1424,7 @@ namespace Paway.Forms
                     }
                     else
                     {
-                        this.OnItemClick(item, EventArgs.Empty);
+                        this.OnItemClick(item, e);
                     }
                 }
                 if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
@@ -1456,11 +1475,11 @@ namespace Paway.Forms
                 for (int i = 0; i < this.Items.Count; i++)
                 {
                     ToolItem item = this.Items[i];
-                    OnMouseUp(point, item);
+                    OnMouseUp(point, item, e);
                 }
             }
         }
-        private void OnMouseUp(Point point, ToolItem item)
+        private void OnMouseUp(Point point, ToolItem item, EventArgs e)
         {
             if (item.Rectangle.Contains(point))
             {
@@ -1472,15 +1491,15 @@ namespace Paway.Forms
                     {
                         this._selectedItem = item;
                         this._selectedIndex = this.Items.GetIndexOfRange(item);
-                        this.OnSelectedItemChanged(item, EventArgs.Empty);
-                        this.OnSelectedIndexChanged(item, EventArgs.Empty);
+                        this.OnSelectedItemChanged(item, e);
+                        this.OnSelectedIndexChanged(item, e);
                     }
                     if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
                     {
                         bool ifocus = false;
                         if (item.RectDesc.Contains(point))
                         {
-                            ifocus = this.OnEditClick(item, EventArgs.Empty);
+                            ifocus = this.OnEditClick(item, e);
                         }
                         if (!ifocus && item.ContextMenuStrip != null)
                         {
@@ -1490,7 +1509,7 @@ namespace Paway.Forms
                     }
                     else
                     {
-                        this.OnItemClick(item, EventArgs.Empty);
+                        this.OnItemClick(item, e);
                     }
                 }
                 if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
@@ -2259,6 +2278,28 @@ namespace Paway.Forms
                         break;
                 }
                 NativeMethods.LockWindowUpdate(IntPtr.Zero);
+            }
+        }
+
+        #endregion
+
+        #region ToolTip 显示说明
+        /// <summary>
+        /// 表示一个长方形的小弹出窗口，该窗口在用户将指针悬停在一个控件上时显示有关该控件用途的简短说明。
+        /// </summary>
+        protected void ShowTooTip(string toolTipText)
+        {
+            this.toolTop.Active = true;
+            this.toolTop.SetToolTip(this, toolTipText);
+        }
+        /// <summary>
+        /// 弹出窗口不活动
+        /// </summary>
+        protected void HideToolTip()
+        {
+            if (this.toolTop.Active)
+            {
+                this.toolTop.Active = false;
             }
         }
 
