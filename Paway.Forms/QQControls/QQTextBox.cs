@@ -598,7 +598,7 @@ namespace Paway.Forms
         /// </summary>
         void BaseText_GotFocus(object sender, EventArgs e)
         {
-            error.SetError(this, null);
+            Set();
         }
         /// <summary>
         /// 失去焦点验证正则
@@ -627,7 +627,7 @@ namespace Paway.Forms
                         break;
                 }
                 result = string.Format(result, RLength);
-                error.SetError(this, result);
+                Set(result);
                 return;
             }
             if (string.IsNullOrEmpty(BaseText.Text)) return;
@@ -645,12 +645,26 @@ namespace Paway.Forms
             }
             if (!string.IsNullOrEmpty(result))
             {
-                error.SetError(this, string.Format("不可以输入字符:{0}", result));
+                Set(string.Format("不可以输入字符:{0}", result));
             }
             else
             {
-                error.SetError(this, null);
+                Set();
             }
+        }
+        /// <summary>
+        /// 清除错误描述
+        /// </summary>
+        public void Set()
+        {
+            error.SetError(this, null);
+        }
+        /// <summary>
+        /// 设置错误描述
+        /// </summary>
+        public void Set(string er)
+        {
+            error.SetError(this, er);
         }
         /// <summary>
         /// 鼠标进入控件激活
