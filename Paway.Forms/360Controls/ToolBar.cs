@@ -1610,6 +1610,20 @@ namespace Paway.Forms
             return false;
         }
         /// <summary>
+        /// 移除项
+        /// </summary>
+        public void TRemove(string text)
+        {
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                if (this.Items[i].First == text)
+                {
+                    this.Items.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+        /// <summary>
         /// 选中第一项
         /// </summary>
         public void TClickFirst()
