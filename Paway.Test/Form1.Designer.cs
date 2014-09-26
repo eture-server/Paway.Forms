@@ -107,6 +107,7 @@
             this.toolBar.ICheckEvent = true;
             this.toolBar.ImageSize = new System.Drawing.Size(32, 32);
             this.toolBar.IShowToolTop = true;
+            toolItem1.Desc = "";
             toolItem1.IHeard = true;
             toolItem1.Selete = false;
             toolItem1.TColor.StringVertical = System.Drawing.StringAlignment.Center;
@@ -120,8 +121,10 @@
             toolItem3.IHeard = true;
             toolItem3.Selete = false;
             toolItem3.Text = "1";
+            toolItem4.Desc = "";
             toolItem4.Selete = false;
             toolItem4.Text = "2";
+            toolItem5.Desc = "完全好";
             toolItem5.Selete = false;
             toolItem5.Text = "3";
             toolItem6.Selete = false;
@@ -157,6 +160,7 @@
             this.toolBar.Items.Add(toolItem13);
             this.toolBar.ItemSize = new System.Drawing.Size(60, 60);
             this.toolBar.ItemSpace = 5;
+            this.toolBar.IText = true;
             this.toolBar.Location = new System.Drawing.Point(35, 63);
             this.toolBar.Name = "toolBar";
             this.toolBar.Size = new System.Drawing.Size(251, 174);
@@ -168,10 +172,9 @@
             this.toolBar.TChange.ColorMove = System.Drawing.Color.Red;
             this.toolBar.TChange.ColorNormal = System.Drawing.Color.Yellow;
             this.toolBar.TDesc.ColorDown = System.Drawing.Color.White;
-            this.toolBar.TDesc.ColorMove = System.Drawing.Color.White;
             this.toolBar.TDirection = Paway.Forms.TDirection.Vertical;
             this.toolBar.TEvent = Paway.Forms.TEvent.Up;
-            this.toolBar.TextFirst.ColorDown = System.Drawing.Color.White;
+            this.toolBar.TextFirst.ColorDown = System.Drawing.Color.Black;
             this.toolBar.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolBar.TextFirst.ColorNormal = System.Drawing.Color.Black;
             this.toolBar.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;

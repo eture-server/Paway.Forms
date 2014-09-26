@@ -1080,16 +1080,23 @@ namespace Paway.Forms
         private void DrawDesc(Graphics g, ToolItem item, Rectangle rect)
         {
             if (string.IsNullOrEmpty(item.Desc)) return;
-            Size size = TextRenderer.MeasureText(item.Desc, GetFont(item.MouseState, TDesc));
+            Size size = TextRenderer.MeasureText(item.Desc, GetFont(item.IMouseState, TDesc));
             //g.MeasureString(item.Desc, GetFont(item.MouseState, TDesc));
             item.RectDesc = new Rectangle(rect.X + rect.Width - size.Width + (item.ContextMenuStrip == null ? 0 : 4),
                 rect.Y + (rect.Height - size.Height) / 2, size.Width, size.Height);
-            DrawOtherDesc(g, item, TDesc, item.Desc, item.RectDesc);
+            DrawOtherDesc(g, item, TDesc, item.Desc, item.RectDesc, item.IMouseState);
         }
         /// <summary>
         /// 绘制其它描述
         /// </summary>
         private void DrawOtherDesc(Graphics g, ToolItem item, TProperties desc, string text, Rectangle rect)
+        {
+            DrawOtherDesc(g, item, desc, text, rect, item.MouseState);
+        }
+        /// <summary>
+        /// 绘制其它描述
+        /// </summary>
+        private void DrawOtherDesc(Graphics g, ToolItem item, TProperties desc, string text, Rectangle rect, TMouseState state)
         {
             if (string.IsNullOrEmpty(text)) return;
 
@@ -1115,7 +1122,7 @@ namespace Paway.Forms
                 }
                 return;
             }
-            switch (item.MouseState)
+            switch (state)
             {
                 case TMouseState.Normal:
                 case TMouseState.Leave:

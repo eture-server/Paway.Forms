@@ -715,7 +715,7 @@ namespace Paway.Forms
             if (e.Button != MouseButtons.Left)
                 return;
             Point point = e.Location;
-            if (this.CloseRect.Contains(point))
+            if (this.CloseRect.Contains(point) && this.CloseState == TMouseState.Down)
             {
                 this.CloseState = TMouseState.Move;
                 this.Close();
@@ -724,7 +724,7 @@ namespace Paway.Forms
             {
                 this.CloseState = TMouseState.Normal;
             }
-            if (this.MiniRect.Contains(point))
+            if (this.MiniRect.Contains(point) && this.MinState == TMouseState.Down)
             {
                 this.MinState = TMouseState.Move;
                 this.WindowState = FormWindowState.Minimized;
@@ -733,7 +733,7 @@ namespace Paway.Forms
             {
                 this.MinState = TMouseState.Normal;
             }
-            if (this.MaxRect.Contains(point))
+            if (this.MaxRect.Contains(point) && this.MaxState == TMouseState.Down)
             {
                 this.MaxState = TMouseState.Move;
                 WindowMax();

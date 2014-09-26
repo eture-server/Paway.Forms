@@ -43,7 +43,7 @@ namespace Paway.Test
 
         void toolClose_EditClick(object sender, EventArgs e)
         {
-            new QQDemo().ShowDialog(this);
+            //new QQDemo().ShowDialog(this);
         }
 
         void btName_Click(object sender, EventArgs e)

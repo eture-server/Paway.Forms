@@ -344,9 +344,7 @@ namespace Paway.Forms
         protected void ShowTooTip(string toolTipText)
         {
             this.toolTop.Active = true;
-            //if (toolTop.)
             this.toolTop.SetToolTip(this, toolTipText);
-            //HideToolTip();
         }
         /// <summary>
         /// 弹出窗口不活动
