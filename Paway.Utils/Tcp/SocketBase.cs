@@ -55,6 +55,11 @@ namespace Paway.Utils.Tcp
         public object Tag { get; set; }
 
         /// <summary>
+        /// 自定义标记
+        /// </summary>
+        public volatile bool IFlag;
+
+        /// <summary>
         /// 连接时间
         /// </summary>
         public DateTime ConnectTime { get; internal set; }

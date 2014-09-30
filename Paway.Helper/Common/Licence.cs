@@ -51,7 +51,7 @@ namespace Paway.Helper
         /// </summary>
         public static bool Checking()
         {
-            return Checking(15);
+            return Checking(30);
         }
         /// <summary>
         /// 检查文件创建日期，过期无效
