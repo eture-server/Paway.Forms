@@ -129,5 +129,16 @@ namespace Paway.Forms
                 Owner.Activate();
             }
         }
+        /// <summary>
+        /// 按钮位置
+        /// </summary>
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            if (btOk != null)
+            {
+                this.btOk.Location = new Point((this.Width - btOk.Width) / 2, 4);
+            }
+        }
     }
 }

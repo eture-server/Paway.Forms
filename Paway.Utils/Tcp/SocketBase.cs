@@ -252,6 +252,24 @@ namespace Paway.Utils.Tcp
 
         #region public methord
         /// <summary>
+        /// 外部事件
+        /// </summary>
+        public event EventHandler ChangeEvent;
+        /// <summary>
+        /// 引发外部事件方法
+        /// </summary>
+        public void OnChange(object sender, EventArgs e)
+        {
+            try
+            {
+                if (ChangeEvent != null)
+                {
+                    ChangeEvent(sender, EventArgs.Empty);
+                }
+            }
+            catch { }
+        }
+        /// <summary>
         /// 等待客户端发送过来的数据
         /// </summary>
         public void WaitForData(AsynSocketArg state)

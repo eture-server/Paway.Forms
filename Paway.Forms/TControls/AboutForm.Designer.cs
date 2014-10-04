@@ -35,7 +35,6 @@
             this.lbVersion = new System.Windows.Forms.Label();
             this.lbDesc = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.qqButton1 = new Paway.Forms.QQButton();
             this.label1 = new System.Windows.Forms.Label();
             this.btOk = new Paway.Forms.QQButton();
             this.lbPlatform = new System.Windows.Forms.Label();
@@ -103,7 +102,6 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.qqButton1);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.btOk);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -111,20 +109,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(298, 37);
             this.panel2.TabIndex = 4;
-            // 
-            // qqButton1
-            // 
-            this.qqButton1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.qqButton1.DownImage = ((System.Drawing.Image)(resources.GetObject("qqButton1.DownImage")));
-            this.qqButton1.Image = null;
-            this.qqButton1.Location = new System.Drawing.Point(112, 4);
-            this.qqButton1.MoveImage = ((System.Drawing.Image)(resources.GetObject("qqButton1.MoveImage")));
-            this.qqButton1.Name = "qqButton1";
-            this.qqButton1.NormalImage = ((System.Drawing.Image)(resources.GetObject("qqButton1.NormalImage")));
-            this.qqButton1.Size = new System.Drawing.Size(75, 28);
-            this.qqButton1.TabIndex = 4;
-            this.qqButton1.Text = "关闭";
-            this.qqButton1.UseVisualStyleBackColor = false;
             // 
             // label1
             // 
@@ -172,9 +156,9 @@
             this.ForeColor = System.Drawing.Color.White;
             this.IsDrawRound = false;
             this.IsResize = false;
+            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "AboutForm";
             this.ShowIcon = false;
-            this.Special = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.SysButton = Paway.Forms.TSysButton.Close;
             this.Text = "关于我们";
@@ -202,10 +186,6 @@
         /// 描述
         /// </summary>
         protected System.Windows.Forms.Label lbDesc;
-        /// <summary>
-        /// 
-        /// </summary>
-        protected QQButton qqButton1;
         private System.Windows.Forms.Label lbCopyright;
         private System.Windows.Forms.Label lbVersion;
         private System.Windows.Forms.Label lbPlatform;
