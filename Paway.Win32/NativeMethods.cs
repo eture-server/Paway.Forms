@@ -488,6 +488,14 @@ namespace Paway.Win32
         public static extern bool SetCursorPos(int x, int y);
 
         /// <summary>
+        /// 用于得到被定义的系统数据或者系统配置信息.
+        /// </summary>
+        /// <param name="which"></param>
+        /// <returns></returns>
+        [DllImport("user32.dll", EntryPoint = "GetSystemMetrics")]
+        public static extern int GetSystemMetrics(int which);
+
+        /// <summary>
         /// 设置窗口在屏幕中的位置
         /// </summary>
         /// <param name="hWnd">指定窗口句柄</param>

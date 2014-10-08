@@ -374,5 +374,24 @@ namespace Paway.Win32
         }
 
         #endregion
+
+        #region 全屏置顶窗体
+        /// <summary>
+        /// 全屏置顶窗体
+        /// </summary>
+        /// <param name="hwnd">窗体句柄</param>
+        public static void SetWinFullScreen(IntPtr hwnd)
+        {
+            int HWND_TOP = 0;
+            uint SWP_SHOWWINDOW = 0x0040;
+
+            int SM_CXSCREEN = 0;
+            int SM_CYSCREEN = 1;
+            int ScreenX = NativeMethods.GetSystemMetrics(SM_CXSCREEN);
+            int ScreenY = NativeMethods.GetSystemMetrics(SM_CYSCREEN);
+            NativeMethods.SetWindowPos(hwnd, HWND_TOP, 0, 0, ScreenX, ScreenY, SWP_SHOWWINDOW);
+        }
+
+        #endregion
     }
 }
