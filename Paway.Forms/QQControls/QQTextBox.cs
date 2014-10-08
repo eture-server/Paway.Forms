@@ -616,7 +616,7 @@ namespace Paway.Forms
                         result = "请输入{0}位Ip";
                         break;
                     case Helper.RegexType.Password:
-                        result = "请输入{0}位密码";
+                        result = "请输入{0}位字符";
                         break;
                     case Helper.RegexType.PosInt:
                         result = "请输入{0}位正整数";
