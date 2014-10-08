@@ -73,6 +73,10 @@ namespace Paway.Forms
         /// </summary>
         private static Dictionary<string, MControl> _iList = new Dictionary<string, MControl>();
         /// <summary>
+        /// 控件列表
+        /// </summary>
+        public static Dictionary<string, MControl> List { get { return _iList; } }
+        /// <summary>
         /// 当前控件
         /// </summary>
         public static MControl Current { get; private set; }
