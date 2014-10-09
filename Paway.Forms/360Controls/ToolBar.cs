@@ -1369,7 +1369,7 @@ namespace Paway.Forms
                 }
             }
             if (this.MStatus) return;
-            this.Tag = false;
+            this.iDistance = false;
             this.MStart();
         }
         /// <summary>
@@ -2185,6 +2185,7 @@ namespace Paway.Forms
         #region 按指定方向显示移动特效
         private Timer sTimer;
         private int distance;
+        private bool iDistance;
         private void InitShow()
         {
             sTimer = new Timer();
@@ -2228,10 +2229,10 @@ namespace Paway.Forms
             switch (_mDirection)
             {
                 case Forms.TDirection.Vertical:
-                    this.Tag = e.Y <= (distance + this.Height) ? true : false;
+                    this.iDistance = e.Y <= (distance + this.Height) ? true : false;
                     break;
                 case Forms.TDirection.Level:
-                    this.Tag = e.X <= (distance + this.Width) ? true : false;
+                    this.iDistance = e.X <= (distance + this.Width) ? true : false;
                     break;
             }
             this.MStart();
@@ -2239,7 +2240,7 @@ namespace Paway.Forms
 
         void sTimer_Tick(object sender, EventArgs e)
         {
-            if ((bool)this.Tag)
+            if ((bool)this.iDistance)
             {
                 NativeMethods.LockWindowUpdate(this.Handle);
                 switch (this.MDirection)
