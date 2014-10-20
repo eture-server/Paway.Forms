@@ -373,12 +373,11 @@ namespace Paway.Helper
                 //for (int y = height - 1; y >= 0; y--)
                 for (int y = 0; y < height; y++)
                 {
-                    for (int x = width - 1, z = 0; x >= 0; x--)
+                    for (int x = width - 1; x >= 0; x--)
                     {
-                        p[y * width * 4 + z * 4 + 0] = f[y * width * 4 + x * 4];
-                        p[y * width * 4 + z * 4 + 1] = f[y * width * 4 + x * 4 + 1];
-                        p[y * width * 4 + z * 4 + 2] = f[y * width * 4 + x * 4 + 2];
-                        z++;
+                        p[y * width * 4 + (width - 1 - x) * 4 + 0] = f[y * width * 4 + x * 4];
+                        p[y * width * 4 + (width - 1 - x) * 4 + 1] = f[y * width * 4 + x * 4 + 1];
+                        p[y * width * 4 + (width - 1 - x) * 4 + 2] = f[y * width * 4 + x * 4 + 2];
                     }
                 }
             }
@@ -413,15 +412,80 @@ namespace Paway.Helper
                 {
                     for (int y = height - 1, z = 0; y >= 0; y--)
                     {
-                        p[z * width * 4 + x * 4 + 0] = f[y * width * 4 + x * 4];
-                        p[z * width * 4 + x * 4 + 1] = f[y * width * 4 + x * 4 + 1];
-                        p[z * width * 4 + x * 4 + 2] = f[y * width * 4 + x * 4 + 2];
-                        z++;
+                        p[(height - 1 - y) * width * 4 + x * 4 + 0] = f[y * width * 4 + x * 4];
+                        p[(height - 1 - y) * width * 4 + x * 4 + 1] = f[y * width * 4 + x * 4 + 1];
+                        p[(height - 1 - y) * width * 4 + x * 4 + 2] = f[y * width * 4 + x * 4 + 2];
                     }
                 }
             }
             bitmap.UnlockBits(bmpData);
             return bitmap;
+        }
+        /// <summary>
+        /// 顺时针90度
+        /// </summary>
+        private Bitmap Rotate90(Image image)
+        {
+            //原图
+            Bitmap bitmap = new Bitmap(image);
+            //生成图
+            int width = bitmap.Width;
+            int height = bitmap.Height;
+            Bitmap copy = new Bitmap(height, width);
+            Rectangle rect = new Rectangle(0, 0, height, width);
+            //用可读写的方式锁定全部位图像素
+            BitmapData bmpData = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            BitmapData copyData = copy.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            unsafe//启用不安全模式
+            {
+                byte* p = (byte*)copyData.Scan0;//获取首地址
+                byte* f = (byte*)bmpData.Scan0;//获取首地址
+                //二维图像循环
+                for (int x = 0; x < width; x++)
+                {
+                    for (int y = 0; y < height; y++)
+                    {
+                        p[y * 4 + x * height * 4 + 0] = f[x * 4 + (height - 1 - y) * width * 4 + 0];
+                        p[y * 4 + x * height * 4 + 1] = f[x * 4 + (height - 1 - y) * width * 4 + 1];
+                        p[y * 4 + x * height * 4 + 2] = f[x * 4 + (height - 1 - y) * width * 4 + 2];
+                    }
+                }
+            }
+            copy.UnlockBits(copyData);
+            return copy;
+        }
+        /// <summary>
+        /// 顺时针270度（逆时针90度）
+        /// </summary>
+        private Bitmap Rotate270(Image image)
+        {
+            //原图
+            Bitmap bitmap = new Bitmap(image);
+            //生成图
+            int width = bitmap.Width;
+            int height = bitmap.Height;
+            Bitmap copy = new Bitmap(height, width);
+            Rectangle rect = new Rectangle(0, 0, height, width);
+            //用可读写的方式锁定全部位图像素
+            BitmapData bmpData = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            BitmapData copyData = copy.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            unsafe//启用不安全模式
+            {
+                byte* p = (byte*)copyData.Scan0;//获取首地址
+                byte* f = (byte*)bmpData.Scan0;//获取首地址
+                //二维图像循环
+                for (int x = 0; x < width; x++)
+                {
+                    for (int y = 0; y < height; y++)
+                    {
+                        p[y * 4 + (width - 1 - x) * height * 4 + 0] = f[x * 4 + y * width * 4 + 0];
+                        p[y * 4 + (width - 1 - x) * height * 4 + 1] = f[x * 4 + y * width * 4 + 1];
+                        p[y * 4 + (width - 1 - x) * height * 4 + 2] = f[x * 4 + y * width * 4 + 2];
+                    }
+                }
+            }
+            copy.UnlockBits(copyData);
+            return copy;
         }
         #endregion
 
