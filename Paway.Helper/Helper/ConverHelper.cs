@@ -892,13 +892,14 @@ namespace Paway.Helper
             Type entityType = typeof(T);
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(entityType);
 
-            foreach (T item in list)
+            for (int i = 0; i < list.Count; i++)
             {
                 DataRow row = table.NewRow();
 
-                foreach (PropertyDescriptor prop in properties)
+                for (int j = 0; j < properties.Count; j++)
                 {
-                    row[prop.Name] = prop.GetValue(item);
+                    if (properties[j].PropertyType.IsGenericType) continue;
+                    row[properties[j].Name] = properties[j].GetValue(list[i]);
                 }
 
                 table.Rows.Add(row);
@@ -920,6 +921,7 @@ namespace Paway.Helper
                 DataRow row = table.NewRow();
                 for (int j = 0; j < properties.Count; j++)
                 {
+                    if (properties[j].PropertyType.IsGenericType) continue;
                     row[properties[j].Name] = properties[j].GetValue(list[i]);
                 }
                 table.Rows.Add(row);
@@ -935,15 +937,7 @@ namespace Paway.Helper
         public static DataTable CreateTable<T>()
         {
             Type entityType = typeof(T);
-            DataTable table = new DataTable(entityType.Name);
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(entityType);
-
-            foreach (PropertyDescriptor prop in properties)
-            {
-                table.Columns.Add(prop.Name, prop.PropertyType);
-            }
-
-            return table;
+            return entityType.CreateTable();
         }
         /// <summary>
         /// 将指定类型转为DataTable
@@ -955,6 +949,7 @@ namespace Paway.Helper
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < properties.Count; i++)
             {
+                if (properties[i].PropertyType.IsGenericType) continue;
                 table.Columns.Add(properties[i].Name, properties[i].PropertyType);
             }
             return table;
@@ -1023,6 +1018,7 @@ namespace Paway.Helper
                 {
                     for (int i = 0; i < properties.Count; i++)
                     {
+                        if (properties[i].PropertyType.IsGenericType) continue;
                         PropertyInfo pro = typeof(T).GetProperty(properties[i].Name, properties[i].PropertyType);
                         PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
                         if (itemList == null || itemList.Length == 0 || itemList[0].Select || itemList[0].Excel)
@@ -1169,6 +1165,7 @@ namespace Paway.Helper
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < properties.Count; i++)
             {
+                if (properties[i].PropertyType.IsGenericType) continue;
                 PropertyInfo pro = type.GetProperty(properties[i].Name, properties[i].PropertyType);
                 PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
                 if (itemList == null || itemList.Length == 0 || itemList[0].Select)
@@ -1214,6 +1211,7 @@ namespace Paway.Helper
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
             for (int i = 0; i < properties.Count; i++)
             {
+                if (properties[i].PropertyType.IsGenericType) continue;
                 if (attr.Key != null && properties[i].Name == attr.Key) continue;
                 if (properties[i].GetValue(t) == null) continue;
 
@@ -1245,6 +1243,7 @@ namespace Paway.Helper
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
             for (int i = 0; i < properties.Count; i++)
             {
+                if (properties[i].PropertyType.IsGenericType) continue;
                 if (attr.Key != null && properties[i].Name == attr.Key) continue;
                 if (properties[i].GetValue(t) == null) continue;
 
@@ -1313,6 +1312,7 @@ namespace Paway.Helper
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < properties.Count; i++)
             {
+                if (properties[i].PropertyType.IsGenericType) continue;
                 PropertyInfo pro = type.GetProperty(properties[i].Name, properties[i].PropertyType);
                 PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
                 if (itemList == null || itemList.Length == 0 || itemList[0].Select)
@@ -1348,6 +1348,7 @@ namespace Paway.Helper
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
             for (int i = 0; i < properties.Count; i++)
             {
+                if (properties[i].PropertyType.IsGenericType) continue;
                 if (attr.Key != null && properties[i].Name == attr.Key) continue;
                 if (properties[i].GetValue(t) == null) continue;
 
@@ -1390,6 +1391,7 @@ namespace Paway.Helper
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
             for (int i = 0; i < properties.Count; i++)
             {
+                if (properties[i].PropertyType.IsGenericType) continue;
                 if (properties[i].Name == attr.Key)
                 {
                     object result = properties[i].GetValue(t);
@@ -1437,6 +1439,7 @@ namespace Paway.Helper
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
             for (int i = 0; i < properties.Count; i++)
             {
+                if (properties[i].PropertyType.IsGenericType) continue;
                 PropertyInfo pro = typeof(T).GetProperty(properties[i].Name, properties[i].PropertyType);
                 PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
                 if (itemList == null || itemList.Length == 0 || itemList[0].Select)
@@ -1536,6 +1539,7 @@ namespace Paway.Helper
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(parent);
             for (int i = 0; i < properties.Count; i++)
             {
+                if (properties[i].PropertyType.IsGenericType) continue;
                 System.Reflection.PropertyInfo pro = parent.GetProperty(properties[i].Name, properties[i].PropertyType);
                 PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
                 if (itemList == null || itemList.Length == 0 || itemList[0].Clone)

@@ -150,7 +150,7 @@ namespace Paway.Test
 
         public string AppName { get; set; }
 
-        public int Index { get; set; }
+        public int? Index { get; set; }
 
         public int Progress { get; set; }
     }

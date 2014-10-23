@@ -410,7 +410,7 @@ namespace Paway.Helper
                 //二维图像循环
                 for (int x = 0; x < width; x++)
                 {
-                    for (int y = height - 1, z = 0; y >= 0; y--)
+                    for (int y = height - 1; y >= 0; y--)
                     {
                         p[(height - 1 - y) * width * 4 + x * 4 + 0] = f[y * width * 4 + x * 4];
                         p[(height - 1 - y) * width * 4 + x * 4 + 1] = f[y * width * 4 + x * 4 + 1];
