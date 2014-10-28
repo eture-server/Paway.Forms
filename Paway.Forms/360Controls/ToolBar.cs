@@ -72,7 +72,29 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 属性
+        #region 属性Scroll
+        private int _tScrollHeight = 17;
+        /// <summary>
+        /// 文本内容
+        /// </summary>
+        [Description("滚动条宽度"), DefaultValue(17)]
+        public int TScrollHeight
+        {
+            get { return _tScrollHeight; }
+            set
+            {
+                if (value < 0) value = 0;
+                _tScrollHeight = value;
+                if (_hScroll != null)
+                {
+                    _hScroll.Height = value;
+                }
+                if (_vScroll != null)
+                {
+                    _vScroll.Width = value;
+                }
+            }
+        }
         private ToolTip toolTop;
         /// <summary>
         /// 显示简短说明
@@ -1332,7 +1354,7 @@ namespace Paway.Forms
                         flag = false;
                         if (IShowToolTop && item.MouseState != TMouseState.Move)
                         {
-                            this.ShowTooTip(item.First);
+                            this.ShowTooTip(item.Sencond ?? item.First);
                         }
                         InvaItem(item, TMouseState.Move);
                     }
@@ -1988,11 +2010,13 @@ namespace Paway.Forms
             _hScroll = new HScrollBar();
             _hScroll.Scroll += _hScroll_Scroll;
             _hScroll.Dock = DockStyle.Bottom;
+            _hScroll.Height = TScrollHeight;
             Controls.Add(_hScroll);
 
             _vScroll = new VScrollBar();
             _vScroll.Scroll += _vScroll_Scroll;
             _vScroll.Dock = DockStyle.Right;
+            _vScroll.Width = TScrollHeight;
             Controls.Add(_vScroll);
 
             _hScroll.Visible = false;

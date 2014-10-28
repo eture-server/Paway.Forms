@@ -36,7 +36,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(450, 307);
-            this.ForeColor = System.Drawing.Color.Black;
+            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "ImageForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
@@ -47,6 +47,7 @@
         }
 
         #endregion
+
 
     }
 }

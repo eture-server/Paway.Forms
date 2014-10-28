@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
@@ -43,7 +42,7 @@
             Paway.Forms.ToolItem toolItem11 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem12 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem13 = new Paway.Forms.ToolItem();
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip();
             this.toolAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.toolDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -123,7 +122,7 @@
             toolItem3.Text = "1";
             toolItem4.Desc = "";
             toolItem4.Selete = false;
-            toolItem4.Text = "2";
+            toolItem4.Text = "2\r\n1\r\n你好";
             toolItem5.Desc = "完全好";
             toolItem5.Selete = false;
             toolItem5.Text = "3";
@@ -172,7 +171,6 @@
             this.toolBar.TChange.ColorMove = System.Drawing.Color.Red;
             this.toolBar.TChange.ColorNormal = System.Drawing.Color.Yellow;
             this.toolBar.TDesc.ColorDown = System.Drawing.Color.White;
-            this.toolBar.TDirection = Paway.Forms.TDirection.Vertical;
             this.toolBar.TEvent = Paway.Forms.TEvent.Up;
             this.toolBar.TextFirst.ColorDown = System.Drawing.Color.Black;
             this.toolBar.TextFirst.ColorMove = System.Drawing.Color.White;
@@ -180,6 +178,7 @@
             this.toolBar.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolBar.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
             this.toolBar.Trans = 150;
+            this.toolBar.TScrollHeight = 3;
             // 
             // pictureBox2
             // 

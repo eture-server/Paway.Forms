@@ -12,6 +12,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Drawing.Imaging;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Drawing.Drawing2D;
 
 namespace Paway.Forms
 {
@@ -205,7 +206,13 @@ namespace Paway.Forms
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
-            e.Graphics.DrawImage(screen, rect);
+            Graphics g = e.Graphics;
+            // 设置画布的描绘质量
+            g.CompositingQuality = CompositingQuality.HighQuality;
+            g.SmoothingMode = SmoothingMode.HighQuality;
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            g.DrawImage(screen, rect, 0, 0, screen.Width, screen.Height, GraphicsUnit.Pixel);
+            //g.DrawImage(screen, rect);
             base.OnPaint(e);
         }
 
@@ -221,7 +228,7 @@ namespace Paway.Forms
                 {
                     this.Close();
                 }
-                else if (isExceed && rect.Contains(e.Location))
+                else if (isExceed && rect.Contains(e.Location) && !this.SysBtnRect.Contains(e.Location))
                 {
                     isMove = true;
                     pStart = e.Location;
