@@ -1100,7 +1100,7 @@ namespace Paway.Helper
             PropertyAttribute attr = AttrMark(typeof(T));
             string sql = SelectSql(typeof(T), null);
             sql = string.Format("{0} from [{1}]", sql, attr.Table);
-            sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Key ?? attr.Mark);
+            sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Mark ?? attr.Key);
             return sql;
         }
         /// <summary>
@@ -1171,7 +1171,7 @@ namespace Paway.Helper
         public static string Delete<T>(this T t)
         {
             PropertyAttribute attr = AttrMark(typeof(T));
-            string sql = string.Format("delete from [{0}] where [{1}]=@{1}", attr.Table, attr.Key ?? attr.Mark);
+            string sql = string.Format("delete from [{0}] where [{1}]=@{1}", attr.Table, attr.Mark ?? attr.Key);
             return sql;
         }
         /// <summary>
@@ -1211,7 +1211,7 @@ namespace Paway.Helper
                 }
             }
             sql = sql.TrimEnd(',');
-            sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Key ?? attr.Mark);
+            sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Mark ?? attr.Key);
             return sql;
         }
         /// <summary>
@@ -1253,7 +1253,7 @@ namespace Paway.Helper
                 }
             }
             sql = sql.TrimEnd(',');
-            sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Key ?? attr.Mark);
+            sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Mark ?? attr.Key);
             return sql;
         }
         /// <summary>
@@ -1321,7 +1321,7 @@ namespace Paway.Helper
             PropertyAttribute attr = AttrMark(typeof(T));
 
             string sql = "if exists(select 0 from [{1}] where [{0}]=@{0})";
-            sql = string.Format(sql, attr.Key ?? attr.Mark, attr.Table);
+            sql = string.Format(sql, attr.Mark ?? attr.Key, attr.Table);
 
             string update = null;
             string insert = null;
@@ -1350,7 +1350,7 @@ namespace Paway.Helper
             insert = insert.TrimEnd(',');
             values = values.TrimEnd(',');
             sql = string.Format("{0} update [{1}] set {2} where {3}=@{3} else insert into {1}({4}) values({5})",
-                sql, attr.Table, update, attr.Key ?? attr.Mark, insert, values);
+                sql, attr.Table, update, attr.Mark ?? attr.Key, insert, values);
 
             sql = string.Format("{0};{1}", sql, getid);
             return sql;
@@ -1397,7 +1397,7 @@ namespace Paway.Helper
 
             Assembly asmb = Assembly.GetAssembly(ptype);
             DbParameter param = asmb.CreateInstance(ptype.FullName) as DbParameter;
-            param.ParameterName = string.Format("@{0}", attr.Key ?? attr.Mark);
+            param.ParameterName = string.Format("@{0}", attr.Mark ?? attr.Key);
             param.Value = value;
             return param;
         }

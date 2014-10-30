@@ -75,7 +75,7 @@ namespace Paway.Forms
         #region 属性Scroll
         private int _tScrollHeight = 17;
         /// <summary>
-        /// 文本内容
+        /// 滚动条宽度
         /// </summary>
         [Description("滚动条宽度"), DefaultValue(17)]
         public int TScrollHeight

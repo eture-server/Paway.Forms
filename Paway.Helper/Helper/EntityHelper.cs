@@ -112,7 +112,7 @@ namespace Paway.Helper
         /// </summary>
         public string Key { get; set; }
         /// <summary>
-        /// 主列名称，可更新
+        /// 标识列名称，可更新
         /// </summary>
         public string Mark { get; set; }
         /// <summary>
