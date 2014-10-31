@@ -45,11 +45,32 @@ namespace Paway.Forms
                 ControlStyles.SupportsTransparentBackColor, true);
             this.UpdateStyles();
             InitMethod.Init(this);
+            InitShow();
         }
 
         #endregion
 
         #region 接口 属性
+        private TMDirection _mDirection = TMDirection.None;
+        /// <summary>
+        /// 移动特效方向
+        /// </summary>
+        [Description("移动特效方向"), DefaultValue(typeof(TMDirection), "None")]
+        public TMDirection MDirection
+        {
+            get { return _mDirection; }
+            set { _mDirection = value; }
+        }
+        private int _mInterval = 12;
+        /// <summary>
+        /// 移动特效间隔
+        /// </summary>
+        [Description("移动特效间隔"), DefaultValue(12)]
+        public int MInterval
+        {
+            get { return _mInterval; }
+            set { _mInterval = value; }
+        }
         /// <summary>
         /// 获取或设置控件的背景色
         /// </summary>
@@ -205,6 +226,146 @@ namespace Paway.Forms
             else
             {
                 base.OnMouseWheel(e);
+            }
+        }
+
+        #endregion
+
+        #region 按指定方向显示移动特效
+        private Timer sTimer;
+        private int intervel;
+        private DockStyle dock;
+        private Size size;
+        private Point point;
+        private Size step;
+        private void InitShow()
+        {
+            sTimer = new Timer();
+            sTimer.Interval = 10;
+            sTimer.Tick += sTimer_Tick;
+        }
+        /// <summary>
+        /// 初始化控件位置
+        /// </summary>
+        protected override void OnLoad(EventArgs e)
+        {
+            this.point = this.Location;
+            base.OnLoad(e);
+            MStart();
+        }
+        /// <summary>
+        /// 启动特效
+        /// </summary>
+        public void MStart()
+        {
+            if (sTimer.Enabled) return;
+            this.dock = this.Dock;
+            this.size = this.Size;
+            this.Dock = DockStyle.None;
+            switch (this.MDirection)
+            {
+                case TMDirection.Left:
+                    this.Left = this.Parent != null ? -this.Parent.Width : -this.Width;
+                    this.intervel = this.Width / this.MInterval;
+                    break;
+                case TMDirection.Right:
+                    this.Left = this.Parent != null ? this.Parent.Width : this.Width;
+                    this.intervel = this.Width / this.MInterval;
+                    break;
+                case TMDirection.Up:
+                    this.Top = this.Parent != null ? -this.Parent.Height : -this.Height;
+                    this.intervel = this.Height / this.MInterval;
+                    break;
+                case TMDirection.Down:
+                    this.Top = this.Parent != null ? this.Parent.Height : -this.Height;
+                    this.intervel = this.Height / this.MInterval;
+                    break;
+                case TMDirection.Center:
+                    this.step = new Size(this.Width / this.MInterval, this.Height / this.MInterval);
+                    this.Size = step;
+                    this.Left = point.X + (this.size.Width - this.Size.Width) / 2;
+                    this.Top = point.Y + (this.size.Height - this.Size.Height) / 2;
+                    break;
+            }
+            if (MDirection != TMDirection.None)
+            {
+                sTimer.Start();
+            }
+            else
+            {
+                this.Size = this.size;
+                this.Dock = dock;
+            }
+        }
+
+        void sTimer_Tick(object sender, EventArgs e)
+        {
+            NativeMethods.LockWindowUpdate(this.Handle);
+            switch (this.MDirection)
+            {
+                case TMDirection.Left:
+                    if (this.Left < this.point.X)
+                    {
+                        this.Left += intervel;
+                    }
+                    else
+                    {
+                        this.Left = this.point.X;
+                        sTimer.Stop();
+                    }
+                    break;
+                case TMDirection.Right:
+                    if (this.Left > this.point.X)
+                    {
+                        this.Left -= intervel;
+                    }
+                    else
+                    {
+                        this.Left = this.point.X;
+                        sTimer.Stop();
+                    }
+                    break;
+                case TMDirection.Up:
+                    if (this.Top < this.point.Y)
+                    {
+                        this.Top += intervel;
+                    }
+                    else
+                    {
+                        this.Top = this.point.Y;
+                        sTimer.Stop();
+                    }
+                    break;
+                case TMDirection.Down:
+                    if (this.Top > this.point.Y)
+                    {
+                        this.Top -= intervel;
+                    }
+                    else
+                    {
+                        this.Top = this.point.Y;
+                        sTimer.Stop();
+                    }
+                    break;
+                case TMDirection.Center:
+                    if (this.Size.Width < this.size.Width)
+                    {
+                        this.Size = new Size(this.Size.Width + step.Width, this.Size.Height + step.Height);
+                        this.Left = point.X + (this.size.Width - this.Size.Width) / 2;
+                        this.Top = point.Y + (this.size.Height - this.Size.Height) / 2;
+                    }
+                    else
+                    {
+                        this.Location = this.point;
+                        sTimer.Stop();
+                    }
+                    break;
+            }
+            NativeMethods.LockWindowUpdate(IntPtr.Zero);
+            if (!sTimer.Enabled)
+            {
+                this.Size = this.size;
+                this.Dock = dock;
             }
         }
 

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
@@ -42,21 +43,22 @@
             Paway.Forms.ToolItem toolItem11 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem12 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem13 = new Paway.Forms.ToolItem();
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.toolDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btName = new Paway.Forms.QQButton();
             this.toolBar = new Paway.Forms.ToolBar();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.tbName = new Paway.Forms.QQTextBox();
             this.tbRsa2 = new Paway.Forms.QQTextBox();
             this.tControl1 = new Paway.Forms.TControl();
-            this.qqTextBox1 = new Paway.Forms.QQTextBox();
             this.tComboBox1 = new Paway.Forms.TComboBox();
+            this.qqTextBox1 = new Paway.Forms.QQTextBox();
+            this.tbName = new Paway.Forms.QQTextBox();
             this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.tControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStrip2
@@ -161,6 +163,7 @@
             this.toolBar.ItemSpace = 5;
             this.toolBar.IText = true;
             this.toolBar.Location = new System.Drawing.Point(35, 63);
+            this.toolBar.MDirection = Paway.Forms.TMDirection.Center;
             this.toolBar.Name = "toolBar";
             this.toolBar.Size = new System.Drawing.Size(251, 174);
             this.toolBar.TabIndex = 31;
@@ -190,26 +193,6 @@
             this.pictureBox2.TabIndex = 32;
             this.pictureBox2.TabStop = false;
             // 
-            // tbName
-            // 
-            this.tbName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbName.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.tbName.Icon = global::Paway.Test.Properties.Resources.serrch;
-            this.tbName.IconIsButton = true;
-            this.tbName.IsPasswordChat = '\0';
-            this.tbName.Lines = new string[0];
-            this.tbName.Location = new System.Drawing.Point(364, 27);
-            this.tbName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tbName.MaxLength = 10;
-            this.tbName.Name = "tbName";
-            this.tbName.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
-            this.tbName.Regex = "";
-            this.tbName.RegexType = Paway.Helper.RegexType.Normal;
-            this.tbName.SelectedText = "";
-            this.tbName.Size = new System.Drawing.Size(78, 29);
-            this.tbName.TabIndex = 59;
-            this.tbName.WaterText = "";
-            // 
             // tbRsa2
             // 
             this.tbRsa2.Font = new System.Drawing.Font("微软雅黑", 12F);
@@ -230,25 +213,15 @@
             // 
             // tControl1
             // 
-            this.tControl1.Location = new System.Drawing.Point(453, 53);
+            this.tControl1.BackColor = System.Drawing.Color.Pink;
+            this.tControl1.Controls.Add(this.tComboBox1);
+            this.tControl1.Controls.Add(this.qqTextBox1);
+            this.tControl1.Controls.Add(this.tbName);
+            this.tControl1.Location = new System.Drawing.Point(317, 29);
+            this.tControl1.MDirection = Paway.Forms.TMDirection.Center;
             this.tControl1.Name = "tControl1";
-            this.tControl1.Size = new System.Drawing.Size(62, 56);
+            this.tControl1.Size = new System.Drawing.Size(211, 208);
             this.tControl1.TabIndex = 61;
-            // 
-            // qqTextBox1
-            // 
-            this.qqTextBox1.BackColor = System.Drawing.Color.White;
-            this.qqTextBox1.Icon = null;
-            this.qqTextBox1.IsBorder = false;
-            this.qqTextBox1.IsPasswordChat = '\0';
-            this.qqTextBox1.Lines = new string[] {
-        "qqTextBox1"};
-            this.qqTextBox1.Location = new System.Drawing.Point(301, 101);
-            this.qqTextBox1.Name = "qqTextBox1";
-            this.qqTextBox1.SelectedText = "";
-            this.qqTextBox1.Size = new System.Drawing.Size(166, 25);
-            this.qqTextBox1.TabIndex = 62;
-            this.qqTextBox1.WaterText = "";
             // 
             // tComboBox1
             // 
@@ -271,10 +244,45 @@
             this.tComboBox1.Edit.Location = new System.Drawing.Point(1, 1);
             this.tComboBox1.Edit.Name = "tComboBox1";
             this.tComboBox1.Edit.TabIndex = 0;
-            this.tComboBox1.Location = new System.Drawing.Point(301, 145);
+            this.tComboBox1.Location = new System.Drawing.Point(44, 149);
             this.tComboBox1.Name = "tComboBox1";
             this.tComboBox1.Size = new System.Drawing.Size(123, 25);
-            this.tComboBox1.TabIndex = 63;
+            this.tComboBox1.TabIndex = 66;
+            // 
+            // qqTextBox1
+            // 
+            this.qqTextBox1.BackColor = System.Drawing.Color.White;
+            this.qqTextBox1.Icon = null;
+            this.qqTextBox1.IsBorder = false;
+            this.qqTextBox1.IsPasswordChat = '\0';
+            this.qqTextBox1.Lines = new string[] {
+        "qqTextBox1"};
+            this.qqTextBox1.Location = new System.Drawing.Point(44, 105);
+            this.qqTextBox1.Name = "qqTextBox1";
+            this.qqTextBox1.SelectedText = "";
+            this.qqTextBox1.Size = new System.Drawing.Size(123, 25);
+            this.qqTextBox1.TabIndex = 65;
+            this.qqTextBox1.WaterText = "";
+            // 
+            // tbName
+            // 
+            this.tbName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbName.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.tbName.Icon = global::Paway.Test.Properties.Resources.serrch;
+            this.tbName.IconIsButton = true;
+            this.tbName.IsPasswordChat = '\0';
+            this.tbName.Lines = new string[0];
+            this.tbName.Location = new System.Drawing.Point(-705, 34);
+            this.tbName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbName.MaxLength = 10;
+            this.tbName.Name = "tbName";
+            this.tbName.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
+            this.tbName.Regex = "";
+            this.tbName.RegexType = Paway.Helper.RegexType.Normal;
+            this.tbName.SelectedText = "";
+            this.tbName.Size = new System.Drawing.Size(123, 29);
+            this.tbName.TabIndex = 64;
+            this.tbName.WaterText = "";
             // 
             // Form1
             // 
@@ -284,12 +292,9 @@
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.BackColor = System.Drawing.Color.Gainsboro;
             this.CausesValidation = false;
-            this.ClientSize = new System.Drawing.Size(577, 294);
-            this.Controls.Add(this.tComboBox1);
-            this.Controls.Add(this.qqTextBox1);
+            this.ClientSize = new System.Drawing.Size(611, 328);
             this.Controls.Add(this.tControl1);
             this.Controls.Add(this.tbRsa2);
-            this.Controls.Add(this.tbName);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.toolBar);
             this.Controls.Add(this.btName);
@@ -306,6 +311,7 @@
             this.contextMenuStrip2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.tControl1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -319,11 +325,11 @@
         private Forms.QQButton btName;
         private Forms.ToolBar toolBar;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private Forms.QQTextBox tbName;
         private Forms.QQTextBox tbRsa2;
         private Forms.TControl tControl1;
-        private Forms.QQTextBox qqTextBox1;
         private Forms.TComboBox tComboBox1;
+        private Forms.QQTextBox qqTextBox1;
+        private Forms.QQTextBox tbName;
 
 
 

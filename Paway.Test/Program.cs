@@ -48,7 +48,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                if (form != null)
+                if (form != null && !form.IsDisposed)
                     MessageBox.Show(form, ex.Message, "Tinn", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

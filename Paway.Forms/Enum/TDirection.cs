@@ -70,4 +70,34 @@ namespace Paway.Forms
         /// </summary>
         Up,
     }
+    /// <summary>
+    /// 移动方向
+    /// </summary>
+    public enum TMDirection
+    {
+        /// <summary>
+        /// 不移动
+        /// </summary>
+        None,
+        /// <summary>
+        /// 从上到下
+        /// </summary>
+        Up,
+        /// <summary>
+        /// 从下到上
+        /// </summary>
+        Down,
+        /// <summary>
+        /// 从左到右
+        /// </summary>
+        Left,
+        /// <summary>
+        /// 从右到左
+        /// </summary>
+        Right,
+        /// <summary>
+        /// 从中间开始
+        /// </summary>
+        Center,
+    }
 }

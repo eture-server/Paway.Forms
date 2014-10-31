@@ -86,6 +86,13 @@ namespace Paway.Forms
         /// </summary>
         public static MControl ReLoad(Control parent, Type type)
         {
+            return ReLoad(parent, type, TMDirection.None);
+        }
+        /// <summary>
+        /// 切换界面控件
+        /// </summary>
+        public static MControl ReLoad(Control parent, Type type, TMDirection direction, int intervel = 12)
+        {
             if (!Licence.Checking()) return null;
 
             MControl control = null;
@@ -129,8 +136,11 @@ namespace Paway.Forms
                 }
                 else
                 {
-                    parent.Controls.Add(control);
+                    control.MDirection = direction;
+                    control.MInterval = intervel;
                     control.Dock = System.Windows.Forms.DockStyle.Fill;
+                    parent.Controls.Add(control);
+                    control.MStart();
                     if (!_iList.ContainsKey(type.Name))
                     {
                         _iList.Add(type.Name, control);
