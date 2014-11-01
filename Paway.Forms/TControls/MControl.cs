@@ -134,19 +134,22 @@ namespace Paway.Forms
                 {
                     throw new ArgumentException(string.Format("{0} 不是有效的MControl", type.GetType().FullName));
                 }
-                else
+                if (direction == TMDirection.None)
                 {
-                    control.MDirection = direction;
-                    control.MInterval = intervel;
-                    control.Dock = System.Windows.Forms.DockStyle.Fill;
-                    parent.Controls.Add(control);
-                    control.MStart();
-                    if (!_iList.ContainsKey(type.Name))
-                    {
-                        _iList.Add(type.Name, control);
-                    }
+                    direction = control.MDirection;
+                }
+                control.MDirection = TMDirection.None;
+                control.MInterval = intervel;
+                control.Dock = System.Windows.Forms.DockStyle.Fill;
+                parent.Controls.Add(control);
+                control.MDirection = direction;
+                control.MStart();
+                if (!_iList.ContainsKey(type.Name))
+                {
+                    _iList.Add(type.Name, control);
                 }
                 parent.ResumeLayout();
+
                 return control;
             }
             catch

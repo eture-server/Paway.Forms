@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Control1));
-            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Control2));
+            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
             this.label1 = new System.Windows.Forms.Label();
             this.qqTextBox1 = new Paway.Forms.QQTextBox();
             this.btQQDemo = new Paway.Forms.QQButton();
@@ -43,7 +43,7 @@
             // 
             this.label1.Font = new System.Drawing.Font("宋体", 21F);
             this.label1.ForeColor = System.Drawing.Color.HotPink;
-            this.label1.Location = new System.Drawing.Point(56, 35);
+            this.label1.Location = new System.Drawing.Point(50, 26);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(108, 46);
             this.label1.TabIndex = 0;
@@ -79,13 +79,13 @@
             // 
             this.toolBar2.ICheckEvent = true;
             this.toolBar2.ImageSize = new System.Drawing.Size(16, 16);
-            toolItem1.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
-            toolItem1.Selete = false;
-            toolItem1.Text = "创建宝贝";
-            toolItem2.Selete = false;
-            toolItem2.Text = "上传宝贝";
-            this.toolBar2.Items.Add(toolItem1);
-            this.toolBar2.Items.Add(toolItem2);
+            toolItem3.Image = ((System.Drawing.Image)(resources.GetObject("toolItem3.Image")));
+            toolItem3.Selete = false;
+            toolItem3.Text = "创建宝贝";
+            toolItem4.Selete = false;
+            toolItem4.Text = "上传宝贝";
+            this.toolBar2.Items.Add(toolItem3);
+            this.toolBar2.Items.Add(toolItem4);
             this.toolBar2.ItemSize = new System.Drawing.Size(116, 34);
             this.toolBar2.ItemSpace = 0;
             this.toolBar2.Location = new System.Drawing.Point(319, 26);
@@ -99,7 +99,6 @@
             // tbPrompt
             // 
             this.tbPrompt.BackColor = System.Drawing.Color.White;
-            this.tbPrompt.Enabled = false;
             this.tbPrompt.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tbPrompt.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tbPrompt.Icon = null;
@@ -130,7 +129,7 @@
             this.btImage.Text = "Image";
             this.btImage.UseVisualStyleBackColor = false;
             // 
-            // Control1
+            // Control2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -140,7 +139,7 @@
             this.Controls.Add(this.tbPrompt);
             this.Controls.Add(this.btImage);
             this.Controls.Add(this.label1);
-            this.Name = "Control1";
+            this.Name = "Control2";
             this.Size = new System.Drawing.Size(529, 300);
             this.ResumeLayout(false);
 

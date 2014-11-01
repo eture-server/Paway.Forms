@@ -33,6 +33,7 @@
             Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem5 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem6 = new Paway.Forms.ToolItem();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,11 +49,14 @@
             toolItem4.Text = "右";
             toolItem5.Selete = false;
             toolItem5.Text = "中";
+            toolItem6.Selete = false;
+            toolItem6.Text = "色";
             this.toolBar1.Items.Add(toolItem1);
             this.toolBar1.Items.Add(toolItem2);
             this.toolBar1.Items.Add(toolItem3);
             this.toolBar1.Items.Add(toolItem4);
             this.toolBar1.Items.Add(toolItem5);
+            this.toolBar1.Items.Add(toolItem6);
             // 
             // Form2
             // 

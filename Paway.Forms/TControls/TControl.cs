@@ -238,6 +238,7 @@ namespace Paway.Forms
         private Size size;
         private Point point;
         private Size step;
+        private TAlpha alpha;
         private void InitShow()
         {
             sTimer = new Timer();
@@ -253,15 +254,24 @@ namespace Paway.Forms
             base.OnLoad(e);
             MStart();
         }
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+        }
         /// <summary>
         /// 启动特效
         /// </summary>
         public void MStart()
         {
-            if (sTimer.Enabled) return;
+            if (sTimer.Enabled || MDirection == TMDirection.None) return;
             this.dock = this.Dock;
+            if (this.Parent != null && this.dock == DockStyle.Fill)
+            {
+                this.Size = this.Parent.Size;
+            }
             this.size = this.Size;
             this.Dock = DockStyle.None;
+            this.Size = this.size;
             switch (this.MDirection)
             {
                 case TMDirection.Left:
@@ -286,25 +296,29 @@ namespace Paway.Forms
                     this.Left = point.X + (this.size.Width - this.Size.Width) / 2;
                     this.Top = point.Y + (this.size.Height - this.Size.Height) / 2;
                     break;
+                case TMDirection.Transparent:
+                    if (alpha == null)
+                    {
+                        alpha = new TAlpha();
+                    }
+                    alpha.Alpha = 255;
+                    alpha.Dock = DockStyle.Fill;
+                    this.intervel = 255 / this.MInterval;
+                    this.Controls.Add(this.alpha);
+                    this.Controls.SetChildIndex(this.alpha, 0);
+                    break;
             }
-            if (MDirection != TMDirection.None)
-            {
-                sTimer.Start();
-            }
-            else
-            {
-                this.Size = this.size;
-                this.Dock = dock;
-            }
+            sTimer.Start();
         }
 
         void sTimer_Tick(object sender, EventArgs e)
         {
+            if (this.IsDisposed) return;
             NativeMethods.LockWindowUpdate(this.Handle);
             switch (this.MDirection)
             {
                 case TMDirection.Left:
-                    if (this.Left < this.point.X)
+                    if (this.Left + intervel < this.point.X)
                     {
                         this.Left += intervel;
                     }
@@ -315,7 +329,7 @@ namespace Paway.Forms
                     }
                     break;
                 case TMDirection.Right:
-                    if (this.Left > this.point.X)
+                    if (this.Left - intervel > this.point.X)
                     {
                         this.Left -= intervel;
                     }
@@ -326,7 +340,7 @@ namespace Paway.Forms
                     }
                     break;
                 case TMDirection.Up:
-                    if (this.Top < this.point.Y)
+                    if (this.Top + intervel < this.point.Y)
                     {
                         this.Top += intervel;
                     }
@@ -337,7 +351,7 @@ namespace Paway.Forms
                     }
                     break;
                 case TMDirection.Down:
-                    if (this.Top > this.point.Y)
+                    if (this.Top - intervel > this.point.Y)
                     {
                         this.Top -= intervel;
                     }
@@ -348,7 +362,7 @@ namespace Paway.Forms
                     }
                     break;
                 case TMDirection.Center:
-                    if (this.Size.Width < this.size.Width)
+                    if (this.Size.Width + step.Width < this.size.Width)
                     {
                         this.Size = new Size(this.Size.Width + step.Width, this.Size.Height + step.Height);
                         this.Left = point.X + (this.size.Width - this.Size.Width) / 2;
@@ -357,6 +371,20 @@ namespace Paway.Forms
                     else
                     {
                         this.Location = this.point;
+                        sTimer.Stop();
+                    }
+                    break;
+                case TMDirection.Transparent:
+                    NativeMethods.LockWindowUpdate(IntPtr.Zero);
+                    NativeMethods.LockWindowUpdate(alpha.Handle);
+                    if (alpha.Alpha > intervel)
+                    {
+                        alpha.Alpha -= intervel;
+                    }
+                    else
+                    {
+                        alpha.Alpha = 0;
+                        this.Controls.Remove(alpha);
                         sTimer.Stop();
                     }
                     break;

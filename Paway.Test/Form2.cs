@@ -22,6 +22,7 @@ namespace Paway.Test
         void toolBar1_SelectedItemChanged(object sender, EventArgs e)
         {
             ToolItem item = sender as ToolItem;
+            MControl.ReSet(panel3);
             switch (item.Text)
             {
                 case "左":
@@ -34,10 +35,14 @@ namespace Paway.Test
                     control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.Up);
                     break;
                 case "下":
-                    control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.Down);
+                    control = MControl.ReLoad(panel3, typeof(Control3), TMDirection.Transparent);
                     break;
                 case "中":
-                    control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.Center);
+                    control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.Transparent);
+                    break;
+                case "色":
+                    //control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.Transparent);
+                    control = MControl.ReLoad(panel3, typeof(TAlpha2));
                     break;
             }
         }

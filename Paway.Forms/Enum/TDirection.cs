@@ -99,5 +99,9 @@ namespace Paway.Forms
         /// 从中间开始
         /// </summary>
         Center,
+        /// <summary>
+        /// 透明度渐进
+        /// </summary>
+        Transparent,
     }
 }
