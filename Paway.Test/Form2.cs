@@ -1,5 +1,6 @@
 ﻿using Paway.Forms;
 using Paway.Test.UI;
+using Paway.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Paway.Test
@@ -16,10 +18,10 @@ namespace Paway.Test
         public Form2()
         {
             InitializeComponent();
-            toolBar1.SelectedItemChanged += toolBar1_SelectedItemChanged;
+            toolBar1.ItemClick += toolBar1_ItemClick;
         }
 
-        void toolBar1_SelectedItemChanged(object sender, EventArgs e)
+        void toolBar1_ItemClick(object sender, EventArgs e)
         {
             ToolItem item = sender as ToolItem;
             MControl.ReSet(panel3);
@@ -35,14 +37,16 @@ namespace Paway.Test
                     control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.Up);
                     break;
                 case "下":
-                    control = MControl.ReLoad(panel3, typeof(Control3), TMDirection.Transparent);
+                    control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.Down);
                     break;
                 case "中":
+                    control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.Center);
+                    break;
+                case "色1":
                     control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.Transparent);
                     break;
-                case "色":
+                case "色2":
                     control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.Transparent);
-                    //control = MControl.ReLoad(panel3, typeof(TAlpha));
                     break;
             }
         }

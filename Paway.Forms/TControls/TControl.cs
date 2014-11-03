@@ -238,13 +238,15 @@ namespace Paway.Forms
         private Size size;
         private Point point;
         private Size step;
-        private TAlpha alpha;
+        private TControl alpha;
+        private int color;
         private void InitShow()
         {
             sTimer = new Timer();
             sTimer.Interval = 10;
             sTimer.Tick += sTimer_Tick;
         }
+
         /// <summary>
         /// 初始化控件位置
         /// </summary>
@@ -268,6 +270,7 @@ namespace Paway.Forms
             this.size = this.Size;
             this.Dock = DockStyle.None;
             this.Size = this.size;
+            this.sTimer.Interval = 10;
             switch (this.MDirection)
             {
                 case TMDirection.Left:
@@ -295,38 +298,24 @@ namespace Paway.Forms
                 case TMDirection.Transparent:
                     if (alpha == null)
                     {
-                        alpha = new TAlpha();
+                        alpha = new TControl();
                     }
-                    alpha.Alpha = 255;
+                    this.sTimer.Interval = 50;
+                    Bitmap bitmap = new Bitmap(this.Width, this.Height);
+                    {
+                        this.DrawToBitmap(bitmap, new Rectangle(0, 0, this.Width, this.Height));
+                        this.BackgroundImage = bitmap;
+                    }
                     alpha.Dock = DockStyle.Fill;
+                    alpha.BackColor = Color.FromArgb(255, alpha.BackColor);
+                    color = 255;
                     this.intervel = 255 / this.MInterval;
                     this.Controls.Add(this.alpha);
                     this.Controls.SetChildIndex(this.alpha, 0);
-                    while (false)
-                    {
-                        return;
-                        //if (alpha.Alpha > intervel)
-                        //{
-                        //    //NativeMethods.LockWindowUpdate(alpha.Handle);
-                        //    alpha.Alpha -= intervel;
-                        //    Application.DoEvents();
-                        //    System.Threading.Thread.Sleep(10);
-                        //    //NativeMethods.LockWindowUpdate(IntPtr.Zero);
-                        //}
-                        //else
-                        //{
-                        //    alpha.Alpha = 0;
-                        //    //NativeMethods.LockWindowUpdate(IntPtr.Zero);
-                        //    this.Controls.Remove(alpha);
-                        //    sTimer.Stop();
-                        //    return;
-                        //}
-                    }
                     break;
             }
             sTimer.Start();
         }
-
         void sTimer_Tick(object sender, EventArgs e)
         {
             if (this.IsDisposed) return;
@@ -391,13 +380,13 @@ namespace Paway.Forms
                     }
                     break;
                 case TMDirection.Transparent:
-                    if (alpha.Alpha > intervel)
+                    if (color > intervel)
                     {
-                        alpha.Alpha -= intervel;
+                        color -= intervel;
+                        alpha.BackColor = Color.FromArgb(color, alpha.BackColor);
                     }
                     else
                     {
-                        alpha.Alpha = 0;
                         this.Controls.Remove(alpha);
                         sTimer.Stop();
                     }

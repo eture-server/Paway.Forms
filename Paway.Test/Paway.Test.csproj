@@ -140,12 +140,6 @@
     <Compile Include="UI\Control1.Designer.cs">
       <DependentUpon>Control1.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Control3.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Control3.Designer.cs">
-      <DependentUpon>Control3.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -191,9 +185,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Control2.resx">
       <DependentUpon>Control2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Control3.resx">
-      <DependentUpon>Control3.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>
