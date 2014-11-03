@@ -254,10 +254,6 @@ namespace Paway.Forms
             base.OnLoad(e);
             MStart();
         }
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-        }
         /// <summary>
         /// 启动特效
         /// </summary>
@@ -306,6 +302,26 @@ namespace Paway.Forms
                     this.intervel = 255 / this.MInterval;
                     this.Controls.Add(this.alpha);
                     this.Controls.SetChildIndex(this.alpha, 0);
+                    while (false)
+                    {
+                        return;
+                        //if (alpha.Alpha > intervel)
+                        //{
+                        //    //NativeMethods.LockWindowUpdate(alpha.Handle);
+                        //    alpha.Alpha -= intervel;
+                        //    Application.DoEvents();
+                        //    System.Threading.Thread.Sleep(10);
+                        //    //NativeMethods.LockWindowUpdate(IntPtr.Zero);
+                        //}
+                        //else
+                        //{
+                        //    alpha.Alpha = 0;
+                        //    //NativeMethods.LockWindowUpdate(IntPtr.Zero);
+                        //    this.Controls.Remove(alpha);
+                        //    sTimer.Stop();
+                        //    return;
+                        //}
+                    }
                     break;
             }
             sTimer.Start();
@@ -375,8 +391,6 @@ namespace Paway.Forms
                     }
                     break;
                 case TMDirection.Transparent:
-                    NativeMethods.LockWindowUpdate(IntPtr.Zero);
-                    NativeMethods.LockWindowUpdate(alpha.Handle);
                     if (alpha.Alpha > intervel)
                     {
                         alpha.Alpha -= intervel;

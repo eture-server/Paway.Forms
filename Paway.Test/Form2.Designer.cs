@@ -28,35 +28,39 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem5 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem6 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem13 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem14 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem15 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem16 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem17 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem18 = new Paway.Forms.ToolItem();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolBar1
             // 
-            toolItem1.Selete = false;
-            toolItem1.Text = "上";
-            toolItem2.Selete = false;
-            toolItem2.Text = "下";
-            toolItem3.Selete = false;
-            toolItem3.Text = "左";
-            toolItem4.Selete = false;
-            toolItem4.Text = "右";
-            toolItem5.Selete = false;
-            toolItem5.Text = "中";
-            toolItem6.Selete = false;
-            toolItem6.Text = "色";
-            this.toolBar1.Items.Add(toolItem1);
-            this.toolBar1.Items.Add(toolItem2);
-            this.toolBar1.Items.Add(toolItem3);
-            this.toolBar1.Items.Add(toolItem4);
-            this.toolBar1.Items.Add(toolItem5);
-            this.toolBar1.Items.Add(toolItem6);
+            toolItem13.Selete = false;
+            toolItem13.Text = "上";
+            toolItem14.Selete = false;
+            toolItem14.Text = "下";
+            toolItem15.Selete = false;
+            toolItem15.Text = "左";
+            toolItem16.Selete = false;
+            toolItem16.Text = "右";
+            toolItem17.Selete = false;
+            toolItem17.Text = "中";
+            toolItem18.Selete = false;
+            toolItem18.Text = "色";
+            this.toolBar1.Items.Add(toolItem13);
+            this.toolBar1.Items.Add(toolItem14);
+            this.toolBar1.Items.Add(toolItem15);
+            this.toolBar1.Items.Add(toolItem16);
+            this.toolBar1.Items.Add(toolItem17);
+            this.toolBar1.Items.Add(toolItem18);
+            // 
+            // panel3
+            // 
+            this.panel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             // 
             // Form2
             // 
@@ -72,5 +76,6 @@
         }
 
         #endregion
+
     }
 }

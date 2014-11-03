@@ -13,7 +13,7 @@ namespace Paway.Forms
     /// <summary>
     /// 控件假透明
     /// </summary>
-    public class TAlpha : MControl
+    public class TAlpha : Panel
     {
         #region 属性
         private int _alpha = 100;
@@ -29,42 +29,36 @@ namespace Paway.Forms
                 {
                     _alpha = value;
                     this.Invalidate();
+                    //Application.DoEvents();
+                    //if (this.IsDisposed) return;
+                    ////NativeMethods.LockWindowUpdate(this.Handle);
+                    //this.BackColor = Color.FromArgb(Alpha, 255, 0, 0);
+                    //NativeMethods.LockWindowUpdate(IntPtr.Zero);
                 }
             }
         }
         private Color _bkcolor = Color.Blue;
-        private Label label1;
         /// <summary>
         /// 背景颜色
         /// </summary>
-        public Color bkColor
-        {
-            get { return _bkcolor; }
-            set
-            {
-                _bkcolor = value;
-                //this.Invalidate();
-                //this.Update();
-            }
-        }
-        private Color _bdcolor = Color.Red;
-        /// <summary>
-        /// 边框颜色
-        /// </summary>
-        public Color bdColor
-        {
-            get
-            {
-                return _bdcolor;
-            }
-            set
-            {
-                _bdcolor = value;
-                this.Invalidate();
-                this.Update();
-            }
-        }
+        public Color BkColor { get; set; }
+
         #endregion
+
+        #region 构造函数
+        /// <summary>
+        /// 控件假透明
+        /// </summary>
+        //public TAlpha()
+        //{
+        //    //this.SetStyle(
+        //    //    ControlStyles.OptimizedDoubleBuffer |
+        //    //    ControlStyles.DoubleBuffer, false);
+        //    //this.UpdateStyles();
+        //}
+
+        #endregion
+
 
         #region 构造函数
         private Timer sTimer;
@@ -79,16 +73,16 @@ namespace Paway.Forms
         /// </summary>
         public TAlpha()
         {
-            //base.SetStyle(ControlStyles.OptimizedDoubleBuffer |
-            //    ControlStyles.DoubleBuffer |
-            //    ControlStyles.AllPaintingInWmPaint |
-            //    ControlStyles.SupportsTransparentBackColor |
-            //    ControlStyles.ResizeRedraw |
-            //    ControlStyles.UserPaint, true);
+            //this.SetStyle(
+            //ControlStyles.UserPaint |
+            ////ControlStyles.AllPaintingInWmPaint |
+            //ControlStyles.ResizeRedraw |
+            //ControlStyles.Selectable |
+            //ControlStyles.SupportsTransparentBackColor, true);
 
-            this.SetStyle(
-                ControlStyles.OptimizedDoubleBuffer |
-                ControlStyles.DoubleBuffer, false);
+            //this.SetStyle(
+            //    ControlStyles.OptimizedDoubleBuffer |
+            //    ControlStyles.DoubleBuffer, false);
             //SetStyle(ControlStyles.Opaque, true);
 
             //SetStyle(ControlStyles.UserPaint, true);
@@ -100,29 +94,14 @@ namespace Paway.Forms
             //    ControlStyles.OptimizedDoubleBuffer |
             //    ControlStyles.DoubleBuffer, false);
             this.UpdateStyles();
-            InitializeComponent();
             sTimer = new Timer();
             sTimer.Interval = 10;
             sTimer.Tick += sTimer_Tick;
-        }
-
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
             //MStart();
         }
         public void MStart()
         {
-            this.dock = this.Dock;
-            if (this.Parent != null && this.dock == DockStyle.Fill)
-            {
-                this.Size = this.Parent.Size;
-            }
-            this.size = this.Size;
-            this.Dock = DockStyle.None;
-            this.Size = this.size;
-            {
-            }
+            this.Dock = DockStyle.Fill;
             Alpha = 255;
             intervel = 10;
             sTimer.Start();
@@ -131,30 +110,25 @@ namespace Paway.Forms
         void sTimer_Tick(object sender, EventArgs e)
         {
             if (this.IsDisposed) return;
-            NativeMethods.LockWindowUpdate(this.Handle);
+            //NativeMethods.LockWindowUpdate(this.Handle);
             {
                 if (this.Alpha > intervel)
                 {
                     this.Alpha -= intervel;
+                    this.Update();
                 }
                 else
                 {
                     this.Alpha = 0;
                     sTimer.Stop();
+                    this.Parent.Controls.Remove(this);
                 }
             }
-            NativeMethods.LockWindowUpdate(IntPtr.Zero);
-            if (!sTimer.Enabled)
-            {
-                this.Size = this.size;
-                this.Dock = dock;
-            }
+            //NativeMethods.LockWindowUpdate(IntPtr.Zero);
         }
 
         #endregion
 
-        #region 重载函数
-        #region 开启 WS_EX_TRANSPARENT,使控件支持透明
         /// <summary>
         /// 开启 WS_EX_TRANSPARENT,使控件支持透明
         /// </summary>
@@ -163,13 +137,11 @@ namespace Paway.Forms
             get
             {
                 CreateParams cp = base.CreateParams;
-                cp.ExStyle |= 0x20;  // 开启 WS_EX_TRANSPARENT,使控件支持透明
+                cp.ExStyle |= 0x20;
                 return cp;
             }
         }
-        #endregion
 
-        #region 不绘制背景
         /// <summary>
         /// 不绘制背景
         /// </summary>
@@ -177,13 +149,10 @@ namespace Paway.Forms
         protected override void OnPaintBackground(PaintEventArgs e)
         {
             //base.OnPaintBackground(e);
-            //不绘制背景
         }
-        #endregion
 
-        #region 绘制图形
         /// <summary>
-        /// 绘制背景
+        /// 绘制背景图形
         /// </summary>
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
@@ -192,52 +161,10 @@ namespace Paway.Forms
             Graphics g = e.Graphics;
             Bitmap bmp = new Bitmap(this.Width, this.Height);
             Graphics bufg = Graphics.FromImage(bmp);
-            bufg.DrawRectangle(new Pen(Color.FromArgb(this._alpha, this._bdcolor)), new Rectangle(0, 0, this.Size.Width, this.Size.Height));
-            bufg.FillRectangle(new SolidBrush(Color.FromArgb(this._alpha, this._bkcolor)), this.Bounds);
+            bufg.FillRectangle(new SolidBrush(Color.FromArgb(this._alpha, this._bkcolor)), new Rectangle(Point.Empty, this.Size));
             g.DrawImage(bmp, 0, 0);
-            bmp.Save(@"d:\1.png");
-            bufg.Dispose();
-            bmp.Dispose();
+            //bufg.Dispose();
+            //bmp.Dispose();
         }
-
-        #endregion
-
-        private void InitializeComponent()
-        {
-            this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.Font = new System.Drawing.Font("宋体", 22F);
-            this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(132, 128);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(125, 70);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "二手返修存在严重";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(77, 100);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // TAlpha
-            // 
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.label1);
-            this.Name = "TAlpha";
-            this.Size = new System.Drawing.Size(274, 216);
-            this.ResumeLayout(false);
-
-        }
-
-        #endregion
     }
 }

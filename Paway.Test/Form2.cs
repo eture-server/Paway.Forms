@@ -41,8 +41,8 @@ namespace Paway.Test
                     control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.Transparent);
                     break;
                 case "色":
-                    //control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.Transparent);
-                    control = MControl.ReLoad(panel3, typeof(TAlpha2));
+                    control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.Transparent);
+                    //control = MControl.ReLoad(panel3, typeof(TAlpha));
                     break;
             }
         }

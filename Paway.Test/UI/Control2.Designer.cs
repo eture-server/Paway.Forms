@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Control2));
-            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             this.label1 = new System.Windows.Forms.Label();
             this.qqTextBox1 = new Paway.Forms.QQTextBox();
             this.btQQDemo = new Paway.Forms.QQButton();
@@ -79,13 +79,13 @@
             // 
             this.toolBar2.ICheckEvent = true;
             this.toolBar2.ImageSize = new System.Drawing.Size(16, 16);
-            toolItem3.Image = ((System.Drawing.Image)(resources.GetObject("toolItem3.Image")));
-            toolItem3.Selete = false;
-            toolItem3.Text = "创建宝贝";
-            toolItem4.Selete = false;
-            toolItem4.Text = "上传宝贝";
-            this.toolBar2.Items.Add(toolItem3);
-            this.toolBar2.Items.Add(toolItem4);
+            toolItem1.Image = ((System.Drawing.Image)(resources.GetObject("toolItem1.Image")));
+            toolItem1.Selete = false;
+            toolItem1.Text = "创建宝贝";
+            toolItem2.Selete = false;
+            toolItem2.Text = "上传宝贝";
+            this.toolBar2.Items.Add(toolItem1);
+            this.toolBar2.Items.Add(toolItem2);
             this.toolBar2.ItemSize = new System.Drawing.Size(116, 34);
             this.toolBar2.ItemSpace = 0;
             this.toolBar2.Location = new System.Drawing.Point(319, 26);
