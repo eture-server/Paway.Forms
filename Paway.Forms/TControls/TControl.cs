@@ -240,6 +240,7 @@ namespace Paway.Forms
         private Size step;
         private TControl alpha;
         private int color;
+        private Image image;
         private void InitShow()
         {
             sTimer = new Timer();
@@ -301,17 +302,21 @@ namespace Paway.Forms
                         alpha = new TControl();
                     }
                     this.sTimer.Interval = 50;
-                    Bitmap bitmap = new Bitmap(this.Width, this.Height);
+                    image = this.BackgroundImage;
+                    if (this.Width > 0 && this.Height > 0)
                     {
-                        this.DrawToBitmap(bitmap, new Rectangle(0, 0, this.Width, this.Height));
-                        this.BackgroundImage = bitmap;
+                        Bitmap bitmap = new Bitmap(this.Width, this.Height);
+                        {
+                            this.DrawToBitmap(bitmap, new Rectangle(0, 0, this.Width, this.Height));
+                            this.BackgroundImage = bitmap;
+                        }
+                        alpha.Dock = DockStyle.Fill;
+                        alpha.BackColor = Color.FromArgb(255, alpha.BackColor);
+                        color = 255;
+                        this.intervel = 255 / this.MInterval;
+                        this.Controls.Add(this.alpha);
+                        this.Controls.SetChildIndex(this.alpha, 0);
                     }
-                    alpha.Dock = DockStyle.Fill;
-                    alpha.BackColor = Color.FromArgb(255, alpha.BackColor);
-                    color = 255;
-                    this.intervel = 255 / this.MInterval;
-                    this.Controls.Add(this.alpha);
-                    this.Controls.SetChildIndex(this.alpha, 0);
                     break;
             }
             sTimer.Start();
@@ -388,6 +393,7 @@ namespace Paway.Forms
                     else
                     {
                         this.Controls.Remove(alpha);
+                        this.BackgroundImage = this.image;
                         sTimer.Stop();
                     }
                     break;

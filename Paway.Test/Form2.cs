@@ -19,6 +19,12 @@ namespace Paway.Test
         {
             InitializeComponent();
             toolBar1.ItemClick += toolBar1_ItemClick;
+            //toolOk.MDirection = TMDirection.Transparent;
+        }
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            toolOk2.TRefresh();
         }
 
         void toolBar1_ItemClick(object sender, EventArgs e)
@@ -46,7 +52,7 @@ namespace Paway.Test
                     control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.Transparent);
                     break;
                 case "色2":
-                    control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.Transparent);
+                    control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.None);
                     break;
             }
         }
