@@ -253,8 +253,15 @@ namespace Paway.Forms
         /// </summary>
         protected override void OnLoad(EventArgs e)
         {
-            this.point = this.Location;
             base.OnLoad(e);
+            MStart();
+        }
+        /// <summary>
+        /// 启动特效
+        /// </summary>
+        public void MStart(TMDirection dirction)
+        {
+            this.MDirection = dirction;
             MStart();
         }
         /// <summary>
@@ -262,8 +269,20 @@ namespace Paway.Forms
         /// </summary>
         public void MStart()
         {
-            if (sTimer.Enabled || MDirection == TMDirection.None) return;
-            this.dock = this.Dock;
+            if (MDirection == TMDirection.None)
+            {
+                sTimer.Enabled = false;
+                return;
+            }
+            if (sTimer.Enabled)
+            {
+                sTimer.Enabled = false;
+            }
+            else
+            {
+                this.point = this.Location;
+                this.dock = this.Dock;
+            }
             if (this.Parent != null && this.dock == DockStyle.Fill)
             {
                 this.Size = this.Parent.Size;
@@ -275,19 +294,19 @@ namespace Paway.Forms
             switch (this.MDirection)
             {
                 case TMDirection.Left:
-                    this.Left = this.Parent != null ? -this.Parent.Width : -this.Width;
+                    this.Left = -this.Width;
                     this.intervel = this.Width / this.MInterval;
                     break;
                 case TMDirection.Right:
-                    this.Left = this.Parent != null ? this.Parent.Width : this.Width;
+                    this.Left = this.Parent != null ? this.Parent.Width : this.Right;
                     this.intervel = this.Width / this.MInterval;
                     break;
                 case TMDirection.Up:
-                    this.Top = this.Parent != null ? -this.Parent.Height : -this.Height;
+                    this.Top = -this.Height;
                     this.intervel = this.Height / this.MInterval;
                     break;
                 case TMDirection.Down:
-                    this.Top = this.Parent != null ? this.Parent.Height : -this.Height;
+                    this.Top = this.Parent != null ? this.Parent.Height : this.Bottom;
                     this.intervel = this.Height / this.MInterval;
                     break;
                 case TMDirection.Center:
@@ -321,10 +340,16 @@ namespace Paway.Forms
             }
             sTimer.Start();
         }
+        private void Init()
+        { }
         void sTimer_Tick(object sender, EventArgs e)
         {
             if (this.IsDisposed) return;
-            NativeMethods.LockWindowUpdate(this.Handle);
+            if (point == new Point(-1, -1))
+            {
+                point = this.Location;
+            }
+            //NativeMethods.LockWindowUpdate(this.Handle);
             switch (this.MDirection)
             {
                 case TMDirection.Left:
@@ -398,7 +423,7 @@ namespace Paway.Forms
                     }
                     break;
             }
-            NativeMethods.LockWindowUpdate(IntPtr.Zero);
+            //NativeMethods.LockWindowUpdate(IntPtr.Zero);
             if (!sTimer.Enabled)
             {
                 this.Size = this.size;

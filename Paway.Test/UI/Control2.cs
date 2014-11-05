@@ -16,5 +16,15 @@ namespace Paway.Test.UI
         {
             InitializeComponent();
         }
+        public override void ReLoad()
+        {
+            base.ReLoad();
+            toolLeft.MStart(TMDirection.Left);
+            toolRight.MStart(TMDirection.Right);
+            toolUp.MStart(TMDirection.Up);
+            toolDown.MStart(TMDirection.Down);
+            toolCenter.MStart(TMDirection.Center);
+            toolTran.MStart(TMDirection.Transparent);
+        }
     }
 }

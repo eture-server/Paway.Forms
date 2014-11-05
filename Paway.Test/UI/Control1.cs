@@ -16,5 +16,10 @@ namespace Paway.Test.UI
         {
             InitializeComponent();
         }
+        public override void ReLoad()
+        {
+            base.ReLoad();
+            toolbar.MStart();
+        }
     }
 }
