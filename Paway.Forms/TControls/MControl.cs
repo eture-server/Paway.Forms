@@ -143,7 +143,7 @@ namespace Paway.Forms
                 control.Dock = System.Windows.Forms.DockStyle.Fill;
                 parent.Controls.Add(control);
                 control.MDirection = direction;
-                control.MStart();
+                control.MChild();
                 if (!_iList.ContainsKey(type.Name))
                 {
                     _iList.Add(type.Name, control);

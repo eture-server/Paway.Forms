@@ -254,6 +254,27 @@ namespace Paway.Forms
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+            MChild();
+        }
+        /// <summary>
+        /// 为标题栏准备
+        /// </summary>
+        public void MChild()
+        {
+            for (int i = 0; i < this.Controls.Count; i++)
+            {
+                if (this.Controls[i] is Panel)
+                {
+                    Panel panel = this.Controls[i] as Panel;
+                    for (int j = 0; j < panel.Controls.Count; j++)
+                    {
+                        if (panel.Controls[j] is TControl)
+                        {
+                            (panel.Controls[j] as TControl).MStart();
+                        }
+                    }
+                }
+            }
             MStart();
         }
         /// <summary>
@@ -269,13 +290,12 @@ namespace Paway.Forms
         /// </summary>
         public void MStart()
         {
-            if (MDirection == TMDirection.None)
-            {
-                sTimer.Enabled = false;
-                return;
-            }
+            if (MDirection == TMDirection.None) return;
             if (sTimer.Enabled)
             {
+                this.BackgroundImage = image;
+                this.Size = this.size;
+                this.Dock = dock;
                 sTimer.Enabled = false;
             }
             else
@@ -340,8 +360,6 @@ namespace Paway.Forms
             }
             sTimer.Start();
         }
-        private void Init()
-        { }
         void sTimer_Tick(object sender, EventArgs e)
         {
             if (this.IsDisposed) return;

@@ -30,7 +30,7 @@ namespace Paway.Test
         void toolBar1_ItemClick(object sender, EventArgs e)
         {
             ToolItem item = sender as ToolItem;
-            MControl.ReSet(panel3);
+            //MControl.ReSet(panel3);
             switch (item.Text)
             {
                 case "左":
