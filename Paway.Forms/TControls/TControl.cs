@@ -286,18 +286,52 @@ namespace Paway.Forms
             MStart();
         }
         /// <summary>
+        /// 随机特效
+        /// </summary>
+        public void MRandom()
+        {
+            int random = Enum.GetNames(typeof(TMDirection)).Length;
+            random = new Random().Next(0, random);
+            this.MDirection = (TMDirection)random;
+            MStart();
+        }
+        /// <summary>
+        /// 停止特效，并还原
+        /// </summary>
+        public void MStop()
+        {
+            if (sTimer.Enabled)
+            {
+                this.Size = this.size;
+                this.Dock = dock;
+                switch (this.MDirection)
+                {
+                    case TMDirection.Left:
+                    case TMDirection.Right:
+                        this.Left = this.point.X;
+                        break;
+                    case TMDirection.Up:
+                    case TMDirection.Down:
+                        this.Top = this.point.Y;
+                        break;
+                    case TMDirection.Center:
+                        this.Location = this.point;
+                        break;
+                    case TMDirection.Transparent:
+                        this.Controls.Remove(alpha);
+                        this.BackgroundImage = this.image;
+                        break;
+                }
+                sTimer.Stop();
+            }
+        }
+        /// <summary>
         /// 启动特效
         /// </summary>
         public void MStart()
         {
+            MStop();
             if (MDirection == TMDirection.None) return;
-            if (sTimer.Enabled)
-            {
-                this.BackgroundImage = image;
-                this.Size = this.size;
-                this.Dock = dock;
-                sTimer.Enabled = false;
-            }
             else
             {
                 this.point = this.Location;
@@ -350,7 +384,7 @@ namespace Paway.Forms
                             this.BackgroundImage = bitmap;
                         }
                         alpha.Dock = DockStyle.Fill;
-                        alpha.BackColor = Color.FromArgb(255, alpha.BackColor);
+                        alpha.BackColor = Color.FromArgb(255, this.BackColor);
                         color = 255;
                         this.intervel = 255 / this.MInterval;
                         this.Controls.Add(this.alpha);

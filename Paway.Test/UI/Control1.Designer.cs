@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem5 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem6 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.toolbar = new Paway.Forms.ToolBar();
             this.tDataGridViewPager1 = new Paway.Forms.TDataGridViewPager();
@@ -55,24 +55,24 @@
             this.toolbar.ICheckEvent = true;
             this.toolbar.IImageShow = false;
             this.toolbar.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem4.Selete = false;
-            toolItem4.Tag = "登陆";
-            toolItem4.Text = "登陆";
-            toolItem5.Selete = false;
-            toolItem5.Tag = "更新密码";
-            toolItem5.TColor.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
-            toolItem5.TColor.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
-            toolItem5.TColor.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(135)))), ((int)(((byte)(239)))));
-            toolItem5.Text = "更新密码";
-            toolItem6.Selete = false;
-            toolItem6.Tag = "语言";
-            toolItem6.TColor.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(110)))), ((int)(((byte)(18)))));
-            toolItem6.TColor.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(77)))), ((int)(((byte)(187)))), ((int)(((byte)(95)))));
-            toolItem6.TColor.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(158)))), ((int)(((byte)(26)))));
-            toolItem6.Text = "Deutsch";
-            this.toolbar.Items.Add(toolItem4);
-            this.toolbar.Items.Add(toolItem5);
-            this.toolbar.Items.Add(toolItem6);
+            toolItem1.Selete = false;
+            toolItem1.Tag = "登陆";
+            toolItem1.Text = "登陆";
+            toolItem2.Selete = false;
+            toolItem2.Tag = "更新密码";
+            toolItem2.TColor.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
+            toolItem2.TColor.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
+            toolItem2.TColor.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(135)))), ((int)(((byte)(239)))));
+            toolItem2.Text = "更新密码";
+            toolItem3.Selete = false;
+            toolItem3.Tag = "语言";
+            toolItem3.TColor.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(110)))), ((int)(((byte)(18)))));
+            toolItem3.TColor.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(77)))), ((int)(((byte)(187)))), ((int)(((byte)(95)))));
+            toolItem3.TColor.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(158)))), ((int)(((byte)(26)))));
+            toolItem3.Text = "Deutsch";
+            this.toolbar.Items.Add(toolItem1);
+            this.toolbar.Items.Add(toolItem2);
+            this.toolbar.Items.Add(toolItem3);
             this.toolbar.ItemSize = new System.Drawing.Size(94, 46);
             this.toolbar.ItemSpace = 15;
             this.toolbar.Location = new System.Drawing.Point(0, 0);
@@ -127,7 +127,7 @@
             this.tDataGridViewPager1.Location = new System.Drawing.Point(0, 49);
             this.tDataGridViewPager1.Name = "tDataGridViewPager1";
             this.tDataGridViewPager1.Size = new System.Drawing.Size(533, 168);
-            this.tDataGridViewPager1.TabIndex = 2;
+            this.tDataGridViewPager1.TabIndex = 3;
             // 
             // 
             // 

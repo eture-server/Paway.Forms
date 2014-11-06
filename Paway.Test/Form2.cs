@@ -30,11 +30,12 @@ namespace Paway.Test
         void toolBar1_ItemClick(object sender, EventArgs e)
         {
             ToolItem item = sender as ToolItem;
+            MControl control = null;
             //MControl.ReSet(panel3);
             switch (item.Text)
             {
                 case "左":
-                    MControl control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.Left);
+                    control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.Left);
                     break;
                 case "右":
                     control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.Right);
@@ -53,6 +54,10 @@ namespace Paway.Test
                     break;
                 case "色2":
                     control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.None);
+                    if (control != null)
+                    {
+                        control.MRandom();
+                    }
                     break;
             }
         }
