@@ -332,11 +332,8 @@ namespace Paway.Forms
         {
             MStop();
             if (MDirection == TMDirection.None) return;
-            else
-            {
-                this.point = this.Location;
-                this.dock = this.Dock;
-            }
+            this.point = this.Location;
+            this.dock = this.Dock;
             if (this.Parent != null && this.dock == DockStyle.Fill)
             {
                 this.Size = this.Parent.Size;

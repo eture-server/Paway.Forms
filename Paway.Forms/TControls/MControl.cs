@@ -164,7 +164,7 @@ namespace Paway.Forms
                 }
                 Current.iLoad = true;
                 Current.Focus();
-                Current.ReLoad();
+                //Current.ReLoad();
             }
         }
         /// <summary>
