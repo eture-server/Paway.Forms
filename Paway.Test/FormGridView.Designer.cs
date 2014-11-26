@@ -362,7 +362,6 @@
             this.tDataGridViewPager1.TPager.Location = new System.Drawing.Point(0, 126);
             this.tDataGridViewPager1.TPager.Name = "pager1";
             this.tDataGridViewPager1.TPager.PageSize = 50;
-            this.tDataGridViewPager1.TPager.RecordCount = 0;
             this.tDataGridViewPager1.TPager.Size = new System.Drawing.Size(437, 30);
             this.tDataGridViewPager1.TPager.TabIndex = 11;
             // 

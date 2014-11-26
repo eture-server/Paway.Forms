@@ -119,10 +119,13 @@ namespace Paway.Forms
 
         void pager1_PageChanged(object sender, EventArgs e)
         {
-            BingData();
             if (PageChanged != null)
             {
                 PageChanged(sender, e);
+            }
+            else
+            {
+                BingData();
             }
         }
 
@@ -267,7 +270,6 @@ namespace Paway.Forms
             this.pager1.Location = new System.Drawing.Point(0, 173);
             this.pager1.Name = "pager1";
             this.pager1.PageSize = 50;
-            this.pager1.RecordCount = 0;
             this.pager1.Size = new System.Drawing.Size(576, 30);
             this.pager1.TabIndex = 11;
             // 

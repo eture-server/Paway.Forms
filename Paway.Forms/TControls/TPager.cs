@@ -145,7 +145,7 @@ namespace Paway.Forms
         /// <summary>
         /// 设置或获取记录总数
         /// </summary>
-        [Description("设置或获取记录总数"), Category("分页")]
+        [Description("设置或获取记录总数"), Category("分页"), DefaultValue(0)]
         public int RecordCount
         {
             set
@@ -191,7 +191,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        /// 初始化分页信息
+        /// 更新分页信息
         /// </summary>
         /// <param name="info"></param>
         public void InitPageInfo(PagerInfo info)
@@ -199,15 +199,7 @@ namespace Paway.Forms
             InitPageInfo(info.RecordCount, info.PageSize);
         }
         /// <summary> 
-        /// 初始化分页信息
-        /// <param name="recordCount">总记录数</param>
-        /// </summary>
-        public void InitPageInfo(int recordCount)
-        {
-            InitPageInfo(recordCount, 0);
-        }
-        /// <summary> 
-        /// 初始化分页信息
+        /// 更新分页信息
         /// <param name="pageSize">每页记录数</param>
         /// <param name="recordCount">总记录数</param>
         /// </summary>
@@ -219,7 +211,7 @@ namespace Paway.Forms
         }
 
         /// <summary> 
-        /// 初始化分页信息
+        /// 更新分页信息
         /// </summary>
         public void InitPageInfo()
         {
