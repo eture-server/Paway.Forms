@@ -105,7 +105,6 @@
             // toolBar
             // 
             this.toolBar.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolBar.ICheckEvent = true;
             this.toolBar.ImageSize = new System.Drawing.Size(32, 32);
             this.toolBar.IShowToolTop = true;
             toolItem1.Desc = "";
@@ -113,7 +112,7 @@
             toolItem1.Selete = false;
             toolItem1.TColor.StringVertical = System.Drawing.StringAlignment.Center;
             toolItem1.Text = "白酒";
-            toolItem2.Desc = "";
+            toolItem2.Desc = "aaaaa";
             toolItem2.EndDesc = "";
             toolItem2.HeadDesc = "呵呵";
             toolItem2.IChange = true;
@@ -272,7 +271,7 @@
             this.tbName.IconIsButton = true;
             this.tbName.IsPasswordChat = '\0';
             this.tbName.Lines = new string[0];
-            this.tbName.Location = new System.Drawing.Point(-705, 34);
+            this.tbName.Location = new System.Drawing.Point(-123, 34);
             this.tbName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tbName.MaxLength = 10;
             this.tbName.Name = "tbName";

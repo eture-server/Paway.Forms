@@ -540,10 +540,6 @@ namespace Paway.Forms
         #region 事件
         #region 事件对像
         /// <summary>
-        /// 当选中项的索引发生改变时事件的 Key
-        /// </summary>
-        private static readonly object EventSelectedIndexChanged = new object();
-        /// <summary>
         /// 当选中项的发生改变时事件的 Key
         /// </summary>
         private static readonly object EventSelectedItemChanged = new object();
@@ -572,21 +568,6 @@ namespace Paway.Forms
         {
             if (!item.Enable) return;
             EventHandler handler = base.Events[EventSelectedItemChanged] as EventHandler;
-            if (handler != null)
-            {
-                item.Owner = this;
-                handler(item, e);
-            }
-        }
-        /// <summary>
-        /// 当选择的 Item 索引发生改变时激发。
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="e">包含事件数据的 System.EventArgs。</param>
-        public virtual void OnSelectedIndexChanged(ToolItem item, EventArgs e)
-        {
-            if (!item.Enable) return;
-            EventHandler handler = base.Events[EventSelectedIndexChanged] as EventHandler;
             if (handler != null)
             {
                 item.Owner = this;
@@ -647,15 +628,6 @@ namespace Paway.Forms
         }
 
         #endregion
-
-        /// <summary>
-        /// 当选中项的索引发生改变时
-        /// </summary>
-        public event EventHandler SelectedIndexChanged
-        {
-            add { base.Events.AddHandler(EventSelectedIndexChanged, value); }
-            remove { base.Events.RemoveHandler(EventSelectedIndexChanged, value); }
-        }
         /// <summary>
         /// 当选中项的发生改变时
         /// </summary>
@@ -1408,7 +1380,6 @@ namespace Paway.Forms
                         this._selectedItem = item;
                         this._selectedIndex = this.Items.GetIndexOfRange(item);
                         this.OnSelectedItemChanged(item, e);
-                        this.OnSelectedIndexChanged(item, e);
                     }
                 }
                 //事件
@@ -1497,7 +1468,6 @@ namespace Paway.Forms
                         this._selectedItem = item;
                         this._selectedIndex = this.Items.GetIndexOfRange(item);
                         this.OnSelectedItemChanged(item, e);
-                        this.OnSelectedIndexChanged(item, e);
                     }
                     if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
                     {

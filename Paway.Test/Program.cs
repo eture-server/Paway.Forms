@@ -34,7 +34,7 @@ namespace Paway.Test
             //InitConfig.ForeColor = Color.Red;
             //InitConfig.Font = new Font("微软雅黑", 16f);
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            Form2 form = null;
+            Form1 form = null;
             try
             {
                 //被识别的主图
@@ -43,7 +43,7 @@ namespace Paway.Test
                 //Bitmap fo = Paway.Helper.BitmapHelper.GetBitmapFormFile(@"d:\4.png");
                 //var a = ImageRecognitionHelper.SearchBitmap_Test(fo, on);
 
-                form = new Form2();
+                form = new Form1();
                 Application.Run(form);
             }
             catch (Exception ex)

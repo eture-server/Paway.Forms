@@ -39,11 +39,6 @@ namespace Paway.Test
             about.ShowDialog(this);
         }
 
-        private void toolBar1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //MessageBox.Show("下标改变了，当前下标为：" + this.toolBar1.SelectedIndex);
-        }
-
         private void toolBar1_SelectedItemChanged(object sender, EventArgs e)
         {
             //MessageBox.Show("项发生改变了，当前项为：" + this.toolBar1.SelectedItem);

@@ -92,7 +92,6 @@
             this.toolBar1.Name = "toolBar1";
             this.toolBar1.Size = new System.Drawing.Size(850, 82);
             this.toolBar1.TabIndex = 0;
-            this.toolBar1.SelectedIndexChanged += new System.EventHandler(this.toolBar1_SelectedIndexChanged);
             this.toolBar1.SelectedItemChanged += new System.EventHandler(this.toolBar1_SelectedItemChanged);
             // 
             // pictureBox1
