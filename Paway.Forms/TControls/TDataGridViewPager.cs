@@ -36,30 +36,11 @@ namespace Paway.Forms
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TDataGridView Edit { get { return this.tDataGridView1; } }
 
-        private PagerInfo pagerInfo = null;
         /// <summary>
         /// 分页信息
         /// </summary>
         [Category("Properties")]
-        public PagerInfo PagerInfo
-        {
-            get
-            {
-                if (pagerInfo == null)
-                {
-                    pagerInfo = new PagerInfo();
-                    pagerInfo.RecordCount = this.pager1.RecordCount;
-                    pagerInfo.CurrenetPageIndex = this.pager1.CurrentPageIndex;
-                    pagerInfo.PageSize = this.pager1.PageSize;
-                }
-                else
-                {
-                    pagerInfo.CurrenetPageIndex = this.pager1.CurrentPageIndex;
-                }
-
-                return pagerInfo;
-            }
-        }
+        public PagerInfo PagerInfo { get { return this.pager1.PagerInfo; } }
 
         private object dataSource;//数据源
         /// <summary>
@@ -90,8 +71,8 @@ namespace Paway.Forms
         [Browsable(false), Description("获取或设置当前页码")]
         public int CurrenetPageIndex
         {
-            get { return PagerInfo.CurrenetPageIndex; }
-            set { PagerInfo.CurrenetPageIndex = value; }
+            get { return PagerInfo.CurrentPageIndex; }
+            set { PagerInfo.CurrentPageIndex = value; }
         }
 
         #endregion
@@ -138,7 +119,7 @@ namespace Paway.Forms
                 PagerInfo.RecordCount = dt.Rows.Count;
 
                 DataTable temp = dt.Clone();
-                int index = PagerInfo.PageSize * (PagerInfo.CurrenetPageIndex - 1);
+                int index = PagerInfo.PageSize * (PagerInfo.CurrentPageIndex - 1);
                 for (int i = index; i < index + PagerInfo.PageSize; i++)
                 {
                     if (i >= dt.Rows.Count) break;
@@ -155,7 +136,7 @@ namespace Paway.Forms
                 PagerInfo.RecordCount = list.Count;
                 IList temp = DType.CreateList();
 
-                int index = PagerInfo.PageSize * (PagerInfo.CurrenetPageIndex - 1);
+                int index = PagerInfo.PageSize * (PagerInfo.CurrentPageIndex - 1);
                 for (int i = index; i < index + PagerInfo.PageSize; i++)
                 {
                     if (i >= list.Count) break;
@@ -167,7 +148,6 @@ namespace Paway.Forms
             {
                 this.tDataGridView1.DataSource = dataSource;
             }
-            this.pager1.InitPageInfo(PagerInfo.RecordCount, PagerInfo.PageSize);
         }
 
         /// <summary>
@@ -175,18 +155,18 @@ namespace Paway.Forms
         /// </summary>
         public void ToCurrentPage(int index)
         {
-            if (index > pager1.PageCount)
+            if (index > PagerInfo.PageCount)
             {
-                index = pager1.PageCount;
+                index = PagerInfo.PageCount;
             }
-            PagerInfo.CurrenetPageIndex = index;
+            PagerInfo.CurrentPageIndex = index;
         }
         /// <summary>
         /// 切换至最后页
         /// </summary>
         public void ToLastPage()
         {
-            PagerInfo.CurrenetPageIndex = pager1.PageCount;
+            PagerInfo.CurrentPageIndex = PagerInfo.PageCount;
         }
 
         #endregion
@@ -269,7 +249,7 @@ namespace Paway.Forms
             this.pager1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pager1.Location = new System.Drawing.Point(0, 173);
             this.pager1.Name = "pager1";
-            this.pager1.PageSize = 50;
+            this.PagerInfo.PageSize = 50;
             this.pager1.Size = new System.Drawing.Size(576, 30);
             this.pager1.TabIndex = 11;
             // 

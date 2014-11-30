@@ -22,10 +22,6 @@ namespace Paway.Forms
     /// </summary>
     public partial class TPager : TControl
     {
-        private int m_PageSize = 20;
-        private int m_PageCount;
-        private int m_RecordCount = 0;
-        private int m_CurrentPageIndex = 1;
         private ToolBar toolLast;
         private ToolBar toolNext;
         private ToolBar toolPrevious;
@@ -47,28 +43,15 @@ namespace Paway.Forms
                 if (pagerInfo == null)
                 {
                     pagerInfo = new PagerInfo();
-                    pagerInfo.RecordCount = this.RecordCount;
-                    pagerInfo.CurrenetPageIndex = this.CurrentPageIndex;
-                    pagerInfo.PageSize = this.PageSize;
-
                     pagerInfo.PageInfoChanged += pagerInfo_PageInfoChanged;
                 }
-                else
-                {
-                    pagerInfo.CurrenetPageIndex = this.CurrentPageIndex;
-                }
-
                 return pagerInfo;
             }
         }
 
         void pagerInfo_PageInfoChanged(PagerInfo info)
         {
-            this.RecordCount = info.RecordCount;
-            this.CurrentPageIndex = info.CurrenetPageIndex;
-            this.PageSize = info.PageSize;
-
-            this.InitPageInfo();
+            this.InitPageInfo(info.RecordCount, info.PageSize);
         }
 
         #endregion
@@ -87,9 +70,9 @@ namespace Paway.Forms
         {
             InitializeComponent();
 
-            this.m_PageSize = pageSize;
-            this.m_RecordCount = recordCount;
-            this.m_CurrentPageIndex = 1; //默认为第一页
+            this.PagerInfo.PageSize = pageSize;
+            this.PagerInfo.RecordCount = recordCount;
+            this.PagerInfo.CurrentPageIndex = 1; //默认为第一页
             this.InitPageInfo();
             this.toolFirst.ItemClick += toolFirst_ItemClick;
             this.toolPrevious.ItemClick += toolPrevious_ItemClick;
@@ -113,70 +96,6 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 属性
-        /// <summary>
-        /// 设置或获取一页中显示的记录数目
-        /// </summary>
-        [Description("设置或获取一页中显示的记录数目"), DefaultValue(20), Category("分页")]
-        public int PageSize
-        {
-            set
-            {
-                this.m_PageSize = value;
-            }
-            get
-            {
-                return this.m_PageSize;
-            }
-        }
-
-        /// <summary>
-        /// 获取记录总页数
-        /// </summary>
-        [Description("获取记录总页数"), DefaultValue(0), Category("分页")]
-        public int PageCount
-        {
-            get
-            {
-                return this.m_PageCount;
-            }
-        }
-
-        /// <summary>
-        /// 设置或获取记录总数
-        /// </summary>
-        [Description("设置或获取记录总数"), Category("分页"), DefaultValue(0)]
-        public int RecordCount
-        {
-            set
-            {
-                this.m_RecordCount = value;
-            }
-            get
-            {
-                return this.m_RecordCount;
-            }
-        }
-
-        /// <summary>
-        /// 当前的页面索引, 开始为1
-        /// </summary>
-        [Description("当前的页面索引, 开始为1"), DefaultValue(1), Category("分页")]
-        [Browsable(false)]
-        public int CurrentPageIndex
-        {
-            set
-            {
-                this.m_CurrentPageIndex = value;
-            }
-            get
-            {
-                return this.m_CurrentPageIndex;
-            }
-        }
-
-        #endregion
-
         #region 分页
         /// <summary>
         /// 引发页面变化处理事件
@@ -190,14 +109,6 @@ namespace Paway.Forms
             }
         }
 
-        /// <summary>
-        /// 更新分页信息
-        /// </summary>
-        /// <param name="info"></param>
-        public void InitPageInfo(PagerInfo info)
-        {
-            InitPageInfo(info.RecordCount, info.PageSize);
-        }
         /// <summary> 
         /// 更新分页信息
         /// <param name="pageSize">每页记录数</param>
@@ -205,8 +116,8 @@ namespace Paway.Forms
         /// </summary>
         public void InitPageInfo(int recordCount, int pageSize)
         {
-            this.m_RecordCount = recordCount;
-            this.m_PageSize = pageSize;
+            this.PagerInfo.RecordCount = recordCount;
+            this.PagerInfo.PageSize = pageSize;
             this.InitPageInfo();
         }
 
@@ -215,49 +126,40 @@ namespace Paway.Forms
         /// </summary>
         public void InitPageInfo()
         {
-            if (this.m_PageSize < 1)
-                this.m_PageSize = 10; //如果每页记录数不正确，即更改为10
-            if (this.m_RecordCount < 0)
-                this.m_RecordCount = 0; //如果记录总数不正确，即更改为0
-
-            //取得总页数
-            if (this.m_RecordCount % this.m_PageSize == 0)
-            {
-                this.m_PageCount = this.m_RecordCount / this.m_PageSize;
-            }
-            else
-            {
-                this.m_PageCount = this.m_RecordCount / this.m_PageSize + 1;
-            }
+            if (this.PagerInfo.PageSize < 1)
+                this.PagerInfo.PageSize = 10; //如果每页记录数不正确，即更改为10
+            if (this.PagerInfo.RecordCount < 0)
+                this.PagerInfo.RecordCount = 0; //如果记录总数不正确，即更改为0
 
             //设置当前页
-            if (this.m_CurrentPageIndex > this.m_PageCount)
+            if (this.PagerInfo.CurrentPageIndex > this.PagerInfo.PageCount)
             {
-                this.m_CurrentPageIndex = this.m_PageCount;
+                this.PagerInfo.CurrentPageIndex = this.PagerInfo.PageCount;
             }
-            if (this.m_CurrentPageIndex < 1)
+            if (this.PagerInfo.CurrentPageIndex < 1)
             {
-                this.m_CurrentPageIndex = 1;
+                this.PagerInfo.CurrentPageIndex = 1;
             }
 
             //设置按钮的可用性
-            bool enable = (this.CurrentPageIndex > 1);
+            bool enable = (this.PagerInfo.CurrentPageIndex > 1);
             this.toolPrevious.Enabled = enable;
 
-            enable = (this.CurrentPageIndex < this.PageCount);
+            enable = (this.PagerInfo.CurrentPageIndex < this.PagerInfo.PageCount);
             this.toolNext.Enabled = enable;
 
-            this.txtCurrentPage.Text = this.m_CurrentPageIndex.ToString();
-            this.lblPageInfo.Text = string.Format("共 {0} 条记录，每页 {1} 条，共 {2} 页", this.m_RecordCount, this.m_PageSize, this.m_PageCount);
+            this.txtCurrentPage.Text = this.PagerInfo.CurrentPageIndex.ToString();
+            this.lblPageInfo.Text = string.Format("共 {0} 条记录，每页 {1} 条，共 {2} 页", this.PagerInfo.RecordCount, this.PagerInfo.PageSize, this.PagerInfo.PageCount);
         }
 
+        #region 当前页更新
         /// <summary>
         /// 刷新页面数据
         /// </summary>
         /// <param name="page">页码</param>
         public void RefreshData(int page)
         {
-            this.m_CurrentPageIndex = page;
+            this.PagerInfo.CurrentPageIndex = page;
             OnPageChanged(EventArgs.Empty);
         }
 
@@ -268,9 +170,9 @@ namespace Paway.Forms
 
         void toolPrevious_ItemClick(object sender, EventArgs e)
         {
-            if (this.m_CurrentPageIndex > 1)
+            if (this.PagerInfo.CurrentPageIndex > 1)
             {
-                this.RefreshData(this.m_CurrentPageIndex - 1);
+                this.RefreshData(this.PagerInfo.CurrentPageIndex - 1);
             }
             else
             {
@@ -280,25 +182,25 @@ namespace Paway.Forms
 
         void toolNext_ItemClick(object sender, EventArgs e)
         {
-            if (this.m_CurrentPageIndex < this.m_PageCount)
+            if (this.PagerInfo.CurrentPageIndex < this.PagerInfo.PageCount)
             {
-                this.RefreshData(this.m_CurrentPageIndex + 1);
+                this.RefreshData(this.PagerInfo.CurrentPageIndex + 1);
             }
-            else if (this.m_PageCount < 1)
+            else if (this.PagerInfo.PageCount < 1)
             {
                 this.RefreshData(1);
             }
             else
             {
-                this.RefreshData(this.m_PageCount);
+                this.RefreshData(this.PagerInfo.PageCount);
             }
         }
 
         void toolLast_ItemClick(object sender, EventArgs e)
         {
-            if (this.m_PageCount > 0)
+            if (this.PagerInfo.PageCount > 0)
             {
-                this.RefreshData(this.m_PageCount);
+                this.RefreshData(this.PagerInfo.PageCount);
             }
             else
             {
@@ -312,14 +214,16 @@ namespace Paway.Forms
             {
                 int num = this.txtCurrentPage.Text.ToInt();
 
-                if (num > this.m_PageCount)
-                    num = this.m_PageCount;
+                if (num > this.PagerInfo.PageCount)
+                    num = this.PagerInfo.PageCount;
                 if (num < 1)
                     num = 1;
 
                 this.RefreshData(num);
             }
         }
+
+        #endregion
 
         #endregion
 
@@ -541,7 +445,7 @@ namespace Paway.Forms
         /// </summary>
         public event PageInfoChanged PageInfoChanged;
 
-        private int currenetPageIndex; //当前页码
+        private int currentPageIndex; //当前页码
         private int pageSize;//每页显示的记录
         private int recordCount;//记录总数
 
@@ -551,16 +455,19 @@ namespace Paway.Forms
         /// 获取或设置当前页码
         /// </summary>
         [DataMember]
-        public int CurrenetPageIndex
+        public int CurrentPageIndex
         {
-            get { return currenetPageIndex; }
+            get { return currentPageIndex; }
             set
             {
                 if (value < 1) value = 1;
-                currenetPageIndex = value;
-                if (PageInfoChanged != null)
+                if (currentPageIndex != value)
                 {
-                    PageInfoChanged(this);
+                    currentPageIndex = value;
+                    if (PageInfoChanged != null)
+                    {
+                        PageInfoChanged(this);
+                    }
                 }
             }
         }
@@ -574,10 +481,14 @@ namespace Paway.Forms
             get { return pageSize; }
             set
             {
-                pageSize = value;
-                if (PageInfoChanged != null)
+                if (value < 1) value = 1;
+                if (pageSize != value)
                 {
-                    PageInfoChanged(this);
+                    pageSize = value;
+                    if (PageInfoChanged != null)
+                    {
+                        PageInfoChanged(this);
+                    }
                 }
             }
         }
@@ -591,10 +502,34 @@ namespace Paway.Forms
             get { return recordCount; }
             set
             {
-                recordCount = value;
-                if (PageInfoChanged != null)
+                if (value < 0) value = 0;
+                if (recordCount != value)
                 {
-                    PageInfoChanged(this);
+                    recordCount = value;
+                    if (PageInfoChanged != null)
+                    {
+                        PageInfoChanged(this);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 获取记录总页数
+        /// </summary>
+        [Description("获取记录总页数"), DefaultValue(0), Category("分页")]
+        public int PageCount
+        {
+            get
+            {
+                if (this.PageSize == 0) this.PageSize = 1;
+                if (this.RecordCount % this.PageSize == 0)
+                {
+                    return this.recordCount / pageSize;
+                }
+                else
+                {
+                    return this.recordCount / pageSize + 1;
                 }
             }
         }
