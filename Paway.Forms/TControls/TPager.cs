@@ -476,6 +476,7 @@ namespace Paway.Forms
         /// 获取或设置每页显示的记录
         /// </summary>
         [DataMember]
+        [Description("获取或设置每页显示的记录"), DefaultValue(50), Category("分页")]
         public int PageSize
         {
             get { return pageSize; }
@@ -497,6 +498,7 @@ namespace Paway.Forms
         /// 获取或设置记录总数
         /// </summary>
         [DataMember]
+        [Description("获取或设置记录总数"), DefaultValue(0), Category("分页")]
         public int RecordCount
         {
             get { return recordCount; }
@@ -517,6 +519,7 @@ namespace Paway.Forms
         /// <summary>
         /// 获取记录总页数
         /// </summary>
+        [DataMember]
         [Description("获取记录总页数"), DefaultValue(0), Category("分页")]
         public int PageCount
         {
