@@ -53,14 +53,11 @@ namespace Paway.Helper
         {
             if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
                 return 0;
-            else
-            {
-                double value;
-                if (double.TryParse(obj.ToString(), out value))
-                    return value;
-                else
-                    return 0;
-            }
+
+            double value;
+            if (double.TryParse(obj.ToString(), out value))
+                return value;
+            return 0;
         }
 
         /// <summary>
@@ -70,40 +67,29 @@ namespace Paway.Helper
         /// <returns></returns>
         public static int ToInt(this object obj)
         {
-            try
+            if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
+                return -1;
+
+            if (obj.ToString().ToUpper() == "TRUE")
+                return 1;
+            if (obj.ToString().ToUpper() == "FALSE")
+                return 0;
+            int data = -1;
+            if (int.TryParse(obj.ToString(), out data))
             {
-                if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
-                    return -1;
-                else
+                return data;
+            }
+
+            double result;
+            if (double.TryParse(obj.ToString(), out result))
+            {
+                result = Math.Round(result);
+                if (int.TryParse(result.ToString(), out data))
                 {
-                    if (obj.ToString().ToUpper() == "TRUE")
-                        return 1;
-                    else if (obj.ToString().ToUpper() == "FALSE")
-                        return 0;
-                    int data = -1;
-                    if (int.TryParse(obj.ToString(), out data))
-                    {
-                        return data;
-                    }
-                    else
-                    {
-                        double result;
-                        if (double.TryParse(obj.ToString(), out result))
-                        {
-                            result = Math.Round(result);
-                            if (int.TryParse(result.ToString(), out data))
-                            {
-                                return data;
-                            }
-                        }
-                        return -1;
-                    }
+                    return data;
                 }
             }
-            catch
-            {
-                throw;
-            }
+            return -1;
         }
 
         /// <summary>
@@ -115,18 +101,15 @@ namespace Paway.Helper
         {
             if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
                 return false;
-            else
-            {
-                bool value;
-                if (obj.ToString() == "1")
-                    return true;
-                else if (obj.ToString() == "0")
-                    return false;
-                else if (bool.TryParse(obj.ToString(), out value))
-                    return value;
-                else
-                    return false;
-            }
+
+            bool value;
+            if (obj.ToString() == "1")
+                return true;
+            if (obj.ToString() == "0")
+                return false;
+            if (bool.TryParse(obj.ToString(), out value))
+                return value;
+            return false;
         }
 
         /// <summary>
@@ -136,27 +119,13 @@ namespace Paway.Helper
         /// <returns></returns>
         public static long ToLong(this object obj)
         {
-            try
-            {
-                if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
-                    return -1;
-                else
-                {
-                    long value;
-                    if (long.TryParse(obj.ToString(), out value))
-                    {
-                        return value;
-                    }
-                    else
-                    {
-                        return -1;
-                    }
-                }
-            }
-            catch
-            {
-                throw;
-            }
+            if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
+                return -1;
+
+            long value;
+            if (long.TryParse(obj.ToString(), out value))
+                return value;
+            return -1;
         }
 
         /// <summary>
@@ -164,19 +133,12 @@ namespace Paway.Helper
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static string ToString(this object obj)
+        public static string ToString2(this object obj)
         {
-            try
-            {
-                if (obj == null || obj == DBNull.Value)
-                    return string.Empty;
-                else
-                    return obj.ToString().Trim();
-            }
-            catch
-            {
-                throw;
-            }
+            if (obj == null || obj == DBNull.Value)
+                return string.Empty;
+
+            return obj.ToString().Trim();
         }
 
         /// <summary>
@@ -188,8 +150,11 @@ namespace Paway.Helper
         {
             if (obj == null || obj == DBNull.Value || obj.ToString() == string.Empty)
                 return new DateTime();
-            else
-                return Convert.ToDateTime(obj);
+
+            DateTime dt;
+            if (DateTime.TryParse(obj.ToString(), out dt))
+                return dt;
+            return new DateTime();
         }
 
         /// <summary>
@@ -1031,6 +996,14 @@ namespace Paway.Helper
                                     {
                                         pro.SetValue(obj, value.ToInt(), null);
                                     }
+                                    else if (pro.PropertyType == typeof(DateTime))
+                                    {
+                                        pro.SetValue(obj, value.ToDateTime(), null);
+                                    }
+                                    else if (pro.PropertyType == typeof(String))
+                                    {
+                                        pro.SetValue(obj, value.ToString2(), null);
+                                    }
                                     else
                                     {
                                         pro.SetValue(obj, value, null);
@@ -1431,9 +1404,10 @@ namespace Paway.Helper
                     }
                     if (properties[i].PropertyType == typeof(DateTime) && value is DateTime)
                     {
-                        DateTime dt = (DateTime)value;
+                        DateTime dt = value.ToDateTime();
                         if (dt == DateTime.MinValue)
-                            value = new DateTime(2000, 1, 1);
+                            dt = new DateTime(2000, 1, 1);
+                        value = dt;
                     }
                     Assembly asmb = Assembly.GetAssembly(ptype);
                     DbParameter param = asmb.CreateInstance(ptype.FullName) as DbParameter;
