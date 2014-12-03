@@ -60,13 +60,12 @@ namespace Paway.Utils.Data
         /// <summary>
         /// 对连接执行 Transact-SQL 语句并返回受影响的行数。
         /// </summary>
-        public int ExecuteNonQuery(string sql)
+        public int ExecuteNonQuery(string sql, DbCommand cmd = null)
         {
-            DbCommand cmd = null;
+            bool iTrans = cmd == null;
             try
             {
-                cmd = CommandStart(sql);
-                cmd.CommandType = CommandType.Text;
+                if (iTrans) cmd = CommandStart();
                 return cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -76,19 +75,18 @@ namespace Paway.Utils.Data
             }
             finally
             {
-                CommandEnd(cmd);
+                if (iTrans) CommandEnd(cmd);
             }
         }
         /// <summary>
         /// 执行查询，并返回查询所返回的结果集中第一行的第一列。忽略其他列或行。
         /// </summary>
-        public object ExecuteScalar(string sql)
+        public object ExecuteScalar(string sql, DbCommand cmd = null)
         {
-            DbCommand cmd = null;
+            bool iTrans = cmd == null;
             try
             {
-                cmd = CommandStart(sql);
-                cmd.CommandType = CommandType.Text;
+                if (iTrans) cmd = CommandStart();
                 return cmd.ExecuteScalar();
             }
             catch (Exception ex)
@@ -98,19 +96,18 @@ namespace Paway.Utils.Data
             }
             finally
             {
-                CommandEnd(cmd);
+                if (iTrans) CommandEnd(cmd);
             }
         }
         /// <summary>
         /// 执行查询，并返回查询所返回的DataTable
         /// </summary>
-        public DataTable ExecuteDataTable(string sql)
+        public DataTable ExecuteDataTable(string sql, DbCommand cmd = null)
         {
-            DbCommand cmd = null;
+            bool iTrans = cmd == null;
             try
             {
-                cmd = CommandStart(sql);
-                cmd.CommandType = CommandType.Text;
+                if (iTrans) cmd = CommandStart();
                 DbDataReader dr = cmd.ExecuteReader();
                 DataTable table = new DataTable();
                 table.Load(dr);
@@ -124,41 +121,34 @@ namespace Paway.Utils.Data
             }
             finally
             {
-                CommandEnd(cmd);
+                if (iTrans) CommandEnd(cmd);
             }
         }
         /// <summary>
         /// 使用事务处理  Transact-SQL 语句列表
         /// </summary>
-        public bool TransExecuteNonQuery(List<string> sqlList)
+        public bool TransExecuteNonQuery(List<string> sqlList, DbCommand cmd = null)
         {
-            DbCommand cmd = null;
+            bool iTrans = cmd == null;
             try
             {
-                cmd = TransStart();
-                try
+                if (iTrans) cmd = TransStart();
+                for (int i = 0; i < sqlList.Count; i++)
                 {
-                    for (int i = 0; i < sqlList.Count; i++)
-                    {
-                        cmd.CommandText = sqlList[i];
-                        cmd.ExecuteNonQuery();
-                    }
-                    TransCommit(cmd);
+                    cmd.CommandText = sqlList[i];
+                    cmd.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
-                    TransError(cmd, ex);
-                    throw;
-                }
-                return true;
+                if (iTrans) return TransCommit(cmd);
+                else return true;
             }
-            catch
+            catch (Exception ex)
             {
+                if (iTrans) TransError(cmd, ex);
                 throw;
             }
             finally
             {
-                CommandEnd(cmd);
+                if (iTrans) CommandEnd(cmd);
             }
         }
 
@@ -291,6 +281,7 @@ namespace Paway.Utils.Data
         {
             Assembly asmb = Assembly.GetAssembly(cmdType);
             DbCommand cmd = asmb.CreateInstance(cmdType.FullName) as DbCommand;
+            cmd.CommandType = CommandType.Text;
             return cmd;
         }
 
