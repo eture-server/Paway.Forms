@@ -57,6 +57,7 @@ namespace Paway.Test
 
         private void btDelete_Click(object sender, EventArgs e)
         {
+            object result = service.ExecuteScalar("select count(0) from Hello");
             service.Delete<TestData>(5);
         }
 

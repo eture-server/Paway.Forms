@@ -988,11 +988,11 @@ namespace Paway.Helper
                                     {
                                         pro.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image, null);
                                     }
-                                    else if (pro.PropertyType == typeof(Double))
+                                    else if (pro.PropertyType == typeof(Double) || pro.PropertyType == typeof(double))
                                     {
                                         pro.SetValue(obj, value.ToDouble(), null);
                                     }
-                                    else if (pro.PropertyType == typeof(Int32))
+                                    else if (pro.PropertyType == typeof(Int32) || pro.PropertyType == typeof(int))
                                     {
                                         pro.SetValue(obj, value.ToInt(), null);
                                     }
@@ -1000,7 +1000,7 @@ namespace Paway.Helper
                                     {
                                         pro.SetValue(obj, value.ToDateTime(), null);
                                     }
-                                    else if (pro.PropertyType == typeof(String))
+                                    else if (pro.PropertyType == typeof(String) || pro.PropertyType == typeof(string))
                                     {
                                         pro.SetValue(obj, value.ToString2(), null);
                                     }

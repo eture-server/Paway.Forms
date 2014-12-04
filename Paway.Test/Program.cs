@@ -34,7 +34,6 @@ namespace Paway.Test
             //InitConfig.ForeColor = Color.Red;
             //InitConfig.Font = new Font("微软雅黑", 16f);
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            Form1 form = null;
             try
             {
                 //被识别的主图
@@ -43,13 +42,11 @@ namespace Paway.Test
                 //Bitmap fo = Paway.Helper.BitmapHelper.GetBitmapFormFile(@"d:\4.png");
                 //var a = ImageRecognitionHelper.SearchBitmap_Test(fo, on);
 
-                form = new Form1();
-                Application.Run(form);
+                Application.Run(new FormSql());
             }
             catch (Exception ex)
             {
-                if (form != null && !form.IsDisposed)
-                    MessageBox.Show(form, ex.Message, "Tinn", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                log.ErrorFormat("软件出现未处理的异常，即将退出0。\r\n{0}", ex);
             }
         }
 

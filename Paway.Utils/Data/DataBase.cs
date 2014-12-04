@@ -66,6 +66,7 @@ namespace Paway.Utils.Data
             try
             {
                 if (iTrans) cmd = CommandStart();
+                cmd.CommandText = sql;
                 return cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -87,6 +88,7 @@ namespace Paway.Utils.Data
             try
             {
                 if (iTrans) cmd = CommandStart();
+                cmd.CommandText = sql;
                 return cmd.ExecuteScalar();
             }
             catch (Exception ex)
@@ -108,6 +110,7 @@ namespace Paway.Utils.Data
             try
             {
                 if (iTrans) cmd = CommandStart();
+                cmd.CommandText = sql;
                 DbDataReader dr = cmd.ExecuteReader();
                 DataTable table = new DataTable();
                 table.Load(dr);
