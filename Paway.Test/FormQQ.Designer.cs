@@ -258,7 +258,6 @@
             this.drawTreeView1.Items.Add(treeItem16);
             this.drawTreeView1.Location = new System.Drawing.Point(0, 0);
             this.drawTreeView1.Name = "drawTreeView1";
-            this.drawTreeView1.Root = "0";
             this.drawTreeView1.Size = new System.Drawing.Size(301, 246);
             this.drawTreeView1.TabIndex = 1;
             // 

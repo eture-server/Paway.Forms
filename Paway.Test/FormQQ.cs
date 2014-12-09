@@ -36,6 +36,7 @@ namespace Paway.Test
         private void qqButton1_Click(object sender, EventArgs e)
         {
             AnimalShow();
+            TreeView();
         }
 
         protected override void OnShown(EventArgs e)
@@ -87,7 +88,7 @@ namespace Paway.Test
                 TreeData tda = new TreeData
                 {
                     Id = i,
-                    parentId = 0,
+                    ParentId = 0,
                     Name = "Name" + i,
                     Custom = "Custom" + i,
                     Value = "Value" + i,
@@ -98,7 +99,7 @@ namespace Paway.Test
                     list.Add(new TreeData
                     {
                         Id = j,
-                        parentId = tda.Id,
+                        ParentId = tda.Id,
                         Name = "C_N" + j,
                         Custom = "C_C" + i,
                         Statu = BitmapHelper.GetBitmapFormFile(string.Format("{0}\\{1}.png", path, j - 10)),
@@ -125,7 +126,7 @@ namespace Paway.Test
     {
         public int Id { get; set; }
 
-        public int parentId { get; set; }
+        public int ParentId { get; set; }
 
         public string Name { get; set; }
 

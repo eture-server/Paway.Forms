@@ -269,12 +269,12 @@ namespace Paway.Forms
 
         #region 节点添加
         #region 属性
-        private object _root = 0;
+        private object _root;
         /// <summary>
         /// 根节点
         /// </summary>
         [TypeConverter(typeof(StringConverter))]
-        [Browsable(true), Category("控件的数据设置"), Description("根节点"), DefaultValue(0)]
+        [Browsable(true), Category("控件的数据设置"), Description("根节点"), DefaultValue(null)]
         public object Root
         {
             get { return _root; }
@@ -338,7 +338,7 @@ namespace Paway.Forms
         #region 方法
         private void InitData()
         {
-            if (_dataSource == null || _id == null || _parentId == null || _root == null) return;
+            if (_dataSource == null || _id == null || _parentId == null) return;
             DataTable dt = null;
             Type type = _dataSource.GetType();
             if (_dataSource is DataTable)
@@ -359,14 +359,37 @@ namespace Paway.Forms
             }
             if (dt != null && dt.Rows.Count > 0)
             {
-                AddNodes(dt);
+                AddNodes(dt, type);
             }
         }
-        private void AddNodes(DataTable dt)
+        private void AddNodes(DataTable dt, Type type)
         {
-            DataRow[] dr = dt.Select(string.Format("{0} = '{1}'", _id, _root));
-            if (dr.Length > 0) throw new Exception("子节点不可与根节点相同");
-            dr = dt.Select(string.Format("{0} = '{1}'", _parentId, _root));
+            DataRow[] dr = null;
+            if (_root == null)
+            {
+                PropertyDescriptorCollection props = TypeDescriptor.GetProperties(type);
+                for (int i = 0; i < props.Count; i++)
+                {
+                    if (props[i].Name == _parentId.ToString())
+                    {
+                        if (!props[i].PropertyType.IsValueType && props[i].PropertyType != typeof(String))
+                        {
+                            _root = Activator.CreateInstance(props[i].PropertyType);
+                        }
+                        break;
+                    }
+                }
+            }
+            if (_root != null)
+            {
+                dr = dt.Select(string.Format("{0} = '{1}'", _id, _root));
+                if (dr.Length > 0) throw new Exception("子节点不可与根节点相同");
+                dr = dt.Select(string.Format("{0} = '{1}'", _parentId, _root));
+            }
+            else
+            {
+                dr = dt.Select(string.Format("{0} is null", _parentId));
+            }
             for (int i = 0; i < dr.Length; i++)
             {
                 ItemNode node = new ItemNode(dr[i]);

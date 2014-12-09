@@ -77,8 +77,9 @@ namespace Paway.Test
             List<TestData> list = Find<TestData>() as List<TestData>;
         }
     }
+
     [Serializable, Property(Table = "Hello", Mark = "Tid")]
-    public class TestData
+    public class TestData : BaseData
     {
         //public int Id { get; set; }
         [Property(Column = "Tid")]
@@ -95,5 +96,11 @@ namespace Paway.Test
         public TestData() : this(1) { }
         public TestData(int a)
         { }
+    }
+    [Serializable, Property(Table = "HelloBase", Mark = "Tid")]
+    public class BaseData
+    {
+        [Property(Column = "Data")]
+        public int Data { get; set; }
     }
 }

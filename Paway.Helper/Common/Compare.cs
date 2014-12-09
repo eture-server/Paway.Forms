@@ -12,10 +12,12 @@ namespace Paway.Helper
 
     /// <summary>
     /// 比较方法
-    /// 用法：new List(T).Distinct(new Compare(T)((x, y) => x.Value == y.Value))
     /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class Compare<T> : IEqualityComparer<T>
     {
+        //用法：new List(T).Distinct(new Compare<T>((x, y) => x.Value == y.Value))
+
         private EqualsComparer<T> _equalsComparer;
 
         /// <summary>
