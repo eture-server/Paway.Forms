@@ -110,7 +110,10 @@ namespace Paway.Forms
             }
         }
 
-        private void BingData()
+        /// <summary>
+        /// 分页加载数据
+        /// </summary>
+        public void BingData()
         {
             if (dataSource == null) return;
             if (dataSource is DataTable)
