@@ -86,12 +86,28 @@ namespace Paway.Forms
         /// </summary>
         public static MControl ReLoad(Control parent, Type type)
         {
-            return ReLoad(parent, type, TMDirection.None);
+            return ReLoad(parent, type, TMDirection.None, EventArgs.Empty);
+        }
+        /// <summary>
+        /// 切换界面控件
+        /// 如已加载，则调用ReLoad()
+        /// </summary>
+        public static MControl ReLoad(Control parent, Type type, EventArgs e)
+        {
+            return ReLoad(parent, type, TMDirection.None, e);
+        }
+        /// <summary>
+        /// 切换界面控件
+        /// 如已加载，则调用ReLoad()
+        /// </summary>
+        public static MControl ReLoad(Control parent, Type type, TMDirection direction)
+        {
+            return ReLoad(parent, type, direction, EventArgs.Empty);
         }
         /// <summary>
         /// 切换界面控件
         /// </summary>
-        public static MControl ReLoad(Control parent, Type type, TMDirection direction, int intervel = 12)
+        public static MControl ReLoad(Control parent, Type type, TMDirection direction, EventArgs e, int intervel = 12)
         {
             if (!Licence.Checking()) return null;
 
@@ -129,6 +145,7 @@ namespace Paway.Forms
                 {
                     Assembly asmb = Assembly.GetAssembly(type);
                     control = asmb.CreateInstance(type.FullName) as MControl;
+                    control.Tag = e;
                 }
                 if (control == null)
                 {
