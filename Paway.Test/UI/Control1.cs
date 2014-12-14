@@ -16,6 +16,11 @@ namespace Paway.Test.UI
         {
             InitializeComponent();
         }
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            OnChanged(this, e);
+        }
         public override void ReLoad()
         {
             base.ReLoad();

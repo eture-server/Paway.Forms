@@ -10,6 +10,12 @@ using System.Windows.Forms;
 namespace Paway.Forms
 {
     /// <summary>
+    /// 事件委托方法(OnChanged)
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    public delegate void MethodDelegate(object sender, EventArgs e);
+    /// <summary>
     /// 多控件切换方法
     /// </summary>
     public class MControl : TControl
@@ -31,6 +37,7 @@ namespace Paway.Forms
         #endregion
 
         #region virtual Method
+        private Delegate method;
         /// <summary>
         /// 控件数据
         /// </summary>
@@ -53,12 +60,25 @@ namespace Paway.Forms
         public virtual void Refresh(object sender, EventArgs e) { }
 
         /// <summary>
+        /// 调用委托
+        /// </summary>
+        /// <param name="method"></param>
+        public void InitDelegate(Delegate method)
+        {
+            this.method = method;
+        }
+        /// <summary>
         /// 引发ChangeEvent事件
+        /// 引发委托事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected virtual void OnChanged(object sender, EventArgs e)
         {
+            if (method != null)
+            {
+                this.Invoke(method, sender, e);
+            }
             if (ChangeEvent != null)
             {
                 ChangeEvent(sender, e);
@@ -82,32 +102,38 @@ namespace Paway.Forms
         public static MControl Current { get; private set; }
         /// <summary>
         /// 切换界面控件
-        /// 如已加载，则调用ReLoad()
         /// </summary>
         public static MControl ReLoad(Control parent, Type type)
         {
-            return ReLoad(parent, type, TMDirection.None, EventArgs.Empty);
+            return ReLoad(parent, type, EventArgs.Empty, TMDirection.None);
         }
         /// <summary>
         /// 切换界面控件
-        /// 如已加载，则调用ReLoad()
         /// </summary>
         public static MControl ReLoad(Control parent, Type type, EventArgs e)
         {
-            return ReLoad(parent, type, TMDirection.None, e);
+            return ReLoad(parent, type, e, TMDirection.None);
+        }
+        /// <summary>
+        /// 切换界面控件
+        /// </summary>
+        public static MControl ReLoad(Control parent, Type type, TMDirection direction)
+        {
+            return ReLoad(parent, type, EventArgs.Empty, direction);
+        }
+        /// <summary>
+        /// 切换界面控件
+        /// </summary>
+        public static MControl ReLoad(Control parent, Type type, Delegate method)
+        {
+            return ReLoad(parent, type, EventArgs.Empty, TMDirection.None, method);
         }
         /// <summary>
         /// 切换界面控件
         /// 如已加载，则调用ReLoad()
+        /// 如调用委托，要求参数：object sender ,EventArgs e
         /// </summary>
-        public static MControl ReLoad(Control parent, Type type, TMDirection direction)
-        {
-            return ReLoad(parent, type, direction, EventArgs.Empty);
-        }
-        /// <summary>
-        /// 切换界面控件
-        /// </summary>
-        public static MControl ReLoad(Control parent, Type type, TMDirection direction, EventArgs e, int intervel = 12)
+        public static MControl ReLoad(Control parent, Type type, EventArgs e, TMDirection direction, Delegate method = null, int intervel = 12)
         {
             if (!Licence.Checking()) return null;
 
@@ -146,6 +172,7 @@ namespace Paway.Forms
                     Assembly asmb = Assembly.GetAssembly(type);
                     control = asmb.CreateInstance(type.FullName) as MControl;
                     control.Tag = e;
+                    control.InitDelegate(method);
                 }
                 if (control == null)
                 {
