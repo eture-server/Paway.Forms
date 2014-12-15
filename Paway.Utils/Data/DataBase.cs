@@ -291,17 +291,19 @@ namespace Paway.Utils.Data
         #endregion
 
         #region 扩展.语句
+        #region Find
         /// <summary>
         /// 查找指定主列的数据
         /// </summary>
-        public T Find<T>(long id, DbCommand cmd = null)
+        public T Find<T>(long id, DbCommand cmd = null, params string[] args)
         {
             bool iTrans = cmd == null;
             string sql = null;
             try
             {
                 if (iTrans) cmd = CommandStart();
-                sql = default(T).SelectOne();
+                sql = default(T).SelectOne(args);
+
                 DbParameter parame = default(T).AddParameter<T>(paramType, id);
                 cmd.CommandText = sql;
                 cmd.CommandType = CommandType.Text;
@@ -327,30 +329,26 @@ namespace Paway.Utils.Data
         /// <summary>
         /// 填充 System.Data.DataSet 并返回一个IList列表
         /// </summary>
-        public IList<T> Find<T>(DbCommand cmd = null)
+        public IList<T> Find<T>(DbCommand cmd = null, params string[] args)
         {
-            return Find<T>(null, cmd);
+            return FindTop<T>(null, 0, false, cmd, args);
         }
         /// <summary>
         /// 填充 System.Data.DataSet 并返回一个IList列表
         /// 查找指定查询语句
         /// </summary>
-        /// <typeparam name="T">class.Type</typeparam>
-        /// <param name="find">查询条件</param>
-        /// <param name="cmd"></param>
-        /// <returns></returns>
-        public IList<T> Find<T>(string find, DbCommand cmd = null)
+        public IList<T> Find<T>(string find, DbCommand cmd = null, params string[] args)
         {
-            return FindTop<T>(find, null, false, cmd);
+            return FindTop<T>(find, 0, false, cmd, args);
         }
         /// <summary>
         /// 填充 System.Data.DataSet 并返回一个IList列表
         /// 查找指定查询语句
         /// 指定返回行数
         /// </summary>
-        public virtual IList<T> FindTop<T>(string find, int count, DbCommand cmd = null)
+        public virtual IList<T> FindTop<T>(string find, int count, DbCommand cmd = null, params string[] args)
         {
-            return FindTop<T>(find, count, false, cmd);
+            return FindTop<T>(find, count, false, cmd, args);
         }
         /// <summary> 
         /// 填充 System.Data.DataSet 并返回一个IList列表
@@ -358,16 +356,16 @@ namespace Paway.Utils.Data
         /// 指定返回行数
         /// 是否SQLite
         /// </summary>
-        protected IList<T> FindTop<T>(string find, int? count, bool isSQLite, DbCommand cmd = null)
+        protected IList<T> FindTop<T>(string find, int count, bool isSQLite, DbCommand cmd = null, params string[] args)
         {
             bool iTrans = cmd == null;
             string sql = null;
             try
             {
                 if (iTrans) cmd = CommandStart();
-                if (count == null)
+                if (count == 0)
                 {
-                    sql = default(T).Select(find);
+                    sql = default(T).Select(find, args);
                 }
                 else
                 {
@@ -377,7 +375,7 @@ namespace Paway.Utils.Data
                     }
                     else
                     {
-                        sql = default(T).Select(find, count);
+                        sql = default(T).Select(find, count, args);
                     }
                 }
                 cmd.CommandText = sql;
@@ -397,6 +395,10 @@ namespace Paway.Utils.Data
                 if (iTrans) CommandEnd(cmd);
             }
         }
+
+        #endregion
+
+        #region Insert
         /// <summary>
         /// 插入列
         /// </summary>
@@ -440,6 +442,40 @@ namespace Paway.Utils.Data
                     }
                     dr.Close();
                 }
+                if (iTrans) return TransCommit(cmd);
+                else return true;
+            }
+            catch (Exception ex)
+            {
+                if (iTrans) TransError(cmd, ex);
+                throw;
+            }
+            finally
+            {
+                if (iTrans) CommandEnd(cmd);
+            }
+        }
+
+        #endregion
+
+        #region Update
+        /// <summary>
+        /// 附加(更新)指定列
+        /// </summary>
+        public bool Append<T>(T t, T value, DbCommand cmd = null, params string[] args)
+        {
+            bool iTrans = cmd == null;
+            try
+            {
+                if (iTrans) cmd = TransStart();
+
+                string sql = t.Update<T>(true, args);
+                cmd.CommandText = sql;
+                DbParameter[] pList = value.AddParameters<T>(paramType, args).ToArray();
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddRange(pList);
+                cmd.ExecuteNonQuery();
+
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
@@ -500,6 +536,10 @@ namespace Paway.Utils.Data
                 if (iTrans) CommandEnd(cmd);
             }
         }
+
+        #endregion
+
+        #region Delete
         /// <summary>
         /// 删除所有行
         /// </summary>
@@ -606,6 +646,10 @@ namespace Paway.Utils.Data
                 if (iTrans) CommandEnd(cmd);
             }
         }
+
+        #endregion
+
+        #region Replace
         /// <summary>
         /// 更新或插入列
         /// </summary>
@@ -677,6 +721,8 @@ namespace Paway.Utils.Data
                 if (iTrans) CommandEnd(cmd);
             }
         }
+
+        #endregion
 
         #endregion
 

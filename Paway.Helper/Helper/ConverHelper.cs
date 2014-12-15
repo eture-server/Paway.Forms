@@ -1057,14 +1057,16 @@ namespace Paway.Helper
             if (attr.Key == null && attr.Mark == null) throw new ArgumentException("没有指定主键或主列名称");
             return attr;
         }
+
+        #region Select
         /// <summary>
         /// 将指定类型转为Select语句
         /// 指定查询条件为主列
         /// </summary>
-        public static string SelectOne<T>(this T t)
+        public static string SelectOne<T>(this T t, params string[] args)
         {
             PropertyAttribute attr = AttrMark(typeof(T));
-            string sql = SelectSql(typeof(T), null);
+            string sql = t.Select(0, args);
             sql = string.Format("{0} from [{1}]", sql, attr.Table);
             sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Mark ?? attr.Key);
             return sql;
@@ -1072,33 +1074,25 @@ namespace Paway.Helper
         /// <summary>
         /// 将指定类型转为Select语句
         /// </summary>
-        public static string Select<T>(this T t)
+        public static string Select<T>(this T t, params string[] args)
         {
-            return Select<T>(t, null);
+            return t.Select(null, 0, args);
         }
         /// <summary>
         /// 将指定类型转为Select语句
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="t"></param>
-        /// <param name="find">查询语句</param>
-        /// <returns></returns>
-        public static string Select<T>(this T t, string find)
+        public static string Select<T>(this T t, string find, params string[] args)
         {
-            return t.Select(find, null);
+            return t.Select(find, 0, args);
         }
         /// <summary>
         /// 将指定类型转为Select语句
+        /// 返回指定行数
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="t"></param>
-        /// <param name="find"></param>
-        /// <param name="count">返回指定行数</param>
-        /// <returns></returns>
-        public static string Select<T>(this T t, string find, int? count)
+        public static string Select<T>(this T t, string find, int count, params string[] args)
         {
             PropertyAttribute attr = AttrTable(typeof(T));
-            string sql = SelectSql(typeof(T), count);
+            string sql = t.Select(count, args);
             sql = string.Format("{0} from [{1}]", sql, attr.Table);
             if (find != null)
             {
@@ -1106,16 +1100,19 @@ namespace Paway.Helper
             }
             return sql;
         }
-        private static string SelectSql(Type type, int? count)
+        private static string Select<T>(this T t, int count, params string[] args)
         {
+            Type type = typeof(T);
             string sql = "select";
-            if (count != null)
+            if (count != 0)
             {
                 sql = string.Format("{0} Top {1}", sql, count);
             }
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < properties.Count; i++)
             {
+                if (args.Length > 0 && args.FirstOrDefault(c => c == properties[i].Name) != properties[i].Name) continue;
+
                 string column = properties[i].Name;
                 if (IsSelect(type, properties[i], ref column))
                 {
@@ -1125,6 +1122,10 @@ namespace Paway.Helper
             sql = sql.TrimEnd(',');
             return sql;
         }
+
+        #endregion
+
+        #region Delete
         /// <summary>
         /// 将指定类型转为Delete语句
         /// </summary>
@@ -1144,6 +1145,10 @@ namespace Paway.Helper
             string sql = string.Format("delete from [{0}] where {1}", attr.Table, find);
             return sql;
         }
+
+        #endregion
+
+        #region Update
         /// <summary>
         /// 将指定类型转为Update语句
         /// </summary>
@@ -1153,9 +1158,9 @@ namespace Paway.Helper
         }
         /// <summary>
         /// 将指定类型转为Update语句
-        /// only=true时为附加,对应Sql语句中的+
+        /// append=true时为附加,对应Sql语句中的+
         /// </summary>
-        public static string Update<T>(this T t, bool only = false, params string[] args)
+        public static string Update<T>(this T t, bool append = false, params string[] args)
         {
             Type type = typeof(T);
             PropertyAttribute attr = AttrMark(type);
@@ -1165,7 +1170,7 @@ namespace Paway.Helper
             for (int i = 0; i < properties.Count; i++)
             {
                 if (attr.Key != null && properties[i].Name == attr.Key) continue;
-                if (args.Length > 0 && args.First(c => c == properties[i].Name) != properties[i].Name) continue;
+                if (args.Length > 0 && args.FirstOrDefault(c => c == properties[i].Name) != properties[i].Name) continue;
 
                 string column = properties[i].Name;
                 if (IsSelect(type, properties[i], ref column))
@@ -1174,7 +1179,7 @@ namespace Paway.Helper
                     {
                         sql = string.Format("{0} [{1}]=NULL,", sql, column);
                     }
-                    else if (only)
+                    else if (append)
                     {
                         sql = string.Format("{0} [{1}]=[{1}]+@{1},", sql, column);
                     }
@@ -1188,43 +1193,10 @@ namespace Paway.Helper
             sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Mark ?? attr.Key);
             return sql;
         }
-        /// <summary>
-        /// 将指定类型转为Update语句
-        /// 指定列名与值
-        /// </summary>
-        public static string Update<T>(this T t, string name, object value, string name1, object value1, string name2, object value2)
-        {
-            Type type = typeof(T);
-            PropertyAttribute attr = AttrMark(typeof(T));
-            string sql = "update [{0}] set";
-            sql = string.Format(sql, attr.Table);
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
-            for (int i = 0; i < properties.Count; i++)
-            {
-                if (attr.Key != null && properties[i].Name == attr.Key) continue;
-                if (IsNull(t, properties[i])) continue;
 
-                string column = properties[i].Name;
-                if (IsSelect(type, properties[i], ref column))
-                {
-                    if (column == name)
-                    {
-                        sql = string.Format("{0} [{1}]=[{1}]+{2},", sql, column, value);
-                    }
-                    if (column == name1)
-                    {
-                        sql = string.Format("{0} [{1}]=[{1}]+{2},", sql, column, value1);
-                    }
-                    if (column == name2)
-                    {
-                        sql = string.Format("{0} [{1}]=[{1}]+{2},", sql, column, value2);
-                    }
-                }
-            }
-            sql = sql.TrimEnd(',');
-            sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Mark ?? attr.Key);
-            return sql;
-        }
+        #endregion
+
+        #region Insert
         /// <summary>
         /// 将指定类型转为Insert语句
         /// </summary>
@@ -1233,12 +1205,15 @@ namespace Paway.Helper
             PropertyAttribute attr = AttrTable(typeof(T));
 
             string insert = null;
-            string update = null;
-            InsertSql(t, attr, typeof(T), ref insert, ref update);
-            string sql = string.Format("insert into [{0}]({1}) values({2})", attr.Table, insert, update);
+            string value = null;
+            t.Insert(attr, typeof(T), ref insert, ref value);
+            string sql = string.Format("insert into [{0}]({1}) values({2})", attr.Table, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
             return sql;
         }
+
+        #endregion
+
         /// <summary>
         /// 将指定类型转为Replace语句
         /// Sqlite更新、插入方法，需将Key键设为唯一索引
@@ -1252,13 +1227,13 @@ namespace Paway.Helper
             PropertyAttribute attr = AttrTable(typeof(T));
 
             string insert = null;
-            string update = null;
-            InsertSql(t, attr, typeof(T), ref insert, ref update);
-            string sql = string.Format("replace into [{0}]({1}) values({2})", attr.Table, insert, update);
+            string value = null;
+            t.Insert(attr, typeof(T), ref insert, ref value);
+            string sql = string.Format("replace into [{0}]({1}) values({2})", attr.Table, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
             return sql;
         }
-        private static void InsertSql<T>(T t, PropertyAttribute attr, Type type, ref string insert, ref string update)
+        private static void Insert<T>(this T t, PropertyAttribute attr, Type type, ref string insert, ref string value)
         {
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < properties.Count; i++)
@@ -1270,11 +1245,11 @@ namespace Paway.Helper
                 if (IsSelect(type, properties[i], ref column))
                 {
                     insert = string.Format("{0}[{1}],", insert, column);
-                    update = string.Format("{0}@{1},", update, column);
+                    value = string.Format("{0}@{1},", value, column);
                 }
             }
             insert = insert.TrimEnd(',');
-            update = update.TrimEnd(',');
+            value = value.TrimEnd(',');
         }
         /// <summary>
         /// 将指定类型转为UpdateOrInsert语句
@@ -1375,13 +1350,14 @@ namespace Paway.Helper
             Assembly asmb = Assembly.GetAssembly(ptype);
             List<DbParameter> pList = new List<DbParameter>();
 
+            PropertyAttribute attr = AttrMark(typeof(T));
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
+            string key = attr.Mark ?? attr.Key;
             for (int i = 0; i < properties.Count; i++)
             {
+                if (key != properties[i].Name && args.Length > 0 && args.FirstOrDefault(c => c == properties[i].Name) != properties[i].Name) continue;
                 object value = null;
-                IsValue(t, properties[i], ref value);
                 if (!IsValue(t, properties[i], ref value)) continue;
-                if (args.Length > 0 && args.First(c => c == properties[i].Name) != properties[i].Name) continue;
 
                 string column = properties[i].Name;
                 if (IsSelect(type, properties[i], ref column))
