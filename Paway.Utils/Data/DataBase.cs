@@ -456,23 +456,23 @@ namespace Paway.Utils.Data
         /// <summary>
         /// 更新列
         /// </summary>
-        public bool Update<T>(T t, DbCommand cmd = null)
+        public bool Update<T>(T t, DbCommand cmd = null, params string[] args)
         {
             List<T> list = new List<T>() { t };
-            return Update<T>(list, cmd);
+            return Update<T>(list, cmd, args);
         }
         /// <summary>
         /// 更新列表
         /// </summary>
-        public bool Update<T>(DataTable dt, DbCommand cmd = null)
+        public bool Update<T>(DataTable dt, DbCommand cmd = null, params string[] args)
         {
             IList<T> list = dt.ToIList<T>();
-            return Update<T>(list, cmd);
+            return Update<T>(list, cmd, args);
         }
         /// <summary>
         /// 更新列表
         /// </summary>
-        public bool Update<T>(IList<T> list, DbCommand cmd = null)
+        public bool Update<T>(IList<T> list, DbCommand cmd = null, params string[] args)
         {
             bool iTrans = cmd == null;
             try
@@ -480,9 +480,9 @@ namespace Paway.Utils.Data
                 if (iTrans) cmd = TransStart();
                 for (int i = 0; i < list.Count; i++)
                 {
-                    string sql = list[i].Update<T>();
+                    string sql = list[i].Update<T>(args);
                     cmd.CommandText = sql;
-                    DbParameter[] pList = list[i].AddParameters<T>(paramType).ToArray();
+                    DbParameter[] pList = list[i].AddParameters<T>(paramType, args).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
                     cmd.ExecuteNonQuery();
@@ -493,54 +493,6 @@ namespace Paway.Utils.Data
             catch (Exception ex)
             {
                 if (iTrans) TransError(cmd, ex);
-                throw;
-            }
-            finally
-            {
-                if (iTrans) CommandEnd(cmd);
-            }
-        }
-        /// <summary>
-        /// 更新列
-        /// 指定列名与添加值，由数据库直接操作
-        /// 只支持数据类型
-        /// </summary>
-        public bool Update<T>(T t, string name, object value, DbCommand cmd = null)
-        {
-            return Update<T>(t, name, value, null, null, cmd);
-        }
-        /// <summary>
-        /// 更新列
-        /// 指定列名与添加值，由数据库直接操作
-        /// 只支持数据类型
-        /// </summary>
-        public bool Update<T>(T t, string name, object value, string name1 = null, object value1 = null, DbCommand cmd = null)
-        {
-            return Update<T>(t, name, value, name1, value1, null, null, cmd);
-        }
-        /// <summary>
-        /// 更新列
-        /// 指定列名与添加值，由数据库直接操作
-        /// 只支持数据类型
-        /// </summary>
-        public bool Update<T>(T t, string name, object value, string name1 = null, object value1 = null, string name2 = null, object value2 = null, DbCommand cmd = null)
-        {
-            bool iTrans = cmd == null;
-            string sql = null;
-            try
-            {
-                if (iTrans) cmd = CommandStart();
-                sql = t.Update<T>(name, value, name1, value1, name2, value2);
-                cmd.CommandText = sql;
-                cmd.CommandType = CommandType.Text;
-                DbParameter[] pList = t.AddParameters<T>(paramType).ToArray();
-                cmd.Parameters.Clear();
-                cmd.Parameters.AddRange(pList);
-                return cmd.ExecuteNonQuery() == 1;
-            }
-            catch (Exception ex)
-            {
-                log.Error(string.Format("Delete.Error[{0}]\r\n{1}", sql, ex));
                 throw;
             }
             finally

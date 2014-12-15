@@ -959,62 +959,55 @@ namespace Paway.Helper
         /// <returns></returns>
         public static T CreateItem<T>(this DataRow row)
         {
-            T obj = default(T);
+            Type type = typeof(T);
+            T obj = Activator.CreateInstance<T>();//string 类型不支持无参的反射
             if (row != null)
             {
-                obj = Activator.CreateInstance<T>();//string 类型不支持无参的反射
                 PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
-
                 foreach (DataColumn column in row.Table.Columns)
                 {
                     for (int i = 0; i < properties.Count; i++)
                     {
-                        PropertyInfo pro = typeof(T).GetProperty(properties[i].Name, properties[i].PropertyType);
-                        PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-                        if (itemList == null || itemList.Length == 0 || itemList[0].Select || itemList[0].Excel)
+                        string name = properties[i].Name;
+                        if (!IsTabel(type, properties[i], ref name)) continue;
+                        if (name != column.ColumnName) continue;
+
+                        try
                         {
-                            string name = properties[i].Name;
-                            if (itemList != null && itemList.Length == 1 && itemList[0].Column != null)
+                            PropertyDescriptor pro = properties[i];
+                            object value = row[column.ColumnName];
+                            if (value == DBNull.Value) break;
+
+                            if (pro.PropertyType == typeof(Image) && value is byte[])
                             {
-                                name = itemList[0].Column;
+                                pro.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image);
                             }
-                            if (name != column.ColumnName) continue;
-                            try
+                            else if (pro.PropertyType == typeof(Double) || pro.PropertyType == typeof(double))
                             {
-                                object value = row[column.ColumnName];
-                                if (value != DBNull.Value)
-                                {
-                                    if (pro.PropertyType == typeof(Image) && value is byte[])
-                                    {
-                                        pro.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image, null);
-                                    }
-                                    else if (pro.PropertyType == typeof(Double) || pro.PropertyType == typeof(double))
-                                    {
-                                        pro.SetValue(obj, value.ToDouble(), null);
-                                    }
-                                    else if (pro.PropertyType == typeof(Int32) || pro.PropertyType == typeof(int))
-                                    {
-                                        pro.SetValue(obj, value.ToInt(), null);
-                                    }
-                                    else if (pro.PropertyType == typeof(DateTime))
-                                    {
-                                        pro.SetValue(obj, value.ToDateTime(), null);
-                                    }
-                                    else if (pro.PropertyType == typeof(String) || pro.PropertyType == typeof(string))
-                                    {
-                                        pro.SetValue(obj, value.ToString2(), null);
-                                    }
-                                    else
-                                    {
-                                        pro.SetValue(obj, value, null);
-                                    }
-                                }
-                                break;
+                                pro.SetValue(obj, value.ToDouble());
                             }
-                            catch
+                            else if (pro.PropertyType == typeof(Int32) || pro.PropertyType == typeof(int))
                             {
-                                throw;
+                                pro.SetValue(obj, value.ToInt());
                             }
+                            else if (pro.PropertyType == typeof(DateTime))
+                            {
+                                pro.SetValue(obj, value.ToDateTime());
+                            }
+                            else if (pro.PropertyType == typeof(String) || pro.PropertyType == typeof(string))
+                            {
+                                pro.SetValue(obj, value.ToString2());
+                            }
+                            else
+                            {
+                                pro.SetValue(obj, value);
+                            }
+
+                            break;
+                        }
+                        catch
+                        {
+                            throw;
                         }
                     }
                 }
@@ -1051,7 +1044,7 @@ namespace Paway.Helper
         private static PropertyAttribute AttrTable(Type type)
         {
             PropertyAttribute[] attrList = type.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            if (attrList == null || attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", type));
+            if (attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", type));
             if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
             return attrList[0];
         }
@@ -1123,15 +1116,9 @@ namespace Paway.Helper
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < properties.Count; i++)
             {
-                PropertyInfo pro = type.GetProperty(properties[i].Name, properties[i].PropertyType);
-                PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-                if (itemList == null || itemList.Length == 0 || itemList[0].Select)
+                string column = properties[i].Name;
+                if (IsSelect(type, properties[i], ref column))
                 {
-                    string column = properties[i].Name;
-                    if (itemList != null && itemList.Length == 1 && itemList[0].Column != null)
-                    {
-                        column = itemList[0].Column;
-                    }
                     sql = string.Format("{0} [{1}],", sql, column);
                 }
             }
@@ -1160,27 +1147,41 @@ namespace Paway.Helper
         /// <summary>
         /// 将指定类型转为Update语句
         /// </summary>
-        public static string Update<T>(this T t)
+        public static string Update<T>(this T t, params string[] args)
         {
-            PropertyAttribute attr = AttrMark(typeof(T));
+            return t.Update(false, args);
+        }
+        /// <summary>
+        /// 将指定类型转为Update语句
+        /// only=true时为附加,对应Sql语句中的+
+        /// </summary>
+        public static string Update<T>(this T t, bool only = false, params string[] args)
+        {
+            Type type = typeof(T);
+            PropertyAttribute attr = AttrMark(type);
             string sql = "update [{0}] set";
             sql = string.Format(sql, attr.Table);
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < properties.Count; i++)
             {
                 if (attr.Key != null && properties[i].Name == attr.Key) continue;
-                if (properties[i].GetValue(t) == null) continue;
+                if (args.Length > 0 && args.First(c => c == properties[i].Name) != properties[i].Name) continue;
 
-                PropertyInfo pro = typeof(T).GetProperty(properties[i].Name, properties[i].PropertyType);
-                PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-                if (itemList == null || itemList.Length == 0 || itemList[0].Select)
+                string column = properties[i].Name;
+                if (IsSelect(type, properties[i], ref column))
                 {
-                    string column = properties[i].Name;
-                    if (itemList != null && itemList.Length == 1 && itemList[0].Column != null)
+                    if (IsNull(t, properties[i]))
                     {
-                        column = itemList[0].Column;
+                        sql = string.Format("{0} [{1}]=NULL,", sql, column);
                     }
-                    sql = string.Format("{0} [{1}]=@{1},", sql, column);
+                    else if (only)
+                    {
+                        sql = string.Format("{0} [{1}]=[{1}]+@{1},", sql, column);
+                    }
+                    else
+                    {
+                        sql = string.Format("{0} [{1}]=@{1},", sql, column);
+                    }
                 }
             }
             sql = sql.TrimEnd(',');
@@ -1193,6 +1194,7 @@ namespace Paway.Helper
         /// </summary>
         public static string Update<T>(this T t, string name, object value, string name1, object value1, string name2, object value2)
         {
+            Type type = typeof(T);
             PropertyAttribute attr = AttrMark(typeof(T));
             string sql = "update [{0}] set";
             sql = string.Format(sql, attr.Table);
@@ -1200,17 +1202,11 @@ namespace Paway.Helper
             for (int i = 0; i < properties.Count; i++)
             {
                 if (attr.Key != null && properties[i].Name == attr.Key) continue;
-                if (properties[i].GetValue(t) == null) continue;
+                if (IsNull(t, properties[i])) continue;
 
-                PropertyInfo pro = typeof(T).GetProperty(properties[i].Name, properties[i].PropertyType);
-                PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-                if (itemList == null || itemList.Length == 0 || itemList[0].Select)
+                string column = properties[i].Name;
+                if (IsSelect(type, properties[i], ref column))
                 {
-                    string column = properties[i].Name;
-                    if (itemList != null && itemList.Length == 1 && itemList[0].Column != null)
-                    {
-                        column = itemList[0].Column;
-                    }
                     if (column == name)
                     {
                         sql = string.Format("{0} [{1}]=[{1}]+{2},", sql, column, value);
@@ -1267,18 +1263,12 @@ namespace Paway.Helper
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < properties.Count; i++)
             {
-                PropertyInfo pro = type.GetProperty(properties[i].Name, properties[i].PropertyType);
-                PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-                if (itemList == null || itemList.Length == 0 || itemList[0].Select)
-                {
-                    if (attr.Key != null && properties[i].Name == attr.Key) continue;
-                    if (properties[i].GetValue(t) == null) continue;
+                if (attr.Key != null && properties[i].Name == attr.Key) continue;
+                if (IsNull(t, properties[i])) continue;
 
-                    string column = properties[i].Name;
-                    if (itemList != null && itemList.Length == 1 && itemList[0].Column != null)
-                    {
-                        column = itemList[0].Column;
-                    }
+                string column = properties[i].Name;
+                if (IsSelect(type, properties[i], ref column))
+                {
                     insert = string.Format("{0}[{1}],", insert, column);
                     update = string.Format("{0}@{1},", update, column);
                 }
@@ -1291,7 +1281,8 @@ namespace Paway.Helper
         /// </summary>
         public static string UpdateOrInsert<T>(this T t, string getid)
         {
-            PropertyAttribute attr = AttrMark(typeof(T));
+            Type type = typeof(T);
+            PropertyAttribute attr = AttrMark(type);
 
             string sql = "if exists(select 0 from [{1}] where [{0}]=@{0})";
             sql = string.Format(sql, attr.Mark ?? attr.Key, attr.Table);
@@ -1299,24 +1290,24 @@ namespace Paway.Helper
             string update = null;
             string insert = null;
             string values = null;
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < properties.Count; i++)
             {
                 if (attr.Key != null && properties[i].Name == attr.Key) continue;
-                if (properties[i].GetValue(t) == null) continue;
 
-                PropertyInfo pro = typeof(T).GetProperty(properties[i].Name, properties[i].PropertyType);
-                PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-                if (itemList == null || itemList.Length == 0 || itemList[0].Select)
+                string column = properties[i].Name;
+                if (IsSelect(type, properties[i], ref column))
                 {
-                    string column = properties[i].Name;
-                    if (itemList != null && itemList.Length == 1 && itemList[0].Column != null)
+                    if (IsNull(t, properties[i]))
                     {
-                        column = itemList[0].Column;
+                        update = string.Format("{0}[{1}]=NULL,", update, column);
                     }
-                    update = string.Format("{0}[{1}]=@{1},", update, column);
-                    insert = string.Format("{0}[{1}],", insert, column);
-                    values = string.Format("{0}@{1},", values, column);
+                    else
+                    {
+                        update = string.Format("{0}[{1}]=@{1},", update, column);
+                        insert = string.Format("{0}[{1}],", insert, column);
+                        values = string.Format("{0}@{1},", values, column);
+                    }
                 }
             }
             update = update.TrimEnd(',');
@@ -1378,51 +1369,78 @@ namespace Paway.Helper
         /// 添加参数值到参数列表
         /// 通用型
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="t"></param>
-        /// <param name="ptype"></param>
-        /// <returns></returns>
-        public static List<DbParameter> AddParameters<T>(this T t, Type ptype)
+        public static List<DbParameter> AddParameters<T>(this T t, Type ptype, params string[] args)
         {
+            Type type = typeof(T);
+            Assembly asmb = Assembly.GetAssembly(ptype);
             List<DbParameter> pList = new List<DbParameter>();
-            PropertyAttribute[] attrList = typeof(T).GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            if (attrList == null || attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", typeof(T)));
 
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < properties.Count; i++)
             {
-                PropertyInfo pro = typeof(T).GetProperty(properties[i].Name, properties[i].PropertyType);
-                PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-                if (itemList == null || itemList.Length == 0 || itemList[0].Select)
+                object value = null;
+                IsValue(t, properties[i], ref value);
+                if (!IsValue(t, properties[i], ref value)) continue;
+                if (args.Length > 0 && args.First(c => c == properties[i].Name) != properties[i].Name) continue;
+
+                string column = properties[i].Name;
+                if (IsSelect(type, properties[i], ref column))
                 {
-                    object value = properties[i].GetValue(t);
-                    if (value == null || value == DBNull.Value) continue;
-
-                    if (properties[i].PropertyType == typeof(Image) && value is Image)
-                    {
-                        value = SctructHelper.GetByteFromObject(value);
-                    }
-                    if (properties[i].PropertyType == typeof(DateTime) && value is DateTime)
-                    {
-                        DateTime dt = value.ToDateTime();
-                        if (dt == DateTime.MinValue)
-                            dt = new DateTime(2000, 1, 1);
-                        value = dt;
-                    }
-                    Assembly asmb = Assembly.GetAssembly(ptype);
                     DbParameter param = asmb.CreateInstance(ptype.FullName) as DbParameter;
-
-                    string column = properties[i].Name;
-                    if (itemList != null && itemList.Length == 1 && itemList[0].Column != null)
-                    {
-                        column = itemList[0].Column;
-                    }
                     param.ParameterName = string.Format("@{0}", column);
                     param.Value = value;
                     pList.Add(param);
                 }
             }
             return pList;
+        }
+        private static bool IsNull<T>(T t, PropertyDescriptor prop)
+        {
+            object value = prop.GetValue(t);
+            return value == null || value == DBNull.Value;
+        }
+        private static bool IsValue<T>(T t, PropertyDescriptor prop, ref object value)
+        {
+            value = prop.GetValue(t);
+            if (value == null || value == DBNull.Value) return false;
+
+            if (prop.PropertyType == typeof(Image) && value is Image)
+            {
+                value = SctructHelper.GetByteFromObject(value);
+            }
+            if (prop.PropertyType == typeof(DateTime) && value is DateTime)
+            {
+                DateTime dt = value.ToDateTime();
+                if (dt == DateTime.MinValue) value = null;
+                else value = dt;
+            }
+            return true;
+        }
+        private static bool IsSelect(Type type, PropertyDescriptor prop, ref string column)
+        {
+            PropertyInfo pro = type.GetProperty(prop.Name, prop.PropertyType);
+            PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+            if (itemList.Length == 1 && itemList[0].Column != null)
+            {
+                column = itemList[0].Column;
+            }
+            return itemList.Length == 0 || itemList[0].Select;
+        }
+        private static bool IsTabel(Type type, PropertyDescriptor prop, ref string column)
+        {
+            PropertyInfo pro = type.GetProperty(prop.Name, prop.PropertyType);
+            PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+            if (itemList.Length == 1 && itemList[0].Column != null)
+            {
+                column = itemList[0].Column;
+            }
+            return itemList.Length == 0 || itemList[0].Select || itemList[0].Excel;
+        }
+        private static bool IsClone(Type type, PropertyDescriptor prop)
+        {
+            PropertyInfo pro = type.GetProperty(prop.Name, prop.PropertyType);
+            PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+            return itemList == null || itemList.Length == 0 || itemList[0].Select;
         }
 
         #endregion
@@ -1491,40 +1509,37 @@ namespace Paway.Helper
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(parent);
             for (int i = 0; i < properties.Count; i++)
             {
-                System.Reflection.PropertyInfo pro = parent.GetProperty(properties[i].Name, properties[i].PropertyType);
-                PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-                if (itemList == null || itemList.Length == 0 || itemList[0].Clone)
+                if (!IsClone(parent, properties[i])) continue;
+
+                object value = properties[i].GetValue(t);
+                properties[i].SetValue(copy, value);
+                if (!child) continue;
+                if (value is IList)
                 {
-                    object value = properties[i].GetValue(t);
-                    properties[i].SetValue(copy, value);
-                    if (!child) continue;
-                    if (value is IList)
+                    IList clist = properties[i].GetValue(copy) as IList;
+                    IList list = value as IList;
+                    Type type = list.GetListType();
+                    Assembly asmb = Assembly.GetAssembly(type);
+                    for (int j = 0; j < list.Count; j++)
                     {
-                        IList clist = properties[i].GetValue(copy) as IList;
-                        IList list = value as IList;
-                        Type type = list.GetListType();
-                        Assembly asmb = Assembly.GetAssembly(type);
-                        for (int j = 0; j < list.Count; j++)
+                        if (!type.IsValueType && type != typeof(String))
                         {
-                            if (!type.IsValueType && type != typeof(String))
-                            {
-                                object obj = asmb.CreateInstance(type.FullName);
-                                type.Clone(ref obj, list[j], child);
-                                clist.Add(obj);
-                            }
-                            else
-                            {
-                                clist.Add(list[j]);
-                            }
+                            object obj = asmb.CreateInstance(type.FullName);
+                            type.Clone(ref obj, list[j], child);
+                            clist.Add(obj);
+                        }
+                        else
+                        {
+                            clist.Add(list[j]);
                         }
                     }
-                    else if (value != null && !value.GetType().IsValueType && value.GetType() != typeof(String))
-                    {
-                        Type type = value.GetType();
-                        Assembly asmb = Assembly.GetAssembly(type);
-                        object obj = asmb.CreateInstance(type.FullName);
-                        type.Clone(ref obj, value, child);
-                    }
+                }
+                else if (value != null && !value.GetType().IsValueType && value.GetType() != typeof(String))
+                {
+                    Type type = value.GetType();
+                    Assembly asmb = Assembly.GetAssembly(type);
+                    object obj = asmb.CreateInstance(type.FullName);
+                    type.Clone(ref obj, value, child);
                 }
             }
         }

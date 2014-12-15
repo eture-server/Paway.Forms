@@ -42,28 +42,63 @@ namespace Paway.Test
         }
         private void btInsert_Click(object sender, EventArgs e)
         {
-            service.Insert<TestData>(list);
+            try
+            {
+                service.Insert<TestData>(list);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, "SQL错误", string.Format("{0}", ex), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btUpdate_Click(object sender, EventArgs e)
         {
-            service.Update<TestData>(list[0]);
+            try
+            {
+                service.Update<TestData>(list[0]);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, "SQL错误", string.Format("{0}", ex), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btUpOrIn_Click(object sender, EventArgs e)
         {
-            service.Replace<TestData>(list[0]);
+            try
+            {
+                service.Replace<TestData>(list[0]);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, "SQL错误", string.Format("{0}", ex), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btDelete_Click(object sender, EventArgs e)
         {
-            object result = service.ExecuteScalar("select count(0) from Hello");
-            service.Delete<TestData>(5);
+            try
+            {
+                object result = service.ExecuteScalar("select count(0) from Hello");
+                service.Delete<TestData>(5);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, "SQL错误", string.Format("{0}", ex), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btSelect_Click(object sender, EventArgs e)
         {
-            service.Find();
+            try
+            {
+                service.Find();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, "SQL错误", string.Format("{0}", ex), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
     public class DataService : SqlHelper
