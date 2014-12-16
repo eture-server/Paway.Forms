@@ -1043,20 +1043,13 @@ namespace Paway.Helper
         /// 将指定类型转为Select语句
         /// 指定查询条件为主列
         /// </summary>
-        public static string SelectOne<T>(this T t, params string[] args)
+        public static string Select<T>(this T t, params string[] args)
         {
             PropertyAttribute attr = AttrMark(typeof(T));
             string sql = t.Select(0, args);
             sql = string.Format("{0} from [{1}]", sql, attr.Table);
             sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Mark ?? attr.Key);
             return sql;
-        }
-        /// <summary>
-        /// 将指定类型转为Select语句
-        /// </summary>
-        public static string Select<T>(this T t, params string[] args)
-        {
-            return t.Select(null, 0, args);
         }
         /// <summary>
         /// 将指定类型转为Select语句
@@ -1221,13 +1214,14 @@ namespace Paway.Helper
             if (value == null || value == DBNull.Value) return false;
 
             PropertyAttribute attr = AttrMark(typeof(T));
-
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
             for (int i = 0; i < properties.Count; i++)
             {
                 if (properties[i].Name == attr.Key)
                 {
                     object result = properties[i].GetValue(t);
+                    if (result.ToInt() > 0) break;
+
                     if (properties[i].PropertyType == typeof(int))
                     {
                         properties[i].SetValue(t, value.ToInt());
@@ -1301,7 +1295,7 @@ namespace Paway.Helper
             update = update.TrimEnd(',');
             insert = insert.TrimEnd(',');
             values = values.TrimEnd(',');
-            sql = string.Format("{0} update [{1}] set {2} where {3}=@{3} else insert into {1}({4}) values({5})",
+            sql = string.Format("{0} update [{1}] set {2} where {3}=@{3} else insert into [{1}]({4}) values({5})",
                 sql, attr.Table, update, attr.Mark ?? attr.Key, insert, values);
 
             sql = string.Format("{0};{1}", sql, getid);

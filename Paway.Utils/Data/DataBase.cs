@@ -302,7 +302,7 @@ namespace Paway.Utils.Data
             try
             {
                 if (iTrans) cmd = CommandStart();
-                sql = default(T).SelectOne(args);
+                sql = default(T).Select(args);
 
                 DbParameter parame = default(T).AddParameter<T>(paramType, id);
                 cmd.CommandText = sql;
