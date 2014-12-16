@@ -1038,26 +1038,6 @@ namespace Paway.Helper
         #endregion
 
         #region 基本Sql语句
-        /// <summary>
-        /// 返回特性，检查表名
-        /// </summary>
-        private static PropertyAttribute AttrTable(Type type)
-        {
-            PropertyAttribute[] attrList = type.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            if (attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", type));
-            if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
-            return attrList[0];
-        }
-        /// <summary>
-        /// 返回特性，检查表名及主键或主列
-        /// </summary>
-        private static PropertyAttribute AttrMark(Type type)
-        {
-            PropertyAttribute attr = AttrTable(type);
-            if (attr.Key == null && attr.Mark == null) throw new ArgumentException("没有指定主键或主列名称");
-            return attr;
-        }
-
         #region Select
         /// <summary>
         /// 将指定类型转为Select语句
@@ -1211,9 +1191,60 @@ namespace Paway.Helper
             sql = string.Format("{0};{1}", sql, getId);
             return sql;
         }
+        private static void Insert<T>(this T t, PropertyAttribute attr, Type type, ref string insert, ref string value)
+        {
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
+            for (int i = 0; i < properties.Count; i++)
+            {
+                if (attr.Key != null && properties[i].Name == attr.Key) continue;
+                if (IsNull(t, properties[i])) continue;
+
+                string column = properties[i].Name;
+                if (IsSelect(type, properties[i], ref column))
+                {
+                    insert = string.Format("{0}[{1}],", insert, column);
+                    value = string.Format("{0}@{1},", value, column);
+                }
+            }
+            insert = insert.TrimEnd(',');
+            value = value.TrimEnd(',');
+        }
+
+        /// <summary>
+        /// 设置主键值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="t"></param>
+        /// <param name="value"></param>
+        public static bool SetMark<T>(this T t, object value)
+        {
+            if (value == null || value == DBNull.Value) return false;
+
+            PropertyAttribute attr = AttrMark(typeof(T));
+
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
+            for (int i = 0; i < properties.Count; i++)
+            {
+                if (properties[i].Name == attr.Key)
+                {
+                    object result = properties[i].GetValue(t);
+                    if (properties[i].PropertyType == typeof(int))
+                    {
+                        properties[i].SetValue(t, value.ToInt());
+                    }
+                    if (properties[i].PropertyType == typeof(long))
+                    {
+                        properties[i].SetValue(t, value.ToLong());
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
 
         #endregion
 
+        #region Replace
         /// <summary>
         /// 将指定类型转为Replace语句
         /// Sqlite更新、插入方法，需将Key键设为唯一索引
@@ -1232,24 +1263,6 @@ namespace Paway.Helper
             string sql = string.Format("replace into [{0}]({1}) values({2})", attr.Table, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
             return sql;
-        }
-        private static void Insert<T>(this T t, PropertyAttribute attr, Type type, ref string insert, ref string value)
-        {
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
-            for (int i = 0; i < properties.Count; i++)
-            {
-                if (attr.Key != null && properties[i].Name == attr.Key) continue;
-                if (IsNull(t, properties[i])) continue;
-
-                string column = properties[i].Name;
-                if (IsSelect(type, properties[i], ref column))
-                {
-                    insert = string.Format("{0}[{1}],", insert, column);
-                    value = string.Format("{0}@{1},", value, column);
-                }
-            }
-            insert = insert.TrimEnd(',');
-            value = value.TrimEnd(',');
         }
         /// <summary>
         /// 将指定类型转为UpdateOrInsert语句
@@ -1295,37 +1308,9 @@ namespace Paway.Helper
             return sql;
         }
 
-        /// <summary>
-        /// 设置主键值
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="t"></param>
-        /// <param name="value"></param>
-        public static bool SetMark<T>(this T t, object value)
-        {
-            if (value == null || value == DBNull.Value) return false;
+        #endregion
 
-            PropertyAttribute attr = AttrMark(typeof(T));
-
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
-            for (int i = 0; i < properties.Count; i++)
-            {
-                if (properties[i].Name == attr.Key)
-                {
-                    object result = properties[i].GetValue(t);
-                    if (properties[i].PropertyType == typeof(int))
-                    {
-                        properties[i].SetValue(t, value.ToInt());
-                    }
-                    if (properties[i].PropertyType == typeof(long))
-                    {
-                        properties[i].SetValue(t, value.ToLong());
-                    }
-                    return true;
-                }
-            }
-            return false;
-        }
+        #region AddParameter
         /// <summary>
         /// 添加参数值到参数列表
         /// 主键
@@ -1370,10 +1355,20 @@ namespace Paway.Helper
             }
             return pList;
         }
+
+        #endregion
+
         private static bool IsNull<T>(T t, PropertyDescriptor prop)
         {
             object value = prop.GetValue(t);
-            return value == null || value == DBNull.Value;
+            if (value == null || value == DBNull.Value) return true;
+
+            if (prop.PropertyType == typeof(DateTime) && value is DateTime)
+            {
+                DateTime dt = value.ToDateTime();
+                if (dt == DateTime.MinValue) return true;
+            }
+            return false;
         }
         private static bool IsValue<T>(T t, PropertyDescriptor prop, ref object value)
         {
@@ -1387,8 +1382,12 @@ namespace Paway.Helper
             if (prop.PropertyType == typeof(DateTime) && value is DateTime)
             {
                 DateTime dt = value.ToDateTime();
-                if (dt == DateTime.MinValue) value = null;
-                else value = dt;
+                if (dt == DateTime.MinValue)
+                {
+                    value = null;
+                    return false;
+                }
+                value = dt;
             }
             return true;
         }
@@ -1418,6 +1417,26 @@ namespace Paway.Helper
             PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             return itemList == null || itemList.Length == 0 || itemList[0].Select;
         }
+        /// <summary>
+        /// 返回特性，检查表名
+        /// </summary>
+        private static PropertyAttribute AttrTable(Type type)
+        {
+            PropertyAttribute[] attrList = type.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+            if (attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", type));
+            if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
+            return attrList[0];
+        }
+        /// <summary>
+        /// 返回特性，检查表名及主键或主列
+        /// </summary>
+        private static PropertyAttribute AttrMark(Type type)
+        {
+            PropertyAttribute attr = AttrTable(type);
+            if (attr.Key == null && attr.Mark == null) throw new ArgumentException("没有指定主键或主列名称");
+            return attr;
+        }
+
 
         #endregion
 
