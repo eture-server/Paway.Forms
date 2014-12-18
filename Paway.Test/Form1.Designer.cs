@@ -261,7 +261,7 @@
             this.qqTextBox1.SelectedText = "";
             this.qqTextBox1.Size = new System.Drawing.Size(123, 25);
             this.qqTextBox1.TabIndex = 65;
-            this.qqTextBox1.WaterText = "";
+            this.qqTextBox1.WaterText = null;
             // 
             // tbName
             // 
@@ -271,7 +271,7 @@
             this.tbName.IconIsButton = true;
             this.tbName.IsPasswordChat = '\0';
             this.tbName.Lines = new string[0];
-            this.tbName.Location = new System.Drawing.Point(-123, 34);
+            this.tbName.Location = new System.Drawing.Point(71, 34);
             this.tbName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tbName.MaxLength = 10;
             this.tbName.Name = "tbName";
@@ -281,7 +281,7 @@
             this.tbName.SelectedText = "";
             this.tbName.Size = new System.Drawing.Size(123, 29);
             this.tbName.TabIndex = 64;
-            this.tbName.WaterText = "";
+            this.tbName.WaterText = null;
             // 
             // Form1
             // 

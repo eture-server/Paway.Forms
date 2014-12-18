@@ -382,7 +382,6 @@ namespace Paway.Forms
         /// 
         /// </summary>
         [Description("水印颜色"), Category("自定义属性")]
-        [DefaultValue(typeof(Color), "DarkGray")]
         public virtual Color WaterColor
         {
             get { return this.BaseText.WaterColor; }
@@ -466,7 +465,6 @@ namespace Paway.Forms
             this.BaseText.Name = "BaseText";
             this.BaseText.Size = new System.Drawing.Size(100, 16);
             this.BaseText.TabIndex = 0;
-            this.BaseText.WaterText = "";
             // 
             // QQTextBox
             // 
@@ -613,17 +611,13 @@ namespace Paway.Forms
                 switch (_regexType)
                 {
                     case Helper.RegexType.Ip:
-                        result = "请输入{0}位Ip";
-                        break;
-                    case Helper.RegexType.Password:
-                        result = "请输入{0}位字符";
+                        result = "请输入不少于{0}位Ip地址";
                         break;
                     case Helper.RegexType.PosInt:
-                        result = "请输入{0}位正整数";
+                        result = "请输入不少于{0}位正整数";
                         break;
-                    case Helper.RegexType.Normal:
-                    case Helper.RegexType.Custom:
-                        result = "请输入{0}位字符";
+                    default:
+                        result = "请输入不少于{0}位字符";
                         break;
                 }
                 result = string.Format(result, RLength);

@@ -18,7 +18,7 @@ namespace Paway.Forms
         /// <summary>
         /// 水印文字
         /// </summary>
-        private string _waterText = string.Empty;
+        private string _waterText;
         /// <summary>
         /// 水印文字的颜色
         /// </summary>
@@ -28,7 +28,7 @@ namespace Paway.Forms
         #region 属性
         /// <summary>
         /// </summary>
-        [Description("水印文字"), Category("自定义属性")]
+        [Description("水印文字"), Category("自定义属性"), DefaultValue(null)]
         public string WaterText
         {
             get { return this._waterText; }
@@ -62,8 +62,7 @@ namespace Paway.Forms
         {
             using (Graphics g = Graphics.FromHwnd(base.Handle))
             {
-                if (this.Text.Length == 0 &&
-                    !string.IsNullOrEmpty(this._waterText))
+                if (this.Text.Length == 0 && !string.IsNullOrEmpty(this._waterText))
                 {
                     TextFormatFlags flags = TextFormatFlags.EndEllipsis | TextFormatFlags.VerticalCenter;
                     if (this.RightToLeft == System.Windows.Forms.RightToLeft.Yes)

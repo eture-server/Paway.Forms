@@ -759,7 +759,6 @@
             this.tNumTestBox1.SelectedText = "";
             this.tNumTestBox1.Size = new System.Drawing.Size(109, 24);
             this.tNumTestBox1.TabIndex = 37;
-            this.tNumTestBox1.WaterText = "";
             // 
             // tbPrompt
             // 
@@ -780,7 +779,6 @@
             this.tbPrompt.SelectedText = "";
             this.tbPrompt.Size = new System.Drawing.Size(261, 24);
             this.tbPrompt.TabIndex = 35;
-            this.tbPrompt.WaterText = "";
             // 
             // tComboBox21
             // 
@@ -959,7 +957,6 @@
             this.numEditTestBox2.SelectedText = "";
             this.numEditTestBox2.Size = new System.Drawing.Size(92, 24);
             this.numEditTestBox2.TabIndex = 5;
-            this.numEditTestBox2.WaterText = "";
             // 
             // btQQDemo
             // 
@@ -998,7 +995,6 @@
             this.qqTextBox1.SelectedText = "";
             this.qqTextBox1.Size = new System.Drawing.Size(109, 24);
             this.qqTextBox1.TabIndex = 47;
-            this.qqTextBox1.WaterText = "";
             // 
             // FormDemo
             // 

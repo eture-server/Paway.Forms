@@ -59,7 +59,6 @@
             this.qqTextBox1.SelectedText = "";
             this.qqTextBox1.Size = new System.Drawing.Size(109, 25);
             this.qqTextBox1.TabIndex = 52;
-            this.qqTextBox1.WaterText = "";
             // 
             // btQQDemo
             // 
@@ -92,7 +91,6 @@
             this.tbPrompt.SelectedText = "";
             this.tbPrompt.Size = new System.Drawing.Size(261, 24);
             this.tbPrompt.TabIndex = 49;
-            this.tbPrompt.WaterText = "";
             // 
             // btImage
             // 

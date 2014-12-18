@@ -292,7 +292,6 @@ namespace Paway.Forms
             this.txtCurrentPage.SelectedText = "";
             this.txtCurrentPage.Size = new System.Drawing.Size(28, 25);
             this.txtCurrentPage.TabIndex = 1;
-            this.txtCurrentPage.WaterText = "";
             // 
             // toolLast
             // 
