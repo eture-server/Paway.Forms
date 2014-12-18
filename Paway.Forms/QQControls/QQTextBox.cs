@@ -372,7 +372,7 @@ namespace Paway.Forms
         /// 
         /// </summary>
         [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
-        [Description("水印文字"), Category("自定义属性")]
+        [Description("水印文字"), Category("自定义属性"), DefaultValue(null)]
         public virtual string WaterText
         {
             get { return this.BaseText.WaterText; }
@@ -381,7 +381,7 @@ namespace Paway.Forms
         /// <summary>
         /// 
         /// </summary>
-        [Description("水印颜色"), Category("自定义属性")]
+        [Description("水印颜色"), Category("自定义属性"), DefaultValue(typeof(Color), "DarkGray")]
         public virtual Color WaterColor
         {
             get { return this.BaseText.WaterColor; }
