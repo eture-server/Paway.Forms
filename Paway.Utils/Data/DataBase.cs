@@ -111,11 +111,12 @@ namespace Paway.Utils.Data
             {
                 if (iTrans) cmd = CommandStart();
                 cmd.CommandText = sql;
-                DbDataReader dr = cmd.ExecuteReader();
-                DataTable table = new DataTable();
-                table.Load(dr);
-                dr.Close();
-                return table;
+                using (DbDataReader dr = cmd.ExecuteReader())
+                {
+                    DataTable table = new DataTable();
+                    table.Load(dr);
+                    return table;
+                }
             }
             catch (Exception ex)
             {
@@ -310,11 +311,13 @@ namespace Paway.Utils.Data
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add(parame);
 
-                DbDataReader dr = cmd.ExecuteReader();
-                DataTable dt = new DataTable();
-                dt.Load(dr);
-                IList<T> list = dt.ToIList<T>();
-                return list.Count == 1 ? list[0] : default(T);
+                using (DbDataReader dr = cmd.ExecuteReader())
+                {
+                    DataTable dt = new DataTable();
+                    dt.Load(dr);
+                    IList<T> list = dt.ToIList<T>();
+                    return list.Count == 1 ? list[0] : default(T);
+                }
             }
             catch (Exception ex)
             {
@@ -379,11 +382,13 @@ namespace Paway.Utils.Data
                     }
                 }
                 cmd.CommandText = sql;
-                DbDataReader dr = cmd.ExecuteReader();
-                DataTable dt = new DataTable();
-                dt.Load(dr);
-                IList<T> list = dt.ToIList<T>();
-                return list;
+                using (DbDataReader dr = cmd.ExecuteReader())
+                {
+                    DataTable dt = new DataTable();
+                    dt.Load(dr);
+                    IList<T> list = dt.ToIList<T>();
+                    return list;
+                }
             }
             catch (Exception ex)
             {
@@ -431,16 +436,17 @@ namespace Paway.Utils.Data
                     DbParameter[] pList = list[i].AddParameters<T>(paramType).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
-                    DbDataReader dr = cmd.ExecuteReader();
-                    if (dr.Read())
+                    using (DbDataReader dr = cmd.ExecuteReader())
                     {
-                        list[i].SetMark<T>(dr[0]);
+                        if (dr.Read())
+                        {
+                            list[i].SetMark<T>(dr[0]);
+                        }
+                        else
+                        {
+                            throw new Exception("更新失败");
+                        }
                     }
-                    else
-                    {
-                        throw new Exception("更新失败");
-                    }
-                    dr.Close();
                 }
                 if (iTrans) return TransCommit(cmd);
                 else return true;
@@ -697,16 +703,17 @@ namespace Paway.Utils.Data
                     DbParameter[] pList = list[i].AddParameters<T>(paramType).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
-                    DbDataReader dr = cmd.ExecuteReader();
-                    if (dr.Read())
+                    using (DbDataReader dr = cmd.ExecuteReader())
                     {
-                        list[i].SetMark<T>(dr[0]);
+                        if (dr.Read())
+                        {
+                            list[i].SetMark<T>(dr[0]);
+                        }
+                        else
+                        {
+                            throw new Exception("更新失败");
+                        }
                     }
-                    else
-                    {
-                        throw new Exception("更新失败");
-                    }
-                    dr.Close();
                 }
                 if (iTrans) return TransCommit(cmd);
                 else return true;
