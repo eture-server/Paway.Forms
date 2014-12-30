@@ -36,12 +36,25 @@
             Paway.Forms.ToolItem toolItem6 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem7 = new Paway.Forms.ToolItem();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
-            Paway.Forms.ToolItem toolItem13 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem12 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem11 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem10 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem9 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem26 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem25 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem24 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem23 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem22 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem21 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem8 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem9 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem10 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem11 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem12 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem13 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem14 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem15 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem16 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem17 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem18 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem19 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem20 = new Paway.Forms.ToolItem();
             this.qqButton1 = new Paway.Forms.QQButton();
             this.toolOk = new Paway.Forms.ToolBar();
             this.toolOk2 = new Paway.Forms.ToolBar();
@@ -49,6 +62,7 @@
             this.toolBar3 = new Paway.Forms.ToolBar();
             this.toolBar4 = new Paway.Forms.ToolBar();
             this.toolBar5 = new Paway.Forms.ToolBar();
+            this.toolBar = new Paway.Forms.ToolBar();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
@@ -92,6 +106,7 @@
             // panel3
             // 
             this.panel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel3.Controls.Add(this.toolBar);
             this.panel3.Controls.Add(this.toolBar5);
             this.panel3.Controls.Add(this.toolBar4);
             this.panel3.Controls.Add(this.toolBar3);
@@ -123,9 +138,9 @@
             this.toolOk.ICheckEvent = true;
             this.toolOk.IImageShow = false;
             this.toolOk.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem13.Selete = false;
-            toolItem13.Text = "中";
-            this.toolOk.Items.Add(toolItem13);
+            toolItem26.Selete = false;
+            toolItem26.Text = "中";
+            this.toolOk.Items.Add(toolItem26);
             this.toolOk.ItemSize = new System.Drawing.Size(90, 42);
             this.toolOk.ItemSpace = 5;
             this.toolOk.Location = new System.Drawing.Point(291, 117);
@@ -151,9 +166,9 @@
             this.toolOk2.ICheckEvent = true;
             this.toolOk2.IImageShow = false;
             this.toolOk2.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem12.Selete = false;
-            toolItem12.Text = "左";
-            this.toolOk2.Items.Add(toolItem12);
+            toolItem25.Selete = false;
+            toolItem25.Text = "左";
+            this.toolOk2.Items.Add(toolItem25);
             this.toolOk2.ItemSize = new System.Drawing.Size(90, 42);
             this.toolOk2.ItemSpace = 5;
             this.toolOk2.Location = new System.Drawing.Point(387, 117);
@@ -179,9 +194,9 @@
             this.toolBar2.ICheckEvent = true;
             this.toolBar2.IImageShow = false;
             this.toolBar2.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem11.Selete = false;
-            toolItem11.Text = "色";
-            this.toolBar2.Items.Add(toolItem11);
+            toolItem24.Selete = false;
+            toolItem24.Text = "色";
+            this.toolBar2.Items.Add(toolItem24);
             this.toolBar2.ItemSize = new System.Drawing.Size(90, 42);
             this.toolBar2.ItemSpace = 5;
             this.toolBar2.Location = new System.Drawing.Point(291, 177);
@@ -207,9 +222,9 @@
             this.toolBar3.ICheckEvent = true;
             this.toolBar3.IImageShow = false;
             this.toolBar3.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem10.Selete = false;
-            toolItem10.Text = "上";
-            this.toolBar3.Items.Add(toolItem10);
+            toolItem23.Selete = false;
+            toolItem23.Text = "上";
+            this.toolBar3.Items.Add(toolItem23);
             this.toolBar3.ItemSize = new System.Drawing.Size(90, 42);
             this.toolBar3.ItemSpace = 5;
             this.toolBar3.Location = new System.Drawing.Point(387, 177);
@@ -235,9 +250,9 @@
             this.toolBar4.ICheckEvent = true;
             this.toolBar4.IImageShow = false;
             this.toolBar4.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem9.Selete = false;
-            toolItem9.Text = "下";
-            this.toolBar4.Items.Add(toolItem9);
+            toolItem22.Selete = false;
+            toolItem22.Text = "下";
+            this.toolBar4.Items.Add(toolItem22);
             this.toolBar4.ItemSize = new System.Drawing.Size(90, 42);
             this.toolBar4.ItemSpace = 5;
             this.toolBar4.Location = new System.Drawing.Point(195, 117);
@@ -263,9 +278,9 @@
             this.toolBar5.ICheckEvent = true;
             this.toolBar5.IImageShow = false;
             this.toolBar5.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem8.Selete = false;
-            toolItem8.Text = "右";
-            this.toolBar5.Items.Add(toolItem8);
+            toolItem21.Selete = false;
+            toolItem21.Text = "右";
+            this.toolBar5.Items.Add(toolItem21);
             this.toolBar5.ItemSize = new System.Drawing.Size(90, 42);
             this.toolBar5.ItemSpace = 5;
             this.toolBar5.Location = new System.Drawing.Point(195, 177);
@@ -282,6 +297,82 @@
             this.toolBar5.TextFirst.ColorNormal = System.Drawing.Color.Black;
             this.toolBar5.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
             this.toolBar5.Trans = 150;
+            // 
+            // toolBar
+            // 
+            this.toolBar.Font = new System.Drawing.Font("Tahoma", 15F);
+            this.toolBar.ImageSize = new System.Drawing.Size(32, 32);
+            this.toolBar.IShowToolTop = true;
+            toolItem8.Desc = "";
+            toolItem8.Selete = false;
+            toolItem8.TColor.StringVertical = System.Drawing.StringAlignment.Center;
+            toolItem8.Text = "白酒";
+            toolItem9.Desc = "";
+            toolItem9.EndDesc = "";
+            toolItem9.HeadDesc = "呵呵";
+            toolItem9.IChange = true;
+            toolItem9.Selete = false;
+            toolItem9.Text = "头部";
+            toolItem10.Selete = false;
+            toolItem10.Text = "1";
+            toolItem11.Desc = "";
+            toolItem11.Selete = false;
+            toolItem11.Text = "2\r\n1\r\n你好";
+            toolItem12.Desc = "完全好";
+            toolItem12.Selete = false;
+            toolItem12.Text = "3";
+            toolItem13.Selete = false;
+            toolItem13.Text = "x1";
+            toolItem14.Selete = false;
+            toolItem14.Text = "x2";
+            toolItem15.Selete = false;
+            toolItem15.Text = "Y";
+            toolItem16.Selete = false;
+            toolItem16.Text = "y1";
+            toolItem17.Selete = false;
+            toolItem17.Text = "y2";
+            toolItem18.Selete = false;
+            toolItem18.Text = "";
+            toolItem19.Selete = false;
+            toolItem19.Text = "Z";
+            toolItem20.Selete = false;
+            toolItem20.Text = "zz1";
+            this.toolBar.Items.Add(toolItem8);
+            this.toolBar.Items.Add(toolItem9);
+            this.toolBar.Items.Add(toolItem10);
+            this.toolBar.Items.Add(toolItem11);
+            this.toolBar.Items.Add(toolItem12);
+            this.toolBar.Items.Add(toolItem13);
+            this.toolBar.Items.Add(toolItem14);
+            this.toolBar.Items.Add(toolItem15);
+            this.toolBar.Items.Add(toolItem16);
+            this.toolBar.Items.Add(toolItem17);
+            this.toolBar.Items.Add(toolItem18);
+            this.toolBar.Items.Add(toolItem19);
+            this.toolBar.Items.Add(toolItem20);
+            this.toolBar.ItemSize = new System.Drawing.Size(60, 60);
+            this.toolBar.ItemSpace = 5;
+            this.toolBar.IText = true;
+            this.toolBar.Location = new System.Drawing.Point(528, 32);
+            this.toolBar.MDirection = Paway.Forms.TMDirection.Center;
+            this.toolBar.Name = "toolBar";
+            this.toolBar.Size = new System.Drawing.Size(263, 215);
+            this.toolBar.TabIndex = 35;
+            this.toolBar.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
+            this.toolBar.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(127)))), ((int)(((byte)(104)))));
+            this.toolBar.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(72)))), ((int)(((byte)(38)))));
+            this.toolBar.TChange.ColorDown = System.Drawing.Color.Blue;
+            this.toolBar.TChange.ColorMove = System.Drawing.Color.Red;
+            this.toolBar.TChange.ColorNormal = System.Drawing.Color.Yellow;
+            this.toolBar.TDesc.ColorDown = System.Drawing.Color.White;
+            this.toolBar.TEvent = Paway.Forms.TEvent.Up;
+            this.toolBar.TextFirst.ColorDown = System.Drawing.Color.Black;
+            this.toolBar.TextFirst.ColorMove = System.Drawing.Color.White;
+            this.toolBar.TextFirst.ColorNormal = System.Drawing.Color.Black;
+            this.toolBar.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
+            this.toolBar.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolBar.Trans = 150;
+            this.toolBar.TScrollHeight = 3;
             // 
             // Form2
             // 
@@ -308,6 +399,7 @@
         private Forms.ToolBar toolBar2;
         private Forms.ToolBar toolBar4;
         private Forms.ToolBar toolBar5;
+        private Forms.ToolBar toolBar;
 
     }
 }

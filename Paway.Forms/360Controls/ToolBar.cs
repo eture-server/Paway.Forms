@@ -72,6 +72,20 @@ namespace Paway.Forms
         #endregion
 
         #region 属性Scroll
+        private bool _iEllipse;
+        /// <summary>
+        /// 绘制椭圆
+        /// </summary>
+        [Description("绘制椭圆"), DefaultValue(false)]
+        public bool IEllipse
+        {
+            get { return _iEllipse; }
+            set
+            {
+                _iEllipse = value;
+                this.Invalidate(this.ClientRectangle);
+            }
+        }
         private int _tScrollHeight = 17;
         /// <summary>
         /// 滚动条宽度
@@ -92,6 +106,7 @@ namespace Paway.Forms
                 {
                     _vScroll.Width = value;
                 }
+                this.Invalidate(this.ClientRectangle);
             }
         }
         private ToolTip toolTop;
@@ -100,11 +115,6 @@ namespace Paway.Forms
         /// </summary>
         [Description("显示简短说明"), DefaultValue(false)]
         public bool IShowToolTop { get; set; }
-        /// <summary>
-        /// 文本内容
-        /// </summary>
-        [Description("启用分组"), DefaultValue(false)]
-        public bool IGroup { get; set; }
         /// <summary>
         /// 头文字总长度
         /// </summary>
@@ -292,10 +302,7 @@ namespace Paway.Forms
         public TEvent TEvent
         {
             get { return this._tEvent; }
-            set
-            {
-                this._tEvent = value;
-            }
+            set { this._tEvent = value; }
         }
         /// <summary>
         /// Item项显示方向
@@ -860,7 +867,7 @@ namespace Paway.Forms
                     {
                         backColor = item.TColor.ColorNormal == Color.Empty ? TBackGround.ColorNormal : item.TColor.ColorNormal;
                     }
-                    g.FillRectangle(new SolidBrush(backColor), item.Rectangle);
+                    DrawBackground(g, backColor, item);
                     break;
                 case TMouseState.Move:
                 case TMouseState.Up:
@@ -874,7 +881,7 @@ namespace Paway.Forms
                     }
                     else
                     {
-                        g.FillRectangle(new SolidBrush(backColor), item.Rectangle);
+                        DrawBackground(g, backColor, item);
                     }
                     if (_iMultiple)
                     {
@@ -882,6 +889,17 @@ namespace Paway.Forms
                     }
                     IsContextMenu(g, item);
                     break;
+            }
+        }
+        private void DrawBackground(Graphics g, Color color, ToolItem item)
+        {
+            if (IEllipse || item.IEllipse)
+            {
+                g.FillEllipse(new SolidBrush(color), item.Rectangle);
+            }
+            else
+            {
+                g.FillRectangle(new SolidBrush(color), item.Rectangle);
             }
         }
         /// <summary>
@@ -896,7 +914,7 @@ namespace Paway.Forms
             }
             else
             {
-                g.FillRectangle(new SolidBrush(backColor), item.Rectangle);
+                DrawBackground(g, backColor, item);
             }
             IsContextMenu(g, item);
         }
@@ -1908,6 +1926,7 @@ namespace Paway.Forms
                     _vScroll.Visible = false;
                     _hScroll.Visible = false;
                 }
+                this.Invalidate(this.ClientRectangle);
             }
         }
         /// <summary>

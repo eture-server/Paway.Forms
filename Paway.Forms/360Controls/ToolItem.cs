@@ -154,6 +154,11 @@ namespace Paway.Forms
         /// </summary>
         [Description("文本内容"), DefaultValue(false)]
         public bool IText { get; set; }
+        /// <summary>
+        /// 绘制椭圆
+        /// </summary>
+        [Description("绘制椭圆"), DefaultValue(false)]
+        public bool IEllipse { get; set; }
 
         /// <summary>
         /// 头文字
