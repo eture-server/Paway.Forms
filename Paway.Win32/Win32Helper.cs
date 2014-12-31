@@ -21,17 +21,33 @@ namespace Paway.Win32
         /// </summary>
         public static IntPtr False { get { return (IntPtr)0; } }
 
-        #region 任务栏Rectangle
+        #region 任务栏
         /// <summary>
         /// 获取任务栏Rectangle
         /// </summary>
         /// <returns></returns>
-        public static RECT GetTaskRect()
+        public static RECT TaskRect()
         {
             IntPtr hWnd = NativeMethods.FindWindow("Shell_TrayWnd", null);
             RECT rc = new RECT();
             NativeMethods.GetWindowRect(hWnd, ref rc);
             return rc;
+        }
+        /// <summary>
+        /// 隐藏任务栏
+        /// </summary>
+        public static void HideTask()
+        {
+            IntPtr hWnd = NativeMethods.FindWindow("Shell_TrayWnd", null);
+            NativeMethods.ShowWindow(hWnd, WindowShowStyle.Hide);
+        }
+        /// <summary>
+        /// 显示任务栏
+        /// </summary>
+        public static void ShowTask()
+        {
+            IntPtr hWnd = NativeMethods.FindWindow("Shell_TrayWnd", null);
+            NativeMethods.ShowWindow(hWnd, WindowShowStyle.Show);
         }
 
         #endregion

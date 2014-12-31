@@ -212,6 +212,11 @@ namespace Paway.Win32
         /// 为零,表示接收任何窗口标题</param>
         [DllImport("user32.dll")]
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        /// <summary>
+        /// 该函数设置指定窗口的显示状态。
+        /// </summary>
+        [DllImport("user32.dll")]
+        public static extern bool ShowWindow(IntPtr hWnd, WindowShowStyle nCmdShow);
 
         /// <summary>
         /// 
