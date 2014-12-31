@@ -835,13 +835,17 @@ namespace Paway.Win32
     /// <summary>
     /// Windows 窗口显示状态
     /// </summary>
-    internal enum WindowShowStyle : uint
+    public enum WindowShowStyle : uint
     {
         /// <summary>
         /// 隐藏窗口并激活其他窗口
         /// </summary>
         Hide = 0,
+        /// <summary>
+        /// </summary>
         ShowNormal = 1,
+        /// <summary>
+        /// </summary>
         ShowMinimized = 2,
         /// <summary>
         /// 激活窗口并将其最大化
@@ -851,19 +855,31 @@ namespace Paway.Win32
         /// 最大化指定的窗口
         /// </summary>
         Maximize = 3,
+        /// <summary>
+        /// </summary>
         ShowNormalNoActivate = 4,
-        Minimize = 6,
         /// <summary>
         /// 在窗口原来的位置以原来的尺寸激活和显示窗口
         /// </summary>
         Show = 5,
+        /// <summary>
+        /// </summary>
+        Minimize = 6,
+        /// <summary>
+        /// </summary>
         ShowMinNoActivate = 7,
+        /// <summary>
+        /// </summary>
         ShowNoActivate = 8,
         /// <summary>
         /// 激活并显示窗口。如果窗口最小化或最大化，则系统将窗口恢复到原来的尺寸和位置。在恢复最小化窗口时，应用程序应该指定这个标志
         /// </summary>
         Restore = 9,
+        /// <summary>
+        /// </summary>
         ShowDefault = 10,
+        /// <summary>
+        /// </summary>
         ForceMinimized = 11,
     }
 
