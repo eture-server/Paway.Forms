@@ -49,7 +49,7 @@ namespace Paway.Forms
         /// <summary>
         /// Item 上显示的文字信息
         /// </summary>
-        [DefaultValue(null)]
+        [DefaultValue(typeof(string), null)]
         [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
         public string Text
         {
@@ -142,7 +142,7 @@ namespace Paway.Forms
         /// <summary>
         /// Item 当前选中状态
         /// </summary>
-        [Browsable(false), Description("Item 当前选中状态"), DefaultValue(true)]
+        [Browsable(false), Description("Item 当前选中状态"), DefaultValue(false)]
         public bool Selete
         {
             get { return MouseState == TMouseState.Down; }
