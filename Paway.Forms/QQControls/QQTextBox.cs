@@ -184,28 +184,6 @@ namespace Paway.Forms
             set { base.MinimumSize = value; }
         }
         /// <summary>
-        /// 获取或设置控件的高度和宽度
-        /// </summary>
-        [Description("获取或设置控件的高度和宽度"), DefaultValue(typeof(Size), "166,24")]
-        public new Size Size
-        {
-            get { return base.Size; }
-            set
-            {
-                if (value == Size.Empty)
-                {
-                    value = new Size(166, 24);
-                }
-                base.Size = value;
-                int width = TextRenderer.MeasureText("你好", this.Font).Width;
-                BaseText.Size = new Size(value.Width - width / 4, value.Height - 8);
-                UpdateHeight();
-                _iconRect.Y = (this.Height - _iconRect.Height) / 2;
-                this.PositionTextBox();
-                this.Invalidate();
-            }
-        }
-        /// <summary>
         /// 获取或设置控件显示的文字的字体
         /// </summary>
         [Description("获取或设置控件显示的文字的字体"), DefaultValue(typeof(Font), "微软雅黑, 9pt")]
@@ -254,6 +232,31 @@ namespace Paway.Forms
             }
         }
 
+        #endregion
+
+        #region 重载属性默认值
+        /// <summary>
+        /// 获取或设置控件的高度和宽度
+        /// </summary>
+        [Description("获取或设置控件的高度和宽度"), DefaultValue(typeof(Size), "166,24")]
+        public new Size Size
+        {
+            get { return base.Size; }
+            set
+            {
+                if (value == Size.Empty)
+                {
+                    value = new Size(166, 24);
+                }
+                base.Size = value;
+                int width = TextRenderer.MeasureText("你好", this.Font).Width;
+                BaseText.Size = new Size(value.Width - width / 4, value.Height - 8);
+                UpdateHeight();
+                _iconRect.Y = (this.Height - _iconRect.Height) / 2;
+                this.PositionTextBox();
+                this.Invalidate();
+            }
+        }
         /// <summary>
         /// 获取或设置控件内的空白。
         /// </summary>

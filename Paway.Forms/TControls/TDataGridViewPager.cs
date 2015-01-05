@@ -209,33 +209,17 @@ namespace Paway.Forms
             // 
             // tDataGridView1
             // 
-            this.tDataGridView1.AllowUserToAddRows = false;
-            this.tDataGridView1.AllowUserToDeleteRows = false;
-            this.tDataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.tDataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            this.tDataGridView1.CheckBoxName = "";
-            this.tDataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.tDataGridView1.ColumnHeadersHeight = 30;
-            this.tDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.tDataGridView1.ColumnImage = "";
-            this.tDataGridView1.ColumnImageText = "";
             this.tDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id});
             this.tDataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tDataGridView1.GridColor = System.Drawing.Color.LightBlue;
             this.tDataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.tDataGridView1.MultiSelect = false;
             this.tDataGridView1.Name = "tDataGridView1";
-            this.tDataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.tDataGridView1.RowHeadersVisible = false;
-            this.tDataGridView1.RowHeadersWidth = 21;
             this.tDataGridView1.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
             this.tDataGridView1.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
             this.tDataGridView1.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.tDataGridView1.RowTemplate.Height = 32;
             this.tDataGridView1.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.tDataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tDataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tDataGridView1.Size = new System.Drawing.Size(576, 173);
             this.tDataGridView1.TabIndex = 12;
             // 
@@ -252,7 +236,6 @@ namespace Paway.Forms
             this.pager1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pager1.Location = new System.Drawing.Point(0, 173);
             this.pager1.Name = "pager1";
-            this.PagerInfo.PageSize = 50;
             this.pager1.Size = new System.Drawing.Size(576, 30);
             this.pager1.TabIndex = 11;
             // 

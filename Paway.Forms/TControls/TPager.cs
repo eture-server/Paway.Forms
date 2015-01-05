@@ -440,9 +440,9 @@ namespace Paway.Forms
         /// </summary>
         public event PageInfoChanged PageInfoChanged;
 
-        private int currentPageIndex; //当前页码
-        private int pageSize;//每页显示的记录
-        private int recordCount;//记录总数
+        private int currentPageIndex = 1; //当前页码
+        private int pageSize = 50;//每页显示的记录
+        private int recordCount = 0;//记录总数
 
         #region 属性变量
 

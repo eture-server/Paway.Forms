@@ -159,12 +159,6 @@ namespace Paway.Forms
             // 
             // tComboBox1
             // 
-            this.tComboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tComboBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.tComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.tComboBox1.FormattingEnabled = true;
             this.tComboBox1.Location = new System.Drawing.Point(1, 1);
             this.tComboBox1.Name = "tComboBox1";
             this.tComboBox1.Size = new System.Drawing.Size(121, 23);

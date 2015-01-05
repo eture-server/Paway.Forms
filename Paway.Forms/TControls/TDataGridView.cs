@@ -41,6 +41,20 @@ namespace Paway.Forms
             InitializeComponent();
             timer.Interval = 30;
             this.timer.Tick += timer_Tick;
+
+            this.AllowUserToAddRows = false;
+            this.AllowUserToDeleteRows = false;
+            this.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            this.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            this.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            this.ColumnHeadersHeight = 30;
+            this.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.MultiSelect = false;
+            this.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            this.RowHeadersVisible = false;
+            this.RowHeadersWidth = 21;
+            this.ScrollBars = ScrollBars.Vertical;
+            this.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
 
         #region 事件
@@ -84,38 +98,6 @@ namespace Paway.Forms
         #endregion
 
         #region 属性
-        /// <summary>
-        /// 获取或设置 System.Windows.Forms.DataGridView 的背景色。
-        /// </summary>
-        [DefaultValue(typeof(Color), "White")]
-        public new Color BackgroundColor
-        {
-            get { return base.BackgroundColor; }
-            set { base.BackgroundColor = value; }
-        }
-        /// <summary>
-        /// 获取或设置 System.Windows.Forms.DataGridView 的边框样式。
-        /// </summary>
-        [DefaultValue(typeof(BorderStyle), "None")]
-        public new BorderStyle BorderStyle
-        {
-            get { return base.BorderStyle; }
-            set { base.BorderStyle = value; }
-        }
-        /// <summary>
-        /// 设置数据源时设置图片列
-        /// </summary>
-        [AttributeProvider(typeof(IListSource))]
-        [RefreshProperties(RefreshProperties.Repaint), DefaultValue(null)]
-        public new object DataSource
-        {
-            get { return base.DataSource; }
-            set
-            {
-                this.source = value;
-                UpdateColumns(value);
-            }
-        }
         /// <summary>
         /// 刷新数据
         /// </summary>
@@ -298,8 +280,178 @@ namespace Paway.Forms
         /// <summary>
         /// 绘制列列Name
         /// </summary>
-        [Browsable(true), Description("绘制列列Name")]
+        [Browsable(true), Description("绘制列列Name"), DefaultValue(null)]
         public string CheckBoxName { get; set; }
+
+        #endregion
+
+        #region 重载属性默认值
+        /// <summary>
+        /// 获取或设置 DataGridView 的背景色。
+        /// </summary>
+        [Description("获取或设置 DataGridView 的背景色")]
+        [DefaultValue(typeof(Color), "White")]
+        public new Color BackgroundColor
+        {
+            get { return base.BackgroundColor; }
+            set { base.BackgroundColor = value; }
+        }
+        /// <summary>
+        /// 获取或设置 DataGridView 的边框样式。
+        /// </summary>
+        [Description("获取或设置 DataGridView 的边框样式")]
+        [DefaultValue(typeof(BorderStyle), "None")]
+        public new BorderStyle BorderStyle
+        {
+            get { return base.BorderStyle; }
+            set { base.BorderStyle = value; }
+        }
+        /// <summary>
+        /// 设置数据源时设置图片列
+        /// </summary>
+        [Description("设置数据源时设置图片列")]
+        [AttributeProvider(typeof(IListSource))]
+        [RefreshProperties(RefreshProperties.Repaint), DefaultValue(null)]
+        public new object DataSource
+        {
+            get { return base.DataSource; }
+            set
+            {
+                this.source = value;
+                UpdateColumns(value);
+            }
+        }
+        /// <summary>
+        /// 获取或设置一个值，该值指示是否向用户显示添加行的选项。
+        /// </summary>
+        [Description("获取或设置一个值，该值指示是否向用户显示添加行的选项")]
+        [DefaultValue(false)]
+        public new bool AllowUserToAddRows
+        {
+            get { return base.AllowUserToAddRows; }
+            set { base.AllowUserToAddRows = value; }
+        }
+        /// <summary>
+        /// 获取或设置一个值，该值指示是否允许用户从 DataGridView 中删除行。
+        /// </summary>
+        [Description("获取或设置一个值，该值指示是否允许用户从 DataGridView 中删除行")]
+        [DefaultValue(false)]
+        public new bool AllowUserToDeleteRows
+        {
+            get { return base.AllowUserToDeleteRows; }
+            set { base.AllowUserToDeleteRows = value; }
+        }
+        /// <summary>
+        /// 获取或设置一个值，该值指示如何确定列宽。
+        /// </summary>
+        [Description("获取或设置一个值，该值指示如何确定列宽")]
+        [DefaultValue(typeof(DataGridViewAutoSizeColumnsMode), "Fill")]
+        public new DataGridViewAutoSizeColumnsMode AutoSizeColumnsMode
+        {
+            get { return base.AutoSizeColumnsMode; }
+            set { base.AutoSizeColumnsMode = value; }
+        }
+        /// <summary>
+        /// 获取 DataGridView 的单元格边框样式。
+        /// </summary>
+        [Description("获取 DataGridView 的单元格边框样式")]
+        [DefaultValue(typeof(DataGridViewCellBorderStyle), "SingleHorizontal")]
+        public new DataGridViewCellBorderStyle CellBorderStyle
+        {
+            get { return base.CellBorderStyle; }
+            set { base.CellBorderStyle = value; }
+        }
+        /// <summary>
+        /// 获取应用于列标题的边框样式。
+        /// </summary>
+        [Description("获取应用于列标题的边框样式")]
+        [DefaultValue(typeof(DataGridViewHeaderBorderStyle), "None")]
+        public new DataGridViewHeaderBorderStyle ColumnHeadersBorderStyle
+        {
+            get { return base.ColumnHeadersBorderStyle; }
+            set { base.ColumnHeadersBorderStyle = value; }
+        }
+        /// <summary>
+        /// 获取或设置列标题行的高度（以像素为单位）。
+        /// </summary>
+        [Description("获取或设置列标题行的高度（以像素为单位）")]
+        [DefaultValue(30)]
+        public new int ColumnHeadersHeight
+        {
+            get { return base.ColumnHeadersHeight; }
+            set { base.ColumnHeadersHeight = value; }
+        }
+        /// <summary>
+        /// 获取或设置一个值，该值指示是否可以调整列标题的高度，以及它是由用户调整还是根据标题的内容自动调整。
+        /// </summary>
+        [Description("获取或设置一个值，该值指示是否可以调整列标题的高度，以及它是由用户调整还是根据标题的内容自动调整")]
+        [DefaultValue(typeof(DataGridViewColumnHeadersHeightSizeMode), "DisableResizing")]
+        public new DataGridViewColumnHeadersHeightSizeMode ColumnHeadersHeightSizeMode
+        {
+            get { return base.ColumnHeadersHeightSizeMode; }
+            set { base.ColumnHeadersHeightSizeMode = value; }
+        }
+        /// <summary>
+        /// 获取或设置一个值，该值指示是否允许用户一次选择 DataGridView 的多个单元格、行或列。
+        /// </summary>
+        [Description("获取或设置一个值，该值指示是否允许用户一次选择 DataGridView 的多个单元格、行或列")]
+        [DefaultValue(false)]
+        public new bool MultiSelect
+        {
+            get { return base.MultiSelect; }
+            set { base.MultiSelect = value; }
+        }
+        /// <summary>
+        /// 获取或设置行标题单元格的边框样式。
+        /// </summary>
+        [Description("获取或设置行标题单元格的边框样式")]
+        [DefaultValue(typeof(DataGridViewHeaderBorderStyle), "Single")]
+        public new DataGridViewHeaderBorderStyle RowHeadersBorderStyle
+        {
+            get { return base.RowHeadersBorderStyle; }
+            set { base.RowHeadersBorderStyle = value; }
+        }
+        /// <summary>
+        /// 获取或设置一个值，该值指示是否显示包含行标题的列。
+        /// </summary>
+        [Description("获取或设置一个值，该值指示是否显示包含行标题的列")]
+        [DefaultValue(false)]
+        public new bool RowHeadersVisible
+        {
+            get { return base.RowHeadersVisible; }
+            set { base.RowHeadersVisible = value; }
+        }
+        /// <summary>
+        /// 获取或设置包含行标题的列的宽度（以像素为单位）。
+        /// </summary>
+        [Description("获取或设置包含行标题的列的宽度（以像素为单位）")]
+        [DefaultValue(21)]
+        public new int RowHeadersWidth
+        {
+            get { return base.RowHeadersWidth; }
+            set { base.RowHeadersWidth = value; }
+        }
+        /// <summary>
+        /// 获取或设置要在 DataGridView 控件中显示的滚动条的类型。
+        /// </summary>
+        [Description("获取或设置要在 DataGridView 控件中显示的滚动条的类型")]
+        [DefaultValue(typeof(ScrollBars), "Vertical")]
+        public new ScrollBars ScrollBars
+        {
+            get { return base.ScrollBars; }
+            set { base.ScrollBars = value; }
+        }
+        /// <summary>
+        /// 获取或设置一个值，该值指示如何选择 DataGridView 的单元格。
+        /// </summary>
+        [Description("获取或设置一个值，该值指示如何选择 DataGridView 的单元格")]
+        [DefaultValue(typeof(DataGridViewSelectionMode), "FullRowSelect")]
+        public new DataGridViewSelectionMode SelectionMode
+        {
+            get { return base.SelectionMode; }
+            set { base.SelectionMode = value; }
+        }
+
         #endregion
 
         #region 鼠标移过的行颜色
@@ -595,14 +747,14 @@ namespace Paway.Forms
                 Point[] ps = new Point[] { p1, p2, p3 };
                 e.Graphics.DrawLines(gridLinePen, ps);
 
-                clrFore = System.Drawing.Color.Black;
+                clrFore = Color.Black;
                 //the first line
                 TextRenderer.DrawText(e.Graphics, strFirstLine, fntText, new Rectangle(intX, intY, intWidth, intHeight), clrFore, DrawParam.TextEnd);
 
                 fntText = e.CellStyle.Font;
                 intY = intY + intHeight;
 
-                clrFore = System.Drawing.Color.SteelBlue;
+                clrFore = Color.SteelBlue;
                 //the seconde line
                 TextRenderer.DrawText(e.Graphics, strSecondLine, fntText, new Rectangle(intX, intY, intWidth, intHeight), clrFore, DrawParam.TextEnd);
 
@@ -691,16 +843,16 @@ namespace Paway.Forms
 
         private void InitializeComponent()
         {
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Location = new Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1, 1);
+            this.pictureBox1.Size = new Size(1, 1);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 

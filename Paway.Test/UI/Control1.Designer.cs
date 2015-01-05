@@ -97,16 +97,11 @@
             // 
             // 
             // 
-            this.tDataGridViewPager1.Edit.AllowUserToAddRows = false;
-            this.tDataGridViewPager1.Edit.AllowUserToDeleteRows = false;
             this.tDataGridViewPager1.Edit.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.tDataGridViewPager1.Edit.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            this.tDataGridViewPager1.Edit.CheckBoxName = "";
             this.tDataGridViewPager1.Edit.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.tDataGridViewPager1.Edit.ColumnHeadersHeight = 30;
             this.tDataGridViewPager1.Edit.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.tDataGridViewPager1.Edit.ColumnImage = "";
-            this.tDataGridViewPager1.Edit.ColumnImageText = "";
             this.tDataGridViewPager1.Edit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tDataGridViewPager1.Edit.GridColor = System.Drawing.Color.LightBlue;
             this.tDataGridViewPager1.Edit.Location = new System.Drawing.Point(0, 0);

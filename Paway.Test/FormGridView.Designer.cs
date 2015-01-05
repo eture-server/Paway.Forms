@@ -75,7 +75,6 @@
             // 
             // tDataGridView1
             // 
-            this.tDataGridView1.AllowUserToDeleteRows = false;
             this.tDataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.tDataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.tDataGridView1.CheckBoxName = "IsSelect";
@@ -204,8 +203,6 @@
             // 
             // tDataGridView2
             // 
-            this.tDataGridView2.AllowUserToAddRows = false;
-            this.tDataGridView2.AllowUserToDeleteRows = false;
             this.tDataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.tDataGridView2.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.tDataGridView2.CheckBoxName = "IsSelect";
@@ -298,11 +295,8 @@
             // 
             // 
             // 
-            this.tDataGridViewPager1.Edit.AllowUserToAddRows = false;
-            this.tDataGridViewPager1.Edit.AllowUserToDeleteRows = false;
             this.tDataGridViewPager1.Edit.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.tDataGridViewPager1.Edit.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            this.tDataGridViewPager1.Edit.CheckBoxName = "";
             this.tDataGridViewPager1.Edit.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.Color.Red;
@@ -314,8 +308,6 @@
             this.tDataGridViewPager1.Edit.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.tDataGridViewPager1.Edit.ColumnHeadersHeight = 30;
             this.tDataGridViewPager1.Edit.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.tDataGridViewPager1.Edit.ColumnImage = "";
-            this.tDataGridViewPager1.Edit.ColumnImageText = "";
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
