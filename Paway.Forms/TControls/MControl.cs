@@ -178,10 +178,6 @@ namespace Paway.Forms
 
                 parent.SuspendLayout();
                 //加载控件
-                if (direction == TMDirection.None)
-                {
-                    direction = control.MDirection;
-                }
                 if (control == null)
                 {
                     Assembly asmb = Assembly.GetAssembly(type);
@@ -192,6 +188,10 @@ namespace Paway.Forms
                 if (control == null)
                 {
                     throw new ArgumentException(string.Format("{0} 不是有效的MControl", type.GetType().FullName));
+                }
+                if (direction == TMDirection.None)
+                {
+                    direction = control.MDirection;
                 }
 
                 //移除旧控件

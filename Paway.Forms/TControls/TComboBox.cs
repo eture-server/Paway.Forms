@@ -159,6 +159,7 @@ namespace Paway.Forms
             // 
             // tComboBox1
             // 
+            this.tComboBox1.IntegralHeight = false;
             this.tComboBox1.Location = new System.Drawing.Point(1, 1);
             this.tComboBox1.Name = "tComboBox1";
             this.tComboBox1.Size = new System.Drawing.Size(121, 23);

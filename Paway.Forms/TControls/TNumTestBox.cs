@@ -631,10 +631,12 @@ namespace Paway.Forms
             // 
             // TNumTestBox
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.BackColor = System.Drawing.SystemColors.Control;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.Lines = new string[0];
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "TNumTestBox";
+            this.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
+            this.Size = new System.Drawing.Size(166, 34);
             this.ResumeLayout(false);
             this.PerformLayout();
 

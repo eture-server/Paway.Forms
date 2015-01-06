@@ -51,6 +51,7 @@ namespace Paway.Forms
             this.ForeColor = System.Drawing.Color.White;
             this.IsDrawBorder = true;
             this.IsResize = false;
+            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "QQDemo";
             this.Padding = new System.Windows.Forms.Padding(1, 26, 1, 2);
             this.ShowIcon = false;

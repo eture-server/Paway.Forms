@@ -49,6 +49,9 @@ namespace Paway.Test
                 case "中":
                     control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.Center);
                     break;
+                case "无":
+                    control = MControl.ReLoad(panel3, typeof(Control1));
+                    break;
                 case "色1":
                     control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.Transparent);
                     break;

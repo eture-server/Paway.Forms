@@ -36,7 +36,7 @@ namespace Paway.Forms
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // control1
+            // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.panel1.Controls.Add(this.panel3);
@@ -44,17 +44,17 @@ namespace Paway.Forms
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 26);
-            this.panel1.Name = "control1";
+            this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.panel1.Size = new System.Drawing.Size(900, 514);
             this.panel1.TabIndex = 2;
             // 
-            // control3
+            // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.White;
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 66);
-            this.panel3.Name = "control3";
+            this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(900, 420);
             this.panel3.TabIndex = 13;
             // 
@@ -68,11 +68,11 @@ namespace Paway.Forms
             this.toolBar1.Size = new System.Drawing.Size(900, 66);
             this.toolBar1.TabIndex = 12;
             // 
-            // control2
+            // panel2
             // 
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel2.Location = new System.Drawing.Point(0, 486);
-            this.panel2.Name = "control2";
+            this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(900, 26);
             this.panel2.TabIndex = 2;
             // 
