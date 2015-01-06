@@ -408,9 +408,9 @@ namespace Paway.Forms
                         this.intervel = 255 / this.MInterval;
 
                         alpha.Dock = DockStyle.Fill;
-                        AlphaImage();
                         this.Controls.Add(this.alpha);
                         this.Controls.SetChildIndex(this.alpha, 0);
+                        AlphaImage();
                     }
                     break;
             }
