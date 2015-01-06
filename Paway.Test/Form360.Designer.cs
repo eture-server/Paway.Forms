@@ -44,7 +44,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolBar1 = new Paway.Forms.ToolBar();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1 = new Paway.Forms.TControl();
             this.tDataGridViewPager1 = new Paway.Forms.TDataGridViewPager();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmSet = new System.Windows.Forms.ToolStripMenuItem();
@@ -228,7 +228,7 @@
 
         private Paway.Forms.ToolBar toolBar1;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Panel panel1;
+        private Paway.Forms.TControl panel1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem tsmSet;
         private System.Windows.Forms.ToolStripMenuItem tsmAbout;

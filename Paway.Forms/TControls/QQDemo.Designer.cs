@@ -29,7 +29,7 @@ namespace Paway.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1 = new Paway.Forms.TControl();
             this.SuspendLayout();
             // 
             // panel1
@@ -66,6 +66,6 @@ namespace Paway.Forms
         /// 内容区域
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        protected System.Windows.Forms.Panel panel1;
+        protected Paway.Forms.TControl panel1;
     }
 }

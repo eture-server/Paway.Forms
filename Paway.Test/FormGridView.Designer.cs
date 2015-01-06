@@ -49,13 +49,13 @@
             this.ActionTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ComponentId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.panel3 = new Paway.Forms.TControl();
             this.tDataGridView2 = new Paway.Forms.TDataGridView();
             this.ProColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ProSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel2 = new Paway.Forms.TControl();
             this.tDataGridViewPager1 = new Paway.Forms.TDataGridViewPager();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tDataGridView1)).BeginInit();
@@ -379,7 +379,7 @@
         #endregion
 
         private Forms.TDataGridView tDataGridView1;
-        private System.Windows.Forms.Panel panel3;
+        private Paway.Forms.TControl panel3;
         private System.Windows.Forms.DataGridViewCheckBoxColumn IsSelect;
         private System.Windows.Forms.DataGridViewTextBoxColumn CommandType;
         private System.Windows.Forms.DataGridViewImageColumn Image;
@@ -392,7 +392,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ProColor;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProSize;
         private System.Windows.Forms.DataGridViewTextBoxColumn Price;
-        private System.Windows.Forms.Panel panel2;
+        private Paway.Forms.TControl panel2;
         private Forms.TDataGridViewPager tDataGridViewPager1;
 
     }

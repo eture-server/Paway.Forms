@@ -204,6 +204,19 @@ namespace Paway.Helper
         }
 
         /// <summary>
+        /// 裁剪指定区域图像
+        /// </summary>
+        public static Bitmap CutBitmap(Image image, Rectangle rect)
+        {
+            Bitmap temp = new Bitmap(rect.Width, rect.Height, PixelFormat.Format32bppArgb);
+            using (Graphics graphics = Graphics.FromImage(temp))
+            {
+                graphics.DrawImage(image, new Rectangle(Point.Empty, rect.Size), rect, GraphicsUnit.Pixel);
+            }
+            return temp;
+        }
+
+        /// <summary>
         /// 替换图像像素点
         /// </summary>
         /// <param name="image"></param>

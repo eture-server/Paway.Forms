@@ -46,6 +46,8 @@ namespace Paway.Forms
             this.UpdateStyles();
             InitMethod.Init(this);
             InitShow();
+
+            this.BackgroundImageLayout = ImageLayout.Stretch;
         }
 
         #endregion
@@ -61,6 +63,10 @@ namespace Paway.Forms
             get { return _mDirection; }
             set { _mDirection = value; }
         }
+        /// <summary>
+        /// 透明过度图片
+        /// </summary>
+        internal Bitmap TranBitmap;
         private int _mInterval = 12;
         /// <summary>
         /// 移动特效间隔
@@ -144,6 +150,20 @@ namespace Paway.Forms
         /// <param name="p"></param>
         /// <returns></returns>
         public virtual bool Contain(Point p) { return false; }
+
+        #endregion
+
+        #region 重载属性默认值
+        /// <summary>
+        /// 获取或设置在 System.Windows.Forms.ImageLayout 枚举中定义的背景图像布局。
+        /// </summary>
+        [Description("获取或设置在 System.Windows.Forms.ImageLayout 枚举中定义的背景图像布局")]
+        [DefaultValue(typeof(ImageLayout), "Stretch")]
+        public override ImageLayout BackgroundImageLayout
+        {
+            get { return base.BackgroundImageLayout; }
+            set { base.BackgroundImageLayout = value; }
+        }
 
         #endregion
 
@@ -239,7 +259,7 @@ namespace Paway.Forms
         private Point point;
         private Size step;
         private TControl alpha;
-        private int color;
+        private int color = 255;
         private Image image;
         private void InitShow()
         {
@@ -263,9 +283,9 @@ namespace Paway.Forms
         {
             for (int i = 0; i < this.Controls.Count; i++)
             {
-                if (this.Controls[i] is Panel)
+                if (this.Controls[i] is Panel || this.Controls[i] is TControl)
                 {
-                    Panel panel = this.Controls[i] as Panel;
+                    Control panel = this.Controls[i];
                     for (int j = 0; j < panel.Controls.Count; j++)
                     {
                         if (panel.Controls[j] is TControl)
@@ -292,6 +312,7 @@ namespace Paway.Forms
         {
             int random = Enum.GetNames(typeof(TMDirection)).Length;
             random = new Random().Next(0, random);
+            MStop();
             this.MDirection = (TMDirection)random;
             MStart();
         }
@@ -375,21 +396,35 @@ namespace Paway.Forms
                     image = this.BackgroundImage;
                     if (this.Width > 0 && this.Height > 0)
                     {
-                        Bitmap bitmap = new Bitmap(this.Width, this.Height);
+                        if (this.TranBitmap != null)
                         {
+                            this.Parent.BackgroundImage = null;
+                            Bitmap bitmap = new Bitmap(this.Width, this.Height);
                             this.DrawToBitmap(bitmap, new Rectangle(0, 0, this.Width, this.Height));
                             this.BackgroundImage = bitmap;
+                            this.Parent.BackgroundImage = this.TranBitmap;
                         }
-                        alpha.Dock = DockStyle.Fill;
-                        alpha.BackColor = Color.FromArgb(255, this.BackColor);
                         color = 255;
                         this.intervel = 255 / this.MInterval;
+
+                        alpha.Dock = DockStyle.Fill;
+                        AlphaImage();
                         this.Controls.Add(this.alpha);
                         this.Controls.SetChildIndex(this.alpha, 0);
                     }
                     break;
             }
             sTimer.Start();
+        }
+        private void AlphaImage()
+        {
+            if (this.TranBitmap == null) return;
+            Bitmap bitmap = BitmapHelper.ConvertTo(this.TranBitmap, BConvertType.Trans, color);
+            if (alpha.Location != Point.Empty)
+            {
+                bitmap = BitmapHelper.CutBitmap(bitmap, alpha.Bounds);
+            }
+            alpha.BackgroundImage = bitmap;
         }
         void sTimer_Tick(object sender, EventArgs e)
         {
@@ -462,7 +497,14 @@ namespace Paway.Forms
                     if (color > intervel)
                     {
                         color -= intervel;
-                        alpha.BackColor = Color.FromArgb(color, alpha.BackColor);
+                        if (this.TranBitmap == null)
+                        {
+                            alpha.BackColor = Color.FromArgb(color, alpha.BackColor);
+                        }
+                        else
+                        {
+                            AlphaImage();
+                        }
                     }
                     else
                     {

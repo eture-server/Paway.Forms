@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1 = new Paway.Forms.TControl();
             this.label5 = new System.Windows.Forms.Label();
             this.lbCopyright = new System.Windows.Forms.Label();
             this.lbVersion = new System.Windows.Forms.Label();
             this.lbDesc = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel2 = new Paway.Forms.TControl();
             this.label1 = new System.Windows.Forms.Label();
             this.btOk = new Paway.Forms.QQButton();
             this.lbPlatform = new System.Windows.Forms.Label();
@@ -175,10 +175,10 @@
         private System.Windows.Forms.Label label1;
         /// <summary>
         /// </summary>
-        protected System.Windows.Forms.Panel panel1;
+        protected Paway.Forms.TControl panel1;
         /// <summary>
         /// </summary>
-        protected System.Windows.Forms.Panel panel2;
+        protected Paway.Forms.TControl panel2;
         /// <summary>
         /// </summary>
         protected QQButton btOk;

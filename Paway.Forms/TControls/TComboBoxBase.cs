@@ -147,9 +147,8 @@ namespace Paway.Forms
 
             e.DrawBackground();
             //获取表示所绘制项的边界的矩形
-            System.Drawing.Rectangle rect = e.Bounds;
+            Rectangle rect = e.Bounds;
             //定义要绘制到控件中的图标图像
-            //Image ico = System.Drawing.Image.FromFile(@"d:\d.png");
             //定义字体对象
             Font font = new Font("微软雅黑", this.Font.Size);
             Brush brush = new SolidBrush(this.ForeColor);

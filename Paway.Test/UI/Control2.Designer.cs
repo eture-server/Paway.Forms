@@ -123,7 +123,6 @@
             this.toolRight.ICheckEvent = true;
             this.toolRight.IImageShow = false;
             this.toolRight.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem1.Selete = false;
             toolItem1.Text = "右";
             this.toolRight.Items.Add(toolItem1);
             this.toolRight.ItemSize = new System.Drawing.Size(90, 42);
@@ -150,7 +149,6 @@
             this.toolDown.ICheckEvent = true;
             this.toolDown.IImageShow = false;
             this.toolDown.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem2.Selete = false;
             toolItem2.Text = "下";
             this.toolDown.Items.Add(toolItem2);
             this.toolDown.ItemSize = new System.Drawing.Size(90, 42);
@@ -177,7 +175,6 @@
             this.toolUp.ICheckEvent = true;
             this.toolUp.IImageShow = false;
             this.toolUp.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem3.Selete = false;
             toolItem3.Text = "上";
             this.toolUp.Items.Add(toolItem3);
             this.toolUp.ItemSize = new System.Drawing.Size(90, 42);
@@ -204,12 +201,11 @@
             this.toolTran.ICheckEvent = true;
             this.toolTran.IImageShow = false;
             this.toolTran.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem4.Selete = false;
             toolItem4.Text = "色";
             this.toolTran.Items.Add(toolItem4);
             this.toolTran.ItemSize = new System.Drawing.Size(90, 42);
             this.toolTran.ItemSpace = 5;
-            this.toolTran.Location = new System.Drawing.Point(125, 132);
+            this.toolTran.Location = new System.Drawing.Point(125, 258);
             this.toolTran.Name = "toolTran";
             this.toolTran.Size = new System.Drawing.Size(90, 42);
             this.toolTran.TabIndex = 55;
@@ -231,7 +227,6 @@
             this.toolLeft.ICheckEvent = true;
             this.toolLeft.IImageShow = false;
             this.toolLeft.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem5.Selete = false;
             toolItem5.Text = "左";
             this.toolLeft.Items.Add(toolItem5);
             this.toolLeft.ItemSize = new System.Drawing.Size(90, 42);
@@ -258,7 +253,6 @@
             this.toolCenter.ICheckEvent = true;
             this.toolCenter.IImageShow = false;
             this.toolCenter.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem6.Selete = false;
             toolItem6.Text = "中";
             this.toolCenter.Items.Add(toolItem6);
             this.toolCenter.ItemSize = new System.Drawing.Size(90, 42);

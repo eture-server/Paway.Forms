@@ -24,7 +24,7 @@ namespace Paway.Test
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            toolOk2.TRefresh();
+            toolBar1.TClickFirst();
         }
 
         void toolBar1_ItemClick(object sender, EventArgs e)
@@ -34,17 +34,17 @@ namespace Paway.Test
             //MControl.ReSet(panel3);
             switch (item.Text)
             {
-                case "左":
-                    control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.Left);
-                    break;
-                case "右":
-                    control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.Right);
-                    break;
                 case "上":
                     control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.Up);
                     break;
                 case "下":
                     control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.Down);
+                    break;
+                case "左":
+                    control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.Left);
+                    break;
+                case "右":
+                    control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.Right);
                     break;
                 case "中":
                     control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.Center);

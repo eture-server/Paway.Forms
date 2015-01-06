@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -52,7 +53,25 @@ namespace Paway.Forms
         /// <summary>
         /// 移除当前界面时，是否允许移除
         /// </summary>
-        public virtual bool UnLoad() { return true; }
+        public virtual bool UnLoad()
+        {
+            for (int i = 0; i < this.Controls.Count; i++)
+            {
+                if (this.Controls[i] is Panel || this.Controls[i] is TControl)
+                {
+                    Control panel = this.Controls[i];
+                    for (int j = 0; j < panel.Controls.Count; j++)
+                    {
+                        if (panel.Controls[j] is TControl)
+                        {
+                            (panel.Controls[j] as TControl).MStop();
+                        }
+                    }
+                }
+            }
+            MStop();
+            return true;
+        }
 
         /// <summary>
         /// 刷新数据
@@ -133,7 +152,7 @@ namespace Paway.Forms
         /// 如已加载，则调用ReLoad()
         /// 如调用委托，要求参数：object sender ,EventArgs e
         /// </summary>
-        public static MControl ReLoad(Control parent, Type type, EventArgs e, TMDirection direction, Delegate method = null, int intervel = 12)
+        public static MControl ReLoad(Control parent, Type type, EventArgs e, TMDirection direction, Delegate method = null, int intervel = -1)
         {
             if (!Licence.Checking()) return null;
 
@@ -158,15 +177,11 @@ namespace Paway.Forms
                 }
 
                 parent.SuspendLayout();
-                if (parent.Controls.Count > 0)
-                {
-                    if (parent.Controls[0] is MControl)
-                    {
-                        (parent.Controls[0] as MControl).iLoad = false;
-                    }
-                    parent.Controls.Clear();
-                }
                 //加载控件
+                if (direction == TMDirection.None)
+                {
+                    direction = control.MDirection;
+                }
                 if (control == null)
                 {
                     Assembly asmb = Assembly.GetAssembly(type);
@@ -178,12 +193,34 @@ namespace Paway.Forms
                 {
                     throw new ArgumentException(string.Format("{0} 不是有效的MControl", type.GetType().FullName));
                 }
-                if (direction == TMDirection.None)
+
+                //移除旧控件
+                if (parent.Controls.Count > 0)
                 {
-                    direction = control.MDirection;
+                    if (parent.Controls[0] is MControl)
+                    {
+                        MControl temp = parent.Controls[0] as MControl;
+                        if (direction == TMDirection.Transparent)
+                        {
+                            if (temp.Width > 0 && temp.Height > 0)
+                            {
+                                control.TranBitmap = new Bitmap(temp.Width, temp.Height);
+                                temp.DrawToBitmap(control.TranBitmap, new Rectangle(0, 0, temp.Width, temp.Height));
+                                parent.BackgroundImageLayout = ImageLayout.Stretch;
+                                parent.BackgroundImage = control.TranBitmap;
+                            }
+                        }
+                        temp.iLoad = false;
+                    }
+                    parent.Controls.Clear();
                 }
+
+                //加载新控件属性
                 control.MDirection = TMDirection.None;
-                control.MInterval = intervel;
+                if (intervel != -1)
+                {
+                    control.MInterval = intervel;
+                }
                 control.Dock = System.Windows.Forms.DockStyle.Fill;
                 parent.Controls.Add(control);
                 control.MDirection = direction;
@@ -192,6 +229,7 @@ namespace Paway.Forms
                 {
                     _iList.Add(type.Name, control);
                 }
+                parent.BackgroundImage = null;
                 parent.ResumeLayout();
 
                 return control;

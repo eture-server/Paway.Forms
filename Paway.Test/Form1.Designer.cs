@@ -111,41 +111,27 @@
             this.toolBar.IShowToolTop = true;
             toolItem1.Desc = "";
             toolItem1.IHeard = true;
-            toolItem1.Selete = false;
             toolItem1.TColor.StringVertical = System.Drawing.StringAlignment.Center;
             toolItem1.Text = "白酒";
             toolItem2.Desc = "aaaaa";
             toolItem2.EndDesc = "";
             toolItem2.HeadDesc = "呵呵";
             toolItem2.IChange = true;
-            toolItem2.Selete = false;
             toolItem2.Text = "头部";
             toolItem3.IHeard = true;
-            toolItem3.Selete = false;
             toolItem3.Text = "1";
             toolItem4.Desc = "";
-            toolItem4.Selete = false;
             toolItem4.Text = "2\r\n1\r\n你好";
             toolItem5.Desc = "完全好";
-            toolItem5.Selete = false;
             toolItem5.Text = "3";
-            toolItem6.Selete = false;
             toolItem6.Text = "x1";
-            toolItem7.Selete = false;
             toolItem7.Text = "x2";
             toolItem8.IHeard = true;
-            toolItem8.Selete = false;
             toolItem8.Text = "Y";
-            toolItem9.Selete = false;
             toolItem9.Text = "y1";
-            toolItem10.Selete = false;
             toolItem10.Text = "y2";
-            toolItem11.Selete = false;
-            toolItem11.Text = "";
             toolItem12.IHeard = true;
-            toolItem12.Selete = false;
             toolItem12.Text = "Z";
-            toolItem13.Selete = false;
             toolItem13.Text = "zz1";
             this.toolBar.Items.Add(toolItem1);
             this.toolBar.Items.Add(toolItem2);
@@ -229,7 +215,6 @@
             toolItem14.Desc = "Desc";
             toolItem14.EndDesc = "EndDesc";
             toolItem14.HeadDesc = "HeadDesc";
-            toolItem14.Selete = false;
             toolItem14.Text = "Text\r\nSecond";
             this.toolBar1.Items.Add(toolItem14);
             this.toolBar1.ItemSize = new System.Drawing.Size(181, 127);
@@ -243,15 +228,9 @@
             // 
             // 
             // 
-            this.tComboBox1.Edit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tComboBox1.Edit.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.tComboBox1.Edit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.tComboBox1.Edit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.tComboBox1.Edit.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.tComboBox1.Edit.ForeColor = System.Drawing.Color.Black;
-            this.tComboBox1.Edit.FormattingEnabled = true;
             this.tComboBox1.Edit.Items.AddRange(new object[] {
             "11",
             "22",

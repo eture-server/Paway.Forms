@@ -55,16 +55,13 @@
             this.toolbar.ICheckEvent = true;
             this.toolbar.IImageShow = false;
             this.toolbar.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem1.Selete = false;
             toolItem1.Tag = "登陆";
             toolItem1.Text = "登陆";
-            toolItem2.Selete = false;
             toolItem2.Tag = "更新密码";
             toolItem2.TColor.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
             toolItem2.TColor.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
             toolItem2.TColor.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(135)))), ((int)(((byte)(239)))));
             toolItem2.Text = "更新密码";
-            toolItem3.Selete = false;
             toolItem3.Tag = "语言";
             toolItem3.TColor.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(110)))), ((int)(((byte)(18)))));
             toolItem3.TColor.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(77)))), ((int)(((byte)(187)))), ((int)(((byte)(95)))));
@@ -97,32 +94,21 @@
             // 
             // 
             // 
-            this.tDataGridViewPager1.Edit.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.tDataGridViewPager1.Edit.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            this.tDataGridViewPager1.Edit.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.tDataGridViewPager1.Edit.ColumnHeadersHeight = 30;
-            this.tDataGridViewPager1.Edit.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.tDataGridViewPager1.Edit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tDataGridViewPager1.Edit.GridColor = System.Drawing.Color.LightBlue;
             this.tDataGridViewPager1.Edit.Location = new System.Drawing.Point(0, 0);
-            this.tDataGridViewPager1.Edit.MultiSelect = false;
             this.tDataGridViewPager1.Edit.Name = "tDataGridView1";
-            this.tDataGridViewPager1.Edit.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.tDataGridViewPager1.Edit.RowHeadersVisible = false;
-            this.tDataGridViewPager1.Edit.RowHeadersWidth = 21;
             this.tDataGridViewPager1.Edit.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
             this.tDataGridViewPager1.Edit.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
             this.tDataGridViewPager1.Edit.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.tDataGridViewPager1.Edit.RowTemplate.Height = 32;
             this.tDataGridViewPager1.Edit.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.tDataGridViewPager1.Edit.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tDataGridViewPager1.Edit.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tDataGridViewPager1.Edit.Size = new System.Drawing.Size(533, 138);
             this.tDataGridViewPager1.Edit.TabIndex = 12;
             this.tDataGridViewPager1.Location = new System.Drawing.Point(0, 49);
             this.tDataGridViewPager1.Name = "tDataGridViewPager1";
             this.tDataGridViewPager1.Size = new System.Drawing.Size(533, 168);
-            this.tDataGridViewPager1.TabIndex = 3;
+            this.tDataGridViewPager1.TabIndex = 4;
             // 
             // 
             // 

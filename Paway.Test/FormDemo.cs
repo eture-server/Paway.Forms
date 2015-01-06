@@ -169,8 +169,8 @@ namespace Paway.Test
 
         void btSearch_Click(object sender, EventArgs e)
         {
-            Bitmap searchFor = Paway.Helper.BitmapHelper.GetBitmapFormFile(@"d:\for.png");
-            Bitmap searchOn = Paway.Helper.BitmapHelper.GetBitmapFormFile(@"d:\on.jpg");
+            Bitmap searchFor = BitmapHelper.GetBitmapFormFile(@"d:\for.png");
+            Bitmap searchOn = BitmapHelper.GetBitmapFormFile(@"d:\on.jpg");
             Mobot.Imaging.SearchResult[] results = Mobot.Imaging.ImageRecognitionHelper.SearchBitmap_Test(searchFor, searchOn);
             for (int i = 0; i < results.Length; i++)
             {
