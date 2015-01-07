@@ -67,7 +67,7 @@ namespace Paway.Forms
                         x = this.TMargin;
                         break;
                 }
-                Rectangle rect = new Rectangle( x, TMargin - 1, width, 20);
+                Rectangle rect = new Rectangle(x, TMargin - 1, width, 20);
                 return rect;
             }
         }

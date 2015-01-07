@@ -323,29 +323,34 @@ namespace Paway.Forms
         {
             if (sTimer.Enabled)
             {
-                this.Size = this.size;
-                this.Dock = dock;
-                switch (this.MDirection)
-                {
-                    case TMDirection.Left:
-                    case TMDirection.Right:
-                        this.Left = this.point.X;
-                        break;
-                    case TMDirection.Up:
-                    case TMDirection.Down:
-                        this.Top = this.point.Y;
-                        break;
-                    case TMDirection.Center:
-                        this.Location = this.point;
-                        break;
-                    case TMDirection.Transparent:
-                        this.Controls.Remove(alpha);
-                        this.BackgroundImage = this.image;
-                        break;
-                }
                 sTimer.Stop();
             }
+            if (!iReader) return;
+            this.Size = this.size;
+            this.Dock = dock;
+            switch (this.MDirection)
+            {
+                case TMDirection.Left:
+                case TMDirection.Right:
+                    this.Left = this.point.X;
+                    break;
+                case TMDirection.Up:
+                case TMDirection.Down:
+                    this.Top = this.point.Y;
+                    break;
+                case TMDirection.Center:
+                    this.Location = this.point;
+                    break;
+                case TMDirection.Transparent:
+                    this.Controls.Remove(alpha);
+                    this.BackgroundImage = this.image;
+                    break;
+            }
         }
+        /// <summary>
+        /// 是否使用过特效
+        /// </summary>
+        private bool iReader;
         /// <summary>
         /// 启动特效
         /// </summary>
@@ -353,6 +358,8 @@ namespace Paway.Forms
         {
             MStop();
             if (MDirection == TMDirection.None) return;
+            iReader = true;
+
             this.point = this.Location;
             this.dock = this.Dock;
             if (this.Parent != null && this.dock == DockStyle.Fill)

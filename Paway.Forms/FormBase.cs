@@ -82,6 +82,8 @@ namespace Paway.Forms
             }
             int windowLong = NativeMethods.GetWindowLong(new HandleRef(this, this.Handle), -16);
             NativeMethods.SetWindowLong(new HandleRef(this, this.Handle), -16, windowLong | (int)WindowStyle.WS_SYSMENU);
+
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
         #endregion
 
@@ -346,6 +348,20 @@ namespace Paway.Forms
                 this.OnSizeChanged(EventArgs.Empty);
             }
         }
+        #endregion
+
+        #region 重置默认属性值
+        /// <summary>
+        /// 获取或设置运行时窗体的起始位置。
+        /// </summary>
+        [Description("获取或设置运行时窗体的起始位置")]
+        [DefaultValue(typeof(FormStartPosition), "CenterScreen")]
+        public new FormStartPosition StartPosition
+        {
+            get { return base.StartPosition; }
+            set { base.StartPosition = value; }
+        }
+
         #endregion
 
         #region 方法
