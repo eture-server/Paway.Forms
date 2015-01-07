@@ -1522,7 +1522,7 @@ namespace Paway.Forms
         protected override void OnMouseEnter(EventArgs e)
         {
             base.OnMouseEnter(e);
-            if (TScroll && this.ParentForm.ContainsFocus)
+            if (iScrollHide && this.ParentForm.ContainsFocus)
             {
                 this.Focus();
             }
@@ -1906,17 +1906,44 @@ namespace Paway.Forms
         /// 水平滚动条  
         /// </summary>  
         private HScrollBar _hScroll;
-        private bool _scroll = true;
+        /// <summary>
+        /// 隐藏滚动条，实际有滚动效果
+        /// </summary>
+        private bool iScrollHide = true;
+        /// <summary>
+        /// 隐藏滚动条，实际有滚动效果
+        /// </summary>
+        [Description("隐藏滚动条，实际有滚动效果"), DefaultValue(true)]
+        public bool IScrollHide
+        {
+            get { return iScrollHide; }
+            set
+            {
+                _iScroll = value;
+                if (value)
+                {
+                    UpdateScroll();
+                }
+                else
+                {
+                    _vScroll.Visible = false;
+                    _hScroll.Visible = false;
+                    _iScroll = false;
+                }
+                this.Invalidate(this.ClientRectangle);
+            }
+        }
+        private bool _iScroll = true;
         /// <summary>
         /// 是否显示滚动条
         /// </summary>
         [Description("是否显示滚动条"), DefaultValue(true)]
         public bool IScroll
         {
-            get { return _scroll; }
+            get { return _iScroll; }
             set
             {
-                _scroll = value;
+                _iScroll = value;
                 if (value)
                 {
                     UpdateScroll();
@@ -1994,22 +2021,23 @@ namespace Paway.Forms
         /// <param name="e"></param>
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            if (!_scroll) return;
-            if (_vScroll.Visible)
+            if (!iScrollHide) return;
+            switch (TDirection)
             {
-                int value = _vScroll.Value - e.Delta * this.ItemSize.Height / 120;
-                FixScroll(value);
-            }
-            else if (_hScroll.Visible)
-            {
-                int value = _hScroll.Value - e.Delta * this.ItemSize.Width / 120;
-                FixScroll(value);
+                case TDirection.Level:
+                    int value = _vScroll.Value - e.Delta * this.ItemSize.Height / 120;
+                    FixScroll(value);
+                    break;
+                case TDirection.Vertical:
+                    value = _hScroll.Value - e.Delta * this.ItemSize.Width / 120;
+                    FixScroll(value);
+                    break;
             }
             base.OnMouseWheel(e);
         }
         private void FixScroll(int value)
         {
-            if (!_scroll) return;
+            if (!iScrollHide) return;
             switch (TDirection)
             {
                 case TDirection.Level:
@@ -2050,7 +2078,7 @@ namespace Paway.Forms
         }
         private void UpdateScroll(bool fix, bool toLast)
         {
-            if (!_scroll) return;
+            //if (!_scroll) return;
             if (CountColumn == 0 || CountLine == 0)
             {
                 TPaint(null);
@@ -2063,7 +2091,7 @@ namespace Paway.Forms
                     int height = GetHeight();
                     if (this.Height < height)
                     {
-                        _vScroll.Visible = true;
+                        _vScroll.Visible = _iScroll & iScrollHide;
                         int max = GetHeight() - this.Height;
                         if (_vScroll.Value > max)
                         {
@@ -2079,7 +2107,7 @@ namespace Paway.Forms
                             FixScroll(_vScroll.Maximum);
                         }
                     }
-                    else if (_vScroll.Value > 0)
+                    else if (_vScroll.Value >= 0)
                     {
                         FixScroll(0);
                     }
@@ -2088,7 +2116,7 @@ namespace Paway.Forms
                     int width = GetWidth();
                     if (this.Width < width)
                     {
-                        _hScroll.Visible = true;
+                        _hScroll.Visible = _iScroll & iScrollHide;
                         int max = GetWidth() - this.Width;
                         if (_hScroll.Value > max)
                         {
@@ -2104,7 +2132,7 @@ namespace Paway.Forms
                             FixScroll(_hScroll.Maximum);
                         }
                     }
-                    else if (_hScroll.Value > 0)
+                    else if (_hScroll.Value >= 0)
                     {
                         FixScroll(0);
                     }
