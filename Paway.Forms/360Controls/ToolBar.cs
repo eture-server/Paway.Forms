@@ -2085,6 +2085,7 @@ namespace Paway.Forms
             }
             _vScroll.Visible = false;
             _hScroll.Visible = false;
+            iScrollHide = false;
             switch (TDirection)
             {
                 case TDirection.Level:
