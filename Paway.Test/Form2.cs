@@ -31,7 +31,7 @@ namespace Paway.Test
         {
             ToolItem item = sender as ToolItem;
             MControl control = null;
-            //MControl.ReSet(panel3);
+            MControl.ReSet(panel3);
             switch (item.Text)
             {
                 case "上":

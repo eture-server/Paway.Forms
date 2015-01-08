@@ -25,7 +25,7 @@ namespace Paway.Forms
         /// <summary>
         /// 加载标记
         /// </summary>
-        private bool iLoad = false;
+        private bool ILoad;
 
         #endregion
 
@@ -48,7 +48,7 @@ namespace Paway.Forms
         /// <summary>
         /// 从其它控件切换过来时重新激活
         /// </summary>
-        public virtual void ReLoad() { }
+        public virtual void ReLoad() { ILoad = true; }
 
         /// <summary>
         /// 移除当前界面时，是否允许移除
@@ -70,6 +70,7 @@ namespace Paway.Forms
                 }
             }
             MStop();
+            ILoad = false;
             return true;
         }
 
@@ -173,7 +174,7 @@ namespace Paway.Forms
                 if (_iList.ContainsKey(type.Name))
                 {
                     control = _iList[type.Name] as MControl;
-                    if (control.iLoad) return control;
+                    if (control.ILoad) return control;
                 }
 
                 parent.SuspendLayout();
@@ -210,7 +211,6 @@ namespace Paway.Forms
                                 parent.BackgroundImage = control.TranBitmap;
                             }
                         }
-                        temp.iLoad = false;
                     }
                     parent.Controls.Clear();
                 }
@@ -244,7 +244,6 @@ namespace Paway.Forms
                 {
                     Current = control;
                 }
-                Current.iLoad = true;
                 Current.Focus();
                 Current.ReLoad();
             }
@@ -289,11 +288,11 @@ namespace Paway.Forms
                 string item = _iList.Keys.ElementAt<string>(i);
                 if (_iList[item] == Current)
                 {
+                    Current = null;
                     if (!_iList[item].IsDisposed)
                     {
                         _iList[item].Dispose();
                     }
-                    Current = null;
                     _iList[item] = null;
                     _iList.Remove(item);
                     break;
