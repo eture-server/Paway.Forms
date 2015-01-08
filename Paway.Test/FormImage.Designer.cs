@@ -28,111 +28,158 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btChange = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.btSave = new System.Windows.Forms.Button();
+            this.btClear = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btColor = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btAdd = new System.Windows.Forms.Button();
+            this.btLess = new System.Windows.Forms.Button();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
-            // pictureBox1
+            // panel1
             // 
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(35, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(200, 200);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 41;
-            this.pictureBox1.TabStop = false;
+            this.panel1.Controls.Add(this.btLess);
+            this.panel1.Controls.Add(this.btAdd);
+            this.panel1.Controls.Add(this.btChange);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.btSave);
+            this.panel1.Controls.Add(this.btClear);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.btColor);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel1.Location = new System.Drawing.Point(253, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(114, 296);
+            this.panel1.TabIndex = 49;
             // 
-            // button2
+            // btChange
             // 
-            this.button2.Location = new System.Drawing.Point(241, 84);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(60, 23);
-            this.button2.TabIndex = 43;
-            this.button2.Text = "取色";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(308, 94);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 12);
-            this.label1.TabIndex = 44;
-            this.label1.Text = "label1";
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(241, 149);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(60, 23);
-            this.button3.TabIndex = 45;
-            this.button3.Text = "清除";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(241, 189);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(60, 23);
-            this.button4.TabIndex = 46;
-            this.button4.Text = "保存";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(286, 44);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(59, 21);
-            this.textBox1.TabIndex = 47;
-            this.textBox1.Text = "230";
+            this.btChange.Location = new System.Drawing.Point(3, 199);
+            this.btChange.Name = "btChange";
+            this.btChange.Size = new System.Drawing.Size(60, 23);
+            this.btChange.TabIndex = 55;
+            this.btChange.Text = "换色";
+            this.btChange.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(239, 48);
+            this.label2.Location = new System.Drawing.Point(2, 44);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(41, 12);
-            this.label2.TabIndex = 48;
+            this.label2.TabIndex = 54;
             this.label2.Text = "透明度";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(49, 40);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(59, 21);
+            this.textBox1.TabIndex = 53;
+            this.textBox1.Text = "230";
+            // 
+            // btSave
+            // 
+            this.btSave.Location = new System.Drawing.Point(4, 241);
+            this.btSave.Name = "btSave";
+            this.btSave.Size = new System.Drawing.Size(60, 23);
+            this.btSave.TabIndex = 52;
+            this.btSave.Text = "保存";
+            this.btSave.UseVisualStyleBackColor = true;
+            // 
+            // btClear
+            // 
+            this.btClear.Location = new System.Drawing.Point(4, 270);
+            this.btClear.Name = "btClear";
+            this.btClear.Size = new System.Drawing.Size(60, 23);
+            this.btClear.TabIndex = 51;
+            this.btClear.Text = "清除";
+            this.btClear.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 130);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 12);
+            this.label1.TabIndex = 50;
+            this.label1.Text = "label1";
+            // 
+            // btColor
+            // 
+            this.btColor.Location = new System.Drawing.Point(4, 104);
+            this.btColor.Name = "btColor";
+            this.btColor.Size = new System.Drawing.Size(60, 23);
+            this.btColor.TabIndex = 49;
+            this.btColor.Text = "取色";
+            this.btColor.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(253, 296);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 50;
+            this.pictureBox1.TabStop = false;
+            // 
+            // btAdd
+            // 
+            this.btAdd.Location = new System.Drawing.Point(4, 157);
+            this.btAdd.Name = "btAdd";
+            this.btAdd.Size = new System.Drawing.Size(39, 23);
+            this.btAdd.TabIndex = 56;
+            this.btAdd.Text = "+";
+            this.btAdd.UseVisualStyleBackColor = true;
+            // 
+            // btLess
+            // 
+            this.btLess.Location = new System.Drawing.Point(49, 157);
+            this.btLess.Name = "btLess";
+            this.btLess.Size = new System.Drawing.Size(39, 23);
+            this.btLess.TabIndex = 57;
+            this.btLess.Text = "-";
+            this.btLess.UseVisualStyleBackColor = true;
             // 
             // FormImage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(367, 296);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.panel1);
             this.Name = "FormImage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormImage";
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button btSave;
+        private System.Windows.Forms.Button btClear;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btColor;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btChange;
+        private System.Windows.Forms.Button btLess;
+        private System.Windows.Forms.Button btAdd;
     }
 }

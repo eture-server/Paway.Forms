@@ -207,12 +207,14 @@ namespace Paway.Forms
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
+            g.DrawImage(screen, rect);
+
             // 设置画布的描绘质量
-            g.CompositingQuality = CompositingQuality.HighQuality;
-            g.SmoothingMode = SmoothingMode.HighQuality;
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            g.DrawImage(screen, rect, 0, 0, screen.Width, screen.Height, GraphicsUnit.Pixel);
-            //g.DrawImage(screen, rect);
+            Image image = BitmapHelper.HighImage(this.screen, rect);
+            //g.DrawImageUnscaled(image, rect.Location);
+            //image.Dispose();
+            //image = null;
+
             base.OnPaint(e);
         }
 

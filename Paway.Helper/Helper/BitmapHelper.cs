@@ -217,6 +217,22 @@ namespace Paway.Helper
         }
 
         /// <summary>
+        /// 高质量缩放图像，显示像素点
+        /// </summary>
+        public static Image HighImage(Image image, Rectangle rect)
+        {
+            Image temp = new Bitmap(rect.Width, rect.Height);
+            using (Graphics g = Graphics.FromImage(temp))
+            {
+                g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                g.DrawImage(image, new Rectangle(rect.Location, rect.Size), new Rectangle(Point.Empty, image.Size), GraphicsUnit.Pixel);
+                g.PixelOffsetMode = PixelOffsetMode.Default;
+            }
+            return temp;
+        }
+
+        /// <summary>
         /// 替换图像像素点
         /// </summary>
         /// <param name="image"></param>
