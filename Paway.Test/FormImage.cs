@@ -35,26 +35,29 @@ namespace Paway.Test
 
         #region 临时操作生成图片
         private Rectangle rect = new Rectangle(117, 29, 905, 558);
+        int x1 = 84, x2 = 940, y1 = 600, y2 = 693;
         void btChange_Click(object sender, EventArgs e)
         {
             if (normal == null) return;
 
-            //Image temp = BitmapHelper.ConvertTo(normal, BConvertType.Trans, rect, 0);
-            //temp.Save(@"d:\p3.jpg",ImageFormat.Jpeg);
+            //Image temp = BitmapHelper.ConvertTo(normal, BConvertType.Trans, 0, x1, x2, y1, y2);
+            //temp.Save(@"d:\p14.jpg", ImageFormat.Jpeg);
             //this.pictureBox1.Image = temp;
         }
         void btLess_Click(object sender, EventArgs e)
         {
             //rect.X--;
             //rect.Width--;
-            rect.Height--;
+            //rect.Height--;
+            x2--;
         }
 
         void btAdd_Click(object sender, EventArgs e)
         {
             //rect.X++;
             //rect.Width++;
-            rect.Height++;
+            //rect.Height++;
+            x2++;
         }
 
         #endregion
@@ -129,6 +132,14 @@ namespace Paway.Test
         void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
             if (normal == null) return;
+            if ((Control.ModifierKeys & Keys.Alt) == Keys.Alt)
+            {
+                Bitmap temp = normal as Bitmap;
+                color = temp.GetPixel(point.X, point.Y);
+                textBox1.Text = color.A.ToString();
+                this.label1.Text = this.color.ToString();
+                return;
+            }
             if (pictureBox1.Image != null && color != Color.Empty)
             {
                 normal = BitmapHelper.ReplaceByPixel(normal, point.X, point.Y, Color.FromArgb(textBox1.Text.ToInt(), color.R, color.G, color.B));
