@@ -176,7 +176,7 @@ namespace Paway.Forms
         /// <param name="se"></param>
         protected override void OnScroll(ScrollEventArgs se)
         {
-            if (_fixedBackground)
+            if (!this.IsDisposed && _fixedBackground)
             {
                 // 执行固定背景的操作
                 if (se.Type == ScrollEventType.ThumbTrack)
@@ -204,7 +204,7 @@ namespace Paway.Forms
         /// <param name="e"></param>
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            if (_fixedBackground)
+            if (!this.IsDisposed && _fixedBackground)
             {
                 NativeMethods.LockWindowUpdate(this.Handle);
                 base.OnMouseWheel(e);
@@ -238,7 +238,7 @@ namespace Paway.Forms
             {
                 if (icontrol.Contain(e.Location)) return;
             }
-            if (this._windowState != FormWindowState.Maximized)
+            if (!this.IsDisposed && this._windowState != FormWindowState.Maximized)
             {
                 NativeMethods.ReleaseCapture();
                 NativeMethods.SendMessage(Handle, 274, 61440 + 9, 0);
@@ -296,12 +296,12 @@ namespace Paway.Forms
         {
             if (base.Visible)
             {
-                if (!base.DesignMode && _special)
+                if (!this.IsDisposed && !base.DesignMode && _special)
                 {
                     NativeMethods.AnimateWindow(base.Handle, 300, 0xa0000);
                     this.Update();
                 }
-                if ((!base.DesignMode && _shadow && (this.skin == null)))
+                if (!this.IsDisposed && !base.DesignMode && _shadow && this.skin == null)
                 {
                     this.skin = new SkinForm(this);
                     this.skin.Show(this);
@@ -311,7 +311,7 @@ namespace Paway.Forms
             else
             {
                 base.OnVisibleChanged(e);
-                if (!base.DesignMode && _special)
+                if (!this.IsDisposed && !base.DesignMode && _special)
                 {
                     NativeMethods.AnimateWindow(base.Handle, 150, 0x90000);
                     base.Update();
@@ -323,7 +323,7 @@ namespace Paway.Forms
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
-            if (!base.DesignMode && _special)
+            if (!this.IsDisposed && !base.DesignMode && _special)
             {
                 NativeMethods.AnimateWindow(base.Handle, 150, 0x90000);
                 base.Update();

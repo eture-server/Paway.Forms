@@ -76,31 +76,39 @@ namespace Paway.Forms
             this.Cursor = Cursors.Hand;
             this.ratio = this.screen.Width * 1.0 / this.screen.Height;
             size = this.screen.Size;
+            int task = Win32.Win32Helper.TaskRect().Rect.Height;
             if (size.Height > SystemInformation.VirtualScreen.Height)
             {
-                size.Height = SystemInformation.VirtualScreen.Height - 100;
+                size.Height = SystemInformation.VirtualScreen.Height - task;
                 size.Width = (this.ratio * size.Height).ToInt();
             }
             if (size.Width > SystemInformation.VirtualScreen.Width)
             {
-                size.Width = SystemInformation.VirtualScreen.Width - 100;
+                size.Width = SystemInformation.VirtualScreen.Width - task;
                 size.Height = (size.Width / this.ratio).ToInt();
             }
             if (size.Width > this.Width && size.Height > this.Height)
             {
                 this.Width = size.Width;
                 this.Height = size.Height;
+                this.Width = (size.Width * 1.1).ToInt();
+                this.Height = (size.Height * 1.1).ToInt();
             }
-            else
+            else if (size.Height > this.Height * 1.1)
             {
-                if (size.Height > this.Height)
-                {
-                    this.Height = size.Height;
-                }
-                if (size.Width > this.Width)
-                {
-                    this.Width = size.Width;
-                }
+                this.Height = (size.Height * 1.1).ToInt();
+            }
+            else if (size.Width > this.Width * 1.1)
+            {
+                this.Width = (size.Width * 1.1).ToInt();
+            }
+            if (this.Height > SystemInformation.VirtualScreen.Height)
+            {
+                this.Height = SystemInformation.VirtualScreen.Height - task;
+            }
+            if (this.Width > SystemInformation.VirtualScreen.Width)
+            {
+                this.Width = SystemInformation.VirtualScreen.Width - task;
             }
             rect = new Rectangle((this.Width - size.Width) / 2, (this.Height - size.Height) / 2, size.Width, size.Height);
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -118,6 +126,7 @@ namespace Paway.Forms
         {
             if (size.Width / screen.Width > 16 && steps > 0) return;
             if (screen.Width / size.Width > 20 && steps < 0) return;
+            this.TextShow = string.Format("{0:F2}", size.Width * 1.0 / screen.Width);
             this.Invalidate(rect);
             double bit = 1;
             for (int i = 0; i < Math.Abs(steps); i++)

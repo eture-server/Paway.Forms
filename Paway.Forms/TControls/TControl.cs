@@ -174,6 +174,7 @@ namespace Paway.Forms
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
+            if (this.IsDisposed) return;
             if (!_iMousemove) return;
             if (e.Button != MouseButtons.Left) return;
             if (this.Contain(e.Location)) return;
@@ -208,7 +209,7 @@ namespace Paway.Forms
         /// <param name="se"></param>
         protected override void OnScroll(ScrollEventArgs se)
         {
-            if (_fixedBackground)
+            if (!this.IsDisposed && _fixedBackground)
             {
                 // 执行固定背景的操作
                 if (se.Type == ScrollEventType.ThumbTrack)
@@ -236,7 +237,7 @@ namespace Paway.Forms
         /// <param name="e"></param>
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            if (_fixedBackground)
+            if (!this.IsDisposed && _fixedBackground)
             {
                 NativeMethods.LockWindowUpdate(this.Handle);
                 base.OnMouseWheel(e);

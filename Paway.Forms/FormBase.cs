@@ -84,6 +84,7 @@ namespace Paway.Forms
             NativeMethods.SetWindowLong(new HandleRef(this, this.Handle), -16, windowLong | (int)WindowStyle.WS_SYSMENU);
 
             this.StartPosition = FormStartPosition.CenterScreen;
+            this.AutoScaleMode = AutoScaleMode.None;
         }
         #endregion
 
@@ -360,6 +361,17 @@ namespace Paway.Forms
         {
             get { return base.StartPosition; }
             set { base.StartPosition = value; }
+        }
+
+        /// <summary>
+        /// 获取或设置控件的自动缩放模式。
+        /// </summary>
+        [Description("获取或设置控件的自动缩放模式")]
+        [DefaultValue(typeof(FormStartPosition), "None")]
+        public new AutoScaleMode AutoScaleMode
+        {
+            get { return base.AutoScaleMode; }
+            set { base.AutoScaleMode = value; }
         }
 
         #endregion

@@ -458,11 +458,13 @@ namespace Paway.Forms
         private void SendCharKey(char c)
         {
             Message msg = new Message();
-
-            msg.HWnd = this.Handle;
-            msg.Msg = WM_CHAR;
-            msg.WParam = (IntPtr)c;
-            msg.LParam = IntPtr.Zero;
+            if (!this.IsDisposed)
+            {
+                msg.HWnd = this.Handle;
+                msg.Msg = WM_CHAR;
+                msg.WParam = (IntPtr)c;
+                msg.LParam = IntPtr.Zero;
+            }
 
             base.WndProc(ref msg);
         }

@@ -32,15 +32,16 @@
             // 
             // ImageForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(350, 448);
+            this.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.ForeColor = System.Drawing.Color.Red;
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "ImageForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SysButton = Paway.Forms.TSysButton.Close;
+            this.TextShow = "1.0";
             this.ResumeLayout(false);
 
         }

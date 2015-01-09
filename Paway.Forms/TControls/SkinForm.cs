@@ -49,6 +49,7 @@ namespace Paway.Forms
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
+            if (this.IsDisposed) return;
             if (this.Main.WindowState != FormWindowState.Maximized)
             {
                 NativeMethods.ReleaseCapture();
@@ -258,7 +259,10 @@ namespace Paway.Forms
                     pblend.SourceConstantAlpha = byte.Parse("255");
                     pblend.AlphaFormat = 1;
                     pblend.BlendFlags = 0;
-                    NativeMethods.UpdateLayeredWindow(base.Handle, dC, ref pptDst, ref psize, hdc, ref pprSrc, 0, ref pblend, 2);
+                    if (!this.IsDisposed)
+                    {
+                        NativeMethods.UpdateLayeredWindow(base.Handle, dC, ref pptDst, ref psize, hdc, ref pprSrc, 0, ref pblend, 2);
+                    }
                     return;
                 }
                 finally
@@ -302,7 +306,10 @@ namespace Paway.Forms
                 base.WndProc(ref m);
                 return;
             }
-            m.HWnd = this.Main.Handle;
+            if (!this.IsDisposed)
+            {
+                m.HWnd = this.Main.Handle;
+            }
             switch (m.Msg)
             {
                 case (int)WindowsMessage.WM_NCHITTEST:

@@ -60,6 +60,7 @@ namespace Paway.Forms
         /// </summary>
         private void WmPaintWater(ref Message m)
         {
+            if (this.IsDisposed) return;
             using (Graphics g = Graphics.FromHwnd(base.Handle))
             {
                 if (this.Text.Length == 0 && !string.IsNullOrEmpty(this._waterText))
