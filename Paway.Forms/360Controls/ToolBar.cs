@@ -21,9 +21,73 @@ namespace Paway.Forms
     public class ToolBar : TControl
     {
         #region 资源图片
-        private Image _normalImage = AssemblyHelper.GetImage("_360.ToolBar.toolbar_normal.png");
-        private Image _pushedImage = AssemblyHelper.GetImage("_360.ToolBar.toolbar_pushed.png");
-        private Image _hoverImage = AssemblyHelper.GetImage("_360.ToolBar.toolbar_hover.png");
+        /// <summary>
+        /// 默认时的按钮图片
+        /// </summary>
+        private Image _normalImage = null;
+        /// <summary>
+        /// 默认图片
+        /// </summary>
+        [Description("默认时的按钮图片")]
+        public virtual Image NormalImage
+        {
+            get
+            {
+                if (this._normalImage == null)
+                    this._normalImage = AssemblyHelper.GetImage("_360.ToolBar.toolbar_normal.png");
+                return this._normalImage;
+            }
+            set
+            {
+                this._normalImage = value;
+                base.Invalidate();
+            }
+        }
+        /// <summary>
+        /// 鼠标按下时的图片
+        /// </summary>
+        private Image _downImage = null;
+        /// <summary>
+        /// 鼠标按下时的图片
+        /// </summary>
+        [Description("鼠标按下时的图片")]
+        public virtual Image DownImage
+        {
+            get
+            {
+                if (this._downImage == null)
+                    this._downImage = AssemblyHelper.GetImage("_360.ToolBar.toolbar_hover.png");
+                return this._downImage;
+            }
+            set
+            {
+                this._downImage = value;
+                base.Invalidate();
+            }
+        }
+        /// <summary>
+        /// 鼠标划过时的图片
+        /// </summary>
+        private Image _moveImage = null;
+        /// <summary>
+        /// 鼠标划过时的图片
+        /// </summary>
+        [Description("鼠标划过时的图片")]
+        public virtual Image MoveImage
+        {
+            get
+            {
+                if (this._moveImage == null)
+                    this._moveImage = AssemblyHelper.GetImage("_360.ToolBar.toolbar_pushed.png");
+                return this._moveImage;
+            }
+            set
+            {
+                this._moveImage = value;
+
+                base.Invalidate();
+            }
+        }
         /// <summary>
         /// 多选状态下选中时附加的图片
         /// </summary>
@@ -867,7 +931,14 @@ namespace Paway.Forms
                     {
                         backColor = item.TColor.ColorNormal == Color.Empty ? TBackGround.ColorNormal : item.TColor.ColorNormal;
                     }
-                    DrawBackground(g, backColor, item);
+                    if (backColor == Color.Empty)
+                    {
+                        g.DrawImage(this.NormalImage, item.Rectangle);
+                    }
+                    else
+                    {
+                        DrawBackground(g, backColor, item);
+                    }
                     break;
                 case TMouseState.Move:
                 case TMouseState.Up:
@@ -877,7 +948,7 @@ namespace Paway.Forms
                     backColor = item.TColor.ColorDown == Color.Empty ? TBackGround.ColorDown : item.TColor.ColorDown;
                     if (backColor == Color.Empty)
                     {
-                        g.DrawImage(this._pushedImage, item.Rectangle);
+                        g.DrawImage(this.DownImage, item.Rectangle);
                     }
                     else
                     {
@@ -910,7 +981,7 @@ namespace Paway.Forms
             backColor = item.TColor.ColorMove == Color.Empty ? TBackGround.ColorMove : item.TColor.ColorMove;
             if (backColor == Color.Empty)
             {
-                g.DrawImage(this._hoverImage, item.Rectangle);
+                g.DrawImage(this.MoveImage, item.Rectangle);
             }
             else
             {

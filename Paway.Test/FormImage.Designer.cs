@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btLess = new System.Windows.Forms.Button();
+            this.btAdd = new System.Windows.Forms.Button();
             this.btChange = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -37,8 +39,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btColor = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btAdd = new System.Windows.Forms.Button();
-            this.btLess = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -55,10 +55,28 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.btColor);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(253, 0);
+            this.panel1.Location = new System.Drawing.Point(440, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(114, 296);
+            this.panel1.Size = new System.Drawing.Size(114, 371);
             this.panel1.TabIndex = 49;
+            // 
+            // btLess
+            // 
+            this.btLess.Location = new System.Drawing.Point(49, 157);
+            this.btLess.Name = "btLess";
+            this.btLess.Size = new System.Drawing.Size(39, 23);
+            this.btLess.TabIndex = 57;
+            this.btLess.Text = "-";
+            this.btLess.UseVisualStyleBackColor = true;
+            // 
+            // btAdd
+            // 
+            this.btAdd.Location = new System.Drawing.Point(4, 157);
+            this.btAdd.Name = "btAdd";
+            this.btAdd.Size = new System.Drawing.Size(39, 23);
+            this.btAdd.TabIndex = 56;
+            this.btAdd.Text = "+";
+            this.btAdd.UseVisualStyleBackColor = true;
             // 
             // btChange
             // 
@@ -84,7 +102,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(59, 21);
             this.textBox1.TabIndex = 53;
-            this.textBox1.Text = "230";
+            this.textBox1.Text = "0";
             // 
             // btSave
             // 
@@ -128,34 +146,16 @@
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(253, 296);
+            this.pictureBox1.Size = new System.Drawing.Size(440, 371);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 50;
             this.pictureBox1.TabStop = false;
-            // 
-            // btAdd
-            // 
-            this.btAdd.Location = new System.Drawing.Point(4, 157);
-            this.btAdd.Name = "btAdd";
-            this.btAdd.Size = new System.Drawing.Size(39, 23);
-            this.btAdd.TabIndex = 56;
-            this.btAdd.Text = "+";
-            this.btAdd.UseVisualStyleBackColor = true;
-            // 
-            // btLess
-            // 
-            this.btLess.Location = new System.Drawing.Point(49, 157);
-            this.btLess.Name = "btLess";
-            this.btLess.Size = new System.Drawing.Size(39, 23);
-            this.btLess.TabIndex = 57;
-            this.btLess.Text = "-";
-            this.btLess.UseVisualStyleBackColor = true;
             // 
             // FormImage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(367, 296);
+            this.ClientSize = new System.Drawing.Size(554, 371);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.panel1);
             this.Name = "FormImage";

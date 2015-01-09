@@ -28,12 +28,10 @@ namespace Paway.Test
             btColor.Click += btColor_Click;
             btSave.Click += btSave_Click;
 
-            this.normal = BitmapHelper.GetBitmapFormFile(@"d:\p2.jpg");
             btAdd.Click += btAdd_Click;
             btLess.Click += btLess_Click;
             btChange.Click += btChange_Click;
         }
-
 
         #region 临时操作生成图片
         private Rectangle rect = new Rectangle(117, 29, 905, 558);
@@ -133,19 +131,15 @@ namespace Paway.Test
             if (normal == null) return;
             if (pictureBox1.Image != null && color != Color.Empty)
             {
-                //normal = BitmapHelper.ReplaceByPixel(normal, point.X, point.Y, Color.FromArgb(textBox1.Text.ToInt(), color.R, color.G, color.B));
-                //ToRefresh();
-                //pictureBox1.Refresh();
+                normal = BitmapHelper.ReplaceByPixel(normal, point.X, point.Y, Color.FromArgb(textBox1.Text.ToInt(), color.R, color.G, color.B));
+                ToRefresh();
             }
         }
         private void ToRefresh()
         {
             if (normal == null) return;
-            Image image = BitmapHelper.HighImage(this.normal, new Rectangle(Point.Empty, pictureBox1.Size));
-            using (Graphics g = Graphics.FromImage(pictureBox1.Image))
-            {
-                g.DrawImageUnscaled(image, 0, 0);
-            }
+            //pictureBox1.Image = BitmapHelper.GetThumbnail(this.normal, pictureBox1.Size.Width, pictureBox1.Size.Height);
+            pictureBox1.Image = BitmapHelper.HighImage(this.normal, new Rectangle(Point.Empty, pictureBox1.Size));
         }
 
         #endregion

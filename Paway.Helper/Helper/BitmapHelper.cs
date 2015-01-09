@@ -518,6 +518,63 @@ namespace Paway.Helper
         }
         #endregion
 
+        #region 指定角度旋转
+        /// <summary>
+        /// 指定角度旋转图片
+        /// </summary>
+        public static Bitmap RotateImage(Bitmap bmp, float angle, Color bkColor)
+        {
+            // 获得图片的高度和宽度 
+            int width = bmp.Width;
+            int height = bmp.Height;
+            // PixelFormat指定图像中每个像素的颜色数据的格式 
+            PixelFormat pixelFormat = default(PixelFormat);
+            if (bkColor == Color.Transparent)
+            {
+                pixelFormat = PixelFormat.Format32bppArgb;
+            }
+            else
+            {
+                // 获取图像像素格式 
+                pixelFormat = bmp.PixelFormat;
+            }
+
+            Bitmap tempImg = new Bitmap(width, height, pixelFormat);
+            // 一个 GDI+ 绘图图面 
+            // 创建画布对象 
+            Graphics g = Graphics.FromImage(tempImg);
+            g.Clear(bkColor);
+
+            // 在由坐标对指定的位置，使用图像的原始物理大小绘制指定的图像 
+            g.DrawImageUnscaled(bmp, 1, 1);
+            g.Dispose();
+
+            // 画布路径 
+            GraphicsPath path = new GraphicsPath();
+            // 向路径添加一个矩形 
+            path.AddRectangle(new RectangleF(0f, 0f, width, height));
+            // 创建一个单位矩阵 
+            Matrix matrix = new Matrix();
+            // 沿原点并按指定角度顺时针旋转 
+            matrix.Rotate(angle);
+
+            RectangleF rct = path.GetBounds(matrix);
+            Bitmap newImg = new Bitmap(Convert.ToInt32(rct.Width), Convert.ToInt32(rct.Height), pixelFormat);
+            g = Graphics.FromImage(newImg);
+            g.Clear(bkColor);
+            // 平移来更改坐标的原点 
+            g.TranslateTransform(-rct.X, -rct.Y);
+            g.RotateTransform(angle);
+            g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+            g.DrawImageUnscaled(tempImg, 0, 0);
+            g.Dispose();
+            tempImg.Dispose();
+
+            return newImg;
+        }
+
+        #endregion
+
         /// <summary>
         /// 检查像素值会不会超出[0, 255]
         /// </summary>

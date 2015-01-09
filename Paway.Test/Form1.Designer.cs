@@ -173,7 +173,7 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = global::Paway.Test.Properties.Resources.imgLoadding_Image;
+            this.pictureBox2.Image = global::Paway.Test.Properties.Resources.imgLoadding;
             this.pictureBox2.Location = new System.Drawing.Point(5, 266);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(510, 2);

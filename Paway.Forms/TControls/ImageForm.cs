@@ -207,13 +207,13 @@ namespace Paway.Forms
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            g.DrawImage(screen, rect);
+            //g.DrawImage(screen, rect);
 
-            // 设置画布的描绘质量
-            Image image = BitmapHelper.HighImage(this.screen, rect);
-            //g.DrawImageUnscaled(image, rect.Location);
-            //image.Dispose();
-            //image = null;
+            // 设置画布的描绘质量 - 最临近插值法(显示像素点)
+            g.InterpolationMode = InterpolationMode.NearestNeighbor;
+            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            g.DrawImage(screen, rect, new Rectangle(Point.Empty, screen.Size), GraphicsUnit.Pixel);
+            g.PixelOffsetMode = PixelOffsetMode.Default;
 
             base.OnPaint(e);
         }
