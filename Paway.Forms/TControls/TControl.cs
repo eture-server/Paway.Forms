@@ -29,6 +29,14 @@ namespace Paway.Forms
 
         #endregion
 
+        #region 事件
+        /// <summary>
+        /// 移动特效正常完成事件。
+        /// </summary>
+        public event EventHandler MoveFinished;
+
+        #endregion
+
         #region 构造
         /// <summary>
         /// 构造
@@ -444,6 +452,9 @@ namespace Paway.Forms
             //NativeMethods.LockWindowUpdate(this.Handle);
             switch (this.MDirection)
             {
+                case TMDirection.Normal:
+                    Reset();
+                    break;
                 case TMDirection.Left:
                     if (this.Left + intervel < this.point.X)
                     {
@@ -452,7 +463,7 @@ namespace Paway.Forms
                     else
                     {
                         this.Left = this.point.X;
-                        sTimer.Stop();
+                        Reset();
                     }
                     break;
                 case TMDirection.Right:
@@ -463,7 +474,7 @@ namespace Paway.Forms
                     else
                     {
                         this.Left = this.point.X;
-                        sTimer.Stop();
+                        Reset();
                     }
                     break;
                 case TMDirection.Up:
@@ -474,7 +485,7 @@ namespace Paway.Forms
                     else
                     {
                         this.Top = this.point.Y;
-                        sTimer.Stop();
+                        Reset();
                     }
                     break;
                 case TMDirection.Down:
@@ -485,7 +496,7 @@ namespace Paway.Forms
                     else
                     {
                         this.Top = this.point.Y;
-                        sTimer.Stop();
+                        Reset();
                     }
                     break;
                 case TMDirection.Center:
@@ -498,7 +509,7 @@ namespace Paway.Forms
                     else
                     {
                         this.Location = this.point;
-                        sTimer.Stop();
+                        Reset();
                     }
                     break;
                 case TMDirection.Transparent:
@@ -518,15 +529,20 @@ namespace Paway.Forms
                     {
                         this.Controls.Remove(alpha);
                         this.BackgroundImage = this.image;
-                        sTimer.Stop();
+                        Reset();
                     }
                     break;
             }
             //NativeMethods.LockWindowUpdate(IntPtr.Zero);
-            if (!sTimer.Enabled)
+        }
+        private void Reset()
+        {
+            sTimer.Stop();
+            this.Size = this.size;
+            this.Dock = dock;
+            if (MoveFinished != null)
             {
-                this.Size = this.size;
-                this.Dock = dock;
+                MoveFinished(this, EventArgs.Empty);
             }
         }
 

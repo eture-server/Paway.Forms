@@ -80,6 +80,10 @@ namespace Paway.Forms
         /// </summary>
         None,
         /// <summary>
+        /// 不移动只触发事件
+        /// </summary>
+        Normal,
+        /// <summary>
         /// 从上到下
         /// </summary>
         Up,

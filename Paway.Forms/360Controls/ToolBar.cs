@@ -1931,7 +1931,7 @@ namespace Paway.Forms
         /// </summary>
         public void ChangeStop()
         {
-            change.Enabled = true;
+            change.Enabled = false;
         }
 
         void change_Tick(object sender, EventArgs e)
