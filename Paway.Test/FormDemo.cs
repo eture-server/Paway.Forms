@@ -48,7 +48,7 @@ namespace Paway.Test
             //this.tComboBox21.Edit.DataSource = list;
             //this.tComboBox21.Edit.DisplayMember = "Name";
             //this.tComboBox21.Edit.ValueMember = "Value";
-            this.tComboBox21.Edit.SelectedIndex =0;
+            this.tComboBox21.Edit.SelectedIndex = 0;
 
             pictureBox1.Click += pictureBox1_Click;
             this.toolBar3.SelectedItemChanged += toolBar3_SelectedItemChanged;
@@ -94,34 +94,34 @@ namespace Paway.Test
             switch (toolBar3.SelectedItem.Text)
             {
                 case "光暗":
-                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, BConvertType.Brightness, -100);
+                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, TConvertType.Brightness, -100);
                     break;
                 case "反色":
-                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, BConvertType.Anti);
+                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, TConvertType.Anti);
                     break;
                 case "浮雕":
-                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, BConvertType.Relief);
+                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, TConvertType.Relief);
                     break;
                 case "滤色":
-                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, BConvertType.Color);
+                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, TConvertType.Color);
                     break;
                 case "左右":
-                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, BConvertType.LeftRight);
+                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, TConvertType.LeftRight);
                     break;
                 case "上下":
-                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, BConvertType.UpDown);
+                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, TConvertType.UpDown);
                     break;
                 case "灰度":
-                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, BConvertType.Grayscale);
+                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, TConvertType.Grayscale);
                     break;
                 case "黑白":
-                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, BConvertType.BlackWhite);
+                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, TConvertType.BlackWhite);
                     break;
                 case "透明":
-                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, BConvertType.Trans, 200);
+                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, TConvertType.Trans, 150);
                     break;
                 case "换色":
-                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, BConvertType.Replace, 255);
+                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, TConvertType.Replace, 255);
                     break;
             }
             pictureBox2.Image = image;

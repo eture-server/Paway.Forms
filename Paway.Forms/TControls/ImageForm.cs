@@ -110,6 +110,7 @@ namespace Paway.Forms
             {
                 this.Width = SystemInformation.VirtualScreen.Width - task;
             }
+            this.TextShow = string.Format("{0:F2}", size.Width * 1.0 / screen.Width);
             rect = new Rectangle((this.Width - size.Width) / 2, (this.Height - size.Height) / 2, size.Width, size.Height);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.CenterToScreen();
@@ -126,7 +127,6 @@ namespace Paway.Forms
         {
             if (size.Width / screen.Width > 16 && steps > 0) return;
             if (screen.Width / size.Width > 20 && steps < 0) return;
-            this.TextShow = string.Format("{0:F2}", size.Width * 1.0 / screen.Width);
             this.Invalidate(rect);
             double bit = 1;
             for (int i = 0; i < Math.Abs(steps); i++)
@@ -153,6 +153,7 @@ namespace Paway.Forms
                 size.Height = 3;
                 size.Width = (size.Height * ratio).ToInt();
             }
+            this.TextShow = string.Format("{0:F2}", size.Width * 1.0 / screen.Width);
 
             rect = new Rectangle((this.Width - size.Width) / 2, (this.Height - size.Height) / 2, size.Width, size.Height);
             isExceed = rect.X < 0 || rect.Y < 0;

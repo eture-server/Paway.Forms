@@ -14,91 +14,6 @@ namespace Paway.Helper
     public abstract class BitmapHelper
     {
         #region 方法
-
-        /// <summary>
-        /// 图片无损缩放
-        /// </summary>
-        /// <param name="source">源图片</param>
-        /// <param name="destHeight">缩放后图片高度</param>
-        /// <param name="destWidth">缩放后图片宽度</param>
-        /// <returns></returns>
-        public static Bitmap GetThumbnail(Image source, int destWidth, int destHeight)
-        {
-            Bitmap bitmap = null;
-            try
-            {
-                System.Drawing.Imaging.ImageFormat sourceFormat = source.RawFormat;
-                int sW = 0, sH = 0;
-                // 按比例缩放
-                int sWidth = source.Width;
-                int sHeight = source.Height;
-
-                if (sHeight > destHeight || sWidth > destWidth)
-                {
-                    if ((sWidth * destHeight) > (sHeight * destWidth))
-                    {
-                        sW = destWidth;
-                        sH = (destWidth * sHeight) / sWidth;
-                    }
-                    else
-                    {
-                        sH = destHeight;
-                        sW = (sWidth * destHeight) / sHeight;
-                    }
-                }
-                else
-                {
-                    sW = sWidth;
-                    sH = sHeight;
-                }
-
-                bitmap = new Bitmap(destWidth, destHeight);
-                using (Graphics g = Graphics.FromImage(bitmap))
-                {
-                    g.Clear(Color.WhiteSmoke);
-
-                    // 设置画布的描绘质量
-                    g.CompositingQuality = CompositingQuality.HighQuality;
-                    g.SmoothingMode = SmoothingMode.HighQuality;
-                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
-                    Rectangle rect = new Rectangle((destWidth - sW) / 2, (destHeight - sH) / 2, sW, sH);
-                    g.DrawImage(source, rect, 0, 0, source.Width, source.Height, GraphicsUnit.Pixel);
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("ImageProcess.GEtThumbnail(Image, int, int) :: " + ex.Message);
-                throw;
-            }
-            return bitmap;
-        }
-
-        /// <summary>
-        /// 图片无损缩放
-        /// </summary>
-        /// <param name="filePath">图片源路径</param>
-        /// <param name="destHeight">缩放后图片高度</param>
-        /// <param name="destWidth">缩放后图片宽度</param>
-        /// <returns></returns>
-        public static Bitmap GetThumbnail(string filePath, int destWidth, int destHeight)
-        {
-            Bitmap bitmap = null;
-            try
-            {
-                using (Image source = Image.FromFile(filePath))
-                {
-                    bitmap = BitmapHelper.GetThumbnail(source, destWidth, destHeight);
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("ImageProcess.GetThumbnail(string, int, int) :: " + ex.Message);
-                throw;
-            }
-            return bitmap;
-        }
-
         /// <summary>
         /// 截取屏幕图像
         /// </summary>
@@ -119,70 +34,6 @@ namespace Paway.Helper
                 Debug.WriteLine("ImageProcess.GetScreenPic() :: " + ex.Message);
                 throw;
             }
-            return bitmap;
-        }
-
-        /// <summary>
-        /// 灰度
-        /// </summary>
-        /// <param name="image">需要处理成灰度的图片对象</param>
-        /// <returns></returns>
-        public static Bitmap ToGray(Image image)
-        {
-            Bitmap bitmap = new Bitmap(image);
-            try
-            {
-                int width = bitmap.Width;
-                int height = bitmap.Height;
-                Rectangle rect = new Rectangle(0, 0, width, height);
-                //用可读写的方式锁定全部位图像素
-                BitmapData bmpData = bitmap.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
-                byte gray = 0;
-                unsafe//启用不安全模式
-                {
-                    byte* p = (byte*)bmpData.Scan0;//获取首地址
-                    int offset = bmpData.Stride - width * 3;
-                    //二维图像循环
-                    for (int y = 0; y < height; y++)
-                    {
-                        for (int x = 0; x < width; x++)
-                        {
-                            //gray = (byte)((float)p[0] * 0.114f + (float)p[1] * 0.587f + (float)p[2] * 0.299f);
-                            gray = (byte)((float)(p[0] + p[1] + p[2]) / 3.0f);
-                            p[2] = p[1] = p[0] = (byte)gray;
-                            p += 3;
-                        }
-                        p += offset;
-                    }
-                }
-                bitmap.UnlockBits(bmpData);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("ImageProcess.ToGray(Image) :: " + ex.Message);
-                throw;
-            }
-            #region 效果不如前者
-
-            ////得到首地址
-            //IntPtr ptr = bmpData.Scan0;
-            ////24位bmp位图字节数
-            //int bytes = width * height * 3;
-            //byte[] rgbValues = new byte[bytes];
-            //Marshal.Copy(ptr, rgbValues, 0, bytes);
-            ////灰度化
-            //double colorTemp = 0;
-            //for (int i = 0; i < bytes; i += 3)
-            //{
-            //    //colorTemp = (byte)(rgbValues[i] * 0.114f + rgbValues[i + 1] * 0.587f + rgbValues[i + 2] * 0.299f);
-            //    colorTemp = (rgbValues[i] + rgbValues[i + 1] + rgbValues[i + 2]) / 3;
-            //    rgbValues[i] = rgbValues[i + 1] = rgbValues[i + 2] = (byte)colorTemp;
-            //}
-            ////还原位图
-            //Marshal.Copy(rgbValues, 0, ptr, bytes);
-            //bitmap.UnlockBits(bmpData);
-            #endregion
-
             return bitmap;
         }
 
@@ -290,14 +141,14 @@ namespace Paway.Helper
         /// <param name="type">转换类型</param>
         /// <param name="param">参数值</param>
         /// <returns>返回新图片</returns>
-        public static Bitmap ConvertTo(Image image, BConvertType type, object param = null)
+        public static Bitmap ConvertTo(Image image, TConvertType type, object param = null)
         {
             if (image == null) throw new ArgumentNullException("image");
             switch (type)
             {
-                case BConvertType.LeftRight:
+                case TConvertType.LeftRight:
                     return RevPicLR(image);
-                case BConvertType.UpDown:
+                case TConvertType.UpDown:
                     return RevPicUD(image);
             }
             //生成图
@@ -315,8 +166,8 @@ namespace Paway.Helper
                 int offset = bmpData.Stride - width * 4;
                 switch (type)
                 {
-                    case BConvertType.Relief:
-                    case BConvertType.Brightness:
+                    case TConvertType.Relief:
+                    case TConvertType.Brightness:
                         width -= 1;
                         height -= 1;
                         break;
@@ -328,39 +179,39 @@ namespace Paway.Helper
                     {
                         switch (type)
                         {
-                            case BConvertType.Relief:
+                            case TConvertType.Relief:
                                 p[0] = CheckPixel(Math.Abs(p[0] - p[(width + 2) * 4] + 128));
                                 p[1] = CheckPixel(Math.Abs(p[1] - p[(width + 2) * 4 + 1] + 128));
                                 p[2] = CheckPixel(Math.Abs(p[2] - p[(width + 2) * 4 + 2] + 128));
                                 break;
-                            case BConvertType.Brightness:
+                            case TConvertType.Brightness:
                                 p[0] = CheckPixel(p[0] + val);
                                 p[1] = CheckPixel(p[1] + val);
                                 p[2] = CheckPixel(p[2] + val);
                                 break;
-                            case BConvertType.Anti:
+                            case TConvertType.Anti:
                                 p[0] = (byte)(255 - p[0]);
                                 p[1] = (byte)(255 - p[1]);
                                 p[2] = (byte)(255 - p[2]);
                                 break;
-                            case BConvertType.Color:
+                            case TConvertType.Color:
                                 p[2] = (byte)(255 - p[0]);
                                 break;
-                            case BConvertType.BlackWhite:
+                            case TConvertType.BlackWhite:
                                 gray = (byte)((float)(p[0] + p[1] + p[2]) / 3.0f);
                                 p[2] = p[1] = p[0] = gray;
                                 break;
-                            case BConvertType.Grayscale:
+                            case TConvertType.Grayscale:
                                 gray = (byte)((float)(p[0] * 0.114f + p[1] * 0.587f + p[2] * 0.299f) / 3.0f);
                                 p[2] = p[1] = p[0] = gray;
                                 break;
-                            case BConvertType.Trans:
+                            case TConvertType.Trans:
                                 if (p[3] != 0)
                                 {
                                     p[3] = (byte)val;
                                 }
                                 break;
-                            case BConvertType.Replace:
+                            case TConvertType.Replace:
                                 if (p[3] != 0)
                                 {
                                     p[2] = p[1] = p[0] = (byte)val;
@@ -588,11 +439,130 @@ namespace Paway.Helper
         }
 
         #endregion
+
+        #region 3D左右翻转
+        /// <summary>
+        /// 矩形图片变换成梯形图片，用于QQ的3D翻转特效
+        /// </summary>
+        /// <param name="src">原图</param>
+        /// <param name="compressH">左侧面或者右侧面纵向缩放的比例</param>
+        /// <param name="compressW">横向缩放的比例</param>
+        /// <param name="direction">缩放位置</param>
+        /// <param name="isCenter">是否水平居中</param>
+        /// <returns></returns>
+        public static Bitmap TrapezoidTransformation(Bitmap src, double compressH, double compressW, T3Direction direction, bool isCenter = true)
+        {
+            Rectangle rect = new Rectangle(0, 0, src.Width, src.Height);
+            using (Bitmap resultH = new Bitmap(rect.Width, rect.Height))
+            {
+                Bitmap resultW = new Bitmap(rect.Width, rect.Height);
+
+                #region 指针算法，高速
+                //LockBits将Bitmap锁定到内存中
+                BitmapData srcData = src.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                BitmapData resultHData = resultH.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                BitmapData resultWData = resultW.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                unsafe
+                {
+                    //指向地址（分量顺序是BGRA）
+                    byte* srcP = (byte*)srcData.Scan0;//原图地址
+                    byte* resultHP = (byte*)resultHData.Scan0;//侧面压缩结果图像地址
+                    byte* resultWP = (byte*)resultWData.Scan0;//纵向压缩
+                    int dataW = srcData.Stride;//每行的数据量
+
+                    double changeY = (1.0 - compressH) * rect.Height / 2 / rect.Width;//Y变化率
+
+                    for (int y = 0; y < rect.Height; y++)
+                    {
+                        for (int x = 0; x < rect.Width; x++)
+                        {
+                            double h = 0;
+                            double nH = 0;
+                            switch (direction)
+                            {
+                                case T3Direction.Left:
+                                    if (y >= changeY * (rect.Width - x))
+                                    {
+                                        h = rect.Height - 2.0 * changeY * (rect.Width - x);//变化之后的每竖像素高度
+                                        nH = y - (changeY * (rect.Width - x));//当前像素在变化之后的高度
+                                    }
+                                    break;
+                                case T3Direction.Right:
+                                    if (y >= changeY * x)
+                                    {
+                                        h = rect.Height - 2.0 * changeY * x;//变化之后的每竖像素高度
+                                        nH = y - (changeY * x);//当前像素在变化之后的高度
+                                    }
+                                    break;
+                            }
+
+                            double p = 1.0 * nH / h;//当前像素在变化之后的位置高度百分比
+                            int nY = (int)(rect.Height * p);//变化之后像素在原图片中的Y轴位置
+
+                            if (nY < rect.Height && nY > -1)
+                            {
+                                //result.SetPixel(x + offsetX, y, src.GetPixel(nX, nY));
+                                byte* sp = srcP + nY * dataW + x * 4;//原图的像素偏移的数据位置
+
+                                resultHP[0] = sp[0];
+                                resultHP[1] = sp[1];
+                                resultHP[2] = sp[2];
+                                resultHP[3] = sp[3];
+                            }
+
+                            resultHP += 4;
+                        } // x
+                    } // y
+
+                    resultHP = (byte*)resultHData.Scan0;//重置地址
+
+                    //纵向压缩
+                    int offsetX = 0;//居中偏移
+                    if (isCenter)
+                    {
+                        offsetX = (int)((rect.Width - compressW * rect.Width) / 2);
+                    }
+
+                    for (int y = 0; y < rect.Height; y++)
+                    {
+                        for (int x = 0; x < rect.Width; x++)
+                        {
+                            int nX = (int)(1.0 * x / compressW);//纵向压缩后像素在原图片中的X轴位置
+                            if (nX > -1 && nX < rect.Width)
+                            {
+                                //resultW.SetPixel(x, y, resultH.GetPixel(nX, y));
+                                byte* hp = resultHP + nX * 4 + dataW * y;
+                                byte* wp = resultWP + offsetX * 4;
+
+                                wp[0] = hp[0];
+                                wp[1] = hp[1];
+                                wp[2] = hp[2];
+                                wp[3] = hp[3];
+                            }
+
+                            resultWP += 4;
+                        }
+                    }
+
+
+                    src.UnlockBits(srcData);//从内存中解除锁定
+                    resultH.UnlockBits(resultHData);
+                    resultW.UnlockBits(resultWData);
+
+                }
+
+                #endregion
+
+                return resultW;
+            }
+        }
+
+        #endregion
     }
     /// <summary>
     /// 图片转换类型
     /// </summary>
-    public enum BConvertType
+    public enum TConvertType
     {
         /// <summary>
         /// 无
@@ -638,5 +608,19 @@ namespace Paway.Helper
         /// 替换
         /// </summary>
         Replace,
+    }
+    /// <summary>
+    /// 梯形方向(3D旋转)类型
+    /// </summary>
+    public enum T3Direction
+    {
+        /// <summary>
+        /// 左侧翻转
+        /// </summary>
+        Left,
+        /// <summary>
+        /// 右侧翻转
+        /// </summary>
+        Right,
     }
 }

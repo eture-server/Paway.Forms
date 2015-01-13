@@ -435,7 +435,7 @@ namespace Paway.Forms
         private void AlphaImage()
         {
             if (this.TranBitmap == null) return;
-            Bitmap bitmap = BitmapHelper.ConvertTo(this.TranBitmap, BConvertType.Trans, color);
+            Bitmap bitmap = BitmapHelper.ConvertTo(this.TranBitmap, TConvertType.Trans, color);
             if (alpha.Location != Point.Empty)
             {
                 bitmap = BitmapHelper.CutBitmap(bitmap, alpha.Bounds);
@@ -572,7 +572,7 @@ namespace Paway.Forms
             BackgroundWorker worker = sender as BackgroundWorker;
             Random ran = new Random();
             Graphics g = this.CreateGraphics();
-            Image star = BitmapHelper.ConvertTo(this.star, BConvertType.Trans, 30);
+            Image star = BitmapHelper.ConvertTo(this.star, TConvertType.Trans, 30);
             while (true)
             {
                 if (worker.CancellationPending) break;
@@ -589,7 +589,7 @@ namespace Paway.Forms
                 }
                 System.Threading.Thread.Sleep(ran.Next(300));
                 g.FillRectangle(new SolidBrush(Color.Transparent), rect);
-                star = BitmapHelper.ConvertTo(this.star, BConvertType.Trans, 0);
+                star = BitmapHelper.ConvertTo(this.star, TConvertType.Trans, 0);
                 g.DrawImage(star, rect);
                 //System.Threading.Thread.Sleep(100);
                 //g.DrawImage(BitmapHelper.ConvertTo(this.star, BConvertType.Trans, 50), rect);
