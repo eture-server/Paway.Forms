@@ -62,12 +62,9 @@
             // 
             // btQQDemo
             // 
-            this.btQQDemo.DownImage = ((System.Drawing.Image)(resources.GetObject("btQQDemo.DownImage")));
             this.btQQDemo.Image = null;
             this.btQQDemo.Location = new System.Drawing.Point(310, 187);
-            this.btQQDemo.MoveImage = ((System.Drawing.Image)(resources.GetObject("btQQDemo.MoveImage")));
             this.btQQDemo.Name = "btQQDemo";
-            this.btQQDemo.NormalImage = ((System.Drawing.Image)(resources.GetObject("btQQDemo.NormalImage")));
             this.btQQDemo.Size = new System.Drawing.Size(109, 28);
             this.btQQDemo.TabIndex = 51;
             this.btQQDemo.Text = "QQDemo";
@@ -94,12 +91,9 @@
             // 
             // btImage
             // 
-            this.btImage.DownImage = ((System.Drawing.Image)(resources.GetObject("btImage.DownImage")));
             this.btImage.Image = null;
             this.btImage.Location = new System.Drawing.Point(232, 255);
-            this.btImage.MoveImage = ((System.Drawing.Image)(resources.GetObject("btImage.MoveImage")));
             this.btImage.Name = "btImage";
-            this.btImage.NormalImage = ((System.Drawing.Image)(resources.GetObject("btImage.NormalImage")));
             this.btImage.Size = new System.Drawing.Size(59, 28);
             this.btImage.TabIndex = 48;
             this.btImage.Text = "Image";

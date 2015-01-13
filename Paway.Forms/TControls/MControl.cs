@@ -208,10 +208,11 @@ namespace Paway.Forms
                             case TMDirection.T3DRight:
                                 if (temp.Width > 0 && temp.Height > 0)
                                 {
-                                    control.TranBitmap = new Bitmap(temp.Width, temp.Height);
-                                    temp.DrawToBitmap(control.TranBitmap, new Rectangle(0, 0, temp.Width, temp.Height));
+                                    Bitmap bitmap = new Bitmap(temp.Width, temp.Height);
+                                    temp.DrawToBitmap(bitmap, new Rectangle(0, 0, temp.Width, temp.Height));
+                                    control.TranImage = bitmap;
                                     parent.BackgroundImageLayout = ImageLayout.Stretch;
-                                    parent.BackgroundImage = control.TranBitmap;
+                                    parent.BackgroundImage = control.TranImage;
                                 }
                                 break;
                         }

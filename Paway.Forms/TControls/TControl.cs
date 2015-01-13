@@ -72,9 +72,15 @@ namespace Paway.Forms
             set { _mDirection = value; }
         }
         /// <summary>
-        /// 透明过度图片
+        /// 透明过度(旋转前)图片
         /// </summary>
-        internal Bitmap TranBitmap;
+        [Description("透明过度(旋转前)图片"), DefaultValue(typeof(Image), "null")]
+        public Image TranImage { get; set; }
+        /// <summary>
+        /// 旋转后图片
+        /// </summary>
+        [Description("旋转后图片"), DefaultValue(typeof(Image), "null")]
+        public Image TranLaterImage { get; set; }
         private int _mInterval = 12;
         /// <summary>
         /// 移动特效间隔
@@ -417,23 +423,26 @@ namespace Paway.Forms
                     image = this.BackgroundImage;
                     if (this.Width > 0 && this.Height > 0)
                     {
-                        if (this.TranBitmap != null)
+                        if (this.TranImage != null)
                         {
                             this.Parent.BackgroundImage = null;
                             Bitmap bitmap = new Bitmap(this.Width, this.Height);
                             this.DrawToBitmap(bitmap, new Rectangle(0, 0, this.Width, this.Height));
-                            this.BackgroundImage = bitmap;
-                            this.Parent.BackgroundImage = this.TranBitmap;
+                            if (this.MDirection == TMDirection.Transparent)
+                            {
+                                this.BackgroundImage = bitmap;
+                            }
+                            if (this.TranLaterImage == null)
+                            {
+                                this.TranLaterImage = bitmap;
+                            }
+                            this.Parent.BackgroundImage = this.TranImage;
                         }
                         color = 255;
                         i3d = true;
                         this.intervel = 255 / this.MInterval;
 
                         alpha.Dock = DockStyle.Fill;
-                        if (this.MDirection != TMDirection.Transparent)
-                        {
-                            alpha.BackColor = Color.White;
-                        }
                         this.Controls.Add(this.alpha);
                         this.Controls.SetChildIndex(this.alpha, 0);
                         AlphaImage();
@@ -444,8 +453,8 @@ namespace Paway.Forms
         }
         private void AlphaImage()
         {
-            if (this.TranBitmap == null) return;
-            Bitmap bitmap = BitmapHelper.ConvertTo(this.TranBitmap, TConvertType.Trans, color);
+            if (this.TranImage == null) return;
+            Bitmap bitmap = BitmapHelper.ConvertTo(this.TranImage, TConvertType.Trans, color);
             if (alpha.Location != Point.Empty)
             {
                 bitmap = BitmapHelper.CutBitmap(bitmap, alpha.Bounds);
@@ -460,7 +469,7 @@ namespace Paway.Forms
             {
                 temp = BitmapHelper.CutBitmap(temp, alpha.Bounds);
             }
-            temp = BitmapHelper.TrapezoidTransformation(temp, color * 1.0 / 255, color * 1.0 / 255, direction);
+            temp = BitmapHelper.TrapezoidTransformation(temp, 0.8 + color * 0.2 / 255, color * 1.0 / 255, direction);
             alpha.BackgroundImage = temp;
         }
         void sTimer_Tick(object sender, EventArgs e)
@@ -537,7 +546,7 @@ namespace Paway.Forms
                     if (color > intervel)
                     {
                         color -= intervel;
-                        if (this.TranBitmap == null)
+                        if (this.TranImage == null)
                         {
                             alpha.BackColor = Color.FromArgb(color, alpha.BackColor);
                         }
@@ -567,7 +576,7 @@ namespace Paway.Forms
             if (i3d && color > intervel * 2)
             {
                 color -= intervel * 2;
-                Alpha3DImage(this.TranBitmap, d1);
+                Alpha3DImage(this.TranImage, d1);
             }
             else
             {
@@ -576,7 +585,7 @@ namespace Paway.Forms
                     if (color < 255 - intervel * 2)
                     {
                         color += intervel * 2;
-                        Alpha3DImage(this.BackgroundImage, d2);
+                        Alpha3DImage(this.TranLaterImage, d2);
                     }
                     else
                     {
@@ -585,7 +594,7 @@ namespace Paway.Forms
                 }
                 else
                 {
-                    Alpha3DImage(this.BackgroundImage, d2);
+                    Alpha3DImage(this.TranLaterImage, d2);
                 }
                 i3d = false;
                 if (color == 255)
