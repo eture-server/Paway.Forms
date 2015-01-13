@@ -107,5 +107,13 @@ namespace Paway.Forms
         /// 透明度渐进
         /// </summary>
         Transparent,
+        /// <summary>
+        /// 3D旋转从左到右
+        /// </summary>
+        T3DLeft,
+        /// <summary>
+        /// 3D旋转从右到左
+        /// </summary>
+        T3DRight,
     }
 }

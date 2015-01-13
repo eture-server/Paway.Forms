@@ -42,7 +42,7 @@ namespace Paway.Test
                 //Bitmap fo = Paway.Helper.BitmapHelper.GetBitmapFormFile(@"d:\4.png");
                 //var a = ImageRecognitionHelper.SearchBitmap_Test(fo, on);
 
-                Application.Run(new FormDemo());
+                Application.Run(new Form2());
             }
             catch (Exception ex)
             {

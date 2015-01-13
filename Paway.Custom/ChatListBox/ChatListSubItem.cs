@@ -99,7 +99,11 @@ namespace Paway.Custom
         public Image HeadImage
         {
             get { return headImage; }
-            set { headImage = value; RedrawSubItem(); }
+            set
+            {
+                headImage = value;
+                RedrawSubItem();
+            }
         }
 
         private UserStatus status;

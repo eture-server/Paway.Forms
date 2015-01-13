@@ -51,7 +51,6 @@
             this.toolBar1.DownImage = ((System.Drawing.Image)(resources.GetObject("toolBar1.DownImage")));
             this.toolBar1.ICheckEvent = true;
             this.toolBar1.IScroll = false;
-            this.toolBar1.IScrollHide = false;
             this.toolBar1.Items.Add(toolItem1);
             this.toolBar1.ItemSize = new System.Drawing.Size(191, 251);
             this.toolBar1.Location = new System.Drawing.Point(0, 0);

@@ -201,15 +201,19 @@ namespace Paway.Forms
                     if (parent.Controls[0] is MControl)
                     {
                         MControl temp = parent.Controls[0] as MControl;
-                        if (direction == TMDirection.Transparent)
+                        switch (direction)
                         {
-                            if (temp.Width > 0 && temp.Height > 0)
-                            {
-                                control.TranBitmap = new Bitmap(temp.Width, temp.Height);
-                                temp.DrawToBitmap(control.TranBitmap, new Rectangle(0, 0, temp.Width, temp.Height));
-                                parent.BackgroundImageLayout = ImageLayout.Stretch;
-                                parent.BackgroundImage = control.TranBitmap;
-                            }
+                            case TMDirection.Transparent:
+                            case TMDirection.T3DLeft:
+                            case TMDirection.T3DRight:
+                                if (temp.Width > 0 && temp.Height > 0)
+                                {
+                                    control.TranBitmap = new Bitmap(temp.Width, temp.Height);
+                                    temp.DrawToBitmap(control.TranBitmap, new Rectangle(0, 0, temp.Width, temp.Height));
+                                    parent.BackgroundImageLayout = ImageLayout.Stretch;
+                                    parent.BackgroundImage = control.TranBitmap;
+                                }
+                                break;
                         }
                     }
                     parent.Controls.Clear();

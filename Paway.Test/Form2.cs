@@ -62,6 +62,12 @@ namespace Paway.Test
                         control.MRandom();
                     }
                     break;
+                case "左旋转":
+                    control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.T3DLeft);
+                    break;
+                case "右旋转":
+                    control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.T3DRight);
+                    break;
             }
         }
     }

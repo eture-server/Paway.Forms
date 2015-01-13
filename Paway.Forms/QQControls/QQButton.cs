@@ -65,6 +65,7 @@ namespace Paway.Forms
         /// 默认图片
         /// </summary>
         [Description("默认时的按钮图片")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual Image NormalImage
         {
             get
@@ -87,6 +88,7 @@ namespace Paway.Forms
         /// 鼠标按下时的图片
         /// </summary>
         [Description("鼠标按下时的图片")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual Image DownImage
         {
             get
@@ -109,6 +111,7 @@ namespace Paway.Forms
         /// 鼠标划过时的图片
         /// </summary>
         [Description("鼠标划过时的图片")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual Image MoveImage
         {
             get

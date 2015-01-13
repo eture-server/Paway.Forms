@@ -269,6 +269,7 @@ namespace Paway.Forms
         private Size step;
         private TControl alpha;
         private int color = 255;
+        private bool i3d;
         private Image image;
         private void InitShow()
         {
@@ -351,6 +352,8 @@ namespace Paway.Forms
                     this.Location = this.point;
                     break;
                 case TMDirection.Transparent:
+                case TMDirection.T3DLeft:
+                case TMDirection.T3DRight:
                     this.Controls.Remove(alpha);
                     this.BackgroundImage = this.image;
                     break;
@@ -404,6 +407,8 @@ namespace Paway.Forms
                     this.Top = point.Y + (this.size.Height - this.Size.Height) / 2;
                     break;
                 case TMDirection.Transparent:
+                case TMDirection.T3DLeft:
+                case TMDirection.T3DRight:
                     if (alpha == null)
                     {
                         alpha = new TControl();
@@ -421,9 +426,14 @@ namespace Paway.Forms
                             this.Parent.BackgroundImage = this.TranBitmap;
                         }
                         color = 255;
+                        i3d = true;
                         this.intervel = 255 / this.MInterval;
 
                         alpha.Dock = DockStyle.Fill;
+                        if (this.MDirection != TMDirection.Transparent)
+                        {
+                            alpha.BackColor = Color.White;
+                        }
                         this.Controls.Add(this.alpha);
                         this.Controls.SetChildIndex(this.alpha, 0);
                         AlphaImage();
@@ -441,6 +451,17 @@ namespace Paway.Forms
                 bitmap = BitmapHelper.CutBitmap(bitmap, alpha.Bounds);
             }
             alpha.BackgroundImage = bitmap;
+        }
+        private void Alpha3DImage(Image image, T3Direction direction)
+        {
+            if (image == null) return;
+            Bitmap temp = image.Clone() as Bitmap;
+            if (alpha.Location != Point.Empty)
+            {
+                temp = BitmapHelper.CutBitmap(temp, alpha.Bounds);
+            }
+            temp = BitmapHelper.TrapezoidTransformation(temp, color * 1.0 / 255, color * 1.0 / 255, direction);
+            alpha.BackgroundImage = temp;
         }
         void sTimer_Tick(object sender, EventArgs e)
         {
@@ -532,8 +553,48 @@ namespace Paway.Forms
                         Reset();
                     }
                     break;
+                case TMDirection.T3DLeft:
+                    T3D(T3Direction.Left, T3Direction.Right);
+                    break;
+                case TMDirection.T3DRight:
+                    T3D(T3Direction.Right, T3Direction.Left);
+                    break;
             }
             //NativeMethods.LockWindowUpdate(IntPtr.Zero);
+        }
+        private void T3D(T3Direction d1, T3Direction d2)
+        {
+            if (i3d && color > intervel * 2)
+            {
+                color -= intervel * 2;
+                Alpha3DImage(this.TranBitmap, d1);
+            }
+            else
+            {
+                if (!i3d)
+                {
+                    if (color < 255 - intervel * 2)
+                    {
+                        color += intervel * 2;
+                        Alpha3DImage(this.BackgroundImage, d2);
+                    }
+                    else
+                    {
+                        color = 255;
+                    }
+                }
+                else
+                {
+                    Alpha3DImage(this.BackgroundImage, d2);
+                }
+                i3d = false;
+                if (color == 255)
+                {
+                    this.Controls.Remove(alpha);
+                    this.BackgroundImage = this.image;
+                    Reset();
+                }
+            }
         }
         private void Reset()
         {

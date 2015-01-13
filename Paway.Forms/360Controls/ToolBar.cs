@@ -28,6 +28,7 @@ namespace Paway.Forms
         /// <summary>
         /// 默认图片
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Description("默认时的按钮图片")]
         public virtual Image NormalImage
         {
@@ -51,6 +52,7 @@ namespace Paway.Forms
         /// 鼠标按下时的图片
         /// </summary>
         [Description("鼠标按下时的图片")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual Image DownImage
         {
             get
@@ -73,6 +75,7 @@ namespace Paway.Forms
         /// 鼠标划过时的图片
         /// </summary>
         [Description("鼠标划过时的图片")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual Image MoveImage
         {
             get
@@ -1978,32 +1981,9 @@ namespace Paway.Forms
         /// </summary>  
         private HScrollBar _hScroll;
         /// <summary>
-        /// 隐藏滚动条，实际有滚动效果
+        /// 隐藏滚动条，实际有滚动效果，自动设置
         /// </summary>
-        private bool iScrollHide = true;
-        /// <summary>
-        /// 隐藏滚动条，实际有滚动效果
-        /// </summary>
-        [Description("隐藏滚动条，实际有滚动效果"), DefaultValue(true)]
-        public bool IScrollHide
-        {
-            get { return iScrollHide; }
-            set
-            {
-                _iScroll = value;
-                if (value)
-                {
-                    UpdateScroll();
-                }
-                else
-                {
-                    _vScroll.Visible = false;
-                    _hScroll.Visible = false;
-                    _iScroll = false;
-                }
-                this.Invalidate(this.ClientRectangle);
-            }
-        }
+        private bool iScrollHide;
         private bool _iScroll = true;
         /// <summary>
         /// 是否显示滚动条
