@@ -436,7 +436,6 @@ namespace Paway.Forms
                             {
                                 this.TranLaterImage = bitmap;
                             }
-                            this.Parent.BackgroundImage = this.TranImage;
                         }
                         color = 255;
                         i3d = true;
