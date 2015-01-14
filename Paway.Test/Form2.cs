@@ -62,11 +62,29 @@ namespace Paway.Test
                         control.MRandom();
                     }
                     break;
-                case "左旋转":
+                case "左转":
                     control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.T3DLeft);
                     break;
-                case "右旋转":
+                case "左右转":
+                    control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.T3DLeftToRight);
+                    break;
+                case "右转":
                     control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.T3DRight);
+                    break;
+                case "右左转":
+                    control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.T3DRightToLeft);
+                    break;
+                case "上转":
+                    control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.T3DUp);
+                    break;
+                case "上下转":
+                    control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.T3DUpToDown);
+                    break;
+                case "下转":
+                    control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.T3DDown);
+                    break;
+                case "下上转":
+                    control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.T3DDownToUp);
                     break;
             }
         }

@@ -359,7 +359,13 @@ namespace Paway.Forms
                     break;
                 case TMDirection.Transparent:
                 case TMDirection.T3DLeft:
+                case TMDirection.T3DLeftToRight:
                 case TMDirection.T3DRight:
+                case TMDirection.T3DRightToLeft:
+                case TMDirection.T3DUp:
+                case TMDirection.T3DUpToDown:
+                case TMDirection.T3DDown:
+                case TMDirection.T3DDownToUp:
                     this.Controls.Remove(alpha);
                     this.BackgroundImage = this.image;
                     break;
@@ -414,7 +420,13 @@ namespace Paway.Forms
                     break;
                 case TMDirection.Transparent:
                 case TMDirection.T3DLeft:
+                case TMDirection.T3DLeftToRight:
                 case TMDirection.T3DRight:
+                case TMDirection.T3DRightToLeft:
+                case TMDirection.T3DUp:
+                case TMDirection.T3DUpToDown:
+                case TMDirection.T3DDown:
+                case TMDirection.T3DDownToUp:
                     if (alpha == null)
                     {
                         alpha = new TControl();
@@ -428,9 +440,15 @@ namespace Paway.Forms
                             this.Parent.BackgroundImage = null;
                             Bitmap bitmap = new Bitmap(this.Width, this.Height);
                             this.DrawToBitmap(bitmap, new Rectangle(0, 0, this.Width, this.Height));
-                            if (this.MDirection == TMDirection.Transparent)
+                            switch (MDirection)
                             {
-                                this.BackgroundImage = bitmap;
+                                case TMDirection.Transparent:
+                                case TMDirection.T3DLeft:
+                                case TMDirection.T3DRight:
+                                case TMDirection.T3DUp:
+                                case TMDirection.T3DDown:
+                                    this.BackgroundImage = bitmap;
+                                    break;
                             }
                             if (this.TranLaterImage == null)
                             {
@@ -468,7 +486,17 @@ namespace Paway.Forms
             {
                 temp = BitmapHelper.CutBitmap(temp, alpha.Bounds);
             }
-            temp = BitmapHelper.TrapezoidTransformation(temp, 0.8 + color * 0.2 / 255, color * 1.0 / 255, direction);
+            bool iCenter = false;
+            switch (MDirection)
+            {
+                case TMDirection.T3DLeftToRight:
+                case TMDirection.T3DRightToLeft:
+                case TMDirection.T3DUpToDown:
+                case TMDirection.T3DDownToUp:
+                    iCenter = true;
+                    break;
+            }
+            temp = BitmapHelper.TrapezoidTransformation(temp, 0.8 + color * 0.2 / 255, color * 1.0 / 255, direction, iCenter);
             alpha.BackgroundImage = temp;
         }
         void sTimer_Tick(object sender, EventArgs e)
@@ -562,28 +590,70 @@ namespace Paway.Forms
                     }
                     break;
                 case TMDirection.T3DLeft:
+                    T3D(T3Direction.Left, T3Direction.None);
+                    break;
+                case TMDirection.T3DLeftToRight:
                     T3D(T3Direction.Left, T3Direction.Right);
                     break;
                 case TMDirection.T3DRight:
+                    T3D(T3Direction.Right, T3Direction.None);
+                    break;
+                case TMDirection.T3DRightToLeft:
                     T3D(T3Direction.Right, T3Direction.Left);
+                    break;
+                case TMDirection.T3DUp:
+                    T3D(T3Direction.Up, T3Direction.None);
+                    break;
+                case TMDirection.T3DUpToDown:
+                    T3D(T3Direction.Up, T3Direction.Down);
+                    break;
+                case TMDirection.T3DDown:
+                    T3D(T3Direction.Down, T3Direction.None);
+                    break;
+                case TMDirection.T3DDownToUp:
+                    T3D(T3Direction.Down, T3Direction.Up);
                     break;
             }
             //NativeMethods.LockWindowUpdate(IntPtr.Zero);
         }
         private void T3D(T3Direction d1, T3Direction d2)
         {
-            if (i3d && color > intervel * 2)
+            if (d1 != T3Direction.None && i3d && color > intervel)
             {
-                color -= intervel * 2;
+                color -= intervel;
+                switch (MDirection)
+                {
+                    case TMDirection.T3DLeftToRight:
+                    case TMDirection.T3DRightToLeft:
+                    case TMDirection.T3DUpToDown:
+                    case TMDirection.T3DDownToUp:
+                        if (color > intervel)
+                        {
+                            color -= intervel;
+                        }
+                        break;
+                }
                 Alpha3DImage(this.TranImage, d1);
             }
-            else
+            else if (d2 != T3Direction.None)
             {
                 if (!i3d)
                 {
-                    if (color < 255 - intervel * 2)
+                    if (color < 255 - intervel)
                     {
-                        color += intervel * 2;
+                        switch (MDirection)
+                        {
+                            case TMDirection.T3DLeftToRight:
+                            case TMDirection.T3DRightToLeft:
+                            case TMDirection.T3DUpToDown:
+                            case TMDirection.T3DDownToUp:
+                                if (color < 255 - intervel)
+                                {
+                                    color += intervel;
+                                }
+                                break;
+                        }
+                        color += intervel;
                         Alpha3DImage(this.TranLaterImage, d2);
                     }
                     else
@@ -593,15 +663,18 @@ namespace Paway.Forms
                 }
                 else
                 {
+                    color = 0;
                     Alpha3DImage(this.TranLaterImage, d2);
                 }
                 i3d = false;
                 if (color == 255)
                 {
-                    this.Controls.Remove(alpha);
-                    this.BackgroundImage = this.image;
                     Reset();
                 }
+            }
+            else
+            {
+                Reset();
             }
         }
         private void Reset()
@@ -609,6 +682,20 @@ namespace Paway.Forms
             sTimer.Stop();
             this.Size = this.size;
             this.Dock = dock;
+            switch (MDirection)
+            {
+                case TMDirection.T3DLeft:
+                case TMDirection.T3DLeftToRight:
+                case TMDirection.T3DRight:
+                case TMDirection.T3DRightToLeft:
+                case TMDirection.T3DUp:
+                case TMDirection.T3DUpToDown:
+                case TMDirection.T3DDown:
+                case TMDirection.T3DDownToUp:
+                    this.Controls.Remove(alpha);
+                    this.BackgroundImage = this.image;
+                    break;
+            }
             if (MoveFinished != null)
             {
                 MoveFinished(this, EventArgs.Empty);

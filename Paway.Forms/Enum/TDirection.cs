@@ -108,12 +108,36 @@ namespace Paway.Forms
         /// </summary>
         Transparent,
         /// <summary>
-        /// 3D旋转从左到右
+        /// 3D左边旋转
         /// </summary>
         T3DLeft,
         /// <summary>
-        /// 3D旋转从右到左
+        /// 3D旋转从左到右
+        /// </summary>
+        T3DLeftToRight,
+        /// <summary>
+        /// 3D右边旋转
         /// </summary>
         T3DRight,
+        /// <summary>
+        /// 3D旋转从右到左
+        /// </summary>
+        T3DRightToLeft,
+        /// <summary>
+        /// 3D上边旋转
+        /// </summary>
+        T3DUp,
+        /// <summary>
+        /// 3D旋转从上到下
+        /// </summary>
+        T3DUpToDown,
+        /// <summary>
+        /// 3D下边旋转
+        /// </summary>
+        T3DDown,
+        /// <summary>
+        /// 3D旋转从下到上
+        /// </summary>
+        T3DDownToUp,
     }
 }

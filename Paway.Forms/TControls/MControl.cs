@@ -205,7 +205,13 @@ namespace Paway.Forms
                         {
                             case TMDirection.Transparent:
                             case TMDirection.T3DLeft:
+                            case TMDirection.T3DLeftToRight:
                             case TMDirection.T3DRight:
+                            case TMDirection.T3DRightToLeft:
+                            case TMDirection.T3DUp:
+                            case TMDirection.T3DUpToDown:
+                            case TMDirection.T3DDown:
+                            case TMDirection.T3DDownToUp:
                                 if (temp.Width > 0 && temp.Height > 0)
                                 {
                                     Bitmap bitmap = new Bitmap(temp.Width, temp.Height);
