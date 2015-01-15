@@ -20,16 +20,25 @@ namespace Paway.Test
         {
             InitializeComponent();
             btChange.Click += btChange_Click;
+            btChange_Click(this, EventArgs.Empty);
+            toolBar1.MoveFinished += toolBar1_MoveFinished;
+        }
+
+        void toolBar1_MoveFinished(object sender, EventArgs e)
+        {
+            toolBar1.NormalImage = iChange ? Resources.noon : Resources.i1;
+            toolBar1.MoveImage = iChange ? Resources.noon : Resources.i1;
+            toolBar1.DownImage = iChange ? Resources.noon : Resources.i1;
         }
 
         private bool iChange;
         void btChange_Click(object sender, EventArgs e)
         {
-            toolBar1.NormalImage = iChange ? Resources.noon : Resources.i1;
-            toolBar1.MoveImage = iChange ? Resources.noon : Resources.i1;
-            toolBar1.DownImage = iChange ? Resources.noon : Resources.i1;
-            toolBar1.MStart();
             iChange = !iChange;
+            toolBar1.NormalImage = null;
+            toolBar1.TranImage = iChange ? Resources.i1 : Resources.noon;
+            toolBar1.TranLaterImage = iChange ? Resources.noon : Resources.i1;
+            toolBar1.MStart();
         }
     }
 }

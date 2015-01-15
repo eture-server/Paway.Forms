@@ -75,10 +75,7 @@
             // 
             // tDataGridView1
             // 
-            this.tDataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.tDataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.tDataGridView1.CheckBoxName = "IsSelect";
-            this.tDataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle7.BackColor = System.Drawing.Color.Red;
             dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 9F);
@@ -87,8 +84,6 @@
             dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.tDataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            this.tDataGridView1.ColumnHeadersHeight = 30;
-            this.tDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.tDataGridView1.ColumnImage = "Image";
             this.tDataGridView1.ColumnImageText = "NameStr";
             this.tDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -102,7 +97,7 @@
             dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle10.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle10.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
@@ -112,10 +107,8 @@
             this.tDataGridView1.IsDrawCheckBox = true;
             this.tDataGridView1.IsMultiText = true;
             this.tDataGridView1.Location = new System.Drawing.Point(10, 10);
-            this.tDataGridView1.MultiSelect = false;
             this.tDataGridView1.Name = "tDataGridView1";
             this.tDataGridView1.ProgressImage = global::Paway.Test.Properties.Resources.process;
-            this.tDataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle11.BackColor = System.Drawing.Color.Red;
             dataGridViewCellStyle11.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -124,13 +117,10 @@
             dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.tDataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
-            this.tDataGridView1.RowHeadersWidth = 21;
             this.tDataGridView1.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
             this.tDataGridView1.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
             this.tDataGridView1.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.tDataGridView1.RowTemplate.Height = 32;
-            this.tDataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tDataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tDataGridView1.Size = new System.Drawing.Size(437, 149);
             this.tDataGridView1.TabIndex = 8;
             // 
@@ -203,10 +193,8 @@
             // 
             // tDataGridView2
             // 
-            this.tDataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.tDataGridView2.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.tDataGridView2.CheckBoxName = "IsSelect";
-            this.tDataGridView2.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -215,8 +203,6 @@
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.tDataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.tDataGridView2.ColumnHeadersHeight = 30;
-            this.tDataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.tDataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ProColor,
             this.ProSize,
@@ -226,13 +212,12 @@
             this.tDataGridView2.IsDrawMerger = true;
             this.tDataGridView2.IsDrawMove = false;
             this.tDataGridView2.Location = new System.Drawing.Point(1, 0);
+            this.tDataGridView2.MultiSelect = true;
             this.tDataGridView2.Name = "tDataGridView2";
-            this.tDataGridView2.RowHeadersVisible = false;
             this.tDataGridView2.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
             this.tDataGridView2.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Peru;
             this.tDataGridView2.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.tDataGridView2.RowTemplate.Height = 23;
-            this.tDataGridView2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tDataGridView2.Size = new System.Drawing.Size(435, 219);
             this.tDataGridView2.TabIndex = 9;
             // 
@@ -295,9 +280,6 @@
             // 
             // 
             // 
-            this.tDataGridViewPager1.Edit.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.tDataGridViewPager1.Edit.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            this.tDataGridViewPager1.Edit.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.Color.Red;
             dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -306,8 +288,6 @@
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.tDataGridViewPager1.Edit.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.tDataGridViewPager1.Edit.ColumnHeadersHeight = 30;
-            this.tDataGridViewPager1.Edit.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -319,9 +299,7 @@
             this.tDataGridViewPager1.Edit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tDataGridViewPager1.Edit.GridColor = System.Drawing.Color.LightBlue;
             this.tDataGridViewPager1.Edit.Location = new System.Drawing.Point(0, 0);
-            this.tDataGridViewPager1.Edit.MultiSelect = false;
             this.tDataGridViewPager1.Edit.Name = "tDataGridView1";
-            this.tDataGridViewPager1.Edit.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.Color.Red;
             dataGridViewCellStyle6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -330,15 +308,11 @@
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.tDataGridViewPager1.Edit.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
-            this.tDataGridViewPager1.Edit.RowHeadersVisible = false;
-            this.tDataGridViewPager1.Edit.RowHeadersWidth = 21;
             this.tDataGridViewPager1.Edit.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
             this.tDataGridViewPager1.Edit.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
             this.tDataGridViewPager1.Edit.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.tDataGridViewPager1.Edit.RowTemplate.Height = 32;
             this.tDataGridViewPager1.Edit.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.tDataGridViewPager1.Edit.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tDataGridViewPager1.Edit.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tDataGridViewPager1.Edit.Size = new System.Drawing.Size(437, 126);
             this.tDataGridViewPager1.Edit.TabIndex = 12;
             this.tDataGridViewPager1.Location = new System.Drawing.Point(0, 1);
@@ -359,10 +333,8 @@
             // FormGridView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.CornflowerBlue;
             this.ClientSize = new System.Drawing.Size(459, 574);
-            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "FormGridView";
             this.Text = "DemoGridView";
             this.TextShow = "hello,world";

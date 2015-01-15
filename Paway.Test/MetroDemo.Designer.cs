@@ -28,25 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MetroDemo));
             this.SuspendLayout();
             // 
-            // Form2
+            // MetroDemo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Items.Add(((Paway.Forms.Metro.MetroItem)(resources.GetObject("$this.Items"))));
-            this.Items.Add(((Paway.Forms.Metro.MetroItem)(resources.GetObject("$this.Items1"))));
-            this.Items.Add(((Paway.Forms.Metro.MetroItem)(resources.GetObject("$this.Items2"))));
-            this.Items.Add(((Paway.Forms.Metro.MetroItem)(resources.GetObject("$this.Items3"))));
-            this.Items.Add(((Paway.Forms.Metro.MetroItem)(resources.GetObject("$this.Items4"))));
-            this.Items.Add(((Paway.Forms.Metro.MetroItem)(resources.GetObject("$this.Items5"))));
-            this.Items.Add(((Paway.Forms.Metro.MetroItem)(resources.GetObject("$this.Items6"))));
-            this.Items.Add(((Paway.Forms.Metro.MetroItem)(resources.GetObject("$this.Items7"))));
-            this.Items.Add(((Paway.Forms.Metro.MetroItem)(resources.GetObject("$this.Items8"))));
-            this.Items.Add(((Paway.Forms.Metro.MetroItem)(resources.GetObject("$this.Items9"))));
-            this.Name = "Form2";
+            this.Name = "MetroDemo";
             this.Text = "Form2";
             this.ResumeLayout(false);
 

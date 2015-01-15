@@ -25,8 +25,7 @@ namespace Paway.Forms
         {
             this.SetStyle(
                 ControlStyles.AllPaintingInWmPaint |
-                ControlStyles.OptimizedDoubleBuffer |
-                ControlStyles.DoubleBuffer, true);
+                ControlStyles.OptimizedDoubleBuffer, true);
             this.UpdateStyles();
 
             //选中与颜色重绘

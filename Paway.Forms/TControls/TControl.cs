@@ -26,6 +26,10 @@ namespace Paway.Forms
         /// 星星图
         /// </summary>
         private Image star = AssemblyHelper.GetImage("Controls.t.png");
+        /// <summary>
+        /// 加载标记
+        /// </summary>
+        protected bool ILoad;
 
         #endregion
 
@@ -47,7 +51,6 @@ namespace Paway.Forms
                 ControlStyles.UserPaint |
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer |
-                ControlStyles.DoubleBuffer |
                 ControlStyles.ResizeRedraw |
                 ControlStyles.Selectable |
                 ControlStyles.SupportsTransparentBackColor, true);
@@ -289,6 +292,7 @@ namespace Paway.Forms
         /// </summary>
         protected override void OnLoad(EventArgs e)
         {
+            this.ILoad = true;
             base.OnLoad(e);
             MChild();
         }
@@ -699,74 +703,6 @@ namespace Paway.Forms
             if (MoveFinished != null)
             {
                 MoveFinished(this, EventArgs.Empty);
-            }
-        }
-
-        #endregion
-
-        #region 动态星星
-        private BackgroundWorker timer;
-        /// <summary>
-        /// 消灭星星
-        /// </summary>
-        public void Star()
-        {
-            if (timer == null)
-            {
-                timer = new BackgroundWorker();
-                timer.WorkerSupportsCancellation = true;
-                timer.DoWork += timer_DoWork;
-            }
-            if (!timer.IsBusy)
-            {
-                timer.RunWorkerAsync();
-            }
-        }
-
-        void timer_DoWork(object sender, DoWorkEventArgs e)
-        {
-            BackgroundWorker worker = sender as BackgroundWorker;
-            Random ran = new Random();
-            Graphics g = this.CreateGraphics();
-            Image star = BitmapHelper.ConvertTo(this.star, TConvertType.Trans, 30);
-            while (true)
-            {
-                if (worker.CancellationPending) break;
-
-                int width = ran.Next(20, 20);
-                Rectangle rect = new Rectangle(ran.Next(this.Width - width), ran.Next(this.Height - width), width, width);
-                rect = new Rectangle(100, 60, 20, 20);
-                Point point = new Point(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
-                for (int i = 1; i <= width / 2; i++)
-                {
-                    rect = new Rectangle(point.X - i, point.Y - i, i * 2, i * 2);
-                    g.DrawImage(star, rect);
-                    System.Threading.Thread.Sleep(100 + i * 10);
-                }
-                System.Threading.Thread.Sleep(ran.Next(300));
-                g.FillRectangle(new SolidBrush(Color.Transparent), rect);
-                star = BitmapHelper.ConvertTo(this.star, TConvertType.Trans, 0);
-                g.DrawImage(star, rect);
-                //System.Threading.Thread.Sleep(100);
-                //g.DrawImage(BitmapHelper.ConvertTo(this.star, BConvertType.Trans, 50), rect);
-                //System.Threading.Thread.Sleep(100);
-                //g.DrawImage(BitmapHelper.ConvertTo(this.star, BConvertType.Trans, 0), rect);
-                //System.Threading.Thread.Sleep(100);
-
-                System.Threading.Thread.Sleep(ran.Next(3000));
-            }
-            g.Dispose();
-        }
-        /// <summary>
-        /// 消灭星星
-        /// </summary>
-        /// <param name="disposing"></param>
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-            if (timer != null && timer.IsBusy)
-            {
-                timer.CancelAsync();
             }
         }
 

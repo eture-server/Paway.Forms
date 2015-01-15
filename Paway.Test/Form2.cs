@@ -19,12 +19,25 @@ namespace Paway.Test
         {
             InitializeComponent();
             toolBar1.ItemClick += toolBar1_ItemClick;
+            toolBar2.ItemClick += toolBar2_ItemClick;
             //toolOk.MDirection = TMDirection.Transparent;
         }
+
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            toolBar1.TClickFirst();
+            for (int i = 0; i < 1000; i++)
+            {
+                toolBar2.Items.Add(new ToolItem(i.ToString()));
+            }
+            //toolBar2.TRefresh();
+            //toolBar1.TClickFirst();
+        }
+        void toolBar2_ItemClick(object sender, EventArgs e)
+        {
+            ToolItem item = sender as ToolItem;
+            item.Text = DateTime.Now.Second.ToString();
+            toolBar2.TRefresh(item);
         }
 
         void toolBar1_ItemClick(object sender, EventArgs e)

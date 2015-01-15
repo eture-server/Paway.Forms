@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.tPictureBox1 = new Paway.Forms.TControls.TPictureBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.btLess = new System.Windows.Forms.Button();
             this.btAdd = new System.Windows.Forms.Button();
             this.btChange = new System.Windows.Forms.Button();
@@ -38,8 +40,6 @@
             this.btClear = new System.Windows.Forms.Button();
             this.lbColor = new System.Windows.Forms.Label();
             this.btColor = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.tPictureBox1 = new Paway.Forms.TControls.TPictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -72,6 +72,25 @@
             this.splitContainer1.Size = new System.Drawing.Size(554, 371);
             this.splitContainer1.SplitterDistance = 411;
             this.splitContainer1.TabIndex = 50;
+            // 
+            // tPictureBox1
+            // 
+            this.tPictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tPictureBox1.Image = null;
+            this.tPictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.tPictureBox1.Name = "tPictureBox1";
+            this.tPictureBox1.Size = new System.Drawing.Size(411, 371);
+            this.tPictureBox1.TabIndex = 55;
+            this.tPictureBox1.TabStop = false;
+            // 
+            // label3
+            // 
+            this.label3.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label3.Location = new System.Drawing.Point(0, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(2, 371);
+            this.label3.TabIndex = 67;
             // 
             // btLess
             // 
@@ -150,25 +169,6 @@
             this.btColor.TabIndex = 58;
             this.btColor.Text = "取色";
             this.btColor.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            this.label3.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label3.Location = new System.Drawing.Point(0, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(2, 371);
-            this.label3.TabIndex = 67;
-            // 
-            // tPictureBox1
-            // 
-            this.tPictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tPictureBox1.Image = null;
-            this.tPictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.tPictureBox1.Name = "tPictureBox1";
-            this.tPictureBox1.Size = new System.Drawing.Size(411, 371);
-            this.tPictureBox1.TabIndex = 55;
-            this.tPictureBox1.TabStop = false;
             // 
             // FormImage
             // 

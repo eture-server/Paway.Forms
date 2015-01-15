@@ -98,7 +98,7 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 变量
+        #region 私有变量
         /// <summary>
         /// 鼠标弹按下
         /// </summary>
@@ -115,6 +115,35 @@ namespace Paway.Forms
         /// 类于右键菜单长度
         /// </summary>
         private int _rightLen = 19;
+        /// <summary>
+        /// 悬停窗口
+        /// </summary>
+        private ToolTip toolTop;
+        /// <summary>
+        /// 按下抬起项是否相同中用的过度项
+        /// </summary>
+        private ToolItem _tempItem = null;
+        /// <summary>
+        /// 保存当前列数量，数据项列表更新时比较更新
+        /// </summary>
+        private int LastItemCount;
+
+        private Color _backColor;
+        /// <summary>
+        /// 绘制背景时自动颜色透明度
+        /// </summary>
+        private Color backColor
+        {
+            get
+            {
+                if (_backColor.A > Trans)
+                {
+                    _backColor = Color.FromArgb(Trans, _backColor.R, _backColor.G, _backColor.B);
+                }
+                return _backColor;
+            }
+            set { _backColor = value; }
+        }
 
         #endregion
 
@@ -138,26 +167,34 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 属性Scroll
-        private bool _iEllipse;
+        #region 公共属性
+        #region Int
         /// <summary>
-        /// 绘制椭圆
+        /// 圆角大小
         /// </summary>
-        [Description("绘制椭圆"), DefaultValue(false)]
-        public bool IEllipse
+        private int _tRadiu;
+        /// <summary>
+        /// 圆角大小
+        /// </summary>
+        [Description("圆角大小"), DefaultValue(0)]
+        public int TRadiu
         {
-            get { return _iEllipse; }
+            get { return _tRadiu; }
             set
             {
-                _iEllipse = value;
+                _tRadiu = value;
                 this.Invalidate(this.ClientRectangle);
             }
         }
-        private int _tScrollHeight = 17;
+
         /// <summary>
         /// 滚动条宽度
         /// </summary>
-        [Description("滚动条宽度"), DefaultValue(17)]
+        private int _tScrollHeight = 3;
+        /// <summary>
+        /// 滚动条宽度
+        /// </summary>
+        [Description("滚动条宽度"), DefaultValue(3)]
         public int TScrollHeight
         {
             get { return _tScrollHeight; }
@@ -176,22 +213,16 @@ namespace Paway.Forms
                 this.Invalidate(this.ClientRectangle);
             }
         }
-        private ToolTip toolTop;
+
         /// <summary>
-        /// 显示简短说明
+        /// 头文字总长度(占用总长度/宽度)
         /// </summary>
-        [Description("显示简短说明"), DefaultValue(false)]
-        public bool IShowToolTop { get; set; }
+        [Browsable(false), Description("头文字总长度(占用总长度/宽度)"), DefaultValue(0)]
+        public int THeardLength { get; private set; }
+
         /// <summary>
-        /// 头文字总长度
+        /// 项文本间的间隔
         /// </summary>
-        [Browsable(false), Description("头文字总长度"), DefaultValue(0)]
-        public int HeardLength { get; private set; }
-        /// <summary>
-        /// 文本内容
-        /// </summary>
-        [Description("文本内容"), DefaultValue(false)]
-        public bool IText { get; set; }
         private int _textSpace = 6;
         /// <summary>
         /// 项文本间的间隔
@@ -206,6 +237,126 @@ namespace Paway.Forms
                 this.Invalidate(this.ClientRectangle);
             }
         }
+
+        /// <summary>
+        /// 多行列排列时的行数
+        /// </summary>
+        [Browsable(false), Description("多行列排列时的行数"), DefaultValue(1)]
+        public int ICountLine { get; private set; }
+        /// <summary>
+        /// 多行列排列时的列数
+        /// </summary>
+        [Browsable(false), Description("多行列排列时的列数"), DefaultValue(1)]
+        public int ICountColumn { get; private set; }
+
+        /// <summary>
+        /// 项与项之间的间隔
+        /// </summary>
+        private int _itemSpace = 1;
+        /// <summary>
+        /// 项与项之间的间隔
+        /// </summary>
+        [Description("项与项之间的间隔"), DefaultValue(1)]
+        public int ItemSpace
+        {
+            get { return this._itemSpace; }
+            set
+            {
+                this._itemSpace = value;
+                this.Invalidate(this.ClientRectangle);
+            }
+        }
+
+        #endregion
+
+        #region bool
+        /// <summary>
+        /// 显示简短说明
+        /// </summary>
+        [Description("显示简短说明"), DefaultValue(false)]
+        public bool IShowToolTop { get; set; }
+        /// <summary>
+        /// 显示为文本内容
+        /// </summary>
+        [Description("显示为文本内容"), DefaultValue(false)]
+        public bool IText { get; set; }
+
+        /// <summary>
+        /// 补充整行\列
+        /// </summary>
+        private bool _iAdd;
+        /// <summary>
+        /// 补充整行\列
+        /// </summary>
+        [Description("补充整行\\列"), DefaultValue(false)]
+        public bool IAdd
+        {
+            get { return _iAdd; }
+            set
+            {
+                _iAdd = value;
+                this.Invalidate(this.ClientRectangle);
+            }
+        }
+
+        /// <summary>
+        /// 单击事件开关
+        /// 单击松开后取消选中状态，只有鼠标移入状态
+        /// </summary>
+        private bool _iCheckEvent = false;
+        /// <summary>
+        /// 单击事件开关
+        /// 单击松开后取消选中状态，只有鼠标移入状态
+        /// </summary>
+        [Description("单击事件开关"), DefaultValue(false)]
+        public bool ICheckEvent
+        {
+            get { return this._iCheckEvent; }
+            set { this._iCheckEvent = value; }
+        }
+
+        /// <summary>
+        /// 图片显示开关
+        /// </summary>
+        private bool _iImageShow = true;
+        /// <summary>
+        /// 图片显示开关
+        /// </summary>
+        [Description("图片显示开关"), DefaultValue(true)]
+        public bool IImageShow
+        {
+            get { return this._iImageShow; }
+            set
+            {
+                this._iImageShow = value;
+                this.Invalidate(this.ClientRectangle);
+            }
+        }
+
+        /// <summary>
+        /// 多选开关
+        /// </summary>
+        private bool _iMultiple = false;
+        /// <summary>
+        /// 多选开关
+        /// </summary>
+        [Description("多选开关"), DefaultValue(false)]
+        public bool IMultiple
+        {
+            get { return this._iMultiple; }
+            set
+            {
+                this._iMultiple = value;
+                this.Invalidate(this.ClientRectangle);
+            }
+        }
+
+        #endregion
+
+        #region 其它
+        /// <summary>
+        /// 获取或设置项内的空白
+        /// </summary>
         private Padding _textPading = new Padding(2);
         /// <summary>
         /// 获取或设置项内的空白
@@ -221,6 +372,151 @@ namespace Paway.Forms
                 this.Invalidate(this.ClientRectangle);
             }
         }
+
+        /// <summary>
+        /// 事件触发点
+        /// </summary>
+        private TEvent _tEvent = TEvent.Down;
+        /// <summary>
+        /// 事件触发点
+        /// </summary>
+        [Description("事件触发点"), DefaultValue(typeof(TEvent), "Down")]
+        public TEvent TEvent
+        {
+            get { return this._tEvent; }
+            set { this._tEvent = value; }
+        }
+
+        /// <summary>
+        /// Item项显示方向
+        /// </summary>
+        private TDirection _tDirection = TDirection.Level;
+        /// <summary>
+        /// Item项显示方向
+        /// </summary>
+        [Description("Item项显示方向"), DefaultValue(typeof(TDirection), "Level")]
+        public TDirection TDirection
+        {
+            get { return this._tDirection; }
+            set
+            {
+                this._tDirection = value;
+                TPaint();
+                UpdateScroll();
+                BodyBounds.X = 0; BodyBounds.Y = 0;
+                this.Invalidate(this.ClientRectangle);
+            }
+        }
+
+        /// <summary>
+        /// 图片显示位置
+        /// </summary>
+        private TILocation _tLocation = TILocation.Up;
+        /// <summary>
+        /// 图片显示位置
+        /// </summary>
+        [Description("图片显示位置"), DefaultValue(typeof(TILocation), "Up")]
+        public TILocation TLocation
+        {
+            get { return this._tLocation; }
+            set
+            {
+                this._tLocation = value;
+                this.Invalidate(this.ClientRectangle);
+            }
+        }
+
+        #endregion
+
+        #region 数据项
+        /// <summary>
+        /// 工具栏中的项列表
+        /// </summary>
+        private ToolItemCollection _items;
+        /// <summary>
+        /// 工具栏中的项列表
+        /// </summary>
+        [Description("工具栏中的项列表"), EditorBrowsable(EditorBrowsableState.Always), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public ToolItemCollection Items
+        {
+            get
+            {
+                if (this._items == null)
+                {
+                    this._items = new ToolItemCollection(this);
+                    this._items.ListChanged += _items_ListChanged;
+                }
+                return this._items;
+            }
+        }
+        /// <summary>
+        /// 项的大小
+        /// </summary>
+        private Size _itemSize = new Size(78, 82);
+        /// <summary>
+        /// 项的大小
+        /// </summary>
+        [Description("项的大小"), DefaultValue(typeof(Size), "78,82")]
+        public Size ItemSize
+        {
+            get { return this._itemSize; }
+            set
+            {
+                this._itemSize = value;
+                UpdateImageSize();
+                this.Invalidate(this.ClientRectangle);
+            }
+        }
+        /// <summary>
+        /// 项图片的大小
+        /// </summary>
+        private Size _imageSize = new Size(48, 48);
+        /// <summary>
+        /// 项图片显示区域大小
+        /// </summary>
+        private Size _imageSizeShow = Size.Empty;
+        /// <summary>
+        /// 项图片的大小
+        /// </summary>
+        [Description("项图片的大小"), DefaultValue(typeof(Size), "48,48")]
+        public Size ImageSize
+        {
+            get { return this._imageSize; }
+            set
+            {
+                this._imageSize = value;
+                UpdateImageSize();
+                this.Invalidate(this.ClientRectangle);
+            }
+        }
+        /// <summary>
+        /// 当前选中项
+        /// </summary>
+        private ToolItem _selectedItem = null;
+        /// <summary>
+        /// 当前选中项
+        /// </summary>
+        [Browsable(false), Description("当前选中项")]
+        public ToolItem SelectedItem
+        {
+            get { return this._selectedItem; }
+        }
+        /// <summary>
+        /// 选中项的索引
+        /// </summary>
+        private int _selectedIndex = 0;
+        /// <summary>
+        /// 选中项的索引
+        /// </summary>
+        [Browsable(false), Description("选中项的索引"), DefaultValue(0)]
+        public int SelectedIndex
+        {
+            get { return this._selectedIndex; }
+        }
+
+        #endregion
+
+        #region 字体、颜色属性
         private TProperties _change;
         /// <summary>
         /// 变色项颜色
@@ -326,233 +622,8 @@ namespace Paway.Forms
                 return _backGround;
             }
         }
-        private Color _backColor;
-        /// <summary>
-        /// 绘制背景时判定颜色透明度
-        /// </summary>
-        private Color backColor
-        {
-            get
-            {
-                if (_backColor.A > Trans)
-                {
-                    _backColor = Color.FromArgb(Trans, _backColor.R, _backColor.G, _backColor.B);
-                }
-                return _backColor;
-            }
-            set { _backColor = value; }
-        }
 
-        private bool _tAdd;
-        /// <summary>
-        /// 补充整行\列
-        /// </summary>
-        [Description("补充整行\\列"), DefaultValue(false)]
-        public bool TAdd
-        {
-            get { return _tAdd; }
-            set
-            {
-                _tAdd = value;
-                this.Invalidate(this.ClientRectangle);
-            }
-        }
-
-        /// <summary>
-        /// 事件触发点
-        /// </summary>
-        private TEvent _tEvent = TEvent.Down;
-        /// <summary>
-        /// 事件触发点
-        /// </summary>
-        [Description("事件触发点"), DefaultValue(typeof(TEvent), "Down")]
-        public TEvent TEvent
-        {
-            get { return this._tEvent; }
-            set { this._tEvent = value; }
-        }
-        /// <summary>
-        /// Item项显示方向
-        /// </summary>
-        private TDirection _tDirection = TDirection.Level;
-        /// <summary>
-        /// Item项显示方向
-        /// </summary>
-        [Description("Item项显示方向"), DefaultValue(typeof(TDirection), "Level")]
-        public TDirection TDirection
-        {
-            get { return this._tDirection; }
-            set
-            {
-                this._tDirection = value;
-                TPaint(null);
-                UpdateScroll();
-                BodyBounds.X = 0; BodyBounds.Y = 0;
-                this.Invalidate(this.ClientRectangle);
-            }
-        }
-        /// <summary>
-        /// 图片显示位置
-        /// </summary>
-        private TILocation _tLocation = TILocation.Up;
-        /// <summary>
-        /// 图片显示位置
-        /// </summary>
-        [Description("图片显示位置"), DefaultValue(typeof(TILocation), "Up")]
-        public TILocation TLocation
-        {
-            get { return this._tLocation; }
-            set
-            {
-                this._tLocation = value;
-                this.Invalidate(this.ClientRectangle);
-            }
-        }
-        /// <summary>
-        /// 单击事件开关
-        /// 单击松开后取消选中状态，只有鼠标移入状态
-        /// </summary>
-        private bool _iCheckEvent = false;
-        /// <summary>
-        /// 单击事件开关
-        /// 单击松开后取消选中状态，只有鼠标移入状态
-        /// </summary>
-        [Description("单击事件开关"), DefaultValue(false)]
-        public bool ICheckEvent
-        {
-            get { return this._iCheckEvent; }
-            set { this._iCheckEvent = value; }
-        }
-        /// <summary>
-        /// 图片显示开关
-        /// </summary>
-        private bool _iImageShow = true;
-        /// <summary>
-        /// 图片显示开关
-        /// </summary>
-        [Description("图片显示开关"), DefaultValue(true)]
-        public bool IImageShow
-        {
-            get { return this._iImageShow; }
-            set
-            {
-                this._iImageShow = value;
-                this.Invalidate(this.ClientRectangle);
-            }
-        }
-        /// <summary>
-        /// 多选开关
-        /// </summary>
-        private bool _iMultiple = false;
-        /// <summary>
-        /// 多选开关
-        /// </summary>
-        [Description("多选开关"), DefaultValue(false)]
-        public bool IMultiple
-        {
-            get { return this._iMultiple; }
-            set
-            {
-                this._iMultiple = value;
-                this.Invalidate(this.ClientRectangle);
-            }
-        }
-        /// <summary>
-        /// 工具栏中的项
-        /// </summary>
-        private ToolItemCollection _items;
-        /// <summary>
-        /// 工具栏中的项
-        /// </summary>
-        [Description("工具栏中的项"), EditorBrowsable(EditorBrowsableState.Always), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public ToolItemCollection Items
-        {
-            get
-            {
-                if (this._items == null)
-                {
-                    this._items = new ToolItemCollection(this);
-                    this._items.ListChanged += _items_ListChanged;
-                }
-                return this._items;
-            }
-        }
-        /// <summary>
-        /// 每一项的大小
-        /// </summary>
-        private Size _itemSize = new Size(78, 82);
-        /// <summary>
-        /// Item 的大小
-        /// </summary>
-        [Description("Item 的大小"), DefaultValue(typeof(Size), "78,82")]
-        public Size ItemSize
-        {
-            get { return this._itemSize; }
-            set
-            {
-                this._itemSize = value;
-                UpdateImageSize();
-                this.Invalidate(this.ClientRectangle);
-            }
-        }
-        /// <summary>
-        /// 每一项图片显示的大小
-        /// </summary>
-        private Size _imageSize = new Size(48, 48);
-        private Size _imageSizeShow = Size.Empty;
-        /// <summary>
-        /// Item Image 的大小
-        /// </summary>
-        [Description("Item Image的大小"), DefaultValue(typeof(Size), "48,48")]
-        public Size ImageSize
-        {
-            get { return this._imageSize; }
-            set
-            {
-                this._imageSize = value;
-                UpdateImageSize();
-                this.Invalidate(this.ClientRectangle);
-            }
-        }
-        private int _itemSpace = 1;
-        /// <summary>
-        /// 项与项之间的间隔
-        /// </summary>
-        [Description("项与项之间的间隔"), DefaultValue(1)]
-        public int ItemSpace
-        {
-            get { return this._itemSpace; }
-            set
-            {
-                this._itemSpace = value;
-                this.Invalidate(this.ClientRectangle);
-            }
-        }
-        private ToolItem _tempItem = null;
-        /// <summary>
-        /// 当前选中项
-        /// </summary>
-        private ToolItem _selectedItem = null;
-        /// <summary>
-        /// 当前选中的 Item
-        /// </summary>
-        [Browsable(false), Description("当前选中的 Item")]
-        public ToolItem SelectedItem
-        {
-            get { return this._selectedItem; }
-        }
-        /// <summary>
-        /// 选中项的索引
-        /// </summary>
-        private int _selectedIndex = 0;
-        /// <summary>
-        /// 选中 Item 的索引
-        /// </summary>
-        [Browsable(false), Description("选中 Item 的索引"), DefaultValue(0)]
-        public int SelectedIndex
-        {
-            get { return this._selectedIndex; }
-        }
+        #endregion
 
         /// <summary>
         /// 重写父类的默认大小
@@ -562,56 +633,9 @@ namespace Paway.Forms
             get { return new Size(300, 82); }
         }
 
-        /// <summary>
-        /// 多行列排列时的行数
-        /// </summary>
-        [Browsable(false), Description("多行列排列时的行数"), DefaultValue(1)]
-        public int CountLine { get; private set; }
-        /// <summary>
-        /// 多行列排列时的列数
-        /// </summary>
-        [Browsable(false), Description("多行列排列时的列数"), DefaultValue(1)]
-        public int CountColumn { get; private set; }
-        /// <summary>
-        /// 列数量
-        /// </summary>
-        private int LastItemCount;
-
         #endregion
 
-        #region Private Method
-        /// <summary>
-        /// 更新图片区域
-        /// </summary>
-        private void UpdateImageSize()
-        {
-            if (_iImageShow)
-            {
-                _imageSizeShow = _imageSize;
-                switch (_tLocation)
-                {
-                    case TILocation.Up:
-                        int width = (_itemSize.Width - _imageSize.Width - _textPading.Left - _textPading.Right) / 2;
-                        if (width < 0)
-                        {
-                            _imageSizeShow.Width = _itemSize.Width - _textPading.Left - _textPading.Right;
-                            _imageSizeShow.Height = (_imageSizeShow.Width * _imageSize.Height * 1.0 / _imageSize.Width).ToInt();
-                        }
-                        break;
-                    case TILocation.Left:
-                        int height = (_itemSize.Height - _imageSize.Height - _textPading.Top - _textPading.Bottom) / 2;
-                        if (height < 0)
-                        {
-                            _imageSizeShow.Height = _itemSize.Height - _textPading.Top - _textPading.Bottom;
-                            _imageSizeShow.Width = (_imageSizeShow.Height * _imageSize.Width * 1.0 / _imageSize.Height).ToInt();
-                        }
-                        break;
-                }
-            }
-        }
-        #endregion
-
-        #region 事件
+        #region 事件定义
         #region 事件对像
         /// <summary>
         /// 当选中项的发生改变时事件的 Key
@@ -737,6 +761,38 @@ namespace Paway.Forms
 
         #endregion
 
+        #region Private Method
+        /// <summary>
+        /// 更新图片区域
+        /// </summary>
+        private void UpdateImageSize()
+        {
+            if (_iImageShow)
+            {
+                _imageSizeShow = _imageSize;
+                switch (_tLocation)
+                {
+                    case TILocation.Up:
+                        int width = (_itemSize.Width - _imageSize.Width - _textPading.Left - _textPading.Right) / 2;
+                        if (width < 0)
+                        {
+                            _imageSizeShow.Width = _itemSize.Width - _textPading.Left - _textPading.Right;
+                            _imageSizeShow.Height = (_imageSizeShow.Width * _imageSize.Height * 1.0 / _imageSize.Width).ToInt();
+                        }
+                        break;
+                    case TILocation.Left:
+                        int height = (_itemSize.Height - _imageSize.Height - _textPading.Top - _textPading.Bottom) / 2;
+                        if (height < 0)
+                        {
+                            _imageSizeShow.Height = _itemSize.Height - _textPading.Top - _textPading.Bottom;
+                            _imageSizeShow.Width = (_imageSizeShow.Height * _imageSize.Width * 1.0 / _imageSize.Height).ToInt();
+                        }
+                        break;
+                }
+            }
+        }
+        #endregion
+
         #region Override Methods
         /// <summary>
         /// 重绘
@@ -753,45 +809,74 @@ namespace Paway.Forms
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            TPaint(e.Graphics);
+            Graphics g = e.Graphics;
+            switch (_tDirection)
+            {
+                case Forms.TDirection.Level:
+                    if (e.ClipRectangle.Y == 0 && e.ClipRectangle.Height < ItemSize.Height)
+                    {
+                        g.TranslateTransform(0, ItemSize.Height - e.ClipRectangle.Height);
+                    }
+                    break;
+                case Forms.TDirection.Vertical:
+                    if (e.ClipRectangle.X == 0 && e.ClipRectangle.Width < ItemSize.Width)
+                    {
+                        g.TranslateTransform(ItemSize.Width - e.ClipRectangle.Width, 0);
+                    }
+                    break;
+            }
+            g.TranslateTransform(BodyBounds.X, BodyBounds.Y);
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            backColor = TBackGround.ColorSpace;
+            g.FillRectangle(new SolidBrush(backColor), new Rectangle(-1, -1, this.TWidth + 1, this.THeight + 1));
+
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                DrawItem(g, this.Items[i]);
+            }
+            if (_iAdd)
+            {
+                AddItem(g);
+            }
         }
         /// <summary>
-        /// g == null 时 计算宽高
+        /// 计算宽高
         /// </summary>
-        /// <param name="g"></param>
-        private void TPaint(Graphics g)
+        private void TPaint()
         {
-            if (g != null)
-            {
-                g.TranslateTransform(BodyBounds.X, BodyBounds.Y);
-                g.SmoothingMode = SmoothingMode.AntiAlias;
-                backColor = TBackGround.ColorSpace;
-                g.FillRectangle(new SolidBrush(backColor), new Rectangle(-1, -1, this.Width + 1, this.Height + 1));
-            }
             int xPos = this.Padding.Left;
             int yPos = this.Padding.Top;
-            this.CountColumn = 1;
-            this.CountLine = 1;
-            this.HeardLength = 0;
+            this.ICountColumn = 1;
+            this.ICountLine = 1;
+            this.THeardLength = 0;
             this.isLastNew = true;
             for (int i = 0; i < this.Items.Count; i++)
             {
-                DrawItem(g, this.Items[i], ref xPos, ref yPos, i == this.Items.Count - 1);
+                Calctem(this.Items[i], ref xPos, ref yPos, i == this.Items.Count - 1);
             }
-            int count = 0;
+        }
+        private void AddItem(Graphics g)
+        {
+            int count = this.Items.Count - 1;
+            int xPos = this.Items[count].Rectangle.X;
+            int yPos = this.Items[count].Rectangle.Y;
+            Calctem(this.Items[count], ref xPos, ref yPos, false);
+            count = 0;
             //多行/列补充Item
-            if (this.CountColumn != 1 && this.CountLine != 1)
+            if (this.ICountColumn > 1 && this.ICountLine > 1)
             {
-                count = this.CountColumn > this.CountLine ? this.CountColumn : this.CountLine;
+                count = this.ICountColumn > this.ICountLine ? this.ICountColumn : this.ICountLine;
                 if (this.Items.Count % count == 0) count = 0;
                 else count = count - this.Items.Count % count;
             }
-            if (_tAdd)
+            if (_iAdd)
             {
                 //填充空Item
                 for (int i = 0; i < count; i++)
                 {
-                    DrawItem(g, new ToolItem(), ref xPos, ref yPos, i == count - 1);
+                    ToolItem temp = new ToolItem();
+                    Calctem(temp, ref xPos, ref yPos, i == count - 1);
+                    DrawItem(g, temp);
                 }
             }
         }
@@ -828,7 +913,7 @@ namespace Paway.Forms
                 }
             }
         }
-        private void DrawItem(Graphics g, ToolItem item, ref int xPos, ref int yPos, bool iLast)
+        private void Calctem(ToolItem item, ref int xPos, ref int yPos, bool iLast)
         {
             // 当前 Item 所在的矩型区域
             item.Rectangle = new Rectangle(xPos, yPos, this._itemSize.Width, this._itemSize.Height);
@@ -836,7 +921,7 @@ namespace Paway.Forms
             switch (_tDirection)
             {
                 case TDirection.Level:
-                    bool isNew = xPos + item.Rectangle.Width * 2 + this._itemSpace + this.Padding.Right > this.Width;
+                    bool isNew = xPos + item.Rectangle.Width * 2 + this._itemSpace + this.Padding.Right > this.TWidth;
                     if (item.IHeard || isNew)
                     {
                         xPos = this.Padding.Left;
@@ -847,14 +932,14 @@ namespace Paway.Forms
                                 if (!isLastNew)
                                 {
                                     yPos += this._itemSize.Height + this._itemSpace;
-                                    this.CountLine++;
+                                    this.ICountLine++;
                                 }
-                                item.Rectangle = new Rectangle(xPos, yPos, this.Width, size.Height);
-                                this.HeardLength += size.Height + this._itemSpace * 2;
+                                item.Rectangle = new Rectangle(xPos, yPos, this.TWidth, size.Height);
+                                this.THeardLength += size.Height + this._itemSpace * 2;
                             }
                             else
                             {
-                                this.CountLine++;
+                                this.ICountLine++;
                             }
                             yPos += item.Rectangle.Height + this._itemSpace;
                         }
@@ -862,12 +947,12 @@ namespace Paway.Forms
                     else
                     {
                         xPos += item.Rectangle.Width + this._itemSpace;
-                        if (this.CountLine == 1 && !iLast) this.CountColumn++;
+                        if (this.ICountLine == 1 && !iLast) this.ICountColumn++;
                     }
                     this.isLastNew = isNew;
                     break;
                 case TDirection.Vertical:
-                    isNew = yPos + item.Rectangle.Height * 2 + this._itemSpace + this.Padding.Bottom > this.Height;
+                    isNew = yPos + item.Rectangle.Height * 2 + this._itemSpace + this.Padding.Bottom > this.THeight;
                     if (item.IHeard || isNew)
                     {
                         yPos = this.Padding.Top;
@@ -878,14 +963,14 @@ namespace Paway.Forms
                                 if (!isLastNew)
                                 {
                                     xPos += this._itemSize.Width + this._itemSpace;
-                                    this.CountColumn++;
+                                    this.ICountColumn++;
                                 }
-                                item.Rectangle = new Rectangle(xPos, yPos, size.Width, this.Height);
-                                this.HeardLength += size.Width + this._itemSpace * 2;
+                                item.Rectangle = new Rectangle(xPos, yPos, size.Width, this.THeight);
+                                this.THeardLength += size.Width + this._itemSpace * 2;
                             }
                             else
                             {
-                                this.CountColumn++;
+                                this.ICountColumn++;
                             }
                             xPos += item.Rectangle.Width + this._itemSpace;
                         }
@@ -893,12 +978,20 @@ namespace Paway.Forms
                     else
                     {
                         yPos += item.Rectangle.Height + this._itemSpace;
-                        if (this.CountColumn == 1 && !iLast) this.CountLine++;
+                        if (this.ICountColumn == 1 && !iLast) this.ICountLine++;
                     }
                     this.isLastNew = isNew;
                     break;
             }
-            if (g != null)
+        }
+        private int count;
+        private void DrawItem(Graphics g, ToolItem item)
+        {
+            Rectangle rect = item.Rectangle;
+            if (g.VisibleClipBounds.Contains(rect.Location) ||
+                g.VisibleClipBounds.Contains(rect.X, rect.Bottom) ||
+                g.VisibleClipBounds.Contains(rect.Right, rect.Y) ||
+                g.VisibleClipBounds.Contains(rect.Right, rect.Bottom))
             {
                 if (item.IHeard)
                 {
@@ -967,9 +1060,10 @@ namespace Paway.Forms
         }
         private void DrawBackground(Graphics g, Color color, ToolItem item)
         {
-            if (IEllipse || item.IEllipse)
+            int radiu = item.TRadiu > _tRadiu ? item.TRadiu : _tRadiu;
+            if (radiu > 0)
             {
-                g.FillEllipse(new SolidBrush(color), item.Rectangle);
+                g.FillPath(new SolidBrush(color), DrawHelper.CreateRoundPath(item.Rectangle, radiu));
             }
             else
             {
@@ -1318,11 +1412,11 @@ namespace Paway.Forms
             {
                 if (item.MouseState != TMouseState.Down)
                 {
-                    InvaItem(item, TMouseState.Normal);
+                    InvalidateItem(item, TMouseState.Normal);
                 }
                 InvaRectDesc(item, TMouseState.Normal);
             }
-            InvaOther(item.Rectangle);
+            InvalidateItem(item);
         }
 
         #endregion
@@ -1337,16 +1431,13 @@ namespace Paway.Forms
             if (item.IMouseState != state)
             {
                 item.IMouseState = state;
-                this.Invalidate(new Rectangle(item.RectDesc.X + BodyBounds.X, item.RectDesc.Y + BodyBounds.Y, item.RectDesc.Width, item.RectDesc.Height));
-                this.Invalidate(new Rectangle(_btnArrowRect.X + BodyBounds.X, _btnArrowRect.Y + BodyBounds.Y, _btnArrowRect.Width, _btnArrowRect.Height));
+                this.Invalidate(new Rectangle(item.Rectangle.X + BodyBounds.X, item.Rectangle.Y + BodyBounds.Y, item.Rectangle.Width, item.Rectangle.Height));
             }
         }
         /// <summary>
         /// 重绘Item
         /// </summary>
-        /// <param name="item"></param>
-        /// <param name="state"></param>
-        private void InvaItem(ToolItem item, TMouseState state)
+        private void InvalidateItem(ToolItem item, TMouseState state)
         {
             if (item.MouseState != state)
             {
@@ -1357,10 +1448,10 @@ namespace Paway.Forms
         /// <summary>
         /// 重绘Item
         /// </summary>
-        /// <param name="rect"></param>
-        private void InvaOther(Rectangle rect)
+        /// <param name="item"></param>
+        private void InvalidateItem(ToolItem item)
         {
-            this.Invalidate(new Rectangle(rect.X + BodyBounds.X, rect.Y + BodyBounds.Y, rect.Width, rect.Height));
+            this.Invalidate(new Rectangle(item.Rectangle.X + BodyBounds.X, item.Rectangle.Y + BodyBounds.Y, item.RectDesc.Width, item.RectDesc.Height));
         }
         /// <summary>
         /// 引发 System.Windows.Forms.Form.MouseMove 事件。
@@ -1369,47 +1460,47 @@ namespace Paway.Forms
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            if (!this.DesignMode)
+            if (this.DesignMode) return;
+
+            Point point = e.Location;
+            point.X -= BodyBounds.X;
+            point.Y -= BodyBounds.Y;
+            bool flag = true;
+            foreach (ToolItem item in this.Items)
             {
-                Point point = e.Location;
-                point.X -= BodyBounds.X;
-                point.Y -= BodyBounds.Y;
-                bool flag = true;
-                foreach (ToolItem item in this.Items)
+                if (item.Rectangle.Contains(point) && (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point)))
                 {
-                    if (item.Rectangle.Contains(point) && (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point)))
+                    if (item.IMouseState != TMouseState.Down)
                     {
-                        if (item.IMouseState != TMouseState.Down)
-                        {
-                            InvaRectDesc(item, TMouseState.Move);
-                        }
-                    }
-                    else
-                    {
-                        InvaRectDesc(item, TMouseState.Normal);
-                    }
-                    if (!_iCheckEvent && item.MouseState == TMouseState.Down)
-                    {
-                        continue;
-                    }
-                    else if (item.Rectangle.Contains(point))
-                    {
-                        flag = false;
-                        if (IShowToolTop && item.MouseState != TMouseState.Move)
-                        {
-                            this.ShowTooTip(item.Sencond ?? item.First);
-                        }
-                        InvaItem(item, TMouseState.Move);
-                    }
-                    else
-                    {
-                        InvaItem(item, TMouseState.Normal);
+                        InvaRectDesc(item, TMouseState.Move);
                     }
                 }
-                if (flag)
+                else
                 {
-                    this.HideToolTip();
+                    InvaRectDesc(item, TMouseState.Normal);
                 }
+                if (!_iCheckEvent && item.MouseState == TMouseState.Down)
+                {
+                    continue;
+                }
+                else if (item.Rectangle.Contains(point))
+                {
+                    flag = false;
+                    if (IShowToolTop && item.MouseState != TMouseState.Move)
+                    {
+                        this.ShowTooTip(item.Sencond ?? item.First);
+                    }
+                    InvalidateItem(item, TMouseState.Move);
+                }
+                else
+                {
+                    InvalidateItem(item, TMouseState.Normal);
+                }
+            }
+            if (flag)
+            {
+                Console.WriteLine(count++);
+                this.HideToolTip();
             }
         }
         /// <summary>
@@ -1420,17 +1511,15 @@ namespace Paway.Forms
         {
             base.OnMouseLeave(e);
             if (_iFocus) return;
+            if (this.DesignMode) return;
 
-            if (!this.DesignMode)
+            _iDown = false;
+            foreach (ToolItem item in this.Items)
             {
-                _iDown = false;
-                foreach (ToolItem item in this.Items)
+                InvalidateItem(item, TMouseState.Normal);
+                if ((_iCheckEvent && !_iMultiple) || item.MouseState != TMouseState.Down)
                 {
                     InvaRectDesc(item, TMouseState.Normal);
-                    if ((_iCheckEvent && !_iMultiple) || item.MouseState != TMouseState.Down)
-                    {
-                        InvaItem(item, TMouseState.Normal);
-                    }
                 }
             }
         }
@@ -1443,17 +1532,15 @@ namespace Paway.Forms
             base.OnMouseDown(e);
             if (e.Button != MouseButtons.Left) return;
             if (_iFocus) return;
+            if (this.DesignMode) return;
 
-            if (!this.DesignMode)
+            Point point = e.Location;
+            point.X -= BodyBounds.X;
+            point.Y -= BodyBounds.Y;
+            for (int i = 0; i < this.Items.Count; i++)
             {
-                Point point = e.Location;
-                point.X -= BodyBounds.X;
-                point.Y -= BodyBounds.Y;
-                for (int i = 0; i < this.Items.Count; i++)
-                {
-                    ToolItem item = this.Items[i];
-                    OnMouseDown(point, item, e);
-                }
+                ToolItem item = this.Items[i];
+                OnMouseDown(point, item, e);
             }
         }
         private void OnMouseDown(Point point, ToolItem item, EventArgs e)
@@ -1487,7 +1574,7 @@ namespace Paway.Forms
                         if (!ifocus && item.ContextMenuStrip != null)
                         {
                             this._iFocus = true;
-                            InvaOther(this._btnArrowRect);
+                            InvalidateItem(item);
                         }
                     }
                     else
@@ -1508,22 +1595,22 @@ namespace Paway.Forms
                         _selectedItem = null;
                         if (item.MouseState != TMouseState.Down)
                         {
-                            InvaItem(item, TMouseState.Down);
+                            InvalidateItem(item, TMouseState.Down);
                         }
                         else
                         {
-                            InvaItem(item, TMouseState.Normal);
+                            InvalidateItem(item, TMouseState.Normal);
                         }
                     }
                     else
                     {
-                        InvaItem(item, TMouseState.Down);
+                        InvalidateItem(item, TMouseState.Down);
                     }
                 }
             }
-            else if (!_iMultiple && Contain(point) && !ContainDesc(point))
+            else if (!_iMultiple && Contain(point) && !TContainDesc(point))
             {
-                InvaItem(item, TMouseState.Normal);
+                InvalidateItem(item, TMouseState.Normal);
             }
         }
         /// <summary>
@@ -1534,17 +1621,15 @@ namespace Paway.Forms
         {
             base.OnMouseUp(e);
             if (e.Button != MouseButtons.Left) return;
+            if (this.DesignMode) return;
 
-            if (!this.DesignMode)
+            Point point = e.Location;
+            point.X -= BodyBounds.X;
+            point.Y -= BodyBounds.Y;
+            for (int i = 0; i < this.Items.Count; i++)
             {
-                Point point = e.Location;
-                point.X -= BodyBounds.X;
-                point.Y -= BodyBounds.Y;
-                for (int i = 0; i < this.Items.Count; i++)
-                {
-                    ToolItem item = this.Items[i];
-                    OnMouseUp(point, item, e);
-                }
+                ToolItem item = this.Items[i];
+                OnMouseUp(point, item, e);
             }
         }
         private void OnMouseUp(Point point, ToolItem item, EventArgs e)
@@ -1571,7 +1656,7 @@ namespace Paway.Forms
                         if (!ifocus && item.ContextMenuStrip != null)
                         {
                             this._iFocus = true;
-                            InvaOther(this._btnArrowRect);
+                            InvalidateItem(item);
                         }
                     }
                     else
@@ -1610,9 +1695,22 @@ namespace Paway.Forms
         {
             if (this.ParentForm != null)
             {
-                if (LastItemCount != Items.Count)
+                if (Items.Count > LastItemCount)
                 {
-                    TRefresh();
+                    if (ILoad)
+                    {
+                        int count = this.Items.Count - 2;
+                        if (count < 0) return;
+                        int xPos = this.Items[count].Rectangle.X;
+                        int yPos = this.Items[count].Rectangle.Y;
+                        Calctem(this.Items[count], ref xPos, ref yPos, false);
+                        Calctem(this.Items[count + 1], ref xPos, ref yPos, true);
+                        UpdateScroll(true, Items.Count > LastItemCount);
+                    }
+                }
+                else
+                {
+                    TRefresh(Items.Count - 1);
                 }
             }
         }
@@ -1622,7 +1720,7 @@ namespace Paway.Forms
         /// <returns></returns>
         public override string ToString()
         {
-            return "Tinn";
+            return "Tinn&a";
         }
 
         #endregion
@@ -1632,7 +1730,7 @@ namespace Paway.Forms
         /// 获取所有选中项
         /// </summary>
         /// <returns></returns>
-        public List<ToolItem> GetAllItems()
+        public List<ToolItem> TSelectedItems()
         {
             List<ToolItem> iList = new List<ToolItem>();
             for (int i = 0; i < this._items.Count; i++)
@@ -1665,7 +1763,7 @@ namespace Paway.Forms
         /// </summary>
         /// <param name="point"></param>
         /// <returns></returns>
-        public bool ContainDesc(Point point)
+        public bool TContainDesc(Point point)
         {
             for (int i = 0; i < this.Items.Count; i++)
             {
@@ -1731,7 +1829,7 @@ namespace Paway.Forms
                 _selectedItem = null;
                 for (int i = 0; i < _items.Count; i++)
                 {
-                    InvaItem(_items[i], TMouseState.Normal);
+                    InvalidateItem(_items[i], TMouseState.Normal);
                 }
             }
             if (index >= 0)
@@ -1739,7 +1837,7 @@ namespace Paway.Forms
                 this._selectedItem = this._items[index];
                 if (!_iCheckEvent)
                 {
-                    InvaItem(_selectedItem, TMouseState.Down);
+                    InvalidateItem(_selectedItem, TMouseState.Down);
                     OnSelectedItemChanged(_items[index], EventArgs.Empty);
                 }
                 else
@@ -1775,14 +1873,14 @@ namespace Paway.Forms
         /// <param name="count">最小行/列</param>
         public void TAutoHeight(int count)
         {
-            if (this.CountLine < count) this.CountLine = count;
+            if (this.ICountLine < count) this.ICountLine = count;
             switch (TDirection)
             {
                 case TDirection.Level:
-                    this.Height = GetHeight();
+                    this.THeight = GetHeight();
                     break;
                 case TDirection.Vertical:
-                    this.Width = GetWidth();
+                    this.TWidth = GetWidth();
                     break;
             }
         }
@@ -1802,33 +1900,36 @@ namespace Paway.Forms
         public void TRefresh(int index)
         {
             if (index < 0 || index > Items.Count - 1) return;
-            InvaOther(this.Items[index].Rectangle);
+            InvalidateItem(this.Items[index]);
         }
         /// <summary>
         /// 刷新控件
         /// </summary>
         public void TRefresh()
         {
-            this.TPaint(null);
+            this.TPaint();
             UpdateScroll(true, Items.Count > LastItemCount);
             LastItemCount = Items.Count;
             this.Invalidate(this.ClientRectangle);
         }
         #endregion
 
-        #region 扩展方法 - 动态显示项的图像
-        private Timer timer = new Timer();
+        #region 动态显示项的图片
+        private Timer tDynamic = new Timer();
         private PictureBox pictureBox1;
+        /// <summary>
+        /// 动态项原图片
+        /// </summary>
         private Image image;
         /// <summary>
-        /// 动态图片列
+        /// 动态项
         /// </summary>
-        private int pIndex;
+        private int progressItemIndex;
         /// <summary>
-        /// 动态显示的图片
+        /// 项的动态图片
         /// </summary>
-        [Description("动态显示的图片"), DefaultValue(null)]
-        public Image ProgressImage
+        [Description("项的动态图片"), DefaultValue(null)]
+        public Image TProgressImage
         {
             get { return pictureBox1.Image; }
             set { pictureBox1.Image = value; }
@@ -1838,21 +1939,21 @@ namespace Paway.Forms
         /// </summary>
         private void Progress()
         {
-            timer.Interval = 30;
-            this.timer.Tick += timer_Tick;
+            tDynamic.Interval = 30;
+            this.tDynamic.Tick += tDynamic_Tick;
         }
         /// <summary>
         /// 动态显示项的图像
         /// </summary>
         /// <param name="text">项文本</param>
         /// <param name="newText">项新文本</param>
-        public void ProgressItem(string text, string newText = null)
+        public void TProgressItem(string text, string newText = null)
         {
             for (int i = 0; i < _items.Count; i++)
             {
                 if (_items[i].Text == text)
                 {
-                    ProgressItem(i, newText);
+                    TProgressItem(i, newText);
                     break;
                 }
             }
@@ -1862,33 +1963,33 @@ namespace Paway.Forms
         /// </summary>
         /// <param name="index">项索引</param>
         /// <param name="newText">项新文本</param>
-        public void ProgressItem(int index, string newText = null)
+        public void TProgressItem(int index, string newText = null)
         {
-            this.pIndex = index;
-            if (!string.IsNullOrEmpty(newText)) this._items[pIndex].Text = newText;
-            image = this._items[pIndex].Image;
+            this.progressItemIndex = index;
+            if (!string.IsNullOrEmpty(newText)) this._items[progressItemIndex].Text = newText;
+            image = this._items[progressItemIndex].Image;
             if (pictureBox1.Image != null)
             {
-                this._items[pIndex].Image = pictureBox1.Image;
+                this._items[progressItemIndex].Image = pictureBox1.Image;
             }
-            timer.Enabled = true;
+            tDynamic.Enabled = true;
         }
         /// <summary>
         /// 停止动态显示
         /// </summary>
         /// <param name="image">图片</param>
         /// <param name="text">项文本</param>
-        public void ProgressStop(Image image = null, string text = null)
+        public void TProgressStop(Image image = null, string text = null)
         {
-            timer.Enabled = false;
-            if (!string.IsNullOrEmpty(text)) this._items[pIndex].Text = text;
-            this._items[pIndex].Image = image ?? this.image;
-            timer_Tick(this, EventArgs.Empty);
+            tDynamic.Enabled = false;
+            if (!string.IsNullOrEmpty(text)) this._items[progressItemIndex].Text = text;
+            this._items[progressItemIndex].Image = image ?? this.image;
+            tDynamic_Tick(this, EventArgs.Empty);
         }
 
-        private void timer_Tick(object sender, EventArgs e)
+        private void tDynamic_Tick(object sender, EventArgs e)
         {
-            InvaOther(this._items[pIndex].Rectangle);
+            InvalidateItem(this._items[progressItemIndex]);
         }
         private void InitializeComponent()
         {
@@ -1915,29 +2016,32 @@ namespace Paway.Forms
         #endregion
 
         #region 变色项
-        private Timer change = new Timer();
+        private Timer tChange = new Timer();
+        /// <summary>
+        /// 动态项
+        /// </summary>
         private int index;
         private void InitChange()
         {
-            change.Interval = 600;
-            change.Tick += change_Tick;
+            tChange.Interval = 600;
+            tChange.Tick += tChange_Tick;
         }
         /// <summary>
         /// 开始变色
         /// </summary>
-        public void ChangeStart()
+        public void TChangeStart()
         {
-            change.Enabled = true;
+            tChange.Enabled = true;
         }
         /// <summary>
         /// 停止变色
         /// </summary>
-        public void ChangeStop()
+        public void TChangeStop()
         {
-            change.Enabled = false;
+            tChange.Enabled = false;
         }
 
-        void change_Tick(object sender, EventArgs e)
+        private void tChange_Tick(object sender, EventArgs e)
         {
             bool result = false;
             Graphics g = this.CreateGraphics();
@@ -1959,14 +2063,14 @@ namespace Paway.Forms
                             Items[i].TColor.ColorNormal = TChange.ColorDown;
                             break;
                     }
-                    this.InvaOther(Items[i].Rectangle);
+                    this.InvalidateItem(Items[i]);
                     Application.DoEvents();
                     Items[i].TColor.ColorNormal = color;
                     g.Dispose();
                 }
             }
             index++;
-            if (!result) ChangeStop();
+            if (!result) TChangeStop();
         }
 
         #endregion
@@ -1984,6 +2088,9 @@ namespace Paway.Forms
         /// 隐藏滚动条，实际有滚动效果，自动设置
         /// </summary>
         private bool iScrollHide;
+        /// <summary>
+        /// 是否显示滚动条
+        /// </summary>
         private bool _iScroll = true;
         /// <summary>
         /// 是否显示滚动条
@@ -2008,10 +2115,10 @@ namespace Paway.Forms
             }
         }
         /// <summary>
-        /// 滚动条是否显示
+        /// 获取滚动条是否有显示
         /// </summary>
-        [Browsable(false), Description("滚动条是否显示"), DefaultValue(false)]
-        public bool TScroll
+        [Browsable(false), DefaultValue(false)]
+        public bool IHaveScroll
         {
             get
             {
@@ -2026,17 +2133,17 @@ namespace Paway.Forms
             }
         }
         /// <summary>
-        /// 控件宽度
+        /// 控件显示区域宽度
         /// </summary>
-        public new int Width
+        private int TWidth
         {
             get { return _vScroll.Visible ? base.Width - _vScroll.Width : base.Width; }
             set { base.Width = value; }
         }
         /// <summary>
-        /// 控件高度
+        /// 控件显示区域高度
         /// </summary>
-        public new int Height
+        private int THeight
         {
             get { return _hScroll.Visible ? base.Height - _hScroll.Height : base.Height; }
             set { base.Height = value; }
@@ -2053,13 +2160,13 @@ namespace Paway.Forms
             _hScroll = new HScrollBar();
             _hScroll.Scroll += _hScroll_Scroll;
             _hScroll.Dock = DockStyle.Bottom;
-            _hScroll.Height = TScrollHeight;
+            _hScroll.Height = _tScrollHeight;
             Controls.Add(_hScroll);
 
             _vScroll = new VScrollBar();
             _vScroll.Scroll += _vScroll_Scroll;
             _vScroll.Dock = DockStyle.Right;
-            _vScroll.Width = TScrollHeight;
+            _vScroll.Width = _tScrollHeight;
             Controls.Add(_vScroll);
 
             _hScroll.Visible = false;
@@ -2086,9 +2193,11 @@ namespace Paway.Forms
             }
             base.OnMouseWheel(e);
         }
+        /// <summary>
+        /// 滚动到指定值位置
+        /// </summary>
         private void FixScroll(int value)
         {
-            if (!iScrollHide) return;
             switch (TDirection)
             {
                 case TDirection.Level:
@@ -2115,9 +2224,9 @@ namespace Paway.Forms
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            BodyBounds.Width = this.Width;
-            BodyBounds.Height = this.Height;
-            TPaint(null);
+            BodyBounds.Width = this.TWidth;
+            BodyBounds.Height = this.THeight;
+            TPaint();
             UpdateScroll();
         }
         /// <summary>
@@ -2130,9 +2239,9 @@ namespace Paway.Forms
         private void UpdateScroll(bool fix, bool toLast)
         {
             //if (!_scroll) return;
-            if (CountColumn == 0 || CountLine == 0)
+            if (ICountColumn == 0 || ICountLine == 0)
             {
-                TPaint(null);
+                TPaint();
             }
             _vScroll.Visible = false;
             _hScroll.Visible = false;
@@ -2141,16 +2250,17 @@ namespace Paway.Forms
             {
                 case TDirection.Level:
                     int height = GetHeight();
-                    if (this.Height < height)
+                    if (this.THeight < height)
                     {
-                        _vScroll.Visible = _iScroll & iScrollHide;
-                        int max = GetHeight() - this.Height;
+                        iScrollHide = true;
+                        _vScroll.Visible = _iScroll;
+                        int max = GetHeight() - this.THeight;
                         if (_vScroll.Value > max)
                         {
                             FixScroll(max);
                         }
                         _vScroll.Maximum = GetHeight();
-                        _vScroll.LargeChange = this.Height / 2;
+                        _vScroll.LargeChange = this.THeight / 2;
                         _vScroll.SmallChange = _vScroll.LargeChange;
                         _vScroll.Maximum = max + _vScroll.LargeChange;
                         if (!fix) _vScroll.Value = 0;
@@ -2166,16 +2276,17 @@ namespace Paway.Forms
                     break;
                 case TDirection.Vertical:
                     int width = GetWidth();
-                    if (this.Width < width)
+                    if (this.TWidth < width)
                     {
-                        _hScroll.Visible = _iScroll & iScrollHide;
-                        int max = GetWidth() - this.Width;
+                        iScrollHide = true;
+                        _hScroll.Visible = _iScroll;
+                        int max = GetWidth() - this.TWidth;
                         if (_hScroll.Value > max)
                         {
                             FixScroll(max);
                         }
                         _hScroll.Maximum = GetWidth();
-                        _hScroll.LargeChange = this.Width / 2;
+                        _hScroll.LargeChange = this.TWidth / 2;
                         _hScroll.SmallChange = _hScroll.LargeChange;
                         _hScroll.Maximum = max + _hScroll.LargeChange;
                         if (!fix) _hScroll.Value = 0;
@@ -2231,9 +2342,9 @@ namespace Paway.Forms
         private int GetHeight()
         {
             int height = this.Padding.Top + this.Padding.Bottom;
-            height += this.CountLine * this.ItemSize.Height;
-            height += (this.CountLine - 1) * this.ItemSpace;
-            height += this.HeardLength;
+            height += this.ICountLine * this.ItemSize.Height;
+            height += (this.ICountLine - 1) * this.ItemSpace;
+            height += this.THeardLength;
             return height;
         }
         /// <summary>
@@ -2243,15 +2354,15 @@ namespace Paway.Forms
         private int GetWidth()
         {
             int width = this.Padding.Left + this.Padding.Right;
-            width += this.CountColumn * this.ItemSize.Width;
-            width += (this.CountColumn - 1) * this.ItemSpace;
-            width += this.HeardLength;
+            width += this.ICountColumn * this.ItemSize.Width;
+            width += (this.ICountColumn - 1) * this.ItemSpace;
+            width += this.THeardLength;
             return width;
         }
 
         #endregion
 
-        #region ToolTip 显示说明
+        #region 悬停窗口显示说明
         /// <summary>
         /// 表示一个长方形的小弹出窗口，该窗口在用户将指针悬停在一个控件上时显示有关该控件用途的简短说明。
         /// </summary>

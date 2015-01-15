@@ -23,8 +23,7 @@ namespace Paway.Forms
         {
             this.SetStyle(
                 ControlStyles.AllPaintingInWmPaint |
-                ControlStyles.OptimizedDoubleBuffer |
-                ControlStyles.DoubleBuffer, true);
+                ControlStyles.OptimizedDoubleBuffer, true);
             this.UpdateStyles();
 
             this.ItemHeight = 30;

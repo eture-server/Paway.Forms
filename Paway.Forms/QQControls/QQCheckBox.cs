@@ -40,7 +40,6 @@ namespace Paway.Forms
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.ResizeRedraw |
                 ControlStyles.Selectable |
-                ControlStyles.DoubleBuffer |
                 ControlStyles.SupportsTransparentBackColor |
                 ControlStyles.UserPaint, true);
             this.SetStyle(ControlStyles.Opaque, false);

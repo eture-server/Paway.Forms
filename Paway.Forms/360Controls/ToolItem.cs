@@ -155,10 +155,10 @@ namespace Paway.Forms
         [Description("文本内容"), DefaultValue(false)]
         public bool IText { get; set; }
         /// <summary>
-        /// 绘制椭圆
+        /// 圆角大小
         /// </summary>
-        [Description("绘制椭圆"), DefaultValue(false)]
-        public bool IEllipse { get; set; }
+        [Description("圆角大小"), DefaultValue(0)]
+        public int TRadiu { get; set; }
 
         /// <summary>
         /// 头文字

@@ -21,14 +21,6 @@ namespace Paway.Forms
     /// </summary>
     public class MControl : TControl
     {
-        #region 属性
-        /// <summary>
-        /// 加载标记
-        /// </summary>
-        private bool ILoad;
-
-        #endregion
-
         #region 事件
         /// <summary>
         /// 当控件数据更新时发生

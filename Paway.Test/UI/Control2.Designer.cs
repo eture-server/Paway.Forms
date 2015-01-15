@@ -37,7 +37,6 @@
             this.qqTextBox1 = new Paway.Forms.QQTextBox();
             this.btQQDemo = new Paway.Forms.QQButton();
             this.tbPrompt = new Paway.Forms.QQTextBox();
-            this.btImage = new Paway.Forms.QQButton();
             this.label1 = new System.Windows.Forms.Label();
             this.toolRight = new Paway.Forms.ToolBar();
             this.toolDown = new Paway.Forms.ToolBar();
@@ -53,7 +52,7 @@
             this.qqTextBox1.IsPasswordChat = '\0';
             this.qqTextBox1.Lines = new string[] {
         "qqTextBox1"};
-            this.qqTextBox1.Location = new System.Drawing.Point(195, 187);
+            this.qqTextBox1.Location = new System.Drawing.Point(340, 72);
             this.qqTextBox1.Name = "qqTextBox1";
             this.qqTextBox1.SelectedText = "";
             this.qqTextBox1.Size = new System.Drawing.Size(109, 25);
@@ -62,7 +61,7 @@
             // btQQDemo
             // 
             this.btQQDemo.Image = null;
-            this.btQQDemo.Location = new System.Drawing.Point(310, 187);
+            this.btQQDemo.Location = new System.Drawing.Point(340, 126);
             this.btQQDemo.Name = "btQQDemo";
             this.btQQDemo.Size = new System.Drawing.Size(109, 28);
             this.btQQDemo.TabIndex = 51;
@@ -78,25 +77,15 @@
             this.tbPrompt.IsPasswordChat = '\0';
             this.tbPrompt.Lines = new string[] {
         "请输入类目关键字"};
-            this.tbPrompt.Location = new System.Drawing.Point(93, 224);
+            this.tbPrompt.Location = new System.Drawing.Point(29, 229);
             this.tbPrompt.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbPrompt.Name = "tbPrompt";
             this.tbPrompt.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.tbPrompt.ReadOnly = true;
             this.tbPrompt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbPrompt.SelectedText = "";
-            this.tbPrompt.Size = new System.Drawing.Size(261, 24);
+            this.tbPrompt.Size = new System.Drawing.Size(420, 24);
             this.tbPrompt.TabIndex = 49;
-            // 
-            // btImage
-            // 
-            this.btImage.Image = null;
-            this.btImage.Location = new System.Drawing.Point(232, 255);
-            this.btImage.Name = "btImage";
-            this.btImage.Size = new System.Drawing.Size(59, 28);
-            this.btImage.TabIndex = 48;
-            this.btImage.Text = "Image";
-            this.btImage.UseVisualStyleBackColor = false;
             // 
             // label1
             // 
@@ -120,7 +109,7 @@
             this.toolRight.Items.Add(toolItem1);
             this.toolRight.ItemSize = new System.Drawing.Size(90, 42);
             this.toolRight.ItemSpace = 5;
-            this.toolRight.Location = new System.Drawing.Point(29, 132);
+            this.toolRight.Location = new System.Drawing.Point(29, 126);
             this.toolRight.Name = "toolRight";
             this.toolRight.Size = new System.Drawing.Size(90, 42);
             this.toolRight.TabIndex = 58;
@@ -172,7 +161,7 @@
             this.toolUp.Items.Add(toolItem3);
             this.toolUp.ItemSize = new System.Drawing.Size(90, 42);
             this.toolUp.ItemSpace = 5;
-            this.toolUp.Location = new System.Drawing.Point(221, 132);
+            this.toolUp.Location = new System.Drawing.Point(221, 126);
             this.toolUp.Name = "toolUp";
             this.toolUp.Size = new System.Drawing.Size(90, 42);
             this.toolUp.TabIndex = 56;
@@ -198,7 +187,7 @@
             this.toolTran.Items.Add(toolItem4);
             this.toolTran.ItemSize = new System.Drawing.Size(90, 42);
             this.toolTran.ItemSpace = 5;
-            this.toolTran.Location = new System.Drawing.Point(125, 258);
+            this.toolTran.Location = new System.Drawing.Point(125, 180);
             this.toolTran.Name = "toolTran";
             this.toolTran.Size = new System.Drawing.Size(90, 42);
             this.toolTran.TabIndex = 55;
@@ -278,7 +267,6 @@
             this.Controls.Add(this.qqTextBox1);
             this.Controls.Add(this.btQQDemo);
             this.Controls.Add(this.tbPrompt);
-            this.Controls.Add(this.btImage);
             this.Controls.Add(this.label1);
             this.Name = "Control2";
             this.Size = new System.Drawing.Size(529, 300);
@@ -291,7 +279,6 @@
         private Forms.QQTextBox qqTextBox1;
         private Forms.QQButton btQQDemo;
         private Forms.QQTextBox tbPrompt;
-        private Forms.QQButton btImage;
         private System.Windows.Forms.Label label1;
         private Forms.ToolBar toolRight;
         private Forms.ToolBar toolDown;

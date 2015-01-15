@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form3));
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             this.tControl1 = new Paway.Forms.TControl();
             this.toolBar1 = new Paway.Forms.ToolBar();
@@ -48,27 +47,22 @@
             // toolBar1
             // 
             this.toolBar1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.toolBar1.DownImage = ((System.Drawing.Image)(resources.GetObject("toolBar1.DownImage")));
             this.toolBar1.ICheckEvent = true;
             this.toolBar1.IScroll = false;
             this.toolBar1.Items.Add(toolItem1);
             this.toolBar1.ItemSize = new System.Drawing.Size(191, 251);
             this.toolBar1.Location = new System.Drawing.Point(0, 0);
-            this.toolBar1.MDirection = Paway.Forms.TMDirection.Left;
-            this.toolBar1.MoveImage = ((System.Drawing.Image)(resources.GetObject("toolBar1.MoveImage")));
+            this.toolBar1.MDirection = Paway.Forms.TMDirection.T3DLeftToRight;
+            this.toolBar1.MInterval = 5;
             this.toolBar1.Name = "toolBar1";
-            this.toolBar1.NormalImage = global::Paway.Test.Properties.Resources.noon;
             this.toolBar1.Size = new System.Drawing.Size(191, 251);
             this.toolBar1.TabIndex = 1;
             // 
             // btChange
             // 
-            this.btChange.DownImage = ((System.Drawing.Image)(resources.GetObject("btChange.DownImage")));
             this.btChange.Image = null;
             this.btChange.Location = new System.Drawing.Point(297, 170);
-            this.btChange.MoveImage = ((System.Drawing.Image)(resources.GetObject("btChange.MoveImage")));
             this.btChange.Name = "btChange";
-            this.btChange.NormalImage = ((System.Drawing.Image)(resources.GetObject("btChange.NormalImage")));
             this.btChange.Size = new System.Drawing.Size(75, 28);
             this.btChange.TabIndex = 1;
             this.btChange.Text = "Change";

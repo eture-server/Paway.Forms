@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSql));
             this.btInsert = new Paway.Forms.QQButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btUpdate = new Paway.Forms.QQButton();
@@ -47,17 +46,13 @@
             this.panel1.Controls.Add(this.btUpdate);
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this.btInsert);
-            this.panel1.Size = new System.Drawing.Size(407, 298);
+            this.panel1.Size = new System.Drawing.Size(405, 296);
             // 
             // btInsert
             // 
-            this.btInsert.DownImage = ((System.Drawing.Image)(resources.GetObject("btInsert.DownImage")));
-            this.btInsert.ForeColor = System.Drawing.Color.Black;
             this.btInsert.Image = null;
             this.btInsert.Location = new System.Drawing.Point(25, 143);
-            this.btInsert.MoveImage = ((System.Drawing.Image)(resources.GetObject("btInsert.MoveImage")));
             this.btInsert.Name = "btInsert";
-            this.btInsert.NormalImage = ((System.Drawing.Image)(resources.GetObject("btInsert.NormalImage")));
             this.btInsert.Size = new System.Drawing.Size(59, 28);
             this.btInsert.TabIndex = 12;
             this.btInsert.Text = "Insert";
@@ -75,13 +70,9 @@
             // 
             // btUpdate
             // 
-            this.btUpdate.DownImage = ((System.Drawing.Image)(resources.GetObject("btUpdate.DownImage")));
-            this.btUpdate.ForeColor = System.Drawing.Color.Black;
             this.btUpdate.Image = null;
             this.btUpdate.Location = new System.Drawing.Point(102, 143);
-            this.btUpdate.MoveImage = ((System.Drawing.Image)(resources.GetObject("btUpdate.MoveImage")));
             this.btUpdate.Name = "btUpdate";
-            this.btUpdate.NormalImage = ((System.Drawing.Image)(resources.GetObject("btUpdate.NormalImage")));
             this.btUpdate.Size = new System.Drawing.Size(59, 28);
             this.btUpdate.TabIndex = 14;
             this.btUpdate.Text = "Update";
@@ -90,13 +81,9 @@
             // 
             // btUpOrIn
             // 
-            this.btUpOrIn.DownImage = ((System.Drawing.Image)(resources.GetObject("btUpOrIn.DownImage")));
-            this.btUpOrIn.ForeColor = System.Drawing.Color.Black;
             this.btUpOrIn.Image = null;
             this.btUpOrIn.Location = new System.Drawing.Point(183, 143);
-            this.btUpOrIn.MoveImage = ((System.Drawing.Image)(resources.GetObject("btUpOrIn.MoveImage")));
             this.btUpOrIn.Name = "btUpOrIn";
-            this.btUpOrIn.NormalImage = ((System.Drawing.Image)(resources.GetObject("btUpOrIn.NormalImage")));
             this.btUpOrIn.Size = new System.Drawing.Size(59, 28);
             this.btUpOrIn.TabIndex = 15;
             this.btUpOrIn.Text = "UpOrIn";
@@ -105,13 +92,9 @@
             // 
             // btDelete
             // 
-            this.btDelete.DownImage = ((System.Drawing.Image)(resources.GetObject("btDelete.DownImage")));
-            this.btDelete.ForeColor = System.Drawing.Color.Black;
             this.btDelete.Image = null;
             this.btDelete.Location = new System.Drawing.Point(265, 143);
-            this.btDelete.MoveImage = ((System.Drawing.Image)(resources.GetObject("btDelete.MoveImage")));
             this.btDelete.Name = "btDelete";
-            this.btDelete.NormalImage = ((System.Drawing.Image)(resources.GetObject("btDelete.NormalImage")));
             this.btDelete.Size = new System.Drawing.Size(59, 28);
             this.btDelete.TabIndex = 16;
             this.btDelete.Text = "Delete";
@@ -120,13 +103,9 @@
             // 
             // btSelect
             // 
-            this.btSelect.DownImage = ((System.Drawing.Image)(resources.GetObject("btSelect.DownImage")));
-            this.btSelect.ForeColor = System.Drawing.Color.Black;
             this.btSelect.Image = null;
             this.btSelect.Location = new System.Drawing.Point(25, 201);
-            this.btSelect.MoveImage = ((System.Drawing.Image)(resources.GetObject("btSelect.MoveImage")));
             this.btSelect.Name = "btSelect";
-            this.btSelect.NormalImage = ((System.Drawing.Image)(resources.GetObject("btSelect.NormalImage")));
             this.btSelect.Size = new System.Drawing.Size(59, 28);
             this.btSelect.TabIndex = 17;
             this.btSelect.Text = "Select";
@@ -136,9 +115,7 @@
             // FormSql
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(407, 324);
-            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "FormSql";
             this.Text = "Sql测试";
             this.TextShow = "Form1";

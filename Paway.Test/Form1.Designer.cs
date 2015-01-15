@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
@@ -93,12 +92,9 @@
             // 
             // btName
             // 
-            this.btName.DownImage = ((System.Drawing.Image)(resources.GetObject("btName.DownImage")));
             this.btName.Image = null;
             this.btName.Location = new System.Drawing.Point(35, 274);
-            this.btName.MoveImage = ((System.Drawing.Image)(resources.GetObject("btName.MoveImage")));
             this.btName.Name = "btName";
-            this.btName.NormalImage = ((System.Drawing.Image)(resources.GetObject("btName.NormalImage")));
             this.btName.Size = new System.Drawing.Size(64, 32);
             this.btName.TabIndex = 30;
             this.btName.Text = "hello";
@@ -113,7 +109,7 @@
             toolItem1.Desc = "";
             toolItem1.IHeard = true;
             toolItem1.TColor.StringVertical = System.Drawing.StringAlignment.Center;
-            toolItem1.Text = "白酒";
+            toolItem1.Text = "白酒123";
             toolItem2.Desc = "aaaaa";
             toolItem2.EndDesc = "";
             toolItem2.HeadDesc = "呵呵";
@@ -131,6 +127,7 @@
             toolItem8.Text = "Y";
             toolItem9.Text = "y1";
             toolItem10.Text = "y2";
+            toolItem11.Text = null;
             toolItem12.IHeard = true;
             toolItem12.Text = "Z";
             toolItem13.Text = "zz1";
@@ -169,7 +166,6 @@
             this.toolBar.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolBar.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
             this.toolBar.Trans = 150;
-            this.toolBar.TScrollHeight = 3;
             // 
             // pictureBox2
             // 
@@ -213,10 +209,10 @@
             // 
             // toolBar1
             // 
-            toolItem14.Desc = "Desc";
+            toolItem14.Desc = "Desc1";
             toolItem14.EndDesc = "EndDesc";
             toolItem14.HeadDesc = "HeadDesc";
-            toolItem14.Text = "Text\r\nSecond";
+            toolItem14.Text = "Text\r\nSecond12";
             this.toolBar1.Items.Add(toolItem14);
             this.toolBar1.ItemSize = new System.Drawing.Size(181, 127);
             this.toolBar1.Location = new System.Drawing.Point(3, 3);
