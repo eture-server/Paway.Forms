@@ -2045,7 +2045,6 @@ namespace Paway.Forms
         private void tChange_Tick(object sender, EventArgs e)
         {
             bool result = false;
-            Graphics g = this.CreateGraphics();
             for (int i = 0; i < Items.Count; i++)
             {
                 if (Items[i].IChange)
@@ -2067,7 +2066,6 @@ namespace Paway.Forms
                     this.InvalidateItem(Items[i]);
                     Application.DoEvents();
                     Items[i].TColor.ColorNormal = color;
-                    g.Dispose();
                 }
             }
             index++;

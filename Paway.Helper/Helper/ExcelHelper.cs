@@ -36,7 +36,6 @@ namespace Paway.Helper
                 {
                     DataSet ds = new DataSet();
                     cmd.Fill(ds);
-                    con.Close();
                     DataTable dt = ds.Tables[0];
                     return dt;
                 }

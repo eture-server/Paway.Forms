@@ -168,8 +168,8 @@ namespace Paway.Forms
                 {
                     Rectangle iconPoint = new Rectangle(
                         iconRect.X,
-                        2, 
-                        contextMenuStrip.ImageScalingSize.Width + 3, 
+                        2,
+                        contextMenuStrip.ImageScalingSize.Width + 3,
                         contextMenuStrip.ImageScalingSize.Height + 2);
 
                     Rectangle imgRect = new Rectangle(0, 0, icon.Width, icon.Height);

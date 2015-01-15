@@ -465,6 +465,11 @@ namespace Paway.Forms
     {
         private DataRow dr = null;
         /// <summary>
+        /// 默认构造
+        /// </summary>
+        public ItemNode()
+        { }
+        /// <summary>
         /// 初始化，加载DataRow数据
         /// </summary>
         /// <param name="dr"></param>

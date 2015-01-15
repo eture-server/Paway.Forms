@@ -16,26 +16,26 @@ namespace Paway.Win32
         /// 关闭一个内核对象
         /// </summary>
         [DllImport("Kernel32.dll")]
-        public static extern bool CloseHandle(int hObject);
+        internal static extern bool CloseHandle(int hObject);
 
         /// <summary>
         /// 针对之前调用的api函数，用这个函数取得扩展错误信息
         /// </summary>
         [DllImport("Kernel32.dll")]
-        public static extern int GetLastError();
+        internal static extern int GetLastError();
 
         /// <summary>
         /// 获取当前线程一个唯一的线程标识符
         /// </summary>
         [DllImport("kernel32.dll")]
-        public static extern int GetCurrentThreadId();
+        internal static extern int GetCurrentThreadId();
 
         /// <summary>
         /// 获取一个应用程序或动态链接库的模块句柄
         /// </summary>
         /// <param name="name">指定模块名，这通常是与模块的文件名相同的一个名字。例如，NOTEPAD.EXE程序的模块文件名就叫作NOTEPAD</param>
         [DllImport("kernel32.dll")]
-        public static extern IntPtr GetModuleHandle(string name);
+        internal static extern IntPtr GetModuleHandle(string name);
 
         /// <summary>
         /// 用来打开一个已存在的进程对象，并返回进程的句柄
@@ -45,7 +45,7 @@ namespace Paway.Win32
         /// <param name="dwProcessId">进程ID</param>
         /// <returns></returns>
         [DllImport("Kernel32.dll")]
-        public static extern IntPtr OpenProcess(int dwDesiredAccess, bool hInheritHandle, int dwProcessId);
+        internal static extern IntPtr OpenProcess(int dwDesiredAccess, bool hInheritHandle, int dwProcessId);
         // GetWindowThreadProcessId(hwnd, out calcID);   
         //calcProcess = OpenProcess(PROCESS_VM_READ | PROCESS_VM_WRITE, false, calcID);
 
@@ -58,7 +58,7 @@ namespace Paway.Win32
         /// <param name="nSize">长度</param>
         /// <param name="lpNumberOfBytesRead">读取长度</param>
         [DllImport("Kernel32.dll")]
-        public static extern Int32 ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, [Out]byte[] lpBuffer, UInt32 nSize, UInt32 lpNumberOfBytesRead);
+        internal static extern Int32 ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, [Out]byte[] lpBuffer, UInt32 nSize, UInt32 lpNumberOfBytesRead);
 
         /// <summary>
         /// 此函数能写入某一进程的内存区域
@@ -70,7 +70,7 @@ namespace Paway.Win32
         /// <param name="lpNumberOfByteRead"></param>
         /// <returns></returns>
         [DllImport("Kernel32.dll")]
-        public static extern Int32 WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, ref int lpBuffer, int nSize, ref int lpNumberOfByteRead);
+        internal static extern Int32 WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, ref int lpBuffer, int nSize, ref int lpNumberOfByteRead);
 
         /// <summary>
         /// 获取Windows目录的完整路径名
@@ -79,34 +79,34 @@ namespace Paway.Win32
         /// <param name="nSize">lpBuffer字符串的最大长度</param>
         /// <returns>复制到lpBuffer的一个字符串的长度。如果lpBuffer不够大，不能容下整个字符串，就会返回lpbuffer要求的长度。零表地失败。会设置GetLastError</returns>
         [DllImport("Kernel32.dll")]
-        public static extern long GetWindowsDirectory(StringBuilder lpBuffer, int nSize);
+        internal static extern long GetWindowsDirectory(StringBuilder lpBuffer, int nSize);
 
         /// <summary>
         /// 获取System32文件夹的路径
         /// </summary>
         [DllImport("Kernel32.dll")]
-        public static extern long GetSystemDirectory(StringBuilder lpBuffer, int nSize);
+        internal static extern long GetSystemDirectory(StringBuilder lpBuffer, int nSize);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="cpuinfo"></param>
         [DllImport("Kernel32.dll")]
-        public static extern void GetSystemInfo(ref CPU_INFO cpuinfo);
+        internal static extern void GetSystemInfo(ref CPU_INFO cpuinfo);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="meminfo"></param>
         [DllImport("Kernel32.dll")]
-        public static extern void GlobalMemory(ref MEMORY_INFO meminfo);
+        internal static extern void GlobalMemory(ref MEMORY_INFO meminfo);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="stinfo"></param>
         [DllImport("Kernel32.dll")]
-        public static extern void GetSystem(ref SYSTEMTIME_INFO stinfo);
+        internal static extern void GetSystem(ref SYSTEMTIME_INFO stinfo);
 
         #endregion
 
@@ -123,7 +123,7 @@ namespace Paway.Win32
         /// <param name="cbfileInfo">psfi的byte值</param>
         /// <param name="uFlags">指明需要返回的文件信息标识符,请参见：enum SHGFI</param>
         [DllImport("shell32.dll")]
-        public static extern IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, int cbfileInfo, uint uFlags);
+        internal static extern IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, int cbfileInfo, uint uFlags);
         #endregion
 
         #region user32.dll
@@ -170,7 +170,7 @@ namespace Paway.Win32
         /// <param name="init"></param>
         /// <returns>允许时vparam=true</returns>
         [DllImport("user32.dll", EntryPoint = "SystemParametersInfo", SetLastError = true)]
-        public static extern bool SystemParametersInfoGetBool(int action, uint param, ref bool vparam, uint init);
+        internal static extern bool SystemParametersInfoGetBool(int action, uint param, ref bool vparam, uint init);
         /// <summary>
         /// 锁定指定窗口，禁止它更新。
         /// Windows系统下同时只能有一个窗口处于锁定状态。
@@ -184,7 +184,7 @@ namespace Paway.Win32
         /// 返回hWnd参数所指定的窗口的设备环境
         /// </summary>
         [DllImport("user32.dll")]
-        public static extern IntPtr GetWindowDC(IntPtr hWnd);
+        internal static extern IntPtr GetWindowDC(IntPtr hWnd);
 
         /// <summary>
         /// 创建一个圆角矩形区域
@@ -211,12 +211,12 @@ namespace Paway.Win32
         /// <param name="lpWindowName">指向包含了窗口文本(或标签)的空中止(C语言)字串的指针;或设
         /// 为零,表示接收任何窗口标题</param>
         [DllImport("user32.dll")]
-        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        internal static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
         /// <summary>
         /// 该函数设置指定窗口的显示状态。
         /// </summary>
         [DllImport("user32.dll")]
-        public static extern bool ShowWindow(IntPtr hWnd, WindowShowStyle nCmdShow);
+        internal static extern bool ShowWindow(IntPtr hWnd, WindowShowStyle nCmdShow);
 
         /// <summary>
         /// 
@@ -235,7 +235,7 @@ namespace Paway.Win32
         /// <param name="lpWindowName">欲搜索的类名。零表示忽略</param>
         /// <returns></returns>
         [DllImport("user32.dll")]
-        public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpClassName, string lpWindowName);
+        internal static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpClassName, string lpWindowName);
 
         /// <summary>
         /// 该函数枚举所有屏幕上的顶层窗口，并将窗口句柄传送给应用程序定义的回调函数。
@@ -244,7 +244,7 @@ namespace Paway.Win32
         /// <param name="lParam"></param>
         /// <returns></returns>
         [DllImport("user32.dll")]
-        public static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, ref IntPtr lParam);
+        internal static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, ref IntPtr lParam);
         /// <summary>
         /// EnumWindows回调函数
         /// 传递句柄
@@ -261,7 +261,7 @@ namespace Paway.Win32
         /// <param name="lParam"></param>
         /// <returns></returns>
         [DllImport("user32.dll")]
-        public static extern bool EnumWindows(EnumWindowsStr lpEnumFunc, ref string lParam);
+        internal static extern bool EnumWindows(EnumWindowsStr lpEnumFunc, ref string lParam);
         /// <summary>
         /// EnumWindows回调函数
         /// 传递字符
@@ -269,7 +269,7 @@ namespace Paway.Win32
         /// <param name="hWnd"></param>
         /// <param name="lParam"></param>
         /// <returns></returns>
-        public delegate bool EnumWindowsStr(IntPtr hWnd, ref string lParam);
+        internal delegate bool EnumWindowsStr(IntPtr hWnd, ref string lParam);
 
         /// <summary>
         /// 该函数将指定窗口的标题条文本（如果存在）拷贝到一个缓存区内。如果指定的窗口是一个控件，则拷贝控件的文本。
@@ -279,7 +279,7 @@ namespace Paway.Win32
         /// <param name="nMaxCount"></param>
         /// <returns></returns>
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern int GetWindowText(IntPtr hWnd, [Out] StringBuilder lpString, int nMaxCount);
+        internal static extern int GetWindowText(IntPtr hWnd, [Out] StringBuilder lpString, int nMaxCount);
 
         /// <summary>
         /// 激活指定窗口(无论是否最小化)   
@@ -287,7 +287,7 @@ namespace Paway.Win32
         /// <param name="hWnd">要激活的窗口句柄</param>
         /// <param name="fAltTab">是否使最小化的窗口还原</param>
         [DllImport("user32.dll")]
-        public static extern void SwitchToThisWindow(IntPtr hWnd, bool fAltTab);
+        internal static extern void SwitchToThisWindow(IntPtr hWnd, bool fAltTab);
 
         #endregion
 
@@ -299,7 +299,7 @@ namespace Paway.Win32
         /// <param name="status"></param>
         /// <returns></returns>
         [DllImport("user32.dll", EntryPoint = "ShowCursor", CharSet = CharSet.Auto)]
-        public static extern int ShowCursor(int status);
+        internal static extern int ShowCursor(int status);
         /// <summary>
         /// <para>该函数获取窗口客户区的坐标。</para>
         /// <para>客户区坐标指定客户区的左上角和右下角。</para>
@@ -308,7 +308,7 @@ namespace Paway.Win32
         /// <param name="hWnd">目标窗口</param>
         /// <param name="lpRect">指定一个矩形，用客户区域的大小载入（以像素为单位）</param>
         [DllImport("user32.dll")]
-        public static extern bool GetClientRect(IntPtr hWnd, ref RECT lpRect);
+        internal static extern bool GetClientRect(IntPtr hWnd, ref RECT lpRect);
 
         /// <summary>
         /// <para>该函数检取光标的位置，以屏幕坐标表示。</para>
@@ -316,7 +316,7 @@ namespace Paway.Win32
         /// </summary>
         /// <param name="lpPoint">随同指针在屏幕像素坐标中的位置载入的一个结构</param>
         [DllImport("user32.dll")]
-        public static extern bool GetCursorPos(ref POINT lpPoint);
+        internal static extern bool GetCursorPos(ref POINT lpPoint);
 
         /// <summary>
         /// 该函数检索一指定窗口的客户区域或整个屏幕的显示设备上下文环境的句柄，
@@ -332,7 +332,7 @@ namespace Paway.Win32
         /// </summary>
         /// <returns></returns>
         [DllImport("user32.dll")]
-        public static extern int GetDoubleClickTime();
+        internal static extern int GetDoubleClickTime();
 
         /// <summary>
         /// 该函数返回指定窗口的边框矩形的尺寸。该尺寸以相对于屏幕坐标左上角的屏幕坐标给出。
@@ -340,7 +340,7 @@ namespace Paway.Win32
         /// <param name="hWnd">想获得范围矩形的那个窗口的句柄</param>
         /// <param name="lpRect">屏幕坐标中随同窗口装载的矩形</param>
         [DllImport("user32.dll")]
-        public static extern bool GetWindowRect(IntPtr hWnd, ref RECT lpRect);
+        internal static extern bool GetWindowRect(IntPtr hWnd, ref RECT lpRect);
 
         /// <summary>
         /// 这个函数获得指定线程的标识符,此线程创建了指定的窗口,并且随机的产生了这个标识符.
@@ -349,7 +349,7 @@ namespace Paway.Win32
         /// <param name="ID">用于装载拥有那个窗口的一个进程的标识符</param>
         /// <returns>拥有窗口的线程的标识符</returns>
         [DllImport("user32.dll")]
-        public static extern int GetWindowThreadProcessId(IntPtr hwnd, out int ID);
+        internal static extern int GetWindowThreadProcessId(IntPtr hwnd, out int ID);
 
         /// <summary>
         /// 合成一次击键事件
@@ -359,7 +359,7 @@ namespace Paway.Win32
         /// <param name="dwFlags">这里的整数类型0为按下，2为释放</param>
         /// <param name="dwExtraInfo">这里是整数类型，一般情况下为0(定义与击键相关的附加的32位值)</param>
         [DllImport("user32.dll")]
-        public static extern void keybd_event(byte bVk, byte bScan, Int32 dwFlags, IntPtr dwExtraInfo);
+        internal static extern void keybd_event(byte bVk, byte bScan, Int32 dwFlags, IntPtr dwExtraInfo);
 
         /// <summary>
         /// 综合鼠标击键和鼠标动作（会真的移动鼠标）
@@ -373,7 +373,7 @@ namespace Paway.Win32
         /// <para>(应用程序调用函数GetMessageExtraInfo来获得此附加信息)</para>
         /// </param>
         [DllImport("user32.dll")]
-        public static extern void mouse_event(int dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo);
+        internal static extern void mouse_event(int dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo);
 
         /// <summary>
         /// <para>该函数将一个消息放入（寄送）到与指定窗口创建的线程相联系消息队列里，不等待线程</para>
@@ -386,7 +386,7 @@ namespace Paway.Win32
         /// <param name="wParam">具体由消息决定</param>
         /// <param name="lParam">具体由消息决定</param>
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool PostMessage(IntPtr hWnd, int Msg, int wParam, IntPtr lParam);
+        internal static extern bool PostMessage(IntPtr hWnd, int Msg, int wParam, IntPtr lParam);
 
         /// <summary>
         /// 释放设备上下文环境（DC）供其他应用程序使用。函数的效果与设备上下文环境类型有关。它只释放公用的和设备上下文环境，对于类或私有的则无效。
@@ -407,7 +407,7 @@ namespace Paway.Win32
         /// <param name="fsModifiers">标识热键是否在按Alt、Ctrl、Shift、Windows等键时才会生效</param>
         /// <param name="vk">定义热键的内容</param>
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool RegisterHotKey(IntPtr hWnd, int id, KeyModifiers fsModifiers, Keys vk);
+        internal static extern bool RegisterHotKey(IntPtr hWnd, int id, KeyModifiers fsModifiers, Keys vk);
 
         /// <summary>
         /// <para>该函数从当前线程中的窗口释放鼠标捕获，并恢复通常的鼠标输入处理。捕获鼠标的窗口接收所有</para>
@@ -479,7 +479,7 @@ namespace Paway.Win32
         /// </summary>
         /// <param name="lpPoint">鼠标指针在屏幕像素坐标系统中的X，Y位置</param>
         [DllImport("user32.dll")]
-        public static extern bool SetCursorPos(POINT lpPoint);
+        internal static extern bool SetCursorPos(POINT lpPoint);
 
         /// <summary>
         /// <para>该函数把光标移到屏幕的指定位置。</para>
@@ -490,7 +490,7 @@ namespace Paway.Win32
         /// <param name="x">鼠标指针在屏幕像素坐标系统中的X位置</param>
         /// <param name="y">鼠标指针在屏幕像素坐标系统中的Y位置</param>
         [DllImport("user32.dll")]
-        public static extern bool SetCursorPos(int x, int y);
+        internal static extern bool SetCursorPos(int x, int y);
 
         /// <summary>
         /// 用于得到被定义的系统数据或者系统配置信息.
@@ -498,7 +498,7 @@ namespace Paway.Win32
         /// <param name="which"></param>
         /// <returns></returns>
         [DllImport("user32.dll", EntryPoint = "GetSystemMetrics")]
-        public static extern int GetSystemMetrics(int which);
+        internal static extern int GetSystemMetrics(int which);
 
         /// <summary>
         /// 设置窗口在屏幕中的位置
@@ -512,7 +512,7 @@ namespace Paway.Win32
         /// <param name="uFlags"></param>
         /// <returns></returns>
         [DllImport("user32.dll")]
-        public static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+        internal static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
         /// <summary>
         /// 设置窗口的区域的窗口。窗口区域决定在窗户上的地区——该系统允许绘画。
@@ -530,7 +530,7 @@ namespace Paway.Win32
         /// <param name="hWnd">要取消热键的窗口的句柄</param>
         /// <param name="id">要取消热键的ID</param>
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+        internal static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
         /// <summary>
         /// 
@@ -554,7 +554,7 @@ namespace Paway.Win32
         /// <param name="Point">Point指定一个被检测的点，该点为struct类型</param>
         /// <returns>返回值为包含该点的窗口的句柄。如果包含指定点的窗口不存在，返回值为NULL</returns>
         [DllImport("user32.dll", EntryPoint = "WindowFromPoint")]
-        public static extern IntPtr WindowFromPoint(POINT Point);
+        internal static extern IntPtr WindowFromPoint(POINT Point);
 
         #region hook
         /// <summary>
@@ -580,7 +580,7 @@ namespace Paway.Win32
         ///     <para>若此参数值为0,则该挂钩处理过程与所有现存的线程相关.</para>
         /// </param>
         [DllImport("user32.dll")]
-        public static extern int SetWindowsHookEx(HookType idHook, HookProc lpfn, IntPtr hInstance, int threadId);
+        internal static extern int SetWindowsHookEx(HookType idHook, HookProc lpfn, IntPtr hInstance, int threadId);
 
         /// <summary>
         /// 卸载钩子
@@ -589,7 +589,7 @@ namespace Paway.Win32
         /// </summary>
         /// <param name="idHook">要删除的钩子的句柄。这个参数是上一个函数SetWindowsHookEx的返回值.</param>
         [DllImport("user32.dll")]
-        public static extern int UnhookWindowsHookEx(int idHook);
+        internal static extern int UnhookWindowsHookEx(int idHook);
 
         /// <summary>
         /// <para>调用下一个钩子</para>
@@ -601,7 +601,7 @@ namespace Paway.Win32
         /// <param name="lParam">要传递的参数; 由钩子类型决定是什么参数</param>
         /// <returns></returns>
         [DllImport("user32.dll")]
-        public static extern int CallNextHookEx(int idHook, int nCode, int wParam, IntPtr lParam);
+        internal static extern int CallNextHookEx(int idHook, int nCode, int wParam, IntPtr lParam);
 
         #endregion
 

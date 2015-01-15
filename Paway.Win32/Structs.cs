@@ -215,7 +215,7 @@ namespace Paway.Win32
         /// <summary>
         /// 文件的图标句柄
         /// </summary>
-        public IntPtr hIcon;
+        internal IntPtr hIcon;
         /// <summary>
         /// 图标的系统索引号
         /// </summary>
@@ -422,7 +422,7 @@ namespace Paway.Win32
         /// <summary>
         /// 头
         /// </summary>
-        public IntPtr iData;
+        internal IntPtr iData;
         /// <summary>
         /// 长度
         /// </summary>
@@ -444,7 +444,7 @@ namespace Paway.Win32
         /// <summary>
         /// 头
         /// </summary>
-        public IntPtr vData;
+        internal IntPtr vData;
         /// <summary>
         /// 流长度
         /// </summary>
@@ -452,6 +452,6 @@ namespace Paway.Win32
         /// <summary>
         /// 消息句柄
         /// </summary>
-        public IntPtr uData;
+        internal IntPtr uData;
     }
 }
