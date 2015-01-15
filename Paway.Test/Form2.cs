@@ -30,6 +30,7 @@ namespace Paway.Test
             {
                 toolBar2.Items.Add(new ToolItem(i.ToString()));
             }
+            toolBar2.TChangeStart();
             //toolBar2.TRefresh();
             //toolBar1.TClickFirst();
         }

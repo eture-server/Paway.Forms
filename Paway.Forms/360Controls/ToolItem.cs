@@ -49,8 +49,8 @@ namespace Paway.Forms
         /// <summary>
         /// Item 上显示的文字信息
         /// </summary>
-        [DefaultValue(typeof(string), null)]
         [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [DefaultValue(null)]
         public string Text
         {
             get { return _text; }

@@ -988,7 +988,8 @@ namespace Paway.Forms
         private void DrawItem(Graphics g, ToolItem item)
         {
             Rectangle rect = item.Rectangle;
-            if (g.VisibleClipBounds.Contains(rect.Location) ||
+            if (this.DesignMode ||
+                g.VisibleClipBounds.Contains(rect.Location) ||
                 g.VisibleClipBounds.Contains(rect.X, rect.Bottom) ||
                 g.VisibleClipBounds.Contains(rect.Right, rect.Y) ||
                 g.VisibleClipBounds.Contains(rect.Right, rect.Bottom))
@@ -1451,7 +1452,7 @@ namespace Paway.Forms
         /// <param name="item"></param>
         private void InvalidateItem(ToolItem item)
         {
-            this.Invalidate(new Rectangle(item.Rectangle.X + BodyBounds.X, item.Rectangle.Y + BodyBounds.Y, item.RectDesc.Width, item.RectDesc.Height));
+            this.Invalidate(new Rectangle(item.Rectangle.X + BodyBounds.X, item.Rectangle.Y + BodyBounds.Y, item.Rectangle.Width, item.Rectangle.Height));
         }
         /// <summary>
         /// 引发 System.Windows.Forms.Form.MouseMove 事件。

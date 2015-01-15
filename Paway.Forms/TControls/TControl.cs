@@ -463,9 +463,9 @@ namespace Paway.Forms
                         i3d = true;
                         this.intervel = 255 / this.MInterval;
 
-                        alpha.Dock = DockStyle.Fill;
                         this.Controls.Add(this.alpha);
                         this.Controls.SetChildIndex(this.alpha, 0);
+                        alpha.Dock = DockStyle.Fill;
                         AlphaImage();
                     }
                     break;

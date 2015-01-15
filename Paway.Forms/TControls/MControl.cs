@@ -193,6 +193,11 @@ namespace Paway.Forms
                     if (parent.Controls[0] is MControl)
                     {
                         MControl temp = parent.Controls[0] as MControl;
+                        //拒绝移除
+                        if (!temp.UnLoad())
+                        {
+                            return null;
+                        }
                         switch (direction)
                         {
                             case TMDirection.Transparent:
