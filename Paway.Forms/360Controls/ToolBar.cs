@@ -854,6 +854,7 @@ namespace Paway.Forms
             {
                 Calctem(this.Items[i], ref xPos, ref yPos, i == this.Items.Count - 1);
             }
+            this.LastItemCount = this.Items.Count;
         }
         private void AddItem(Graphics g)
         {
@@ -1694,24 +1695,22 @@ namespace Paway.Forms
         /// <param name="e"></param>
         void _items_ListChanged(object sender, ListChangedEventArgs e)
         {
+            if (!ILoad) return;
+
             if (this.ParentForm != null)
             {
-                if (Items.Count > LastItemCount)
+                if (Items.Count > 1 && Items.Count > LastItemCount)
                 {
-                    if (ILoad)
-                    {
-                        int count = this.Items.Count - 2;
-                        if (count < 0) return;
-                        int xPos = this.Items[count].Rectangle.X;
-                        int yPos = this.Items[count].Rectangle.Y;
-                        Calctem(this.Items[count], ref xPos, ref yPos, false);
-                        Calctem(this.Items[count + 1], ref xPos, ref yPos, true);
-                        UpdateScroll(true, Items.Count > LastItemCount);
-                    }
+                    int count = this.Items.Count - 2;
+                    int xPos = this.Items[count].Rectangle.X;
+                    int yPos = this.Items[count].Rectangle.Y;
+                    Calctem(this.Items[count], ref xPos, ref yPos, false);
+                    Calctem(this.Items[count + 1], ref xPos, ref yPos, true);
+                    UpdateScroll(true);
                 }
                 else
                 {
-                    TRefresh(Items.Count - 1);
+                    TRefresh();
                 }
             }
         }
@@ -1909,8 +1908,7 @@ namespace Paway.Forms
         public void TRefresh()
         {
             this.TPaint();
-            UpdateScroll(true, Items.Count > LastItemCount);
-            LastItemCount = Items.Count;
+            UpdateScroll();
             this.Invalidate(this.ClientRectangle);
         }
         #endregion
@@ -2231,11 +2229,7 @@ namespace Paway.Forms
         /// <summary>
         /// 更新滚动条状态
         /// </summary>
-        private void UpdateScroll()
-        {
-            UpdateScroll(false, false);
-        }
-        private void UpdateScroll(bool fix, bool toLast)
+        private void UpdateScroll(bool toLast = false)
         {
             //if (!_scroll) return;
             if (ICountColumn == 0 || ICountLine == 0)
@@ -2262,11 +2256,7 @@ namespace Paway.Forms
                         _vScroll.LargeChange = this.THeight / 2;
                         _vScroll.SmallChange = _vScroll.LargeChange;
                         _vScroll.Maximum = max + _vScroll.LargeChange;
-                        if (!fix) _vScroll.Value = 0;
-                        if (toLast)
-                        {
-                            FixScroll(_vScroll.Maximum);
-                        }
+                        FixScroll(toLast ? _vScroll.Maximum : 0);
                     }
                     else if (_vScroll.Value >= 0)
                     {
@@ -2288,11 +2278,7 @@ namespace Paway.Forms
                         _hScroll.LargeChange = this.TWidth / 2;
                         _hScroll.SmallChange = _hScroll.LargeChange;
                         _hScroll.Maximum = max + _hScroll.LargeChange;
-                        if (!fix) _hScroll.Value = 0;
-                        if (toLast)
-                        {
-                            FixScroll(_hScroll.Maximum);
-                        }
+                        FixScroll(toLast ? _hScroll.Maximum : 0);
                     }
                     else if (_hScroll.Value >= 0)
                     {

@@ -127,7 +127,6 @@
             toolItem8.Text = "Y";
             toolItem9.Text = "y1";
             toolItem10.Text = "y2";
-            toolItem11.Text = null;
             toolItem12.IHeard = true;
             toolItem12.Text = "Z";
             toolItem13.Text = "zz1";

@@ -59,6 +59,7 @@
             Paway.Forms.ToolItem toolItem30 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem31 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem32 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem33 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem17 = new Paway.Forms.ToolItem();
             this.toolBar2 = new Paway.Forms.ToolBar();
             this.toolUp = new Paway.Forms.ToolBar();
@@ -165,6 +166,7 @@
             this.toolBar2.Items.Add(toolItem30);
             this.toolBar2.Items.Add(toolItem31);
             this.toolBar2.Items.Add(toolItem32);
+            this.toolBar2.Items.Add(toolItem33);
             this.toolBar2.ItemSize = new System.Drawing.Size(60, 60);
             this.toolBar2.ItemSpace = 5;
             this.toolBar2.Location = new System.Drawing.Point(0, 0);
@@ -189,6 +191,7 @@
             // 
             this.toolUp.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.toolUp.Font = new System.Drawing.Font("Tahoma", 15F);
+            this.toolUp.ICheckEvent = true;
             this.toolUp.ImageSize = new System.Drawing.Size(0, 0);
             toolItem17.Text = "上";
             this.toolUp.Items.Add(toolItem17);
