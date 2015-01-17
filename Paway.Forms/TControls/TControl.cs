@@ -77,11 +77,13 @@ namespace Paway.Forms
         /// <summary>
         /// 透明过度(旋转前)图片
         /// </summary>
+        [Browsable(false)]
         [Description("透明过度(旋转前)图片"), DefaultValue(typeof(Image), "null")]
         public Image TranImage { get; set; }
         /// <summary>
         /// 旋转后图片
         /// </summary>
+        [Browsable(false)]
         [Description("旋转后图片"), DefaultValue(typeof(Image), "null")]
         public Image TranLaterImage { get; set; }
         private int _mInterval = 12;
@@ -473,12 +475,12 @@ namespace Paway.Forms
         private void AlphaImage()
         {
             if (this.TranImage == null) return;
-            Bitmap bitmap = BitmapHelper.ConvertTo(this.TranImage, TConvertType.Trans, color);
-            if (alpha.Size != bitmap.Size)
+            Bitmap temp = BitmapHelper.ConvertTo(this.TranImage, TConvertType.Trans, color);
+            if (alpha.Size != temp.Size)
             {
-                bitmap = BitmapHelper.CutBitmap(bitmap, alpha.Bounds);
+                temp = BitmapHelper.CutBitmap(temp, alpha.Bounds);
             }
-            alpha.BackgroundImage = bitmap;
+            alpha.BackgroundImage = temp;
         }
         private void Alpha3DImage(Image image, T3Direction direction)
         {

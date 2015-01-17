@@ -37,7 +37,6 @@
             // 
             // tControl1
             // 
-            this.tControl1.BackColor = System.Drawing.Color.Gainsboro;
             this.tControl1.Controls.Add(this.toolBar1);
             this.tControl1.Location = new System.Drawing.Point(70, 65);
             this.tControl1.Name = "tControl1";
@@ -78,7 +77,10 @@
             this.Controls.Add(this.tControl1);
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "Form3";
+            this.TBrush.ColorNormal = System.Drawing.Color.CornflowerBlue;
+            this.TBrush.ColorSpace = System.Drawing.Color.Ivory;
             this.Text = "Form3";
+            this.TextShow = "你好";
             this.tControl1.ResumeLayout(false);
             this.ResumeLayout(false);
 

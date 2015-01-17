@@ -89,7 +89,7 @@ namespace Paway.Forms
             this.Name = "Demo360";
             this.Padding = new System.Windows.Forms.Padding(0, 26, 0, 0);
             this.ShowIcon = false;
-            this.Special = true;
+            this.ISpecial = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Demo360";
             this.TextShow = "Demo360";

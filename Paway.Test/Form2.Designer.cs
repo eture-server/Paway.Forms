@@ -70,13 +70,13 @@
             // 
             // panel2
             // 
-            this.panel2.Location = new System.Drawing.Point(0, 484);
+            this.panel2.Location = new System.Drawing.Point(0, 485);
             this.panel2.Size = new System.Drawing.Size(898, 26);
             // 
             // panel1
             // 
             this.panel1.Location = new System.Drawing.Point(1, 26);
-            this.panel1.Size = new System.Drawing.Size(898, 512);
+            this.panel1.Size = new System.Drawing.Size(898, 513);
             // 
             // toolBar1
             // 
@@ -120,7 +120,7 @@
             // 
             this.panel3.Controls.Add(this.toolBar2);
             this.panel3.Location = new System.Drawing.Point(0, 67);
-            this.panel3.Size = new System.Drawing.Size(898, 417);
+            this.panel3.Size = new System.Drawing.Size(898, 418);
             // 
             // toolBar2
             // 
@@ -130,6 +130,7 @@
             this.toolBar2.ImageSize = new System.Drawing.Size(32, 32);
             this.toolBar2.IShowToolTop = true;
             toolItem18.Desc = "";
+            toolItem18.TColor.ColorNormal = System.Drawing.Color.Red;
             toolItem18.TColor.StringVertical = System.Drawing.StringAlignment.Center;
             toolItem18.Text = "白酒";
             toolItem19.Desc = "";
@@ -171,7 +172,7 @@
             this.toolBar2.ItemSpace = 5;
             this.toolBar2.Location = new System.Drawing.Point(0, 0);
             this.toolBar2.Name = "toolBar2";
-            this.toolBar2.Size = new System.Drawing.Size(898, 417);
+            this.toolBar2.Size = new System.Drawing.Size(898, 418);
             this.toolBar2.TabIndex = 35;
             this.toolBar2.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
             this.toolBar2.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(127)))), ((int)(((byte)(104)))));
@@ -183,6 +184,8 @@
             this.toolBar2.TextFirst.ColorDown = System.Drawing.Color.Black;
             this.toolBar2.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolBar2.TextFirst.ColorNormal = System.Drawing.Color.Black;
+            this.toolBar2.TextFirst.FontDown = new System.Drawing.Font("微软雅黑", 20F);
+            this.toolBar2.TextFirst.FontMove = new System.Drawing.Font("微软雅黑", 20F);
             this.toolBar2.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolBar2.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
             this.toolBar2.Trans = 150;
@@ -190,15 +193,16 @@
             // toolUp
             // 
             this.toolUp.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.toolUp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolUp.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolUp.ICheckEvent = true;
             this.toolUp.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem17.Text = "上";
+            toolItem17.Text = "清明上河图";
             this.toolUp.Items.Add(toolItem17);
             this.toolUp.ItemSize = new System.Drawing.Size(90, 90);
-            this.toolUp.Location = new System.Drawing.Point(404, 187);
+            this.toolUp.Location = new System.Drawing.Point(404, 188);
             this.toolUp.Name = "toolUp";
-            this.toolUp.Size = new System.Drawing.Size(90, 90);
+            this.toolUp.Size = new System.Drawing.Size(92, 92);
             this.toolUp.TabIndex = 57;
             this.toolUp.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
             this.toolUp.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
@@ -207,16 +211,18 @@
             this.toolUp.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolUp.TextFirst.ColorNormal = System.Drawing.Color.Black;
             this.toolUp.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
-            this.toolUp.TRadiu = 45;
+            this.toolUp.TRadiu = 90;
             this.toolUp.Trans = 150;
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.ClientSize = new System.Drawing.Size(900, 540);
-            this.IsDrawBorder = true;
+            this.IDrawBorder = true;
             this.Name = "Form2";
-            this.Padding = new System.Windows.Forms.Padding(1, 26, 1, 2);
+            this.Padding = new System.Windows.Forms.Padding(1, 26, 1, 1);
+            this.TBrush.ColorNormal = System.Drawing.Color.CornflowerBlue;
+            this.TBrush.ColorSpace = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.Text = "Form2";
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);

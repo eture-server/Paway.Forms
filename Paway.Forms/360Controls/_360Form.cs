@@ -270,6 +270,7 @@ namespace Paway.Forms
         /// <param name="e">包含事件数据的 System.Windows.Forms.PaintEventArgs。</param>
         protected override void OnPaint(PaintEventArgs e)
         {
+            base.OnPaint(e);
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
@@ -297,8 +298,6 @@ namespace Paway.Forms
                 // 绘制标题栏菜单按钮
                 this.DrawSysButton(g, this.TitleBarMenuRect, (Bitmap)this._titleBarMenuImage, this._titleBarMenuState);
             }
-
-            base.OnPaint(e);
         }
         /// <summary>
         /// 引发 System.Windows.Forms.Form.MouseDown。

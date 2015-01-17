@@ -290,7 +290,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ForeColor = System.Drawing.Color.White;
-            this.IsDrawBorder = true;
+            this.IDrawBorder = true;
             this.IsResize = false;
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "Form1";

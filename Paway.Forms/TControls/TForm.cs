@@ -16,6 +16,13 @@ namespace Paway.Forms
     /// </summary>
     public partial class TForm : Form, IControl
     {
+        #region 变量
+        /// <summary>
+        /// 悬停窗口
+        /// </summary>
+        private ToolTip toolTop;
+
+        #endregion
         #region 属性
         /// <summary>
         /// 指定窗体窗口如何显示
@@ -42,37 +49,39 @@ namespace Paway.Forms
                 }
             }
         }
-        private int _radius = 3;
+
+        private int _tRadius = 3;
         /// <summary>
         /// 设置或获取窗体的圆角的大小
         /// </summary>
         [Category("TForm"), Description("设置或获取窗体的圆角的大小"), DefaultValue(3)]
         public int TRadius
         {
-            get { return this._radius; }
+            get { return this._tRadius; }
             set
             {
-                if (this._radius != value)
+                if (this._tRadius != value)
                 {
-                    this._radius = (value < 1) ? 1 : value;
+                    this._tRadius = (value < 1) ? 1 : value;
                     this.OnResize(EventArgs.Empty);
                     //base.Invalidate();
                 }
             }
         }
-        private int shadowWidth = 4;
+
+        private int _tShadowWidth = 4;
         /// <summary>
         /// 窗体阴影宽度
         /// </summary>
         [Category("TForm"), Description("窗体阴影宽度"), DefaultValue(typeof(int), "4")]
-        public int ShadowWidth
+        public int TShadowWidth
         {
-            get { return this.shadowWidth; }
+            get { return this._tShadowWidth; }
             set
             {
-                if (this.shadowWidth != value)
+                if (this._tShadowWidth != value)
                 {
-                    this.shadowWidth = (value < 1) ? 1 : value;
+                    this._tShadowWidth = (value < 1) ? 1 : value;
                     if (this.skin != null)
                     {
                         this.skin.SetBits();
@@ -80,19 +89,20 @@ namespace Paway.Forms
                 }
             }
         }
-        private Color shadowColor = Color.Black;
+
+        private Color _tShadowColor = Color.Black;
         /// <summary>
         /// 窗体阴影颜色
         /// </summary>
         [Category("TForm"), DefaultValue(typeof(Color), "Black"), Description("窗体阴影颜色")]
-        public Color ShadowColor
+        public Color TShadowColor
         {
-            get { return this.shadowColor; }
+            get { return this._tShadowColor; }
             set
             {
-                if (this.shadowColor != value)
+                if (this._tShadowColor != value)
                 {
-                    this.shadowColor = value;
+                    this._tShadowColor = value;
                     if (this.skin != null)
                     {
                         this.skin.SetBits();
@@ -100,27 +110,28 @@ namespace Paway.Forms
                 }
             }
         }
-        private bool _special = false;
+
+        private bool _iSpecial = false;
         /// <summary>
         /// 是否启用窗口淡入淡出
         /// </summary>
         [Category("TForm"), Description("是否启用窗口淡入淡出"), DefaultValue(false)]
-        public bool Special
+        public bool ISpecial
         {
-            get { return _special; }
-            set { _special = value; }
+            get { return _iSpecial; }
+            set { _iSpecial = value; }
         }
-        private bool _shadow = true;
+
+        private bool _iShadow = true;
         /// <summary>
         /// 是否启用窗体阴影
         /// </summary>
         [Category("Shadow"), DefaultValue(true), Description("是否启用窗体阴影")]
-        public bool Shadow
+        public bool IShadow
         {
-            get { return this._shadow; }
-            set { _shadow = value; }
+            get { return this._iShadow; }
+            set { _iShadow = value; }
         }
-        private ToolTip toolTop;
 
         /// <summary>
         /// 是否允许改变窗口大小
@@ -295,12 +306,12 @@ namespace Paway.Forms
         {
             if (base.Visible)
             {
-                if (!this.IsDisposed && !base.DesignMode && _special)
+                if (!this.IsDisposed && !base.DesignMode && _iSpecial)
                 {
                     NativeMethods.AnimateWindow(base.Handle, 300, 0xa0000);
                     this.Update();
                 }
-                if (!this.IsDisposed && !base.DesignMode && _shadow && this.skin == null)
+                if (!this.IsDisposed && !base.DesignMode && _iShadow && this.skin == null)
                 {
                     this.skin = new SkinForm(this);
                     this.skin.Show(this);
@@ -310,7 +321,7 @@ namespace Paway.Forms
             else
             {
                 base.OnVisibleChanged(e);
-                if (!this.IsDisposed && !base.DesignMode && _special)
+                if (!this.IsDisposed && !base.DesignMode && _iSpecial)
                 {
                     NativeMethods.AnimateWindow(base.Handle, 150, 0x90000);
                     base.Update();
@@ -322,7 +333,7 @@ namespace Paway.Forms
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
-            if (!this.IsDisposed && !base.DesignMode && _special)
+            if (!this.IsDisposed && !base.DesignMode && _iSpecial)
             {
                 NativeMethods.AnimateWindow(base.Handle, 150, 0x90000);
                 base.Update();

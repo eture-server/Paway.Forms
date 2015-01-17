@@ -49,7 +49,7 @@ namespace Paway.Forms
             this.ClientSize = new System.Drawing.Size(380, 270);
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.Color.White;
-            this.IsDrawBorder = true;
+            this.IDrawBorder = true;
             this.IsResize = false;
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "QQDemo";

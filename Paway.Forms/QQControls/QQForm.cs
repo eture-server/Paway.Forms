@@ -128,8 +128,8 @@ namespace Paway.Forms
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
+            base.OnPaint(e);
             Graphics g = e.Graphics;
-
             //绘画系统控制按钮
             if (ControlBox)
             {
@@ -152,8 +152,6 @@ namespace Paway.Forms
                         break;
                 }
             }
-
-            base.OnPaint(e);
         }
 
         #endregion

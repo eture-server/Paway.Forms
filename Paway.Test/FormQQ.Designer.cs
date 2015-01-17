@@ -358,7 +358,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(310, 486);
             this.Controls.Add(this.qqTabControl1);
-            this.IsDrawBorder = true;
+            this.IDrawBorder = true;
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "FormQQ";
             this.Padding = new System.Windows.Forms.Padding(0, 120, 1, 80);

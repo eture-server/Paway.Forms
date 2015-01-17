@@ -178,7 +178,7 @@ namespace Paway.Forms
             get { return _tRadiu; }
             set
             {
-                _tRadiu = value;
+                this._tRadiu = value;
                 this.Invalidate(this.ClientRectangle);
             }
         }
@@ -290,7 +290,7 @@ namespace Paway.Forms
             get { return _iAdd; }
             set
             {
-                _iAdd = value;
+                this._iAdd = value;
                 this.Invalidate(this.ClientRectangle);
             }
         }
@@ -459,6 +459,7 @@ namespace Paway.Forms
             set
             {
                 this._itemSize = value;
+                TPaint();
                 UpdateImageSize();
                 this.Invalidate(this.ClientRectangle);
             }
@@ -524,7 +525,10 @@ namespace Paway.Forms
             get
             {
                 if (_change == null)
+                {
                     _change = new TProperties();
+                    _change.ValueChange += delegate { this.Invalidate(this.ClientRectangle); };
+                }
                 return _change;
             }
         }
@@ -539,7 +543,10 @@ namespace Paway.Forms
             get
             {
                 if (_text == null)
+                {
                     _text = new TProperties();
+                    _text.ValueChange += delegate { this.Invalidate(this.ClientRectangle); };
+                }
                 return _text;
             }
         }
@@ -554,7 +561,10 @@ namespace Paway.Forms
             get
             {
                 if (_textSencond == null)
+                {
                     _textSencond = new TProperties();
+                    _textSencond.ValueChange += delegate { this.Invalidate(this.ClientRectangle); };
+                }
                 return _textSencond;
             }
         }
@@ -569,7 +579,10 @@ namespace Paway.Forms
             get
             {
                 if (_desc == null)
+                {
                     _desc = new TProperties();
+                    _desc.ValueChange += delegate { this.Invalidate(this.ClientRectangle); };
+                }
                 return _desc;
             }
         }
@@ -584,7 +597,10 @@ namespace Paway.Forms
             get
             {
                 if (_headDesc == null)
+                {
                     _headDesc = new TProperties();
+                    _headDesc.ValueChange += delegate { this.Invalidate(this.ClientRectangle); };
+                }
                 return _headDesc;
             }
         }
@@ -599,7 +615,10 @@ namespace Paway.Forms
             get
             {
                 if (_endDesc == null)
+                {
                     _endDesc = new TProperties();
+                    _endDesc.ValueChange += delegate { this.Invalidate(this.ClientRectangle); };
+                }
                 return _endDesc;
             }
         }
@@ -614,7 +633,10 @@ namespace Paway.Forms
             get
             {
                 if (_backGround == null)
+                {
                     _backGround = new TProperties();
+                    _backGround.ValueChange += delegate { this.Invalidate(this.ClientRectangle); };
+                }
                 return _backGround;
             }
         }

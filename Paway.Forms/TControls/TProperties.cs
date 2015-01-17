@@ -15,6 +15,18 @@ namespace Paway.Forms
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class TProperties
     {
+        /// <summary>
+        /// 值修改引发事件
+        /// </summary>
+        public event EventHandler ValueChange;
+        private void OnValueChange(object value)
+        {
+            if (ValueChange != null)
+            {
+                ValueChange(value, EventArgs.Empty);
+            }
+        }
+
         private Font _fNormal = new Font("微软雅黑", 12f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
         /// <summary>
         /// 默认字体
@@ -34,6 +46,7 @@ namespace Paway.Forms
                 {
                     _fDown = value;
                 }
+                OnValueChange(value);
             }
         }
 
@@ -67,7 +80,11 @@ namespace Paway.Forms
         public Color ColorNormal
         {
             get { return _cNormal; }
-            set { _cNormal = value; }
+            set
+            {
+                _cNormal = value;
+                OnValueChange(value);
+            }
         }
 
         private Color _cMove = Color.Empty;
@@ -78,7 +95,11 @@ namespace Paway.Forms
         public Color ColorMove
         {
             get { return _cMove; }
-            set { _cMove = value; }
+            set
+            {
+                _cMove = value;
+                OnValueChange(value);
+            }
         }
 
         private Color _cDown = Color.Empty;
@@ -89,7 +110,11 @@ namespace Paway.Forms
         public Color ColorDown
         {
             get { return _cDown; }
-            set { _cDown = value; }
+            set
+            {
+                _cDown = value;
+                OnValueChange(value);
+            }
         }
 
         private Color _cSpace = Color.Empty;
@@ -100,7 +125,11 @@ namespace Paway.Forms
         public Color ColorSpace
         {
             get { return _cSpace; }
-            set { _cSpace = value; }
+            set
+            {
+                _cSpace = value;
+                OnValueChange(value);
+            }
         }
 
         private StringAlignment _stringVertical = StringAlignment.Near;
@@ -111,7 +140,11 @@ namespace Paway.Forms
         public StringAlignment StringVertical
         {
             get { return _stringVertical; }
-            set { _stringVertical = value; }
+            set
+            {
+                _stringVertical = value;
+                OnValueChange(value);
+            }
         }
 
         private StringAlignment _stringHorizontal = StringAlignment.Near;
@@ -122,7 +155,11 @@ namespace Paway.Forms
         public StringAlignment StringHorizontal
         {
             get { return _stringHorizontal; }
-            set { _stringHorizontal = value; }
+            set
+            {
+                _stringHorizontal = value;
+                OnValueChange(value);
+            }
         }
 
         /// <summary>

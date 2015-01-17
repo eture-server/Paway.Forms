@@ -25,7 +25,7 @@ namespace Paway.Helper
             {
                 g.DrawImage(backgroundImage, new Rectangle(rect.X + 0, rect.Y, 5, rect.Height), 0, 0, 5, backgroundImage.Height, GraphicsUnit.Pixel);
                 g.DrawImage(backgroundImage, new Rectangle(rect.X + 5, rect.Y, rect.Width - 10, rect.Height), 5, 0, backgroundImage.Width - 10, backgroundImage.Height, GraphicsUnit.Pixel);
-                g.DrawImage(backgroundImage, new Rectangle(rect.X + rect.Width - 5, rect.Y, 5, rect.Height), backgroundImage.Width - 5, 0, 5, backgroundImage.Height, GraphicsUnit.Pixel);
+                g.DrawImage(backgroundImage, new Rectangle(rect.Right - 5, rect.Y, 5, rect.Height), backgroundImage.Width - 5, 0, 5, backgroundImage.Height, GraphicsUnit.Pixel);
             }
             else
             {
@@ -47,17 +47,17 @@ namespace Paway.Helper
             //上边
             g.DrawImage(backgroundImage, new Rectangle(rect.X + cut, rect.Y, rect.Width - cut * 2, cut), cut, 0, backgroundImage.Width - cut * 2, cut, GraphicsUnit.Pixel);
             //右上角
-            g.DrawImage(backgroundImage, new Rectangle(rect.X + rect.Width - cut, rect.Y, cut, cut), backgroundImage.Width - cut, 0, cut, cut, GraphicsUnit.Pixel);
+            g.DrawImage(backgroundImage, new Rectangle(rect.Right - cut, rect.Y, cut, cut), backgroundImage.Width - cut, 0, cut, cut, GraphicsUnit.Pixel);
             //左边
             g.DrawImage(backgroundImage, new Rectangle(rect.X, rect.Y + cut, cut, rect.Height - cut * 2), 0, cut, cut, backgroundImage.Height - cut * 2, GraphicsUnit.Pixel);
             //左下角
-            g.DrawImage(backgroundImage, new Rectangle(rect.X, rect.Y + rect.Height - cut, cut, cut), 0, backgroundImage.Height - cut, cut, cut, GraphicsUnit.Pixel);
+            g.DrawImage(backgroundImage, new Rectangle(rect.X, rect.Bottom - cut, cut, cut), 0, backgroundImage.Height - cut, cut, cut, GraphicsUnit.Pixel);
             //右边
-            g.DrawImage(backgroundImage, new Rectangle(rect.X + rect.Width - cut, rect.Y + cut, cut, rect.Height - cut * 2), backgroundImage.Width - cut, cut, cut, backgroundImage.Height - cut * 2, GraphicsUnit.Pixel);
+            g.DrawImage(backgroundImage, new Rectangle(rect.Right - cut, rect.Y + cut, cut, rect.Height - cut * 2), backgroundImage.Width - cut, cut, cut, backgroundImage.Height - cut * 2, GraphicsUnit.Pixel);
             //右下角
-            g.DrawImage(backgroundImage, new Rectangle(rect.X + rect.Width - cut, rect.Y + rect.Height - cut, cut, cut), backgroundImage.Width - cut, backgroundImage.Height - cut, cut, cut, GraphicsUnit.Pixel);
+            g.DrawImage(backgroundImage, new Rectangle(rect.Right - cut, rect.Bottom - cut, cut, cut), backgroundImage.Width - cut, backgroundImage.Height - cut, cut, cut, GraphicsUnit.Pixel);
             //下边
-            g.DrawImage(backgroundImage, new Rectangle(rect.X + cut, rect.Y + rect.Height - cut, rect.Width - cut * 2, cut), cut, backgroundImage.Height - cut, backgroundImage.Width - cut * 2, cut, GraphicsUnit.Pixel);
+            g.DrawImage(backgroundImage, new Rectangle(rect.X + cut, rect.Bottom - cut, rect.Width - cut * 2, cut), cut, backgroundImage.Height - cut, backgroundImage.Width - cut * 2, cut, GraphicsUnit.Pixel);
             //平铺中间
             g.DrawImage(backgroundImage, new Rectangle(rect.X + cut, rect.Y + cut, rect.Width - cut * 2, rect.Height - cut * 2), cut, cut, backgroundImage.Width - cut * 2, backgroundImage.Height - cut * 2, GraphicsUnit.Pixel);
         }
@@ -83,21 +83,16 @@ namespace Paway.Helper
         }
 
         #region CreateRoundPath 构建圆角路径
-
         /// <summary>
         /// 构建圆角路径
         /// </summary>
         public static GraphicsPath CreateRoundPath(Rectangle rect, int cornerRadius)
         {
             GraphicsPath roundedRect = new GraphicsPath();
-            roundedRect.AddArc(rect.X, rect.Y, cornerRadius * 2, cornerRadius * 2, 180, 90);
-            roundedRect.AddLine(rect.X + cornerRadius, rect.Y, rect.Right - cornerRadius * 2, rect.Y);
-            roundedRect.AddArc(rect.X + rect.Width - cornerRadius * 2, rect.Y, cornerRadius * 2, cornerRadius * 2, 270, 90);
-            roundedRect.AddLine(rect.Right, rect.Y + cornerRadius * 2, rect.Right, rect.Y + rect.Height - cornerRadius * 2);
-            roundedRect.AddArc(rect.X + rect.Width - cornerRadius * 2, rect.Y + rect.Height - cornerRadius * 2, cornerRadius * 2, cornerRadius * 2, 0, 90);
-            roundedRect.AddLine(rect.Right - cornerRadius * 2, rect.Bottom, rect.X + cornerRadius * 2, rect.Bottom);
-            roundedRect.AddArc(rect.X, rect.Bottom - cornerRadius * 2, cornerRadius * 2, cornerRadius * 2, 90, 90);
-            roundedRect.AddLine(rect.X, rect.Bottom - cornerRadius * 2, rect.X, rect.Y + cornerRadius * 2);
+            roundedRect.AddArc(rect.X, rect.Y, cornerRadius, cornerRadius, 180, 90);
+            roundedRect.AddArc(rect.Right - cornerRadius - 1, rect.Y, cornerRadius, cornerRadius, 270, 90);
+            roundedRect.AddArc(rect.Right - cornerRadius - 1, rect.Bottom - cornerRadius - 1, cornerRadius, cornerRadius, 0, 90);
+            roundedRect.AddArc(rect.X, rect.Bottom - cornerRadius - 1, cornerRadius, cornerRadius, 90, 90);
             roundedRect.CloseFigure();
             return roundedRect;
         }
@@ -105,7 +100,7 @@ namespace Paway.Helper
         /// <summary>
         /// 构建下圆角路径
         /// </summary>
-        public static void CreateBelowPath(Graphics g, Rectangle rect,Color color)
+        public static void CreateBelowPath(Graphics g, Rectangle rect, Color color)
         {
             g.DrawPath(new Pen(new SolidBrush(color)),
                 CreateBelowPath(new Rectangle(rect.X, rect.Y, rect.Width - 1, rect.Height - 1), 3));
@@ -116,11 +111,11 @@ namespace Paway.Helper
         public static GraphicsPath CreateBelowPath(Rectangle rect, int cornerRadius)
         {
             GraphicsPath roundedRect = new GraphicsPath();
-            roundedRect.AddLine(rect.Right, rect.Y, rect.Right, rect.Y + rect.Height - cornerRadius * 2);
-            roundedRect.AddArc(rect.X + rect.Width - cornerRadius * 2, rect.Y + rect.Height - cornerRadius * 2, cornerRadius * 2, cornerRadius * 2, 0, 90);
-            roundedRect.AddLine(rect.Right - cornerRadius * 2, rect.Bottom, rect.X + cornerRadius * 2, rect.Bottom);
-            roundedRect.AddArc(rect.X, rect.Bottom - cornerRadius * 2, cornerRadius * 2, cornerRadius * 2, 90, 90);
-            roundedRect.AddLine(rect.X, rect.Bottom - cornerRadius * 2, rect.X, rect.Y);
+            roundedRect.AddLine(rect.Right, rect.Y, rect.Right, rect.Bottom - cornerRadius);
+            roundedRect.AddArc(rect.Right - cornerRadius - 1, rect.Bottom - cornerRadius - 1, cornerRadius, cornerRadius, 0, 90);
+            roundedRect.AddLine(rect.Right - cornerRadius, rect.Bottom, rect.X + cornerRadius, rect.Bottom);
+            roundedRect.AddArc(rect.X, rect.Bottom - cornerRadius - 1, cornerRadius, cornerRadius, 90, 90);
+            roundedRect.AddLine(rect.X, rect.Bottom - cornerRadius, rect.X, rect.Y);
             roundedRect.CloseFigure();
             return roundedRect;
         }

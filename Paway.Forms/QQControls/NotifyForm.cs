@@ -56,7 +56,7 @@ namespace Paway.Forms
             : base()
         {
             this.ShowInTaskbar = false;
-            this.Shadow = false;
+            this.IShadow = false;
         }
 
         #endregion
@@ -316,7 +316,7 @@ namespace Paway.Forms
                 this.TopLevel = true;
                 this.ShowIcon = false;
                 base.IsResize = false;
-                base.IsDrawBorder = true;
+                base.IDrawBorder = true;
                 this.SysButton = TSysButton.Close;
                 base.BackColor = Color.FromArgb(0, 122, 204);
             }

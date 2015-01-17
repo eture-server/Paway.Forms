@@ -55,11 +55,12 @@ namespace Paway.Forms
         /// <summary>
         /// 是否透明化
         /// </summary>
-        private bool _isTransfer = false;
+        private bool _iTransfer = false;
         /// <summary>
         /// 窗体标题文字
         /// </summary>
         private string _textShow;
+
         #endregion
 
         #region 构造函数
@@ -111,14 +112,15 @@ namespace Paway.Forms
                 }
             }
         }
+
         /// <summary>
         /// 是否透明
         /// </summary>
         [Description("指定窗体是否透明"), DefaultValue(false)]
-        public bool IsTransfer
+        public bool ITransfer
         {
-            get { return this._isTransfer; }
-            set { this._isTransfer = value; }
+            get { return this._iTransfer; }
+            set { this._iTransfer = value; }
         }
         /// <summary>
         /// 窗体大小的最小值
@@ -317,17 +319,17 @@ namespace Paway.Forms
         /// <summary>
         /// 是否绘制边框
         /// </summary>
-        protected bool _isDrawBorder = false;
+        protected bool _iDrawBorder = false;
         /// <summary>
         /// 是否绘制边框
         /// </summary>
         [Browsable(true), Description("是否绘制边框"), DefaultValue(false)]
-        public bool IsDrawBorder
+        public bool IDrawBorder
         {
-            get { return _isDrawBorder; }
+            get { return _iDrawBorder; }
             set
             {
-                _isDrawBorder = value;
+                _iDrawBorder = value;
                 this.Invalidate();
             }
         }
@@ -335,20 +337,60 @@ namespace Paway.Forms
         /// <summary>
         /// 是否剪成圆角
         /// </summary>
-        protected bool _isDrawRound = true;
+        protected bool _iDrawRound = true;
         /// <summary>
         /// 是否剪成圆角
         /// </summary>
         [Browsable(true), Description("是否剪成圆角"), DefaultValue(true)]
-        public bool IsDrawRound
+        public bool IDrawRound
         {
-            get { return _isDrawRound; }
+            get { return _iDrawRound; }
             set
             {
-                _isDrawRound = value;
+                _iDrawRound = value;
                 this.OnSizeChanged(EventArgs.Empty);
             }
         }
+
+        /// <summary>
+        /// 线性渐变绘制
+        /// </summary>
+        private TProperties _tBrush;
+        /// <summary>
+        /// 线性渐变绘制
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public TProperties TBrush
+        {
+            get
+            {
+                if (_tBrush == null)
+                {
+                    _tBrush = new TProperties();
+                    _tBrush.ValueChange += delegate { this.Invalidate(this.ClientRectangle); };
+                }
+                return _tBrush;
+            }
+        }
+
+        /// <summary>
+        /// 指定线性渐变的方向
+        /// </summary>
+        private LinearGradientMode _tBrushMode = LinearGradientMode.Vertical;
+        /// <summary>
+        /// 指定线性渐变的方向
+        /// </summary>
+        [DefaultValue(typeof(TProperties), "Vertical")]
+        public LinearGradientMode TBrushMode
+        {
+            get { return _tBrushMode; }
+            set
+            {
+                _tBrushMode = value;
+                this.Invalidate(this.ClientRectangle);
+            }
+        }
+
         #endregion
 
         #region 重置默认属性值
@@ -506,6 +548,19 @@ namespace Paway.Forms
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.TextRenderingHint = TextRenderingHint.AntiAlias;
 
+            //绘制背景
+            if (TBrush.ColorSpace != Color.Empty && TBrush.ColorNormal != Color.Empty)
+            {
+                using (LinearGradientBrush brush = new LinearGradientBrush(
+                    this.ClientRectangle, TBrush.ColorNormal, TBrush.ColorSpace, _tBrushMode))
+                {
+                    Blend blend = new Blend();
+                    blend.Factors = new float[] { 1f, 0.5f, 0f };
+                    blend.Positions = new float[] { 0f, 0.5f, 1f };
+                    g.FillRectangle(brush, this.ClientRectangle);
+                }
+            }
+
             if (this.ShowIcon)//绘画图标
             {
                 Bitmap iconImage = this.Icon.ToBitmap();
@@ -525,7 +580,7 @@ namespace Paway.Forms
         private void DrawFrameBorder(Graphics g)
         {
             //绘画边框
-            if (_isDrawBorder)
+            if (_iDrawBorder)
             {
                 if (this.WindowState == FormWindowState.Maximized)
                 {
@@ -567,7 +622,7 @@ namespace Paway.Forms
         {
             base.OnResize(e);
             //调用API，将窗体剪成圆角
-            int ellipse = (_isDrawRound && this.WindowState != FormWindowState.Maximized) ? base.TRadius : 0;
+            int ellipse = (_iDrawRound && this.WindowState != FormWindowState.Maximized) ? base.TRadius : 0;
             int rgn = NativeMethods.CreateRoundRectRgn(0, 0, this.Width + 1, this.Height + 1, ellipse, ellipse);
             if (!this.IsDisposed)
             {
@@ -802,7 +857,7 @@ namespace Paway.Forms
             get
             {
                 CreateParams param = base.CreateParams;
-                if (this._isTransfer)
+                if (this._iTransfer)
                 {
                     param.ExStyle = 0x00080000;
                 }
@@ -842,7 +897,7 @@ namespace Paway.Forms
         /// <param name="control"></param>
         protected void TDrawBelowBorder(Control control)
         {
-            if (!_isDrawBorder || control == null || _borderImage == null) return;
+            if (!_iDrawBorder || control == null || _borderImage == null) return;
             control.Paint += control_PaintDB;
         }
         void control_PaintDB(object sender, PaintEventArgs e)
