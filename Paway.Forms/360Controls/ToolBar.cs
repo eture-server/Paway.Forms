@@ -123,10 +123,6 @@ namespace Paway.Forms
         /// 按下抬起项是否相同中用的过度项
         /// </summary>
         private ToolItem _tempItem = null;
-        /// <summary>
-        /// 保存当前列数量，数据项列表更新时比较更新
-        /// </summary>
-        private int LastItemCount;
 
         private Color _backColor;
         /// <summary>
@@ -810,25 +806,12 @@ namespace Paway.Forms
         {
             base.OnPaint(e);
             Graphics g = e.Graphics;
-            switch (_tDirection)
-            {
-                case Forms.TDirection.Level:
-                    if (e.ClipRectangle.Y == 0 && e.ClipRectangle.Height < ItemSize.Height)
-                    {
-                        g.TranslateTransform(0, ItemSize.Height - e.ClipRectangle.Height);
-                    }
-                    break;
-                case Forms.TDirection.Vertical:
-                    if (e.ClipRectangle.X == 0 && e.ClipRectangle.Width < ItemSize.Width)
-                    {
-                        g.TranslateTransform(ItemSize.Width - e.ClipRectangle.Width, 0);
-                    }
-                    break;
-            }
             g.TranslateTransform(BodyBounds.X, BodyBounds.Y);
             g.SmoothingMode = SmoothingMode.AntiAlias;
             backColor = TBackGround.ColorSpace;
-            g.FillRectangle(new SolidBrush(backColor), new Rectangle(-1, -1, this.TWidth + 1, this.THeight + 1));
+            RectangleF temp = g.VisibleClipBounds;
+            temp = new RectangleF(temp.X - 1, temp.Y - 1, temp.Width + 2, temp.Height + 2);
+            g.FillRectangle(new SolidBrush(backColor), temp);
 
             for (int i = 0; i < this.Items.Count; i++)
             {
@@ -854,7 +837,6 @@ namespace Paway.Forms
             {
                 Calctem(this.Items[i], ref xPos, ref yPos, i == this.Items.Count - 1);
             }
-            this.LastItemCount = this.Items.Count;
         }
         private void AddItem(Graphics g)
         {
@@ -988,12 +970,8 @@ namespace Paway.Forms
         private int count;
         private void DrawItem(Graphics g, ToolItem item)
         {
-            Rectangle rect = item.Rectangle;
-            if (this.DesignMode ||
-                g.VisibleClipBounds.Contains(rect.Location) ||
-                g.VisibleClipBounds.Contains(rect.X, rect.Bottom) ||
-                g.VisibleClipBounds.Contains(rect.Right, rect.Y) ||
-                g.VisibleClipBounds.Contains(rect.Right, rect.Bottom))
+            RectangleF temp = RectangleF.Intersect(g.VisibleClipBounds, item.Rectangle);
+            if (temp != RectangleF.Empty)
             {
                 if (item.IHeard)
                 {
@@ -1699,7 +1677,7 @@ namespace Paway.Forms
 
             if (this.ParentForm != null)
             {
-                if (Items.Count > 1 && Items.Count > LastItemCount)
+                if (Items.Count > 1 && e.ListChangedType == ListChangedType.ItemAdded && e.NewIndex == Items.Count - 1)
                 {
                     int count = this.Items.Count - 2;
                     int xPos = this.Items[count].Rectangle.X;
@@ -2195,12 +2173,14 @@ namespace Paway.Forms
         /// </summary>
         private void FixScroll(int value)
         {
+            bool valid = true;
             switch (TDirection)
             {
                 case TDirection.Level:
                     int max = _vScroll.Maximum - _vScroll.SmallChange;
                     if (value < 0) value = 0;
                     if (value > max) value = max;
+                    valid = _vScroll.Value != value;
                     _vScroll.Value = value;
                     BodyBounds.Y = -value;
                     break;
@@ -2208,11 +2188,15 @@ namespace Paway.Forms
                     max = _hScroll.Maximum - _hScroll.SmallChange;
                     if (value < 0) value = 0;
                     if (value > max) value = max;
+                    valid = _hScroll.Value != value;
                     _hScroll.Value = value;
                     BodyBounds.X = -value;
                     break;
             }
-            this.Invalidate(this.ClientRectangle);
+            if (valid)
+            {
+                this.Invalidate(this.ClientRectangle);
+            }
         }
         /// <summary>
         /// 大小改变时
@@ -2301,7 +2285,10 @@ namespace Paway.Forms
                 BodyBounds.X = 0;
             }
             BodyBounds.Offset(-diff, 0);
-            this.Invalidate(this.ClientRectangle);
+            if (diff != 0 || e.NewValue == 0)
+            {
+                this.Invalidate(this.ClientRectangle);
+            }
         }
         /// <summary>
         /// 垂直滚动
@@ -2317,7 +2304,10 @@ namespace Paway.Forms
                 BodyBounds.Y = 0;
             }
             BodyBounds.Offset(0, -diff);
-            this.Invalidate(this.ClientRectangle);
+            if (diff != 0 || e.NewValue == 0)
+            {
+                this.Invalidate(this.ClientRectangle);
+            }
         }
 
         /// <summary>

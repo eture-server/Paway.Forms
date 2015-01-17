@@ -33,12 +33,19 @@ namespace Paway.Test
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            //for (int i = 0; i < 1000; i++)
-            //{
-            //    toolBar2.Items.Add(new ToolItem(i.ToString()));
-            //}
-            //toolBar2.TChangeStart();
-            //toolBar2.TRefresh();
+            for (int i = 0; i < 3; i++)
+            {
+                toolBar2.Items.RemoveAt(i);
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                toolBar2.Items.Insert(0, new ToolItem(i.ToString()));
+            }
+            for (int i = 0; i < 300; i++)
+            {
+                toolBar2.Items.Add(new ToolItem(i.ToString()));
+            }
+            toolBar2.TChangeStart();
             //toolBar1.TClickFirst();
         }
         void toolBar2_ItemClick(object sender, EventArgs e)
@@ -78,10 +85,6 @@ namespace Paway.Test
                     break;
                 case "色2":
                     control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.None);
-                    if (control != null)
-                    {
-                        control.MRandom();
-                    }
                     break;
                 case "左转":
                     control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.T3DLeft);

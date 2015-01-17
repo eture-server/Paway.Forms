@@ -320,21 +320,10 @@ namespace Paway.Forms
         /// <summary>
         /// 启动特效
         /// </summary>
-        public void MStart(TMDirection dirction)
+        public void MStart(TMDirection dirction, int interval = 10)
         {
             this.MDirection = dirction;
-            MStart();
-        }
-        /// <summary>
-        /// 随机特效
-        /// </summary>
-        public void MRandom()
-        {
-            int random = Enum.GetNames(typeof(TMDirection)).Length;
-            random = new Random().Next(0, random);
-            MStop();
-            this.MDirection = (TMDirection)random;
-            MStart();
+            MStart(interval);
         }
         /// <summary>
         /// 停止特效，并还原
@@ -382,11 +371,15 @@ namespace Paway.Forms
         /// <summary>
         /// 启动特效
         /// </summary>
-        public void MStart()
+        public void MStart(int interval = 10)
         {
             MStop();
             if (MDirection == TMDirection.None) return;
             iReader = true;
+            if (interval >= 10)
+            {
+                sTimer.Interval = interval;
+            }
 
             this.point = this.Location;
             this.dock = this.Dock;
@@ -431,11 +424,15 @@ namespace Paway.Forms
                 case TMDirection.T3DUpToDown:
                 case TMDirection.T3DDown:
                 case TMDirection.T3DDownToUp:
+                    this.sTimer.Interval = 45;
+                    if (interval >= 45)
+                    {
+                        sTimer.Interval = interval;
+                    }
                     if (alpha == null)
                     {
                         alpha = new TControl();
                     }
-                    this.sTimer.Interval = 50;
                     image = this.BackgroundImage;
                     if (this.Width > 0 && this.Height > 0)
                     {
@@ -466,6 +463,7 @@ namespace Paway.Forms
                         this.Controls.Add(this.alpha);
                         this.Controls.SetChildIndex(this.alpha, 0);
                         alpha.Dock = DockStyle.Fill;
+
                         AlphaImage();
                     }
                     break;
@@ -476,7 +474,7 @@ namespace Paway.Forms
         {
             if (this.TranImage == null) return;
             Bitmap bitmap = BitmapHelper.ConvertTo(this.TranImage, TConvertType.Trans, color);
-            if (alpha.Location != Point.Empty)
+            if (alpha.Size != bitmap.Size)
             {
                 bitmap = BitmapHelper.CutBitmap(bitmap, alpha.Bounds);
             }
@@ -486,7 +484,7 @@ namespace Paway.Forms
         {
             if (image == null) return;
             Bitmap temp = image.Clone() as Bitmap;
-            if (alpha.Location != Point.Empty)
+            if (alpha.Size != temp.Size)
             {
                 temp = BitmapHelper.CutBitmap(temp, alpha.Bounds);
             }
@@ -588,8 +586,6 @@ namespace Paway.Forms
                     }
                     else
                     {
-                        this.Controls.Remove(alpha);
-                        this.BackgroundImage = this.image;
                         Reset();
                     }
                     break;
@@ -688,6 +684,7 @@ namespace Paway.Forms
             this.Dock = dock;
             switch (MDirection)
             {
+                case TMDirection.Transparent:
                 case TMDirection.T3DLeft:
                 case TMDirection.T3DLeftToRight:
                 case TMDirection.T3DRight:

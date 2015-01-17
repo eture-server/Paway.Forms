@@ -633,6 +633,12 @@ namespace Paway.Forms
                 }
             }
         }
+        private bool CloseContains(Point point)
+        {
+            return this.CloseRect.Contains(point) ||
+                (this.CloseRect.Contains(new Point(this.CloseRect.X, point.Y)) &&
+                point.Y < this.CloseRect.Height && point.X > this.CloseRect.X);
+        }
         /// <summary>
         /// 引发 System.Windows.Forms.Form.MouseDown。
         /// </summary>
@@ -643,7 +649,7 @@ namespace Paway.Forms
             if (e.Button != MouseButtons.Left) return;
 
             Point point = e.Location;
-            if (this.CloseRect.Contains(point))
+            if (CloseContains(point))
                 this.CloseState = TMouseState.Down;
             else if (this.MiniRect.Contains(point))
                 this.MinState = TMouseState.Down;
@@ -666,7 +672,7 @@ namespace Paway.Forms
             bool flag = true;
             string tipText = null;
             Point point = e.Location;
-            if (this.CloseRect.Contains(point))
+            if (CloseContains(point))
             {
                 flag = false;
                 if (CloseState != TMouseState.Move)
@@ -744,7 +750,7 @@ namespace Paway.Forms
             if (e.Button != MouseButtons.Left)
                 return;
             Point point = e.Location;
-            if (this.CloseRect.Contains(point) && this.CloseState == TMouseState.Down)
+            if (CloseContains(point) && this.CloseState == TMouseState.Down)
             {
                 this.CloseState = TMouseState.Move;
                 this.Close();
