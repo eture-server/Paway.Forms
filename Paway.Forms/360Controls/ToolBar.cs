@@ -888,16 +888,14 @@ namespace Paway.Forms
                     switch (_tDirection)
                     {
                         case TDirection.Level:
-                            TranColor = item.TColor.ColorNormal;
-                            TextRenderer.DrawText(g, item.Text, item.TColor.FontNormal, temp, TranColor, TextFormat(format));
+                            TextRenderer.DrawText(g, item.Text, item.TColor.FontNormal, temp, item.TColor.ColorNormal, TextFormat(format));
                             break;
                         case TDirection.Vertical:
                             format.Alignment = item.TColor.StringHorizontal;
                             format.LineAlignment = item.TColor.StringVertical;
                             Color color = item.TColor.ColorNormal;
                             if (color == Color.Empty) color = Color.Black;
-                            TranColor = color;
-                            g.DrawString(item.Text, item.TColor.FontNormal, new SolidBrush(TranColor), temp, format);
+                            g.DrawString(item.Text, item.TColor.FontNormal, new SolidBrush(color), temp, format);
                             break;
                     }
                 }
@@ -1246,7 +1244,7 @@ namespace Paway.Forms
         {
             if (string.IsNullOrEmpty(text)) return;
 
-            TranColor = this.ForeColor;
+            Color color = this.ForeColor;
             Font font = desc.FontNormal;
 
             StringFormat format = new StringFormat()
@@ -1259,12 +1257,12 @@ namespace Paway.Forms
             {
                 if (this.IText || item.IText)
                 {
-                    g.DrawString(text, font, new SolidBrush(TranColor), rect, format);
+                    g.DrawString(text, font, new SolidBrush(color), rect, format);
                 }
                 else
                 {
                     Rectangle temp = new Rectangle(rect.X + BodyBounds.X, rect.Y + BodyBounds.Y, rect.Width, rect.Height);
-                    TextRenderer.DrawText(g, text, font, temp, TranColor, TextFormat(format));
+                    TextRenderer.DrawText(g, text, font, temp, color, TextFormat(format));
                 }
                 return;
             }
@@ -1272,29 +1270,29 @@ namespace Paway.Forms
             {
                 case TMouseState.Normal:
                 case TMouseState.Leave:
-                    TranColor = desc.ColorNormal;
+                    color = desc.ColorNormal;
                     font = desc.FontNormal;
                     SizeF size = g.MeasureString(text, font);
                     break;
                 case TMouseState.Move:
                 case TMouseState.Up:
-                    TranColor = desc.ColorMove;
+                    color = desc.ColorMove;
                     font = desc.FontMove;
                     break;
                 case TMouseState.Down:
-                    TranColor = desc.ColorDown;
+                    color = desc.ColorDown;
                     font = desc.FontDown;
                     break;
             }
-            if (TranColor == Color.Empty) TranColor = this.ForeColor;
+            if (color == Color.Empty) color = this.ForeColor;
             if (this.IText || item.IText)
             {
-                g.DrawString(text, font, new SolidBrush(TranColor), rect, format);
+                g.DrawString(text, font, new SolidBrush(color), rect, format);
             }
             else
             {
                 Rectangle temp = new Rectangle(rect.X + BodyBounds.X, rect.Y + BodyBounds.Y, rect.Width, rect.Height);
-                TextRenderer.DrawText(g, text, font, temp, TranColor, TextFormat(format));
+                TextRenderer.DrawText(g, text, font, temp, color, TextFormat(format));
             }
         }
         private TextFormatFlags TextFormat(StringFormat format)

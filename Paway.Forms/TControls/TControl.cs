@@ -236,7 +236,6 @@ namespace Paway.Forms
             base.OnPaint(e);
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.TextRenderingHint = TextRenderingHint.AntiAlias;
 
             //绘制背景
             if (TBrush.ColorSpace != Color.Empty && TBrush.ColorNormal != Color.Empty)
