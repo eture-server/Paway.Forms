@@ -136,15 +136,15 @@ namespace Paway.Forms
         /// <summary>
         /// 是否允许改变窗口大小
         /// </summary>
-        protected bool _isResize = true;
+        protected bool _iResize = true;
         /// <summary>
         /// 是否允许改变窗口大小
         /// </summary>
         [Description("是否允许改变窗口大小"), DefaultValue(true)]
-        public virtual bool IsResize
+        public virtual bool IResize
         {
-            get { return this._isResize; }
-            set { _isResize = value; }
+            get { return this._iResize; }
+            set { _iResize = value; }
         }
 
         #endregion

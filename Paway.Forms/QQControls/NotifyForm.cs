@@ -315,7 +315,7 @@ namespace Paway.Forms
                 this.TopMost = true;
                 this.TopLevel = true;
                 this.ShowIcon = false;
-                base.IsResize = false;
+                base.IResize = false;
                 base.IDrawBorder = true;
                 this.SysButton = TSysButton.Close;
                 base.BackColor = Color.FromArgb(0, 122, 204);

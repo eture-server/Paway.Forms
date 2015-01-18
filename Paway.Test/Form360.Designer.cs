@@ -77,7 +77,7 @@
             this.toolBar1.Items.Add(toolItem7);
             this.toolBar1.Items.Add(toolItem8);
             this.toolBar1.Items.Add(toolItem9);
-            this.toolBar1.ItemSpace = 0;
+            this.toolBar1.TItemSpace = 0;
             this.toolBar1.Location = new System.Drawing.Point(0, 26);
             this.toolBar1.Name = "toolBar1";
             this.toolBar1.Size = new System.Drawing.Size(850, 82);

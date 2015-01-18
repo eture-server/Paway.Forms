@@ -155,7 +155,7 @@
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.Color.White;
             this.IDrawRound = false;
-            this.IsResize = false;
+            this.IResize = false;
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "AboutForm";
             this.ShowIcon = false;

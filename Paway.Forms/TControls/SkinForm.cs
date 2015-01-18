@@ -300,7 +300,7 @@ namespace Paway.Forms
         /// <param name="m">要处理的 WindowsMessage。</param>
         protected override void WndProc(ref Message m)
         {
-            if (!this.Main.IsResize)
+            if (!this.Main.IResize)
             {
                 base.WndProc(ref m);
                 return;

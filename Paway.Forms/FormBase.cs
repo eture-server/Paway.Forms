@@ -459,7 +459,7 @@ namespace Paway.Forms
                     NativeMethods.HIWORD(wparam));
 
                 point = PointToClient(point);
-                if (_isResize)
+                if (_iResize)
                 {
                     if (point.X <= 3)
                     {

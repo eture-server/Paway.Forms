@@ -221,12 +221,12 @@ namespace Paway.Forms
         /// 多行列排列时的行数
         /// </summary>
         [Browsable(false), Description("多行列排列时的行数"), DefaultValue(1)]
-        public int ICountLine { get; private set; }
+        public int TCountLine { get; private set; }
         /// <summary>
         /// 多行列排列时的列数
         /// </summary>
         [Browsable(false), Description("多行列排列时的列数"), DefaultValue(1)]
-        public int ICountColumn { get; private set; }
+        public int TCountColumn { get; private set; }
 
         /// <summary>
         /// 项与项之间的间隔
@@ -236,7 +236,7 @@ namespace Paway.Forms
         /// 项与项之间的间隔
         /// </summary>
         [Description("项与项之间的间隔"), DefaultValue(1)]
-        public int ItemSpace
+        public int TItemSpace
         {
             get { return this._itemSpace; }
             set
@@ -834,8 +834,8 @@ namespace Paway.Forms
         {
             int xPos = this.Padding.Left;
             int yPos = this.Padding.Top;
-            this.ICountColumn = 1;
-            this.ICountLine = 1;
+            this.TCountColumn = 1;
+            this.TCountLine = 1;
             this.THeardLength = 0;
             this.isLastNew = true;
             for (int i = 0; i < this.Items.Count; i++)
@@ -851,9 +851,9 @@ namespace Paway.Forms
             Calctem(this.Items[count], ref xPos, ref yPos, false);
             count = 0;
             //多行/列补充Item
-            if (this.ICountColumn > 1 && this.ICountLine > 1)
+            if (this.TCountColumn > 1 && this.TCountLine > 1)
             {
-                count = this.ICountColumn > this.ICountLine ? this.ICountColumn : this.ICountLine;
+                count = this.TCountColumn > this.TCountLine ? this.TCountColumn : this.TCountLine;
                 if (this.Items.Count % count == 0) count = 0;
                 else count = count - this.Items.Count % count;
             }
@@ -920,14 +920,14 @@ namespace Paway.Forms
                                 if (!isLastNew)
                                 {
                                     yPos += this._itemSize.Height + this._itemSpace;
-                                    this.ICountLine++;
+                                    this.TCountLine++;
                                 }
                                 item.Rectangle = new Rectangle(xPos, yPos, this.TWidth, size.Height);
                                 this.THeardLength += size.Height + this._itemSpace * 2;
                             }
                             else
                             {
-                                this.ICountLine++;
+                                this.TCountLine++;
                             }
                             yPos += item.Rectangle.Height + this._itemSpace;
                         }
@@ -935,7 +935,7 @@ namespace Paway.Forms
                     else
                     {
                         xPos += item.Rectangle.Width + this._itemSpace;
-                        if (this.ICountLine == 1 && !iLast) this.ICountColumn++;
+                        if (this.TCountLine == 1 && !iLast) this.TCountColumn++;
                     }
                     this.isLastNew = isNew;
                     break;
@@ -951,14 +951,14 @@ namespace Paway.Forms
                                 if (!isLastNew)
                                 {
                                     xPos += this._itemSize.Width + this._itemSpace;
-                                    this.ICountColumn++;
+                                    this.TCountColumn++;
                                 }
                                 item.Rectangle = new Rectangle(xPos, yPos, size.Width, this.THeight);
                                 this.THeardLength += size.Width + this._itemSpace * 2;
                             }
                             else
                             {
-                                this.ICountColumn++;
+                                this.TCountColumn++;
                             }
                             xPos += item.Rectangle.Width + this._itemSpace;
                         }
@@ -966,7 +966,7 @@ namespace Paway.Forms
                     else
                     {
                         yPos += item.Rectangle.Height + this._itemSpace;
-                        if (this.ICountColumn == 1 && !iLast) this.ICountLine++;
+                        if (this.TCountColumn == 1 && !iLast) this.TCountLine++;
                     }
                     this.isLastNew = isNew;
                     break;
@@ -1501,10 +1501,10 @@ namespace Paway.Forms
             _iDown = false;
             foreach (ToolItem item in this.Items)
             {
-                InvalidateItem(item, TMouseState.Normal);
+                InvaRectDesc(item, TMouseState.Normal);
                 if ((_iCheckEvent && !_iMultiple) || item.MouseState != TMouseState.Down)
                 {
-                    InvaRectDesc(item, TMouseState.Normal);
+                    InvalidateItem(item, TMouseState.Normal);
                 }
             }
         }
@@ -1856,7 +1856,7 @@ namespace Paway.Forms
         /// <param name="count">最小行/列</param>
         public void TAutoHeight(int count)
         {
-            if (this.ICountLine < count) this.ICountLine = count;
+            if (this.TCountLine < count) this.TCountLine = count;
             switch (TDirection)
             {
                 case TDirection.Level:
@@ -2221,7 +2221,7 @@ namespace Paway.Forms
         private void UpdateScroll(bool toLast = false)
         {
             //if (!_scroll) return;
-            if (ICountColumn == 0 || ICountLine == 0)
+            if (TCountColumn == 0 || TCountLine == 0)
             {
                 TPaint();
             }
@@ -2322,8 +2322,8 @@ namespace Paway.Forms
         private int GetHeight()
         {
             int height = this.Padding.Top + this.Padding.Bottom;
-            height += this.ICountLine * this.ItemSize.Height;
-            height += (this.ICountLine - 1) * this.ItemSpace;
+            height += this.TCountLine * this.ItemSize.Height;
+            height += (this.TCountLine - 1) * this.TItemSpace;
             height += this.THeardLength;
             return height;
         }
@@ -2334,8 +2334,8 @@ namespace Paway.Forms
         private int GetWidth()
         {
             int width = this.Padding.Left + this.Padding.Right;
-            width += this.ICountColumn * this.ItemSize.Width;
-            width += (this.ICountColumn - 1) * this.ItemSpace;
+            width += this.TCountColumn * this.ItemSize.Width;
+            width += (this.TCountColumn - 1) * this.TItemSpace;
             width += this.THeardLength;
             return width;
         }

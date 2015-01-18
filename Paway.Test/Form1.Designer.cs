@@ -144,7 +144,7 @@
             this.toolBar.Items.Add(toolItem12);
             this.toolBar.Items.Add(toolItem13);
             this.toolBar.ItemSize = new System.Drawing.Size(60, 60);
-            this.toolBar.ItemSpace = 5;
+            this.toolBar.TItemSpace = 5;
             this.toolBar.IText = true;
             this.toolBar.Location = new System.Drawing.Point(35, 29);
             this.toolBar.MDirection = Paway.Forms.TMDirection.Center;
@@ -291,7 +291,7 @@
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ForeColor = System.Drawing.Color.White;
             this.IDrawBorder = true;
-            this.IsResize = false;
+            this.IResize = false;
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "Form1";
             this.Padding = new System.Windows.Forms.Padding(0, 26, 3, 3);

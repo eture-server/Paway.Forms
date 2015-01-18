@@ -50,7 +50,7 @@ namespace Paway.Forms
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.Color.White;
             this.IDrawBorder = true;
-            this.IsResize = false;
+            this.IResize = false;
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "QQDemo";
             this.Padding = new System.Windows.Forms.Padding(1, 26, 1, 2);
