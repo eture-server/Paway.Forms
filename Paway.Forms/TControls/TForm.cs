@@ -50,11 +50,13 @@ namespace Paway.Forms
             }
         }
 
-        private int _tRadius = 3;
+        private int _tRadius = 4;
         /// <summary>
         /// 设置或获取窗体的圆角的大小
+        /// 窗体阴影宽度=value+1
+        /// 最佳值=4
         /// </summary>
-        [Category("TForm"), Description("设置或获取窗体的圆角的大小"), DefaultValue(3)]
+        [Category("TForm"), Description("设置或获取窗体的圆角的大小"), DefaultValue(4)]
         public int TRadius
         {
             get { return this._tRadius; }
@@ -63,29 +65,12 @@ namespace Paway.Forms
                 if (this._tRadius != value)
                 {
                     this._tRadius = (value < 1) ? 1 : value;
-                    this.OnResize(EventArgs.Empty);
-                    //base.Invalidate();
-                }
-            }
-        }
-
-        private int _tShadowWidth = 4;
-        /// <summary>
-        /// 窗体阴影宽度
-        /// </summary>
-        [Category("TForm"), Description("窗体阴影宽度"), DefaultValue(typeof(int), "4")]
-        public int TShadowWidth
-        {
-            get { return this._tShadowWidth; }
-            set
-            {
-                if (this._tShadowWidth != value)
-                {
-                    this._tShadowWidth = (value < 1) ? 1 : value;
                     if (this.skin != null)
                     {
                         this.skin.SetBits();
                     }
+                    this.OnResize(EventArgs.Empty);
+                    //base.Invalidate();
                 }
             }
         }

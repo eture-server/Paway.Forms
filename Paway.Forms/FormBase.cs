@@ -576,7 +576,9 @@ namespace Paway.Forms
                     Blend blend = new Blend();
                     blend.Factors = new float[] { 1f, 0.5f, 0f };
                     blend.Positions = new float[] { 0f, 0.5f, 1f };
-                    g.FillRectangle(brush, this.ClientRectangle);
+                    Rectangle temp = this.ClientRectangle;
+                    temp = new Rectangle(temp.X - 1, temp.Y - 1, temp.Width + 2, temp.Height + 2);
+                    g.FillRectangle(brush, temp);
                 }
             }
             else

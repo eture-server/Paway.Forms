@@ -83,45 +83,45 @@ namespace Paway.Forms
                             point = new System.Drawing.Point(0, 0);
                             num2 = 180f;
                             tf = new PointF(size.Width - (size2.Width * 0.5f), size.Height - (size2.Height * 0.5f));
-                            point2 = new System.Drawing.Point(corSize.Width, Main.TShadowWidth);
-                            point3 = new System.Drawing.Point(Main.TShadowWidth, corSize.Height);
+                            point2 = new System.Drawing.Point(corSize.Width, Main.TRadius + 1);
+                            point3 = new System.Drawing.Point(Main.TRadius + 1, corSize.Height);
                             break;
 
                         case 3:
                             point = new System.Drawing.Point(this.Width - size.Width, 0);
                             num2 = 270f;
                             tf = new PointF(point.X + (size2.Width * 0.5f), size.Height - (size2.Height * 0.5f));
-                            point2 = new System.Drawing.Point(this.Width - Main.TShadowWidth, corSize.Height);
-                            point3 = new System.Drawing.Point(this.Width - corSize.Width, Main.TShadowWidth);
+                            point2 = new System.Drawing.Point(this.Width - (Main.TRadius + 1), corSize.Height);
+                            point3 = new System.Drawing.Point(this.Width - corSize.Width, Main.TRadius + 1);
                             break;
 
                         case 7:
                             point = new System.Drawing.Point(0, this.Height - size.Height);
                             num2 = 90f;
                             tf = new PointF(size.Width - (size2.Width * 0.5f), point.Y + (size2.Height * 0.5f));
-                            point2 = new System.Drawing.Point(Main.TShadowWidth, this.Height - corSize.Height);
-                            point3 = new System.Drawing.Point(corSize.Width, this.Height - Main.TShadowWidth);
+                            point2 = new System.Drawing.Point(Main.TRadius + 1, this.Height - corSize.Height);
+                            point3 = new System.Drawing.Point(corSize.Width, this.Height - (Main.TRadius + 1));
                             break;
 
                         default:
                             point = new System.Drawing.Point(this.Width - size.Width, this.Height - size.Height);
                             num2 = 0f;
                             tf = new PointF(point.X + (size2.Width * 0.5f), point.Y + (size2.Height * 0.5f));
-                            point2 = new System.Drawing.Point(this.Width - corSize.Width, this.Height - Main.TShadowWidth);
-                            point3 = new System.Drawing.Point(this.Width - Main.TShadowWidth, this.Height - corSize.Height);
+                            point2 = new System.Drawing.Point(this.Width - corSize.Width, this.Height - (Main.TRadius + 1));
+                            point3 = new System.Drawing.Point(this.Width - (Main.TRadius + 1), this.Height - corSize.Height);
                             break;
                     }
                     Rectangle rect = new Rectangle(point, size);
                     System.Drawing.Point location = new System.Drawing.Point(point.X + ((size.Width - size2.Width) / 2), point.Y + ((size.Height - size2.Height) / 2));
                     Rectangle rectangle2 = new Rectangle(location, size2);
                     path.AddArc(rect, num2, 91f);
-                    //if (Main.TRadius > 3)
+                    if (Main.TRadius > 3)
                     {
                         path.AddArc(rectangle2, num2 + 90f, -91f);
                     }
-                    //else
+                    else
                     {
-                        //path.AddLine(point2, point3);
+                        path.AddLine(point2, point3);
                     }
                     using (PathGradientBrush brush = new PathGradientBrush(path))
                     {
@@ -150,8 +150,8 @@ namespace Paway.Forms
         {
             Rectangle rect = new Rectangle(new System.Drawing.Point(corSize.Width, 0), gradientSize_TB);
             Rectangle rectangle2 = new Rectangle(new System.Drawing.Point(0, corSize.Width), gradientSize_LR);
-            Rectangle rectangle3 = new Rectangle(new System.Drawing.Point(base.Size.Width - Main.TShadowWidth, corSize.Width), gradientSize_LR);
-            Rectangle rectangle4 = new Rectangle(new System.Drawing.Point(corSize.Width, base.Size.Height - Main.TShadowWidth), gradientSize_TB);
+            Rectangle rectangle3 = new Rectangle(new System.Drawing.Point(base.Size.Width - (Main.TRadius + 1), corSize.Width), gradientSize_LR);
+            Rectangle rectangle4 = new Rectangle(new System.Drawing.Point(corSize.Width, base.Size.Height - (Main.TRadius + 1)), gradientSize_TB);
             using (LinearGradientBrush brush = new LinearGradientBrush(rect, this.ShadowColors[1], this.ShadowColors[0], LinearGradientMode.Vertical))
             {
                 using (LinearGradientBrush brush2 = new LinearGradientBrush(rectangle2, this.ShadowColors[1], this.ShadowColors[0], LinearGradientMode.Horizontal))
@@ -174,9 +174,9 @@ namespace Paway.Forms
         {
             this.ShadowColors[0] = Color.FromArgb(60, Main.TShadowColor);
             this.CornerColors[0] = Color.FromArgb(180, Main.TShadowColor);
-            System.Drawing.Size corSize = new System.Drawing.Size(Main.TShadowWidth + Main.TRadius, Main.TShadowWidth + Main.TRadius);
-            System.Drawing.Size size2 = new System.Drawing.Size(Main.TShadowWidth, base.Size.Height - (corSize.Height * 2));
-            System.Drawing.Size size4 = new System.Drawing.Size(base.Size.Width - (corSize.Width * 2), Main.TShadowWidth);
+            System.Drawing.Size corSize = new System.Drawing.Size((Main.TRadius + 1) + Main.TRadius, (Main.TRadius + 1) + Main.TRadius);
+            System.Drawing.Size size2 = new System.Drawing.Size(Main.TRadius + 1, base.Size.Height - (corSize.Height * 2));
+            System.Drawing.Size size4 = new System.Drawing.Size(base.Size.Width - (corSize.Width * 2), Main.TRadius + 1);
             this.DrawLines(g, corSize, size2, size4);
             this.DrawCorners(g, corSize);
         }
@@ -187,11 +187,11 @@ namespace Paway.Forms
             this.Main.BringToFront();
             base.ShowInTaskbar = false;
             base.FormBorderStyle = FormBorderStyle.None;
-            base.Location = new System.Drawing.Point(this.Main.Location.X - Main.TShadowWidth, this.Main.Location.Y - Main.TShadowWidth);
+            base.Location = new System.Drawing.Point(this.Main.Location.X - (Main.TRadius + 1), this.Main.Location.Y - (Main.TRadius + 1));
             base.Icon = this.Main.Icon;
             base.ShowIcon = this.Main.ShowIcon;
-            base.Width = this.Main.Width + (Main.TShadowWidth * 2);
-            base.Height = this.Main.Height + (Main.TShadowWidth * 2);
+            base.Width = this.Main.Width + ((Main.TRadius + 1) * 2);
+            base.Height = this.Main.Height + ((Main.TRadius + 1) * 2);
             this.Text = this.Main.Text;
             this.Main.LocationChanged += new EventHandler(this.Main_LocationChanged);
             this.Main.SizeChanged += new EventHandler(this.Main_SizeChanged);
@@ -218,13 +218,13 @@ namespace Paway.Forms
 
         private void Main_LocationChanged(object sender, EventArgs e)
         {
-            base.Location = new System.Drawing.Point(this.Main.Left - Main.TShadowWidth, this.Main.Top - Main.TShadowWidth);
+            base.Location = new System.Drawing.Point(this.Main.Left - (Main.TRadius + 1), this.Main.Top - (Main.TRadius + 1));
         }
 
         private void Main_SizeChanged(object sender, EventArgs e)
         {
-            base.Width = this.Main.Width + (Main.TShadowWidth * 2);
-            base.Height = this.Main.Height + (Main.TShadowWidth * 2);
+            base.Width = this.Main.Width + ((Main.TRadius + 1) * 2);
+            base.Height = this.Main.Height + ((Main.TRadius + 1) * 2);
             this.SetBits();
         }
 
@@ -238,7 +238,7 @@ namespace Paway.Forms
         /// </summary>
         public void SetBits()
         {
-            Bitmap image = new Bitmap(this.Main.Width + (Main.TShadowWidth * 2), this.Main.Height + (Main.TShadowWidth * 2));
+            Bitmap image = new Bitmap(this.Main.Width + ((Main.TRadius + 1) * 2), this.Main.Height + ((Main.TRadius + 1) * 2));
             Graphics g = Graphics.FromImage(image);
             g.SmoothingMode = SmoothingMode.HighQuality;
             g.PixelOffsetMode = PixelOffsetMode.HighQuality;
