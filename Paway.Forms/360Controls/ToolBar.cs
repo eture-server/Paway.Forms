@@ -124,23 +124,6 @@ namespace Paway.Forms
         /// </summary>
         private ToolItem _tempItem = null;
 
-        private Color _backColor;
-        /// <summary>
-        /// 绘制背景时自动颜色透明度
-        /// </summary>
-        private Color backColor
-        {
-            get
-            {
-                if (_backColor.A > Trans)
-                {
-                    _backColor = Color.FromArgb(Trans, _backColor.R, _backColor.G, _backColor.B);
-                }
-                return _backColor;
-            }
-            set { _backColor = value; }
-        }
-
         #endregion
 
         #region 构造函数
@@ -830,10 +813,10 @@ namespace Paway.Forms
             Graphics g = e.Graphics;
             g.TranslateTransform(BodyBounds.X, BodyBounds.Y);
             g.SmoothingMode = SmoothingMode.AntiAlias;
-            backColor = TBackGround.ColorSpace;
             RectangleF temp = g.VisibleClipBounds;
             temp = new RectangleF(temp.X - 1, temp.Y - 1, temp.Width + 2, temp.Height + 2);
-            g.FillRectangle(new SolidBrush(backColor), temp);
+            TranColor = TBackGround.ColorSpace;
+            g.FillRectangle(new SolidBrush(TranColor), temp);
 
             for (int i = 0; i < this.Items.Count; i++)
             {
@@ -905,14 +888,16 @@ namespace Paway.Forms
                     switch (_tDirection)
                     {
                         case TDirection.Level:
-                            TextRenderer.DrawText(g, item.Text, item.TColor.FontNormal, temp, item.TColor.ColorNormal, TextFormat(format));
+                            TranColor = item.TColor.ColorNormal;
+                            TextRenderer.DrawText(g, item.Text, item.TColor.FontNormal, temp, TranColor, TextFormat(format));
                             break;
                         case TDirection.Vertical:
                             format.Alignment = item.TColor.StringHorizontal;
                             format.LineAlignment = item.TColor.StringVertical;
                             Color color = item.TColor.ColorNormal;
                             if (color == Color.Empty) color = Color.Black;
-                            g.DrawString(item.Text, item.TColor.FontNormal, new SolidBrush(color), temp, format);
+                            TranColor = color;
+                            g.DrawString(item.Text, item.TColor.FontNormal, new SolidBrush(TranColor), temp, format);
                             break;
                     }
                 }
@@ -1023,19 +1008,19 @@ namespace Paway.Forms
                 case TMouseState.Leave:
                     if (!item.Enable)
                     {
-                        backColor = Color.Gray;
+                        TranColor = Color.Gray;
                     }
                     else
                     {
-                        backColor = item.TColor.ColorNormal == Color.Empty ? TBackGround.ColorNormal : item.TColor.ColorNormal;
+                        TranColor = item.TColor.ColorNormal == Color.Empty ? TBackGround.ColorNormal : item.TColor.ColorNormal;
                     }
-                    if (backColor == Color.Empty)
+                    if (TranColor == Color.Empty)
                     {
                         g.DrawImage(this.NormalImage, item.Rectangle);
                     }
                     else
                     {
-                        DrawBackground(g, backColor, item);
+                        DrawBackground(g, TranColor, item);
                     }
                     break;
                 case TMouseState.Move:
@@ -1043,14 +1028,14 @@ namespace Paway.Forms
                     DrawMoveBack(g, item);
                     break;
                 case TMouseState.Down:
-                    backColor = item.TColor.ColorDown == Color.Empty ? TBackGround.ColorDown : item.TColor.ColorDown;
-                    if (backColor == Color.Empty)
+                    TranColor = item.TColor.ColorDown == Color.Empty ? TBackGround.ColorDown : item.TColor.ColorDown;
+                    if (TranColor == Color.Empty)
                     {
                         g.DrawImage(this.DownImage, item.Rectangle);
                     }
                     else
                     {
-                        DrawBackground(g, backColor, item);
+                        DrawBackground(g, TranColor, item);
                     }
                     if (_iMultiple)
                     {
@@ -1077,14 +1062,14 @@ namespace Paway.Forms
         /// </summary>
         private void DrawMoveBack(Graphics g, ToolItem item)
         {
-            backColor = item.TColor.ColorMove == Color.Empty ? TBackGround.ColorMove : item.TColor.ColorMove;
-            if (backColor == Color.Empty)
+            TranColor = item.TColor.ColorMove == Color.Empty ? TBackGround.ColorMove : item.TColor.ColorMove;
+            if (TranColor == Color.Empty)
             {
                 g.DrawImage(this.MoveImage, item.Rectangle);
             }
             else
             {
-                DrawBackground(g, backColor, item);
+                DrawBackground(g, TranColor, item);
             }
             IsContextMenu(g, item);
         }
@@ -1261,7 +1246,7 @@ namespace Paway.Forms
         {
             if (string.IsNullOrEmpty(text)) return;
 
-            Color color = this.ForeColor;
+            TranColor = this.ForeColor;
             Font font = desc.FontNormal;
 
             StringFormat format = new StringFormat()
@@ -1274,12 +1259,12 @@ namespace Paway.Forms
             {
                 if (this.IText || item.IText)
                 {
-                    g.DrawString(text, font, new SolidBrush(color), rect, format);
+                    g.DrawString(text, font, new SolidBrush(TranColor), rect, format);
                 }
                 else
                 {
                     Rectangle temp = new Rectangle(rect.X + BodyBounds.X, rect.Y + BodyBounds.Y, rect.Width, rect.Height);
-                    TextRenderer.DrawText(g, text, font, temp, color, TextFormat(format));
+                    TextRenderer.DrawText(g, text, font, temp, TranColor, TextFormat(format));
                 }
                 return;
             }
@@ -1287,29 +1272,29 @@ namespace Paway.Forms
             {
                 case TMouseState.Normal:
                 case TMouseState.Leave:
-                    color = desc.ColorNormal;
+                    TranColor = desc.ColorNormal;
                     font = desc.FontNormal;
                     SizeF size = g.MeasureString(text, font);
                     break;
                 case TMouseState.Move:
                 case TMouseState.Up:
-                    color = desc.ColorMove;
+                    TranColor = desc.ColorMove;
                     font = desc.FontMove;
                     break;
                 case TMouseState.Down:
-                    color = desc.ColorDown;
+                    TranColor = desc.ColorDown;
                     font = desc.FontDown;
                     break;
             }
-            if (color == Color.Empty) color = this.ForeColor;
+            if (TranColor == Color.Empty) TranColor = this.ForeColor;
             if (this.IText || item.IText)
             {
-                g.DrawString(text, font, new SolidBrush(color), rect, format);
+                g.DrawString(text, font, new SolidBrush(TranColor), rect, format);
             }
             else
             {
                 Rectangle temp = new Rectangle(rect.X + BodyBounds.X, rect.Y + BodyBounds.Y, rect.Width, rect.Height);
-                TextRenderer.DrawText(g, text, font, temp, color, TextFormat(format));
+                TextRenderer.DrawText(g, text, font, temp, TranColor, TextFormat(format));
             }
         }
         private TextFormatFlags TextFormat(StringFormat format)

@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -30,6 +32,23 @@ namespace Paway.Forms
         /// 加载标记
         /// </summary>
         protected bool ILoad;
+
+        private Color _tranColor;
+        /// <summary>
+        /// 绘制背景时自动颜色透明度
+        /// </summary>
+        protected Color TranColor
+        {
+            get
+            {
+                if (_tranColor.A > Trans)
+                {
+                    _tranColor = Color.FromArgb(Trans, _tranColor.R, _tranColor.G, _tranColor.B);
+                }
+                return _tranColor;
+            }
+            set { _tranColor = value; }
+        }
 
         #endregion
 
@@ -109,10 +128,6 @@ namespace Paway.Forms
                 {
                     value = Color.Transparent;
                 }
-                if (value.A > _trans)
-                {
-                    value = Color.FromArgb(_trans, value.R, value.G, value.B);
-                }
                 base.BackColor = value;
             }
         }
@@ -134,6 +149,45 @@ namespace Paway.Forms
             }
         }
 
+        /// <summary>
+        /// 线性渐变绘制
+        /// </summary>
+        private TProperties _tBrush;
+        /// <summary>
+        /// 线性渐变绘制
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public TProperties TBrush
+        {
+            get
+            {
+                if (_tBrush == null)
+                {
+                    _tBrush = new TProperties();
+                    _tBrush.ValueChange += delegate { this.Invalidate(this.ClientRectangle); };
+                }
+                return _tBrush;
+            }
+        }
+
+        /// <summary>
+        /// 指定线性渐变的方向
+        /// </summary>
+        private LinearGradientMode _tBrushMode = LinearGradientMode.Vertical;
+        /// <summary>
+        /// 指定线性渐变的方向
+        /// </summary>
+        [DefaultValue(typeof(LinearGradientMode), "Vertical")]
+        public LinearGradientMode TBrushMode
+        {
+            get { return _tBrushMode; }
+            set
+            {
+                _tBrushMode = value;
+                this.Invalidate(this.ClientRectangle);
+            }
+        }
+
         private int _trans = 255;
         /// <summary>
         /// 控件透明度
@@ -149,6 +203,7 @@ namespace Paway.Forms
                     value = 255;
                 }
                 _trans = value;
+                this.Invalidate(this.ClientRectangle);
             }
         }
 
@@ -169,6 +224,41 @@ namespace Paway.Forms
         /// <param name="p"></param>
         /// <returns></returns>
         public virtual bool Contain(Point p) { return false; }
+
+        #endregion
+
+        #region 背景
+        /// <summary>
+        /// 绘制背景
+        /// </summary>
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            Graphics g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.TextRenderingHint = TextRenderingHint.AntiAlias;
+
+            //绘制背景
+            if (TBrush.ColorSpace != Color.Empty && TBrush.ColorNormal != Color.Empty)
+            {
+                TranColor = TBrush.ColorNormal;
+                Color normal = TranColor;
+                TranColor = TBrush.ColorSpace;
+                Color space = TranColor;
+                using (LinearGradientBrush brush = new LinearGradientBrush(this.ClientRectangle, normal, space, _tBrushMode))
+                {
+                    Blend blend = new Blend();
+                    blend.Factors = new float[] { 1f, 0.5f, 0f };
+                    blend.Positions = new float[] { 0f, 0.5f, 1f };
+                    g.FillRectangle(brush, this.ClientRectangle);
+                }
+            }
+            else
+            {
+                TranColor = BackColor;
+                g.FillRectangle(new SolidBrush(TranColor), this.ClientRectangle);
+            }
+        }
 
         #endregion
 

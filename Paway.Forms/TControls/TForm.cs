@@ -269,7 +269,7 @@ namespace Paway.Forms
         /// <summary>
         /// 控件透明度
         /// </summary>
-        [Browsable(false), Description("透明度 - 无效的"), DefaultValue(255)]
+        [Description("透明度"), DefaultValue(255)]
         public int Trans
         {
             get { return _trans; }
@@ -280,6 +280,7 @@ namespace Paway.Forms
                     value = 255;
                 }
                 _trans = value;
+                this.Invalidate(this.ClientRectangle);
             }
         }
 

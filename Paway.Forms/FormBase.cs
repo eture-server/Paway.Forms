@@ -60,6 +60,22 @@ namespace Paway.Forms
         /// 窗体标题文字
         /// </summary>
         private string _textShow;
+        private Color _tranColor;
+        /// <summary>
+        /// 绘制背景时自动颜色透明度
+        /// </summary>
+        protected Color TranColor
+        {
+            get
+            {
+                if (_tranColor.A > Trans)
+                {
+                    _tranColor = Color.FromArgb(Trans, _tranColor.R, _tranColor.G, _tranColor.B);
+                }
+                return _tranColor;
+            }
+            set { _tranColor = value; }
+        }
 
         #endregion
 
@@ -380,7 +396,7 @@ namespace Paway.Forms
         /// <summary>
         /// 指定线性渐变的方向
         /// </summary>
-        [DefaultValue(typeof(TProperties), "Vertical")]
+        [DefaultValue(typeof(LinearGradientMode), "Vertical")]
         public LinearGradientMode TBrushMode
         {
             get { return _tBrushMode; }
@@ -551,14 +567,22 @@ namespace Paway.Forms
             //绘制背景
             if (TBrush.ColorSpace != Color.Empty && TBrush.ColorNormal != Color.Empty)
             {
-                using (LinearGradientBrush brush = new LinearGradientBrush(
-                    this.ClientRectangle, TBrush.ColorNormal, TBrush.ColorSpace, _tBrushMode))
+                TranColor = TBrush.ColorNormal;
+                Color normal = TranColor;
+                TranColor = TBrush.ColorSpace;
+                Color space = TranColor;
+                using (LinearGradientBrush brush = new LinearGradientBrush(this.ClientRectangle, normal, space, _tBrushMode))
                 {
                     Blend blend = new Blend();
                     blend.Factors = new float[] { 1f, 0.5f, 0f };
                     blend.Positions = new float[] { 0f, 0.5f, 1f };
                     g.FillRectangle(brush, this.ClientRectangle);
                 }
+            }
+            else
+            {
+                TranColor = BackColor;
+                g.FillRectangle(new SolidBrush(TranColor), this.ClientRectangle);
             }
 
             if (this.ShowIcon)//绘画图标

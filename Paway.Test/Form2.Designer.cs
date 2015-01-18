@@ -44,6 +44,7 @@
             Paway.Forms.ToolItem toolItem14 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem15 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem16 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem17 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem18 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem19 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem20 = new Paway.Forms.ToolItem();
@@ -60,9 +61,9 @@
             Paway.Forms.ToolItem toolItem31 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem32 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem33 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem17 = new Paway.Forms.ToolItem();
-            this.toolBar2 = new Paway.Forms.ToolBar();
             this.toolUp = new Paway.Forms.ToolBar();
+            this.toolBar2 = new Paway.Forms.ToolBar();
+            this.toolBar3 = new Paway.Forms.ToolBar();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.toolBar2.SuspendLayout();
@@ -122,8 +123,33 @@
             this.panel3.Location = new System.Drawing.Point(0, 67);
             this.panel3.Size = new System.Drawing.Size(898, 418);
             // 
+            // toolUp
+            // 
+            this.toolUp.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.toolUp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.toolUp.Font = new System.Drawing.Font("Tahoma", 15F);
+            this.toolUp.ICheckEvent = true;
+            this.toolUp.ImageSize = new System.Drawing.Size(0, 0);
+            toolItem17.Text = "清明上河图";
+            this.toolUp.Items.Add(toolItem17);
+            this.toolUp.ItemSize = new System.Drawing.Size(90, 90);
+            this.toolUp.Location = new System.Drawing.Point(404, 188);
+            this.toolUp.Name = "toolUp";
+            this.toolUp.Size = new System.Drawing.Size(92, 92);
+            this.toolUp.TabIndex = 57;
+            this.toolUp.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
+            this.toolUp.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
+            this.toolUp.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(135)))), ((int)(((byte)(239)))));
+            this.toolUp.TextFirst.ColorDown = System.Drawing.Color.White;
+            this.toolUp.TextFirst.ColorMove = System.Drawing.Color.White;
+            this.toolUp.TextFirst.ColorNormal = System.Drawing.Color.Black;
+            this.toolUp.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolUp.TRadiu = 90;
+            this.toolUp.Trans = 150;
+            // 
             // toolBar2
             // 
+            this.toolBar2.Controls.Add(this.toolBar3);
             this.toolBar2.Controls.Add(this.toolUp);
             this.toolBar2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolBar2.Font = new System.Drawing.Font("Tahoma", 15F);
@@ -177,6 +203,8 @@
             this.toolBar2.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
             this.toolBar2.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(127)))), ((int)(((byte)(104)))));
             this.toolBar2.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(72)))), ((int)(((byte)(38)))));
+            this.toolBar2.TBrush.ColorNormal = System.Drawing.Color.CornflowerBlue;
+            this.toolBar2.TBrush.ColorSpace = System.Drawing.Color.Ivory;
             this.toolBar2.TChange.ColorDown = System.Drawing.Color.Blue;
             this.toolBar2.TChange.ColorMove = System.Drawing.Color.Red;
             this.toolBar2.TChange.ColorNormal = System.Drawing.Color.Yellow;
@@ -190,29 +218,14 @@
             this.toolBar2.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
             this.toolBar2.Trans = 150;
             // 
-            // toolUp
+            // toolBar3
             // 
-            this.toolUp.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.toolUp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.toolUp.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolUp.ICheckEvent = true;
-            this.toolUp.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem17.Text = "清明上河图";
-            this.toolUp.Items.Add(toolItem17);
-            this.toolUp.ItemSize = new System.Drawing.Size(90, 90);
-            this.toolUp.Location = new System.Drawing.Point(404, 188);
-            this.toolUp.Name = "toolUp";
-            this.toolUp.Size = new System.Drawing.Size(92, 92);
-            this.toolUp.TabIndex = 57;
-            this.toolUp.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
-            this.toolUp.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
-            this.toolUp.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(135)))), ((int)(((byte)(239)))));
-            this.toolUp.TextFirst.ColorDown = System.Drawing.Color.White;
-            this.toolUp.TextFirst.ColorMove = System.Drawing.Color.White;
-            this.toolUp.TextFirst.ColorNormal = System.Drawing.Color.Black;
-            this.toolUp.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
-            this.toolUp.TRadiu = 90;
-            this.toolUp.Trans = 150;
+            this.toolBar3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(111)))), ((int)(((byte)(238)))), ((int)(((byte)(130)))), ((int)(((byte)(238)))));
+            this.toolBar3.Location = new System.Drawing.Point(575, 188);
+            this.toolBar3.Name = "toolBar3";
+            this.toolBar3.Size = new System.Drawing.Size(258, 151);
+            this.toolBar3.TabIndex = 58;
+            this.toolBar3.Trans = 111;
             // 
             // Form2
             // 
@@ -234,7 +247,11 @@
         #endregion
 
         private Forms.ToolBar toolBar2;
+        private Forms.ToolBar toolBar3;
         private Forms.ToolBar toolUp;
+
+
+
 
     }
 }
