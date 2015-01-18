@@ -228,24 +228,6 @@ namespace Paway.Forms
         [Browsable(false), Description("多行列排列时的列数"), DefaultValue(1)]
         public int TCountColumn { get; private set; }
 
-        /// <summary>
-        /// 项与项之间的间隔
-        /// </summary>
-        private int _itemSpace = 1;
-        /// <summary>
-        /// 项与项之间的间隔
-        /// </summary>
-        [Description("项与项之间的间隔"), DefaultValue(1)]
-        public int TItemSpace
-        {
-            get { return this._itemSpace; }
-            set
-            {
-                this._itemSpace = value;
-                this.Invalidate(this.ClientRectangle);
-            }
-        }
-
         #endregion
 
         #region bool
@@ -444,6 +426,23 @@ namespace Paway.Forms
                 this._itemSize = value;
                 TPaint();
                 UpdateImageSize();
+                this.Invalidate(this.ClientRectangle);
+            }
+        }
+        /// <summary>
+        /// 项与项之间的间隔
+        /// </summary>
+        private int _itemSpace = 1;
+        /// <summary>
+        /// 项与项之间的间隔
+        /// </summary>
+        [Description("项与项之间的间隔"), DefaultValue(1)]
+        public int ItemSpace
+        {
+            get { return this._itemSpace; }
+            set
+            {
+                this._itemSpace = value;
                 this.Invalidate(this.ClientRectangle);
             }
         }
@@ -2323,7 +2322,7 @@ namespace Paway.Forms
         {
             int height = this.Padding.Top + this.Padding.Bottom;
             height += this.TCountLine * this.ItemSize.Height;
-            height += (this.TCountLine - 1) * this.TItemSpace;
+            height += (this.TCountLine - 1) * this.ItemSpace;
             height += this.THeardLength;
             return height;
         }
@@ -2335,7 +2334,7 @@ namespace Paway.Forms
         {
             int width = this.Padding.Left + this.Padding.Right;
             width += this.TCountColumn * this.ItemSize.Width;
-            width += (this.TCountColumn - 1) * this.TItemSpace;
+            width += (this.TCountColumn - 1) * this.ItemSpace;
             width += this.THeardLength;
             return width;
         }

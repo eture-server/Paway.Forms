@@ -685,7 +685,7 @@
             this.toolBar3.Items.Add(toolItem9);
             this.toolBar3.Items.Add(toolItem10);
             this.toolBar3.ItemSize = new System.Drawing.Size(50, 18);
-            this.toolBar3.TItemSpace = 0;
+            this.toolBar3.ItemSpace = 0;
             this.toolBar3.Location = new System.Drawing.Point(498, 16);
             this.toolBar3.Name = "toolBar3";
             this.toolBar3.Size = new System.Drawing.Size(50, 261);
@@ -707,7 +707,7 @@
             this.toolBar2.Items.Add(toolItem11);
             this.toolBar2.Items.Add(toolItem12);
             this.toolBar2.ItemSize = new System.Drawing.Size(116, 34);
-            this.toolBar2.TItemSpace = 0;
+            this.toolBar2.ItemSpace = 0;
             this.toolBar2.Location = new System.Drawing.Point(242, 20);
             this.toolBar2.Name = "toolBar2";
             this.toolBar2.Size = new System.Drawing.Size(116, 93);

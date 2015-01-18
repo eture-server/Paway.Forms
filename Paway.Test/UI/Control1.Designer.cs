@@ -71,7 +71,7 @@
             this.toolbar.Items.Add(toolItem2);
             this.toolbar.Items.Add(toolItem3);
             this.toolbar.ItemSize = new System.Drawing.Size(94, 46);
-            this.toolbar.TItemSpace = 15;
+            this.toolbar.ItemSpace = 15;
             this.toolbar.Location = new System.Drawing.Point(0, 0);
             this.toolbar.MDirection = Paway.Forms.TMDirection.Up;
             this.toolbar.Name = "toolbar";

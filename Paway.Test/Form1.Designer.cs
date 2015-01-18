@@ -144,7 +144,7 @@
             this.toolBar.Items.Add(toolItem12);
             this.toolBar.Items.Add(toolItem13);
             this.toolBar.ItemSize = new System.Drawing.Size(60, 60);
-            this.toolBar.TItemSpace = 5;
+            this.toolBar.ItemSpace = 5;
             this.toolBar.IText = true;
             this.toolBar.Location = new System.Drawing.Point(35, 29);
             this.toolBar.MDirection = Paway.Forms.TMDirection.Center;

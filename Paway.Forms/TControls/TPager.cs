@@ -301,7 +301,7 @@ namespace Paway.Forms
             toolItem1.Text = ">|";
             this.toolLast.Items.Add(toolItem1);
             this.toolLast.ItemSize = new System.Drawing.Size(30, 24);
-            this.toolLast.TItemSpace = 5;
+            this.toolLast.ItemSpace = 5;
             this.toolLast.Location = new System.Drawing.Point(146, 1);
             this.toolLast.Name = "toolLast";
             this.toolLast.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
@@ -328,7 +328,7 @@ namespace Paway.Forms
             toolItem2.Text = ">";
             this.toolNext.Items.Add(toolItem2);
             this.toolNext.ItemSize = new System.Drawing.Size(30, 24);
-            this.toolNext.TItemSpace = 5;
+            this.toolNext.ItemSpace = 5;
             this.toolNext.Location = new System.Drawing.Point(114, 1);
             this.toolNext.Name = "toolNext";
             this.toolNext.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
@@ -355,7 +355,7 @@ namespace Paway.Forms
             toolItem3.Text = "<";
             this.toolPrevious.Items.Add(toolItem3);
             this.toolPrevious.ItemSize = new System.Drawing.Size(30, 24);
-            this.toolPrevious.TItemSpace = 5;
+            this.toolPrevious.ItemSpace = 5;
             this.toolPrevious.Location = new System.Drawing.Point(53, 1);
             this.toolPrevious.Name = "toolPrevious";
             this.toolPrevious.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
@@ -382,7 +382,7 @@ namespace Paway.Forms
             toolItem4.Text = "|<";
             this.toolFirst.Items.Add(toolItem4);
             this.toolFirst.ItemSize = new System.Drawing.Size(30, 24);
-            this.toolFirst.TItemSpace = 5;
+            this.toolFirst.ItemSpace = 5;
             this.toolFirst.Location = new System.Drawing.Point(21, 1);
             this.toolFirst.Name = "toolFirst";
             this.toolFirst.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
