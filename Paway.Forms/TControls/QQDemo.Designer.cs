@@ -55,7 +55,6 @@ namespace Paway.Forms
             this.Name = "QQDemo";
             this.Padding = new System.Windows.Forms.Padding(1, 26, 1, 2);
             this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "QQDemo";
             this.TextShow = "QQDemo";
             this.ResumeLayout(false);

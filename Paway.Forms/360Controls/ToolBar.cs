@@ -971,7 +971,6 @@ namespace Paway.Forms
                     break;
             }
         }
-        private int count;
         private void DrawItem(Graphics g, ToolItem item)
         {
             RectangleF temp = RectangleF.Intersect(g.VisibleClipBounds, item.Rectangle);
@@ -1470,11 +1469,14 @@ namespace Paway.Forms
                 else if (item.Rectangle.Contains(point))
                 {
                     flag = false;
-                    if (IShowToolTop && item.MouseState != TMouseState.Move)
+                    if (item.MouseState != TMouseState.Move && item.MouseState != TMouseState.Down)
                     {
-                        this.ShowTooTip(item.Sencond ?? item.First);
+                        InvalidateItem(item, TMouseState.Move);
+                        if (IShowToolTop)
+                        {
+                            this.ShowTooTip(item.Sencond ?? item.First);
+                        }
                     }
-                    InvalidateItem(item, TMouseState.Move);
                 }
                 else
                 {
@@ -1483,7 +1485,6 @@ namespace Paway.Forms
             }
             if (flag)
             {
-                Console.WriteLine(count++);
                 this.HideToolTip();
             }
         }
@@ -1655,6 +1656,10 @@ namespace Paway.Forms
                 else
                 {
                     InvaRectDesc(item, TMouseState.Normal);
+                }
+                if (item.MouseState == TMouseState.Down)
+                {
+                    InvalidateItem(item, TMouseState.Move);
                 }
             }
         }
@@ -1989,6 +1994,7 @@ namespace Paway.Forms
             // ToolBar
             // 
             this.Controls.Add(this.pictureBox1);
+            this.Name = "ToolBar";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 

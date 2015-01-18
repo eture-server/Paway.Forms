@@ -26,8 +26,8 @@ namespace Paway.Test
 
         void toolUp_ItemClick(object sender, EventArgs e)
         {
-            //toolBar2.Items.RemoveAt(1);
-            toolBar2.Items.Clear();
+            toolBar2.Items.RemoveAt(1);
+            //toolBar2.Items.Clear();
         }
 
         protected override void OnLoad(EventArgs e)

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
             this.panel1 = new Paway.Forms.TControl();
             this.label5 = new System.Windows.Forms.Label();
             this.lbCopyright = new System.Windows.Forms.Label();
@@ -122,12 +121,9 @@
             // btOk
             // 
             this.btOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btOk.DownImage = ((System.Drawing.Image)(resources.GetObject("btOk.DownImage")));
             this.btOk.Image = null;
             this.btOk.Location = new System.Drawing.Point(113, 4);
-            this.btOk.MoveImage = ((System.Drawing.Image)(resources.GetObject("btOk.MoveImage")));
             this.btOk.Name = "btOk";
-            this.btOk.NormalImage = ((System.Drawing.Image)(resources.GetObject("btOk.NormalImage")));
             this.btOk.Size = new System.Drawing.Size(75, 28);
             this.btOk.TabIndex = 2;
             this.btOk.Text = "关闭";
@@ -159,7 +155,6 @@
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "AboutForm";
             this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.SysButton = Paway.Forms.TSysButton.Close;
             this.Text = "关于我们";
             this.TextShow = "关于我们";
