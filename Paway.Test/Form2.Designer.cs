@@ -212,8 +212,6 @@
             this.toolBar2.TextFirst.ColorDown = System.Drawing.Color.Black;
             this.toolBar2.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolBar2.TextFirst.ColorNormal = System.Drawing.Color.Black;
-            this.toolBar2.TextFirst.FontDown = new System.Drawing.Font("微软雅黑", 20F);
-            this.toolBar2.TextFirst.FontMove = new System.Drawing.Font("微软雅黑", 20F);
             this.toolBar2.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolBar2.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
             this.toolBar2.Trans = 150;
