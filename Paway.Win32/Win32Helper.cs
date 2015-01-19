@@ -256,6 +256,7 @@ namespace Paway.Win32
         /// <returns>返回窗体名称列表</returns>
         public static List<string> FindStringEnd(string find)
         {
+            if (find == null) find = string.Empty;
             string result = find;
             NativeMethods.EnumWindows(new NativeMethods.EnumWindowsStr(EnumCallBack_StrEnd), ref result);
             List<string> list = new List<string>();
@@ -284,6 +285,7 @@ namespace Paway.Win32
         /// <returns>返回窗体句柄列表</returns>
         public static List<IntPtr> FindHandleEnd(string find)
         {
+            if (find == null) find = string.Empty;
             string result = find;
             NativeMethods.EnumWindows(new NativeMethods.EnumWindowsStr(EnumCallBack_HandleEnd), ref result);
             List<IntPtr> list = new List<IntPtr>();
@@ -312,6 +314,7 @@ namespace Paway.Win32
         /// <returns>返回窗体名称、句柄列表</returns>
         public static Dictionary<IntPtr, string> FindWindowEnd(string find)
         {
+            if (find == null) find = string.Empty;
             string result = find;
             NativeMethods.EnumWindows(new NativeMethods.EnumWindowsStr(EnumCallBack_End), ref result);
             Dictionary<IntPtr, string> list = new Dictionary<IntPtr, string>();
