@@ -42,6 +42,11 @@ namespace Paway.Test
                 //Bitmap fo = Paway.Helper.BitmapHelper.GetBitmapFormFile(@"d:\4.png");
                 //var a = ImageRecognitionHelper.SearchBitmap_Test(fo, on);
 
+                //Color color = Color.FromArgb(30, 210, 120);
+                //int[] list = Paway.Helper.BitmapHelper.RGBToHSL(color);
+                //Color temp = Paway.Helper.BitmapHelper.HSLToRGB(list[0], list[1], list[2] + 20);
+                //temp = Paway.Helper.BitmapHelper.HSLToRGB(list[0], list[1], list[2] - 20);
+
                 Application.Run(new Form2());
             }
             catch (Exception ex)

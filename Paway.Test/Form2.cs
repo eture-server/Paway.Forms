@@ -26,7 +26,7 @@ namespace Paway.Test
 
         void toolUp_ItemClick(object sender, EventArgs e)
         {
-            toolBar2.Items.RemoveAt(1);
+            toolBar2.Items.Add(new ToolItem(DateTime.Now.Second.ToString()));
             //toolBar2.Items.Clear();
         }
 
@@ -41,7 +41,7 @@ namespace Paway.Test
             {
                 toolBar2.Items.Insert(0, new ToolItem(i.ToString()));
             }
-            for (int i = 0; i < 300; i++)
+            for (int i = 0; i < 10; i++)
             {
                 toolBar2.Items.Add(new ToolItem(i.ToString()));
             }

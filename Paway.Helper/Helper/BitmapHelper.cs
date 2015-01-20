@@ -653,6 +653,116 @@ namespace Paway.Helper
         }
 
         #endregion
+
+        #region RGB<->HSB
+        /// <summary>
+        /// RGB空间到HSL空间的转换
+        /// 色调-饱和度-亮度(HSB) 转 Color
+        /// </summary>
+        public static Color HSLToRGB(int H, int S, int L)
+        {
+            if (H > 360) H = 360; if (H < 0) H = 0;
+            if (S > 100) S = 100; if (S < 0) S = 0;
+            if (L > 100) L = 100; if (L < 0) L = 0;
+            H = H * 255 / 360;
+            S = S * 255 / 100;
+            L = L * 255 / 100;
+
+            decimal fractionalSector;
+            decimal sectorNumber;
+            decimal sectorPos;
+            sectorPos = (Convert.ToDecimal(H) / 255 * 360) / 60;
+            sectorNumber = Convert.ToInt32(Math.Floor(Convert.ToDouble(sectorPos)));
+            fractionalSector = sectorPos - sectorNumber;
+
+            decimal p;
+            decimal q;
+            decimal t;
+
+            decimal r = 0;
+            decimal g = 0;
+            decimal b = 0;
+            decimal ss = Convert.ToDecimal(S) / 255;
+            decimal vv = Convert.ToDecimal(L) / 255;
+
+            p = vv * (1 - ss);
+            q = vv * (1 - (ss * fractionalSector));
+            t = vv * (1 - (ss * (1 - fractionalSector)));
+
+            switch (Convert.ToInt32(sectorNumber))
+            {
+                case 0:
+                    r = vv;
+                    g = t;
+                    b = p;
+                    break;
+                case 1:
+                    r = q;
+                    g = vv;
+                    b = p;
+                    break;
+                case 2:
+                    r = p;
+                    g = vv;
+                    b = t;
+                    break;
+                case 3:
+                    r = p;
+                    g = q;
+                    b = vv;
+                    break;
+                case 4:
+                    r = t;
+                    g = p;
+                    b = vv;
+                    break;
+                case 5:
+                    r = vv;
+                    g = p;
+                    b = q;
+                    break;
+            }
+            return Color.FromArgb((r * 255).ToInt(), (g * 255).ToInt(), (b * 255).ToInt());
+        }
+
+        /// <summary>
+        /// RGB空间到HSL空间的转换
+        /// Color 转 色调-饱和度-亮度(HSB)
+        /// </summary>
+        public static int[] RGBToHSL(Color color)
+        {
+            double hue = 0;
+
+            double Red = (double)color.R / 255;
+            double Green = (double)color.G / 255;
+            double Blue = (double)color.B / 255;
+            double max = Math.Max(Red, Math.Max(Green, Blue));
+            double min = Math.Min(Red, Math.Min(Green, Blue));
+
+            if (max == Red && Green >= Blue)
+            {
+                if (max - min == 0) hue = 0.0;
+                else hue = 60 * (Green - Blue) / (max - min);
+            }
+            else if (max == Red && Green < Blue)
+            {
+                hue = 60 * (Green - Blue) / (max - min) + 360;
+            }
+            else if (max == Green)
+            {
+                hue = 60 * (Blue - Red) / (max - min) + 120;
+            }
+            else if (max == Blue)
+            {
+                hue = 60 * (Red - Green) / (max - min) + 240;
+            }
+            double sat = (max == 0) ? 0 : (1 - (min / max));
+
+            int[] HSL = new int[3] { hue.ToInt(), (sat * 100).ToInt(), (max * 100).ToInt() };
+            return HSL;
+        }
+
+        #endregion
     }
     /// <summary>
     /// 图片转换类型

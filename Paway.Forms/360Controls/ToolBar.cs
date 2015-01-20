@@ -41,7 +41,7 @@ namespace Paway.Forms
             set
             {
                 this._normalImage = value;
-                base.Invalidate();
+                this.Invalidate(this.ClientRectangle);
             }
         }
         /// <summary>
@@ -64,7 +64,7 @@ namespace Paway.Forms
             set
             {
                 this._downImage = value;
-                base.Invalidate();
+                this.Invalidate(this.ClientRectangle);
             }
         }
         /// <summary>
@@ -87,8 +87,7 @@ namespace Paway.Forms
             set
             {
                 this._moveImage = value;
-
-                base.Invalidate();
+                this.Invalidate(this.ClientRectangle);
             }
         }
         /// <summary>
@@ -1657,7 +1656,7 @@ namespace Paway.Forms
                 {
                     InvaRectDesc(item, TMouseState.Normal);
                 }
-                if (item.MouseState == TMouseState.Down)
+                if (!_iMultiple && item.MouseState == TMouseState.Down)
                 {
                     InvalidateItem(item, TMouseState.Move);
                 }
@@ -1694,6 +1693,7 @@ namespace Paway.Forms
                     Calctem(this.Items[count], ref xPos, ref yPos, false);
                     Calctem(this.Items[count + 1], ref xPos, ref yPos, true);
                     UpdateScroll(true);
+                    this.InvalidateItem(this.Items[count + 1]);
                 }
                 else
                 {
