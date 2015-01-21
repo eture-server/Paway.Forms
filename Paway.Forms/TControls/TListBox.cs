@@ -22,14 +22,9 @@ namespace Paway.Forms
         public TListBox()
         {
             this.SetStyle(
-                ControlStyles.UserPaint |
                 ControlStyles.AllPaintingInWmPaint |
-                ControlStyles.OptimizedDoubleBuffer |
-                ControlStyles.ResizeRedraw |
-                ControlStyles.Selectable |
-                ControlStyles.SupportsTransparentBackColor, true);
+                ControlStyles.OptimizedDoubleBuffer, true);
             this.UpdateStyles();
-
             this.ItemHeight = 30;
             this.DrawMode = DrawMode.OwnerDrawFixed;
             this.BorderStyle = BorderStyle.None;

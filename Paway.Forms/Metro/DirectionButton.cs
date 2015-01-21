@@ -37,8 +37,6 @@ namespace Paway.Forms.Metro
                 ControlStyles.UserPaint |
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer |
-                ControlStyles.ResizeRedraw |
-                ControlStyles.Selectable |
                 ControlStyles.SupportsTransparentBackColor, true);
             this.UpdateStyles();
         }

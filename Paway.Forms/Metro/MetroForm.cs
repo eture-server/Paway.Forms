@@ -72,11 +72,11 @@ namespace Paway.Forms.Metro
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.ResizeRedraw |
                 ControlStyles.Selectable |
-                ControlStyles.SupportsTransparentBackColor, true);
+                ControlStyles.ContainerControl, true);
             this.SetStyle(ControlStyles.Opaque, false);
-            this.BackColor = this.Renderer.BackColor;
             this.UpdateStyles();
 
+            this.BackColor = this.Renderer.BackColor;
             InitializeComponent();
         }
 

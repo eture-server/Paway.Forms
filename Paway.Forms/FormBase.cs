@@ -576,7 +576,7 @@ namespace Paway.Forms
                     g.FillRectangle(brush, temp);
                 }
             }
-            else
+            else if (this.BackgroundImage == null)
             {
                 TranColor = BackColor;
                 g.FillRectangle(new SolidBrush(TranColor), this.ClientRectangle);

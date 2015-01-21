@@ -28,12 +28,8 @@ namespace Paway.Forms
             : base()
         {
             this.SetStyle(
-                ControlStyles.UserPaint |
                 ControlStyles.AllPaintingInWmPaint |
-                ControlStyles.OptimizedDoubleBuffer |
-                ControlStyles.ResizeRedraw |
-                ControlStyles.Selectable |
-                ControlStyles.SupportsTransparentBackColor, true);
+                ControlStyles.OptimizedDoubleBuffer, true);
             this.UpdateStyles();
 
             this.CellMouseEnter += ComBoxGridView_CellMouseEnter;
