@@ -41,7 +41,7 @@ namespace Paway.Test
             {
                 toolBar2.Items.Insert(0, new ToolItem(i.ToString()));
             }
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 300; i++)
             {
                 toolBar2.Items.Add(new ToolItem(i.ToString()));
             }

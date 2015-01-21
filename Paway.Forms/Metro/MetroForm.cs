@@ -67,12 +67,12 @@ namespace Paway.Forms.Metro
         public MetroForm()
         {
             this.SetStyle(
-               ControlStyles.AllPaintingInWmPaint |
-               ControlStyles.OptimizedDoubleBuffer |
-               ControlStyles.ResizeRedraw |
-               ControlStyles.Selectable |
-               ControlStyles.ContainerControl |
-               ControlStyles.UserPaint, true);
+                ControlStyles.UserPaint |
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.ResizeRedraw |
+                ControlStyles.Selectable |
+                ControlStyles.SupportsTransparentBackColor, true);
             this.SetStyle(ControlStyles.Opaque, false);
             this.BackColor = this.Renderer.BackColor;
             this.UpdateStyles();

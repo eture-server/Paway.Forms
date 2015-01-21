@@ -75,10 +75,8 @@ namespace Mobot.Imaging
             }
             else
             {
-                ImgCompInterop.
-                CompareImage(image, subImage, area, out location, out similarity);
+                ImgCompInterop.CompareImage(image, subImage, area, out location, out similarity);
             }
-
         }
         static void StartCompareServer(int serverPort)
         {

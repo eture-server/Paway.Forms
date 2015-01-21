@@ -205,7 +205,6 @@
             this.toolBar2.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(127)))), ((int)(((byte)(104)))));
             this.toolBar2.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(72)))), ((int)(((byte)(38)))));
             this.toolBar2.TBrush.ColorNormal = System.Drawing.Color.CornflowerBlue;
-            this.toolBar2.TBrush.ColorSpace = System.Drawing.Color.Ivory;
             this.toolBar2.TChange.ColorDown = System.Drawing.Color.Blue;
             this.toolBar2.TChange.ColorMove = System.Drawing.Color.Red;
             this.toolBar2.TChange.ColorNormal = System.Drawing.Color.Yellow;

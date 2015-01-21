@@ -16,7 +16,7 @@ namespace Paway.Forms
     /// <summary>
     /// 自定义基控件
     /// </summary>
-    [Designer("System.Windows.Forms.Design.ParentControlDesigner,   System.Design ")]
+    [Designer("System.Windows.Forms.Design.ParentControlDesigner, System.Design")]
     public class TControl : UserControl, IControl
     {
         #region 变量
@@ -73,6 +73,7 @@ namespace Paway.Forms
                 ControlStyles.ResizeRedraw |
                 ControlStyles.Selectable |
                 ControlStyles.SupportsTransparentBackColor, true);
+            this.SetStyle(ControlStyles.Opaque, false);
             this.UpdateStyles();
             InitMethod.Init(this);
             InitShow();

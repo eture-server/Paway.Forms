@@ -197,8 +197,6 @@ namespace Mobot.Imaging
         }
 
         private static Object thisLock = new Object();
-        private static Object imageLock = new Object();
-        private static Object subImageLock = new Object();
         /// <summary>
         /// 在图片中的指定区域内查找图标。
         /// </summary>
@@ -225,7 +223,7 @@ namespace Mobot.Imaging
 
             Size imageSize, subImageSize;
             byte[] imageRawData, subImageRawData;
-            lock (imageLock)
+            lock (image)
             {
                 //先转换为8位灰度图像
                 Bitmap image8bit = image.Clone() as Bitmap;
@@ -241,7 +239,7 @@ namespace Mobot.Imaging
                 image8bit.Dispose();
                 image8bit = null;
             }
-            lock (subImageLock)
+            lock (subImage)
             {
                 Bitmap subImage8bit = subImage.Clone() as Bitmap;
                 if (subImage8bit.PixelFormat != PixelFormat.Format8bppIndexed)

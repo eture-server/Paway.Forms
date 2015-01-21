@@ -53,8 +53,12 @@ namespace Paway.Forms
         public TNumTestBox()
         {
             this.SetStyle(
+                ControlStyles.UserPaint |
                 ControlStyles.AllPaintingInWmPaint |
-                ControlStyles.OptimizedDoubleBuffer , true);
+                ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.ResizeRedraw |
+                ControlStyles.Selectable |
+                ControlStyles.SupportsTransparentBackColor, true);
             this.UpdateStyles();
 
             base.Text = "0";

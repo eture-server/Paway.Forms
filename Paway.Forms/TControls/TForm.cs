@@ -147,6 +147,7 @@ namespace Paway.Forms
                 ControlStyles.ResizeRedraw |
                 ControlStyles.Selectable |
                 ControlStyles.SupportsTransparentBackColor, true);
+            this.SetStyle(ControlStyles.Opaque, false);
             this.UpdateStyles();
             InitMethod.Init(this);
             toolTop = new ToolTip();

@@ -131,11 +131,6 @@ namespace Paway.Forms
         /// </summary>
         public ToolBar()
         {
-            this.SetStyle(
-               ControlStyles.ResizeRedraw |
-               ControlStyles.Selectable, true);
-            this.SetStyle(ControlStyles.Opaque, false);
-            this.UpdateStyles();
             InitializeComponent();
             Progress();
             InitChange();
@@ -810,8 +805,10 @@ namespace Paway.Forms
             base.OnPaint(e);
             Graphics g = e.Graphics;
             g.TranslateTransform(BodyBounds.X, BodyBounds.Y);
+            //g.PixelOffsetMode = PixelOffsetMode.Half; //与AntiAlias作用相反
             g.SmoothingMode = SmoothingMode.AntiAlias;
             RectangleF temp = g.VisibleClipBounds;
+            //修理毛边
             temp = new RectangleF(temp.X - 1, temp.Y - 1, temp.Width + 2, temp.Height + 2);
             TranColor = TBackGround.ColorSpace;
             g.FillRectangle(new SolidBrush(TranColor), temp);

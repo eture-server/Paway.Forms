@@ -85,12 +85,6 @@ namespace Paway.Forms
         /// </summary>
         public FormBase()
         {
-            this.SetStyle(
-               ControlStyles.ResizeRedraw |
-               ControlStyles.Selectable |
-               ControlStyles.ContainerControl, true);
-            this.SetStyle(ControlStyles.Opaque, false);
-            this.UpdateStyles();
             this.Initialize();
             base.Padding = new Padding(1, 26, 1, 1);
             if (IMouseMove)
@@ -577,6 +571,7 @@ namespace Paway.Forms
                     blend.Factors = new float[] { 1f, 0.5f, 0f };
                     blend.Positions = new float[] { 0f, 0.5f, 1f };
                     Rectangle temp = this.ClientRectangle;
+                    //修理毛边
                     temp = new Rectangle(temp.X - 1, temp.Y - 1, temp.Width + 2, temp.Height + 2);
                     g.FillRectangle(brush, temp);
                 }

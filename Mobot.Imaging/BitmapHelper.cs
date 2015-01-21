@@ -9,7 +9,6 @@ using log4net;
 using Mobot.Imaging;
 using System.Diagnostics;
 
-[assembly: CLSCompliant(true)]
 namespace Mobot.Imaging
 {
     /// <summary>
@@ -43,7 +42,6 @@ namespace Mobot.Imaging
             }
         }
 
-        private static object sourceLock = new object();
         /// <summary>
         /// 创建位图对象的一份副本。
         /// </summary>
@@ -52,7 +50,7 @@ namespace Mobot.Imaging
         public static unsafe Bitmap CloneBitmap(Bitmap source)
         {
             Bitmap bitmap2;
-            lock (sourceLock)
+            lock (source)
             {
                 CheckBitmap(source);
                 Bitmap bmp = new Bitmap(source.Width, source.Height, PixelFormat.Format32bppArgb);
@@ -62,8 +60,8 @@ namespace Mobot.Imaging
                 {
                     bd = LockBits(source, ImageLockMode.ReadOnly);
                     data2 = LockBits(bmp, ImageLockMode.WriteOnly);
-                    uint* numPtr = (uint*) bd.Scan0;
-                    uint* numPtr2 = (uint*) data2.Scan0;
+                    uint* numPtr = (uint*)bd.Scan0;
+                    uint* numPtr2 = (uint*)data2.Scan0;
                     int num = source.Width * source.Height;
                     for (int i = 0; i < num; i++)
                     {
@@ -173,9 +171,9 @@ namespace Mobot.Imaging
                     }
                     else
                     {
-                        int num8 = (int) ((num6 & 0xff) - (num7 & 0xff));
-                        int num9 = (int) (((num6 >> 8) & 0xff) - ((num7 >> 8) & 0xff));
-                        int num10 = (int) (((num6 >> 0x10) & 0xff) - ((num7 >> 0x10) & 0xff));
+                        int num8 = (int)((num6 & 0xff) - (num7 & 0xff));
+                        int num9 = (int)(((num6 >> 8) & 0xff) - ((num7 >> 8) & 0xff));
+                        int num10 = (int)(((num6 >> 0x10) & 0xff) - ((num7 >> 0x10) & 0xff));
                         if (((num6 & 0xff000000) == 0) || (((num7 & 0xff000000) == 0xff000000) && ((((num8 * num8) + (num9 * num9)) + (num10 * num10)) > tolerance)))
                         {
                             return false;
@@ -283,10 +281,9 @@ namespace Mobot.Imaging
             }
         }
 
-        private static object imageLock = new object();
         public static unsafe Bitmap CropBitmap(Bitmap image, Rectangle area)
         {
-            lock (imageLock)
+            lock (image)
             {
                 CheckBitmap(image);
                 Rectangle rect = new Rectangle(0, 0, image.Width, image.Height);
@@ -341,8 +338,8 @@ namespace Mobot.Imaging
             if (zoom > 4f)
             {
                 BitmapData bd = LockBits(bitmap, ImageLockMode.WriteOnly);
-                float num = Math.Max(e.ClipRectangle.X + ((zoom - (((float) (e.ClipRectangle.X - picBounds.X)) % zoom)) % zoom), (float) picBounds.X);
-                float num2 = Math.Max(e.ClipRectangle.Y + ((zoom - (((float) (e.ClipRectangle.Y - picBounds.Y)) % zoom)) % zoom), (float) picBounds.Y);
+                float num = Math.Max(e.ClipRectangle.X + ((zoom - (((float)(e.ClipRectangle.X - picBounds.X)) % zoom)) % zoom), (float)picBounds.X);
+                float num2 = Math.Max(e.ClipRectangle.Y + ((zoom - (((float)(e.ClipRectangle.Y - picBounds.Y)) % zoom)) % zoom), (float)picBounds.Y);
                 float num3 = Math.Min(e.ClipRectangle.Right, picBounds.Right);
                 float num4 = Math.Min(e.ClipRectangle.Bottom, picBounds.Bottom);
                 try
@@ -380,7 +377,7 @@ namespace Mobot.Imaging
                             uint* numPtr3 = (uint*)(((byte*)bd.Scan0) + ((((int)n) * bd.Width) * 4));
                             for (float num11 = num; num11 < num3; num11 += zoom)
                             {
-                                uint* numPtr4 = numPtr3 + ((int) num11);
+                                uint* numPtr4 = numPtr3 + ((int)num11);
                                 numPtr4[0] ^= 0x838383;
                             }
                         }
@@ -402,14 +399,12 @@ namespace Mobot.Imaging
             return FindDifferencies(b1, b2, 10, throwExIfNotEqual);
         }
 
-        private static object bmp1Lock = new object();
-        private static object bmp2Lock = new object();
         private static List<Rectangle> FindDifferencies(Bitmap bmp1, Bitmap bmp2, int distance, bool throwExIfNotEqual)
         {
             List<Rectangle> list;
-            lock (bmp1Lock)
+            lock (bmp1)
             {
-                lock (bmp2Lock)
+                lock (bmp2)
                 {
                     int height = bmp1.Height;
                     int width = bmp1.Width;
@@ -676,7 +671,7 @@ namespace Mobot.Imaging
             }
             return isMasked;
         }
-        
+
         /// <summary>
         /// 判断图像指定区域内是否设置了掩码。
         /// </summary>
@@ -692,8 +687,8 @@ namespace Mobot.Imaging
                 {
                     for (int j = 0; j < rect.Width; j++)
                     {
-                       if(((numPtr++)[0] & 0xff000000) != 0xff000000)
-                        return true;
+                        if (((numPtr++)[0] & 0xff000000) != 0xff000000)
+                            return true;
                     }
 
                 }
@@ -703,7 +698,7 @@ namespace Mobot.Imaging
 
         public static Bitmap ResizeBitmap(Bitmap image, IResizeOptions options)
         {
-            return ResizeBitmap(image, options.Magnification, (InterpolationMode) options.InterpolationMode);
+            return ResizeBitmap(image, options.Magnification, (InterpolationMode)options.InterpolationMode);
         }
 
         public static Bitmap ResizeBitmap(Bitmap image, Size size, InterpolationMode mode)
@@ -724,7 +719,7 @@ namespace Mobot.Imaging
             {
                 throw new ArgumentException("Parameter cannot be zero", "magnification");
             }
-            return ResizeBitmap(image, new Size((int) (image.Width * magnification), (int) (image.Height * magnification)), mode);
+            return ResizeBitmap(image, new Size((int)(image.Width * magnification), (int)(image.Height * magnification)), mode);
         }
 
         private static List<Rectangle> UnionRectangles(List<Rectangle> res)

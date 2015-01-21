@@ -36,13 +36,12 @@ namespace Paway.Forms
         public QQCheckBox()
         {
             this.SetStyle(
+                ControlStyles.UserPaint |
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.ResizeRedraw |
                 ControlStyles.Selectable |
-                ControlStyles.SupportsTransparentBackColor |
-                ControlStyles.UserPaint, true);
-            this.SetStyle(ControlStyles.Opaque, false);
+                ControlStyles.SupportsTransparentBackColor, true);
             this.UpdateStyles();
             InitMethod.Init(this);
         }

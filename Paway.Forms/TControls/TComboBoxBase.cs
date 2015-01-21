@@ -24,8 +24,12 @@ namespace Paway.Forms
         public TComboBoxBase()
         {
             this.SetStyle(
+                ControlStyles.UserPaint |
                 ControlStyles.AllPaintingInWmPaint |
-                ControlStyles.OptimizedDoubleBuffer, true);
+                ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.ResizeRedraw |
+                ControlStyles.Selectable |
+                ControlStyles.SupportsTransparentBackColor, true);
             this.UpdateStyles();
             this.DrawMode = DrawMode.OwnerDrawFixed;
             this.DrawItem += DrawCombobox_DrawItem;

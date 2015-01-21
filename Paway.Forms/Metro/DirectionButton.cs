@@ -34,10 +34,12 @@ namespace Paway.Forms.Metro
         public DirectionButton()
         {
             this.SetStyle(
-                ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.UserPaint |
-                ControlStyles.SupportsTransparentBackColor |
-                ControlStyles.OptimizedDoubleBuffer, true);
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.ResizeRedraw |
+                ControlStyles.Selectable |
+                ControlStyles.SupportsTransparentBackColor, true);
             this.UpdateStyles();
         }
 
