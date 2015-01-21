@@ -46,6 +46,7 @@ namespace Paway.Forms
                 {
                     _fDown = value;
                 }
+                HeightNormal = InitHeight(value);
                 OnValueChange(value);
             }
         }
@@ -58,7 +59,11 @@ namespace Paway.Forms
         public Font FontMove
         {
             get { return _fMove; }
-            set { _fMove = value; }
+            set
+            {
+                _fMove = value;
+                HeightMove = InitHeight(value);
+            }
         }
 
         private Font _fDown = new Font("微软雅黑", 12f, FontStyle.Regular, GraphicsUnit.Point, (byte)1);
@@ -69,8 +74,22 @@ namespace Paway.Forms
         public Font FontDown
         {
             get { return _fDown; }
-            set { _fDown = value; }
+            set
+            {
+                _fDown = value;
+                HeightDown = InitHeight(value);
+            }
         }
+        #region 内部初始化字体单行高度
+        internal int HeightNormal;
+        internal int HeightMove;
+        internal int HeightDown;
+        private int InitHeight(Font font)
+        {
+            return TextRenderer.MeasureText("你好", font).Height;
+        }
+
+        #endregion
 
         private Color _cNormal = Color.Empty;
         /// <summary>
@@ -143,6 +162,8 @@ namespace Paway.Forms
             set
             {
                 _stringVertical = value;
+                this.StringFormat.Alignment = value;
+                this.TextFormat = InitTextFormat(this.StringFormat);
                 OnValueChange(value);
             }
         }
@@ -158,9 +179,45 @@ namespace Paway.Forms
             set
             {
                 _stringHorizontal = value;
+                this.StringFormat.LineAlignment = value;
+                this.TextFormat = InitTextFormat(this.StringFormat);
                 OnValueChange(value);
             }
         }
+        #region 内部初始化文本布局
+        internal StringFormat StringFormat = new StringFormat();
+        internal TextFormatFlags TextFormat = new TextFormatFlags();
+        private TextFormatFlags InitTextFormat(StringFormat format)
+        {
+            TextFormatFlags text = TextFormatFlags.EndEllipsis;
+            switch (format.Alignment)
+            {
+                case StringAlignment.Near:
+                    text |= TextFormatFlags.Left;
+                    break;
+                case StringAlignment.Center:
+                    text |= TextFormatFlags.HorizontalCenter;
+                    break;
+                case StringAlignment.Far:
+                    text |= TextFormatFlags.Right;
+                    break;
+            }
+            switch (format.LineAlignment)
+            {
+                case StringAlignment.Near:
+                    text |= TextFormatFlags.Top;
+                    break;
+                case StringAlignment.Center:
+                    text |= TextFormatFlags.VerticalCenter;
+                    break;
+                case StringAlignment.Far:
+                    text |= TextFormatFlags.Bottom;
+                    break;
+            }
+            return text;
+        }
+
+        #endregion
 
         /// <summary>
         /// 属性值
@@ -169,6 +226,19 @@ namespace Paway.Forms
         public override string ToString()
         {
             return null;
+        }
+        /// <summary>
+        /// 构造
+        /// 初始化
+        /// </summary>
+        public TProperties()
+        {
+            HeightNormal = InitHeight(FontNormal);
+            HeightMove = InitHeight(FontMove);
+            HeightDown = InitHeight(FontDown);
+            this.StringFormat.Alignment = _stringVertical;
+            this.StringFormat.LineAlignment = _stringHorizontal;
+            this.TextFormat = InitTextFormat(this.StringFormat);
         }
     }
 }

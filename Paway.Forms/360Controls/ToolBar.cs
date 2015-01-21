@@ -872,25 +872,17 @@ namespace Paway.Forms
             {
                 if (g != null)
                 {
-                    StringFormat format = new StringFormat()
-                    {
-                        Alignment = item.TColor.StringVertical,
-                        LineAlignment = item.TColor.StringHorizontal,
-                        Trimming = StringTrimming.EllipsisWord
-                    };
                     Rectangle temp = new Rectangle(item.Rectangle.X, item.Rectangle.Y + BodyBounds.Y,
                         item.Rectangle.Width, item.Rectangle.Height);
                     switch (_tDirection)
                     {
                         case TDirection.Level:
-                            TextRenderer.DrawText(g, item.Text, item.TColor.FontNormal, temp, item.TColor.ColorNormal, TextFormat(format));
+                            TextRenderer.DrawText(g, item.Text, item.TColor.FontNormal, temp, item.TColor.ColorNormal, item.TColor.TextFormat);
                             break;
                         case TDirection.Vertical:
-                            format.Alignment = item.TColor.StringHorizontal;
-                            format.LineAlignment = item.TColor.StringVertical;
                             Color color = item.TColor.ColorNormal;
                             if (color == Color.Empty) color = Color.Black;
-                            g.DrawString(item.Text, item.TColor.FontNormal, new SolidBrush(color), temp, format);
+                            g.DrawString(item.Text, item.TColor.FontNormal, new SolidBrush(color), temp, item.TColor.StringFormat);
                             break;
                     }
                 }
@@ -1126,8 +1118,7 @@ namespace Paway.Forms
                 int headHeight = 0;
                 if (!string.IsNullOrEmpty(item.HeadDesc))
                 {
-                    headHeight = TextRenderer.MeasureText("你好", GetFont(item.MouseState, THeadDesc)).Height + _textSpace;
-                    //GetFont(item.MouseState, THeadDesc).GetHeight(g).ToInt() + _textSpace;
+                    headHeight = HeightFont(item.MouseState, THeadDesc) + _textSpace;
                     Rectangle rect = new Rectangle()
                     {
                         X = textRect.X,
@@ -1140,8 +1131,7 @@ namespace Paway.Forms
                 int endHeight = 0;
                 if (!string.IsNullOrEmpty(item.EndDesc))
                 {
-                    endHeight = TextRenderer.MeasureText("你好", GetFont(item.MouseState, TEndDesc)).Height + _textSpace;
-                    //GetFont(item.MouseState, TEndDesc).GetHeight(g).ToInt() + _textSpace;
+                    endHeight = HeightFont(item.MouseState, TEndDesc) + _textSpace;
                     Rectangle rect = new Rectangle()
                     {
                         X = textRect.X,
@@ -1161,10 +1151,8 @@ namespace Paway.Forms
                     string[] text = item.Text.Split(new string[] { "\r\n", "&" }, StringSplitOptions.RemoveEmptyEntries);
                     if (text.Length > 0)
                     {
-                        int fHight = TextRenderer.MeasureText("你好", GetFont(item.MouseState, TextFirst)).Height;
-                        //GetFont(item.MouseState, TextFirst).GetHeight(g).ToInt();
-                        int sHight = TextRenderer.MeasureText("你好", GetFont(item.MouseState, TextSencond)).Height;
-                        //GetFont(item.MouseState, TextSencond).GetHeight(g).ToInt();
+                        int fHight = HeightFont(item.MouseState, TextFirst);
+                        int sHight = HeightFont(item.MouseState, TextSencond);
                         int height = textRect.Height - fHight;
                         height -= (text.Length - 1) * sHight;
                         height -= (text.Length - 1) * _textSpace;
@@ -1194,6 +1182,21 @@ namespace Paway.Forms
             }
             DrawDesc(g, item, textRect);
         }
+        private int HeightFont(TMouseState state, TProperties pro)
+        {
+            switch (state)
+            {
+                case TMouseState.Normal:
+                case TMouseState.Leave:
+                    return pro.HeightDown;
+                case TMouseState.Move:
+                case TMouseState.Up:
+                    return pro.HeightMove;
+                case TMouseState.Down:
+                    return pro.HeightDown;
+            }
+            return 0;
+        }
         private Font GetFont(TMouseState state, TProperties pro)
         {
             switch (state)
@@ -1219,7 +1222,6 @@ namespace Paway.Forms
         {
             if (string.IsNullOrEmpty(item.Desc)) return;
             Size size = TextRenderer.MeasureText(item.Desc, GetFont(item.IMouseState, TDesc));
-            //g.MeasureString(item.Desc, GetFont(item.MouseState, TDesc));
             item.RectDesc = new Rectangle(rect.X + rect.Width - size.Width + (item.ContextMenuStrip == null ? 0 : 4),
                 rect.Y + (rect.Height - size.Height) / 2, size.Width, size.Height);
             DrawOtherDesc(g, item, TDesc, item.Desc, item.RectDesc, item.IMouseState);
@@ -1241,22 +1243,16 @@ namespace Paway.Forms
             Color color = this.ForeColor;
             Font font = desc.FontNormal;
 
-            StringFormat format = new StringFormat()
-            {
-                Alignment = desc.StringVertical,
-                LineAlignment = desc.StringHorizontal,
-                Trimming = StringTrimming.EllipsisWord
-            };
             if (!item.Enable)
             {
                 if (this.IText || item.IText)
                 {
-                    g.DrawString(text, font, new SolidBrush(color), rect, format);
+                    g.DrawString(text, font, new SolidBrush(color), rect, desc.StringFormat);
                 }
                 else
                 {
                     Rectangle temp = new Rectangle(rect.X + BodyBounds.X, rect.Y + BodyBounds.Y, rect.Width, rect.Height);
-                    TextRenderer.DrawText(g, text, font, temp, color, TextFormat(format));
+                    TextRenderer.DrawText(g, text, font, temp, color, desc.TextFormat);
                 }
                 return;
             }
@@ -1281,42 +1277,13 @@ namespace Paway.Forms
             if (color == Color.Empty) color = this.ForeColor;
             if (this.IText || item.IText)
             {
-                g.DrawString(text, font, new SolidBrush(color), rect, format);
+                g.DrawString(text, font, new SolidBrush(color), rect, desc.StringFormat);
             }
             else
             {
                 Rectangle temp = new Rectangle(rect.X + BodyBounds.X, rect.Y + BodyBounds.Y, rect.Width, rect.Height);
-                TextRenderer.DrawText(g, text, font, temp, color, TextFormat(format));
+                TextRenderer.DrawText(g, text, font, temp, color, desc.TextFormat);
             }
-        }
-        private TextFormatFlags TextFormat(StringFormat format)
-        {
-            TextFormatFlags text = TextFormatFlags.EndEllipsis;
-            switch (format.Alignment)
-            {
-                case StringAlignment.Near:
-                    text |= TextFormatFlags.Left;
-                    break;
-                case StringAlignment.Center:
-                    text |= TextFormatFlags.HorizontalCenter;
-                    break;
-                case StringAlignment.Far:
-                    text |= TextFormatFlags.Right;
-                    break;
-            }
-            switch (format.LineAlignment)
-            {
-                case StringAlignment.Near:
-                    text |= TextFormatFlags.Top;
-                    break;
-                case StringAlignment.Center:
-                    text |= TextFormatFlags.VerticalCenter;
-                    break;
-                case StringAlignment.Far:
-                    text |= TextFormatFlags.Bottom;
-                    break;
-            }
-            return text;
         }
         /// <summary>
         /// 判断右键菜单

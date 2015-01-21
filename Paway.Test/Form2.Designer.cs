@@ -156,17 +156,14 @@
             this.toolBar2.ImageSize = new System.Drawing.Size(32, 32);
             this.toolBar2.IMultiple = true;
             this.toolBar2.IShowToolTop = true;
-            toolItem18.Desc = "";
             toolItem18.TColor.ColorNormal = System.Drawing.Color.Red;
             toolItem18.TColor.StringVertical = System.Drawing.StringAlignment.Center;
             toolItem18.Text = "白酒";
-            toolItem19.Desc = "";
             toolItem19.EndDesc = "";
             toolItem19.HeadDesc = "呵呵";
             toolItem19.IChange = true;
             toolItem19.Text = "头部";
             toolItem20.Text = "1";
-            toolItem21.Desc = "";
             toolItem21.Text = "2\r\n1\r\n你好";
             toolItem22.Desc = "完全好";
             toolItem22.Text = "3";

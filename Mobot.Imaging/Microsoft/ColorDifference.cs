@@ -6,7 +6,6 @@ using System.Runtime.CompilerServices;
 
 namespace Mobot.Imaging.Microsoft
 {
-    [CLSCompliant(true)]
     public class ColorDifference
     {
         public ColorDifference()
