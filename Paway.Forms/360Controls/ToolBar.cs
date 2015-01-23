@@ -627,6 +627,20 @@ namespace Paway.Forms
             get { return new Size(300, 82); }
         }
 
+        /// <summary>
+        /// 获取或设置控件内的空白。
+        /// </summary>
+        [Description("获取或设置控件内的空白"), DefaultValue(typeof(Padding), "0, 0, 0, 0")]
+        public new Padding Padding
+        {
+            get { return base.Padding; }
+            set
+            {
+                base.Padding = value;
+                TRefresh();
+            }
+        }
+
         #endregion
 
         #region 事件定义
