@@ -154,7 +154,6 @@
             this.toolBar2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolBar2.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolBar2.ImageSize = new System.Drawing.Size(32, 32);
-            this.toolBar2.IMultiple = true;
             this.toolBar2.IShowToolTop = true;
             toolItem18.TColor.ColorNormal = System.Drawing.Color.Red;
             toolItem18.TColor.StringVertical = System.Drawing.StringAlignment.Center;

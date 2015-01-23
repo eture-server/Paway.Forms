@@ -1596,48 +1596,47 @@ namespace Paway.Forms
         }
         private void OnMouseUp(Point point, ToolItem item, EventArgs e)
         {
-            if (item.Rectangle.Contains(point))
+            if (!item.Rectangle.Contains(point)) return;
+
+            _iDown = false;
+            //事件
+            if (_tEvent == TEvent.Up && item == _tempItem)
             {
-                _iDown = false;
-                //事件
-                if (_tEvent == TEvent.Up && item == _tempItem)
+                if (item != this._selectedItem && !item.RectDesc.Contains(point))
                 {
-                    if (item != this._selectedItem && !item.RectDesc.Contains(point))
-                    {
-                        this._selectedItem = item;
-                        this._selectedIndex = this.Items.GetIndexOfRange(item);
-                        this.OnSelectedItemChanged(item, e);
-                    }
-                    if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
-                    {
-                        bool ifocus = false;
-                        if (item.RectDesc.Contains(point))
-                        {
-                            ifocus = this.OnEditClick(item, e);
-                        }
-                        if (!ifocus && item.ContextMenuStrip != null)
-                        {
-                            this._iFocus = true;
-                            InvalidateItem(item);
-                        }
-                    }
-                    else
-                    {
-                        this.OnItemClick(item, e);
-                    }
+                    this._selectedItem = item;
+                    this._selectedIndex = this.Items.GetIndexOfRange(item);
+                    this.OnSelectedItemChanged(item, e);
                 }
                 if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
                 {
-                    InvaRectDesc(item, TMouseState.Move);
+                    bool ifocus = false;
+                    if (item.RectDesc.Contains(point))
+                    {
+                        ifocus = this.OnEditClick(item, e);
+                    }
+                    if (!ifocus && item.ContextMenuStrip != null)
+                    {
+                        this._iFocus = true;
+                        InvalidateItem(item);
+                    }
                 }
                 else
                 {
-                    InvaRectDesc(item, TMouseState.Normal);
+                    this.OnItemClick(item, e);
                 }
-                if (!_iMultiple && item.MouseState == TMouseState.Down)
-                {
-                    InvalidateItem(item, TMouseState.Move);
-                }
+            }
+            if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
+            {
+                InvaRectDesc(item, TMouseState.Move);
+            }
+            else
+            {
+                InvaRectDesc(item, TMouseState.Normal);
+            }
+            if (!_iMultiple && _iCheckEvent && item.MouseState == TMouseState.Down)
+            {
+                InvalidateItem(item, TMouseState.Move);
             }
         }
         /// <summary>
