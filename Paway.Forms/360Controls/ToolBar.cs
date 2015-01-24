@@ -183,7 +183,7 @@ namespace Paway.Forms
                 {
                     _vScroll.Width = value;
                 }
-                this.Invalidate(this.ClientRectangle);
+                this.TRefresh();
             }
         }
 
@@ -356,10 +356,7 @@ namespace Paway.Forms
             set
             {
                 this._tDirection = value;
-                TPaint();
-                UpdateScroll();
-                BodyBounds.X = 0; BodyBounds.Y = 0;
-                this.Invalidate(this.ClientRectangle);
+                this.TRefresh();
             }
         }
 
@@ -420,6 +417,7 @@ namespace Paway.Forms
                 this._itemSize = value;
                 TPaint();
                 UpdateImageSize();
+                UpdateScroll();
                 this.Invalidate(this.ClientRectangle);
             }
         }
@@ -437,7 +435,7 @@ namespace Paway.Forms
             set
             {
                 this._itemSpace = value;
-                this.Invalidate(this.ClientRectangle);
+                this.TRefresh();
             }
         }
         /// <summary>
@@ -1084,7 +1082,7 @@ namespace Paway.Forms
                     case TILocation.Up:
                         int width = (_itemSize.Width - _imageSizeShow.Width - _textPading.Left - _textPading.Right) / 2;
                         imageRect.X = item.Rectangle.X + _textPading.Left + width;
-                        imageRect.Y = _textPading.Top;
+                        imageRect.Y = item.Rectangle.Y + _textPading.Top;
                         break;
                     case TILocation.Left:
                         int height = (_itemSize.Height - _imageSizeShow.Height - _textPading.Top - _textPading.Bottom) / 2;
@@ -1660,22 +1658,19 @@ namespace Paway.Forms
         {
             if (!ILoad) return;
 
-            if (this.ParentForm != null)
+            if (Items.Count > 1 && e.ListChangedType == ListChangedType.ItemAdded && e.NewIndex == Items.Count - 1)
             {
-                if (Items.Count > 1 && e.ListChangedType == ListChangedType.ItemAdded && e.NewIndex == Items.Count - 1)
-                {
-                    int count = this.Items.Count - 2;
-                    int xPos = this.Items[count].Rectangle.X;
-                    int yPos = this.Items[count].Rectangle.Y;
-                    Calctem(this.Items[count], ref xPos, ref yPos, false);
-                    Calctem(this.Items[count + 1], ref xPos, ref yPos, true);
-                    UpdateScroll(true);
-                    this.InvalidateItem(this.Items[count + 1]);
-                }
-                else
-                {
-                    TRefresh();
-                }
+                int count = this.Items.Count - 2;
+                int xPos = this.Items[count].Rectangle.X;
+                int yPos = this.Items[count].Rectangle.Y;
+                Calctem(this.Items[count], ref xPos, ref yPos, false);
+                Calctem(this.Items[count + 1], ref xPos, ref yPos, true);
+                UpdateScroll(true);
+                this.InvalidateItem(this.Items[count + 1]);
+            }
+            else
+            {
+                TRefresh();
             }
         }
         /// <summary>
@@ -2192,10 +2187,7 @@ namespace Paway.Forms
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            BodyBounds.Width = this.TWidth;
-            BodyBounds.Height = this.THeight;
-            TPaint();
-            UpdateScroll();
+            this.TRefresh();
         }
         /// <summary>
         /// 更新滚动条状态

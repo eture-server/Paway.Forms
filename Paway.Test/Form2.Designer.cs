@@ -61,6 +61,9 @@
             Paway.Forms.ToolItem toolItem31 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem32 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem33 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem34 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem35 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem36 = new Paway.Forms.ToolItem();
             this.toolUp = new Paway.Forms.ToolBar();
             this.toolBar2 = new Paway.Forms.ToolBar();
             this.toolBar3 = new Paway.Forms.ToolBar();
@@ -175,6 +178,9 @@
             toolItem30.Text = "zz1";
             toolItem31.Text = "A1";
             toolItem32.Text = "A2";
+            toolItem34.Image = global::Paway.Test.Properties.Resources.busy;
+            toolItem34.Text = "2";
+            toolItem35.Text = "1";
             this.toolBar2.Items.Add(toolItem18);
             this.toolBar2.Items.Add(toolItem19);
             this.toolBar2.Items.Add(toolItem20);
@@ -191,6 +197,9 @@
             this.toolBar2.Items.Add(toolItem31);
             this.toolBar2.Items.Add(toolItem32);
             this.toolBar2.Items.Add(toolItem33);
+            this.toolBar2.Items.Add(toolItem34);
+            this.toolBar2.Items.Add(toolItem35);
+            this.toolBar2.Items.Add(toolItem36);
             this.toolBar2.ItemSize = new System.Drawing.Size(60, 60);
             this.toolBar2.ItemSpace = 5;
             this.toolBar2.Location = new System.Drawing.Point(0, 0);
