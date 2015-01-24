@@ -417,6 +417,7 @@ namespace Paway.Forms
                 this._itemSize = value;
                 _vScroll.Visible = false;
                 _hScroll.Visible = false;
+                _vScroll2.Visible = false;
                 this.TPaint();
                 UpdateImageSize();
                 UpdateScroll();
@@ -1883,6 +1884,7 @@ namespace Paway.Forms
         {
             _vScroll.Visible = false;
             _hScroll.Visible = false;
+            _vScroll2.Visible = false;
             this.TPaint();
             UpdateScroll();
             this.Invalidate(this.ClientRectangle);
@@ -2059,6 +2061,10 @@ namespace Paway.Forms
         /// </summary>  
         private HScrollBar _hScroll;
         /// <summary>
+        /// 隐藏的垂直滚动条，与 水平滚动条 联动，尝试解决平板横向无法滑动。
+        /// </summary>
+        private VScrollBar _vScroll2;
+        /// <summary>
         /// 隐藏滚动条，实际有滚动效果，自动设置
         /// </summary>
         private bool iScrollHide;
@@ -2127,6 +2133,13 @@ namespace Paway.Forms
             _hScroll.Dock = DockStyle.Bottom;
             _hScroll.Height = _tScrollHeight;
             Controls.Add(_hScroll);
+            {
+                _vScroll2 = new VScrollBar();
+                //_vScroll2.Scroll += _hScroll_Scroll;
+                _vScroll2.Dock = DockStyle.Right;
+                _vScroll2.Width = 0;
+                Controls.Add(_vScroll2);
+            }
 
             _vScroll = new VScrollBar();
             _vScroll.Scroll += _vScroll_Scroll;
@@ -2136,6 +2149,7 @@ namespace Paway.Forms
 
             _hScroll.Visible = false;
             _vScroll.Visible = false;
+            _vScroll2.Visible = false;
         }
 
         /// <summary>
@@ -2152,7 +2166,7 @@ namespace Paway.Forms
                     FixScroll(value);
                     break;
                 case TDirection.Vertical:
-                    value = _hScroll.Value - e.Delta * this.ItemSize.Width / 120;
+                    value = _vScroll2.Value - e.Delta * this.ItemSize.Width / 120;
                     FixScroll(value);
                     break;
             }
@@ -2175,10 +2189,11 @@ namespace Paway.Forms
                     Offset.Y = -value;
                     break;
                 case TDirection.Vertical:
-                    max = _hScroll.Maximum - _hScroll.SmallChange;
+                    max = _vScroll2.Maximum - _vScroll2.SmallChange;
                     if (value < 0) value = 0;
                     if (value > max) value = max;
                     _hScroll.Value = value;
+                    _vScroll2.Value = value;
                     Offset.X = -value;
                     break;
             }
@@ -2196,6 +2211,7 @@ namespace Paway.Forms
             base.OnResize(e);
             _vScroll.Visible = false;
             _hScroll.Visible = false;
+            _vScroll2.Visible = false;
             this.TPaint();
             UpdateScroll();
         }
@@ -2207,6 +2223,7 @@ namespace Paway.Forms
             bool valid = _vScroll.Visible || _hScroll.Visible;
             _vScroll.Visible = false;
             _hScroll.Visible = false;
+            _vScroll2.Visible = false;
             iScrollHide = false;
             switch (TDirection)
             {
@@ -2228,8 +2245,9 @@ namespace Paway.Forms
                     {
                         iScrollHide = true;
                         _hScroll.Visible = _iScroll;
+                        _vScroll2.Visible = _iScroll;
                     }
-                    else if (_hScroll.Value >= 0)
+                    else if (_vScroll2.Value >= 0)
                     {
                         FixScroll(0, false);
                     }
@@ -2259,17 +2277,21 @@ namespace Paway.Forms
                         break;
                     case TDirection.Vertical:
                         max = GetWidth() - this.Width;
-                        if (_hScroll.Value > max)
+                        if (_vScroll2.Value > max)
                         {
                             FixScroll(max, false);
                         }
-                        _hScroll.Maximum = GetWidth();
-                        _hScroll.LargeChange = this.Width / 2;
-                        _hScroll.SmallChange = _hScroll.LargeChange;
-                        _hScroll.Maximum = max + _hScroll.LargeChange;
-
+                        _vScroll2.Maximum = GetWidth();
+                        _vScroll2.LargeChange = this.Width / 2;
+                        _vScroll2.SmallChange = _vScroll2.LargeChange;
+                        _vScroll2.Maximum = max + _vScroll2.LargeChange;
+                        {
+                            _hScroll.LargeChange = _vScroll2.LargeChange;
+                            _hScroll.SmallChange = _vScroll2.SmallChange;
+                            _hScroll.Maximum = _vScroll2.Maximum;
+                        }
                         valid = !valid | toLast & toValid;
-                        FixScroll(toLast ? _hScroll.Maximum : 0, valid);
+                        FixScroll(toLast ? _vScroll2.Maximum : 0, valid);
                         break;
                 }
             }
@@ -2288,6 +2310,7 @@ namespace Paway.Forms
                 Offset.X = 0;
             }
             Offset.Offset(-diff, 0);
+            _vScroll2.Value = _hScroll.Value;
             if (diff != 0 || e.NewValue == 0)
             {
                 this.Invalidate(this.ClientRectangle);
