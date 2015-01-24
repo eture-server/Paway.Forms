@@ -415,7 +415,9 @@ namespace Paway.Forms
             set
             {
                 this._itemSize = value;
-                TPaint();
+                _vScroll.Visible = false;
+                _hScroll.Visible = false;
+                this.TPaint();
                 UpdateImageSize();
                 UpdateScroll();
                 this.Invalidate(this.ClientRectangle);
@@ -635,7 +637,7 @@ namespace Paway.Forms
             set
             {
                 base.Padding = value;
-                TRefresh();
+                this.TRefresh();
             }
         }
 
@@ -801,14 +803,6 @@ namespace Paway.Forms
 
         #region Override Methods
         /// <summary>
-        /// 重绘
-        /// </summary>
-        protected override void OnVisibleChanged(EventArgs e)
-        {
-            base.OnVisibleChanged(e);
-            this.Invalidate(this.ClientRectangle);
-        }
-        /// <summary>
         /// 引发 System.Windows.Forms.Form.Paint 事件。
         /// </summary>
         /// <param name="e">包含事件数据的 System.Windows.Forms.PaintEventArgs。</param>
@@ -816,7 +810,7 @@ namespace Paway.Forms
         {
             base.OnPaint(e);
             Graphics g = e.Graphics;
-            g.TranslateTransform(BodyBounds.X, BodyBounds.Y);
+            g.TranslateTransform(Offset.X, Offset.Y);
             //g.PixelOffsetMode = PixelOffsetMode.Half; //与AntiAlias作用相反
             g.SmoothingMode = SmoothingMode.AntiAlias;
             RectangleF temp = g.VisibleClipBounds;
@@ -884,7 +878,7 @@ namespace Paway.Forms
             {
                 if (g != null)
                 {
-                    Rectangle temp = new Rectangle(item.Rectangle.X, item.Rectangle.Y + BodyBounds.Y,
+                    Rectangle temp = new Rectangle(item.Rectangle.X, item.Rectangle.Y + Offset.Y,
                         item.Rectangle.Width, item.Rectangle.Height);
                     switch (_tDirection)
                     {
@@ -1263,7 +1257,7 @@ namespace Paway.Forms
                 }
                 else
                 {
-                    Rectangle temp = new Rectangle(rect.X + BodyBounds.X, rect.Y + BodyBounds.Y, rect.Width, rect.Height);
+                    Rectangle temp = new Rectangle(rect.X + Offset.X, rect.Y + Offset.Y, rect.Width, rect.Height);
                     TextRenderer.DrawText(g, text, font, temp, color, desc.TextFormat);
                 }
                 return;
@@ -1293,7 +1287,7 @@ namespace Paway.Forms
             }
             else
             {
-                Rectangle temp = new Rectangle(rect.X + BodyBounds.X, rect.Y + BodyBounds.Y, rect.Width, rect.Height);
+                Rectangle temp = new Rectangle(rect.X + Offset.X, rect.Y + Offset.Y, rect.Width, rect.Height);
                 TextRenderer.DrawText(g, text, font, temp, color, desc.TextFormat);
             }
         }
@@ -1304,15 +1298,15 @@ namespace Paway.Forms
         private void IsContextMenu(Graphics g, ToolItem item)
         {
             Point point = this.PointToClient(MousePosition);
-            point.X -= BodyBounds.X;
-            point.Y -= BodyBounds.Y;
+            point.X -= Offset.X;
+            point.Y -= Offset.Y;
             Image btnArrowImage = null;
             int x = this._btnArrowRect.Left;
             if (item.RectDesc.Width != 0)
             {
                 x = item.RectDesc.Left;
             }
-            Point contextMenuLocation = this.PointToScreen(new Point(x + BodyBounds.X, this._btnArrowRect.Top + BodyBounds.Y + this._btnArrowRect.Height + 2));
+            Point contextMenuLocation = this.PointToScreen(new Point(x + Offset.X, this._btnArrowRect.Top + Offset.Y + this._btnArrowRect.Height + 2));
             ContextMenuStrip contextMenuStrip = item.ContextMenuStrip;
             if (contextMenuStrip != null)
             {
@@ -1389,7 +1383,7 @@ namespace Paway.Forms
             if (item.IMouseState != state)
             {
                 item.IMouseState = state;
-                this.Invalidate(new Rectangle(item.Rectangle.X + BodyBounds.X, item.Rectangle.Y + BodyBounds.Y, item.Rectangle.Width, item.Rectangle.Height));
+                this.Invalidate(new Rectangle(item.Rectangle.X + Offset.X, item.Rectangle.Y + Offset.Y, item.Rectangle.Width, item.Rectangle.Height));
             }
         }
         /// <summary>
@@ -1400,7 +1394,7 @@ namespace Paway.Forms
             if (item.MouseState != state)
             {
                 item.MouseState = state;
-                this.Invalidate(new Rectangle(item.Rectangle.X + BodyBounds.X, item.Rectangle.Y + BodyBounds.Y, item.Rectangle.Width, item.Rectangle.Height));
+                this.Invalidate(new Rectangle(item.Rectangle.X + Offset.X, item.Rectangle.Y + Offset.Y, item.Rectangle.Width, item.Rectangle.Height));
             }
         }
         /// <summary>
@@ -1409,7 +1403,7 @@ namespace Paway.Forms
         /// <param name="item"></param>
         private void InvalidateItem(ToolItem item)
         {
-            this.Invalidate(new Rectangle(item.Rectangle.X + BodyBounds.X, item.Rectangle.Y + BodyBounds.Y, item.Rectangle.Width, item.Rectangle.Height));
+            this.Invalidate(new Rectangle(item.Rectangle.X + Offset.X, item.Rectangle.Y + Offset.Y, item.Rectangle.Width, item.Rectangle.Height));
         }
         /// <summary>
         /// 引发 System.Windows.Forms.Form.MouseMove 事件。
@@ -1421,8 +1415,8 @@ namespace Paway.Forms
             if (this.DesignMode) return;
 
             Point point = e.Location;
-            point.X -= BodyBounds.X;
-            point.Y -= BodyBounds.Y;
+            point.X -= Offset.X;
+            point.Y -= Offset.Y;
             bool flag = true;
             foreach (ToolItem item in this.Items)
             {
@@ -1495,8 +1489,8 @@ namespace Paway.Forms
             if (this.DesignMode) return;
 
             Point point = e.Location;
-            point.X -= BodyBounds.X;
-            point.Y -= BodyBounds.Y;
+            point.X -= Offset.X;
+            point.Y -= Offset.Y;
             for (int i = 0; i < this.Items.Count; i++)
             {
                 ToolItem item = this.Items[i];
@@ -1584,8 +1578,8 @@ namespace Paway.Forms
             if (this.DesignMode) return;
 
             Point point = e.Location;
-            point.X -= BodyBounds.X;
-            point.Y -= BodyBounds.Y;
+            point.X -= Offset.X;
+            point.Y -= Offset.Y;
             for (int i = 0; i < this.Items.Count; i++)
             {
                 ToolItem item = this.Items[i];
@@ -1660,17 +1654,38 @@ namespace Paway.Forms
 
             if (Items.Count > 1 && e.ListChangedType == ListChangedType.ItemAdded && e.NewIndex == Items.Count - 1)
             {
+                int last = 0;
+                switch (TDirection)
+                {
+                    case TDirection.Level:
+                        last = TCountLine;
+                        break;
+                    case Forms.TDirection.Vertical:
+                        last = TCountColumn;
+                        break;
+                }
                 int count = this.Items.Count - 2;
                 int xPos = this.Items[count].Rectangle.X;
                 int yPos = this.Items[count].Rectangle.Y;
                 Calctem(this.Items[count], ref xPos, ref yPos, false);
                 Calctem(this.Items[count + 1], ref xPos, ref yPos, true);
-                UpdateScroll(true);
+
+                bool valid = false;
+                switch (TDirection)
+                {
+                    case TDirection.Level:
+                        valid = last != TCountLine;
+                        break;
+                    case Forms.TDirection.Vertical:
+                        valid = last != TCountColumn;
+                        break;
+                }
+                UpdateScroll(true, valid);
                 this.InvalidateItem(this.Items[count + 1]);
             }
             else
             {
-                TRefresh();
+                this.TRefresh();
             }
         }
         /// <summary>
@@ -1866,6 +1881,8 @@ namespace Paway.Forms
         /// </summary>
         public void TRefresh()
         {
+            _vScroll.Visible = false;
+            _hScroll.Visible = false;
             this.TPaint();
             UpdateScroll();
             this.Invalidate(this.ClientRectangle);
@@ -2059,16 +2076,7 @@ namespace Paway.Forms
             set
             {
                 _iScroll = value;
-                if (value)
-                {
-                    UpdateScroll();
-                }
-                else
-                {
-                    _vScroll.Visible = false;
-                    _hScroll.Visible = false;
-                }
-                this.Invalidate(this.ClientRectangle);
+                TRefresh();
             }
         }
         /// <summary>
@@ -2094,21 +2102,21 @@ namespace Paway.Forms
         /// </summary>
         private int TWidth
         {
-            get { return _vScroll.Visible ? base.Width - _vScroll.Width : base.Width; }
-            set { base.Width = value; }
+            get { return _vScroll.Visible ? this.Width - _vScroll.Width : this.Width; }
+            set { this.Width = value; }
         }
         /// <summary>
         /// 控件显示区域高度
         /// </summary>
         private int THeight
         {
-            get { return _hScroll.Visible ? base.Height - _hScroll.Height : base.Height; }
-            set { base.Height = value; }
+            get { return _hScroll.Visible ? this.Height - _hScroll.Height : this.Height; }
+            set { this.Height = value; }
         }
         /// <summary>
-        /// 控件显示区域
+        /// 控件显示偏移坐标
         /// </summary>
-        private Rectangle BodyBounds = Rectangle.Empty;
+        private Point Offset = Point.Empty;
         /// <summary>
         /// 初始化滚动条
         /// </summary>
@@ -2153,26 +2161,25 @@ namespace Paway.Forms
         /// <summary>
         /// 滚动到指定值位置
         /// </summary>
-        private void FixScroll(int value)
+        /// <param name="value"></param>
+        /// <param name="valid">是否需要重绘，默认重绘</param>
+        private void FixScroll(int value, bool valid = true)
         {
-            bool valid = true;
             switch (TDirection)
             {
                 case TDirection.Level:
                     int max = _vScroll.Maximum - _vScroll.SmallChange;
                     if (value < 0) value = 0;
                     if (value > max) value = max;
-                    valid = _vScroll.Value != value;
                     _vScroll.Value = value;
-                    BodyBounds.Y = -value;
+                    Offset.Y = -value;
                     break;
                 case TDirection.Vertical:
                     max = _hScroll.Maximum - _hScroll.SmallChange;
                     if (value < 0) value = 0;
                     if (value > max) value = max;
-                    valid = _hScroll.Value != value;
                     _hScroll.Value = value;
-                    BodyBounds.X = -value;
+                    Offset.X = -value;
                     break;
             }
             if (valid)
@@ -2187,18 +2194,17 @@ namespace Paway.Forms
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            this.TRefresh();
+            _vScroll.Visible = false;
+            _hScroll.Visible = false;
+            this.TPaint();
+            UpdateScroll();
         }
         /// <summary>
         /// 更新滚动条状态
         /// </summary>
-        private void UpdateScroll(bool toLast = false)
+        private void UpdateScroll(bool toLast = false, bool toValid = false)
         {
-            //if (!_scroll) return;
-            if (TCountColumn == 0 || TCountLine == 0)
-            {
-                TPaint();
-            }
+            bool valid = _vScroll.Visible || _hScroll.Visible;
             _vScroll.Visible = false;
             _hScroll.Visible = false;
             iScrollHide = false;
@@ -2210,20 +2216,10 @@ namespace Paway.Forms
                     {
                         iScrollHide = true;
                         _vScroll.Visible = _iScroll;
-                        int max = GetHeight() - this.THeight;
-                        if (_vScroll.Value > max)
-                        {
-                            FixScroll(max);
-                        }
-                        _vScroll.Maximum = GetHeight();
-                        _vScroll.LargeChange = this.THeight / 2;
-                        _vScroll.SmallChange = _vScroll.LargeChange;
-                        _vScroll.Maximum = max + _vScroll.LargeChange;
-                        FixScroll(toLast ? _vScroll.Maximum : 0);
                     }
                     else if (_vScroll.Value >= 0)
                     {
-                        FixScroll(0);
+                        FixScroll(0, false);
                     }
                     break;
                 case TDirection.Vertical:
@@ -2232,22 +2228,50 @@ namespace Paway.Forms
                     {
                         iScrollHide = true;
                         _hScroll.Visible = _iScroll;
-                        int max = GetWidth() - this.TWidth;
-                        if (_hScroll.Value > max)
-                        {
-                            FixScroll(max);
-                        }
-                        _hScroll.Maximum = GetWidth();
-                        _hScroll.LargeChange = this.TWidth / 2;
-                        _hScroll.SmallChange = _hScroll.LargeChange;
-                        _hScroll.Maximum = max + _hScroll.LargeChange;
-                        FixScroll(toLast ? _hScroll.Maximum : 0);
                     }
                     else if (_hScroll.Value >= 0)
                     {
-                        FixScroll(0);
+                        FixScroll(0, false);
                     }
                     break;
+            }
+            if (iScrollHide && _iScroll)
+            {
+                if (!toLast)
+                {
+                    this.TPaint();
+                }
+                switch (TDirection)
+                {
+                    case TDirection.Level:
+                        int max = GetHeight() - this.Height;
+                        if (_vScroll.Value > max)
+                        {
+                            FixScroll(max, false);
+                        }
+                        _vScroll.Maximum = GetHeight();
+                        _vScroll.LargeChange = this.Height / 2;
+                        _vScroll.SmallChange = _vScroll.LargeChange;
+                        _vScroll.Maximum = max + _vScroll.LargeChange;
+
+                        valid = !valid | toLast & toValid;
+                        FixScroll(toLast ? _vScroll.Maximum : 0, valid);
+                        break;
+                    case TDirection.Vertical:
+                        max = GetWidth() - this.Width;
+                        if (_hScroll.Value > max)
+                        {
+                            FixScroll(max, false);
+                        }
+                        _hScroll.Maximum = GetWidth();
+                        _hScroll.LargeChange = this.Width / 2;
+                        _hScroll.SmallChange = _hScroll.LargeChange;
+                        _hScroll.Maximum = max + _hScroll.LargeChange;
+
+                        valid = !valid | toLast & toValid;
+                        FixScroll(toLast ? _hScroll.Maximum : 0, valid);
+                        break;
+                }
             }
         }
         /// <summary>
@@ -2261,9 +2285,9 @@ namespace Paway.Forms
             if (e.NewValue == 0)
             {
                 diff = 0;
-                BodyBounds.X = 0;
+                Offset.X = 0;
             }
-            BodyBounds.Offset(-diff, 0);
+            Offset.Offset(-diff, 0);
             if (diff != 0 || e.NewValue == 0)
             {
                 this.Invalidate(this.ClientRectangle);
@@ -2280,9 +2304,9 @@ namespace Paway.Forms
             if (e.NewValue == 0)
             {
                 diff = 0;
-                BodyBounds.Y = 0;
+                Offset.Y = 0;
             }
-            BodyBounds.Offset(0, -diff);
+            Offset.Offset(0, -diff);
             if (diff != 0 || e.NewValue == 0)
             {
                 this.Invalidate(this.ClientRectangle);
