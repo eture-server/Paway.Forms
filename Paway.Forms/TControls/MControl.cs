@@ -163,9 +163,9 @@ namespace Paway.Forms
                     return null;
                 }
                 //加载控件
-                if (_iList.ContainsKey(type.Name))
+                if (_iList.ContainsKey(type.FullName))
                 {
-                    control = _iList[type.Name] as MControl;
+                    control = _iList[type.FullName] as MControl;
                     if (control.ILoad) return control;
                 }
 
@@ -233,9 +233,9 @@ namespace Paway.Forms
                 parent.Controls.Add(control);
                 control.MDirection = direction;
                 control.MChild();
-                if (!_iList.ContainsKey(type.Name))
+                if (!_iList.ContainsKey(type.FullName))
                 {
-                    _iList.Add(type.Name, control);
+                    _iList.Add(type.FullName, control);
                 }
                 parent.BackgroundImage = null;
                 parent.ResumeLayout();

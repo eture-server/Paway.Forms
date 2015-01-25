@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过下列属性集
 // 控制。更改这些属性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("Paway.Forms")]
+[assembly: AssemblyTitle("Paway.Forms Tinn QQ：9030140")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("Tinn")]
-[assembly: AssemblyProduct("Paway.Forms")]
+[assembly: AssemblyProduct("Paway.Forms Tinn QQ：9030140")]
 [assembly: AssemblyCopyright("Copyright ©  2014 Tinn&a")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

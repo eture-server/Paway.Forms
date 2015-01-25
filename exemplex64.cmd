@@ -23,13 +23,13 @@ MSBuild Paway.Form.sln /t:Rebuild /p:Configuration=Release /nologo  /v:minimal
 cd "%BIN%"
 @echo.
 @echo ------------------------------------------------------------
-@echo 合并程序集 Paway.Windows.Forms...
+@echo 合并程序集 Paway.Forms...
 @echo ------------------------------------------------------------
 rename Paway.Forms.dll Paway.Forms.temp.dll
 %ILMerge% /log:merge.log /target:library /keyfile:"../../Mobot.Z.snk" /v4 ^
 /out:Paway.Forms.dll ^
-Paway.Utils.dll ^
 Paway.Forms.temp.dll ^
+Paway.Utils.dll ^
 Paway.Helper.dll ^
 Paway.Resource.dll ^
 Paway.Win32.dll ^

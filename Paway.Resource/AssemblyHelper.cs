@@ -45,9 +45,9 @@ namespace Paway.Resource
                 {
                     StringBuilder sb = new StringBuilder();
                     if (name[0] != '.')
-                        sb.Append(AssemblyHelper.CurrentAssemblyName + "." + name);
+                        sb.Append(CurrentAssemblyName + "." + name);
                     else
-                        sb.Append(AssemblyHelper.CurrentAssemblyName + name);
+                        sb.Append(CurrentAssemblyName + name);
                     using (Stream stream = CurrentAssembly.GetManifestResourceStream(sb.ToString()))
                     {
                         if (stream == null)

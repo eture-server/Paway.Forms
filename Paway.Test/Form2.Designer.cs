@@ -73,8 +73,8 @@
             Paway.Forms.ToolItem toolItem20 = new Paway.Forms.ToolItem();
             this.toolUp = new Paway.Forms.ToolBar();
             this.toolBar2 = new Paway.Forms.ToolBar();
-            this.toolBar3 = new Paway.Forms.ToolBar();
             this.toolbar = new Paway.Forms.ToolBar();
+            this.toolBar3 = new Paway.Forms.ToolBar();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.toolBar2.SuspendLayout();
@@ -229,21 +229,13 @@
             this.toolBar2.TChange.ColorMove = System.Drawing.Color.Red;
             this.toolBar2.TChange.ColorNormal = System.Drawing.Color.Yellow;
             this.toolBar2.TDesc.ColorDown = System.Drawing.Color.White;
+            this.toolBar2.TDirection = Paway.Forms.TDirection.Vertical;
             this.toolBar2.TextFirst.ColorDown = System.Drawing.Color.Black;
             this.toolBar2.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolBar2.TextFirst.ColorNormal = System.Drawing.Color.Black;
             this.toolBar2.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolBar2.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
             this.toolBar2.Trans = 150;
-            // 
-            // toolBar3
-            // 
-            this.toolBar3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(111)))), ((int)(((byte)(238)))), ((int)(((byte)(130)))), ((int)(((byte)(238)))));
-            this.toolBar3.Location = new System.Drawing.Point(575, 188);
-            this.toolBar3.Name = "toolBar3";
-            this.toolBar3.Size = new System.Drawing.Size(258, 151);
-            this.toolBar3.TabIndex = 58;
-            this.toolBar3.Trans = 111;
             // 
             // toolbar
             // 
@@ -287,6 +279,15 @@
             this.toolbar.TextFirst.ColorNormal = System.Drawing.Color.White;
             this.toolbar.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
             this.toolbar.Trans = 150;
+            // 
+            // toolBar3
+            // 
+            this.toolBar3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(111)))), ((int)(((byte)(238)))), ((int)(((byte)(130)))), ((int)(((byte)(238)))));
+            this.toolBar3.Location = new System.Drawing.Point(575, 188);
+            this.toolBar3.Name = "toolBar3";
+            this.toolBar3.Size = new System.Drawing.Size(258, 151);
+            this.toolBar3.TabIndex = 58;
+            this.toolBar3.Trans = 111;
             // 
             // Form2
             // 
