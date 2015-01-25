@@ -23,6 +23,7 @@ namespace Paway.Forms
         private ToolTip toolTop;
 
         #endregion
+
         #region 属性
         /// <summary>
         /// 指定窗体窗口如何显示
@@ -237,7 +238,7 @@ namespace Paway.Forms
             if (!this.IsDisposed && this._windowState != FormWindowState.Maximized)
             {
                 NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(Handle, 274, 61440 + 9, 0);
+                NativeMethods.SendMessage(Handle, (int)WindowsMessage.WM_SYSCOMMAND, (int)WindowsMessage.SC_MOVE, 0);
             }
         }
 

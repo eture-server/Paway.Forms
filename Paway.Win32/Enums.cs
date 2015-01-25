@@ -829,7 +829,11 @@ namespace Paway.Win32
         /// <summary>
         /// 
         /// </summary>
-        WM_THEMECHNAGED = 0x31A
+        WM_THEMECHNAGED = 0x31A,
+        /// <summary>
+        /// 
+        /// </summary>
+        SC_MOVE = 0xF012,
     }
 
     /// <summary>

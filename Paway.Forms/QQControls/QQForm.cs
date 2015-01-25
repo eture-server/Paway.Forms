@@ -40,7 +40,7 @@ namespace Paway.Forms
                         x = this.Width - this.CloseRect.Width - width;
                         break;
                     default:
-                        x = 0;
+                        x = -1 * width;
                         break;
                 }
                 return new Rectangle(x, -1, width, 20);
@@ -64,7 +64,7 @@ namespace Paway.Forms
                         x = this.Width - width - this.CloseRect.Width;
                         break;
                     default:
-                        x = 0;
+                        x = -1 * width;
                         break;
                 }
                 Rectangle rect = new Rectangle(x, -1, width, 20);
@@ -103,7 +103,7 @@ namespace Paway.Forms
         /// <param name="mouseState">鼠标状态</param>
         /// <param name="rect">按钮区域</param>
         /// <param name="str">图片字符串</param>
-        private void DrawButton(Graphics g, TMouseState mouseState, Rectangle rect, string str)
+        protected void DrawButton(Graphics g, TMouseState mouseState, Rectangle rect, string str)
         {
             switch (mouseState)
             {

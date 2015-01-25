@@ -52,7 +52,7 @@ namespace Paway.Forms
             if (this.Main.WindowState != FormWindowState.Maximized)
             {
                 NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(this.Main.Handle, 274, 61440 + 9, 0);
+                NativeMethods.SendMessage(this.Main.Handle, (int)WindowsMessage.WM_SYSCOMMAND, (int)WindowsMessage.SC_MOVE, 0);
             }
         }
 
@@ -245,37 +245,39 @@ namespace Paway.Forms
             this.DrawShadow(g);
             if (Image.IsCanonicalPixelFormat(image.PixelFormat) && Image.IsAlphaPixelFormat(image.PixelFormat))
             {
-                IntPtr zero = IntPtr.Zero;
-                IntPtr dC = NativeMethods.GetDC(IntPtr.Zero);
-                IntPtr hgdiobj = IntPtr.Zero;
-                IntPtr hdc = NativeMethods.CreateCompatibleDC(dC);
+                IntPtr screenDc = NativeMethods.GetDC(IntPtr.Zero);
+                IntPtr memDc = NativeMethods.CreateCompatibleDC(screenDc);
+                IntPtr hBitmap = IntPtr.Zero;
+                IntPtr oldBitmap = IntPtr.Zero;
                 try
                 {
-                    POINT pptDst = new POINT(base.Left, base.Top);
+                    hBitmap = image.GetHbitmap(Color.FromArgb(0));
+                    oldBitmap = NativeMethods.SelectObject(memDc, hBitmap);
+
                     SIZE psize = new SIZE(base.Width, base.Height);
-                    BLENDFUNCTION pblend = new BLENDFUNCTION();
-                    POINT pprSrc = new POINT(0, 0);
-                    hgdiobj = image.GetHbitmap(Color.FromArgb(0));
-                    zero = NativeMethods.SelectObject(hdc, hgdiobj);
-                    pblend.BlendOp = 0;
-                    pblend.SourceConstantAlpha = byte.Parse("255");
-                    pblend.AlphaFormat = 1;
-                    pblend.BlendFlags = 0;
+                    POINT pointSource = new POINT(0, 0);
+                    POINT topPos = new POINT(base.Left, base.Top);
+                    BLENDFUNCTION blend = new BLENDFUNCTION();
+                    blend.BlendOp = Consts.AC_SRC_OVER;
+                    blend.BlendFlags = 0;
+                    blend.SourceConstantAlpha = byte.Parse("255");
+                    blend.AlphaFormat = Consts.AC_SRC_ALPHA;
+
                     if (!this.IsDisposed)
                     {
-                        NativeMethods.UpdateLayeredWindow(base.Handle, dC, ref pptDst, ref psize, hdc, ref pprSrc, 0, ref pblend, 2);
+                        NativeMethods.UpdateLayeredWindow(base.Handle, screenDc, ref topPos, ref psize, memDc, ref pointSource, 0, ref blend, 2);
                     }
                     return;
                 }
                 finally
                 {
-                    if (hgdiobj != IntPtr.Zero)
+                    NativeMethods.ReleaseDC(IntPtr.Zero, screenDc);
+                    if (hBitmap != IntPtr.Zero)
                     {
-                        NativeMethods.SelectObject(hdc, zero);
-                        NativeMethods.DeleteObject(hgdiobj);
+                        NativeMethods.SelectObject(memDc, oldBitmap);
+                        NativeMethods.DeleteObject(hBitmap);
                     }
-                    NativeMethods.ReleaseDC(IntPtr.Zero, dC);
-                    NativeMethods.DeleteDC(hdc);
+                    NativeMethods.DeleteDC(memDc);
                 }
             }
             throw new ApplicationException("图片必须是32位带Alhpa通道的图片。");

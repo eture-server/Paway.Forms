@@ -498,8 +498,10 @@ namespace Paway.Forms
         /// </summary>
         /// <param name="bitmap">透明位图</param>
         /// <param name="opacity">透明度的值0~255</param>
-        public void SetBitmap(Bitmap bitmap, byte opacity)
+        protected void SetBitmap(Bitmap bitmap, byte opacity)
         {
+            if (this.DesignMode) return;
+
             if (bitmap.PixelFormat != PixelFormat.Format32bppArgb)
                 throw new ApplicationException("The bitmap must be 32ppp with alpha-channel.");
 
@@ -880,7 +882,7 @@ namespace Paway.Forms
                 CreateParams param = base.CreateParams;
                 if (this._iTransfer)
                 {
-                    param.ExStyle = 0x00080000;
+                    param.ExStyle = (int)WindowStyle.WS_SYSMENU;
                 }
                 if (this._sysButton != TSysButton.Close)
                 {

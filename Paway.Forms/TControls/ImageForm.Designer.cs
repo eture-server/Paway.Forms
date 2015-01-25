@@ -36,6 +36,7 @@
             this.ClientSize = new System.Drawing.Size(350, 448);
             this.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.ForeColor = System.Drawing.Color.Red;
+            this.ITransfer = true;
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "ImageForm";
             this.ShowIcon = false;

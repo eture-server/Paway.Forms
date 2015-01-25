@@ -105,6 +105,9 @@ namespace Paway.Forms
                     case TSysButton.Normal:
                         x = this.Width - width - this.CloseRect.Width - this._sysButtonPos;
                         break;
+                    default:
+                        x = -1 * this.Width;
+                        break;
                 }
                 return new Rectangle(x, y, width, height);
             }
@@ -127,6 +130,9 @@ namespace Paway.Forms
                         break;
                     case TSysButton.Close_Mini:
                         x = this.Width - width - this.CloseRect.Width - this._sysButtonPos;
+                        break;
+                    default:
+                        x = -1 * this.Width;
                         break;
                 }
 

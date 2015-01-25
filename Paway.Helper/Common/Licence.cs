@@ -62,7 +62,8 @@ namespace Paway.Helper
             EncryptHelper.EncryptMD5(days.ToString());
             FileInfo file = new FileInfo(Assembly.GetExecutingAssembly().Location);
             TimeSpan ts = DateTime.Now.Subtract(file.LastWriteTime);
-            if (ts < TimeSpan.Zero || ts > new TimeSpan(days, 0, 0, 0))
+            //全球时间24小时以内
+            if (ts < new TimeSpan(0, -24, 0, 0) || ts > new TimeSpan(days, 0, 0, 0))
             {
                 return false;
             }

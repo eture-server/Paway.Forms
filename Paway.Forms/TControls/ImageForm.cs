@@ -69,6 +69,8 @@ namespace Paway.Forms
         /// <param name="screen"></param>
         public ImageForm(Image screen)
         {
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, false);
+            this.UpdateStyles();
             InitializeComponent();
             this.screen = screen;
             if (screen == null) this.screen = AssemblyHelper.GetImage("Controls.blank.png") as Bitmap;
@@ -114,6 +116,7 @@ namespace Paway.Forms
             rect = new Rectangle((this.Width - size.Width) / 2, (this.Height - size.Height) / 2, size.Width, size.Height);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.CenterToScreen();
+            SetBitmap();
         }
 
         #endregion
@@ -216,16 +219,33 @@ namespace Paway.Forms
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
-            Graphics g = e.Graphics;
+            base.OnPaint(e);
+            //Graphics g = e.Graphics;
+
+            ////普通绘制
             //g.DrawImage(screen, rect);
 
-            // 设置画布的描绘质量 - 最临近插值法(显示像素点)
-            g.InterpolationMode = InterpolationMode.NearestNeighbor;
-            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            g.DrawImage(screen, rect, new Rectangle(Point.Empty, screen.Size), GraphicsUnit.Pixel);
-            g.PixelOffsetMode = PixelOffsetMode.Default;
+            //// 设置画布的描绘质量 - 最临近插值法(显示像素点)
+            //g.InterpolationMode = InterpolationMode.NearestNeighbor;
+            //g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            //g.DrawImage(screen, rect, new Rectangle(Point.Empty, screen.Size), GraphicsUnit.Pixel);
+            //g.PixelOffsetMode = PixelOffsetMode.Default;
 
-            base.OnPaint(e);
+            //其它部分透明
+            SetBitmap();
+        }
+        private void SetBitmap()
+        {
+            Bitmap bitmap = new Bitmap(this.Width, this.Height);
+            using (Graphics g = Graphics.FromImage(bitmap))
+            {
+                g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                g.FillRectangle(new SolidBrush(Color.FromArgb(150, 0, 0, 0)), new Rectangle(Point.Empty, bitmap.Size));
+                g.DrawImage(screen, rect, new Rectangle(Point.Empty, screen.Size), GraphicsUnit.Pixel);
+                DrawButton(g, this.CloseState, this.CloseRect, "close");
+            }
+            this.SetBitmap(bitmap, 255);
         }
 
         /// <summary>

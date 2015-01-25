@@ -295,7 +295,7 @@ namespace Paway.Forms
                     if (form.WindowState == FormWindowState.Maximized) return;
                 }
                 NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(this.ParentForm.Handle, 274, 61440 + 9, 0);
+                NativeMethods.SendMessage(this.ParentForm.Handle, (int)WindowsMessage.WM_SYSCOMMAND, (int)WindowsMessage.SC_MOVE, 0);
             }
         }
 
