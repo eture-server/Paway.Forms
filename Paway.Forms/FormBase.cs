@@ -500,8 +500,6 @@ namespace Paway.Forms
         /// <param name="opacity">透明度的值0~255</param>
         protected void SetBitmap(Bitmap bitmap, byte opacity)
         {
-            if (this.DesignMode) return;
-
             if (bitmap.PixelFormat != PixelFormat.Format32bppArgb)
                 throw new ApplicationException("The bitmap must be 32ppp with alpha-channel.");
 
@@ -589,17 +587,22 @@ namespace Paway.Forms
                 Bitmap iconImage = this.Icon.ToBitmap();
                 g.DrawImage(iconImage, this.IconRect);
             }
-            //绘制标题文字
+            DrawText(g);
+            DrawFrameBorder(g);
+        }
+        /// <summary>
+        /// 绘制标题文字
+        /// </summary>
+        protected void DrawText(Graphics g)
+        {
             if (!string.IsNullOrEmpty(this._textShow))
             {
                 TextRenderer.DrawText(g, this._textShow, this.Font, this.TextRect, this.ForeColor, TextFormatFlags.VerticalCenter);
             }
-            DrawFrameBorder(g);
         }
         /// <summary>
         /// 绘制窗体边框
         /// </summary>
-        /// <param name="g"></param>
         private void DrawFrameBorder(Graphics g)
         {
             //绘画边框
@@ -880,6 +883,8 @@ namespace Paway.Forms
             get
             {
                 CreateParams param = base.CreateParams;
+                if (this.DesignMode) return param;
+
                 if (this._iTransfer)
                 {
                     param.ExStyle = (int)WindowStyle.WS_SYSMENU;

@@ -243,6 +243,7 @@ namespace Paway.Forms
                 g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 g.FillRectangle(new SolidBrush(Color.FromArgb(150, 0, 0, 0)), new Rectangle(Point.Empty, bitmap.Size));
                 g.DrawImage(screen, rect, new Rectangle(Point.Empty, screen.Size), GraphicsUnit.Pixel);
+                DrawText(g);
                 DrawButton(g, this.CloseState, this.CloseRect, "close");
             }
             this.SetBitmap(bitmap, 255);
