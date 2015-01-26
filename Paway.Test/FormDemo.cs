@@ -123,6 +123,9 @@ namespace Paway.Test
                 case "换色":
                     image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, TConvertType.Replace, 255);
                     break;
+                case "HSL":
+                    image = BitmapHelper.ConvertTo(pictureBox1.Image as Bitmap, TConvertType.HSL, 20);
+                    break;
             }
             pictureBox2.Image = image;
         }

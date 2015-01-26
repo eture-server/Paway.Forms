@@ -50,6 +50,7 @@
             Paway.Forms.ToolItem toolItem10 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem11 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem12 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem13 = new Paway.Forms.ToolItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.在线ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.离开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -706,6 +707,7 @@
             toolItem8.Text = "黑白";
             toolItem9.Text = "透明";
             toolItem10.Text = "换色";
+            toolItem11.Text = "HSL";
             this.toolBar3.Items.Add(toolItem1);
             this.toolBar3.Items.Add(toolItem2);
             this.toolBar3.Items.Add(toolItem3);
@@ -716,6 +718,7 @@
             this.toolBar3.Items.Add(toolItem8);
             this.toolBar3.Items.Add(toolItem9);
             this.toolBar3.Items.Add(toolItem10);
+            this.toolBar3.Items.Add(toolItem11);
             this.toolBar3.ItemSize = new System.Drawing.Size(50, 18);
             this.toolBar3.ItemSpace = 0;
             this.toolBar3.Location = new System.Drawing.Point(498, 16);
@@ -731,13 +734,13 @@
             this.toolBar2.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.toolBar2.ICheckEvent = true;
             this.toolBar2.ImageSize = new System.Drawing.Size(16, 16);
-            toolItem11.ContextMenuStrip = this.contextMenuStrip1;
-            toolItem11.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
-            toolItem11.Text = "创建宝贝";
             toolItem12.ContextMenuStrip = this.contextMenuStrip1;
-            toolItem12.Text = "上传宝贝";
-            this.toolBar2.Items.Add(toolItem11);
+            toolItem12.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
+            toolItem12.Text = "创建宝贝";
+            toolItem13.ContextMenuStrip = this.contextMenuStrip1;
+            toolItem13.Text = "上传宝贝";
             this.toolBar2.Items.Add(toolItem12);
+            this.toolBar2.Items.Add(toolItem13);
             this.toolBar2.ItemSize = new System.Drawing.Size(116, 34);
             this.toolBar2.ItemSpace = 0;
             this.toolBar2.Location = new System.Drawing.Point(242, 20);

@@ -206,15 +206,34 @@ namespace Paway.Helper
                                 p[2] = p[1] = p[0] = gray;
                                 break;
                             case TConvertType.Trans:
-                                if (p[3] != 0)
+                                if (p[3] > val)
                                 {
                                     p[3] = (byte)val;
                                 }
                                 break;
                             case TConvertType.Replace:
-                                if (p[3] != 0)
+                                if (p[3] > 0)
                                 {
                                     p[2] = p[1] = p[0] = (byte)val;
+                                }
+                                break;
+                            case TConvertType.HSL:
+                                if (p[3] > 0)
+                                {
+                                    if (lastColor[0] != p[0] || lastColor[1] != p[1] || lastColor[2] != p[2])
+                                    {
+                                        lastColor[0] = p[0];
+                                        lastColor[1] = p[1];
+                                        lastColor[2] = p[2];
+                                        int[] result = RGBToHSL(p[0], p[1], p[2]);
+                                        Color temp = HSLToRGB(result[0], result[1], result[2] + val);
+                                        lastHsl[0] = temp.R;
+                                        lastHsl[1] = temp.G;
+                                        lastHsl[2] = temp.B;
+                                    }
+                                    p[0] = lastHsl[0];
+                                    p[1] = lastHsl[1];
+                                    p[2] = lastHsl[2];
                                 }
                                 break;
                         }
@@ -226,6 +245,8 @@ namespace Paway.Helper
             bitmap.UnlockBits(bmpData);
             return bitmap;
         }
+        private static int[] lastColor = new int[3];
+        private static byte[] lastHsl = new byte[3];
 
         #region 左右翻转
         /// <summary>
@@ -731,11 +752,19 @@ namespace Paway.Helper
         /// </summary>
         public static int[] RGBToHSL(Color color)
         {
+            return RGBToHSL(color.R, color.G, color.B);
+        }
+        /// <summary>
+        /// RGB空间到HSL空间的转换
+        /// Color 转 色调-饱和度-亮度(HSB)
+        /// </summary>
+        public static int[] RGBToHSL(int R, int G, int B)
+        {
             double hue = 0;
 
-            double Red = (double)color.R / 255;
-            double Green = (double)color.G / 255;
-            double Blue = (double)color.B / 255;
+            double Red = (double)R / 255;
+            double Green = (double)G / 255;
+            double Blue = (double)B / 255;
             double max = Math.Max(Red, Math.Max(Green, Blue));
             double min = Math.Min(Red, Math.Min(Green, Blue));
 
@@ -813,6 +842,10 @@ namespace Paway.Helper
         /// 替换
         /// </summary>
         Replace,
+        /// <summary>
+        /// HSL亮度，以每个像分别计算，对于高分辨率图片速度很慢
+        /// </summary>
+        HSL,
     }
     /// <summary>
     /// 梯形方向(3D旋转)类型
