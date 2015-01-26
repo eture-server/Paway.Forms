@@ -235,6 +235,11 @@ namespace Paway.Forms
         /// </summary>
         [Description("显示为文本内容"), DefaultValue(false)]
         public bool IText { get; set; }
+        /// <summary>
+        /// 普通项，不响应鼠标绘制
+        /// </summary>
+        [Description("普通项，不响应鼠标绘制"), DefaultValue(false)]
+        public bool INormal { get; set; }
 
         /// <summary>
         /// 补充整行\列
@@ -1413,6 +1418,7 @@ namespace Paway.Forms
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
+            if (INormal) return;
             if (this.DesignMode) return;
 
             Point point = e.Location;
@@ -1421,36 +1427,35 @@ namespace Paway.Forms
             bool flag = true;
             foreach (ToolItem item in this.Items)
             {
-                if (item.Rectangle.Contains(point) && (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point)))
+                if (item.Rectangle.Contains(point))
                 {
-                    if (item.IMouseState != TMouseState.Down)
+                    if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
                     {
-                        InvaRectDesc(item, TMouseState.Move);
-                    }
-                }
-                else
-                {
-                    InvaRectDesc(item, TMouseState.Normal);
-                }
-                if (!_iCheckEvent && item.MouseState == TMouseState.Down)
-                {
-                    continue;
-                }
-                else if (item.Rectangle.Contains(point))
-                {
-                    flag = false;
-                    if (item.MouseState != TMouseState.Move && item.MouseState != TMouseState.Down)
-                    {
-                        InvalidateItem(item, TMouseState.Move);
-                        if (IShowToolTop)
+                        if (item.IMouseState != TMouseState.Down)
                         {
-                            this.ShowTooTip(item.Sencond ?? item.First);
+                            InvaRectDesc(item, TMouseState.Move);
+                        }
+                    }
+                    if (_iCheckEvent || item.MouseState != TMouseState.Down)
+                    {
+                        flag = false;
+                        if (item.MouseState != TMouseState.Move && item.MouseState != TMouseState.Down)
+                        {
+                            InvalidateItem(item, TMouseState.Move);
+                            if (IShowToolTop)
+                            {
+                                this.ShowTooTip(item.Sencond ?? item.First);
+                            }
                         }
                     }
                 }
                 else
                 {
-                    InvalidateItem(item, TMouseState.Normal);
+                    InvaRectDesc(item, TMouseState.Normal);
+                    if (_iCheckEvent || item.MouseState != TMouseState.Down)
+                    {
+                        InvalidateItem(item, TMouseState.Normal);
+                    }
                 }
             }
             if (flag)
@@ -1465,7 +1470,7 @@ namespace Paway.Forms
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            if (_iFocus) return;
+            if (_iFocus || INormal) return;
             if (this.DesignMode) return;
 
             _iDown = false;
@@ -1485,87 +1490,89 @@ namespace Paway.Forms
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-            if (e.Button != MouseButtons.Left) return;
-            if (_iFocus) return;
+            if (e.Button != MouseButtons.Left || _iFocus) return;
             if (this.DesignMode) return;
 
             Point point = e.Location;
             point.X -= Offset.X;
             point.Y -= Offset.Y;
+            bool contain = Contain(point) && !TContainDesc(point);
+
             for (int i = 0; i < this.Items.Count; i++)
             {
                 ToolItem item = this.Items[i];
-                OnMouseDown(point, item, e);
+                if (item.Rectangle.Contains(point))
+                {
+                    OnMouseDown(point, item, e, contain);
+                }
+                else if (!INormal && !_iMultiple && contain)
+                {
+                    InvalidateItem(item, TMouseState.Normal);
+                }
             }
         }
-        private void OnMouseDown(Point point, ToolItem item, EventArgs e)
+        private void OnMouseDown(Point point, ToolItem item, EventArgs e, bool contain)
         {
-            if (item.Rectangle.Contains(point))
+            if (item != this._tempItem)
             {
-                if (item != this._tempItem)
+                this._tempItem = item;
+            }
+            //事件
+            if (item != this._selectedItem)
+            {
+                if (!item.RectDesc.Contains(point) && _tEvent == TEvent.Down)
                 {
-                    this._tempItem = item;
+                    this._selectedItem = item;
+                    this._selectedIndex = this.Items.GetIndexOfRange(item);
+                    this.OnSelectedItemChanged(item, e);
                 }
-                //事件
-                if (item != this._selectedItem)
-                {
-                    if (!item.RectDesc.Contains(point) && _tEvent == TEvent.Down)
-                    {
-                        this._selectedItem = item;
-                        this._selectedIndex = this.Items.GetIndexOfRange(item);
-                        this.OnSelectedItemChanged(item, e);
-                    }
-                }
-                //事件
-                if (_tEvent == TEvent.Down)
-                {
-                    if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
-                    {
-                        bool ifocus = false;
-                        if (item.RectDesc.Contains(point))
-                        {
-                            ifocus = this.OnEditClick(item, e);
-                        }
-                        if (!ifocus && item.ContextMenuStrip != null)
-                        {
-                            this._iFocus = true;
-                            InvalidateItem(item);
-                        }
-                    }
-                    else
-                    {
-                        this.OnItemClick(item, e);
-                    }
-                }
+            }
+            //事件
+            if (_tEvent == TEvent.Down)
+            {
                 if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
                 {
-                    _iDown = true;
-                    InvaRectDesc(item, TMouseState.Down);
+                    bool ifocus = false;
+                    if (item.RectDesc.Contains(point))
+                    {
+                        ifocus = this.OnEditClick(item, e);
+                    }
+                    if (!ifocus && item.ContextMenuStrip != null)
+                    {
+                        this._iFocus = true;
+                        InvalidateItem(item);
+                    }
                 }
                 else
                 {
-                    InvaRectDesc(item, TMouseState.Normal);
-                    if (_iMultiple)
-                    {
-                        _selectedItem = null;
-                        if (item.MouseState != TMouseState.Down)
-                        {
-                            InvalidateItem(item, TMouseState.Down);
-                        }
-                        else
-                        {
-                            InvalidateItem(item, TMouseState.Normal);
-                        }
-                    }
-                    else
+                    this.OnItemClick(item, e);
+                }
+            }
+            if (INormal) return;
+            if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
+            {
+                _iDown = true;
+                InvaRectDesc(item, TMouseState.Down);
+            }
+            else
+            {
+                InvaRectDesc(item, TMouseState.Normal);
+                if (_iMultiple)
+                {
+                    _selectedItem = null;
+                    if (item.MouseState != TMouseState.Down)
                     {
                         InvalidateItem(item, TMouseState.Down);
                     }
+                    else
+                    {
+                        InvalidateItem(item, TMouseState.Normal);
+                    }
                 }
-            }
-            else if (!_iMultiple && Contain(point) && !TContainDesc(point))
-            {
-                InvalidateItem(item, TMouseState.Normal);
+                else
+                {
+                    InvalidateItem(item, TMouseState.Down);
+                }
             }
         }
         /// <summary>
@@ -1584,13 +1591,14 @@ namespace Paway.Forms
             for (int i = 0; i < this.Items.Count; i++)
             {
                 ToolItem item = this.Items[i];
-                OnMouseUp(point, item, e);
+                if (item.Rectangle.Contains(point))
+                {
+                    OnMouseUp(point, item, e);
+                }
             }
         }
         private void OnMouseUp(Point point, ToolItem item, EventArgs e)
         {
-            if (!item.Rectangle.Contains(point)) return;
-
             _iDown = false;
             //事件
             if (_tEvent == TEvent.Up && item == _tempItem)
@@ -1619,6 +1627,7 @@ namespace Paway.Forms
                     this.OnItemClick(item, e);
                 }
             }
+            if (INormal) return;
             if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
             {
                 InvaRectDesc(item, TMouseState.Move);
@@ -1734,7 +1743,7 @@ namespace Paway.Forms
             return false;
         }
         /// <summary>
-        /// 坐标点是否包含在项中
+        /// 坐标点是否包含在项描述中
         /// </summary>
         /// <param name="point"></param>
         /// <returns></returns>

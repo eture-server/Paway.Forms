@@ -23,6 +23,7 @@ namespace Paway.Test
             base.OnShown(e);
             tPictureBox1.Click += pictureBox1_Click;
             tPictureBox1.MouseDown += pictureBox1_MouseDown;
+            tPictureBox1.MouseMove += tPictureBox1_MouseMove;
             btClear.Click += btClear_Click;
             btColor.Click += btColor_Click;
             btSave.Click += btSave_Click;
@@ -474,6 +475,12 @@ namespace Paway.Test
                     tPictureBox1.Image = BitmapHelper.ReplaceByPixel(tPictureBox1.Image, point.X, point.Y, Color.FromArgb(textBox1.Text.ToInt(), color.R, color.G, color.B));
                 }
             }
+        }
+        void tPictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (tPictureBox1.Image == null) return;
+            Point point = tPictureBox1.GetPoint(e.Location);
+            this.Text = point.ToString();
         }
 
         #endregion
