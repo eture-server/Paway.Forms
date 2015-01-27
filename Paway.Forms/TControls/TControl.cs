@@ -253,11 +253,6 @@ namespace Paway.Forms
                     g.FillRectangle(brush, this.ClientRectangle);
                 }
             }
-            else
-            {
-                TranColor = BackColor;
-                g.FillRectangle(new SolidBrush(TranColor), this.ClientRectangle);
-            }
         }
 
         #endregion
