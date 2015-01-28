@@ -77,23 +77,18 @@
             // 
             this.panel3.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.panel3.Controls.Add(this.tDataGridView2);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(10, 355);
             this.panel3.Name = "panel3";
             this.panel3.Padding = new System.Windows.Forms.Padding(3);
-            this.panel3.Size = new System.Drawing.Size(445, 220);
+            this.panel3.Size = new System.Drawing.Size(445, 189);
             this.panel3.TabIndex = 10;
             // 
             // tDataGridView2
             // 
-            this.tDataGridView2.AllowUserToAddRows = true;
-            this.tDataGridView2.AllowUserToDeleteRows = true;
             this.tDataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.None;
             this.tDataGridView2.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
-            this.tDataGridView2.BackgroundColor = System.Drawing.SystemColors.AppWorkspace;
-            this.tDataGridView2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tDataGridView2.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Single;
-            this.tDataGridView2.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Raised;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -102,32 +97,25 @@
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.tDataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.tDataGridView2.ColumnHeadersHeight = 23;
-            this.tDataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             this.tDataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ProColor,
             this.ProSize,
             this.Price});
             this.tDataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tDataGridView2.GridColor = System.Drawing.Color.YellowGreen;
-            this.tDataGridView2.ICheckBoxName = "IsSelect";
             this.tDataGridView2.IMerger = true;
             this.tDataGridView2.IMove = false;
             this.tDataGridView2.IMoveColor = System.Drawing.Color.Empty;
             this.tDataGridView2.Location = new System.Drawing.Point(3, 3);
             this.tDataGridView2.MultiSelect = true;
             this.tDataGridView2.Name = "tDataGridView2";
-            this.tDataGridView2.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Raised;
-            this.tDataGridView2.RowHeadersVisible = true;
-            this.tDataGridView2.RowHeadersWidth = 41;
             this.tDataGridView2.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
             this.tDataGridView2.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Peru;
             this.tDataGridView2.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.tDataGridView2.RowTemplate.Height = 23;
-            this.tDataGridView2.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tDataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.RowHeaderSelect;
-            this.tDataGridView2.Size = new System.Drawing.Size(439, 214);
-            this.tDataGridView2.TabIndex = 14;
+            this.tDataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.tDataGridView2.Size = new System.Drawing.Size(439, 183);
+            this.tDataGridView2.TabIndex = 12;
             // 
             // ProColor
             // 
@@ -140,6 +128,7 @@
             this.ProColor.Name = "ProColor";
             this.ProColor.ReadOnly = true;
             this.ProColor.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ProColor.Width = 146;
             // 
             // ProSize
             // 
@@ -151,6 +140,7 @@
             this.ProSize.MinimumWidth = 35;
             this.ProSize.Name = "ProSize";
             this.ProSize.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ProSize.Width = 146;
             // 
             // Price
             // 
@@ -160,6 +150,7 @@
             this.Price.MinimumWidth = 35;
             this.Price.Name = "Price";
             this.Price.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Price.Width = 146;
             // 
             // imageList1
             // 
@@ -215,6 +206,7 @@
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.tDataGridViewPager1.Edit.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.tDataGridViewPager1.Edit.RowHeadersVisible = true;
             this.tDataGridViewPager1.Edit.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
             this.tDataGridViewPager1.Edit.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
             this.tDataGridViewPager1.Edit.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
@@ -252,7 +244,6 @@
             dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.tDataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.tDataGridView1.ColumnHeadersHeight = 23;
-            this.tDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             this.tDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.IsSelect,
             this.CommandType,
@@ -270,8 +261,9 @@
             this.tDataGridView1.Location = new System.Drawing.Point(10, 10);
             this.tDataGridView1.MultiSelect = true;
             this.tDataGridView1.Name = "tDataGridView1";
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("微软雅黑", 12F);
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Red;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.tDataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.tDataGridView1.RowHeadersVisible = true;
             this.tDataGridView1.RowHeadersWidth = 41;
@@ -368,10 +360,6 @@
         private Paway.Forms.TControl panel3;
         private System.Windows.Forms.ImageList imageList1;
         private Paway.Forms.TControl panel2;
-        private Forms.TDataGridView tDataGridView2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProColor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProSize;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Price;
         private Forms.TDataGridViewPager tDataGridViewPager1;
         private Forms.TDataGridView tDataGridView1;
         private System.Windows.Forms.DataGridViewCheckBoxColumn IsSelect;
@@ -381,6 +369,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ActionTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn ComponentId;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
+        private Forms.TDataGridView tDataGridView2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProColor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProSize;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Price;
 
     }
 }

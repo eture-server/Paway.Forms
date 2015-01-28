@@ -32,7 +32,7 @@ namespace Paway.Forms
 
             this.CellMouseEnter += ComBoxGridView_CellMouseEnter;
             this.CellMouseLeave += ComBoxGridView_CellMouseLeave;
-            this.RowPostPaint += TDataGridView_RowPostPaint;
+            this.CellFormatting += TDataGridView_CellFormatting;
             this.BackgroundColor = Color.White;
             this.BorderStyle = BorderStyle.None;
             InitializeComponent();
@@ -402,21 +402,15 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 事件
+        #region 重载单元格绘制
         /// <summary>
-        /// 行号
+        /// 绘制行号
         /// </summary>
-        void TDataGridView_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        void TDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (!this.RowHeadersVisible) return;
-            using (SolidBrush brush = new SolidBrush(e.InheritedRowStyle.ForeColor))
+            if (e.ColumnIndex == 0)
             {
-                string line = (e.RowIndex + 1).ToString();
-                e.Graphics.DrawString(line, e.InheritedRowStyle.Font, brush,
-                    new Rectangle(e.RowBounds.X, e.RowBounds.Y, this.RowHeadersWidth, e.RowBounds.Height),
-                    DrawParam.StringCenter);
-                e.Graphics.DrawLine(new Pen(GridColor), new Point(e.RowBounds.X, e.RowBounds.Bottom - 1),
-                    new Point(e.RowBounds.X + RowHeadersWidth, e.RowBounds.Bottom - 1));
+                this.Rows[e.RowIndex].HeaderCell.Value = (e.RowIndex + 1).ToString();
             }
         }
         /// <summary>
@@ -509,10 +503,6 @@ namespace Paway.Forms
         private void DrawCell(DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex == -1) return;
-            if (e.CellStyle.Alignment == DataGridViewContentAlignment.NotSet)
-            {
-                e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            }
             Brush gridBrush = new SolidBrush(this.GridColor);
             SolidBrush backBrush = new SolidBrush(e.CellStyle.BackColor);
             SolidBrush fontBrush = new SolidBrush(e.CellStyle.ForeColor);
