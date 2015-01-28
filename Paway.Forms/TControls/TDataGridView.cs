@@ -19,10 +19,8 @@ namespace Paway.Forms
     public class TDataGridView : DataGridView
     {
         #region 构造函数
-
-        private CheckBox HeaderCheckBox = null;
         /// <summary>
-        /// 
+        /// 构造
         /// </summary>
         public TDataGridView()
             : base()
@@ -54,233 +52,108 @@ namespace Paway.Forms
             this.RowHeadersWidth = 21;
             this.ScrollBars = ScrollBars.Vertical;
             this.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-        }
 
-        #region 事件
-        /// <summary>
-        /// 行号
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void TDataGridView_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
-        {
-            if (!this.RowHeadersVisible) return;
-            using (SolidBrush brush = new SolidBrush(this.RowHeadersDefaultCellStyle.ForeColor))
-            {
-                int linen = 0;
-                linen = e.RowIndex + 1;
-                string line = linen.ToString();
-                e.Graphics.DrawString(line, e.InheritedRowStyle.Font, brush, new Rectangle(e.RowBounds.Location.X, e.RowBounds.Location.Y, this.RowHeadersWidth, e.RowBounds.Height), DrawParam.StringCenter);
-            }
-        }
-        /// <summary>
-        /// 绘制
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
-        {
-            base.OnCellPainting(e);
-            if (e.RowIndex == -1)
-            {
-                if (_isDrawCheckBox) DrawCombox(e);
-            }
-            else
-            {
-                if (_isDrawMerger) DrawCell(e);
-                if (_isMultiText) DrawMultiText(e);
-                if (_columnImageText != -1 && !string.IsNullOrEmpty(_columnImage)) DrawImageText(e);
-            }
+            this.pictureBox1.BackColor = Color.Transparent;
         }
 
         #endregion
+
+        #region 变量
+        /// <summary>
+        /// 绘制列数据在源中的序号
+        /// </summary>
+        private int _iCheckBoxIndex { get; set; }
+        /// <summary>
+        /// 要绘制的CheckBox
+        /// </summary>
+        private CheckBox _headerCheckBox = null;
+        /// <summary>
+        /// 文本图片列-文本列索引
+        /// </summary>
+        private int _tColumnIndex = -1;
 
         #endregion
 
         #region 属性
         /// <summary>
-        /// 刷新数据
+        /// 文本图片列-文本列
         /// </summary>
-        public void RefreshData()
-        {
-            this.DataSource = source;
-        }
+        [Browsable(true), Description("文本图片列-文本列"), DefaultValue(null)]
+        public string TColumnText { get; set; }
         /// <summary>
-        /// 原数据源
+        /// 文本图片列-图片列
         /// </summary>
-        private object source;
-        /// <summary>
-        /// 更新列名称
-        /// </summary>
-        private void UpdateColumns(object value)
-        {
-            if (value == null) return;
-            Type type = null;
-            if (value is IList)
-            {
-                IList list = value as IList;
-                type = list.GetListType();
-                base.DataSource = type.ToDataTable(value as IList);
-            }
-            else if (value is DataTable)
-            {
-                base.DataSource = value;
-            }
-            else
-            {
-                type = value.GetType();
-                IList temp = type.CreateList();
-                temp.Add(value);
-                base.DataSource = temp;
-            }
-            for (int i = 0; i < this.Columns.Count; i++)
-            {
-                if (this.Columns[i].Name == ColumnImageText)
-                {
-                    _columnImageText = i;
-                    break;
-                }
-            }
-            UpdateColumns(type);
-        }
-        /// <summary>
-        /// 更新列名称
-        /// </summary>
-        public void UpdateColumns(Type type)
-        {
-            if (type == null || type == typeof(String) || type.IsValueType) return;
+        [Browsable(true), Description("文本图片列-图片列"), DefaultValue(null)]
+        public string TColumnImage { get; set; }
 
-            for (int i = 0; i < this.Columns.Count; i++)
-            {
-                PropertyInfo pro = type.GetProperty(this.Columns[i].Name);
-                if (pro == null) continue;
-                PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-                this.Columns[i].Visible = true;
-                if (itemList != null && itemList.Length != 0)
-                {
-                    if (!itemList[0].Show)
-                    {
-                        this.Columns[i].Visible = false;
-                        continue;
-                    }
-                    if (itemList[0].CnName != null)
-                    {
-                        this.Columns[i].HeaderText = itemList[0].CnName;
-                    }
-                }
-            }
-        }
-
-        private int _columnImageText = -1;
-        /// <summary>
-        /// 文本前绘制小图片-文本列
-        /// </summary>
-        [Browsable(true), Description("文本前绘制小图片-文本列"), DefaultValue(null)]
-        public string ColumnImageText { get; set; }
-        private string _columnImage;
-        /// <summary>
-        /// 文本前绘制小图片-图片列
-        /// </summary>
-        [Browsable(true), Description("文本前绘制小图片-图片列"), DefaultValue(null)]
-        public string ColumnImage
-        {
-            get { return _columnImage; }
-            set
-            {
-                _columnImage = value;
-            }
-        }
-
-        private bool _isMultiText = false;
         /// <summary>
         /// 是否绘制多行文本
         /// </summary>
         [Browsable(true), Description("是否绘制多行文本"), DefaultValue(false)]
-        public bool IsMultiText
-        {
-            get { return _isMultiText; }
-            set
-            {
-                _isMultiText = value;
-            }
-        }
+        public bool IMultiText { get; set; }
 
-        private bool _isDrawMerger = false;
         /// <summary>
-        /// 是否绘制合并列
+        /// 是否合并绘制列
         /// </summary>
-        [Browsable(true), Description("是否绘制合并列"), DefaultValue(false)]
-        public bool IsDrawMerger
+        private bool _iMerger = false;
+        /// <summary>
+        /// 是否合并绘制列
+        /// </summary>
+        [Browsable(true), Description("是否合并绘制列"), DefaultValue(false)]
+        public bool IMerger
         {
-            get { return _isDrawMerger; }
+            get { return _iMerger; }
             set
             {
-                _isDrawMerger = value;
+                _iMerger = value;
                 if (value) this.MultiSelect = true;
             }
         }
 
-        private bool _isDrawMove = true;
         /// <summary>
         /// 是否绘制鼠标移过时的颜色
         /// </summary>
         [Browsable(true), Description("是否绘制鼠标移过时的颜色"), DefaultValue(true)]
-        public bool IsDrawMove
-        {
-            get { return _isDrawMove; }
-            set
-            {
-                _isDrawMove = value;
-            }
-        }
-
-        private Color _colorMove = Color.Azure;
+        public bool IMove { get; set; }
         /// <summary>
         /// 鼠标移过的行颜色
         /// </summary>
         [Browsable(true), Description("鼠标移过的行颜色"), DefaultValue(typeof(Color), "Azure")]
-        public Color ColorMove
-        {
-            get { return _colorMove; }
-            set { _colorMove = value; }
-        }
+        public Color IMoveColor { get; set; }
 
-        private bool _isDrawCheckBox = false;
+        /// <summary>
+        /// 是否绘制CheckBox
+        /// </summary>
+        private bool _iCheckBox = false;
         /// <summary>
         /// 是否绘制CheckBox
         /// </summary>
         [Browsable(true), Description("是否绘制CheckBox"), DefaultValue(false)]
-        public bool IsDrawCheckBox
+        public bool ICheckBox
         {
-            get { return _isDrawCheckBox; }
+            get { return _iCheckBox; }
             set
             {
-                _isDrawCheckBox = value;
-                if (HeaderCheckBox == null)
+                _iCheckBox = value;
+                if (_headerCheckBox == null)
                 {
-                    HeaderCheckBox = new CheckBox();
-                    HeaderCheckBox.Size = new Size(15, 15);
-                    this.Controls.Add(HeaderCheckBox);
+                    _headerCheckBox = new CheckBox();
+                    _headerCheckBox.Size = new Size(15, 15);
+                    this.Controls.Add(_headerCheckBox);
 
-                    HeaderCheckBox.KeyUp += HeaderCheckBox_KeyUp;
-                    HeaderCheckBox.MouseClick += HeaderCheckBox_MouseClick;
+                    _headerCheckBox.KeyUp += HeaderCheckBox_KeyUp;
+                    _headerCheckBox.MouseClick += HeaderCheckBox_MouseClick;
                     this.CurrentCellDirtyStateChanged += ComBoxGridView_CurrentCellDirtyStateChanged;
                 }
-                this.HeaderCheckBox.Visible = _isDrawCheckBox;
+                this._headerCheckBox.Visible = _iCheckBox;
                 this.Invalidate();
             }
         }
-
-        /// <summary>
-        /// 绘制列数据在源中的序号
-        /// </summary>
-        [Browsable(true), Description("绘制列数据在源中的序号"), DefaultValue(0)]
-        public int CheckBoxIndex { get; set; }
-
         /// <summary>
         /// 绘制列列Name
         /// </summary>
         [Browsable(true), Description("绘制列列Name"), DefaultValue(null)]
-        public string CheckBoxName { get; set; }
+        public string ICheckBoxName { get; set; }
 
         #endregion
 
@@ -453,10 +326,124 @@ namespace Paway.Forms
 
         #endregion
 
+        #region 加载数据
+        /// <summary>
+        /// 原数据源
+        /// </summary>
+        private object source;
+        /// <summary>
+        /// 刷新数据
+        /// </summary>
+        public void RefreshData()
+        {
+            this.DataSource = source;
+        }
+        /// <summary>
+        /// 更新列名称
+        /// </summary>
+        private void UpdateColumns(object value)
+        {
+            if (value == null) return;
+            Type type = null;
+            if (value is IList)
+            {
+                IList list = value as IList;
+                type = list.GetListType();
+                base.DataSource = type.ToDataTable(value as IList);
+            }
+            else if (value is DataTable)
+            {
+                base.DataSource = value;
+            }
+            else
+            {
+                type = value.GetType();
+                IList temp = type.CreateList();
+                temp.Add(value);
+                base.DataSource = temp;
+            }
+            UpdateColumns(type);
+        }
+        /// <summary>
+        /// 更新列名称
+        /// </summary>
+        public void UpdateColumns(Type type)
+        {
+            if (type == null || type == typeof(String) || type.IsValueType) return;
+
+            for (int i = 0; i < this.Columns.Count; i++)
+            {
+                if (this.Columns[i].Name == ICheckBoxName)
+                {
+                    _iCheckBoxIndex = i;
+                }
+                if (this.Columns[i].Name == TColumnText)
+                {
+                    _tColumnIndex = i;
+                }
+                PropertyInfo pro = type.GetProperty(this.Columns[i].Name);
+                if (pro == null) continue;
+                PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+                this.Columns[i].Visible = true;
+                if (itemList != null && itemList.Length != 0)
+                {
+                    if (!itemList[0].Show)
+                    {
+                        this.Columns[i].Visible = false;
+                        continue;
+                    }
+                    if (itemList[0].CnName != null)
+                    {
+                        this.Columns[i].HeaderText = itemList[0].CnName;
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region 事件
+        /// <summary>
+        /// 行号
+        /// </summary>
+        void TDataGridView_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            if (!this.RowHeadersVisible) return;
+            using (SolidBrush brush = new SolidBrush(e.InheritedRowStyle.ForeColor))
+            {
+                string line = (e.RowIndex + 1).ToString();
+                e.Graphics.DrawString(line, e.InheritedRowStyle.Font, brush,
+                    new Rectangle(e.RowBounds.X, e.RowBounds.Y, this.RowHeadersWidth, e.RowBounds.Height),
+                    DrawParam.StringCenter);
+                e.Graphics.DrawLine(new Pen(GridColor), new Point(e.RowBounds.X, e.RowBounds.Bottom - 1),
+                    new Point(e.RowBounds.X + RowHeadersWidth, e.RowBounds.Bottom - 1));
+            }
+        }
+        /// <summary>
+        /// 在单元格需要绘制时发生
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
+        {
+            base.OnCellPainting(e);
+            if (e.RowIndex == -1)
+            {
+                if (_iCheckBox) DrawCombox(e);
+            }
+            else
+            {
+                if (_iMerger) DrawCell(e);
+                if (IMultiText) DrawMultiText(e);
+                if (_tColumnIndex != -1 && !string.IsNullOrEmpty(TColumnImage)) DrawImageText(e);
+            }
+        }
+
+        #endregion
+
         #region 鼠标移过的行颜色
         void ComBoxGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
-            if (!_isDrawMove) return;
+            if (!IMove) return;
             if (e.RowIndex >= 0)
             {
                 this.Rows[e.RowIndex].DefaultCellStyle.BackColor = this.RowTemplate.DefaultCellStyle.BackColor;
@@ -464,17 +451,16 @@ namespace Paway.Forms
         }
         void ComBoxGridView_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (!_isDrawMove) return;
+            if (!IMove) return;
             if (e.RowIndex >= 0)
             {
-                this.Rows[e.RowIndex].DefaultCellStyle.BackColor = _colorMove;
+                this.Rows[e.RowIndex].DefaultCellStyle.BackColor = IMoveColor;
             }
         }
 
         #endregion
 
         #region 绘制Combox
-
         void HeaderCheckBox_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Space)
@@ -486,43 +472,40 @@ namespace Paway.Forms
         }
         private void HeaderCheckBoxClick(CheckBox HCheckBox)
         {
-            if (string.IsNullOrEmpty(CheckBoxName)) return;
-            if (!_isDrawCheckBox) return;
+            if (!_iCheckBox || string.IsNullOrEmpty(ICheckBoxName)) return;
 
             foreach (DataGridViewRow Row in this.Rows)
             {
-                ((DataGridViewCheckBoxCell)Row.Cells[CheckBoxName]).Value = HCheckBox.Checked;
+                ((DataGridViewCheckBoxCell)Row.Cells[ICheckBoxName]).Value = HCheckBox.Checked;
             }
             this.RefreshEdit();
         }
-
         void ComBoxGridView_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
-            if (!_isDrawCheckBox) return;
+            if (!_iCheckBox) return;
             if (this.CurrentCell is DataGridViewCheckBoxCell)
                 this.CommitEdit(DataGridViewDataErrorContexts.Commit);
         }
-
         private void DrawCombox(DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex != -1) return;
-            if (!_isDrawCheckBox) return;
-            if (e.ColumnIndex == CheckBoxIndex)
+            if (!_iCheckBox) return;
+            if (e.ColumnIndex == _iCheckBoxIndex)
             {
                 Rectangle oRectangle = this.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
                 Point oPoint = new Point();
-                oPoint.X = oRectangle.Location.X + (oRectangle.Width - HeaderCheckBox.Width) / 2 + 1;
-                oPoint.Y = oRectangle.Location.Y + (oRectangle.Height - HeaderCheckBox.Height) / 2 + 1;
-                HeaderCheckBox.Location = oPoint;
+                oPoint.X = oRectangle.Location.X + (oRectangle.Width - _headerCheckBox.Width) / 2 + 1;
+                oPoint.Y = oRectangle.Location.Y + (oRectangle.Height - _headerCheckBox.Height) / 2 + 1;
+                _headerCheckBox.Location = oPoint;
             }
         }
+
         #endregion
 
-        #region 合并列
+        #region 合并单元格
         /// <summary>
-        /// 画单元格
+        /// 合并单元格
         /// </summary>
-        /// <param name="e"></param>
         private void DrawCell(DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex == -1) return;
@@ -552,6 +535,7 @@ namespace Paway.Forms
                     #region 获取下面的行数
                     for (int i = e.RowIndex; i < this.Rows.Count; i++)
                     {
+                        if (this.Rows[i].Cells[e.ColumnIndex].Value == null) break;
                         if (this.Rows[i].Cells[e.ColumnIndex].Value.ToString().Equals(curValue))
                         {
                             if (this.Rows[i].Cells[e.ColumnIndex].Selected) select = true;
@@ -598,6 +582,7 @@ namespace Paway.Forms
                     #region 选中下面的行
                     for (int i = e.RowIndex; i < this.Rows.Count; i++)
                     {
+                        if (this.Rows[i].Cells[e.ColumnIndex].Value == null) break;
                         if (this.Rows[i].Cells[e.ColumnIndex].Value.ToString().Equals(curValue))
                         {
                             this.Rows[i].Cells[e.ColumnIndex].Selected = true;
@@ -611,6 +596,7 @@ namespace Paway.Forms
                     #region 选中上面的行
                     for (int i = e.RowIndex; i >= 0; i--)
                     {
+                        if (this.Rows[i].Cells[e.ColumnIndex].Value == null) break;
                         if (this.Rows[i].Cells[e.ColumnIndex].Value.ToString().Equals(curValue))
                         {
                             this.Rows[i].Cells[e.ColumnIndex].Selected = true;
@@ -713,95 +699,101 @@ namespace Paway.Forms
             DataGridViewTextBoxColumn cell = this.Columns[e.ColumnIndex] as DataGridViewTextBoxColumn;
             if (cell != null && cell.Visible && cell.ReadOnly)
             {
-                Graphics gpcEventArgs = e.Graphics;
-                Color clrFore = e.CellStyle.ForeColor;
-                Color clrBack = e.CellStyle.BackColor;
+                Graphics graphics = e.Graphics;
+                Color colorFore = e.CellStyle.ForeColor;
+                Color colorBack = e.CellStyle.BackColor;
                 if (this.Rows[e.RowIndex].Selected)
                 {
-                    clrFore = e.CellStyle.SelectionForeColor;
-                    clrBack = e.CellStyle.SelectionBackColor;
+                    colorFore = e.CellStyle.SelectionForeColor;
+                    colorBack = e.CellStyle.SelectionBackColor;
                 }
-                Font fntText = e.CellStyle.Font;
+                DrawBounds(e.Graphics, new SolidBrush(colorBack), e.CellBounds, e.RowIndex);
 
-                string strFirstLine = e.Value.ToString().Substring(0, e.Value.ToString().IndexOf("&"));
-                string strSecondLine = e.Value.ToString().Substring(e.Value.ToString().IndexOf("&") + 1);
+                int index = e.Value.ToString().IndexOf("&");
+                string strFirst = e.Value.ToString().Substring(0, index);
+                string strSecond = e.Value.ToString().Substring(index + 1);
 
-                Size sizText = TextRenderer.MeasureText(e.Graphics, strFirstLine, fntText);
-
+                Font fontFore = e.CellStyle.Font;
+                Size sizText = TextRenderer.MeasureText(graphics, strFirst, fontFore);
                 int intX = e.CellBounds.Left + e.CellStyle.Padding.Left;
                 int intY = e.CellBounds.Top + e.CellStyle.Padding.Top;
                 int intWidth = e.CellBounds.Width - (e.CellStyle.Padding.Left + e.CellStyle.Padding.Right);
-                //int intHeight = sizText.Height + (e.CellStyle.Padding.Top + e.CellStyle.Padding.Bottom);
                 int intHeight = e.CellBounds.Height - (e.CellStyle.Padding.Top + e.CellStyle.Padding.Bottom);
                 intHeight = intHeight / 2;
 
-                gpcEventArgs.FillRectangle(new SolidBrush(clrBack), new Rectangle(e.CellBounds.X, e.CellBounds.Y, e.CellBounds.Width - 1, e.CellBounds.Height - 1));
-
-                //划线
-                Brush gridBrush = new SolidBrush(this.GridColor);
-                Pen gridLinePen = new Pen(gridBrush, 1);
-                Point p1 = new Point(e.CellBounds.Left + e.CellBounds.Width - 1, e.CellBounds.Top);
-                Point p2 = new Point(e.CellBounds.Left + e.CellBounds.Width - 1, e.CellBounds.Top + e.CellBounds.Height - 1);
-                Point p3 = new Point(e.CellBounds.Left, e.CellBounds.Top + e.CellBounds.Height - 1);
-                Point[] ps = new Point[] { p1, p2, p3 };
-                e.Graphics.DrawLines(gridLinePen, ps);
-
-                clrFore = Color.Black;
+                colorFore = Color.Black;
                 //the first line
-                TextRenderer.DrawText(e.Graphics, strFirstLine, fntText, new Rectangle(intX, intY, intWidth, intHeight), clrFore, DrawParam.TextEnd);
+                TextRenderer.DrawText(graphics, strFirst, fontFore, new Rectangle(intX, intY, intWidth, intHeight), colorFore, DrawParam.TextEnd);
 
-                fntText = e.CellStyle.Font;
+                fontFore = e.CellStyle.Font;
                 intY = intY + intHeight;
 
-                clrFore = Color.SteelBlue;
+                colorFore = Color.SteelBlue;
                 //the seconde line
-                TextRenderer.DrawText(e.Graphics, strSecondLine, fntText, new Rectangle(intX, intY, intWidth, intHeight), clrFore, DrawParam.TextEnd);
+                TextRenderer.DrawText(graphics, strSecond, fontFore, new Rectangle(intX, intY, intWidth, intHeight), colorFore, DrawParam.TextEnd);
 
                 e.Handled = true;
             }
         }
+
         #endregion
 
-        #region 文本前绘制图片
+        #region 绘制文本图片列
+        /// <summary>
+        /// 绘制文本图片列
+        /// </summary>
         private void DrawImageText(DataGridViewCellPaintingEventArgs e)
         {
-            if (e.ColumnIndex == _columnImageText)
+            if (e.ColumnIndex == _tColumnIndex)
             {
-                Brush foreColorBrush = new SolidBrush(e.CellStyle.ForeColor);
-                Brush backColorBrush = new SolidBrush(e.CellStyle.BackColor);
+                Brush foreBrush = new SolidBrush(e.CellStyle.ForeColor);
+                Brush backBrush = new SolidBrush(e.CellStyle.BackColor);
                 if (this.Rows[e.RowIndex].Selected)
                 {
-                    foreColorBrush = new SolidBrush(e.CellStyle.SelectionForeColor);
-                    backColorBrush = new SolidBrush(e.CellStyle.SelectionBackColor);
+                    foreBrush = new SolidBrush(e.CellStyle.SelectionForeColor);
+                    backBrush = new SolidBrush(e.CellStyle.SelectionBackColor);
                 }
-
-                // Erase the cell.
-                e.Graphics.FillRectangle(backColorBrush, e.CellBounds);
-
-                //划线
-                Brush gridBrush = new SolidBrush(this.GridColor);
-                Pen gridLinePen = new Pen(gridBrush, 1);
-                Point p1 = new Point(e.CellBounds.Left + e.CellBounds.Width - 1, e.CellBounds.Top);
-                Point p2 = new Point(e.CellBounds.Left + e.CellBounds.Width - 1, e.CellBounds.Top + e.CellBounds.Height - 1);
-                Point p3 = new Point(e.CellBounds.Left, e.CellBounds.Top + e.CellBounds.Height - 1);
-                Point[] ps = new Point[] { p1, p2, p3 };
-                e.Graphics.DrawLines(gridLinePen, ps);
+                DrawBounds(e.Graphics, backBrush, e.CellBounds, e.RowIndex);
 
                 //画图标
-                Bitmap bitmap = this.Rows[e.RowIndex].Cells[ColumnImage].Value as Bitmap;
-                Rectangle newRect = new Rectangle(e.CellBounds.X + 5, e.CellBounds.Y + (e.CellBounds.Height - bitmap.Height) / 2, bitmap.Width, bitmap.Height);
-                e.Graphics.DrawImage(bitmap, newRect);
+                Bitmap bitmap = this.Rows[e.RowIndex].Cells[TColumnImage].Value as Bitmap;
+                if (bitmap != null)
+                {
+                    Rectangle newRect = new Rectangle(e.CellBounds.X + 5, e.CellBounds.Y + (e.CellBounds.Height - bitmap.Height) / 2, bitmap.Width, bitmap.Height);
+                    e.Graphics.DrawImage(bitmap, newRect);
+                }
 
                 //画字符串
-                e.Graphics.DrawString(e.Value == null ? null : e.Value.ToString(), e.CellStyle.Font, foreColorBrush,
-                    new Rectangle(e.CellBounds.Left + bitmap.Width + 10, e.CellBounds.Top, e.CellBounds.Width, e.CellBounds.Height), DrawParam.StringVertical);
+                e.Graphics.DrawString(e.Value == null ? null : e.Value.ToString(), e.CellStyle.Font, foreBrush,
+                    new Rectangle(e.CellBounds.Left + (bitmap == null ? 0 : bitmap.Width) + 10, e.CellBounds.Top, e.CellBounds.Width, e.CellBounds.Height), DrawParam.StringVertical);
+
                 e.Handled = true;
             }
+        }
+        /// <summary>
+        /// 边框
+        /// </summary>
+        private void DrawBounds(Graphics g, Brush brush, Rectangle rect, int index)
+        {
+            // Erase the cell.
+            g.FillRectangle(brush, rect);
+            //首行线
+            if (index == 0 && !ColumnHeadersVisible)
+            {
+                g.DrawLine(new Pen(GridColor), new Point(rect.X, rect.Top), new Point(rect.Right, rect.Top));
+            }
+
+            //划线
+            Point p1 = new Point(rect.Right - 1, rect.Top);
+            Point p2 = new Point(rect.Right - 1, rect.Bottom - 1);
+            Point p3 = new Point(rect.Left, rect.Bottom - 1);
+            Point[] ps = new Point[] { p1, p2, p3 };
+            g.DrawLines(new Pen(GridColor), ps);
         }
 
         #endregion
 
-        #region 扩展方法 - 动态显示项的图像
+        #region 动态文本图片列
         private Timer timer = new Timer();
         private PictureBox pictureBox1;
         /// <summary>
@@ -809,34 +801,34 @@ namespace Paway.Forms
         /// </summary>
         private int pIndex = -1;
         /// <summary>
-        /// 动态显示的图片
+        /// 动态文本图片列显示的图片
         /// </summary>
-        [Browsable(true), Description("动态显示的图片"), DefaultValue(null)]
-        public Image ProgressImage
+        [Browsable(true), Description("动态文本图片列显示的图片"), DefaultValue(null)]
+        public Image TProgressImage
         {
             get { return pictureBox1.Image; }
             set { pictureBox1.Image = value; }
         }
         /// <summary>
-        /// 设置显示行
+        /// 动态文本图片列显示行
         /// </summary>
-        [Browsable(true), Description("设置动态显示行"), DefaultValue(-1)]
-        public int ProgressIndex
+        [Browsable(true), Description("动态文本图片列显示行"), DefaultValue(-1)]
+        public int TProgressIndex
         {
             get { return this.pIndex; }
             set
             {
                 this.pIndex = value;
-                this.timer.Enabled = value != -1 && !string.IsNullOrEmpty(ColumnImage) && !string.IsNullOrEmpty(ColumnImageText);
+                this.timer.Enabled = value != -1 && !string.IsNullOrEmpty(TColumnImage) && !string.IsNullOrEmpty(TColumnText);
             }
         }
 
         void timer_Tick(object sender, EventArgs e)
         {
             if (pIndex == -1 || pIndex >= this.Rows.Count) return;
-            DataGridViewCell image = this.Rows[pIndex].Cells[ColumnImage];
+            DataGridViewCell image = this.Rows[pIndex].Cells[TColumnImage];
             image.Value = this.pictureBox1.Image;
-            DataGridViewCell cell = this.Rows[pIndex].Cells[ColumnImageText];
+            DataGridViewCell cell = this.Rows[pIndex].Cells[TColumnText];
             this.InvalidateCell(cell);
         }
 
@@ -849,7 +841,7 @@ namespace Paway.Forms
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 1);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(1, 1);
             this.pictureBox1.TabIndex = 0;

@@ -23,6 +23,7 @@ namespace Paway.Forms
             InitializeComponent();
             this.panel1.BackColor = this.panel2.BackColor;
             this.TDrawBelowBorder(panel1);
+            this.TDrawBelowBorder(panel2);
             this.TMouseMove(toolBar1);
         }
         /// <summary>

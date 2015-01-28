@@ -26,7 +26,7 @@ namespace Paway.Test
             WaitDrawDataGridView();
             CheckBoxDataGridView();
             CheckBox();
-            this.tDataGridView1.ProgressIndex = -1;
+            this.tDataGridView1.TProgressIndex = -1;
             this.tDataGridView1.CurrentCellChanged += comBoxGridView1_CurrentCellChanged;
         }
 
@@ -41,16 +41,19 @@ namespace Paway.Test
             int old = index;
 
             index = this.tDataGridView1.CurrentCell.RowIndex;
-            this.tDataGridView1.ProgressIndex = index;
+            this.tDataGridView1.TProgressIndex = index;
             bitmap = this.tDataGridView1.Rows[index].Cells["Image"].Value as Bitmap;
             this.tDataGridView1.Rows[index].Cells[0].Value = true;
-            this.tDataGridView1.Rows[index].Cells[2].Value = string.Format("点击&第1步");
+            this.tDataGridView1.Rows[index].Cells[2].Value = string.Format("点击123456&第1步123456");
             if (last != null)
             {
                 this.tDataGridView1.Rows[old].Cells[2].Value = "点击";
                 this.tDataGridView1.Rows[old].Cells["Image"].Value = last;
             }
-            last = bitmap.Clone() as Bitmap;
+            if (bitmap != null)
+            {
+                last = bitmap.Clone() as Bitmap;
+            }
         }
 
         protected void WaitDrawDataGridView()
@@ -58,7 +61,7 @@ namespace Paway.Test
             BindingList<WaitDrawDataGridViewData> list = new BindingList<WaitDrawDataGridViewData>();
             tDataGridViewPager1.DataSource = new WaitDrawDataGridViewData() { Device = "正在加载" };
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "image");
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 3; i++)
             {
                 bool a = false, b = false, c = false;
                 if (i > 1) a = true;
@@ -81,7 +84,7 @@ namespace Paway.Test
         {
             List<CheckBoxDataGridViewData> list = new List<CheckBoxDataGridViewData>();
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "image");
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 3; i++)
             {
                 list.Add(new CheckBoxDataGridViewData
                 {
