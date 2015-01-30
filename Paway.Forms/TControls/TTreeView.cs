@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Paway.Helper;
 using System.Collections;
+using System.Reflection;
 
 namespace Paway.Forms
 {
@@ -19,7 +20,7 @@ namespace Paway.Forms
     public class TTreeView : TreeView
     {
         /// <summary>
-        /// 
+        /// 构造
         /// </summary>
         public TTreeView()
         {
@@ -34,91 +35,267 @@ namespace Paway.Forms
             this.AfterCheck += DrawTreeView_AfterCheck;
         }
 
-        #region 选中与颜色重绘
+        #region 变量
+        /// <summary>
+        /// 鼠标上一次移过的项
+        /// </summary>
+        private TreeNode lastnode = null;
+
+        #endregion
+
         #region 属性
-        private Color _colorSelect = Color.DodgerBlue;
+        private Color _select = Color.DodgerBlue;
         /// <summary>
         /// 项被选中后的背景颜色
         /// </summary>
         [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的背景颜色")]
         [DefaultValue(typeof(Color), "DodgerBlue")]
-        public Color ColorSelect
-        {
-            get { return _colorSelect; }
-            set
-            {
-                _colorSelect = value;
-                this.Invalidate();
-            }
-        }
-        private Color _colorSelectFore = Color.White;
+        public Color ColorSelect { get { return _select; } set { _select = value; } }
+        private Color _selectFore = Color.White;
         /// <summary>
         /// 项被选中后的字体颜色
         /// </summary>
         [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的字体颜色")]
         [DefaultValue(typeof(Color), "White")]
-        public Color ColorSelectFore
-        {
-            get { return _colorSelectFore; }
-            set
-            {
-                _colorSelectFore = value;
-                this.Invalidate();
-            }
-        }
-        private Color _colorHot = Color.LightBlue;
+        public Color ColorSelectFore { get { return _selectFore; } set { _selectFore = value; } }
+        private Color _hot = Color.LightBlue;
         /// <summary>
         /// 鼠标移过项时的背景颜色
         /// </summary>
         [Browsable(true), Category("控件的重绘设置"), Description("鼠标移过项时的背景颜色")]
         [DefaultValue(typeof(Color), "LightBlue")]
-        public Color ColorHot
-        {
-            get { return _colorHot; }
-            set
-            {
-                _colorHot = value;
-                this.Invalidate();
-            }
-        }
-        private Color _colorHotFore = Color.White;
+        public Color ColorHot { get { return _hot; } set { _hot = value; } }
+        private Color _hotFore = Color.White;
         /// <summary>
         /// 鼠标移过项时的字体颜色
         /// </summary>
         [Browsable(true), Category("控件的重绘设置"), Description("鼠标移过项时的字体颜色")]
         [DefaultValue(typeof(Color), "White")]
-        public Color ColorHotFore
+        public Color ColorHotFore { get { return _hotFore; } set { _hotFore = value; } }
+
+        /// <summary>
+        /// 根节点
+        /// </summary>
+        [TypeConverter(typeof(StringConverter))]
+        [Browsable(true), Category("控件的数据设置"), Description("根节点"), DefaultValue(null)]
+        public object TRoot { get; set; }
+        private object _parentId = "ParentId";
+        /// <summary>
+        /// 父节点字段
+        /// </summary>
+        [TypeConverter(typeof(StringConverter))]
+        [Browsable(true), Category("控件的数据设置"), Description("父节点字段"), DefaultValue("ParentId")]
+        public object TParentId { get { return _parentId; } set { _parentId = value; } }
+        private object _id = "Id";
+        /// <summary>
+        /// 子节点字段
+        /// </summary>
+        [TypeConverter(typeof(StringConverter))]
+        [Browsable(true), Category("控件的数据设置"), Description("子节点字段"), DefaultValue("Id")]
+        public object TId { get { return _id; } set { _id = value; } }
+        private bool _autoWidth = true;
+        /// <summary>
+        /// 自动调整宽度至整行
+        /// </summary>
+        [Browsable(true), Description("自动调整宽度至整行"), DefaultValue(true)]
+        public bool TAutoWidth
         {
-            get { return _colorHotFore; }
+            get { return _autoWidth; }
             set
             {
-                _colorHotFore = value;
-                this.Invalidate();
+                _autoWidth = value;
+                if (_dataSource == null || TId == null || TParentId == null) return;
+                Type type = _dataSource.GetType();
+                if (_dataSource is IList)
+                {
+                    IList list = _dataSource as IList;
+                    type = list.GetListType();
+                }
+                UpdateColumns(type);
             }
         }
-        private TreeNode lastnode = null;
+        private object _dataSource;
+        /// <summary>
+        /// 数据源
+        /// </summary>
+        [Browsable(false), Category("控件的数据设置"), Description("数据源")]
+        public object DataSource
+        {
+            get { return _dataSource; }
+            set
+            {
+                _dataSource = value;
+                RefreshData();
+            }
+        }
+        /// <summary>
+        /// TreeView中的显示项
+        /// </summary>
+        private TreeItemCollection _items = null;
+        /// <summary>
+        /// TreeView中的显示项
+        /// </summary>
+        [Description("TreeView中的显示项"), EditorBrowsable(EditorBrowsableState.Always), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public TreeItemCollection TItems
+        {
+            get
+            {
+                if (this._items == null)
+                    this._items = new TreeItemCollection(this);
+                return this._items;
+            }
+        }
 
         #endregion
 
-        #region 方法
+        #region 节点添加
         /// <summary>
-        /// 移过整行
+        /// 刷新数据
         /// </summary>
-        /// <param name="e"></param>
+        public void RefreshData()
+        {
+            this.Nodes.Clear();
+            if (_dataSource == null || TId == null || TParentId == null) return;
+            DataTable dt = null;
+            Type type = _dataSource.GetType();
+            if (_dataSource is DataTable)
+            {
+                dt = _dataSource as DataTable;
+            }
+            else if (_dataSource is IList)
+            {
+                IList list = _dataSource as IList;
+                type = list.GetListType();
+                dt = type.ToDataTable(list);
+            }
+            else if (type == typeof(String) || type.IsValueType)
+            {
+                TreeNode node = new TreeNode();
+                node.Text = _dataSource.ToString();
+                this.Nodes.Add(node);
+            }
+            UpdateColumns(type);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                AddNodes(dt, type);
+            }
+        }
+        private void AddNodes(DataTable dt, Type type)
+        {
+            DataRow[] dr = null;
+            if (TRoot == null)
+            {
+                PropertyDescriptorCollection props = TypeDescriptor.GetProperties(type);
+                for (int i = 0; i < props.Count; i++)
+                {
+                    if (props[i].Name == TParentId.ToString())
+                    {
+                        if (!props[i].PropertyType.IsValueType && props[i].PropertyType != typeof(String))
+                        {
+                            TRoot = Activator.CreateInstance(props[i].PropertyType);
+                        }
+                        break;
+                    }
+                }
+            }
+            if (TRoot != null)
+            {
+                dr = dt.Select(string.Format("{0} = '{1}'", TId, TRoot));
+                if (dr.Length > 0) throw new Exception("子节点不可与根节点相同");
+                dr = dt.Select(string.Format("{0} = '{1}'", TParentId, TRoot));
+            }
+            else
+            {
+                dr = dt.Select(string.Format("{0} is null", TParentId));
+            }
+            for (int i = 0; i < dr.Length; i++)
+            {
+                ItemNode node = new ItemNode(dr[i]);
+                node.Text = (_items.Count > 0 ? dr[i][_items[0].Name] : dr[i][TId.ToString()]).ToString();
+                node.Name = dr[i][TId.ToString()].ToString();
+                this.Nodes.Add(node);
+                AddNodes(dt, node, dr[i][TId.ToString()].ToString());
+            }
+        }
+        private void AddNodes(DataTable dt, TreeNode parent, string id)
+        {
+            DataRow[] dr = dt.Select(string.Format("{0} = '{1}'", TParentId, id));
+            for (int i = 0; i < dr.Length; i++)
+            {
+                ItemNode node = new ItemNode(dr[i]);
+                node.Text = (_items.Count > 0 ? dr[i][_items[0].Name] : dr[i][TId.ToString()]).ToString();
+                node.Name = dr[i][TId.ToString()].ToString();
+                parent.Nodes.Add(node);
+                AddNodes(dt, node, dr[i][TId.ToString()].ToString());
+            }
+        }
+        private string GetText(DataRow dr)
+        {
+            string result = null;
+            for (int j = 0; j < this._items.Count; j++)
+            {
+                result = string.Format("{0}{1}&", result, dr[_items[j].Name]);
+            }
+            if (result == null) result = dr[TId.ToString()].ToString();
+            else result = result.TrimEnd('&');
+            return result;
+        }
+        /// <summary>
+        /// 更新列名称
+        /// </summary>
+        public void UpdateColumns(Type type)
+        {
+            if (type == null || type == typeof(String) || type.IsValueType) return;
+            if (TItems.Count == 0)
+            {
+                PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
+                for (int i = 0; i < properties.Count; i++)
+                {
+                    PropertyInfo pro = type.GetProperty(properties[i].Name);
+                    if (pro == null) continue;
+                    PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+                    if (itemList != null && itemList.Length != 0)
+                    {
+                        if (!itemList[0].Show)
+                        {
+                            this.TItems.Add(new TreeItem());
+                        }
+                    }
+                }
+            }
+            if (TAutoWidth)
+            {
+                int total = 0;
+                for (int i = 0; i < TItems.Count; i++)
+                {
+                    total += TItems[i].Width;
+                }
+                for (int i = 0; i < TItems.Count; i++)
+                {
+                    TItems[i].Width = TItems[i].Width * this.Width / total;
+                }
+            }
+        }
+
+        #endregion
+
+        #region 选中与颜色重绘
+        /// <summary>
+        /// 移过行
+        /// </summary>
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
             TreeNode node = this.GetNodeAt(e.Location);
             if (node != null && lastnode != null && lastnode.Name == node.Name) return;
 
-            C_DrawNode(_colorHotFore, _colorHot, node);
+            C_DrawNode(ColorHotFore, ColorHot, node);
             C_DrawNode(this.ForeColor, this.BackColor, lastnode);
             lastnode = node;
         }
         /// <summary>
-        /// 整行双击
+        /// 双击展开项
         /// </summary>
-        /// <param name="e"></param>
         protected override void OnMouseDoubleClick(MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
@@ -164,8 +341,8 @@ namespace Paway.Forms
             Color backColor;
             if ((e.State & TreeNodeStates.Selected) == TreeNodeStates.Selected)
             {
-                foreColor = this._colorSelectFore;
-                backColor = this._colorSelect;
+                foreColor = this.ColorSelectFore;
+                backColor = this.ColorSelect;
             }
             else
             {
@@ -190,10 +367,6 @@ namespace Paway.Forms
         /// <summary>
         /// 通过绘制实现多列
         /// </summary>
-        /// <param name="g"></param>
-        /// <param name="node"></param>
-        /// <param name="rect"></param>
-        /// <param name="foreColor"></param>
         private void C_DrawString(Graphics g, TreeNode node, Rectangle rect, Color foreColor)
         {
             if (rect.Height == 0) return;
@@ -206,36 +379,27 @@ namespace Paway.Forms
             {
                 int x = this.Indent + 3;
                 int left = 0;
+                TextFormatFlags format = TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis;
                 for (int i = 0; i < _items.Count; i++)
                 {
-                    if (_items[i].LDirection == TLocation.Right) continue;
                     Rectangle irect = new Rectangle(
                         rect.X + left, rect.Y,
                         _items[i].Width + (i == 0 ? x - rect.X : 0), rect.Height
                         );
-                    left += _items[i].Width + x - rect.X;
+                    left += irect.Width;
                     if (_items[i].Type == TreeItemType.Text)
                     {
-                        TextRenderer.DrawText(g, item[_items[i].Name].ToString(), this.Font, irect, foreColor, DrawParam.TextEnd);
-                    }
-                    else
-                    {
-                        object obj = item[_items[i].Name];
-                        DrawImage(g, obj, irect);
-                    }
-                }
-                int right = 0;
-                for (int i = _items.Count - 1; i >= 0; i--)
-                {
-                    if (_items[i].LDirection == TLocation.Left) continue;
-                    Rectangle irect = new Rectangle(
-                        this.Width - _items[i].Width - right, rect.Y,
-                        _items[i].Width, rect.Height
-                        );
-                    right += _items[i].Width;
-                    if (_items[i].Type == TreeItemType.Text)
-                    {
-                        TextRenderer.DrawText(g, item[_items[i].Name].ToString(), this.Font, irect, foreColor, DrawParam.TextEnd);
+                        TextFormatFlags temp = format;
+                        switch (_items[i].Alignment)
+                        {
+                            case StringAlignment.Center:
+                                temp = temp | TextFormatFlags.HorizontalCenter;
+                                break;
+                            case StringAlignment.Far:
+                                temp = temp | TextFormatFlags.Right;
+                                break;
+                        }
+                        TextRenderer.DrawText(g, item[_items[i].Name].ToString(), this.Font, irect, foreColor, temp);
                     }
                     else
                     {
@@ -263,168 +427,7 @@ namespace Paway.Forms
 
         #endregion
 
-        #endregion
-
-        #region 节点添加
-        #region 属性
-        private object _root;
-        /// <summary>
-        /// 根节点
-        /// </summary>
-        [TypeConverter(typeof(StringConverter))]
-        [Browsable(true), Category("控件的数据设置"), Description("根节点"), DefaultValue(null)]
-        public object Root
-        {
-            get { return _root; }
-            set { _root = value; }
-        }
-        private object _parentId = "ParentId";
-        /// <summary>
-        /// 父节点字段
-        /// </summary>
-        [TypeConverter(typeof(StringConverter))]
-        [Browsable(true), Category("控件的数据设置"), Description("父节点字段"), DefaultValue("ParentId")]
-        public object ParentId
-        {
-            get { return _parentId; }
-            set { _parentId = value; }
-        }
-        private object _id = "Id";
-        /// <summary>
-        /// 子节点字段
-        /// </summary>
-        [TypeConverter(typeof(StringConverter))]
-        [Browsable(true), Category("控件的数据设置"), Description("子节点字段"), DefaultValue("Id")]
-        public object Id
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
-        private object _dataSource;
-        /// <summary>
-        /// 数据源
-        /// </summary>
-        [Browsable(true), Category("控件的数据设置"), Description("数据源")]
-        public object DataSource
-        {
-            get { return _dataSource; }
-            set
-            {
-                _dataSource = value;
-                InitData();
-            }
-        }
-        /// <summary>
-        /// TreeView中的显示项
-        /// </summary>
-        private TreeItemCollection _items = null;
-        /// <summary>
-        /// TreeView中的显示项
-        /// </summary>
-        [Description("TreeView中的显示项"), EditorBrowsable(EditorBrowsableState.Always), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public TreeItemCollection Items
-        {
-            get
-            {
-                if (this._items == null)
-                    this._items = new TreeItemCollection(this);
-                return this._items;
-            }
-        }
-        #endregion
-
-        #region 方法
-        private void InitData()
-        {
-            if (_dataSource == null || _id == null || _parentId == null) return;
-            DataTable dt = null;
-            Type type = _dataSource.GetType();
-            if (_dataSource is DataTable)
-            {
-                dt = _dataSource as DataTable;
-            }
-            else if (_dataSource is IList)
-            {
-                IList list = _dataSource as IList;
-                type = list.GetListType();
-                dt = type.ToDataTable(list);
-            }
-            else if (type == typeof(String) || type.IsValueType)
-            {
-                TreeNode node = new TreeNode();
-                node.Text = _dataSource.ToString();
-                this.Nodes.Add(node);
-            }
-            if (dt != null && dt.Rows.Count > 0)
-            {
-                AddNodes(dt, type);
-            }
-        }
-        private void AddNodes(DataTable dt, Type type)
-        {
-            DataRow[] dr = null;
-            if (_root == null)
-            {
-                PropertyDescriptorCollection props = TypeDescriptor.GetProperties(type);
-                for (int i = 0; i < props.Count; i++)
-                {
-                    if (props[i].Name == _parentId.ToString())
-                    {
-                        if (!props[i].PropertyType.IsValueType && props[i].PropertyType != typeof(String))
-                        {
-                            _root = Activator.CreateInstance(props[i].PropertyType);
-                        }
-                        break;
-                    }
-                }
-            }
-            if (_root != null)
-            {
-                dr = dt.Select(string.Format("{0} = '{1}'", _id, _root));
-                if (dr.Length > 0) throw new Exception("子节点不可与根节点相同");
-                dr = dt.Select(string.Format("{0} = '{1}'", _parentId, _root));
-            }
-            else
-            {
-                dr = dt.Select(string.Format("{0} is null", _parentId));
-            }
-            for (int i = 0; i < dr.Length; i++)
-            {
-                ItemNode node = new ItemNode(dr[i]);
-                node.Text = (_items.Count > 0 ? dr[i][_items[0].Name] : dr[i][_id.ToString()]).ToString();
-                node.Name = dr[i][_id.ToString()].ToString();
-                this.Nodes.Add(node);
-                AddNodes(dt, node, dr[i][_id.ToString()].ToString());
-            }
-        }
-        private void AddNodes(DataTable dt, TreeNode parent, string id)
-        {
-            DataRow[] dr = dt.Select(string.Format("{0} = '{1}'", _parentId, id));
-            for (int i = 0; i < dr.Length; i++)
-            {
-                ItemNode node = new ItemNode(dr[i]);
-                node.Text = (_items.Count > 0 ? dr[i][_items[0].Name] : dr[i][_id.ToString()]).ToString();
-                node.Name = dr[i][_id.ToString()].ToString();
-                parent.Nodes.Add(node);
-                AddNodes(dt, node, dr[i][_id.ToString()].ToString());
-            }
-        }
-        private string GetText(DataRow dr)
-        {
-            string result = null;
-            for (int j = 0; j < this._items.Count; j++)
-            {
-                result = string.Format("{0}{1}&", result, dr[_items[j].Name]);
-            }
-            if (result == null) result = dr[_id.ToString()].ToString();
-            else result = result.TrimEnd('&');
-            return result;
-        }
-        #endregion
-
-        #endregion
-
-        #region 节点点击事件
+        #region 节点选中事件
         void DrawTreeView_AfterCheck(object sender, TreeViewEventArgs e)
         {
             this.AfterCheck -= DrawTreeView_AfterCheck;
@@ -456,6 +459,7 @@ namespace Paway.Forms
 
         #endregion
     }
+
     /// <summary>
     /// 自定义树节点
     /// </summary>
@@ -497,6 +501,7 @@ namespace Paway.Forms
             }
         }
     }
+
     /// <summary>
     /// 代表 TreeView 中项的集合。
     /// </summary>
@@ -527,8 +532,6 @@ namespace Paway.Forms
         /// <summary>
         /// 返回该项在集合中的索引值
         /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
         public int GetIndexOfRange(TreeItem item)
         {
             int result = -1;
@@ -544,6 +547,7 @@ namespace Paway.Forms
         }
         #endregion
     }
+
     /// <summary>
     /// 表示 TreeView 控件中的单个显示项。
     /// </summary>
@@ -560,16 +564,16 @@ namespace Paway.Forms
         /// </summary>
         [DefaultValue("toolItem")]
         public string Name { get; set; }
+        private int width = 100;
         /// <summary>
         /// 项的长度
         /// </summary>
-        public int Width { get; set; }
-        private TLocation _lDirection = TLocation.Left;
+        public int Width { get { return width; } set { width = value; } }
         /// <summary>
         /// 文本显示的位置,左或右
         /// </summary>
-        [DefaultValue(TLocation.Left)]
-        public TLocation LDirection { get { return _lDirection; } set { _lDirection = value; } }
+        [DefaultValue(StringAlignment.Near)]
+        public StringAlignment Alignment { get; set; }
         /// <summary>
         /// 当前 Item 在 TreeItem 中的 Rectangle
         /// </summary>
@@ -582,6 +586,7 @@ namespace Paway.Forms
 
         #endregion
     }
+
     /// <summary>
     /// 列中显示图片或文本
     /// </summary>

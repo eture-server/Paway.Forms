@@ -106,7 +106,7 @@
             this.tabPage3.Controls.Add(this.chatListBox2);
             this.tabPage3.Location = new System.Drawing.Point(4, 36);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(301, 246);
+            this.tabPage3.Size = new System.Drawing.Size(688, 246);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "ChatListBox";
             // 
@@ -155,7 +155,7 @@
             chatListItem1});
             this.chatListBox2.Location = new System.Drawing.Point(0, 0);
             this.chatListBox2.Name = "chatListBox2";
-            this.chatListBox2.Size = new System.Drawing.Size(301, 246);
+            this.chatListBox2.Size = new System.Drawing.Size(688, 246);
             this.chatListBox2.TabIndex = 2;
             this.chatListBox2.Text = "chatListBox2";
             // 
@@ -166,7 +166,7 @@
             this.qqTabPage2.Controls.Add(this.drawListBox1);
             this.qqTabPage2.Location = new System.Drawing.Point(4, 36);
             this.qqTabPage2.Name = "qqTabPage2";
-            this.qqTabPage2.Size = new System.Drawing.Size(301, 246);
+            this.qqTabPage2.Size = new System.Drawing.Size(688, 246);
             this.qqTabPage2.TabIndex = 0;
             this.qqTabPage2.Text = "DrawListBox";
             // 
@@ -198,7 +198,7 @@
             this.qqTabPage1.Controls.Add(this.drawTreeView1);
             this.qqTabPage1.Location = new System.Drawing.Point(4, 36);
             this.qqTabPage1.Name = "qqTabPage1";
-            this.qqTabPage1.Size = new System.Drawing.Size(301, 246);
+            this.qqTabPage1.Size = new System.Drawing.Size(688, 246);
             this.qqTabPage1.TabIndex = 0;
             this.qqTabPage1.Text = "DrawTreeView";
             // 
@@ -211,30 +211,28 @@
             this.drawTreeView1.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
             this.drawTreeView1.HideSelection = false;
             this.drawTreeView1.ItemHeight = 23;
+            this.drawTreeView1.Location = new System.Drawing.Point(0, 0);
+            this.drawTreeView1.Name = "drawTreeView1";
+            this.drawTreeView1.Size = new System.Drawing.Size(688, 246);
+            this.drawTreeView1.TabIndex = 1;
             treeItem1.Name = "Name";
             treeItem1.Tag = null;
             treeItem1.Width = 100;
             treeItem2.Name = "Custom";
             treeItem2.Tag = null;
-            treeItem2.Width = 80;
-            treeItem3.LDirection = Paway.Forms.TLocation.Right;
+            treeItem2.Width = 60;
             treeItem3.Name = "Statu";
             treeItem3.Tag = null;
             treeItem3.Type = Paway.Forms.TreeItemType.Image;
             treeItem3.Width = 60;
-            treeItem4.LDirection = Paway.Forms.TLocation.Right;
             treeItem4.Name = "Value";
             treeItem4.Tag = null;
-            treeItem4.Width = 60;
-            this.drawTreeView1.Items.Add(treeItem1);
-            this.drawTreeView1.Items.Add(treeItem2);
-            this.drawTreeView1.Items.Add(treeItem3);
-            this.drawTreeView1.Items.Add(treeItem4);
-            this.drawTreeView1.Location = new System.Drawing.Point(0, 0);
-            this.drawTreeView1.Name = "drawTreeView1";
-            this.drawTreeView1.Root = "0";
-            this.drawTreeView1.Size = new System.Drawing.Size(301, 246);
-            this.drawTreeView1.TabIndex = 1;
+            treeItem4.Width = 80;
+            this.drawTreeView1.TItems.Add(treeItem1);
+            this.drawTreeView1.TItems.Add(treeItem2);
+            this.drawTreeView1.TItems.Add(treeItem3);
+            this.drawTreeView1.TItems.Add(treeItem4);
+            this.drawTreeView1.TRoot = "0";
             // 
             // tabPage2
             // 
@@ -244,7 +242,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 36);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(301, 246);
+            this.tabPage2.Size = new System.Drawing.Size(688, 246);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "ChatListBox";
             // 
@@ -255,7 +253,7 @@
             this.chatListBox1.ForeColor = System.Drawing.Color.DarkOrange;
             this.chatListBox1.Location = new System.Drawing.Point(3, 3);
             this.chatListBox1.Name = "chatListBox1";
-            this.chatListBox1.Size = new System.Drawing.Size(295, 240);
+            this.chatListBox1.Size = new System.Drawing.Size(682, 240);
             this.chatListBox1.TabIndex = 0;
             this.chatListBox1.Text = "chatListBox1";
             // 
@@ -271,7 +269,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 36);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(301, 246);
+            this.tabPage1.Size = new System.Drawing.Size(291, 246);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "logon";
             // 
@@ -346,7 +344,7 @@
             this.qqTabControl1.Location = new System.Drawing.Point(0, 120);
             this.qqTabControl1.Name = "qqTabControl1";
             this.qqTabControl1.SelectedIndex = 0;
-            this.qqTabControl1.Size = new System.Drawing.Size(309, 286);
+            this.qqTabControl1.Size = new System.Drawing.Size(299, 286);
             this.qqTabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.qqTabControl1.TabIndex = 0;
             // 
@@ -357,7 +355,7 @@
             this.BackColor = System.Drawing.Color.DodgerBlue;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(310, 486);
+            this.ClientSize = new System.Drawing.Size(300, 486);
             this.Controls.Add(this.qqTabControl1);
             this.IDrawBorder = true;
             this.Location = new System.Drawing.Point(0, 0);
