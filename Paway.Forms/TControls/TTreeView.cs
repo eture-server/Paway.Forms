@@ -180,6 +180,98 @@ namespace Paway.Forms
                 AddNodes(dt, type);
             }
         }
+        /// <summary>
+        /// 刷新Node
+        /// </summary>
+        public void UpdateNode(object id)
+        {
+            if (id == null || _dataSource == null || TId == null || TParentId == null) return;
+            DataTable dt = null;
+            Type type = _dataSource.GetType();
+            if (_dataSource is DataTable)
+            {
+                dt = _dataSource as DataTable;
+            }
+            else if (_dataSource is IList)
+            {
+                IList list = _dataSource as IList;
+                type = list.GetListType();
+                dt = type.ToDataTable(list, id);
+            }
+            if (dt == null) return;
+            DataRow[] dr = dt.Select(string.Format("{0} = '{1}'", TId, id));
+            if (dr.Length == 1)
+            {
+                TreeNode[] nodes = this.Nodes.Find(id.ToString(), true);
+                if (nodes.Length == 1)
+                {
+                    UpdateNode(this.Nodes, dr[0], id.ToString());
+                }
+                else if (nodes.Length == 0)
+                {
+                    AddNode(this.Nodes, dr[0], dr[0][TParentId.ToString()].ToString());
+                }
+            }
+            else if (dr.Length == 0)
+            {
+                DeleteNode(this.Nodes, id.ToString());
+            }
+        }
+        private bool AddNode(TreeNodeCollection nodes, DataRow dr, string name)
+        {
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                if (nodes[i].Name == name)
+                {
+                    ItemNode node = new ItemNode(dr);
+                    node.Text = (_items.Count > 0 ? dr[_items[0].Name] : dr[TId.ToString()]).ToString();
+                    node.Name = dr[TId.ToString()].ToString();
+                    nodes.Add(node);
+                    return true;
+                }
+                else
+                {
+                    if (AddNode(nodes[i].Nodes, dr, name)) return true;
+                }
+            }
+            return false;
+        }
+        private bool UpdateNode(TreeNodeCollection nodes, DataRow dr, string name)
+        {
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                if (nodes[i].Name == name)
+                {
+                    nodes.RemoveAt(i);
+                    ItemNode node = new ItemNode(dr);
+                    node.Text = (_items.Count > 0 ? dr[_items[0].Name] : dr[TId.ToString()]).ToString();
+                    node.Name = dr[TId.ToString()].ToString();
+                    nodes.Insert(i, node);
+                    return true;
+                }
+                else
+                {
+                    if (UpdateNode(nodes[i].Nodes, dr, name)) return true;
+                }
+            }
+            return false;
+        }
+        private bool DeleteNode(TreeNodeCollection nodes, string name)
+        {
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                if (nodes[i].Name == name)
+                {
+                    nodes.RemoveAt(i);
+                    return true;
+                }
+                else
+                {
+                    if (DeleteNode(nodes[i].Nodes, name)) return true;
+                }
+            }
+            return false;
+        }
         private void AddNodes(DataTable dt, Type type)
         {
             DataRow[] dr = null;
@@ -382,6 +474,7 @@ namespace Paway.Forms
                 TextFormatFlags format = TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis;
                 for (int i = 0; i < _items.Count; i++)
                 {
+                    if (item[_items[i].Name] is DateTime && item[_items[i].Name].ToDateTime() == DateTime.MinValue) continue;
                     Rectangle irect = new Rectangle(
                         rect.X + left, rect.Y,
                         _items[i].Width + (i == 0 ? x - rect.X : 0), rect.Height

@@ -668,6 +668,7 @@
         "qqTextBox1"};
             this.qqTextBox1.Location = new System.Drawing.Point(118, 150);
             this.qqTextBox1.Name = "qqTextBox1";
+            this.qqTextBox1.RegexType = Paway.Helper.RegexType.Password;
             this.qqTextBox1.SelectedText = "";
             this.qqTextBox1.Size = new System.Drawing.Size(109, 25);
             this.qqTextBox1.TabIndex = 47;

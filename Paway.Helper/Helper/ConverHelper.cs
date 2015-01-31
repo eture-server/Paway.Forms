@@ -862,14 +862,20 @@ namespace Paway.Helper
         /// </summary>
         /// <param name="type"></param>
         /// <param name="list"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        public static DataTable ToDataTable(this Type type, IList list)
+        public static DataTable ToDataTable(this Type type, IList list, object id = null)
         {
             DataTable table = type.CreateTable();
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < list.Count; i++)
             {
                 DataRow row = table.NewRow();
+                if (id != null)
+                {
+                    object value = properties[0].GetValue(list[i]);
+                    if (value.ToString2() != id.ToString2()) continue;
+                }
                 for (int j = 0; j < properties.Count; j++)
                 {
                     if (properties[j].PropertyType.IsGenericType) continue;

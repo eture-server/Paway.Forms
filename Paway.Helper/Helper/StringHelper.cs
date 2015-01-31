@@ -73,10 +73,10 @@ namespace Paway.Helper
             switch (type)
             {
                 case RegexType.Normal:
-                    pattern = @"[\u0022\u0391-\uFFE5\r\n a-zA-Z0-9`=\'\-\\\[\];,./~!@#$%^&*()_+|{}:<>?]{0,}";
+                    pattern = @"[\u0022\u0391-\uFFE5\r\n a-zA-Z0-9`=\'\-\\\[\] ;,./~!@#$%^&*()_+|{}:<>?]{0,}";
                     break;
                 case RegexType.Password:
-                    pattern = @"[\u0022a-zA-Z0-9`=\-\\\[\];,./~!@#$%^&*()_+|{}:<>?]{0,}";
+                    pattern = @"[\u0022a-zA-Z0-9`=\-\\\[\] ;,./~!@#$%^&*()_+|{}:<>?]{0,}";
                     break;
                 case RegexType.Ip:
                     pattern = @"((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))";

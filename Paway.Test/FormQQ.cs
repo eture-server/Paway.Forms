@@ -98,7 +98,7 @@ namespace Paway.Test
                 {
                     list.Add(new TreeData
                     {
-                        Id = j,
+                        Id = i * 10 + j,
                         ParentId = tda.Id,
                         Name = "C_N" + j,
                         Custom = "C_C" + i,
@@ -120,6 +120,31 @@ namespace Paway.Test
 
         void contextMenuStrip1_ContextMenuStripChanged(object sender, EventArgs e)
         {
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            List<TreeData> list = this.drawTreeView1.DataSource as List<TreeData>;
+            list[9].Name = "你那类";
+            drawTreeView1.UpdateNode(list[9].Id);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            List<TreeData> list = this.drawTreeView1.DataSource as List<TreeData>;
+            TreeData info = new TreeData() { Id = list[list.Count - 1].Id + 1 };
+            info.Name = DateTime.Now.Second.ToString();
+            info.ParentId = list[9].Id;
+            list.Add(info);
+            drawTreeView1.UpdateNode(info.Id);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            List<TreeData> list = this.drawTreeView1.DataSource as List<TreeData>;
+            int id = list[8].Id;
+            list.RemoveAt(8);
+            drawTreeView1.UpdateNode(id);
         }
     }
     public class TreeData
