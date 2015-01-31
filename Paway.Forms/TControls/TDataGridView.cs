@@ -52,6 +52,7 @@ namespace Paway.Forms
             this.RowHeadersWidth = 21;
             this.ScrollBars = ScrollBars.Vertical;
             this.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            this.GridColor = Color.LightBlue;
 
             this.pictureBox1.BackColor = Color.Transparent;
         }
@@ -110,16 +111,18 @@ namespace Paway.Forms
             }
         }
 
+        private bool _iMove = true;
         /// <summary>
         /// 是否绘制鼠标移过时的颜色
         /// </summary>
         [Browsable(true), Description("是否绘制鼠标移过时的颜色"), DefaultValue(true)]
-        public bool IMove { get; set; }
+        public bool IMove { get { return _iMove; } set { _iMove = value; } }
+        private Color _colorMove = Color.Azure;
         /// <summary>
         /// 鼠标移过的行颜色
         /// </summary>
         [Browsable(true), Description("鼠标移过的行颜色"), DefaultValue(typeof(Color), "Azure")]
-        public Color IMoveColor { get; set; }
+        public Color IMoveColor { get { return _colorMove; } set { _colorMove = value; } }
 
         /// <summary>
         /// 是否绘制CheckBox
@@ -322,6 +325,16 @@ namespace Paway.Forms
         {
             get { return base.SelectionMode; }
             set { base.SelectionMode = value; }
+        }
+        /// <summary>
+        /// 获取和设置网格线的颜色。
+        /// </summary>
+        [Description("获取和设置网格线的颜色")]
+        [DefaultValue(typeof(Color), "LightBlue")]
+        public new Color GridColor
+        {
+            get { return base.GridColor; }
+            set { base.GridColor = value; }
         }
 
         #endregion
