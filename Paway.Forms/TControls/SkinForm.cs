@@ -196,7 +196,7 @@ namespace Paway.Forms
             this.Main.LocationChanged += new EventHandler(this.Main_LocationChanged);
             this.Main.SizeChanged += new EventHandler(this.Main_SizeChanged);
             this.Main.VisibleChanged += new EventHandler(this.Main_VisibleChanged);
-            this.Main.FormClosing += Main_FormClosing;
+            this.Main.FormClosed += Main_FormClosed;
             this.SetBits();
             this.CanPenetrate();
         }
@@ -294,7 +294,8 @@ namespace Paway.Forms
                 return createParams;
             }
         }
-        void Main_FormClosing(object sender, FormClosingEventArgs e)
+
+        void Main_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Close();
         }
