@@ -124,26 +124,37 @@ namespace Paway.Test
 
         private void button1_Click(object sender, EventArgs e)
         {
+            ItemNode node = drawTreeView1.SelectedNode as ItemNode;
+            int id = node["Id"].ToInt();
             List<TreeData> list = this.drawTreeView1.DataSource as List<TreeData>;
-            list[9].Name = "你那类";
-            drawTreeView1.UpdateNode(list[9].Id);
+            TreeData info = list.Find(c => c.Id == id);
+
+            info.Name = DateTime.Now.Second.ToString();
+            drawTreeView1.UpdateNode(info.Id);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            ItemNode node = drawTreeView1.SelectedNode as ItemNode;
+            int id = node["Id"].ToInt();
+
             List<TreeData> list = this.drawTreeView1.DataSource as List<TreeData>;
+
             TreeData info = new TreeData() { Id = list[list.Count - 1].Id + 1 };
             info.Name = DateTime.Now.Second.ToString();
-            info.ParentId = list[9].Id;
+            info.ParentId = id;
             list.Add(info);
             drawTreeView1.UpdateNode(info.Id);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
+            ItemNode node = drawTreeView1.SelectedNode as ItemNode;
+            int id = node["Id"].ToInt();
             List<TreeData> list = this.drawTreeView1.DataSource as List<TreeData>;
-            int id = list[8].Id;
-            list.RemoveAt(8);
+            TreeData info = list.Find(c => c.Id == id);
+
+            list.Remove(info);
             drawTreeView1.UpdateNode(id);
         }
     }

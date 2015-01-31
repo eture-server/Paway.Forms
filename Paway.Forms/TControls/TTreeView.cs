@@ -209,7 +209,11 @@ namespace Paway.Forms
                 }
                 else if (nodes.Length == 0)
                 {
-                    AddNode(this.Nodes, dr[0], dr[0][TParentId.ToString()].ToString());
+                    string parent = dr[0][TParentId.ToString()].ToString();
+                    if (!AddNode(this.Nodes, dr[0], parent))
+                    {
+                        AddNode(this.Nodes, dr[0]);
+                    }
                 }
             }
             else if (dr.Length == 0)
@@ -217,24 +221,28 @@ namespace Paway.Forms
                 DeleteNode(this.Nodes, id.ToString());
             }
         }
-        private bool AddNode(TreeNodeCollection nodes, DataRow dr, string name)
+        private bool AddNode(TreeNodeCollection nodes, DataRow dr, string parent)
         {
             for (int i = 0; i < nodes.Count; i++)
             {
-                if (nodes[i].Name == name)
+                if (nodes[i].Name == parent)
                 {
-                    ItemNode node = new ItemNode(dr);
-                    node.Text = (_items.Count > 0 ? dr[_items[0].Name] : dr[TId.ToString()]).ToString();
-                    node.Name = dr[TId.ToString()].ToString();
-                    nodes.Add(node);
+                    AddNode(nodes[i].Nodes, dr);
                     return true;
                 }
                 else
                 {
-                    if (AddNode(nodes[i].Nodes, dr, name)) return true;
+                    if (AddNode(nodes[i].Nodes, dr, parent)) return true;
                 }
             }
             return false;
+        }
+        private void AddNode(TreeNodeCollection nodes, DataRow dr)
+        {
+            ItemNode node = new ItemNode(dr);
+            node.Text = (_items.Count > 0 ? dr[_items[0].Name] : dr[TId.ToString()]).ToString();
+            node.Name = dr[TId.ToString()].ToString();
+            nodes.Add(node);
         }
         private bool UpdateNode(TreeNodeCollection nodes, DataRow dr, string name)
         {
@@ -242,10 +250,15 @@ namespace Paway.Forms
             {
                 if (nodes[i].Name == name)
                 {
+                    TreeNodeCollection temp = nodes[i].Nodes;
                     nodes.RemoveAt(i);
                     ItemNode node = new ItemNode(dr);
                     node.Text = (_items.Count > 0 ? dr[_items[0].Name] : dr[TId.ToString()]).ToString();
                     node.Name = dr[TId.ToString()].ToString();
+                    for (int j = 0; j < temp.Count; j++)
+                    {
+                        node.Nodes.Add(temp[j]);
+                    }
                     nodes.Insert(i, node);
                     return true;
                 }
