@@ -250,6 +250,8 @@ namespace Paway.Forms
             {
                 if (nodes[i].Name == name)
                 {
+                    ItemNode old = nodes[i] as ItemNode;
+                    string oldParent = old[TParentId.ToString()].ToString2();
                     TreeNodeCollection temp = nodes[i].Nodes;
                     nodes.RemoveAt(i);
                     ItemNode node = new ItemNode(dr);
@@ -259,7 +261,23 @@ namespace Paway.Forms
                     {
                         node.Nodes.Add(temp[j]);
                     }
-                    nodes.Insert(i, node);
+                    string newParent = dr[TParentId.ToString()].ToString2();
+                    if (oldParent == newParent)
+                    {
+                        nodes.Insert(i, node);
+                    }
+                    else
+                    {
+                        TreeNode[] parentNodes = this.Nodes.Find(newParent, true);
+                        if (parentNodes.Length == 1)
+                        {
+                            parentNodes[0].Nodes.Add(node);
+                        }
+                        else
+                        {
+                            this.Nodes.Add(node);
+                        }
+                    }
                     return true;
                 }
                 else
