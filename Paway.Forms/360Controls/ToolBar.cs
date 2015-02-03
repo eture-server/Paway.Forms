@@ -1695,6 +1695,14 @@ namespace Paway.Forms
             }
             else
             {
+                if (this._selectedItem != null && e.ListChangedType == ListChangedType.ItemDeleted)
+                {
+                    int index = this.Items.GetIndexOfRange(this._selectedItem);
+                    if (index == -1)
+                    {
+                        this._selectedItem = null;
+                    }
+                }
                 this.TRefresh();
             }
         }
@@ -1842,7 +1850,7 @@ namespace Paway.Forms
         /// </summary>
         public void TStart(int value)
         {
-            FixScroll(value);
+            FixScroll(IHaveScroll ? value : 0);
         }
         /// <summary>
         /// 自适应高度/宽度
@@ -2110,6 +2118,24 @@ namespace Paway.Forms
                         return _hScroll.Visible;
                 }
                 return false;
+            }
+        }
+        /// <summary>
+        /// 获取当前滚动条的值
+        /// </summary>
+        [Browsable(false), DefaultValue(0)]
+        public int IScrollValue
+        {
+            get
+            {
+                switch (TDirection)
+                {
+                    case Forms.TDirection.Level:
+                        return _vScroll.Value;
+                    case Forms.TDirection.Vertical:
+                        return _hScroll.Value;
+                }
+                return 0;
             }
         }
         /// <summary>

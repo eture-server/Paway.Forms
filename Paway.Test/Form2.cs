@@ -26,8 +26,8 @@ namespace Paway.Test
 
         void toolUp_ItemClick(object sender, EventArgs e)
         {
-            toolBar2.Items.Add(new ToolItem(DateTime.Now.Second.ToString()));
-            //toolBar2.Items.Clear();
+            //toolBar2.Items.Add(new ToolItem(DateTime.Now.Second.ToString()));
+            toolBar2.Items.RemoveAt(1);
         }
 
         protected override void OnLoad(EventArgs e)
