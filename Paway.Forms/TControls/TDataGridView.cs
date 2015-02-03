@@ -53,6 +53,7 @@ namespace Paway.Forms
             this.ScrollBars = ScrollBars.Vertical;
             this.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             this.GridColor = Color.LightBlue;
+            this.ReadOnly = true;
 
             this.pictureBox1.BackColor = Color.Transparent;
         }
@@ -336,6 +337,16 @@ namespace Paway.Forms
             get { return base.GridColor; }
             set { base.GridColor = value; }
         }
+        /// <summary>
+        /// 该值指示用户是否可以编辑。
+        /// </summary>
+        [Description("该值指示用户是否可以编辑")]
+        [DefaultValue(true)]
+        public new bool ReadOnly
+        {
+            get { return base.ReadOnly; }
+            set { base.ReadOnly = value; }
+        }
 
         #endregion
 
@@ -356,7 +367,11 @@ namespace Paway.Forms
         /// </summary>
         private void UpdateColumns(object value)
         {
-            if (value == null) return;
+            if (value == null)
+            {
+                base.DataSource = null;
+                return;
+            }
             Type type = null;
             if (value is IList)
             {
