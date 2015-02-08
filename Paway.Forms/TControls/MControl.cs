@@ -155,7 +155,7 @@ namespace Paway.Forms
                 //不重复加载
                 if (Current != null)
                 {
-                    if (Current.GetType() == type) return null;
+                    if (Current.GetType() == type && Current.Parent == parent) return null;
                 }
                 //拒绝移除
                 if (Current != null && !Current.UnLoad())
