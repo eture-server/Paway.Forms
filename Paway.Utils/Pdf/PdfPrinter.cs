@@ -31,6 +31,10 @@ namespace Paway.Utils.Pdf
         /// </summary>
         public PdfHeaderContent HeaderContent { get; set; }
         /// <summary>
+        /// 内部空白边
+        /// </summary>
+        public Rectangle Rectangle { get; set; }
+        /// <summary>
         /// 全局PDF文档对象
         /// </summary>
         public Document Doc { get; set; }
@@ -47,6 +51,7 @@ namespace Paway.Utils.Pdf
             DefaultFont = new Font(bfChinese, 12, iTextSharp.text.Font.NORMAL, new BaseColor(0, 0, 0));
             PrintPath = printPath;
             DefaultPageSize = PageSize.A4;
+            HeaderContent = new PdfHeaderContent();
         }
         /// <summary>
         /// 构造函数
@@ -72,12 +77,14 @@ namespace Paway.Utils.Pdf
         {
             if (Doc == null)
             {
-                Doc = new Document(DefaultPageSize, 40f, 40f, 83f, 20f);
-                Doc.SetMargins(Doc.LeftMargin, Doc.RightMargin,HeaderContent.HeaderImage.Height + 10, Doc.BottomMargin);
+                Doc = new Document(DefaultPageSize, Rectangle.Left, Rectangle.Right, Rectangle.Top, Rectangle.Bottom);
+                if (HeaderContent.Image != null)
+                {
+                    Doc.SetMargins(Doc.LeftMargin, Doc.RightMargin, HeaderContent.Image.Height + 10, Doc.BottomMargin);
+                }
                 FileStream fs = new FileStream(PrintPath, FileMode.Create);
                 PdfWriter writer = PdfWriter.GetInstance(Doc, fs);
-                if (HeaderContent != null)
-                    writer.PageEvent = new PdfPrinter(this.PrintPath, this.DefaultPageSize, this.HeaderContent);
+                writer.PageEvent = new PdfPrinter(this.PrintPath, this.DefaultPageSize, this.HeaderContent);
 
             }
             if (!Doc.IsOpen())
@@ -103,9 +110,12 @@ namespace Paway.Utils.Pdf
         public override void OnStartPage(PdfWriter writer, Document document)
         {
             PdfContentByte cb = writer.DirectContent;
-            Image img = Image.GetInstance(HeaderContent.HeaderImage, BaseColor.WHITE);
-            img.SetAbsolutePosition(0, document.Top + 10);
-            writer.DirectContent.AddImage(img);
+            if (HeaderContent.Image != null)
+            {
+                Image img = Image.GetInstance(HeaderContent.Image, BaseColor.WHITE);
+                img.SetAbsolutePosition(0, document.Top + 10);
+                writer.DirectContent.AddImage(img);
+            }
             base.OnStartPage(writer, document);
         }
         /// <summary>
@@ -122,14 +132,14 @@ namespace Paway.Utils.Pdf
             PdfContentByte cb = writer.DirectContent;
             cb.BeginText();
             //标题
-            if (!string.IsNullOrEmpty(HeaderContent.HeaderTitle))
+            if (!string.IsNullOrEmpty(HeaderContent.Title))
             {
                 fontSize = 14f;
-                strWidth = HeaderContent.HeaderTitle.Length * fontSize;
+                strWidth = HeaderContent.Title.Length * fontSize;
                 cb.SetFontAndSize(DefaultFont.BaseFont, fontSize);
                 cb.SetCharacterSpacing(3);
                 cb.SetTextMatrix((document.PageSize.Width - strWidth) / 2, document.PageSize.Height - padTop);
-                cb.ShowText(HeaderContent.HeaderTitle);
+                cb.ShowText(HeaderContent.Title);
             }
             //时间、页码
             string str = DateTime.Now.ToString("yyyy年MM月dd日 HH:mm") + " 第" + writer.PageNumber + "頁";
@@ -141,70 +151,70 @@ namespace Paway.Utils.Pdf
             cb.ShowText(str);
             //标题列A
             padTop = 55f;
-            if (HeaderContent.HeaderNamesA != null && HeaderContent.HeaderNamesA.Count > 0)
+            if (HeaderContent.NamesA != null && HeaderContent.NamesA.Count > 0)
             {
-                List<float> positions = HeaderContent.HeaderPositionsA;
-                bool isPosEmpty = (positions == null || positions.Count != HeaderContent.HeaderNamesA.Count);//坐标为空或与表头数量不一致时默认位置
+                List<float> positions = HeaderContent.PositionsA;
+                bool isPosEmpty = (positions == null || positions.Count != HeaderContent.NamesA.Count);//坐标为空或与表头数量不一致时默认位置
 
                 fontSize = 12f;
                 cb.SetFontAndSize(DefaultFont.BaseFont, fontSize);
                 cb.SetCharacterSpacing(0);
                 float left = document.LeftMargin;//默认起始位置
-                for (int i = 0; i < HeaderContent.HeaderNamesA.Count; i++)
+                for (int i = 0; i < HeaderContent.NamesA.Count; i++)
                 {
                     if (!isPosEmpty)//如果指定了详细位置则按照指定位置绘制否则自动计算
-                        left = HeaderContent.HeaderPositionsA[i];
+                        left = HeaderContent.PositionsA[i];
                     cb.SetTextMatrix(left, document.PageSize.Height - padTop);
-                    str = HeaderContent.HeaderNamesA[i];
+                    str = HeaderContent.NamesA[i];
                     cb.ShowText(str);
                     //left += str.Length * fontSize + 20f;
-                    float step = (document.PageSize.Width - document.LeftMargin * 2) / HeaderContent.HeaderNamesA.Count;
+                    float step = (document.PageSize.Width - document.LeftMargin * 2) / HeaderContent.NamesA.Count;
                     left += step;
                 }
             }
             //标题列B
             padTop = 68f;
-            if (HeaderContent.HeaderNamesB != null && HeaderContent.HeaderNamesB.Count > 0)
+            if (HeaderContent.NamesB != null && HeaderContent.NamesB.Count > 0)
             {
-                List<float> positions = HeaderContent.HeaderPositionsB;
-                bool isPosEmpty = (positions == null || positions.Count != HeaderContent.HeaderNamesB.Count);//坐标为空或与表头数量不一致时默认位置
+                List<float> positions = HeaderContent.PositionsB;
+                bool isPosEmpty = (positions == null || positions.Count != HeaderContent.NamesB.Count);//坐标为空或与表头数量不一致时默认位置
 
                 fontSize = 12f;
                 cb.SetFontAndSize(DefaultFont.BaseFont, fontSize);
                 cb.SetCharacterSpacing(0);
                 float left = document.LeftMargin;//默认起始位置
-                for (int i = 0; i < HeaderContent.HeaderNamesB.Count; i++)
+                for (int i = 0; i < HeaderContent.NamesB.Count; i++)
                 {
                     if (!isPosEmpty)//如果指定了详细位置则按照指定位置绘制否则自动计算
-                        left = HeaderContent.HeaderPositionsB[i];
+                        left = HeaderContent.PositionsB[i];
                     cb.SetTextMatrix(left, document.PageSize.Height - padTop);
-                    str = HeaderContent.HeaderNamesB[i];
+                    str = HeaderContent.NamesB[i];
                     cb.ShowText(str);
                     //left += str.Length * fontSize + 20f;
-                    float step = (document.PageSize.Width - document.LeftMargin * 2) / HeaderContent.HeaderNamesA.Count;
+                    float step = (document.PageSize.Width - document.LeftMargin * 2) / HeaderContent.NamesA.Count;
                     left += step;
                 }
             }
             //标题列C
             padTop = 80f;
-            if (HeaderContent.HeaderNamesC != null && HeaderContent.HeaderNamesC.Count > 0)
+            if (HeaderContent.NamesC != null && HeaderContent.NamesC.Count > 0)
             {
-                List<float> positions = HeaderContent.HeaderPositionsC;
-                bool isPosEmpty = (positions == null || positions.Count != HeaderContent.HeaderNamesC.Count);//坐标为空或与表头数量不一致时默认位置
+                List<float> positions = HeaderContent.PositionsC;
+                bool isPosEmpty = (positions == null || positions.Count != HeaderContent.NamesC.Count);//坐标为空或与表头数量不一致时默认位置
 
                 fontSize = 12f;
                 cb.SetFontAndSize(DefaultFont.BaseFont, fontSize);
                 cb.SetCharacterSpacing(0);
                 float left = document.LeftMargin;//默认起始位置
-                for (int i = 0; i < HeaderContent.HeaderNamesC.Count; i++)
+                for (int i = 0; i < HeaderContent.NamesC.Count; i++)
                 {
                     if (!isPosEmpty)//如果指定了详细位置则按照指定位置绘制否则自动计算
-                        left = HeaderContent.HeaderPositionsC[i];
+                        left = HeaderContent.PositionsC[i];
                     cb.SetTextMatrix(left, document.PageSize.Height - padTop);
-                    str = HeaderContent.HeaderNamesC[i];
+                    str = HeaderContent.NamesC[i];
                     cb.ShowText(str);
                     //left += str.Length * fontSize + 20f;
-                    float step = (document.PageSize.Width - document.LeftMargin * 2) / HeaderContent.HeaderNamesA.Count;
+                    float step = (document.PageSize.Width - document.LeftMargin * 2) / HeaderContent.NamesA.Count;
                     left += step;
                 }
             }

@@ -18,34 +18,34 @@ namespace Paway.Utils.Pdf
         /// <summary>
         /// 标题文字
         /// </summary>
-        public string HeaderTitle { get; set; }
+        public string Title { get; set; }
         /// <summary>
         /// 标题图片
         /// </summary>
-        public Image HeaderImage { get; set; }
+        public Image Image { get; set; }
         /// <summary>
         /// 表头集合A
         /// </summary>
-        public List<string> HeaderNamesA { get; set; }
+        public List<string> NamesA { get; set; }
         /// <summary>
         /// 表头坐标集合A
         /// </summary>
-        public List<float> HeaderPositionsA { get; set; }
+        public List<float> PositionsA { get; set; }
         /// <summary>
         /// 表头集合B
         /// </summary>
-        public List<string> HeaderNamesB { get; set; }
+        public List<string> NamesB { get; set; }
         /// <summary>
         /// 表头坐标集合B
         /// </summary>
-        public List<float> HeaderPositionsB { get; set; }
+        public List<float> PositionsB { get; set; }
         /// <summary>
         /// 表头集合C
         /// </summary>
-        public List<string> HeaderNamesC { get; set; }
+        public List<string> NamesC { get; set; }
         /// <summary>
         /// 表头坐标集合C
         /// </summary>
-        public List<float> HeaderPositionsC { get; set; }
+        public List<float> PositionsC { get; set; }
     }
 }
