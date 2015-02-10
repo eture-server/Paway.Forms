@@ -151,10 +151,7 @@ namespace Paway.Helper
             if (obj == null || obj == DBNull.Value || obj.ToString() == string.Empty)
                 return new DateTime();
 
-            DateTime dt;
-            if (DateTime.TryParse(obj.ToString(), out dt))
-                return dt;
-            return new DateTime();
+            return Convert.ToDateTime(obj);
         }
 
         /// <summary>

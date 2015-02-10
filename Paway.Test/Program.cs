@@ -47,7 +47,7 @@ namespace Paway.Test
                 //Color temp = Paway.Helper.BitmapHelper.HSLToRGB(list[0], list[1], list[2] + 20);
                 //temp = Paway.Helper.BitmapHelper.HSLToRGB(list[0], list[1], list[2] - 20);
 
-                Application.Run(new Form2());
+                Application.Run(new FormSql());
             }
             catch (Exception ex)
             {

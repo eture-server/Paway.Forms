@@ -128,9 +128,13 @@ namespace Paway.Test
         [Property(Column = "Image")]
         public Image I2 { get; set; }
 
+        public DateTime Date { get; set; }
+
         public TestData() : this(1) { }
         public TestData(int a)
-        { }
+        {
+            this.Date = DateTime.Now;
+        }
     }
     [Serializable, Property(Table = "HelloBase", Mark = "Tid")]
     public class BaseData
