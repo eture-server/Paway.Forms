@@ -54,9 +54,9 @@
             this.CommandType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Image = new System.Windows.Forms.DataGridViewImageColumn();
             this.NameStr = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ActionTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ComponentId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tDataGridView2)).BeginInit();
@@ -139,6 +139,7 @@
             this.ProSize.HeaderText = "尺码";
             this.ProSize.MinimumWidth = 35;
             this.ProSize.Name = "ProSize";
+            this.ProSize.ReadOnly = true;
             this.ProSize.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.ProSize.Width = 146;
             // 
@@ -149,6 +150,7 @@
             this.Price.HeaderText = "价格";
             this.Price.MinimumWidth = 35;
             this.Price.Name = "Price";
+            this.Price.ReadOnly = true;
             this.Price.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Price.Width = 146;
             // 
@@ -195,7 +197,6 @@
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.tDataGridViewPager1.Edit.DefaultCellStyle = dataGridViewCellStyle5;
             this.tDataGridViewPager1.Edit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tDataGridViewPager1.Edit.GridColor = System.Drawing.Color.LightBlue;
             this.tDataGridViewPager1.Edit.Location = new System.Drawing.Point(0, 0);
             this.tDataGridViewPager1.Edit.Name = "tDataGridView1";
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -243,15 +244,15 @@
             dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.tDataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            this.tDataGridView1.ColumnHeadersHeight = 23;
+            this.tDataGridView1.ColumnHeadersHeight = 42;
             this.tDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.IsSelect,
             this.CommandType,
             this.Image,
             this.NameStr,
+            this.Id,
             this.ActionTime,
-            this.ComponentId,
-            this.Id});
+            this.ComponentId});
             this.tDataGridView1.Dock = System.Windows.Forms.DockStyle.Top;
             this.tDataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(186)))), ((int)(((byte)(132)))));
             this.tDataGridView1.ICheckBoxName = "IsSelect";
@@ -287,6 +288,7 @@
             this.IsSelect.FillWeight = 83.18353F;
             this.IsSelect.HeaderText = "";
             this.IsSelect.Name = "IsSelect";
+            this.IsSelect.ReadOnly = true;
             // 
             // CommandType
             // 
@@ -305,6 +307,7 @@
             this.Image.FillWeight = 128.9345F;
             this.Image.HeaderText = "图片";
             this.Image.Name = "Image";
+            this.Image.ReadOnly = true;
             // 
             // NameStr
             // 
@@ -314,13 +317,23 @@
             this.NameStr.FillWeight = 80.68803F;
             this.NameStr.HeaderText = "名称";
             this.NameStr.Name = "NameStr";
+            this.NameStr.ReadOnly = true;
             this.NameStr.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // Id
+            // 
+            this.Id.DataPropertyName = "Id";
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            this.Id.Visible = false;
             // 
             // ActionTime
             // 
             this.ActionTime.DataPropertyName = "ActionTime";
             this.ActionTime.HeaderText = "ActionTime";
             this.ActionTime.Name = "ActionTime";
+            this.ActionTime.ReadOnly = true;
             this.ActionTime.Visible = false;
             // 
             // ComponentId
@@ -328,14 +341,8 @@
             this.ComponentId.DataPropertyName = "ComponentId";
             this.ComponentId.HeaderText = "ComponentId";
             this.ComponentId.Name = "ComponentId";
+            this.ComponentId.ReadOnly = true;
             this.ComponentId.Visible = false;
-            // 
-            // Id
-            // 
-            this.Id.DataPropertyName = "Id";
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.Visible = false;
             // 
             // FormGridView
             // 
@@ -362,17 +369,17 @@
         private Paway.Forms.TControl panel2;
         private Forms.TDataGridViewPager tDataGridViewPager1;
         private Forms.TDataGridView tDataGridView1;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn IsSelect;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CommandType;
-        private System.Windows.Forms.DataGridViewImageColumn Image;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NameStr;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ActionTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ComponentId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private Forms.TDataGridView tDataGridView2;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProColor;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProSize;
         private System.Windows.Forms.DataGridViewTextBoxColumn Price;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn IsSelect;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CommandType;
+        private System.Windows.Forms.DataGridViewImageColumn Image;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NameStr;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ActionTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ComponentId;
 
     }
 }

@@ -99,6 +99,8 @@ namespace Paway.Test
                 });
             }
             tDataGridView1.DataSource = list;
+
+            this.tDataGridView1.AddSpanHeader(1, 2, "XXXX2");
         }
         protected void CheckBox()
         {
@@ -164,14 +166,14 @@ namespace Paway.Test
 
         public string Id { get; set; }
 
-        public string CommandType { get; set; }
+        public string NameStr { get; set; }
 
-        [Property(Show = false)]
-        public string ActionTime { get; set; }
+        public string CommandType { get; set; }
 
         public Image Image { get; set; }
 
-        public string NameStr { get; set; }
+        [Property(Show = false)]
+        public string ActionTime { get; set; }
 
         [Property(Show = false)]
         public Guid ComponentId { get; set; }

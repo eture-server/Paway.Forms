@@ -451,6 +451,7 @@ namespace Paway.Forms
             if (e.RowIndex == -1)
             {
                 if (_iCheckBox) DrawCombox(e);
+                HeaderMerge(e);
             }
             else
             {
@@ -875,6 +876,114 @@ namespace Paway.Forms
 
         }
 
+        #endregion
+
+        #region 二维表头
+        /// <summary>
+        /// 需要2维表头的列
+        /// </summary>
+        private Dictionary<int, SpanInfo> SpanRows = new Dictionary<int, SpanInfo>();
+        /// <summary>
+        /// 表头信息
+        /// </summary>
+        private struct SpanInfo
+        {
+            /// <summary>
+            /// 列主标题
+            /// </summary>
+            public string Text;
+            /// <summary>
+            /// 位置
+            /// </summary>
+            public StringAlignment Position;
+            /// <summary>
+            /// 对应左行
+            /// </summary>
+            public int Left;
+            /// <summary>
+            /// 对应右行
+            /// </summary>
+            public int Right;
+
+            public SpanInfo(string Text, StringAlignment Position, int Left, int Right)
+            {
+                this.Text = Text;
+                this.Position = Position;
+                this.Left = Left;
+                this.Right = Right;
+            }
+        }
+        private void HeaderMerge(DataGridViewCellPaintingEventArgs e)
+        {
+            if (SpanRows.ContainsKey(e.ColumnIndex)) //被合并的列
+            {
+                //画边框
+                Graphics g = e.Graphics;
+                e.Paint(e.CellBounds, DataGridViewPaintParts.Background | DataGridViewPaintParts.Border);
+
+                int left = e.CellBounds.Left,
+                    top = e.CellBounds.Top + 2,
+                    right = e.CellBounds.Right,
+                    bottom = e.CellBounds.Bottom;
+                switch (SpanRows[e.ColumnIndex].Position)
+                {
+                    case StringAlignment.Near:
+                        left += 2;
+                        break;
+                    case StringAlignment.Far:
+                        right -= 2;
+                        break;
+                }
+
+                SolidBrush backBrush = new SolidBrush(Color.Red);
+                SolidBrush fontBrush = new SolidBrush(e.CellStyle.ForeColor);
+                Console.WriteLine(e.State);
+                if (e.State == DataGridViewElementStates.Selected)
+                {
+                    backBrush.Color = e.CellStyle.BackColor;
+                    fontBrush.Color = e.CellStyle.SelectionForeColor;
+                }
+                //画上半部分底色
+                //g.FillRectangle(new SolidBrush(e.CellStyle.SelectionBackColor), left, top, right - left, (bottom - top) / 2);
+
+                //画中线
+                g.DrawLine(new Pen(this.GridColor), left, (top + bottom) / 2, right, (top + bottom) / 2);
+
+                //写小标题
+                g.DrawString(string.Format("{0}", e.Value), e.CellStyle.Font, fontBrush,
+                    new Rectangle(left, (top + bottom) / 2, right - left, (bottom - top) / 2), DrawParam.StringCenter);
+                left = this.GetColumnDisplayRectangle(SpanRows[e.ColumnIndex].Left, true).Left - 2;
+
+                if (left < 0) left = this.GetCellDisplayRectangle(-1, -1, true).Width;
+                right = this.GetColumnDisplayRectangle(SpanRows[e.ColumnIndex].Right, true).Right - 2;
+                if (right < 0) right = this.Width;
+
+                g.DrawString(SpanRows[e.ColumnIndex].Text, e.CellStyle.Font, fontBrush,
+                    new Rectangle(left, top, right - left, (bottom - top) / 2), DrawParam.StringCenter);
+                e.Handled = true;
+            }
+        }
+        /// <summary>
+        /// 合并列
+        /// </summary>
+        /// <param name="ColIndex">列的索引</param>
+        /// <param name="ColCount">需要合并的列数</param>
+        /// <param name="Text">合并列后的文本</param>
+        public void AddSpanHeader(int ColIndex, int ColCount, string Text)
+        {
+            if (ColCount < 2)
+            {
+                throw new Exception("行宽应大于等于2，合并1列无意义。");
+            }
+            //将这些列加入列表
+            int Right = ColIndex + ColCount - 1; //同一大标题下的最后一列的索引
+            SpanRows[ColIndex] = new SpanInfo(Text, StringAlignment.Near, ColIndex, Right); //添加标题下的最左列
+            SpanRows[Right] = new SpanInfo(Text, StringAlignment.Far, ColIndex, Right); //添加该标题下的最右列
+            for (int i = ColIndex + 1; i < Right; i++) //中间的列
+            {
+                SpanRows[i] = new SpanInfo(Text, StringAlignment.Center, ColIndex, Right);
+            }
+        }
         #endregion
     }
 }
