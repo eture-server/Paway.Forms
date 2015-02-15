@@ -264,12 +264,12 @@ namespace Paway.Forms
         public static MControl Add(MControl control)
         {
             Type type = control.GetType();
-            if (!_iList.ContainsKey(type.Name))
+            if (!_iList.ContainsKey(type.FullName))
             {
-                _iList.Add(type.Name, control);
+                _iList.Add(type.FullName, control);
                 return control;
             }
-            return _iList[type.Name];
+            return _iList[type.FullName];
         }
         /// <summary>
         /// 返回控件上的当前子控件
