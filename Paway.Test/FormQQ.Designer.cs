@@ -264,10 +264,10 @@
             treeItem4.Name = "Value";
             treeItem4.Tag = null;
             treeItem4.Width = 80;
-            this.drawTreeView1.TItems.Add(treeItem1);
-            this.drawTreeView1.TItems.Add(treeItem2);
-            this.drawTreeView1.TItems.Add(treeItem3);
-            this.drawTreeView1.TItems.Add(treeItem4);
+            this.drawTreeView1.Items.Add(treeItem1);
+            this.drawTreeView1.Items.Add(treeItem2);
+            this.drawTreeView1.Items.Add(treeItem3);
+            this.drawTreeView1.Items.Add(treeItem4);
             this.drawTreeView1.TRoot = "0";
             // 
             // tabPage2

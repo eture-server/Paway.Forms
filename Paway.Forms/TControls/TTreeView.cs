@@ -136,7 +136,7 @@ namespace Paway.Forms
         /// TreeView中的显示项
         /// </summary>
         [Description("TreeView中的显示项"), EditorBrowsable(EditorBrowsableState.Always), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public TreeItemCollection TItems
+        public TreeItemCollection Items
         {
             get
             {
@@ -369,7 +369,7 @@ namespace Paway.Forms
         public void UpdateColumns(Type type)
         {
             if (type == null || type == typeof(String) || type.IsValueType) return;
-            if (TItems.Count == 0)
+            if (Items.Count == 0)
             {
                 PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
                 for (int i = 0; i < properties.Count; i++)
@@ -381,7 +381,7 @@ namespace Paway.Forms
                     {
                         if (!itemList[0].Show)
                         {
-                            this.TItems.Add(new TreeItem());
+                            this.Items.Add(new TreeItem());
                         }
                     }
                 }
@@ -389,13 +389,13 @@ namespace Paway.Forms
             if (TAutoWidth)
             {
                 int total = 0;
-                for (int i = 0; i < TItems.Count; i++)
+                for (int i = 0; i < Items.Count; i++)
                 {
-                    total += TItems[i].Width;
+                    total += Items[i].Width;
                 }
-                for (int i = 0; i < TItems.Count; i++)
+                for (int i = 0; i < Items.Count; i++)
                 {
-                    TItems[i].Width = TItems[i].Width * this.Width / total;
+                    Items[i].Width = Items[i].Width * this.Width / total;
                 }
             }
         }
