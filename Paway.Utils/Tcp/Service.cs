@@ -162,8 +162,7 @@ namespace Paway.Utils.Tcp
         /// </summary>
         private void OnSystemEvent(string message)
         {
-            ServiceEventArgs msg = new ServiceEventArgs(ServiceType.Error);
-            OnSystemEvent(msg);
+            OnSystemEvent(ServiceType.Error, message);
         }
         /// <summary>
         /// 系统事件
