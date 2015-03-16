@@ -558,6 +558,24 @@ namespace Paway.Forms
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.TextRenderingHint = TextRenderingHint.AntiAlias;
 
+            if (this.ShowIcon)//绘画图标
+            {
+                Bitmap iconImage = this.Icon.ToBitmap();
+                g.DrawImage(iconImage, this.IconRect);
+            }
+            DrawText(g);
+            DrawFrameBorder(g);
+        }
+        /// <summary>
+        /// 填充背景
+        /// </summary>
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            base.OnPaintBackground(e);
+            Graphics g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.TextRenderingHint = TextRenderingHint.AntiAlias;
+
             //绘制背景
             if (TBrush.ColorSpace != Color.Empty && TBrush.ColorNormal != Color.Empty)
             {
@@ -581,14 +599,6 @@ namespace Paway.Forms
                 TranColor = BackColor;
                 g.FillRectangle(new SolidBrush(TranColor), this.ClientRectangle);
             }
-
-            if (this.ShowIcon)//绘画图标
-            {
-                Bitmap iconImage = this.Icon.ToBitmap();
-                g.DrawImage(iconImage, this.IconRect);
-            }
-            DrawText(g);
-            DrawFrameBorder(g);
         }
         /// <summary>
         /// 绘制标题文字

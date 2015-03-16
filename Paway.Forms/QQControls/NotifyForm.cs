@@ -322,7 +322,7 @@ namespace Paway.Forms
             }
         }
         /// <summary>
-        /// 
+        /// 绘制描述
         /// </summary>
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
