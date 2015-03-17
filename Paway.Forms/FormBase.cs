@@ -138,7 +138,7 @@ namespace Paway.Forms
         [Description("窗体大小的最小值"), DefaultValue(typeof(Size), "140, 40")]
         public override Size MinimumSize
         {
-            get { return new Size(140, 40); }
+            get { return base.MinimumSize; }
             set { base.MinimumSize = value; }
         }
         /// <summary>
