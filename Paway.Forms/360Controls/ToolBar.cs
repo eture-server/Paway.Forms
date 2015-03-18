@@ -230,11 +230,20 @@ namespace Paway.Forms
         /// </summary>
         [Description("显示简短说明"), DefaultValue(false)]
         public bool IShowToolTop { get; set; }
+        private bool _iText;
         /// <summary>
         /// 显示为文本内容
         /// </summary>
         [Description("显示为文本内容"), DefaultValue(false)]
-        public bool IText { get; set; }
+        public bool IText
+        {
+            get { return this._iText; }
+            set
+            {
+                this._iText = value;
+                this.Invalidate(this.ClientRectangle);
+            }
+        }
         /// <summary>
         /// 普通项，不响应鼠标绘制
         /// </summary>
@@ -1130,7 +1139,7 @@ namespace Paway.Forms
                 int headHeight = 0;
                 if (!string.IsNullOrEmpty(item.HeadDesc))
                 {
-                    headHeight = HeightFont(item.MouseState, THeadDesc) + _textSpace;
+                    headHeight = HeightFont(item.MouseState, THeadDesc);
                     Rectangle rect = new Rectangle()
                     {
                         X = textRect.X,
@@ -1143,7 +1152,7 @@ namespace Paway.Forms
                 int endHeight = 0;
                 if (!string.IsNullOrEmpty(item.EndDesc))
                 {
-                    endHeight = HeightFont(item.MouseState, TEndDesc) + _textSpace;
+                    endHeight = HeightFont(item.MouseState, TEndDesc);
                     Rectangle rect = new Rectangle()
                     {
                         X = textRect.X,
@@ -1153,9 +1162,14 @@ namespace Paway.Forms
                     };
                     DrawOtherDesc(g, item, TEndDesc, item.EndDesc, rect);
                 }
+                if (!string.IsNullOrEmpty(item.Desc))
+                {
+                    Size size = TextRenderer.MeasureText(item.Desc, GetFont(item.IMouseState, TDesc));
+                    textRect.Width -= size.Width;
+                }
                 if (this.IText || item.IText)
                 {
-                    Rectangle rect = new Rectangle(textRect.X, textRect.Y + headHeight + endHeight, textRect.Width, textRect.Height - headHeight - endHeight);
+                    Rectangle rect = new Rectangle(textRect.X, textRect.Y + headHeight, textRect.Width, textRect.Height - headHeight - endHeight);
                     DrawOtherDesc(g, item, TextFirst, item.Text, rect);
                 }
                 else
@@ -1234,7 +1248,7 @@ namespace Paway.Forms
         {
             if (string.IsNullOrEmpty(item.Desc)) return;
             Size size = TextRenderer.MeasureText(item.Desc, GetFont(item.IMouseState, TDesc));
-            item.RectDesc = new Rectangle(rect.X + rect.Width - size.Width + (item.ContextMenuStrip == null ? 0 : 4),
+            item.RectDesc = new Rectangle(rect.X + rect.Width + (item.ContextMenuStrip == null ? 0 : 4),
                 rect.Y + (rect.Height - size.Height) / 2, size.Width, size.Height);
             DrawOtherDesc(g, item, TDesc, item.Desc, item.RectDesc, item.IMouseState);
         }
