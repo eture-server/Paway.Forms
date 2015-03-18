@@ -18,6 +18,41 @@ namespace Paway.Utils.Tcp
         /// </summary>
         protected static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        #region 外部数据与事件
+        /// <summary>
+        /// 客户端数据
+        /// </summary>
+        public object Client { get; set; }
+        /// <summary>
+        /// 有关的数据对象
+        /// </summary>
+        public object Tag { get; set; }
+        /// <summary>
+        /// 自定义标记
+        /// </summary>
+        public volatile bool IFlag;
+
+        /// <summary>
+        /// 外部事件
+        /// </summary>
+        public event EventHandler ChangeEvent;
+        /// <summary>
+        /// 引发外部事件方法
+        /// </summary>
+        public void OnChange(object sender, EventArgs e)
+        {
+            try
+            {
+                if (ChangeEvent != null)
+                {
+                    ChangeEvent(sender, EventArgs.Empty);
+                }
+            }
+            catch { }
+        }
+
+        #endregion
+
         #region fields
         /// <summary>
         /// 获取远程终结点
@@ -43,21 +78,6 @@ namespace Paway.Utils.Tcp
         /// 线程通知，停止运行。
         /// </summary>
         public volatile bool SendStop;
-
-        /// <summary>
-        /// 客户端注册
-        /// </summary>
-        public object Client { get; set; }
-
-        /// <summary>
-        /// 客户端数据
-        /// </summary>
-        public object Tag { get; set; }
-
-        /// <summary>
-        /// 自定义标记
-        /// </summary>
-        public volatile bool IFlag;
 
         /// <summary>
         /// 连接时间
@@ -156,11 +176,12 @@ namespace Paway.Utils.Tcp
         /// <param name="buffer"></param>
         private void HandleMessage(byte[] buffer)
         {
-            object message = null;
             try
             {
-                message = SctructHelper.GetObjectFromByte(buffer);
-                OnMessageEvent(message);
+                if (MessageEvent != null)
+                {
+                    MessageEvent(buffer, EventArgs.Empty);
+                }
             }
             catch (Exception ex)
             {
@@ -195,21 +216,6 @@ namespace Paway.Utils.Tcp
             if (Disposed) return;
             this.IsConnected = false;
             OnSocketException();
-        }
-        /// <summary>
-        /// 触发接收到的消息事件
-        /// </summary>
-        /// <param name="msg"></param>
-        private void OnMessageEvent(object msg)
-        {
-            try
-            {
-                if (MessageEvent != null)
-                {
-                    MessageEvent(msg, EventArgs.Empty);
-                }
-            }
-            catch { }
         }
         /// <summary>
         /// 触发客户端日志
@@ -252,24 +258,6 @@ namespace Paway.Utils.Tcp
 
         #region public methord
         /// <summary>
-        /// 外部事件
-        /// </summary>
-        public event EventHandler ChangeEvent;
-        /// <summary>
-        /// 引发外部事件方法
-        /// </summary>
-        public void OnChange(object sender, EventArgs e)
-        {
-            try
-            {
-                if (ChangeEvent != null)
-                {
-                    ChangeEvent(sender, EventArgs.Empty);
-                }
-            }
-            catch { }
-        }
-        /// <summary>
         /// 等待客户端发送过来的数据
         /// </summary>
         public void WaitForData(AsynSocketArg state)
@@ -306,7 +294,7 @@ namespace Paway.Utils.Tcp
         {
             if (SendDataService != null && message != null)
             {
-                byte[] byteData = SctructHelper.GetByteFromObject(message);
+                byte[] byteData = message is byte[] ? message as byte[] : SctructHelper.GetByteFromObject(message);
                 SendDataService.SendData(byteData);
             }
             else if (ithrow) throw new ArgumentException("SendDataService is null or message is null");
