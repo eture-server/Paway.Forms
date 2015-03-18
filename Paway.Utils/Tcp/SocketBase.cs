@@ -189,7 +189,7 @@ namespace Paway.Utils.Tcp
                 }
                 if (MessageEvent != null)
                 {
-                    MessageEvent(buffer, EventArgs.Empty);
+                    MessageEvent(message, EventArgs.Empty);
                 }
             }
             catch (Exception ex)
