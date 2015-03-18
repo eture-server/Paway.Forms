@@ -176,8 +176,17 @@ namespace Paway.Utils.Tcp
         /// <param name="buffer"></param>
         private void HandleMessage(byte[] buffer)
         {
+            object message = null;
             try
             {
+                try
+                {
+                    message = SctructHelper.GetObjectFromByte(buffer);
+                }
+                catch
+                {
+                    message = buffer;
+                }
                 if (MessageEvent != null)
                 {
                     MessageEvent(buffer, EventArgs.Empty);
