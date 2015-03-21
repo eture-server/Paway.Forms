@@ -1176,7 +1176,7 @@ namespace Paway.Helper
         /// <summary>
         /// 将指定类型转为Insert语句
         /// </summary>
-        public static string Insert<T>(this T t, string getId)
+        public static string Insert<T>(this T t, string getId, bool Identity)
         {
             PropertyAttribute attr = AttrTable(typeof(T));
 
@@ -1185,6 +1185,10 @@ namespace Paway.Helper
             t.Insert(attr, typeof(T), ref insert, ref value);
             string sql = string.Format("insert into [{0}]({1}) values({2})", attr.Table, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
+            if (Identity)
+            {
+                sql = string.Format("SET IDENTITY_INSERT [{0}] ON;{1}", attr.Table, sql);
+            }
             return sql;
         }
         private static void Insert<T>(this T t, PropertyAttribute attr, Type type, ref string insert, ref string value)

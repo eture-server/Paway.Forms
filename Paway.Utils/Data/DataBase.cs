@@ -366,20 +366,18 @@ namespace Paway.Utils.Data
             try
             {
                 if (iTrans) cmd = CommandStart();
-                if (count == 0)
+
+                if (isSQLite)
                 {
                     sql = default(T).Select(find, args);
-                }
-                else
-                {
-                    if (isSQLite)
+                    if (count > 0)
                     {
                         sql = string.Format("{0} limit {1}", sql, count);
                     }
-                    else
-                    {
-                        sql = default(T).Select(find, count, args);
-                    }
+                }
+                else
+                {
+                    sql = default(T).Select(find, count, args);
                 }
                 cmd.CommandText = sql;
                 using (DbDataReader dr = cmd.ExecuteReader())
@@ -407,23 +405,23 @@ namespace Paway.Utils.Data
         /// <summary>
         /// 插入列
         /// </summary>
-        public bool Insert<T>(T t, DbCommand cmd = null)
+        public bool Insert<T>(T t, DbCommand cmd = null, bool Identity = false)
         {
             List<T> list = new List<T>() { t };
-            return Insert<T>(list, cmd);
+            return Insert<T>(list, cmd, Identity);
         }
         /// <summary>
         /// 插入列表
         /// </summary>
-        public bool Insert<T>(DataTable dt, DbCommand cmd = null)
+        public bool Insert<T>(DataTable dt, DbCommand cmd = null, bool Identity = false)
         {
             IList<T> list = dt.ToIList<T>();
-            return Insert<T>(list, cmd);
+            return Insert<T>(list, cmd, Identity);
         }
         /// <summary>
         /// 插入列表
         /// </summary>
-        public bool Insert<T>(IList<T> list, DbCommand cmd = null)
+        public bool Insert<T>(IList<T> list, DbCommand cmd = null, bool Identity = false)
         {
             bool iTrans = cmd == null;
             try
@@ -431,7 +429,7 @@ namespace Paway.Utils.Data
                 if (iTrans) cmd = TransStart();
                 for (int i = 0; i < list.Count; i++)
                 {
-                    string sql = list[i].Insert<T>(GetId);
+                    string sql = list[i].Insert<T>(GetId, Identity);
                     cmd.CommandText = sql;
                     DbParameter[] pList = list[i].AddParameters<T>(paramType).ToArray();
                     cmd.Parameters.Clear();
