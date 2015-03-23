@@ -72,7 +72,8 @@ namespace Paway.Helper
     {
         private bool _select = true;
         /// <summary>
-        /// 是否生成列, 默认生成，在Db
+        /// 是否生成列,
+        /// 默认生成，在Db中
         /// </summary>
         public bool Select
         {
@@ -81,7 +82,8 @@ namespace Paway.Helper
         }
         private bool _clone = true;
         /// <summary>
-        /// 是否复制列，默认复制
+        /// 是否复制列
+        /// 默认复制
         /// </summary>
         public bool Clone
         {
@@ -90,7 +92,8 @@ namespace Paway.Helper
         }
         private bool _excel = true;
         /// <summary>
-        /// 是否复制导入列，默认导入
+        /// 是否导入列
+        /// 默认导入
         /// </summary>
         public bool Excel
         {
@@ -100,7 +103,7 @@ namespace Paway.Helper
         private bool _show = true;
         /// <summary>
         /// 是否显示列
-        /// 默认显示，在GridView
+        /// 默认显示，在GridView中
         /// </summary>
         public bool Show
         {
@@ -112,7 +115,7 @@ namespace Paway.Helper
         /// </summary>
         public string Key { get; set; }
         /// <summary>
-        /// 标识列名称，可更新
+        /// 标识(唯一)列名称，可更新
         /// </summary>
         public string Mark { get; set; }
         /// <summary>
@@ -120,9 +123,9 @@ namespace Paway.Helper
         /// </summary>
         public string Column { get; set; }
         /// <summary>
-        /// 列中文名称
+        /// 文本名称
         /// </summary>
-        public string CnName { get; set; }
+        public string Text { get; set; }
         /// <summary>
         /// 数据
         /// </summary>

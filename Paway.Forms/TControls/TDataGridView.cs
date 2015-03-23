@@ -420,9 +420,9 @@ namespace Paway.Forms
                         this.Columns[i].Visible = false;
                         continue;
                     }
-                    if (itemList[0].CnName != null)
+                    if (itemList[0].Text != null)
                     {
-                        this.Columns[i].HeaderText = itemList[0].CnName;
+                        this.Columns[i].HeaderText = itemList[0].Text;
                     }
                 }
             }

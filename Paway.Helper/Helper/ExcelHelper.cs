@@ -102,9 +102,9 @@ namespace Paway.Helper
                         if (pro != null)
                         {
                             PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-                            if (itemList != null && itemList[0].CnName != null)
+                            if (itemList != null && itemList[0].Text != null)
                             {
-                                name = itemList[0].CnName;
+                                name = itemList[0].Text;
                             }
                         }
                         sql = string.Format("{0}'{1}',", sql, name.Replace("'", "''"));
