@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             this.tControl1 = new Paway.Forms.TControl();
             this.toolBar1 = new Paway.Forms.ToolBar();
             this.btChange = new Paway.Forms.QQButton();
@@ -48,7 +48,7 @@
             this.toolBar1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolBar1.ICheckEvent = true;
             this.toolBar1.IScroll = false;
-            this.toolBar1.Items.Add(toolItem3);
+            this.toolBar1.Items.Add(toolItem1);
             this.toolBar1.ItemSize = new System.Drawing.Size(191, 251);
             this.toolBar1.Location = new System.Drawing.Point(0, 0);
             this.toolBar1.MDirection = Paway.Forms.TMDirection.T3DLeftToRight;

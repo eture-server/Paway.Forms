@@ -71,6 +71,7 @@
             Paway.Forms.ToolItem toolItem18 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem19 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem20 = new Paway.Forms.ToolItem();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             this.toolUp = new Paway.Forms.ToolBar();
             this.toolBar2 = new Paway.Forms.ToolBar();
             this.toolbar = new Paway.Forms.ToolBar();
@@ -241,9 +242,9 @@
             // 
             this.toolbar.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.toolbar.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolbar.ICheckEvent = true;
             this.toolbar.IImageShow = false;
             this.toolbar.ImageSize = new System.Drawing.Size(0, 0);
+            this.toolbar.IMultiple = true;
             this.toolbar.IScroll = false;
             toolItem17.Tag = "注册";
             toolItem17.Text = "注册";
@@ -271,8 +272,8 @@
             this.toolbar.Size = new System.Drawing.Size(203, 52);
             this.toolbar.TabIndex = 88;
             this.toolbar.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(105)))), ((int)(((byte)(203)))));
-            this.toolbar.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(170)))), ((int)(((byte)(243)))));
             this.toolbar.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(135)))), ((int)(((byte)(239)))));
+            this.toolbar.TBackGround.ColorSpace = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(170)))), ((int)(((byte)(243)))));
             this.toolbar.TEvent = Paway.Forms.TEvent.Up;
             this.toolbar.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolbar.TextFirst.ColorMove = System.Drawing.Color.Black;

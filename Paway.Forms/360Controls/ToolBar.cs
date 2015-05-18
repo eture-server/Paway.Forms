@@ -25,19 +25,15 @@ namespace Paway.Forms
         /// 默认时的按钮图片
         /// </summary>
         private Image _normalImage = null;
+        private Image _normalImage2 = AssemblyHelper.GetImage("_360.ToolBar.toolbar_normal.png");
         /// <summary>
         /// 默认图片
         /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DefaultValue((string)null)]
         [Description("默认时的按钮图片")]
         public virtual Image NormalImage
         {
-            get
-            {
-                if (this._normalImage == null)
-                    this._normalImage = AssemblyHelper.GetImage("_360.ToolBar.toolbar_normal.png");
-                return this._normalImage;
-            }
+            get { return this._normalImage; }
             set
             {
                 this._normalImage = value;
@@ -48,19 +44,15 @@ namespace Paway.Forms
         /// 鼠标按下时的图片
         /// </summary>
         private Image _downImage = null;
+        private Image _downImage2 = AssemblyHelper.GetImage("_360.ToolBar.toolbar_hover.png");
         /// <summary>
         /// 鼠标按下时的图片
         /// </summary>
+        [DefaultValue((string)null)]
         [Description("鼠标按下时的图片")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual Image DownImage
         {
-            get
-            {
-                if (this._downImage == null)
-                    this._downImage = AssemblyHelper.GetImage("_360.ToolBar.toolbar_hover.png");
-                return this._downImage;
-            }
+            get { return this._downImage; }
             set
             {
                 this._downImage = value;
@@ -71,19 +63,15 @@ namespace Paway.Forms
         /// 鼠标划过时的图片
         /// </summary>
         private Image _moveImage = null;
+        private Image _moveImage2 = AssemblyHelper.GetImage("_360.ToolBar.toolbar_pushed.png");
         /// <summary>
         /// 鼠标划过时的图片
         /// </summary>
+        [DefaultValue((string)null)]
         [Description("鼠标划过时的图片")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual Image MoveImage
         {
-            get
-            {
-                if (this._moveImage == null)
-                    this._moveImage = AssemblyHelper.GetImage("_360.ToolBar.toolbar_pushed.png");
-                return this._moveImage;
-            }
+            get { return this._moveImage; }
             set
             {
                 this._moveImage = value;
@@ -94,6 +82,20 @@ namespace Paway.Forms
         /// 多选状态下选中时附加的图片
         /// </summary>
         private Image _selectImage = AssemblyHelper.GetImage("Controls.accept_16.png");
+        /// <summary>
+        /// 多选状态下选中时附加的图片
+        /// </summary>
+        [DefaultValue((string)null)]
+        [Description("多选状态下选中时附加的图片")]
+        public virtual Image SelectImage
+        {
+            get { return this._selectImage; }
+            set
+            {
+                this._selectImage = value;
+                this.Invalidate(this.ClientRectangle);
+            }
+        }
 
         #endregion
 
@@ -402,7 +404,8 @@ namespace Paway.Forms
         /// <summary>
         /// 工具栏中的项列表
         /// </summary>
-        [Description("工具栏中的项列表"), EditorBrowsable(EditorBrowsableState.Always), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [EditorBrowsable(EditorBrowsableState.Always)]
+        [Description("工具栏中的项列表"), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ToolItemCollection Items
         {
             get
@@ -509,6 +512,7 @@ namespace Paway.Forms
         /// <summary>
         /// 变色项颜色
         /// </summary>
+        [Description("变色项颜色")]
         [DefaultValue(typeof(TProperties), "Change")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties TChange
@@ -527,6 +531,7 @@ namespace Paway.Forms
         /// <summary>
         /// 文字
         /// </summary>
+        [Description("首行文字属性")]
         [DefaultValue(typeof(TProperties), "TextFirst")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties TextFirst
@@ -545,6 +550,7 @@ namespace Paway.Forms
         /// <summary>
         /// 文字
         /// </summary>
+        [Description("从行文字属性")]
         [DefaultValue(typeof(TProperties), "TextSencond")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties TextSencond
@@ -563,6 +569,7 @@ namespace Paway.Forms
         /// <summary>
         /// 正文描述
         /// </summary>
+        [Description("正文描述属性")]
         [DefaultValue(typeof(TProperties), "Desc")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties TDesc
@@ -581,6 +588,7 @@ namespace Paway.Forms
         /// <summary>
         /// 头部描述
         /// </summary>
+        [Description("头部描述属性")]
         [DefaultValue(typeof(TProperties), "HeadDesc")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties THeadDesc
@@ -599,6 +607,7 @@ namespace Paway.Forms
         /// <summary>
         /// 尾部描述
         /// </summary>
+        [Description("尾部描述属性")]
         [DefaultValue(typeof(TProperties), "EndDesc")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties TEndDesc
@@ -617,6 +626,7 @@ namespace Paway.Forms
         /// <summary>
         /// 背景
         /// </summary>
+        [Description("背景颜色属性")]
         [DefaultValue(typeof(TProperties), "BackGround")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties TBackGround
@@ -1021,7 +1031,7 @@ namespace Paway.Forms
                     }
                     if (TranColor == Color.Empty)
                     {
-                        g.DrawImage(this.NormalImage, item.Rectangle);
+                        g.DrawImage(this._normalImage ?? this._normalImage2, item.Rectangle);
                     }
                     else
                     {
@@ -1036,13 +1046,13 @@ namespace Paway.Forms
                     TranColor = item.TColor.ColorDown == Color.Empty ? TBackGround.ColorDown : item.TColor.ColorDown;
                     if (TranColor == Color.Empty)
                     {
-                        g.DrawImage(this.DownImage, item.Rectangle);
+                        g.DrawImage(this._downImage ?? this._downImage2, item.Rectangle);
                     }
                     else
                     {
                         DrawBackground(g, TranColor, item);
                     }
-                    if (_iMultiple)
+                    if (_iMultiple && this._selectImage != null)
                     {
                         g.DrawImage(this._selectImage, new Rectangle(item.Rectangle.Right - this._selectImage.Width, item.Rectangle.Bottom - this._selectImage.Height, this._selectImage.Width, this._selectImage.Height));
                     }
@@ -1050,12 +1060,16 @@ namespace Paway.Forms
                     break;
             }
         }
-        private void DrawBackground(Graphics g, Color color, ToolItem item)
+        /// <summary>
+        /// 填充Item内部颜色
+        /// </summary>
+        protected virtual void DrawBackground(Graphics g, Color color, ToolItem item)
         {
             int radiu = item.TRadiu > _tRadiu ? item.TRadiu : _tRadiu;
             if (radiu > 0)
             {
-                g.FillPath(new SolidBrush(color), DrawHelper.CreateRoundPath(item.Rectangle, radiu));
+                GraphicsPath path = DrawHelper.CreateRoundPath(item.Rectangle, radiu);
+                g.FillPath(new SolidBrush(color), path);
             }
             else
             {
@@ -1070,7 +1084,7 @@ namespace Paway.Forms
             TranColor = item.TColor.ColorMove == Color.Empty ? TBackGround.ColorMove : item.TColor.ColorMove;
             if (TranColor == Color.Empty)
             {
-                g.DrawImage(this.MoveImage, item.Rectangle);
+                g.DrawImage(this._moveImage ?? this._moveImage2, item.Rectangle);
             }
             else
             {

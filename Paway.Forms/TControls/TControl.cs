@@ -157,6 +157,7 @@ namespace Paway.Forms
         /// <summary>
         /// 线性渐变绘制
         /// </summary>
+        [Description("线性渐变绘制，从ColorNormal到ColorSpace")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties TBrush
         {
@@ -178,6 +179,7 @@ namespace Paway.Forms
         /// <summary>
         /// 指定线性渐变的方向
         /// </summary>
+        [Description("指定线性渐变的方向")]
         [DefaultValue(typeof(LinearGradientMode), "Vertical")]
         public LinearGradientMode TBrushMode
         {

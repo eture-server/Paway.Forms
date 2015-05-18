@@ -29,10 +29,10 @@ namespace Paway.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1 = new Paway.Forms.TControl();
             this.panel3 = new Paway.Forms.TControl();
             this.toolBar1 = new Paway.Forms.ToolBar();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel2 = new Paway.Forms.TControl();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -103,12 +103,12 @@ namespace Paway.Forms
         /// 主控件窗口
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        protected System.Windows.Forms.Panel panel2;
+        protected Paway.Forms.TControl panel2;
         /// <summary>
         /// 主容器
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        protected System.Windows.Forms.Panel panel1;
+        protected Paway.Forms.TControl panel1;
         /// <summary>
         /// 工具栏
         /// </summary>
