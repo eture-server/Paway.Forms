@@ -251,6 +251,20 @@ namespace Paway.Forms
         /// </summary>
         [Description("普通项，不响应鼠标绘制"), DefaultValue(false)]
         public bool INormal { get; set; }
+        private bool _iItemLine;
+        /// <summary>
+        /// 绘制边框线开关
+        /// </summary>
+        [Description("绘制边框线开关"), DefaultValue(false)]
+        public bool IItemLine
+        {
+            get { return this._iItemLine; }
+            set
+            {
+                this._iItemLine = value;
+                this.Invalidate(this.ClientRectangle);
+            }
+        }
 
         /// <summary>
         /// 补充整行\列
@@ -1070,10 +1084,20 @@ namespace Paway.Forms
             {
                 GraphicsPath path = DrawHelper.CreateRoundPath(item.Rectangle, radiu);
                 g.FillPath(new SolidBrush(color), path);
+                if (_iItemLine)
+                {
+                    g.DrawPath(new Pen(Color.FromArgb(100, 100, 100)), path);
+                }
             }
             else
             {
                 g.FillRectangle(new SolidBrush(color), item.Rectangle);
+                if (_iItemLine)
+                {
+                    Rectangle rect = item.Rectangle;
+                    rect = new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1);
+                    g.DrawRectangle(new Pen(Color.FromArgb(100, 100, 100)), rect);
+                }
             }
         }
         /// <summary>

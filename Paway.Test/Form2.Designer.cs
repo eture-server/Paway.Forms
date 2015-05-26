@@ -147,6 +147,7 @@
             this.toolUp.ItemSize = new System.Drawing.Size(90, 90);
             this.toolUp.Location = new System.Drawing.Point(408, 152);
             this.toolUp.Name = "toolUp";
+            this.toolUp.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolUp.SelectImage")));
             this.toolUp.Size = new System.Drawing.Size(92, 92);
             this.toolUp.TabIndex = 57;
             this.toolUp.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
@@ -220,6 +221,7 @@
             this.toolBar2.ItemSpace = 5;
             this.toolBar2.Location = new System.Drawing.Point(0, 0);
             this.toolBar2.Name = "toolBar2";
+            this.toolBar2.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolBar2.SelectImage")));
             this.toolBar2.Size = new System.Drawing.Size(898, 418);
             this.toolBar2.TabIndex = 35;
             this.toolBar2.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
@@ -269,6 +271,7 @@
             this.toolbar.Location = new System.Drawing.Point(575, 130);
             this.toolbar.MInterval = 6;
             this.toolbar.Name = "toolbar";
+            this.toolbar.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolbar.SelectImage")));
             this.toolbar.Size = new System.Drawing.Size(203, 52);
             this.toolbar.TabIndex = 88;
             this.toolbar.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(105)))), ((int)(((byte)(203)))));
@@ -286,6 +289,7 @@
             this.toolBar3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(111)))), ((int)(((byte)(238)))), ((int)(((byte)(130)))), ((int)(((byte)(238)))));
             this.toolBar3.Location = new System.Drawing.Point(575, 188);
             this.toolBar3.Name = "toolBar3";
+            this.toolBar3.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolBar3.SelectImage")));
             this.toolBar3.Size = new System.Drawing.Size(258, 151);
             this.toolBar3.TabIndex = 58;
             this.toolBar3.Trans = 111;
