@@ -507,6 +507,11 @@ namespace Paway.Forms
             get { return this._selectedItem; }
         }
         /// <summary>
+        /// 当前移入项
+        /// </summary>
+        [Browsable(false), Description("当前移入项")]
+        public ToolItem MoveItem { get; set; }
+        /// <summary>
         /// 选中项的索引
         /// </summary>
         private int _selectedIndex = 0;
@@ -1481,6 +1486,7 @@ namespace Paway.Forms
             {
                 if (item.Rectangle.Contains(point))
                 {
+                    this.MoveItem = item;
                     if (item.RectDesc.Contains(point) || this._btnArrowRect.Contains(point))
                     {
                         if (item.IMouseState != TMouseState.Down)
