@@ -1532,6 +1532,7 @@ namespace Paway.Forms
             if (this.DesignMode) return;
 
             _iDown = false;
+            this.MoveItem = null;
             foreach (ToolItem item in this.Items)
             {
                 InvaRectDesc(item, TMouseState.Normal);
