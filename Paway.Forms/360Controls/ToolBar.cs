@@ -85,7 +85,7 @@ namespace Paway.Forms
         /// <summary>
         /// 多选状态下选中时附加的图片
         /// </summary>
-        [DefaultValue((string)null)]
+        //[DefaultValue((string)null)]
         [Description("多选状态下选中时附加的图片")]
         public virtual Image SelectImage
         {
@@ -509,7 +509,7 @@ namespace Paway.Forms
         /// <summary>
         /// 当前移入项
         /// </summary>
-        [Browsable(false), Description("当前移入项")]
+        [Browsable(false), Description("当前移入项"), DefaultValue((string)null)]
         public ToolItem MoveItem { get; set; }
         /// <summary>
         /// 选中项的索引
