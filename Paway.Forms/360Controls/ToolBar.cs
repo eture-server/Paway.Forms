@@ -1091,7 +1091,7 @@ namespace Paway.Forms
                 g.FillPath(new SolidBrush(color), path);
                 if (_iItemLine)
                 {
-                    g.DrawPath(new Pen(Color.FromArgb(100, 100, 100)), path);
+                    g.DrawPath(new Pen(Color.FromArgb(Trans, 100, 100, 100)), path);
                 }
             }
             else
@@ -1101,7 +1101,7 @@ namespace Paway.Forms
                 {
                     Rectangle rect = item.Rectangle;
                     rect = new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1);
-                    g.DrawRectangle(new Pen(Color.FromArgb(100, 100, 100)), rect);
+                    g.DrawRectangle(new Pen(Color.FromArgb(Trans, 100, 100, 100)), rect);
                 }
             }
         }
