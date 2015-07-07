@@ -307,7 +307,7 @@ namespace Paway.Forms
         /// <summary>
         /// 图片显示开关
         /// </summary>
-        [Description("图片显示开关"), DefaultValue(true)]
+        [Description("图片显示开关"), DefaultValue(false)]
         public bool IImageShow
         {
             get { return this._iImageShow; }
