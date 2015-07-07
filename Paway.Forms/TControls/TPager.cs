@@ -149,6 +149,7 @@ namespace Paway.Forms
             this.toolNext.Enabled = enable;
 
             this.txtCurrentPage.Text = this.PagerInfo.CurrentPageIndex.ToString();
+            this.RefreshData(this.PagerInfo.CurrentPageIndex);
             this.lblPageInfo.Text = string.Format("共 {0} 条记录，每页 {1} 条，共 {2} 页", this.PagerInfo.RecordCount, this.PagerInfo.PageSize, this.PagerInfo.PageCount);
         }
 

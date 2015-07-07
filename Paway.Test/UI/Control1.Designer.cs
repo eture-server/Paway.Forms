@@ -89,7 +89,7 @@
             // 
             // tDataGridViewPager1
             // 
-            this.tDataGridViewPager1.CurrenetPageIndex = 1;
+            this.tDataGridViewPager1.CurrentPageIndex = 1;
             this.tDataGridViewPager1.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // 

@@ -68,8 +68,8 @@ namespace Paway.Forms
         /// <summary>
         /// 获取或设置当前页码
         /// </summary>
-        [Browsable(false), Description("获取或设置当前页码")]
-        public int CurrenetPageIndex
+        [Browsable(false), Description("获取或设置当前页码"), DefaultValue(1)]
+        public int CurrentPageIndex
         {
             get { return PagerInfo.CurrentPageIndex; }
             set { PagerInfo.CurrentPageIndex = value; }
@@ -212,7 +212,6 @@ namespace Paway.Forms
             this.tDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id});
             this.tDataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tDataGridView1.GridColor = System.Drawing.Color.LightBlue;
             this.tDataGridView1.IMove = false;
             this.tDataGridView1.IMoveColor = System.Drawing.Color.Empty;
             this.tDataGridView1.Location = new System.Drawing.Point(0, 0);
@@ -230,6 +229,7 @@ namespace Paway.Forms
             this.Id.DataPropertyName = "Id";
             this.Id.HeaderText = "Id";
             this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
             // 
             // pager1
             // 
