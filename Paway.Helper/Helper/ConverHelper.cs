@@ -1424,7 +1424,7 @@ namespace Paway.Helper
         {
             PropertyInfo pro = type.GetProperty(prop.Name, prop.PropertyType);
             PropertyAttribute[] itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            return itemList == null || itemList.Length == 0 || itemList[0].Select;
+            return itemList == null || itemList.Length == 0 || itemList[0].Clone;
         }
         /// <summary>
         /// 返回特性，检查表名
