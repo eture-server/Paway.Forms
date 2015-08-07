@@ -125,12 +125,12 @@ namespace Paway.Utils.Tcp
         {
             try
             {
-                if (SocketConfig.Limit != 0 && SocketConfig.ClientList.Count > SocketConfig.Limit)
+                if (SocketConfig.Limit != 0 && SocketConfig.ClientList.Count > SocketConfig.Limit - 1)
                 {
                     OnSystemEvent(ServiceType.Limit, string.Format("超出连接限制：{0}，拒绝连接。", SocketConfig.Limit));
                     return;
                 }
-                if (SocketConfig.ClientList.ToList().FindAll(c => c.ConnectTime > DateTime.Now.AddMinutes(-10)).Count > SocketConfig.Current)
+                if (SocketConfig.ClientList.ToList().FindAll(c => c.ConnectTime > DateTime.Now.AddMinutes(-10)).Count > SocketConfig.Current - 1)
                 {
                     OnSystemEvent(ServiceType.Current, string.Format("限定时间内连接数超出限制：{0}，拒绝连接。", SocketConfig.Current));
                     return;
