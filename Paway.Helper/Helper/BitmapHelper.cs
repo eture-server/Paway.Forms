@@ -40,12 +40,17 @@ namespace Paway.Helper
         /// <summary>
         /// 从指定的文件初始化图像
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
         public static Bitmap GetBitmapFormFile(string fileName)
         {
+            return GetBitmapFormFile(fileName, PixelFormat.Format32bppArgb);
+        }
+        /// <summary>
+        /// 从指定的文件初始化图像，并指定像素格式
+        /// </summary>
+        public static Bitmap GetBitmapFormFile(string fileName, PixelFormat format)
+        {
             Bitmap bitmap = new Bitmap(fileName);
-            Bitmap image = new Bitmap(bitmap.Width, bitmap.Height, PixelFormat.Format32bppArgb);
+            Bitmap image = new Bitmap(bitmap.Width, bitmap.Height, format);
             using (Graphics graphics = Graphics.FromImage(image))
             {
                 graphics.DrawImage(bitmap, 0, 0, bitmap.Width, bitmap.Height);
