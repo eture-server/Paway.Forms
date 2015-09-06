@@ -303,7 +303,7 @@ namespace Paway.Forms
         /// <summary>
         /// 图片显示开关
         /// </summary>
-        private bool _iImageShow = true;
+        private bool _iImageShow = false;
         /// <summary>
         /// 图片显示开关
         /// </summary>
