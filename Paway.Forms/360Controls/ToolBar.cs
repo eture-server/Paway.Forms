@@ -314,6 +314,7 @@ namespace Paway.Forms
             set
             {
                 this._iImageShow = value;
+                UpdateImageSize();
                 this.Invalidate(this.ClientRectangle);
             }
         }

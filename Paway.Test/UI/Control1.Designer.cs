@@ -31,7 +31,8 @@
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
-            this.panel1 = new Forms.TControl();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Control1));
+            this.panel1 = new Paway.Forms.TControl();
             this.toolbar = new Paway.Forms.ToolBar();
             this.tDataGridViewPager1 = new Paway.Forms.TDataGridViewPager();
             this.panel1.SuspendLayout();
@@ -53,7 +54,6 @@
             this.toolbar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolbar.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolbar.ICheckEvent = true;
-            this.toolbar.IImageShow = false;
             this.toolbar.ImageSize = new System.Drawing.Size(0, 0);
             toolItem1.Tag = "登陆";
             toolItem1.Text = "登陆";
@@ -75,6 +75,7 @@
             this.toolbar.Location = new System.Drawing.Point(0, 0);
             this.toolbar.MDirection = Paway.Forms.TMDirection.Up;
             this.toolbar.Name = "toolbar";
+            this.toolbar.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolbar.SelectImage")));
             this.toolbar.Size = new System.Drawing.Size(533, 49);
             this.toolbar.TabIndex = 88;
             this.toolbar.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
@@ -89,13 +90,11 @@
             // 
             // tDataGridViewPager1
             // 
-            this.tDataGridViewPager1.CurrentPageIndex = 1;
             this.tDataGridViewPager1.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // 
             // 
             this.tDataGridViewPager1.Edit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tDataGridViewPager1.Edit.GridColor = System.Drawing.Color.LightBlue;
             this.tDataGridViewPager1.Edit.Location = new System.Drawing.Point(0, 0);
             this.tDataGridViewPager1.Edit.Name = "tDataGridView1";
             this.tDataGridViewPager1.Edit.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;

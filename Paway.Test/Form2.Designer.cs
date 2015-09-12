@@ -243,7 +243,6 @@
             // 
             this.toolbar.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.toolbar.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolbar.IImageShow = false;
             this.toolbar.ImageSize = new System.Drawing.Size(0, 0);
             this.toolbar.IMultiple = true;
             this.toolbar.IScroll = false;

@@ -696,7 +696,6 @@
             // toolBar3
             // 
             this.toolBar3.ICheckEvent = true;
-            this.toolBar3.IImageShow = false;
             this.toolBar3.ImageSize = new System.Drawing.Size(16, 16);
             toolItem1.Text = "光暗";
             toolItem2.Text = "反色";
