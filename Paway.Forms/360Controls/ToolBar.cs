@@ -2247,6 +2247,14 @@ namespace Paway.Forms
         }
 
         /// <summary>
+        /// 将界面坐标转为控件坐标
+        /// </summary>
+        public Point Replace(Point point)
+        {
+            return new Point(point.X - Offset.X, point.Y - Offset.Y);
+        }
+
+        /// <summary>
         /// 重写滚轮滚动
         /// </summary>
         /// <param name="e"></param>
