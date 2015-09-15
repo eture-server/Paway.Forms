@@ -53,6 +53,10 @@ namespace Paway.Utils.Data
             this.cmdType = cmdType;
             this.paramType = paramType;
         }
+        /// <summary>
+        /// 对sql语句进行过滤
+        /// </summary>
+        protected virtual void OnCommandText(DbCommand cmd) { }
 
         #endregion
 
@@ -67,6 +71,7 @@ namespace Paway.Utils.Data
             {
                 if (iTrans) cmd = CommandStart();
                 cmd.CommandText = sql;
+                OnCommandText(cmd);
                 return cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -89,6 +94,7 @@ namespace Paway.Utils.Data
             {
                 if (iTrans) cmd = CommandStart();
                 cmd.CommandText = sql;
+                OnCommandText(cmd);
                 return cmd.ExecuteScalar();
             }
             catch (Exception ex)
@@ -111,6 +117,7 @@ namespace Paway.Utils.Data
             {
                 if (iTrans) cmd = CommandStart();
                 cmd.CommandText = sql;
+                OnCommandText(cmd);
                 using (DbDataReader dr = cmd.ExecuteReader())
                 {
                     DataTable table = new DataTable();
@@ -140,6 +147,7 @@ namespace Paway.Utils.Data
                 for (int i = 0; i < sqlList.Count; i++)
                 {
                     cmd.CommandText = sqlList[i];
+                    OnCommandText(cmd);
                     cmd.ExecuteNonQuery();
                 }
                 if (iTrans) return TransCommit(cmd);
@@ -178,6 +186,7 @@ namespace Paway.Utils.Data
                 DbConnection con = GetCon();
                 DbCommand cmd = GetCmd();
                 cmd.CommandText = sql;
+                OnCommandText(cmd);
                 cmd.Connection = con;
                 return cmd;
             }
@@ -307,15 +316,14 @@ namespace Paway.Utils.Data
 
                 DbParameter parame = default(T).AddParameter<T>(paramType, id);
                 cmd.CommandText = sql;
+                OnCommandText(cmd);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add(parame);
 
                 using (DbDataReader dr = cmd.ExecuteReader())
                 {
-                    DataTable dt = new DataTable();
-                    dt.Load(dr);
-                    IList<T> list = dt.ToIList<T>();
+                    IList<T> list = LoadDr<T>(dr, 1);
                     return list.Count == 1 ? list[0] : default(T);
                 }
             }
@@ -380,12 +388,10 @@ namespace Paway.Utils.Data
                     sql = default(T).Select(find, count, args);
                 }
                 cmd.CommandText = sql;
+                OnCommandText(cmd);
                 using (DbDataReader dr = cmd.ExecuteReader())
                 {
-                    DataTable dt = new DataTable();
-                    dt.Load(dr);
-                    IList<T> list = dt.ToIList<T>();
-                    return list;
+                    return LoadDr<T>(dr);
                 }
             }
             catch (Exception ex)
@@ -397,6 +403,30 @@ namespace Paway.Utils.Data
             {
                 if (iTrans) CommandEnd(cmd);
             }
+        }
+        private IList<T> LoadDr<T>(DbDataReader dr, int count = int.MaxValue)
+        {
+            DataTable temp = dr.GetSchemaTable();
+            DataTable dt = CreateTable(temp);
+            DataRow row = dt.NewRow();
+            IList<T> list = new List<T>();
+            for (int i = 0; dr.Read() && i < count; i++)
+            {
+                T info = dr.CreateItem<T>(row);
+                list.Add(info);
+            }
+            return list;
+        }
+        protected virtual DataTable CreateTable(DataTable temp)
+        {
+            DataTable dt = new DataTable();
+            foreach (DataRow ilRow in temp.Rows)/*建表*/
+            {
+                /*获取这个字段的类型*/
+                Type TilRowType = Type.GetType(ilRow["DataType"].ToString());
+                dt.Columns.Add(ilRow["ColumnName"].ToString(), TilRowType);
+            }
+            return dt;
         }
 
         #endregion
@@ -431,6 +461,7 @@ namespace Paway.Utils.Data
                 {
                     string sql = list[i].Insert<T>(GetId, Identity);
                     cmd.CommandText = sql;
+                    OnCommandText(cmd);
                     DbParameter[] pList = list[i].AddParameters<T>(paramType).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
@@ -475,6 +506,7 @@ namespace Paway.Utils.Data
 
                 string sql = t.Update<T>(true, args);
                 cmd.CommandText = sql;
+                OnCommandText(cmd);
                 DbParameter[] pList = value.AddParameters<T>(paramType, args).ToArray();
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddRange(pList);
@@ -522,6 +554,7 @@ namespace Paway.Utils.Data
                 {
                     string sql = list[i].Update<T>(args);
                     cmd.CommandText = sql;
+                    OnCommandText(cmd);
                     DbParameter[] pList = list[i].AddParameters<T>(paramType, args).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
@@ -564,6 +597,7 @@ namespace Paway.Utils.Data
                 sql = default(T).Delete<T>();
                 DbParameter parame = default(T).AddParameter<T>(paramType, id);
                 cmd.CommandText = sql;
+                OnCommandText(cmd);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add(parame);
@@ -591,6 +625,7 @@ namespace Paway.Utils.Data
                 if (iTrans) cmd = CommandStart();
                 sql = default(T).Delete<T>(find);
                 cmd.CommandText = sql;
+                OnCommandText(cmd);
                 return cmd.ExecuteNonQuery() == 1;
             }
             catch (Exception ex)
@@ -632,6 +667,7 @@ namespace Paway.Utils.Data
                 for (int i = 0; i < list.Count; i++)
                 {
                     cmd.CommandText = sql;
+                    OnCommandText(cmd);
                     DbParameter[] pList = list[i].AddParameters<T>(paramType).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
@@ -698,6 +734,7 @@ namespace Paway.Utils.Data
                         sql = list[i].UpdateOrInsert<T>(GetId);
                     }
                     cmd.CommandText = sql;
+                    OnCommandText(cmd);
                     DbParameter[] pList = list[i].AddParameters<T>(paramType).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);

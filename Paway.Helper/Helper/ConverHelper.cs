@@ -957,69 +957,132 @@ namespace Paway.Helper
 
         /// <summary>
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="row"></param>
-        /// <returns></returns>
         public static T CreateItem<T>(this DataRow row)
         {
             Type type = typeof(T);
             T obj = Activator.CreateInstance<T>();//string 类型不支持无参的反射
-            if (row != null)
+            if (row == null) return obj;
+
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
+            foreach (DataColumn column in row.Table.Columns)
             {
-                PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
-                foreach (DataColumn column in row.Table.Columns)
+                for (int i = 0; i < properties.Count; i++)
                 {
-                    for (int i = 0; i < properties.Count; i++)
+                    string name = properties[i].Name;
+                    if (!IsTabel(type, properties[i], ref name)) continue;
+                    if (name != column.ColumnName) continue;
+
+                    try
                     {
-                        string name = properties[i].Name;
-                        if (!IsTabel(type, properties[i], ref name)) continue;
-                        if (name != column.ColumnName) continue;
+                        PropertyDescriptor pro = properties[i];
+                        object value = row[column.ColumnName];
+                        if (value == DBNull.Value) break;
 
-                        try
+                        if (pro.PropertyType == typeof(Image) && value is byte[])
                         {
-                            PropertyDescriptor pro = properties[i];
-                            object value = row[column.ColumnName];
-                            if (value == DBNull.Value) break;
-
-                            if (pro.PropertyType == typeof(Image) && value is byte[])
-                            {
-                                pro.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image);
-                            }
-                            else if (pro.PropertyType == typeof(double) || pro.PropertyType == typeof(double?))
-                            {
-                                pro.SetValue(obj, value.ToDouble());
-                            }
-                            else if (pro.PropertyType == typeof(int) || pro.PropertyType == typeof(int?))
-                            {
-                                pro.SetValue(obj, value.ToInt());
-                            }
-                            else if (pro.PropertyType == typeof(long) || pro.PropertyType == typeof(long?))
-                            {
-                                pro.SetValue(obj, value.ToLong());
-                            }
-                            else if (pro.PropertyType == typeof(bool) || pro.PropertyType == typeof(bool?))
-                            {
-                                pro.SetValue(obj, value.ToBool());
-                            }
-                            else if (pro.PropertyType == typeof(DateTime) || pro.PropertyType == typeof(DateTime?))
-                            {
-                                pro.SetValue(obj, value.ToDateTime());
-                            }
-                            else if (pro.PropertyType == typeof(string))
-                            {
-                                pro.SetValue(obj, value.ToString2());
-                            }
-                            else
-                            {
-                                pro.SetValue(obj, value);
-                            }
-
-                            break;
+                            pro.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image);
                         }
-                        catch
+                        else if (pro.PropertyType == typeof(double) || pro.PropertyType == typeof(double?))
                         {
-                            throw;
+                            pro.SetValue(obj, value.ToDouble());
                         }
+                        else if (pro.PropertyType == typeof(int) || pro.PropertyType == typeof(int?))
+                        {
+                            pro.SetValue(obj, value.ToInt());
+                        }
+                        else if (pro.PropertyType == typeof(long) || pro.PropertyType == typeof(long?))
+                        {
+                            pro.SetValue(obj, value.ToLong());
+                        }
+                        else if (pro.PropertyType == typeof(bool) || pro.PropertyType == typeof(bool?))
+                        {
+                            pro.SetValue(obj, value.ToBool());
+                        }
+                        else if (pro.PropertyType == typeof(DateTime) || pro.PropertyType == typeof(DateTime?))
+                        {
+                            pro.SetValue(obj, value.ToDateTime());
+                        }
+                        else if (pro.PropertyType == typeof(string))
+                        {
+                            pro.SetValue(obj, value.ToString2());
+                        }
+                        else
+                        {
+                            pro.SetValue(obj, value);
+                        }
+
+                        break;
+                    }
+                    catch
+                    {
+                        throw;
+                    }
+                }
+            }
+
+            return obj;
+        }
+
+        /// <summary>
+        /// 从数据库直接加载实例
+        /// </summary>
+        public static T CreateItem<T>(this DbDataReader dr, DataRow row)
+        {
+            Type type = typeof(T);
+            T obj = Activator.CreateInstance<T>();//string 类型不支持无参的反射
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
+            foreach (DataColumn column in row.Table.Columns)
+            {
+                for (int i = 0; i < properties.Count; i++)
+                {
+                    string name = properties[i].Name;
+                    if (!IsTabel(type, properties[i], ref name)) continue;
+                    if (name != column.ColumnName) continue;
+
+                    try
+                    {
+                        PropertyDescriptor pro = properties[i];
+                        object value = dr[column.ColumnName];
+                        if (value == DBNull.Value) break;
+
+                        if (pro.PropertyType == typeof(Image) && value is byte[])
+                        {
+                            pro.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image);
+                        }
+                        else if (pro.PropertyType == typeof(double) || pro.PropertyType == typeof(double?))
+                        {
+                            pro.SetValue(obj, value.ToDouble());
+                        }
+                        else if (pro.PropertyType == typeof(int) || pro.PropertyType == typeof(int?))
+                        {
+                            pro.SetValue(obj, value.ToInt());
+                        }
+                        else if (pro.PropertyType == typeof(long) || pro.PropertyType == typeof(long?))
+                        {
+                            pro.SetValue(obj, value.ToLong());
+                        }
+                        else if (pro.PropertyType == typeof(bool) || pro.PropertyType == typeof(bool?))
+                        {
+                            pro.SetValue(obj, value.ToBool());
+                        }
+                        else if (pro.PropertyType == typeof(DateTime) || pro.PropertyType == typeof(DateTime?))
+                        {
+                            pro.SetValue(obj, value.ToDateTime());
+                        }
+                        else if (pro.PropertyType == typeof(string))
+                        {
+                            pro.SetValue(obj, value.ToString2());
+                        }
+                        else
+                        {
+                            pro.SetValue(obj, value);
+                        }
+
+                        break;
+                    }
+                    catch
+                    {
+                        throw;
                     }
                 }
             }
@@ -1227,6 +1290,7 @@ namespace Paway.Helper
         public static bool SetMark<T>(this T t, object value)
         {
             if (value == null || value == DBNull.Value) return false;
+            if (value.ToInt() == 0) return false;
 
             PropertyAttribute attr = AttrMark(typeof(T));
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));

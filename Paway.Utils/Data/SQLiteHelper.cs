@@ -15,6 +15,11 @@ namespace Paway.Utils.Data
     {
         #region 初始化
         /// <summary>
+        /// 文件名
+        /// </summary>
+        protected string FileName { get; private set; }
+
+        /// <summary>
         /// 初始化
         /// </summary>
         public SQLiteHelper()
@@ -22,11 +27,6 @@ namespace Paway.Utils.Data
         {
             base.GetId = "select LAST_INSERT_ROWID() Id";
         }
-        /// <summary>
-        /// 文件名
-        /// </summary>
-        protected string FileName { get; private set; }
-
         /// <summary>
         /// 初始化连接字符串
         /// </summary>
@@ -41,7 +41,6 @@ namespace Paway.Utils.Data
             }
             ConnString = GetConnString(fileName);
         }
-
         /// <summary>
         /// 根据指定资源sql语句创建数据库
         /// </summary>
@@ -61,7 +60,6 @@ namespace Paway.Utils.Data
             }
             return TransExecuteNonQuery(list);
         }
-
         /// <summary>
         /// 获取连接字符串
         /// </summary>
@@ -114,12 +112,6 @@ namespace Paway.Utils.Data
         /// 查找指定查询语句
         /// 填充 System.Data.DataSet 并返回一个IList列表
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="find"></param>
-        /// <param name="count"></param>
-        /// <param name="cmd"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
         public override IList<T> FindTop<T>(string find, int count, DbCommand cmd = null, params string[] args)
         {
             return base.FindTop<T>(find, count, true, cmd, args);

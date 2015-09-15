@@ -17,14 +17,14 @@ namespace Paway.Test
 {
     public partial class FormSql : QQDemo
     {
+        DataService service = new DataService();
+        List<TestData> list = new List<TestData>();
+
         public FormSql()
         {
             InitializeComponent();
         }
 
-        DataService service = new DataService();
-
-        List<TestData> list = new List<TestData>();
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
@@ -48,7 +48,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, "SQL错误", string.Format("{0}", ex), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, string.Format("{0}", ex), "SQL错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -56,11 +56,14 @@ namespace Paway.Test
         {
             try
             {
+                if (list.Count == 0) return;
+                list[0].N2 = DateTime.Now.Minute.ToString();
+                list[0].V2 = DateTime.Now.Second.ToString();
                 service.Update<TestData>(list[0]);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, "SQL错误", string.Format("{0}", ex), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, string.Format("{0}", ex), "SQL错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -68,11 +71,15 @@ namespace Paway.Test
         {
             try
             {
+                //暂不支持MySql
+                if (list.Count == 0) return;
+                list[0].N2 = DateTime.Now.Minute.ToString();
+                list[0].V2 = DateTime.Now.Second.ToString();
                 service.Replace<TestData>(list[0]);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, "SQL错误", string.Format("{0}", ex), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, string.Format("{0}", ex), "SQL错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -80,12 +87,14 @@ namespace Paway.Test
         {
             try
             {
+                if (list.Count == 0) return;
                 object result = service.ExecuteScalar("select count(0) from Hello");
-                service.Delete<TestData>(5);
+                service.Delete<TestData>(list[0].T2);
+                list.RemoveAt(0);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, "SQL错误", string.Format("{0}", ex), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, string.Format("{0}", ex), "SQL错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -93,28 +102,25 @@ namespace Paway.Test
         {
             try
             {
-                service.Find();
+                list = service.Find<TestData>() as List<TestData>;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, "SQL错误", string.Format("{0}", ex), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, string.Format("{0}", ex), "SQL错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
-    public class DataService : SqlHelper
+    public class DataService : MySQLHelper//SqlHelper//MySQLHelper
     {
         public DataService()
         {
-            base.InitConnect("ConnectionString");
-        }
-        public void Find()
-        {
-            List<TestData> list = Find<TestData>() as List<TestData>;
+            base.InitConnect("127.0.0.1", "Test", "root", "mobot");
+            //base.InitConnect("ConnectionString");
         }
     }
 
-    [Serializable, Property(Table = "Hello", Mark = "Tid")]
-    public class TestData : BaseData
+    [Serializable, Property(Table = "Hello", Key = "T2")]
+    public class TestData
     {
         //public int Id { get; set; }
         [Property(Column = "Tid")]
@@ -135,11 +141,5 @@ namespace Paway.Test
         {
             this.Date = DateTime.Now;
         }
-    }
-    [Serializable, Property(Table = "HelloBase", Mark = "Tid")]
-    public class BaseData
-    {
-        [Property(Column = "Data")]
-        public int Data { get; set; }
     }
 }

@@ -35,23 +35,13 @@ namespace Paway.Utils.Data
         /// <summary>
         /// 传入连接字符
         /// </summary>
-        /// <param name="server"></param>
-        /// <param name="database"></param>
-        /// <param name="root"></param>
-        /// <param name="password"></param>
         protected void InitConnect(string server, string database, string root, string password)
         {
             ConnString = new MySQLConnectionString(server, database, root, password).AsString;
-
         }
         /// <summary>
         /// 传入连接字符
         /// </summary>
-        /// <param name="server"></param>
-        /// <param name="database"></param>
-        /// <param name="root"></param>
-        /// <param name="password"></param>
-        /// <param name="port"></param>
         protected void InitConnect(string server, string database, string root, string password, int port)
         {
             ConnString = new MySQLConnectionString(server, database, root, password, port).AsString;
@@ -59,23 +49,28 @@ namespace Paway.Utils.Data
 
         #endregion
 
-        private MySQLConnection conn;
+        #region 重载
         /// <summary>
-        /// 连接实例
+        /// 对sql语句进行过滤
         /// </summary>
-        /// <returns></returns>
-        protected MySQLConnection GetCon()
+        protected override void OnCommandText(DbCommand cmd)
         {
-            if (conn == null)
-            {
-                conn = new MySQLConnection(ConnString);
-            }
-            if (conn.State == ConnectionState.Closed)
-            {
-                conn.Open();
-            }
-            return conn;
+            if (cmd.CommandText != null)
+                cmd.CommandText = cmd.CommandText.Replace("[", "").Replace("]", "");
         }
+        protected override DataTable CreateTable(DataTable temp)
+        {
+            DataTable dt = new DataTable();
+            foreach (DataColumn dc in temp.Columns)
+            {
+                String s = dc.ToString();
+                DataColumn dcNew = new DataColumn(s);
+                dt.Columns.Add(dcNew);
+            }
+            return dt;
+        }
+
+        #endregion
 
         #region 扩展.分步
         /// <summary>
