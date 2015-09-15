@@ -110,7 +110,7 @@ namespace Paway.Test
             }
         }
     }
-    public class DataService : MySQLHelper//SqlHelper//MySQLHelper
+    public class DataService : MySqlHelper//SqlHelper//MySQLHelper
     {
         public DataService()
         {
@@ -119,7 +119,7 @@ namespace Paway.Test
         }
     }
 
-    [Serializable, Property(Table = "Hello", Key = "T2")]
+    [Serializable, Property(Table = "Hello", Key = "Tid")]
     public class TestData
     {
         //public int Id { get; set; }

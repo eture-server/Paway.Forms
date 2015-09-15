@@ -45,8 +45,8 @@
     <Reference Include="log4net">
       <HintPath>..\Root\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="MySQLDriverCS">
-      <HintPath>..\Root\MySQLDriverCS.dll</HintPath>
+    <Reference Include="MySql.Data">
+      <HintPath>..\Root\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -62,7 +62,7 @@
   <ItemGroup>
     <Compile Include="Data\DataBase.cs" />
     <Compile Include="Data\SqlHelper.cs" />
-    <Compile Include="Data\MySQLHelper.cs" />
+    <Compile Include="Data\MySqlHelper.cs" />
     <Compile Include="Pdf\Export.cs" />
     <Compile Include="Data\SQLiteHelper.cs" />
     <Compile Include="Pdf\PdfHeaderContent.cs" />

@@ -17,11 +17,6 @@ namespace Paway.Utils.Data
     public abstract class DataBase : IDisposable
     {
         /// <summary>
-        /// 连接字符模板
-        /// Data Source={0};Initial Catalog={1};Persist Security Info=True;User ID={2};Password={3};
-        /// </summary>
-        protected const string DbConnect = @"Data Source={0};Initial Catalog={1};Persist Security Info=True;User ID={2};Password={3};";
-        /// <summary>
         /// 返回最新插入列主键Id
         /// </summary>
         protected string GetId { get; set; }
@@ -407,7 +402,13 @@ namespace Paway.Utils.Data
         private IList<T> LoadDr<T>(DbDataReader dr, int count = int.MaxValue)
         {
             DataTable temp = dr.GetSchemaTable();
-            DataTable dt = CreateTable(temp);
+            DataTable dt = new DataTable();
+            foreach (DataRow ilRow in temp.Rows)/*建表*/
+            {
+                /*获取这个字段的类型*/
+                Type TilRowType = Type.GetType(ilRow["DataType"].ToString());
+                dt.Columns.Add(ilRow["ColumnName"].ToString(), TilRowType);
+            }
             DataRow row = dt.NewRow();
             IList<T> list = new List<T>();
             for (int i = 0; dr.Read() && i < count; i++)
@@ -416,17 +417,6 @@ namespace Paway.Utils.Data
                 list.Add(info);
             }
             return list;
-        }
-        protected virtual DataTable CreateTable(DataTable temp)
-        {
-            DataTable dt = new DataTable();
-            foreach (DataRow ilRow in temp.Rows)/*建表*/
-            {
-                /*获取这个字段的类型*/
-                Type TilRowType = Type.GetType(ilRow["DataType"].ToString());
-                dt.Columns.Add(ilRow["ColumnName"].ToString(), TilRowType);
-            }
-            return dt;
         }
 
         #endregion

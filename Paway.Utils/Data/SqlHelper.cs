@@ -14,6 +14,12 @@ namespace Paway.Utils.Data
     /// </summary>
     public abstract class SqlHelper : DataBase
     {
+        /// <summary>
+        /// 连接字符模板
+        /// Data Source={0};Initial Catalog={1};Persist Security Info=True;User ID={2};Password={3};
+        /// </summary>
+        protected const string DbConnect = @"Data Source={0};Initial Catalog={1};Persist Security Info=True;User ID={2};Password={3};";
+
         #region 初始化
         /// <summary>
         /// 初始化
