@@ -104,8 +104,6 @@
             this.tDataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tDataGridView2.GridColor = System.Drawing.Color.YellowGreen;
             this.tDataGridView2.IMerger = true;
-            this.tDataGridView2.IMove = false;
-            this.tDataGridView2.IMoveColor = System.Drawing.Color.Empty;
             this.tDataGridView2.Location = new System.Drawing.Point(3, 3);
             this.tDataGridView2.MultiSelect = true;
             this.tDataGridView2.Name = "tDataGridView2";
@@ -175,7 +173,6 @@
             // 
             // tDataGridViewPager1
             // 
-            this.tDataGridViewPager1.CurrentPageIndex = 1;
             this.tDataGridViewPager1.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // 
@@ -256,8 +253,6 @@
             this.tDataGridView1.Dock = System.Windows.Forms.DockStyle.Top;
             this.tDataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(186)))), ((int)(((byte)(132)))));
             this.tDataGridView1.ICheckBoxName = "IsSelect";
-            this.tDataGridView1.IMove = false;
-            this.tDataGridView1.IMoveColor = System.Drawing.Color.Empty;
             this.tDataGridView1.IMultiText = true;
             this.tDataGridView1.Location = new System.Drawing.Point(10, 10);
             this.tDataGridView1.MultiSelect = true;

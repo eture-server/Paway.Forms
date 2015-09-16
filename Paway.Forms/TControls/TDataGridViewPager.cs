@@ -212,8 +212,6 @@ namespace Paway.Forms
             this.tDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id});
             this.tDataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tDataGridView1.IMove = false;
-            this.tDataGridView1.IMoveColor = System.Drawing.Color.Empty;
             this.tDataGridView1.Location = new System.Drawing.Point(0, 0);
             this.tDataGridView1.Name = "tDataGridView1";
             this.tDataGridView1.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
