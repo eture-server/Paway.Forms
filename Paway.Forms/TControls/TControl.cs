@@ -525,7 +525,7 @@ namespace Paway.Forms
                     image = this.BackgroundImage;
                     if (this.Width > 0 && this.Height > 0)
                     {
-                        if (this.TranImage != null)
+                        //if (this.TranImage != null)
                         {
                             this.Parent.BackgroundImage = null;
                             Bitmap bitmap = new Bitmap(this.Width, this.Height);
@@ -549,6 +549,8 @@ namespace Paway.Forms
                         i3d = true;
                         this.intervel = 255 / this.MInterval;
 
+                        if (this.TranImage == null)
+                            alpha.BackColor = Color.FromArgb(255, alpha.BackColor);
                         this.Controls.Add(this.alpha);
                         this.Controls.SetChildIndex(this.alpha, 0);
                         alpha.Dock = DockStyle.Fill;
