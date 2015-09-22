@@ -214,11 +214,6 @@ namespace Paway.Forms
             this.tDataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tDataGridView1.Location = new System.Drawing.Point(0, 0);
             this.tDataGridView1.Name = "tDataGridView1";
-            this.tDataGridView1.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
-            this.tDataGridView1.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
-            this.tDataGridView1.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
-            this.tDataGridView1.RowTemplate.Height = 32;
-            this.tDataGridView1.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.tDataGridView1.Size = new System.Drawing.Size(576, 173);
             this.tDataGridView1.TabIndex = 12;
             // 

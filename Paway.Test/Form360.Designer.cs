@@ -58,7 +58,7 @@
             // toolBar1
             // 
             this.toolBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.toolBar1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.toolBar1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             toolItem1.Text = "电脑体检";
             toolItem2.Text = "木马查杀";
             toolItem3.Text = "漏洞修复";
@@ -80,6 +80,7 @@
             this.toolBar1.ItemSpace = 0;
             this.toolBar1.Location = new System.Drawing.Point(0, 26);
             this.toolBar1.Name = "toolBar1";
+            this.toolBar1.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolBar1.SelectImage")));
             this.toolBar1.Size = new System.Drawing.Size(850, 82);
             this.toolBar1.TabIndex = 0;
             this.toolBar1.SelectedItemChanged += new System.EventHandler(this.toolBar1_SelectedItemChanged);
@@ -108,7 +109,6 @@
             // 
             // tDataGridViewPager1
             // 
-            this.tDataGridViewPager1.CurrentPageIndex = 1;
             this.tDataGridViewPager1.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // 
@@ -130,7 +130,6 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.tDataGridViewPager1.Edit.DefaultCellStyle = dataGridViewCellStyle2;
             this.tDataGridViewPager1.Edit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tDataGridViewPager1.Edit.GridColor = System.Drawing.Color.LightBlue;
             this.tDataGridViewPager1.Edit.Location = new System.Drawing.Point(0, 0);
             this.tDataGridViewPager1.Edit.Name = "tDataGridView1";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -187,8 +186,6 @@
             // 
             // Form360
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DodgerBlue;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
@@ -197,7 +194,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.toolBar1);
-            this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Location = new System.Drawing.Point(0, 0);

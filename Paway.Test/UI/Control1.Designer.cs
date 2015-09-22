@@ -98,9 +98,8 @@
             this.tDataGridViewPager1.Edit.Location = new System.Drawing.Point(0, 0);
             this.tDataGridViewPager1.Edit.Name = "tDataGridView1";
             this.tDataGridViewPager1.Edit.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
-            this.tDataGridViewPager1.Edit.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
+            this.tDataGridViewPager1.Edit.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
             this.tDataGridViewPager1.Edit.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
-            this.tDataGridViewPager1.Edit.RowTemplate.Height = 32;
             this.tDataGridViewPager1.Edit.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.tDataGridViewPager1.Edit.Size = new System.Drawing.Size(533, 138);
             this.tDataGridViewPager1.Edit.TabIndex = 12;
