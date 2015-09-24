@@ -54,11 +54,6 @@ namespace Paway.Forms
             this.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             this.GridColor = Color.LightBlue;
             this.ReadOnly = true;
-            this.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
-            this.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.FromArgb(209, 232, 255);
-            this.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
-            this.RowTemplate.Height = 32;
-            this.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
 
             this.pictureBox1.BackColor = Color.Transparent;
         }
