@@ -148,6 +148,30 @@ namespace Paway.Forms
 
         #endregion
 
+        #region 重载属性默认值
+        /// <summary>
+        /// 获取或设置绘制控件的模式。
+        /// </summary>
+        [Description("获取或设置绘制控件的模式")]
+        [DefaultValue(typeof(TreeViewDrawMode), "OwnerDrawText")]
+        public new TreeViewDrawMode DrawMode
+        {
+            get { return base.DrawMode; }
+            set { base.DrawMode = value; }
+        }
+        /// <summary>
+        /// 获取或设置树视图控件中每个树节点的高度。
+        /// </summary>
+        [Description("获取或设置树视图控件中每个树节点的高度")]
+        [DefaultValue(21)]
+        public new int ItemHeight
+        {
+            get { return base.ItemHeight; }
+            set { base.ItemHeight = value; }
+        }
+
+        #endregion
+
         #region 节点添加
         /// <summary>
         /// 刷新数据
@@ -472,7 +496,8 @@ namespace Paway.Forms
                 foreColor = this.ForeColor;
                 backColor = this.BackColor;
             }
-            Rectangle rect = new Rectangle(new Point(e.Bounds.Location.X + 1, e.Bounds.Location.Y), new Size(this.Width - e.Bounds.X - 1, e.Bounds.Height));
+            Rectangle rect = e.Node.Bounds;
+            rect = new Rectangle(new Point(rect.Location.X + 1, rect.Location.Y), new Size(this.Width - rect.X - 1, rect.Height));
             e.Graphics.FillRectangle(new SolidBrush(backColor), rect);
             C_DrawString(e.Graphics, e.Node, rect, foreColor);
         }
@@ -554,6 +579,8 @@ namespace Paway.Forms
         #region 节点选中事件
         void DrawTreeView_AfterCheck(object sender, TreeViewEventArgs e)
         {
+            if (!CheckBoxes) return;
+
             this.AfterCheck -= DrawTreeView_AfterCheck;
             ParentNodeCheck(e.Node.Parent);
             for (int i = 0; i < e.Node.Nodes.Count; i++)
@@ -679,12 +706,12 @@ namespace Paway.Forms
     {
         #region 属性
         /// <summary>
-        /// Item 显示的类型
+        /// 项显示的类型
         /// </summary>
         [DefaultValue(TreeItemType.Text)]
         public TreeItemType Type { get; set; }
         /// <summary>
-        /// Item 上绑定的文本字段
+        /// 项上绑定的字段
         /// </summary>
         [DefaultValue("toolItem")]
         public string Name { get; set; }
@@ -692,6 +719,7 @@ namespace Paway.Forms
         /// <summary>
         /// 项的长度
         /// </summary>
+        [DefaultValue(100)]
         public int Width { get { return width; } set { width = value; } }
         /// <summary>
         /// 文本显示的位置,左或右
