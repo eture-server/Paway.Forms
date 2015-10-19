@@ -51,7 +51,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.drawTreeView1 = new Paway.Forms.TTreeView();
+            this.treeView1 = new Paway.Forms.TTreeView();
             this.tabPage2 = new Paway.Forms.QQTabPage();
             this.chatListBox1 = new Paway.Custom.ChatListBox();
             this.tabPage1 = new Paway.Forms.QQTabPage();
@@ -197,11 +197,12 @@
             // qqTabPage1
             // 
             this.qqTabPage1.BackColor = System.Drawing.Color.White;
+            this.qqTabPage1.BackgroundImage = global::Paway.Test.Properties.Resources.i1;
             this.qqTabPage1.ContextMenuShow = this.contextMenuStrip1;
             this.qqTabPage1.Controls.Add(this.button3);
             this.qqTabPage1.Controls.Add(this.button2);
             this.qqTabPage1.Controls.Add(this.button1);
-            this.qqTabPage1.Controls.Add(this.drawTreeView1);
+            this.qqTabPage1.Controls.Add(this.treeView1);
             this.qqTabPage1.Location = new System.Drawing.Point(4, 36);
             this.qqTabPage1.Name = "qqTabPage1";
             this.qqTabPage1.Size = new System.Drawing.Size(291, 246);
@@ -238,22 +239,16 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // drawTreeView1
+            // treeView1
             // 
-            this.drawTreeView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.drawTreeView1.CheckBoxes = true;
-            this.drawTreeView1.DataSource = null;
-            this.drawTreeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.drawTreeView1.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
-            this.drawTreeView1.HideSelection = false;
-            this.drawTreeView1.ItemHeight = 23;
-            this.drawTreeView1.Location = new System.Drawing.Point(0, 0);
-            this.drawTreeView1.Name = "drawTreeView1";
-            this.drawTreeView1.Size = new System.Drawing.Size(291, 246);
-            this.drawTreeView1.TabIndex = 1;
+            this.treeView1.BackColor = System.Drawing.Color.Transparent;
+            this.treeView1.ColorHot = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(244)))), ((int)(((byte)(249)))), ((int)(((byte)(255)))));
+            this.treeView1.ColorSelect = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(207)))), ((int)(((byte)(227)))), ((int)(((byte)(253)))));
+            this.treeView1.ColorSelectNoFocus = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
+            this.treeView1.DataSource = null;
+            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             treeItem1.Name = "Name";
             treeItem1.Tag = null;
-            treeItem1.Width = 100;
             treeItem2.Name = "Custom";
             treeItem2.Tag = null;
             treeItem2.Width = 60;
@@ -264,11 +259,15 @@
             treeItem4.Name = "Value";
             treeItem4.Tag = null;
             treeItem4.Width = 80;
-            this.drawTreeView1.Items.Add(treeItem1);
-            this.drawTreeView1.Items.Add(treeItem2);
-            this.drawTreeView1.Items.Add(treeItem3);
-            this.drawTreeView1.Items.Add(treeItem4);
-            this.drawTreeView1.TRoot = "0";
+            this.treeView1.Items.Add(treeItem1);
+            this.treeView1.Items.Add(treeItem2);
+            this.treeView1.Items.Add(treeItem3);
+            this.treeView1.Items.Add(treeItem4);
+            this.treeView1.Location = new System.Drawing.Point(0, 0);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(291, 246);
+            this.treeView1.TabIndex = 1;
+            this.treeView1.TRoot = "0";
             // 
             // tabPage2
             // 
@@ -424,7 +423,7 @@
         private Forms.QQTabPage qqTabPage2;
         private Forms.TListBox drawListBox1;
         private Forms.QQTabPage qqTabPage1;
-        private Forms.TTreeView drawTreeView1;
+        private Forms.TTreeView treeView1;
         private Forms.QQTabPage tabPage2;
         private Custom.ChatListBox chatListBox1;
         private Forms.QQTabPage tabPage1;

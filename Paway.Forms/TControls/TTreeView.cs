@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Paway.Helper;
 using System.Collections;
 using System.Reflection;
+using Paway.Resource;
 
 namespace Paway.Forms
 {
@@ -25,13 +26,18 @@ namespace Paway.Forms
         public TTreeView()
         {
             this.SetStyle(
+                ControlStyles.UserPaint |
                 ControlStyles.AllPaintingInWmPaint |
-                ControlStyles.OptimizedDoubleBuffer, true);
+                ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.SupportsTransparentBackColor, true);
             this.UpdateStyles();
             //选中与颜色重绘
-            this.DrawMode = TreeViewDrawMode.OwnerDrawText;
-            this.ItemHeight = 21;
+            this.DrawMode = TreeViewDrawMode.OwnerDrawAll;
+            this.ItemHeight = 23;
             this.HideSelection = false;
+            this.FullRowSelect = true;
+            this.HotTracking = true;
+            this.BorderStyle = BorderStyle.None;
             this.AfterCheck += DrawTreeView_AfterCheck;
         }
 
@@ -40,37 +46,82 @@ namespace Paway.Forms
         /// 鼠标上一次移过的项
         /// </summary>
         private TreeNode lastnode = null;
+        /// <summary>
+        /// +
+        /// </summary>
+        Image add = AssemblyHelper.GetImage("Controls.+.png");
+        /// <summary>
+        /// -
+        /// </summary>
+        Image less = AssemblyHelper.GetImage("Controls.-.png");
 
         #endregion
 
         #region 属性
-        private Color _select = Color.DodgerBlue;
+        private Color _select = Color.FromArgb(207, 227, 253);
         /// <summary>
-        /// 项被选中后的背景颜色
+        /// 项被选中后的背景颜色(有焦点)
         /// </summary>
-        [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的背景颜色")]
-        [DefaultValue(typeof(Color), "DodgerBlue")]
+        [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的背景颜色(有焦点)")]
+        [DefaultValue(typeof(Color), "207, 227, 253")]
         public Color ColorSelect { get { return _select; } set { _select = value; } }
-        private Color _selectFore = Color.White;
+        private Color _selectLine = Color.FromArgb(125, 162, 206);
         /// <summary>
-        /// 项被选中后的字体颜色
+        /// 项被选中后的边框颜色(有焦点)
         /// </summary>
-        [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的字体颜色")]
-        [DefaultValue(typeof(Color), "White")]
+        [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的边框颜色(有焦点)")]
+        [DefaultValue(typeof(Color), "125, 162, 206")]
+        public Color ColorSelectLine { get { return _selectLine; } set { _selectLine = value; } }
+        private Color _selectFore = Color.Black;
+        /// <summary>
+        /// 项被选中后的字体颜色(有焦点)
+        /// </summary>
+        [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的字体颜色(有焦点)")]
+        [DefaultValue(typeof(Color), "Black")]
         public Color ColorSelectFore { get { return _selectFore; } set { _selectFore = value; } }
-        private Color _hot = Color.LightBlue;
+
+        private Color _selectNoFocus = Color.FromArgb(242, 242, 242);
+        /// <summary>
+        /// 项被选中后的背景颜色(无焦点)
+        /// </summary>
+        [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的背景颜色(无焦点)")]
+        [DefaultValue(typeof(Color), "242, 242, 242")]
+        public Color ColorSelectNoFocus { get { return _selectNoFocus; } set { _selectNoFocus = value; } }
+        private Color _selectLineNoFocus = Color.FromArgb(218, 218, 218);
+        /// <summary>
+        /// 项被选中后的边框颜色(无焦点)
+        /// </summary>
+        [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的边框颜色(无焦点)")]
+        [DefaultValue(typeof(Color), "218, 218, 218")]
+        public Color ColorSelectLineNoFocus { get { return _selectLineNoFocus; } set { _selectLineNoFocus = value; } }
+        private Color _selectForeNoFocus = Color.Black;
+        /// <summary>
+        /// 项被选中后的字体颜色(无焦点)
+        /// </summary>
+        [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的字体颜色(无焦点)")]
+        [DefaultValue(typeof(Color), "Black")]
+        public Color ColorSelectForeNoFocus { get { return _selectForeNoFocus; } set { _selectForeNoFocus = value; } }
+
+        private Color _hot = Color.FromArgb(244, 249, 255);
         /// <summary>
         /// 鼠标移过项时的背景颜色
         /// </summary>
         [Browsable(true), Category("控件的重绘设置"), Description("鼠标移过项时的背景颜色")]
-        [DefaultValue(typeof(Color), "LightBlue")]
+        [DefaultValue(typeof(Color), "244, 249, 255")]
         public Color ColorHot { get { return _hot; } set { _hot = value; } }
-        private Color _hotFore = Color.White;
+        private Color _hotLine = Color.FromArgb(185, 215, 252);
+        /// <summary>
+        /// 鼠标移过项时的边框颜色
+        /// </summary>
+        [Browsable(true), Category("控件的重绘设置"), Description("鼠标移过项时的边框颜色")]
+        [DefaultValue(typeof(Color), "185, 215, 252")]
+        public Color ColorHotLine { get { return _hotLine; } set { _hotLine = value; } }
+        private Color _hotFore = Color.Black;
         /// <summary>
         /// 鼠标移过项时的字体颜色
         /// </summary>
         [Browsable(true), Category("控件的重绘设置"), Description("鼠标移过项时的字体颜色")]
-        [DefaultValue(typeof(Color), "White")]
+        [DefaultValue(typeof(Color), "Black")]
         public Color ColorHotFore { get { return _hotFore; } set { _hotFore = value; } }
 
         /// <summary>
@@ -153,7 +204,7 @@ namespace Paway.Forms
         /// 获取或设置绘制控件的模式。
         /// </summary>
         [Description("获取或设置绘制控件的模式")]
-        [DefaultValue(typeof(TreeViewDrawMode), "OwnerDrawText")]
+        [DefaultValue(typeof(TreeViewDrawMode), "OwnerDrawAll")]
         public new TreeViewDrawMode DrawMode
         {
             get { return base.DrawMode; }
@@ -163,12 +214,48 @@ namespace Paway.Forms
         /// 获取或设置树视图控件中每个树节点的高度。
         /// </summary>
         [Description("获取或设置树视图控件中每个树节点的高度")]
-        [DefaultValue(21)]
+        [DefaultValue(23)]
         public new int ItemHeight
         {
             get { return base.ItemHeight; }
             set { base.ItemHeight = value; }
         }
+        /// <summary>
+        /// 获取或设置一个值，用以指示选定的树节点是否即使在树视图已失去焦点时仍会保持突出显示。
+        /// </summary>
+        [Description("获取或设置树视图控件中每个树节点的高度")]
+        [DefaultValue(false)]
+        public new bool HideSelection
+        {
+            get { return base.HideSelection; }
+            set { base.HideSelection = value; }
+        }
+        /// <summary>
+        /// 获取或设置一个值，用以指示选择突出显示是否跨越树视图控件的整个宽度。
+        /// </summary>
+        [Description("获取或设置一个值，用以指示选择突出显示是否跨越树视图控件的整个宽度。")]
+        [DefaultValue(true)]
+        public new bool FullRowSelect
+        {
+            get { return base.FullRowSelect; }
+            set { base.FullRowSelect = value; }
+        }
+        /// <summary>
+        /// 获取或设置一个值，用以指示当鼠标指针移过树节点标签时，树节点标签是否具有超链接的外观。
+        /// </summary>
+        [Description("获取或设置一个值，用以指示当鼠标指针移过树节点标签时，树节点标签是否具有超链接的外观。")]
+        [DefaultValue(true)]
+        public new bool HotTracking
+        {
+            get { return base.FullRowSelect; }
+            set { base.FullRowSelect = value; }
+        }
+        /// <summary>
+        /// 获取或设置树视图控件的边框样式
+        /// </summary>
+        [Description("获取或设置树视图控件的边框样式。")]
+        [DefaultValue(typeof(BorderStyle), "None")]
+        public new BorderStyle BorderStyle { get; set; }
 
         #endregion
 
@@ -426,91 +513,83 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 选中与颜色重绘
+        #region 重绘节点
         /// <summary>
-        /// 移过行
-        /// </summary>
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            base.OnMouseMove(e);
-            TreeNode node = this.GetNodeAt(e.Location);
-            if (node != null && lastnode != null && lastnode.Name == node.Name) return;
-
-            C_DrawNode(ColorHotFore, ColorHot, node);
-            C_DrawNode(this.ForeColor, this.BackColor, lastnode);
-            lastnode = node;
-        }
-        /// <summary>
-        /// 双击展开项
-        /// </summary>
-        protected override void OnMouseDoubleClick(MouseEventArgs e)
-        {
-            if (e.Button != MouseButtons.Left) return;
-            TreeNode node = this.GetNodeAt(e.Location);
-            if (!node.Bounds.Contains(e.Location) && e.X > node.Bounds.X)
-            {
-                if (node.Nodes.Count > 0)
-                {
-                    if (node.IsExpanded)
-                    {
-                        node.Collapse();
-                    }
-                    else
-                    {
-                        node.Expand();
-                    }
-                }
-            }
-            base.OnMouseDoubleClick(e);
-        }
-        /// <summary>
-        /// 整行选中
+        /// 重绘节点
         /// </summary>
         /// <param name="e"></param>
-        protected override void OnMouseDown(MouseEventArgs e)
+        protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnMouseDown(e);
-            if (e.Button != MouseButtons.Left) return;
-            TreeNode node = this.GetNodeAt(e.Location);
-            if (node != null)
+            base.OnPaint(e);
+            Graphics g = e.Graphics;
+            OnPaint(g, this.Nodes, e.ClipRectangle);
+        }
+        private void OnPaint(Graphics g, TreeNodeCollection nodes, Rectangle rect)
+        {
+            for (int i = 0; i < nodes.Count; i++)
             {
-                this.SelectedNode = node;
+                if (Rectangle.Union(rect, nodes[i].Bounds) != Rectangle.Empty)
+                {
+                    C_DrawNode(g, this.ForeColor, this.BackColor, nodes[i], 0);
+                    C_DrawAdd(g, nodes[i]);
+                }
+                if (nodes[i].IsExpanded && nodes[i].Nodes.Count > 0)
+                    OnPaint(g, nodes[i].Nodes, rect);
             }
         }
         /// <summary>
         /// 重绘Text
         /// </summary>
-        /// <param name="e"></param>
         protected override void OnDrawNode(DrawTreeNodeEventArgs e)
         {
             base.OnDrawNode(e);
-            Color foreColor;
-            Color backColor;
-            if ((e.State & TreeNodeStates.Selected) == TreeNodeStates.Selected)
+            //C_DrawNode(e.Graphics, e.Node);
+            //C_DrawAdd(e.Graphics, e.Node);
+        }
+        private void C_DrawNode(Graphics g, TreeNode node)
+        {
+            Rectangle rect = node.Bounds;
+            rect = new Rectangle(rect.Location, new Size(this.Width - 4 - rect.X - 2, rect.Height - 1));
+            if (node.IsSelected)
             {
-                foreColor = this.ColorSelectFore;
-                backColor = this.ColorSelect;
+                if (this.Focused)
+                {
+                    g.FillRectangle(new SolidBrush(this.ColorSelect), rect);
+                    C_DrawString(g, node, rect, this.ColorSelectFore);
+                    g.DrawRectangle(new Pen(this.ColorSelectLine), rect);
+                }
+                else
+                {
+                    g.FillRectangle(new SolidBrush(this.ColorSelectNoFocus), rect);
+                    C_DrawString(g, node, rect, this.ColorSelectForeNoFocus);
+                    g.DrawRectangle(new Pen(this.ColorSelectLineNoFocus), rect);
+                }
             }
             else
             {
-                foreColor = this.ForeColor;
-                backColor = this.BackColor;
+                g.FillRectangle(new SolidBrush(this.BackColor), rect);
+                C_DrawString(g, node, rect, this.ForeColor);
             }
-            Rectangle rect = e.Node.Bounds;
-            rect = new Rectangle(new Point(rect.Location.X + 1, rect.Location.Y), new Size(this.Width - rect.X - 1, rect.Height));
-            e.Graphics.FillRectangle(new SolidBrush(backColor), rect);
-            C_DrawString(e.Graphics, e.Node, rect, foreColor);
         }
-        private void C_DrawNode(Color foreColor, Color backColor, TreeNode node)
+        private void C_DrawNode(Graphics g, Color foreColor, Color backColor, TreeNode node, int height)
         {
             if (node == null) return;
-            if (this.SelectedNode != null && this.SelectedNode.Name == node.Name) return;
-            Graphics g = this.CreateGraphics();
-            Rectangle rect = new Rectangle(node.Bounds.Location, new Size(this.Width - node.Bounds.X, node.Bounds.Height));
+            if (this.SelectedNode != null && this.SelectedNode.Name == node.Name)
+            {
+                C_DrawNode(g, node);
+                return;
+            }
 
+            Rectangle rect = node.Bounds;
+            rect = new Rectangle(rect.Location, new Size(this.Width - 4 - rect.X - 2, rect.Height - 1));
             g.FillRectangle(new SolidBrush(backColor), rect);
             C_DrawString(g, node, rect, foreColor);
-            g.Dispose();
+            if (height > 0)
+            {
+                rect = node.Bounds;
+                rect = new Rectangle(new Point(rect.X, rect.Y + 1), new Size(this.Width - 4 - rect.X - 2, rect.Height - 3));
+                //g.DrawRectangle(new Pen(this.ColorHotLine), rect);
+            }
         }
         /// <summary>
         /// 通过绘制实现多列
@@ -558,6 +637,26 @@ namespace Paway.Forms
                 }
             }
         }
+        /// <summary>
+        /// +-号绘制
+        /// </summary>
+        private void C_DrawAdd(Graphics g, TreeNode node)
+        {
+            Rectangle rect = node.Bounds;
+            rect = new Rectangle(rect.Location, new Size(this.Width - 4 - rect.X - 2, rect.Height - 1));
+            if (node.IsExpanded)
+            {
+                int indent = (rect.Height - add.Height) / 2;
+                Rectangle plusRect = new Rectangle(node.Bounds.Left - add.Width - 6, rect.Top + indent, add.Width, add.Height);
+                g.DrawImage(add, plusRect);
+            }
+            else if (node.Nodes.Count > 0)
+            {
+                int indent = (rect.Height - less.Height) / 2;
+                Rectangle plusRect = new Rectangle(node.Bounds.Left - less.Width - 6, rect.Top + indent, less.Width, less.Height);
+                g.DrawImage(less, plusRect);
+            }
+        }
         private void DrawImage(Graphics g, object obj, Rectangle irect)
         {
             if (obj != DBNull.Value)
@@ -572,6 +671,71 @@ namespace Paway.Forms
                     g.DrawImage(bitmap, irect);
                 }
             }
+        }
+
+        #endregion
+
+        #region 鼠标移过时
+        /// <summary>
+        /// 移过行
+        /// </summary>
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+            TreeNode node = this.GetNodeAt(e.Location);
+            if (node != null && lastnode != null && lastnode.Name == node.Name) return;
+
+            if (lastnode != null)
+            {
+                Rectangle rect = lastnode.Bounds;
+                rect = new Rectangle(1, rect.Top, this.Width, rect.Height);
+                this.Invalidate(rect);
+            }
+            Graphics g = this.CreateGraphics();
+            C_DrawNode(g, ColorHotFore, ColorHot, node, 1);
+            lastnode = node;
+            g.Dispose();
+        }
+        /// <summary>
+        /// 整行选中
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+            if (e.Button != MouseButtons.Left) return;
+            TreeNode node = this.GetNodeAt(e.Location);
+            if (node != null)
+            {
+                this.SelectedNode = node;
+            }
+        }
+
+        #endregion
+
+        #region 双击展开
+        /// <summary>
+        /// 双击展开项
+        /// </summary>
+        protected override void OnMouseDoubleClick(MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+            TreeNode node = this.GetNodeAt(e.Location);
+            if (!node.Bounds.Contains(e.Location) && e.X > node.Bounds.X)
+            {
+                if (node.Nodes.Count > 0)
+                {
+                    if (node.IsExpanded)
+                    {
+                        node.Collapse();
+                    }
+                    else
+                    {
+                        node.Expand();
+                    }
+                }
+            }
+            base.OnMouseDoubleClick(e);
         }
 
         #endregion

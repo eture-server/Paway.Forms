@@ -26,8 +26,8 @@ namespace Paway.Test
         {
             string caption = "消息提示";
             string text = @"“末日”前晒出流逝的岁月
-上传一组证明您岁月痕迹的新老对比照片
-即可获得抽奖资格和微博积分";
+                            上传一组证明您岁月痕迹的新老对比照片
+                            即可获得抽奖资格和微博积分";
             text = string.Format("{0}\r\n{1}", text, DateTime.Now.ToLongTimeString());
             NotifyForm form = new NotifyForm();
             form.AnimalShow(caption, text, int.MaxValue);
@@ -107,7 +107,7 @@ namespace Paway.Test
                     });
                 }
             }
-            this.drawTreeView1.DataSource = list;
+            this.treeView1.DataSource = list;
         }
 
         void contextMenuStrip1_Paint(object sender, PaintEventArgs e)
@@ -124,38 +124,38 @@ namespace Paway.Test
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ItemNode node = drawTreeView1.SelectedNode as ItemNode;
+            ItemNode node = treeView1.SelectedNode as ItemNode;
             int id = node["Id"].ToInt();
-            List<TreeData> list = this.drawTreeView1.DataSource as List<TreeData>;
+            List<TreeData> list = this.treeView1.DataSource as List<TreeData>;
             TreeData info = list.Find(c => c.Id == id);
 
             info.Name = DateTime.Now.Second.ToString();
-            drawTreeView1.UpdateNode(info.Id);
+            treeView1.UpdateNode(info.Id);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ItemNode node = drawTreeView1.SelectedNode as ItemNode;
+            ItemNode node = treeView1.SelectedNode as ItemNode;
             int id = node["Id"].ToInt();
 
-            List<TreeData> list = this.drawTreeView1.DataSource as List<TreeData>;
+            List<TreeData> list = this.treeView1.DataSource as List<TreeData>;
 
             TreeData info = new TreeData() { Id = list[list.Count - 1].Id + 1 };
             info.Name = DateTime.Now.Second.ToString();
             info.ParentId = id;
             list.Add(info);
-            drawTreeView1.UpdateNode(info.Id);
+            treeView1.UpdateNode(info.Id);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            ItemNode node = drawTreeView1.SelectedNode as ItemNode;
+            ItemNode node = treeView1.SelectedNode as ItemNode;
             int id = node["Id"].ToInt();
-            List<TreeData> list = this.drawTreeView1.DataSource as List<TreeData>;
+            List<TreeData> list = this.treeView1.DataSource as List<TreeData>;
             TreeData info = list.Find(c => c.Id == id);
 
             list.Remove(info);
-            drawTreeView1.UpdateNode(id);
+            treeView1.UpdateNode(id);
         }
     }
     public class TreeData
