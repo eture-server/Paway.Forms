@@ -255,7 +255,11 @@ namespace Paway.Forms
         /// </summary>
         [Description("获取或设置树视图控件的边框样式。")]
         [DefaultValue(typeof(BorderStyle), "None")]
-        public new BorderStyle BorderStyle { get; set; }
+        public new BorderStyle BorderStyle
+        {
+            get { return base.BorderStyle; }
+            set { base.BorderStyle = value; }
+        }
 
         #endregion
 
