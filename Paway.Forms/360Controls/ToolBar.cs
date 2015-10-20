@@ -1144,6 +1144,7 @@ namespace Paway.Forms
                         break;
                 }
                 imageRect.Size = this._imageSizeShow;
+                item.ImageRect = imageRect;
                 g.DrawImage(item.Image, imageRect);
             }
         }

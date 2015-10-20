@@ -677,6 +677,20 @@ namespace Paway.Forms
 
         #region 鼠标移过时
         /// <summary>
+        /// 鼠标离开时
+        /// </summary>
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            base.OnMouseLeave(e);
+            if (lastnode != null)
+            {
+                Rectangle rect = lastnode.Bounds;
+                rect = new Rectangle(1, rect.Top, this.Width, rect.Height);
+                this.Invalidate(rect);
+            }
+            lastnode = null;
+        }
+        /// <summary>
         /// 移过行
         /// </summary>
         protected override void OnMouseMove(MouseEventArgs e)

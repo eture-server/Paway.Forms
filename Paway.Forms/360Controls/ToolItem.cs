@@ -25,6 +25,11 @@ namespace Paway.Forms
         [Description("Item 显示的图片"), DefaultValue(typeof(Image), "null")]
         public Image Image { get; set; }
         /// <summary>
+        /// 当前 Item 图片显示的 Rectangle
+        /// </summary>
+        [Browsable(false)]
+        public Rectangle ImageRect { get; internal set; }
+        /// <summary>
         /// 获取或设置包含有关控件的数据的对象。 
         /// </summary>
         [Description("获取或设置包含有关控件的数据的对象"), DefaultValue(null)]
