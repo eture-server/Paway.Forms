@@ -558,11 +558,9 @@ namespace Paway.Forms
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.TextRenderingHint = TextRenderingHint.AntiAlias;
 
-            if (this.ShowIcon)//绘画图标
-            {
-                Bitmap iconImage = this.Icon.ToBitmap();
-                g.DrawImage(iconImage, this.IconRect);
-            }
+            //绘画图标
+            if (this.ShowIcon)
+                g.DrawIcon(this.Icon, this.IconRect);
             DrawText(g);
             DrawFrameBorder(g);
         }
