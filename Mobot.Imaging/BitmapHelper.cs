@@ -16,7 +16,7 @@ namespace Mobot.Imaging
     /// </summary>
     public partial class BitmapHelper
     {
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(BitmapHelper));
+        private static readonly ILog log = LogManager.GetLogger(typeof(BitmapHelper));
 
         /// <summary>
         /// 检查位图对象格式是否正确。
@@ -564,22 +564,22 @@ namespace Mobot.Imaging
         {
             try
             {
-                Logger.Debug("当前线程获取图像大小");
+                log.Debug("当前线程获取图像大小");
                 try
                 {
                     return image.Size;
                 }
                 catch (InvalidOperationException exception)
                 {
-                    Logger.Warn("不能获取图像大小，将重试", exception);
+                    log.Warn("不能获取图像大小，将重试", exception);
                     Thread.Sleep(1);
                     return image.Size;
                 }
             }
             catch (Exception exception2)
             {
-                Logger.Error("获取图像大小时发生异常，返回空大小: ", exception2);
-                return new Size();
+                log.Error("获取图像大小时发生异常，返回空大小: ", exception2);
+                return Size.Empty;
             }
         }
 
@@ -660,7 +660,7 @@ namespace Mobot.Imaging
             }
             catch (Exception ex)
             {
-                Logger.Warn("判断掩码失败。", ex);
+                log.Warn("判断掩码失败。", ex);
             }
             finally
             {

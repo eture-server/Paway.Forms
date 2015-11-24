@@ -38,31 +38,21 @@ namespace Paway.Resource
         {
             if (!Licence.Checking()) return null;
 
-            Image image = null;
-            try
+            if (!string.IsNullOrEmpty(name))
             {
-                if (!string.IsNullOrEmpty(name))
+                StringBuilder sb = new StringBuilder();
+                if (name[0] != '.')
+                    sb.Append(CurrentAssemblyName + "." + name);
+                else
+                    sb.Append(CurrentAssemblyName + name);
+                using (Stream stream = CurrentAssembly.GetManifestResourceStream(sb.ToString()))
                 {
-                    StringBuilder sb = new StringBuilder();
-                    if (name[0] != '.')
-                        sb.Append(CurrentAssemblyName + "." + name);
-                    else
-                        sb.Append(CurrentAssemblyName + name);
-                    using (Stream stream = CurrentAssembly.GetManifestResourceStream(sb.ToString()))
-                    {
-                        if (stream == null)
-                            throw new Exception("加载资源文件失败，失败原因：可能丢失" + CurrentAssemblyName + ".dll文件。");
-                        else
-                            image = Image.FromStream(stream);
-                    }
+                    if (stream == null)
+                        throw new Exception("加载资源文件失败，可能丢失" + CurrentAssemblyName + ".dll文件。");
+                    return Image.FromStream(stream);
                 }
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("AssemblyHelper.GetImage(string)->" + ex.Message);
-                throw;
-            }
-            return image;
+            return null;
         }
 
         #endregion

@@ -90,7 +90,7 @@ namespace Paway.Utils.Tcp
                 {
                     Socket.ConnectAsync(connectArgs);
                 }
-                catch (System.Net.Sockets.SocketException ex)
+                catch (SocketException ex)
                 {
                     OnSocketException(ex.SocketErrorCode);
                 }

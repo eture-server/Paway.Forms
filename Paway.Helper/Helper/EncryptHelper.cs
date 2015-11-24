@@ -14,7 +14,6 @@ namespace Paway.Helper
     public abstract class EncryptHelper
     {
         #region 字符加解密
-
         /// <summary>
         /// Base64(MD5)
         /// </summary>
@@ -40,7 +39,7 @@ namespace Paway.Helper
             catch (Exception ex)
             {
                 Debug.WriteLine("Encryption.GetSign(string) :: " + ex.Message);
-                throw;
+                throw new Exception(string.Empty, ex);
             }
             return result;
         }
@@ -81,25 +80,32 @@ namespace Paway.Helper
         public static string Encrypt3DES(string content, string key)
         {
             string result = string.Empty;
+            MemoryStream stream = null;
             try
             {
                 TripleDESCryptoServiceProvider provider = new TripleDESCryptoServiceProvider();
                 byte[] buffer3 = Encoding.GetEncoding("utf-8").GetBytes(content);
                 provider.Key = Encoding.GetEncoding("utf-8").GetBytes(key);
                 provider.Mode = CipherMode.ECB;
-                MemoryStream stream = new MemoryStream();
+                stream = new MemoryStream();
                 ICryptoTransform transform = provider.CreateEncryptor();
                 CryptoStream stream2 = new CryptoStream(stream, transform, CryptoStreamMode.Write);
                 stream2.Write(buffer3, 0, buffer3.Length);
                 stream2.FlushFinalBlock();
                 result = System.Convert.ToBase64String(stream.ToArray());
-                stream.Flush();
-                stream.Close();
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("Encryption.Encrypt3DES(string, string) :: " + ex.Message);
-                throw;
+                throw new Exception(string.Empty, ex);
+            }
+            finally
+            {
+                if (stream != null)
+                {
+                    stream.Flush();
+                    stream.Close();
+                }
             }
 
             return result;
@@ -114,28 +120,33 @@ namespace Paway.Helper
         public static string Decrypt3DES(string sourceData, string key)
         {
             string result = string.Empty;
+            MemoryStream ms = null;
             try
             {
                 TripleDESCryptoServiceProvider des = new TripleDESCryptoServiceProvider();
                 byte[] content = System.Convert.FromBase64String(sourceData);
                 des.Key = Encoding.GetEncoding("utf-8").GetBytes(key);
                 des.Mode = CipherMode.ECB;
-                MemoryStream ms = new MemoryStream();
+                ms = new MemoryStream();
                 ICryptoTransform transform = des.CreateDecryptor();
                 CryptoStream cs = new CryptoStream(ms, transform, CryptoStreamMode.Write);
                 cs.Write(content, 0, content.Length);
                 cs.FlushFinalBlock();
                 byte[] b = ms.ToArray();
                 result = Encoding.GetEncoding("utf-8").GetString(b, 0, b.Length);
-
-                ms.Flush();
-                ms.Close();
-
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("Encryption.Decrypt3DES(string, string) :: " + ex.Message);
-                throw;
+                throw new Exception(string.Empty, ex);
+            }
+            finally
+            {
+                if (ms != null)
+                {
+                    ms.Flush();
+                    ms.Close();
+                }
             }
             return result;
         }
@@ -226,9 +237,9 @@ namespace Paway.Helper
                     return GetMD5(file);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return e.ToString();
+                throw new Exception(string.Empty, ex);
             }
         }
         /// <summary>

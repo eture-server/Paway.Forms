@@ -205,24 +205,16 @@ namespace Paway.Forms
         /// <param name="timer">窗口是否计时消失</param>
         public void AnimalShow(string caption, string text, bool timer)
         {
-            try
-            {
-                if (this.Notify == null)
-                    this.Notify = new NotifyForm();
-                if (this.Timer == null)
-                    this.Timer = new Timer();
-                if (!string.IsNullOrEmpty(caption)) this.Notify.TextShow = caption;
-                if (!string.IsNullOrEmpty(text)) this.Notify.NotifyText = text;
-                this.Timer.Interval = 100;
-                this.Timer.Tick += new EventHandler(Timer_Tick);
-                this.Timer.Enabled = timer;
-                this.Notify.Show();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("NotifyForm.AnimalShow() :: " + ex.Message);
-                throw;
-            }
+            if (this.Notify == null)
+                this.Notify = new NotifyForm();
+            if (this.Timer == null)
+                this.Timer = new Timer();
+            if (!string.IsNullOrEmpty(caption)) this.Notify.TextShow = caption;
+            if (!string.IsNullOrEmpty(text)) this.Notify.NotifyText = text;
+            this.Timer.Interval = 100;
+            this.Timer.Tick += new EventHandler(Timer_Tick);
+            this.Timer.Enabled = timer;
+            this.Notify.Show();
         }
         /// <summary>
         /// 将以动画的形式显示，默认存在时间为 5 秒
@@ -240,60 +232,48 @@ namespace Paway.Forms
         /// </summary>
         protected void Timer_Tick(object sender, EventArgs e)
         {
-            try
+            if (this.Notify != null)
             {
+                // 动态改变窗口位置
+                int pos = this.Notify.Height / 100;
+                int top = Screen.PrimaryScreen.WorkingArea.Height - this.Notify.Height;
+                if (this.Notify.Top > top + pos * 10)
+                {
+                    for (int i = 0; i < 35; i++)
+                    {
+                        this.Notify.Top -= pos;
+                    }
+                    return;
+                }
+                this.Notify.Top = top;
+                if (ShowInterval > Interval)
+                {
+                    int count = 1;
+                    if (ShowInterval > 30)
+                    {
+                        count = ShowInterval / 5;
+                    }
+                    this.Timer.Interval = count * 1000 < 0 ? int.MaxValue : count * 1000;
+                    Interval += count;
+                    return;
+                }
+                this.Timer.Interval = 100;
                 if (this.Notify != null)
                 {
-                    // 动态改变窗口位置
-                    int pos = this.Notify.Height / 100;
-                    int top = Screen.PrimaryScreen.WorkingArea.Height - this.Notify.Height;
-                    if (this.Notify.Top > top + pos * 10)
+                    if (this.Notify.Opacity > 0)  // 动画降低窗口透明度
                     {
-                        for (int i = 0; i < 35; i++)
-                        {
-                            this.Notify.Top -= pos;
-                        }
+                        this.Notify.Opacity -= 0.1;
                     }
-                    else
+                    else                                // 释放窗口资源
                     {
-                        this.Notify.Top = top;
-                        if (ShowInterval > Interval)
-                        {
-                            int count = 1;
-                            if (ShowInterval > 30)
-                            {
-                                count = ShowInterval / 5;
-                            }
-                            this.Timer.Interval = count * 1000 < 0 ? int.MaxValue : count * 1000;
-                            Interval += count;
-                        }
-                        else
-                        {
-                            this.Timer.Interval = 100;
-                            if (this.Notify != null)
-                            {
-                                if (this.Notify.Opacity > 0)  // 动画降低窗口透明度
-                                {
-                                    this.Notify.Opacity -= 0.1;
-                                }
-                                else                                // 释放窗口资源
-                                {
-                                    Interval = 0;
-                                    this.Timer.Enabled = false;
-                                    this.Timer.Dispose();
-                                    this.Timer = null;
-                                    this.Notify.Dispose();
-                                    this.Notify = null;
-                                }
-                            }
-                        }
+                        Interval = 0;
+                        this.Timer.Enabled = false;
+                        this.Timer.Dispose();
+                        this.Timer = null;
+                        this.Notify.Dispose();
+                        this.Notify = null;
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("NotifyForm.Timer_Tick(object, EventArgs) :: " + ex.Message);
-                throw;
             }
         }
         #endregion

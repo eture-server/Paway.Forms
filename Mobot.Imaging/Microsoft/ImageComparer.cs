@@ -12,7 +12,7 @@ namespace Mobot.Imaging.Microsoft
     {
         internal static ColorDifference Compare(Color color1, Color color2)
         {
-            return new ColorDifference { Alpha = (byte) Math.Abs((int) (color1.A - color2.A)), Red = (byte) Math.Abs((int) (color1.R - color2.R)), Green = (byte) Math.Abs((int) (color1.G - color2.G)), Blue = (byte) Math.Abs((int) (color1.B - color2.B)) };
+            return new ColorDifference { Alpha = (byte)Math.Abs((int)(color1.A - color2.A)), Red = (byte)Math.Abs((int)(color1.R - color2.R)), Green = (byte)Math.Abs((int)(color1.G - color2.G)), Blue = (byte)Math.Abs((int)(color1.B - color2.B)) };
         }
 
         /// <summary>

@@ -13,7 +13,7 @@ namespace Paway.Helper
     public abstract class HardWareHandler
     {
         /// <summary>
-        /// 机器CPU内核数
+        /// 机器CPU内核数 
         /// </summary>
         public static int CpuCount { get { return System.Environment.ProcessorCount; } }
         /// <summary>
@@ -100,7 +100,7 @@ namespace Paway.Helper
             }
             catch
             {
-                return "";
+                return string.Empty;
             }
         }
 
@@ -145,9 +145,7 @@ namespace Paway.Helper
                     }
                 }
             }
-            catch
-            {
-            }
+            catch { }
             return string.Empty;
         }
         /// <summary>

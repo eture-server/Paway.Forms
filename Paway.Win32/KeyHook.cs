@@ -77,9 +77,9 @@ namespace Paway.Win32
             {
                 KeyBoardHookProcedure = new HookProc(KeyBoardHookProc);
                 hHook = NativeMethods.SetWindowsHookEx(
-                    HookType.WH_KEYBORARD_LL, 
-                    KeyBoardHookProcedure, 
-                    NativeMethods.GetModuleHandle(Process.GetCurrentProcess().MainModule.ModuleName), 
+                    HookType.WH_KEYBORARD_LL,
+                    KeyBoardHookProcedure,
+                    NativeMethods.GetModuleHandle(Process.GetCurrentProcess().MainModule.ModuleName),
                     0);
 
                 //如果设置钩子失败

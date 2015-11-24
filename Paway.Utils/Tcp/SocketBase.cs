@@ -292,7 +292,7 @@ namespace Paway.Utils.Tcp
         /// <param name="message"></param>
         public void InsertSendData(object message)
         {
-            InsertSendData(message, false);
+            InsertSendData(message, true);
         }
         /// <summary>
         /// 缓冲发送内部数据的接口
@@ -306,7 +306,8 @@ namespace Paway.Utils.Tcp
                 byte[] byteData = message is byte[] ? message as byte[] : SctructHelper.GetByteFromObject(message);
                 SendDataService.SendData(byteData);
             }
-            else if (ithrow) throw new ArgumentException("SendDataService is null or message is null");
+            else if (ithrow)
+                throw new ArgumentException("SendDataService is null or message is null");
         }
 
         /// <summary>

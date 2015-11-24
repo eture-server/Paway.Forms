@@ -973,7 +973,7 @@ namespace Paway.Forms
         {
             if (ColCount < 2)
             {
-                throw new Exception("行宽应大于等于2，合并1列无意义。");
+                throw new Exception("行宽应大于1。");
             }
             //将这些列加入列表
             int Right = ColIndex + ColCount - 1; //同一大标题下的最后一列的索引

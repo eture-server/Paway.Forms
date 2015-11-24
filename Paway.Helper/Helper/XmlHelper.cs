@@ -36,23 +36,15 @@ namespace Paway.Helper
         public static XmlDocument LoadXml(string filePath, string assemblyPath)
         {
             XmlDocument document = new XmlDocument();
-            try
+            if (File.Exists(filePath))
             {
-                if (File.Exists(filePath))
-                {
-                    document.Load(filePath);
-                }
-                else
-                {
-                    Assembly assembly = Assembly.GetEntryAssembly();
-                    Stream stream = assembly.GetManifestResourceStream(assemblyPath);
-                    document.Load(stream);
-                }
+                document.Load(filePath);
             }
-            catch (Exception ex)
+            else
             {
-                Debug.WriteLine("XmlHelper.LoadXml(string, string) :: " + ex.Message);
-                throw;
+                Assembly assembly = Assembly.GetEntryAssembly();
+                Stream stream = assembly.GetManifestResourceStream(assemblyPath);
+                document.Load(stream);
             }
             return document;
         }
@@ -97,11 +89,11 @@ namespace Paway.Helper
                 }
                 //doc.Save("\\demo.xml");
             }
-            
+
             catch (Exception ex)
             {
                 Debug.WriteLine("XmlHelper.CreateXmlStr(string, string[], string[]) :: " + ex.Message);
-                throw;
+                throw new Exception(string.Empty, ex);
             }
             return doc.InnerXml;
         }
@@ -123,27 +115,19 @@ namespace Paway.Helper
                 T obj = default(T);
                 Type type = typeof(T);
                 PropertyInfo[] propertyInfos = type.GetProperties();
-                try
+                foreach (XmlNode xmlNode in xmlRoot.ChildNodes)
                 {
-                    foreach (XmlNode xmlNode in xmlRoot.ChildNodes)
+                    if (String.Compare(xmlNode.Name, type.Name, true) == 0)
                     {
-                        if (String.Compare(xmlNode.Name, type.Name, true) == 0)
+                        obj = Activator.CreateInstance<T>();
+                        foreach (PropertyInfo propertyInfo in propertyInfos)
                         {
-                            obj = Activator.CreateInstance<T>();
-                            foreach (PropertyInfo propertyInfo in propertyInfos)
-                            {
-                                String propertyName = propertyInfo.Name;//获取属性名称
-                                object value = xmlNode.Attributes[propertyName].Value;//从XML中得到该属性的Value值
-                                propertyInfo.SetValue(obj, value, null);//将得到的属性值赋给obj对象
-                            }
-                            list.Add(obj);
+                            String propertyName = propertyInfo.Name;//获取属性名称
+                            object value = xmlNode.Attributes[propertyName].Value;//从XML中得到该属性的Value值
+                            propertyInfo.SetValue(obj, value, null);//将得到的属性值赋给obj对象
                         }
+                        list.Add(obj);
                     }
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("XmlHelper.Select<T>(XmlDocument) :: " + ex.Message);
-                    throw;
                 }
             }
             return list;

@@ -60,7 +60,7 @@ namespace Mobot.Imaging
                 Console.SetCursorPosition(0, Console.CursorTop);
                 Console.WriteLine(message);
             }
-            
+
             Process p = Process.GetCurrentProcess();
             TimeSpan timeSpan = DateTime.Now.Subtract(p.StartTime);
             string processInfo = string.Format("Process: Time={0:00}:{1:00}:{2:00}.{3:000}",

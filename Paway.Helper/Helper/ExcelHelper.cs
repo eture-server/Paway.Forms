@@ -130,13 +130,13 @@ namespace Paway.Helper
                 }
                 trans.Commit();
             }
-            catch
+            catch (Exception ex)
             {
                 if (cmd != null && cmd.Transaction != null)
                 {
                     cmd.Transaction.Rollback();
                 }
-                throw;
+                throw new Exception(string.Empty, ex);
             }
             finally
             {

@@ -190,7 +190,6 @@ namespace Paway.Win32
         public static bool Execute(string exe, string args)
         {
             Process process = null;
-            bool success = true;
             try
             {
                 process = new Process
@@ -206,12 +205,11 @@ namespace Paway.Win32
                         UseShellExecute = false,
                     }
                 };
-                success = process.Start();
+                return process.Start();
             }
-            catch
+            catch (Exception ex)
             {
-                success = false;
-                throw;
+                throw new Exception(string.Empty, ex);
             }
             finally
             {
@@ -220,7 +218,6 @@ namespace Paway.Win32
                     process.Dispose();
                 }
             }
-            return success;
         }
 
         #endregion

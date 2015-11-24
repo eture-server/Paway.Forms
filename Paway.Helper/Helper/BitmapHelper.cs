@@ -32,7 +32,7 @@ namespace Paway.Helper
             catch (Exception ex)
             {
                 Debug.WriteLine("ImageProcess.GetScreenPic() :: " + ex.Message);
-                throw;
+                throw new Exception(string.Empty, ex);
             }
             return bitmap;
         }

@@ -59,19 +59,12 @@ namespace Mobot.Imaging
         {
             if (useRemoting)
             {
-                try
+                if (isLocal)
                 {
-                    if (isLocal)
-                    {
-                        StartCompareServer(serverPort);
-                    }
+                    StartCompareServer(serverPort);
+                }
 
-                    CompareImageRemoting(image, subImage, area, out location, out similarity);
-                }
-                catch
-                {
-                    throw;
-                }
+                CompareImageRemoting(image, subImage, area, out location, out similarity);
             }
             else
             {

@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace Mobot.Imaging.Microsoft.Extension
 {
-    [SecurityPermission(SecurityAction.Demand, UnmanagedCode=true)]
+    [SecurityPermission(SecurityAction.Demand, UnmanagedCode = true)]
     internal static class NativeMethods
     {
         internal const int DefaultSendMessageTimeout = 0x3e8;
@@ -59,13 +59,13 @@ namespace Mobot.Imaging.Microsoft.Extension
         [DllImport("user32.dll")]
         internal static extern IntPtr CallNextHookEx(LowLevelHookHandle idHook, int nCode, IntPtr wParam, IntPtr lParam);
         [return: MarshalAs(UnmanagedType.Bool)]
-        [DllImport("kernel32.dll", SetLastError=true)]
+        [DllImport("kernel32.dll", SetLastError = true)]
         internal static extern bool CloseHandle(IntPtr hObject);
 
         [DllImport("Gdi32.dll")]
         internal static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nWidthEllipse, int nHeightEllipse);
         [return: MarshalAs(UnmanagedType.Bool)]
-        [DllImport("user32.dll", CharSet=CharSet.Auto)]
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
         internal static extern bool DestroyIcon(IntPtr handle);
         [DllImport("user32.dll")]
         internal static extern IntPtr DispatchMessage(ref MSG msg);
@@ -77,10 +77,10 @@ namespace Mobot.Imaging.Microsoft.Extension
         [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("user32.dll")]
         internal static extern bool EnumWindows(EnumWindowsProc callBack, IntPtr param);
-        [SuppressMessage("Microsoft.Portability", "CA1901:PInvokeDeclarationsShouldBePortable"), DllImport("kernel32.dll", SetLastError=true)]
+        [SuppressMessage("Microsoft.Portability", "CA1901:PInvokeDeclarationsShouldBePortable"), DllImport("kernel32.dll", SetLastError = true)]
         internal static extern IntPtr FindResource(IntPtr hModule, uint lpName, uint lpType);
         [return: MarshalAs(UnmanagedType.Bool)]
-        [DllImport("kernel32.dll", SetLastError=true)]
+        [DllImport("kernel32.dll", SetLastError = true)]
         internal static extern bool FreeLibrary(IntPtr hModule);
         [DllImport("user32.dll")]
         internal static extern IntPtr GetAncestor(IntPtr hwnd, GetAncestorFlag gaFlags);
@@ -95,12 +95,12 @@ namespace Mobot.Imaging.Microsoft.Extension
             return new IntPtr(GetClassLongPtr32(windowHandle, nIndex));
         }
 
-        [DllImport("user32.dll", EntryPoint="GetClassLong")]
+        [DllImport("user32.dll", EntryPoint = "GetClassLong")]
         private static extern int GetClassLongPtr32(IntPtr hWnd, int nIndex);
-        [SuppressMessage("Microsoft.Interoperability", "CA1400:PInvokeEntryPointsShouldExist"), DllImport("user32.dll", EntryPoint="GetClassLongPtr")]
+        [SuppressMessage("Microsoft.Interoperability", "CA1400:PInvokeEntryPointsShouldExist"), DllImport("user32.dll", EntryPoint = "GetClassLongPtr")]
         private static extern IntPtr GetClassLongPtr64(IntPtr hWnd, int nIndex);
 
-        [DllImport("user32.dll", CharSet=CharSet.Unicode)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         private static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
         internal static Image GetCurrenProcessIcon()
         {
@@ -178,14 +178,14 @@ namespace Mobot.Imaging.Microsoft.Extension
         [DllImport("user32.dll")]
         internal static extern IntPtr GetParent(IntPtr hwnd);
 
-        [DllImport("psapi.dll", CharSet=CharSet.Auto)]
+        [DllImport("psapi.dll", CharSet = CharSet.Auto)]
         internal static extern uint GetProcessImageFileName(IntPtr hProcess, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder lpImageFileName, uint nSize);
         [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("user32.dll")]
         internal static extern bool GetTitleBarInfo(IntPtr hwnd, ref TITLEBARINFO pti);
-        [DllImport("advapi32.dll", SetLastError=true)]
+        [DllImport("advapi32.dll", SetLastError = true)]
         private static extern bool GetTokenInformation(IntPtr tokenHandle, uint tokenInformationClass, out uint tokenInformation, uint tokenInformationLength, out uint returnLength);
-        [SuppressMessage("Microsoft.Usage", "CA2205:UseManagedEquivalentsOfWin32Api", Justification="Use of equivalent CultureInfo.InstallUICulture does not always provide an equivalent for GetUserDefaultUILanguage."), DllImport("kernel32.dll")]
+        [SuppressMessage("Microsoft.Usage", "CA2205:UseManagedEquivalentsOfWin32Api", Justification = "Use of equivalent CultureInfo.InstallUICulture does not always provide an equivalent for GetUserDefaultUILanguage."), DllImport("kernel32.dll")]
         public static extern ushort GetUserDefaultUILanguage();
         [DllImport("kernel32.dll")]
         public static extern uint GetVersionEx(ref OSVERSIONINFO lpVersionInfo);
@@ -195,7 +195,7 @@ namespace Mobot.Imaging.Microsoft.Extension
             {
                 if (IntPtr.Size == 8)
                 {
-                    return (int) GetWindowLongPtr64(hWnd, index);
+                    return (int)GetWindowLongPtr64(hWnd, index);
                 }
                 return GetWindowLong32(hWnd, index);
             }
@@ -205,9 +205,9 @@ namespace Mobot.Imaging.Microsoft.Extension
             }
         }
 
-        [DllImport("user32.dll", EntryPoint="GetWindowLong")]
+        [DllImport("user32.dll", EntryPoint = "GetWindowLong")]
         private static extern int GetWindowLong32(IntPtr windowHandle, GWLParameter nIndex);
-        [DllImport("user32.dll", EntryPoint="GetWindowLongPtr")]
+        [DllImport("user32.dll", EntryPoint = "GetWindowLongPtr")]
         private static extern IntPtr GetWindowLongPtr64(IntPtr windowHandle, GWLParameter nIndex);
         [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("user32.dll")]
@@ -234,17 +234,17 @@ namespace Mobot.Imaging.Microsoft.Extension
             return str;
         }
 
-        [DllImport("user32.dll", CharSet=CharSet.Unicode)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         private static extern int GetWindowText(IntPtr windowHandle, StringBuilder windowText, int maxCharCount);
         [DllImport("user32.dll")]
         internal static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint dwProcessId);
-        [DllImport("kernel32.dll", CharSet=CharSet.Unicode)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
         public static extern ushort GlobalAddAtom([MarshalAs(UnmanagedType.LPWStr)] string lpString);
-        [DllImport("kernel32.dll", CharSet=CharSet.Unicode)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
         public static extern ushort GlobalDeleteAtom(ushort atom);
-        [DllImport("ieframe.dll", CharSet=CharSet.Unicode)]
+        [DllImport("ieframe.dll", CharSet = CharSet.Unicode)]
         internal static extern IntPtr IEIsProtectedModeURL(string url);
-        [DllImport("ieframe.dll", CharSet=CharSet.Unicode)]
+        [DllImport("ieframe.dll", CharSet = CharSet.Unicode)]
         internal static extern IntPtr IELaunchURL(string url, ref ProcessInformation pinfo, IntPtr ptr);
         [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("user32.dll")]
@@ -270,17 +270,17 @@ namespace Mobot.Imaging.Microsoft.Extension
         [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("user32.dll")]
         internal static extern bool IsZoomed(IntPtr hWnd);
-        [DllImport("kernel32.dll", CharSet=CharSet.Unicode, SetLastError=true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         internal static extern IntPtr LoadLibraryEx(string lpFileName, IntPtr hFile, uint dwFlags);
-        [DllImport("kernel32.dll", SetLastError=true)]
+        [DllImport("kernel32.dll", SetLastError = true)]
         internal static extern IntPtr LoadResource(IntPtr hModule, IntPtr hResInfo);
-        [DllImport("user32.dll", CharSet=CharSet.Unicode, SetLastError=true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         internal static extern int LoadString(IntPtr hInstance, uint uID, StringBuilder lpBuffer, int nBufferMax);
         [DllImport("user32.dll")]
         private static extern uint MapVirtualKey(uint code, uint mapType);
         internal static uint MapVirtualKey(Keys keys, VirtualKeyMapType mapType)
         {
-            return MapVirtualKey((uint) keys, (uint) mapType);
+            return MapVirtualKey((uint)keys, (uint)mapType);
         }
 
         [DllImport("user32.dll")]
@@ -289,31 +289,31 @@ namespace Mobot.Imaging.Microsoft.Extension
         [DllImport("user32.dll")]
         internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, [MarshalAs(UnmanagedType.Bool)] bool bRepaint);
         [return: MarshalAs(UnmanagedType.IDispatch)]
-        [DllImport("oleacc.dll", PreserveSig=false)]
+        [DllImport("oleacc.dll", PreserveSig = false)]
         private static extern object ObjectFromLresult(IntPtr msgcallResult, [MarshalAs(UnmanagedType.LPStruct)] Guid refGuid, IntPtr resultRef);
         [DllImport("kernel32.dll")]
         internal static extern IntPtr OpenProcess(ProcessAccessRights dwDesiredAccess, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandle, uint dwProcessId);
         [return: MarshalAs(UnmanagedType.Bool)]
-        [DllImport("advapi32.dll", SetLastError=true)]
+        [DllImport("advapi32.dll", SetLastError = true)]
         private static extern bool OpenProcessToken(IntPtr processHandle, uint desiredAccess, out IntPtr tokenHandle);
         [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("user32.dll")]
         internal static extern bool PeekMessage(ref MSG msg, IntPtr hwnd, int nMsgFilterMin, int nMsgFilterMax, int wRemoveMsg);
-        [DllImport("kernel32.dll", CharSet=CharSet.Auto)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         internal static extern uint QueryDosDevice([MarshalAs(UnmanagedType.LPWStr)] string lpDeviceName, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder lpTargetPath, uint ucchMax);
-        [DllImport("advapi32.dll", SetLastError=true)]
+        [DllImport("advapi32.dll", SetLastError = true)]
         public static extern uint RegCloseKey(UIntPtr hkey);
         [return: MarshalAs(UnmanagedType.Bool)]
-        [DllImport("user32.dll", CharSet=CharSet.Unicode)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         internal static extern uint RegisterWindowMessage(string messageString);
-        [DllImport("advapi32.dll", CharSet=CharSet.Auto, SetLastError=true)]
+        [DllImport("advapi32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern uint RegOpenKeyEx(UIntPtr hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, uint ulOptions, int samDesired, out UIntPtr phkResult);
         [DllImport("user32.dll")]
         internal static extern int ReleaseDC(IntPtr hwnd, IntPtr hdc);
         [return: MarshalAs(UnmanagedType.Bool)]
-        [DllImport("user32.dll", CharSet=CharSet.Unicode)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         internal static extern IntPtr SendMessage(IntPtr hWnd, uint wMsg, IntPtr wParam, StringBuilder builder);
-        [DllImport("user32.dll", CharSet=CharSet.Unicode, SetLastError=true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         internal static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam, SendMessageTimeoutFlags fuFlags, uint uTimeout, out IntPtr lpdwResult);
         [DllImport("user32.dll")]
         internal static extern IntPtr SetActiveWindow(IntPtr hWnd);
@@ -327,14 +327,14 @@ namespace Mobot.Imaging.Microsoft.Extension
         {
             if (IntPtr.Size == 8)
             {
-                return (int) SetWindowLongPtr64(windowHandle, nIndex, new IntPtr(dwNewLong));
+                return (int)SetWindowLongPtr64(windowHandle, nIndex, new IntPtr(dwNewLong));
             }
             return SetWindowLong32(windowHandle, nIndex, dwNewLong);
         }
 
-        [DllImport("user32.dll", EntryPoint="SetWindowLong")]
+        [DllImport("user32.dll", EntryPoint = "SetWindowLong")]
         private static extern int SetWindowLong32(IntPtr windowHandle, GWLParameter nIndex, int dwNewLong);
-        [DllImport("user32.dll", EntryPoint="SetWindowLong")]
+        [DllImport("user32.dll", EntryPoint = "SetWindowLong")]
         private static extern int SetWindowLong32(HandleRef hWnd, int nIndex, int dwNewLong);
         internal static IntPtr SetWindowLongPtr(HandleRef hWnd, int nIndex, IntPtr dwNewLong)
         {
@@ -345,9 +345,9 @@ namespace Mobot.Imaging.Microsoft.Extension
             return new IntPtr(SetWindowLong32(hWnd, nIndex, dwNewLong.ToInt32()));
         }
 
-        [SuppressMessage("Microsoft.Interoperability", "CA1400:PInvokeEntryPointsShouldExist"), DllImport("user32.dll", EntryPoint="SetWindowLongPtr")]
+        [SuppressMessage("Microsoft.Interoperability", "CA1400:PInvokeEntryPointsShouldExist"), DllImport("user32.dll", EntryPoint = "SetWindowLongPtr")]
         private static extern IntPtr SetWindowLongPtr64(IntPtr windowHandle, GWLParameter nIndex, IntPtr dwNewLong);
-        [SuppressMessage("Microsoft.Interoperability", "CA1400:PInvokeEntryPointsShouldExist"), DllImport("user32.dll", EntryPoint="SetWindowLongPtr")]
+        [SuppressMessage("Microsoft.Interoperability", "CA1400:PInvokeEntryPointsShouldExist"), DllImport("user32.dll", EntryPoint = "SetWindowLongPtr")]
         private static extern IntPtr SetWindowLongPtr64(HandleRef hWnd, int nIndex, IntPtr dwNewLong);
         [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("user32.dll")]
@@ -363,7 +363,7 @@ namespace Mobot.Imaging.Microsoft.Extension
         internal static extern bool ShowWindow(IntPtr hWnd, WindowShowStyle nCmdShow);
         [DllImport("kernel32.dll")]
         internal static extern uint SizeofResource(IntPtr hModule, IntPtr hResource);
-        [DllImport("user32.dll", CharSet=CharSet.Unicode)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         internal static extern int ToUnicodeEx(uint wVirtKey, uint wScanCode, byte[] lpKeyState, StringBuilder pwszBuff, int cchBuff, uint wFlags, IntPtr dwhkl);
         [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("user32.dll")]
@@ -372,14 +372,14 @@ namespace Mobot.Imaging.Microsoft.Extension
         [DllImport("user32.dll")]
         internal static extern bool UnhookWinEvent(IntPtr eventHookHandle);
         [return: MarshalAs(UnmanagedType.Bool)]
-        [DllImport("user32.dll", CharSet=CharSet.Unicode)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
         [SuppressMessage("Microsoft.Portability", "CA1901:PInvokeDeclarationsShouldBePortable"), DllImport("user32.dll")]
         internal static extern IntPtr WindowFromPoint(POINT pt);
-        [DllImport("kernel32", CharSet=CharSet.Unicode)]
+        [DllImport("kernel32", CharSet = CharSet.Unicode)]
         internal static extern bool Wow64DisableWow64FsRedirection(out IntPtr oldValue);
-        [DllImport("kernel32", CharSet=CharSet.Unicode)]
+        [DllImport("kernel32", CharSet = CharSet.Unicode)]
         internal static extern bool Wow64RevertWow64FsRedirection(IntPtr oldValue);
 
         internal static bool Is64BitOperatingSystem
@@ -391,7 +391,7 @@ namespace Mobot.Imaging.Microsoft.Extension
                     is64BitOperatingSystem = false;
                     SYSTEM_INFO lpSystemInfo = new SYSTEM_INFO();
                     GetNativeSystemInfo(ref lpSystemInfo);
-                    ProcessorArchitecture wProcessorArchitecture = (ProcessorArchitecture) lpSystemInfo.wProcessorArchitecture;
+                    ProcessorArchitecture wProcessorArchitecture = (ProcessorArchitecture)lpSystemInfo.wProcessorArchitecture;
                     if (wProcessorArchitecture == ProcessorArchitecture.PROCESSOR_ARCHITECTURE_INTEL)
                     {
                         is64BitOperatingSystem = false;
@@ -416,7 +416,7 @@ namespace Mobot.Imaging.Microsoft.Extension
             DS_SHELLFONT = 0x48
         }
 
-        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto, Pack=1)]
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 1)]
         internal struct DLGITEMTEMPLATE
         {
             public uint style;
@@ -428,7 +428,7 @@ namespace Mobot.Imaging.Microsoft.Extension
             public ushort id;
         }
 
-        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto, Pack=1)]
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 1)]
         internal struct DLGITEMTEMPLATEEX
         {
             public uint helpID;
@@ -441,7 +441,7 @@ namespace Mobot.Imaging.Microsoft.Extension
             public uint id;
         }
 
-        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto, Pack=1)]
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 1)]
         internal struct DLGTEMPLATE
         {
             public uint dwStyle;
@@ -453,7 +453,7 @@ namespace Mobot.Imaging.Microsoft.Extension
             public short cy;
         }
 
-        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto, Pack=1)]
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 1)]
         internal struct DLGTEMPLATEEX
         {
             public ushort wDlgVer;
@@ -520,7 +520,8 @@ namespace Mobot.Imaging.Microsoft.Extension
 
         internal class LowLevelHookHandle : SafeHandle
         {
-            public LowLevelHookHandle() : base(IntPtr.Zero, true)
+            public LowLevelHookHandle()
+                : base(IntPtr.Zero, true)
             {
             }
 
@@ -574,7 +575,7 @@ namespace Mobot.Imaging.Microsoft.Extension
             public uint dwMinorVersion;
             public uint dwBuildNumber;
             public uint dwPlatformId;
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst=0x80)]
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x80)]
             public string szCSDVersion;
             public short wServicePackMajor;
             public short wServicePackMinor;
@@ -683,7 +684,7 @@ namespace Mobot.Imaging.Microsoft.Extension
 
             public static NativeMethods.SYSTEMTIME FromDateTime(DateTime dateTime)
             {
-                return new NativeMethods.SYSTEMTIME { wDay = (ushort) dateTime.Day, wDayOfWeek = (ushort) dateTime.DayOfWeek, wHour = (ushort) dateTime.Hour, wMilliseconds = (ushort) dateTime.Millisecond, wMinute = (ushort) dateTime.Minute, wMonth = (ushort) dateTime.Month, wSecond = (ushort) dateTime.Second, wYear = (ushort) dateTime.Year };
+                return new NativeMethods.SYSTEMTIME { wDay = (ushort)dateTime.Day, wDayOfWeek = (ushort)dateTime.DayOfWeek, wHour = (ushort)dateTime.Hour, wMilliseconds = (ushort)dateTime.Millisecond, wMinute = (ushort)dateTime.Minute, wMonth = (ushort)dateTime.Month, wSecond = (ushort)dateTime.Second, wYear = (ushort)dateTime.Year };
             }
         }
 
@@ -728,7 +729,7 @@ namespace Mobot.Imaging.Microsoft.Extension
 
             public static NativeMethods.SYSTEMTIMEARRAY FromDateTimeRange(DateTime minDate, DateTime maxDate)
             {
-                return new NativeMethods.SYSTEMTIMEARRAY { wDaymin = (short) minDate.Day, wDayOfWeekmin = (short) minDate.DayOfWeek, wHourmin = (short) minDate.Hour, wMillisecondsmin = (short) minDate.Millisecond, wMinutemin = (short) minDate.Minute, wMonthmin = (short) minDate.Month, wSecondmin = (short) minDate.Second, wYearmin = (short) minDate.Year, wDaymax = (short) maxDate.Day, wDayOfWeekmax = (short) maxDate.DayOfWeek, wHourmax = (short) maxDate.Hour, wMillisecondsmax = (short) maxDate.Millisecond, wMinutemax = (short) maxDate.Minute, wMonthmax = (short) maxDate.Month, wSecondmax = (short) maxDate.Second, wYearmax = (short) maxDate.Year };
+                return new NativeMethods.SYSTEMTIMEARRAY { wDaymin = (short)minDate.Day, wDayOfWeekmin = (short)minDate.DayOfWeek, wHourmin = (short)minDate.Hour, wMillisecondsmin = (short)minDate.Millisecond, wMinutemin = (short)minDate.Minute, wMonthmin = (short)minDate.Month, wSecondmin = (short)minDate.Second, wYearmin = (short)minDate.Year, wDaymax = (short)maxDate.Day, wDayOfWeekmax = (short)maxDate.DayOfWeek, wHourmax = (short)maxDate.Hour, wMillisecondsmax = (short)maxDate.Millisecond, wMinutemax = (short)maxDate.Minute, wMonthmax = (short)maxDate.Month, wSecondmax = (short)maxDate.Second, wYearmax = (short)maxDate.Year };
             }
         }
 
@@ -748,7 +749,7 @@ namespace Mobot.Imaging.Microsoft.Extension
             public const int CCHILDREN_TITLEBAR = 5;
             public uint cbSize;
             public NativeMethods.RECT rcTitleBar;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst=6)]
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6)]
             public AccessibleStates[] rgstate;
         }
 

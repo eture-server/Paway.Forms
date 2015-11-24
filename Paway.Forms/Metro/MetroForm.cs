@@ -234,39 +234,32 @@ namespace Paway.Forms.Metro
         /// <param name="item"></param>
         private void OpenProcess(MetroItem item)
         {
-            try
+            if (string.IsNullOrEmpty(item.FilePath))
             {
-                if (string.IsNullOrEmpty(item.FilePath))
-                {
-                    MessageBox.Show("找不到指定路径");
-                    return;
-                }
-                switch (item.ItemType)
-                {
-                    case TItemType.Application:
-                        break;
-                    case TItemType.Directory:
-                        break;
-                    case TItemType.Exe:
-                        Process.Start(item.FilePath);
-                        break;
-                    case TItemType.Menu:
-                        break;
-                    case TItemType.None:
-                        break;
-                    case TItemType.System:
-                        if (string.IsNullOrEmpty(item.ClassID))
-                        {
-                            MessageBox.Show("找不到ClassID");
-                            return;
-                        }
-                        Process.Start(item.FilePath, item.ClassID);
-                        break;
-                }
+                MessageBox.Show("找不到指定路径");
+                return;
             }
-            catch (Exception ex)
+            switch (item.ItemType)
             {
-                Debug.WriteLine("MetroForm.OpenProcess() :: " + ex.Message);
+                case TItemType.Application:
+                    break;
+                case TItemType.Directory:
+                    break;
+                case TItemType.Exe:
+                    Process.Start(item.FilePath);
+                    break;
+                case TItemType.Menu:
+                    break;
+                case TItemType.None:
+                    break;
+                case TItemType.System:
+                    if (string.IsNullOrEmpty(item.ClassID))
+                    {
+                        MessageBox.Show("找不到ClassID");
+                        return;
+                    }
+                    Process.Start(item.FilePath, item.ClassID);
+                    break;
             }
         }
         #endregion

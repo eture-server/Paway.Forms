@@ -63,7 +63,7 @@ namespace Paway.Utils.Pdf
             catch (Exception ex)
             {
                 log.Error(ex);
-                throw;
+                throw new Exception(string.Empty, ex);
             }
             finally
             {

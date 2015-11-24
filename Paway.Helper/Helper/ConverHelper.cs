@@ -9,6 +9,7 @@ using System.Linq;
 using System.Collections;
 using System.Drawing;
 using System.Data.Common;
+using System.Windows.Forms;
 
 namespace Paway.Helper
 {
@@ -18,32 +19,10 @@ namespace Paway.Helper
     public static class ConverHelper
     {
         #region 常量
-        /// <summary>
-        /// 每毫米等于的英寸数值
-        /// </summary>
-        private const float MM_OF_INCH = 0.039370078740157f;
 
         #endregion
 
-        #region 方法
-
-        #region 对 英寸 的转换
-
-        /// <summary>
-        /// 将毫米转换为英寸
-        /// </summary>
-        /// <param name="mm">毫米</param>
-        /// <returns></returns>
-        public static float MmToInch(this float mm)
-        {
-            float d = (float)(mm * ConverHelper.MM_OF_INCH);
-            return d * 100;
-        }
-
-        #endregion
-
-        #region 数据转换助手类
-
+        #region 数据转换
         /// <summary>
         /// Double转换
         /// </summary>
@@ -155,689 +134,20 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        /// List int泛型转换为','隔开的字符串
-        /// </summary>
-        /// <param name="lstObj"></param>
-        /// <returns></returns>
-        public static string ToListString(this List<int> lstObj)
-        {
-            if (lstObj == null)
-                return string.Empty;
-
-            string strValue = string.Empty;
-            foreach (int value in lstObj)
-            {
-                if (string.IsNullOrEmpty(strValue))
-                    strValue += value.ToString();
-                else
-                    strValue += string.Format(",{0}", value);
-            }
-            return strValue;
-        }
-
-        /// <summary>
-        /// 字符串转换为List int泛型
-        /// </summary>
-        /// <param name="strObj"></param>
-        /// <returns></returns>
-        public static List<int> ToIntList(this string strObj)
-        {
-            List<int> lstValue = new List<int>();
-            string[] arrString = strObj.Split(',');
-            if (arrString == null || arrString.Length == 0)
-                return lstValue;
-
-            foreach (string value in arrString)
-            {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    int intBcch;
-                    if (int.TryParse(value, out intBcch))
-                    {
-                        lstValue.Add(Convert.ToInt32(intBcch));
-                    }
-                }
-            }
-            return lstValue;
-        }
-
-        /// <summary>
-        /// Int List集合转换为字符串：1-3,6,9
-        /// </summary>
-        /// <param name="lstFreq"></param>
-        /// <returns></returns>
-        public static string ToRangeString(this IList<int> lstFreq)
-        {
-            if (lstFreq == null || lstFreq.Count <= 0)
-                return "";
-
-            lstFreq = lstFreq.OrderBy(item => item).ToList();
-            int begin = lstFreq[0];
-            int end = lstFreq[0];
-            string txtFreq = string.Empty;
-
-            for (int i = 1; i <= lstFreq.Count; i++)
-            {
-                if (i == lstFreq.Count)
-                {
-                    if (lstFreq[i - 1] != begin)
-                    {
-                        txtFreq += string.Format("{0}-{1}", begin, lstFreq[i - 1]);
-                    }
-                    else
-                    {
-                        txtFreq += string.Format("{0}", lstFreq[i - 1]);
-                    }
-                }
-                else if (lstFreq[i] != (lstFreq[i - 1] + 1))
-                {
-                    end = lstFreq[i - 1];
-
-                    if (begin != end)
-                    {
-                        txtFreq += string.Format("{0}-{1},", begin, end);
-                    }
-                    else
-                    {
-                        txtFreq += string.Format("{0},", end);
-                    }
-                    begin = lstFreq[i];
-                    end = lstFreq[i];
-                }
-            }
-            return txtFreq;
-        }
-
-        /// <summary>
-        /// 字符串转换为频点集合
-        /// </summary>
-        /// <param name="strPlan"></param>
-        /// <returns></returns>
-        public static List<int> RangeToList(this string strPlan)
-        {
-            string[] arrPlan = strPlan.Split(',');
-            List<int> lstPlan = new List<int>();
-            for (int i = 0; i < arrPlan.Length; i++)
-            {
-                if (arrPlan[i].Contains('-'))
-                {
-                    string[] data = arrPlan[i].Split('-');
-                    if (data.Length == 2)
-                    {
-                        int first = data[0].ToInt();
-                        int last = data[1].ToInt();
-                        if (first <= last && first != -1)
-                        {
-                            for (int x = first; x <= last; x++)
-                            {
-                                if (!lstPlan.Contains(x))
-                                {
-                                    lstPlan.Add(x);
-                                }
-                            }
-                        }
-                    }
-                }
-                else if (!string.IsNullOrEmpty(arrPlan[i]))
-                {
-
-                    int data = arrPlan[i].ToInt();
-                    if (!lstPlan.Contains(data) && data != -1)
-                    {
-                        lstPlan.Add(data);
-                    }
-                }
-
-            }
-            return lstPlan;
-        }
-
-        /// <summary>
-        /// 逗号分割字符串
-        /// </summary>
-        /// <param name="strObj"></param>
-        /// <returns></returns>
-        public static List<string> SplitByComma(this string strObj)
-        {
-            if (string.IsNullOrEmpty(strObj))
-                return new List<string>();
-            string[] str = strObj.Trim().Split(',');
-            return str.ToList();
-        }
-
-        /// <summary>
         /// 检测obj,如果为DBNUll或空字符串 返回true
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public static bool CheckIsDBNullOREmpty(this object obj)
+        public static bool IsNullOrEmpty(this object obj)
         {
-            if (obj == null)
+            if (obj == null || obj == DBNull.Value)
             {
                 return true;
             }
-            else if (obj.ToString().Trim() == string.Empty)
+            if (string.IsNullOrEmpty(obj.ToString()))
             {
                 return true;
             }
             return false;
         }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="oldDic"></param>
-        /// <returns></returns>
-        public static Dictionary<int, int> DeepCopy(this Dictionary<int, int> oldDic)
-        {
-            var newDic = oldDic.ToDictionary(entry => entry.Key, entry => entry.Value);
-            return newDic;
-        }
-
-        /// <summary> 
-        /// Invokes a transform function on each element of a sequence and returns the minimum Double value  
-        /// if the sequence is not empty; otherwise returns the specified default value.  
-        /// </summary> 
-        /// <typeparam name="TSource">The type of the elements of source.</typeparam> 
-        /// <param name="source">A sequence of values to determine the minimum value of.</param> 
-        /// <param name="selector">A transform function to apply to each element.</param> 
-        /// <param name="defaultValue">The default value.</param> 
-        /// <returns>The minimum value in the sequence or default value if sequence is empty.</returns> 
-        public static double MinOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, double> selector, double defaultValue)
-        {
-            if (source.Any<TSource>())
-                return source.Min<TSource>(selector);
-
-            return defaultValue;
-        }
-
-        /// <summary> 
-        /// Invokes a transform function on each element of a sequence and returns the maximum Double value 
-        /// if the sequence is not empty; otherwise returns the specified default value.  
-        /// </summary> 
-        /// <typeparam name="TSource">The type of the elements of source.</typeparam> 
-        /// <param name="source">A sequence of values to determine the maximum value of.</param> 
-        /// <param name="selector">A transform function to apply to each element.</param> 
-        /// <param name="defaultValue">The default value.</param> 
-        /// <returns>The maximum value in the sequence or default value if sequence is empty.</returns> 
-        public static double MaxOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, double> selector, double defaultValue)
-        {
-            if (source.Any<TSource>())
-                return source.Max<TSource>(selector);
-
-            return defaultValue;
-        }
-
-        /// <summary>
-        /// Sql语句中的in关键字最多支持1000，查询条件过多时分为多个In操作
-        /// </summary>
-        private const int QUERY_EVERY_SIZE = 990;
-        /// <summary>
-        /// </summary>
-        /// <param name="lstFileNames"></param>
-        /// <param name="fieldName"></param>
-        /// <returns></returns>
-        public static string FormatListToSqlStr(List<string> lstFileNames, string fieldName)
-        {
-            if (lstFileNames == null || lstFileNames.Count == 0)
-            {
-                return "and " + fieldName + " in ('')";
-            }
-            StringBuilder sb = new StringBuilder();
-            int totalCount = GetTotalCount(lstFileNames);
-            for (int i = 1; i <= totalCount; i++)
-            {
-                List<String> pckFileName = GetEveryQueryList(i, totalCount, lstFileNames);
-                if (i == 1)
-                {
-                    sb.Append(" AND(");
-                }
-                else
-                {
-                    sb.Append(" OR ");
-                }
-                sb.Append(fieldName);
-                sb.Append(" in(");
-                sb.Append(ConverToSqlStr(pckFileName));
-                sb.Append(")");
-
-            }
-            sb.Append(")");
-            return sb.ToString();
-        }
-        /// <summary>
-        /// 格式化时间字符串
-        /// </summary>
-        /// <param name="time">时间参数</param>
-        /// <returns></returns>
-        public static string ConvertDataTimeString(double time)
-        {
-            string strTime = string.Empty;
-            double hour = Math.Floor(time * 24);
-            double minutes = Math.Floor((time * 24 - hour) * 60);
-            double seconds = Math.Floor(((time * 24 - hour) * 60 - minutes) * 60);
-            if (hour < 10)
-                strTime += "0" + hour.ToInt() + ":";
-            else
-                strTime += hour.ToInt() + ":";
-
-            if (minutes < 10)
-                strTime += "0" + minutes.ToInt() + ":";
-            else
-                strTime += minutes.ToInt() + ":";
-
-            if (seconds < 10)
-                strTime += "0" + seconds.ToInt();
-            else
-                strTime += seconds.ToInt();
-            return strTime;
-        }
-
-        /// <summary>
-        /// 字符串转枚举
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public static T StringToEnum<T>(string name)
-        {
-            return (T)Enum.Parse(typeof(T), name);
-        }
-
-        /// <summary>
-        /// 根据文字换算成TimeSpan类型
-        /// 文字由数据和中文单位组成
-        /// </summary>
-        /// <param name="strDateTime"></param>
-        /// <returns></returns>
-        public static TimeSpan StringToTimeSpan(string strDateTime)
-        {
-            TimeSpan timeSpan = TimeSpan.Zero;
-            int span = 0;
-            if (int.TryParse(strDateTime, out span)) strDateTime += "分钟";
-            if (strDateTime.EndsWith("天"))
-            {
-                span = strDateTime.Replace("天", string.Empty).ToInt();
-                timeSpan = TimeSpan.FromDays(span);
-            }
-            else if (strDateTime.EndsWith("小时"))
-            {
-                span = strDateTime.Replace("小时", string.Empty).ToInt();
-                timeSpan = TimeSpan.FromHours(span);
-            }
-            else if (strDateTime.EndsWith("分钟"))
-            {
-                span = strDateTime.Replace("分钟", string.Empty).ToInt();
-                timeSpan = TimeSpan.FromMinutes(span);
-            }
-            else if (strDateTime.EndsWith("秒"))
-            {
-                span = strDateTime.Replace("秒", string.Empty).ToInt();
-                timeSpan = TimeSpan.FromSeconds(span);
-            }
-            return timeSpan;
-        }
-
-        /// <summary>
-        /// UInt32转枚举
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="number"></param>
-        /// <returns></returns>
-        public static T UIntToEnum<T>(uint number)
-        {
-            return (T)Enum.ToObject(typeof(T), number);
-        }
-        #region Private Method
-        /// <summary>
-        /// 获取查询次数
-        /// </summary>
-        /// <param name="lstFileNames"></param>
-        /// <returns></returns>
-        private static int GetTotalCount(List<String> lstFileNames)
-        {
-            int total = 0;
-            if (lstFileNames.Count % QUERY_EVERY_SIZE == 0)
-            {
-                total = lstFileNames.Count / QUERY_EVERY_SIZE;
-            }
-            else
-            {
-                total = lstFileNames.Count / QUERY_EVERY_SIZE + 1;
-            }
-            return total;
-        }
-
-        private static List<string> GetEveryQueryList(int queryTimes, int totalTimes, List<string> totalList)
-        {
-            List<string> pckList = new List<string>();
-            if (queryTimes == totalTimes)
-            {
-                pckList = totalList.GetRange((queryTimes - 1) * QUERY_EVERY_SIZE, totalList.Count - ((queryTimes - 1) * QUERY_EVERY_SIZE));
-            }
-            else
-            {
-                pckList = totalList.GetRange((queryTimes - 1) * QUERY_EVERY_SIZE, QUERY_EVERY_SIZE);
-            }
-            return pckList;
-        }
-
-        /// <summary>
-        /// 文件名分隔.
-        /// </summary>
-        /// <param name="lstLogName"></param>
-        /// <returns></returns>
-        private static string ConverToSqlStr(List<string> lstLogName)
-        {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < lstLogName.Count; i++)
-            {
-                string logName = string.Empty;
-                if (lstLogName[i].Contains("."))
-                    logName = lstLogName[i].Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[0];
-                else
-                    logName = lstLogName[i];
-                if (i == 0)
-                {
-                    sb.Append("'" + logName + "'");
-                }
-                else
-                {
-                    sb.Append(",'" + logName + "'");
-                }
-            }
-            return sb.ToString();
-        }
-
-        #endregion
-
-        #endregion
-
-        #region 将 数值 转换为中文大写字符串
-
-        /// <summary>
-        /// 转换数字金额主函数（包括小数）
-        /// 数字字符串
-        /// 转换成中文大写后的字符串或者出错信息提示字符串
-        /// </summary>
-        public static string ToChineseStr(this string str)
-        {
-            string result = string.Empty;
-            try
-            {
-                if (!ConverHelper.IsDecimal(str))                // 判断是否为正整数
-                    return result;
-                if (Double.Parse(str) > double.MaxValue)    // 判断数值是否太大
-                    return result;
-
-                char sign = '.';                            //小数点
-                string[] splitstr = str.Split(sign);        //按小数点分割字符串
-                if (splitstr.Length == 1)                   //只有整数部分
-                {
-                    result = ConverHelper.ToData(str) + "圆整";
-                }
-                else                                        //有小数部分
-                {
-                    result = ConverHelper.ToData(splitstr[0]) + "圆";//转换整数部分
-                    result += ConverHelper.ToDecimalStr(splitstr[1]);//转换小数部分
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Convert.ToChineseStr(string) :: " + ex.Message);
-                throw;
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// 判断是否是正数字字符串
-        /// <remarks>如果是数字，返回true，否则返回false</remarks>
-        /// </summary>
-        private static bool IsDecimal(this string str)
-        {
-            Decimal d = -1;
-            Decimal.TryParse(str, out d);
-            if (d < 0)
-                return false;
-            else
-                return true;
-        }
-
-        /// <summary>
-        /// 转换数字（整数）
-        /// </summary>
-        private static string ToData(this string str)
-        {
-            string rstr = "";
-            try
-            {
-                string tmpstr = "";
-                int strlen = str.Length;
-                if (strlen <= 4)
-                {
-                    rstr = ToDigit(str);
-                }
-                else
-                {
-
-                    if (strlen <= 8)//数字长度大于四位，小于八位
-                    {
-                        tmpstr = str.Substring(strlen - 4, 4);//先截取最后四位数字
-                        rstr = ToDigit(tmpstr);//转换最后四位数字
-                        tmpstr = str.Substring(0, strlen - 4);//截取其余数字
-                        //将两次转换的数字加上萬后相连接
-                        rstr = String.Concat(ToDigit(tmpstr) + "萬", rstr);
-                        rstr = rstr.Replace("零萬", "萬");
-                        rstr = rstr.Replace("零零", "零");
-
-                    }
-                    else
-                        if (strlen <= 12)//数字长度大于八位，小于十二位
-                        {
-                            tmpstr = str.Substring(strlen - 4, 4);//先截取最后四位数字
-                            rstr = ToDigit(tmpstr);//转换最后四位数字
-                            tmpstr = str.Substring(strlen - 8, 4);//再截取四位数字
-                            rstr = String.Concat(ToDigit(tmpstr) + "萬", rstr);
-                            tmpstr = str.Substring(0, strlen - 8);
-                            rstr = String.Concat(ToDigit(tmpstr) + "億", rstr);
-                            rstr = rstr.Replace("零億", "億");
-                            rstr = rstr.Replace("零萬", "零");
-                            rstr = rstr.Replace("零零", "零");
-                            rstr = rstr.Replace("零零", "零");
-                        }
-                }
-                strlen = rstr.Length;
-                if (strlen >= 2)
-                {
-                    switch (rstr.Substring(strlen - 2, 2))
-                    {
-                        case "佰零": rstr = rstr.Substring(0, strlen - 2) + "佰"; break;
-                        case "仟零": rstr = rstr.Substring(0, strlen - 2) + "仟"; break;
-                        case "萬零": rstr = rstr.Substring(0, strlen - 2) + "萬"; break;
-                        case "億零": rstr = rstr.Substring(0, strlen - 2) + "億"; break;
-
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Convert.ToData(string) :: " + ex.Message);
-                throw;
-            }
-
-            return rstr;
-        }
-
-        /// <summary>
-        /// 转换数字（小数部分）
-        /// </summary>
-        private static string ToDecimalStr(this string str)
-        {
-            string result = string.Empty;
-            try
-            {
-                int strlen = str.Length;
-                if (strlen == 1)
-                {
-                    result = ConverHelper.To1Digit(str) + "角";
-                }
-                else
-                {
-                    string tmpstr = str.Substring(0, 1);
-                    result = ConverHelper.To1Digit(tmpstr) + "角";
-                    tmpstr = str.Substring(1, 1);
-                    result += ConverHelper.To1Digit(tmpstr) + "分";
-                    result = result.Replace("零分", "");
-                    result = result.Replace("零角", "");
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Convert.ToDecimalStr(string) :: " + ex.Message);
-                throw;
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// 转换的字符串（四位以内）
-        /// </summary>
-        private static string ToDigit(this string str)
-        {
-            string result = string.Empty;
-            try
-            {
-                switch (str.Length)
-                {
-                    case 1: result = To1Digit(str); break;
-                    case 2: result = To2Digit(str); break;
-                    case 3: result = To3Digit(str); break;
-                    case 4: result = To4Digit(str); break;
-                }
-                result = result.Replace("拾零", "拾");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Convert.ToDigit(string) :: " + ex.Message);
-                throw;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// 转换四位数字
-        /// </summary>
-        private static string To4Digit(this string str)
-        {
-            string result = string.Empty;
-            try
-            {
-                string str1 = str.Substring(0, 1);
-                string str2 = str.Substring(1, 1);
-                string str3 = str.Substring(2, 1);
-                string str4 = str.Substring(3, 1);
-
-                result += ConverHelper.To1Digit(str1) + "仟";
-                result += ConverHelper.To1Digit(str2) + "佰";
-                result += ConverHelper.To1Digit(str3) + "拾";
-                result += ConverHelper.To1Digit(str4);
-                result = result.Replace("零仟", "零");
-                result = result.Replace("零佰", "零");
-                result = result.Replace("零拾", "零");
-                result = result.Replace("零零", "零");
-                result = result.Replace("零零", "零");
-                result = result.Replace("零零", "零");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Convert.To4Digit(string) :: " + ex.Message);
-                throw;
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// 转换三位数字
-        /// </summary>
-        private static string To3Digit(this string str)
-        {
-            string result = string.Empty;
-            try
-            {
-                string str1 = str.Substring(0, 1);
-                string str2 = str.Substring(1, 1);
-                string str3 = str.Substring(2, 1);
-                result += ConverHelper.To1Digit(str1) + "佰";
-                result += ConverHelper.To1Digit(str2) + "拾";
-                result += ConverHelper.To1Digit(str3);
-                result = result.Replace("零佰", "零");
-                result = result.Replace("零拾", "零");
-                result = result.Replace("零零", "零");
-                result = result.Replace("零零", "零");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Convert.To3Digit(string) :: " + ex.Message);
-                throw;
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// 转换二位数字
-        /// </summary>
-        private static string To2Digit(this string str)
-        {
-            string result = string.Empty;
-            try
-            {
-                string str1 = str.Substring(0, 1);
-                string str2 = str.Substring(1, 1);
-
-                result += ConverHelper.To1Digit(str1) + "拾";
-                result += ConverHelper.To1Digit(str2);
-                result = result.Replace("零拾", "零");
-                result = result.Replace("零零", "零");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Convert.To2Digit(string) :: " + ex.Message);
-                throw;
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// 将一位数字转换成中文大写数字
-        /// </summary>
-        private static string To1Digit(this string str)
-        {
-            try
-            {
-                //"零壹贰叁肆伍陆柒捌玖拾佰仟萬億圆整角分"
-                switch (str)
-                {
-                    case "1": return "壹";
-                    case "2": return "贰";
-                    case "3": return "叁";
-                    case "4": return "肆";
-                    case "5": return "伍";
-                    case "6": return "陆";
-                    case "7": return "柒";
-                    case "8": return "捌";
-                    case "9": return "玖";
-                    default: return "零";
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Convert.To1Digit(string) :: " + ex.Message);
-                throw;
-            }
-        }
-
-        #endregion
 
         #endregion
 
@@ -956,6 +266,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
+        /// 从行创建类
         /// </summary>
         public static T CreateItem<T>(this DataRow row)
         {
@@ -972,51 +283,12 @@ namespace Paway.Helper
                     if (!IsTabel(type, properties[i], ref name)) continue;
                     if (name != column.ColumnName) continue;
 
-                    try
-                    {
-                        PropertyDescriptor pro = properties[i];
-                        object value = row[column.ColumnName];
-                        if (value == DBNull.Value) break;
+                    PropertyDescriptor pro = properties[i];
+                    object value = row[column.ColumnName];
+                    if (value == DBNull.Value) break;
+                    SetValue(obj, pro, value);
 
-                        if (pro.PropertyType == typeof(Image) && value is byte[])
-                        {
-                            pro.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image);
-                        }
-                        else if (pro.PropertyType == typeof(double) || pro.PropertyType == typeof(double?))
-                        {
-                            pro.SetValue(obj, value.ToDouble());
-                        }
-                        else if (pro.PropertyType == typeof(int) || pro.PropertyType == typeof(int?))
-                        {
-                            pro.SetValue(obj, value.ToInt());
-                        }
-                        else if (pro.PropertyType == typeof(long) || pro.PropertyType == typeof(long?))
-                        {
-                            pro.SetValue(obj, value.ToLong());
-                        }
-                        else if (pro.PropertyType == typeof(bool) || pro.PropertyType == typeof(bool?))
-                        {
-                            pro.SetValue(obj, value.ToBool());
-                        }
-                        else if (pro.PropertyType == typeof(DateTime) || pro.PropertyType == typeof(DateTime?))
-                        {
-                            pro.SetValue(obj, value.ToDateTime());
-                        }
-                        else if (pro.PropertyType == typeof(string))
-                        {
-                            pro.SetValue(obj, value.ToString2());
-                        }
-                        else
-                        {
-                            pro.SetValue(obj, value);
-                        }
-
-                        break;
-                    }
-                    catch
-                    {
-                        throw;
-                    }
+                    break;
                 }
             }
 
@@ -1039,55 +311,51 @@ namespace Paway.Helper
                     if (!IsTabel(type, properties[i], ref name)) continue;
                     if (name != column.ColumnName) continue;
 
-                    try
-                    {
-                        PropertyDescriptor pro = properties[i];
-                        object value = dr[column.ColumnName];
-                        if (value == DBNull.Value) break;
+                    PropertyDescriptor pro = properties[i];
+                    object value = dr[column.ColumnName];
+                    if (value == DBNull.Value) break;
+                    SetValue(obj, pro, value);
 
-                        if (pro.PropertyType == typeof(Image) && value is byte[])
-                        {
-                            pro.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image);
-                        }
-                        else if (pro.PropertyType == typeof(double) || pro.PropertyType == typeof(double?))
-                        {
-                            pro.SetValue(obj, value.ToDouble());
-                        }
-                        else if (pro.PropertyType == typeof(int) || pro.PropertyType == typeof(int?))
-                        {
-                            pro.SetValue(obj, value.ToInt());
-                        }
-                        else if (pro.PropertyType == typeof(long) || pro.PropertyType == typeof(long?))
-                        {
-                            pro.SetValue(obj, value.ToLong());
-                        }
-                        else if (pro.PropertyType == typeof(bool) || pro.PropertyType == typeof(bool?))
-                        {
-                            pro.SetValue(obj, value.ToBool());
-                        }
-                        else if (pro.PropertyType == typeof(DateTime) || pro.PropertyType == typeof(DateTime?))
-                        {
-                            pro.SetValue(obj, value.ToDateTime());
-                        }
-                        else if (pro.PropertyType == typeof(string))
-                        {
-                            pro.SetValue(obj, value.ToString2());
-                        }
-                        else
-                        {
-                            pro.SetValue(obj, value);
-                        }
-
-                        break;
-                    }
-                    catch
-                    {
-                        throw;
-                    }
+                    break;
                 }
             }
 
             return obj;
+        }
+        private static void SetValue<T>(T obj, PropertyDescriptor pro, object value)
+        {
+            if (pro.PropertyType == typeof(Image) && value is byte[])
+            {
+                pro.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image);
+            }
+            else if (pro.PropertyType == typeof(double) || pro.PropertyType == typeof(double?))
+            {
+                pro.SetValue(obj, value.ToDouble());
+            }
+            else if (pro.PropertyType == typeof(int) || pro.PropertyType == typeof(int?))
+            {
+                pro.SetValue(obj, value.ToInt());
+            }
+            else if (pro.PropertyType == typeof(long) || pro.PropertyType == typeof(long?))
+            {
+                pro.SetValue(obj, value.ToLong());
+            }
+            else if (pro.PropertyType == typeof(bool) || pro.PropertyType == typeof(bool?))
+            {
+                pro.SetValue(obj, value.ToBool());
+            }
+            else if (pro.PropertyType == typeof(DateTime) || pro.PropertyType == typeof(DateTime?))
+            {
+                pro.SetValue(obj, value.ToDateTime());
+            }
+            else if (pro.PropertyType == typeof(string))
+            {
+                pro.SetValue(obj, value.ToString2());
+            }
+            else
+            {
+                pro.SetValue(obj, value);
+            }
         }
 
         /// <summary>
@@ -1609,6 +877,121 @@ namespace Paway.Helper
                     object obj = asmb.CreateInstance(type.FullName);
                     type.Clone(ref obj, value, child);
                 }
+            }
+        }
+
+        #endregion
+
+        #region 在窗体上固定控件位置
+        private static List<LocateInfo> tList;
+        private static Size normal = Size.Empty;
+
+        #region private class
+        /// <summary>
+        /// 定位属性
+        /// </summary>
+        private class LocateInfo
+        {
+            /// <summary>
+            /// 控件
+            /// </summary>
+            public Control Control { get; set; }
+
+            /// <summary>
+            /// 原坐标
+            /// </summary>
+            public Point Point { get; set; }
+
+            /// <summary>
+            /// x点对齐方式
+            /// </summary>
+            public StringAlignment XLocation { get; set; }
+
+            /// <summary>
+            /// y点对齐方式
+            /// </summary>
+            public StringAlignment YLocation { get; set; }
+
+            /// <summary>
+            /// 构造
+            /// </summary>
+            public LocateInfo(Control control, Point point, StringAlignment xLocation, StringAlignment yLocation)
+            {
+                this.Control = control;
+                this.Point = point;
+                this.XLocation = xLocation;
+                this.YLocation = yLocation;
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 在窗体上固定控件位置
+        /// </summary>
+        public static void AddLocate(this ContainerControl form, Control control)
+        {
+            form.AddLocate(control, StringAlignment.Center, StringAlignment.Center);
+        }
+        /// <summary>
+        /// 在窗体上固定控件位置
+        /// </summary>
+        public static void AddLocate(this ContainerControl form, Control control, StringAlignment lLocation)
+        {
+            form.AddLocate(control, lLocation, lLocation);
+        }
+        /// <summary>
+        /// 在窗体上固定控件位置
+        /// </summary>
+        public static void AddLocate(this ContainerControl form, Control control, StringAlignment xLocation, StringAlignment yLocation)
+        {
+            form.SizeChanged -= form_SizeChanged;
+            form.SizeChanged += form_SizeChanged;
+            if (normal == Size.Empty)
+            {
+                normal = form.Size;
+            }
+            if (tList == null)
+            {
+                tList = new List<LocateInfo>();
+            }
+            tList.Add(new LocateInfo(control, control.Location, xLocation, yLocation));
+        }
+        static void form_SizeChanged(object sender, EventArgs e)
+        {
+            if (tList == null) return;
+            ContainerControl form = sender as ContainerControl;
+            for (int i = 0; i < tList.Count; i++)
+            {
+                int left = 0;
+                int top = 0;
+                switch (tList[i].XLocation)
+                {
+                    case StringAlignment.Near:
+                        left = 0;
+                        break;
+                    case StringAlignment.Center:
+                        left = tList[i].Control.Width / 2;
+                        break;
+                    case StringAlignment.Far:
+                        left = tList[i].Control.Width;
+                        break;
+                }
+                switch (tList[i].YLocation)
+                {
+                    case StringAlignment.Near:
+                        top = 0;
+                        break;
+                    case StringAlignment.Center:
+                        top = tList[i].Control.Height / 2;
+                        break;
+                    case StringAlignment.Far:
+                        top = tList[i].Control.Height;
+                        break;
+                }
+                int x = form.Width * (tList[i].Point.X + left) / normal.Width;
+                int y = form.Height * (tList[i].Point.Y + top) / normal.Height;
+                tList[i].Control.Location = new Point(x - left, y - top);
             }
         }
 

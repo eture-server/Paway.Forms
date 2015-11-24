@@ -79,13 +79,13 @@ namespace Paway.Utils.Tcp
                 SocketConfig.ThreadList.TryAdd(Thread.CurrentThread.ManagedThreadId, "Server Heart Listener");
                 while (!ForceStop)
                 {
-                    InsertSendData("hello,world");
+                    InsertSendData("hello,world", false);
                     Thread.Sleep(heartTime * 1000);
                 }
             }
             catch (Exception ex)
             {
-                OnSystemEvent(string.Format("心跳服务失败：{0}", ex));
+                OnSystemEvent(string.Format("心跳服务异常中止：{0}", ex));
             }
             finally
             {
@@ -110,7 +110,7 @@ namespace Paway.Utils.Tcp
             }
             catch (Exception ex)
             {
-                OnSystemEvent(string.Format("监听服务失败：{0}", ex));
+                OnSystemEvent(string.Format("监听服务异常中止：{0}", ex));
             }
             finally
             {
@@ -220,42 +220,30 @@ namespace Paway.Utils.Tcp
         #endregion
 
         /// <summary>
-        /// 根据消息类型及源客户端地址过滤发送对象
+        /// 发送到所有连接对象
         /// </summary>
         public void InsertSendData(object msg)
         {
-            try
-            {
-                foreach (SocketBase socket in SocketConfig.ClientList)
-                {
-                    socket.InsertSendData(msg);
-                }
-            }
-            catch
-            {
-                throw;
-            }
+            InsertSendData(msg, true);
         }
-
         /// <summary>
-        /// 发送消息到指定端口
+        ///发送到所有连接对象
         /// </summary>
-        public void SendToPort(object msg, IPEndPoint ipPort)
+        /// <param name="msg">消息体</param>
+        /// <param name="ithrow">失败时中止标记</param>
+        public void InsertSendData(object msg, bool ithrow)
         {
-            try
+            foreach (SocketBase socket in SocketConfig.ClientList)
             {
-                foreach (SocketBase socket in SocketConfig.ClientList)
+                try
                 {
-                    if (socket.IPPoint == ipPort)
-                    {
-                        socket.InsertSendData(msg);
-                        break;
-                    }
+                    socket.InsertSendData(msg, ithrow);
                 }
-            }
-            catch
-            {
-                throw;
+                catch (Exception ex)
+                {
+                    if (ithrow)
+                        throw new Exception(string.Empty, ex);
+                }
             }
         }
     }

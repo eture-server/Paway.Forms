@@ -84,11 +84,11 @@ namespace Paway.Helper
                     //...
                 }
             }
-            catch (ObjectDisposedException)
+            catch (ObjectDisposedException ex)
             {
-                //已被释放了资源数据
+                //资源已释放
                 server = null;
-                throw;
+                throw new Exception("资源已释放", ex);
             }
             catch (Exception ex)
             {
