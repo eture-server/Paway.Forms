@@ -437,7 +437,7 @@ namespace Paway.Forms
             InitializeComponent();
             this.InitEvents();
             this.Padding = new Padding(0, 0, 0, 3);
-            TGlobal.Init(this);
+            TConfig.Init(this);
         }
         /// <summary>
         /// 设计界面

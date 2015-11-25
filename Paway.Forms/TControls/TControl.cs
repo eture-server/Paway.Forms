@@ -75,7 +75,7 @@ namespace Paway.Forms
                 ControlStyles.SupportsTransparentBackColor, true);
             this.SetStyle(ControlStyles.Opaque, false);
             this.UpdateStyles();
-            TGlobal.Init(this);
+            TConfig.Init(this);
             InitShow();
 
             this.BackgroundImageLayout = ImageLayout.Stretch;

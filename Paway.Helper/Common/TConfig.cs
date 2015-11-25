@@ -10,9 +10,20 @@ namespace Paway.Helper
     /// <summary>
     /// 初始化时的全局变量配置
     /// 与IControl接口属性对应
+    /// Global全局
     /// </summary>
-    public abstract class TGlobal
+    public abstract class TConfig
     {
+        #region 一些常量
+        /// <summary>
+        /// </summary>
+        public const string Name = "Tinn&a";
+        /// <summary>
+        /// </summary>
+        public const string QQ = "9030140";
+
+        #endregion
+
         #region 全局配置
         /// <summary>
         /// 获取或设置控件的背景色
@@ -54,18 +65,18 @@ namespace Paway.Helper
         {
             control.BackColor = Color.Transparent;
             control.ForeColor = Color.Black;
-            if (TGlobal.BackColor != null)
+            if (TConfig.BackColor != null)
             {
-                control.BackColor = TGlobal.BackColor ?? Color.Empty;
+                control.BackColor = TConfig.BackColor ?? Color.Empty;
             }
-            if (TGlobal.ForeColor != null)
+            if (TConfig.ForeColor != null)
             {
-                control.ForeColor = TGlobal.ForeColor ?? Color.Empty;
+                control.ForeColor = TConfig.ForeColor ?? Color.Empty;
             }
-            if (TGlobal.Font.Name != "宋体" || TGlobal.Font.Size != 9f || TGlobal.Font.Style != FontStyle.Regular ||
-                TGlobal.Font.Unit != GraphicsUnit.Point || TGlobal.Font.GdiCharSet != (byte)1)
+            if (TConfig.Font.Name != "宋体" || TConfig.Font.Size != 9f || TConfig.Font.Style != FontStyle.Regular ||
+                TConfig.Font.Unit != GraphicsUnit.Point || TConfig.Font.GdiCharSet != (byte)1)
             {
-                control.Font = TGlobal.Font;
+                control.Font = TConfig.Font;
             }
             if (control is IControl)
             {
@@ -77,13 +88,13 @@ namespace Paway.Helper
         /// </summary>
         private static void Init(IControl control)
         {
-            if (TGlobal.Trans != null && control.Trans == 255)
+            if (TConfig.Trans != null && control.Trans == 255)
             {
-                control.Trans = TGlobal.Trans ?? 255;
+                control.Trans = TConfig.Trans ?? 255;
             }
-            if (TGlobal.IMouseMove != null)
+            if (TConfig.IMouseMove != null)
             {
-                control.IMouseMove = TGlobal.IMouseMove ?? false;
+                control.IMouseMove = TConfig.IMouseMove ?? false;
             }
         }
 

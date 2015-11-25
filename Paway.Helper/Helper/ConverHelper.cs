@@ -18,10 +18,6 @@ namespace Paway.Helper
     /// </summary>
     public static class ConverHelper
     {
-        #region 常量
-
-        #endregion
-
         #region 数据转换
         /// <summary>
         /// Double转换

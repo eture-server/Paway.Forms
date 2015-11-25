@@ -53,7 +53,7 @@
   <ItemGroup>
     <Compile Include="Common\Compare.cs" />
     <Compile Include="Common\Licence.cs" />
-    <Compile Include="Common\TGlobal.cs" />
+    <Compile Include="Common\TConfig.cs" />
     <Compile Include="Common\TMethod.cs" />
     <Compile Include="Helper\ExcelHelper.cs" />
     <Compile Include="Helper\WebHelper.cs" />
