@@ -13,11 +13,6 @@ namespace Paway.Utils.Tcp
     /// </summary>
     public class SocketBase : IDisposable
     {
-        /// <summary>
-        /// 错误日志
-        /// </summary>
-        protected static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         #region 外部数据与事件
         /// <summary>
         /// 客户端数据

@@ -90,7 +90,7 @@ namespace Paway.Forms
         public TComboBox()
         {
             InitializeComponent();
-            InitMethod.Init(this);
+            TGlobal.Init(this);
             this.tComboBox1.SizeChanged += tComboBox1_SizeChanged;
         }
         void tComboBox1_SizeChanged(object sender, EventArgs e)

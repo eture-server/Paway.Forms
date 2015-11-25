@@ -604,7 +604,7 @@ namespace Paway.Forms
             ItemNode item = node as ItemNode;
             if (item == null || _items.Count <= 1)
             {
-                TextRenderer.DrawText(g, node.Text, this.Font, rect, foreColor, DrawParam.TextEnd);
+                TextRenderer.DrawText(g, node.Text, this.Font, rect, foreColor, DrawHelper.TextEnd);
             }
             else
             {

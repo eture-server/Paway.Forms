@@ -29,7 +29,7 @@ namespace Paway.Test
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             log.Error("log.Error:" + DateTime.Now);
-            InitConfig.IMouseMove = true;
+            TGlobal.IMouseMove = true;
             //InitConfig.BackColor = Color.Green;
             //InitConfig.ForeColor = Color.Red;
             //InitConfig.Font = new Font("微软雅黑", 16f);

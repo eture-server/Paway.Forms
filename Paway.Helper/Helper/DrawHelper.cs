@@ -10,6 +10,76 @@ namespace Paway.Helper
     /// </summary>
     public abstract class DrawHelper
     {
+        #region 一些默认参数
+        /// <summary>
+        /// 字符垂直对齐
+        /// </summary>
+        public static StringFormat StringVertical
+        {
+            get
+            {
+                StringFormat format = new StringFormat { LineAlignment = StringAlignment.Center };
+                return format;
+            }
+        }
+        /// <summary>
+        /// 字符水平垂直对齐
+        /// </summary>
+        public static StringFormat StringCenter
+        {
+            get
+            {
+                StringFormat format = new StringFormat
+                {
+                    Alignment = StringAlignment.Center,
+                    LineAlignment = StringAlignment.Center,
+                };
+                return format;
+            }
+        }
+        /// <summary>
+        /// 文本垂直结尾省略
+        /// </summary>
+        public static TextFormatFlags TextEnd
+        {
+            get
+            {
+                return TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis;
+            }
+        }
+        /// <summary>
+        /// 文本靠左垂直
+        /// </summary>
+        public static TextFormatFlags TextLeft
+        {
+            get
+            {
+                return TextFormatFlags.VerticalCenter | TextFormatFlags.PathEllipsis | TextFormatFlags.Left;
+            }
+        }
+        /// <summary>
+        /// 文本靠右垂直
+        /// </summary>
+        public static TextFormatFlags TextRight
+        {
+            get
+            {
+                return TextFormatFlags.VerticalCenter | TextFormatFlags.PathEllipsis | TextFormatFlags.Right;
+            }
+        }
+        /// <summary>
+        /// 文本水平垂直
+        /// </summary>
+        public static TextFormatFlags TextCenter
+        {
+            get
+            {
+                return TextFormatFlags.VerticalCenter | TextFormatFlags.PathEllipsis | TextFormatFlags.HorizontalCenter;
+            }
+        }
+
+        #endregion
+
         #region RendererBackground 渲染背景图片，使背景图片不失真
 
         /// <summary>
@@ -65,18 +135,8 @@ namespace Paway.Helper
         #endregion
 
         /// <summary>
-        /// 
+        /// 绘制边框
         /// </summary>
-        /// <param name="g"></param>
-        /// <param name="image"></param>
-        /// <param name="x1"></param>
-        /// <param name="y1"></param>
-        /// <param name="width1"></param>
-        /// <param name="height1"></param>
-        /// <param name="x2"></param>
-        /// <param name="y2"></param>
-        /// <param name="width2"></param>
-        /// <param name="height2"></param>
         public static void DrawImage(Graphics g, Image image, int x1, int y1, int width1, int height1, int x2, int y2, int width2, int height2)
         {
             g.DrawImage(image, new Rectangle(x1, y1, width1, height1), x2, y2, width2, height2, GraphicsUnit.Pixel);

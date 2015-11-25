@@ -41,7 +41,7 @@ namespace Paway.Forms
                 ControlStyles.SupportsTransparentBackColor, true);
             this.SetStyle(ControlStyles.Opaque, false);
             this.UpdateStyles();
-            InitMethod.Init(this);
+            TGlobal.Init(this);
             this.Validated += QQButton_LostFocus;
         }
 

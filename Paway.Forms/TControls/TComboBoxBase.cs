@@ -200,7 +200,7 @@ namespace Paway.Forms
             //g.DrawImage(ico, new Point(rect.Left, rect.Top));
             //在当前项图形表面上划上当前Item的文本
             //g.DrawString(tempString, font, new SolidBrush(Color.Black), rect.Left + ico.Size.Width, rect.Top);
-            e.Graphics.DrawString(str == null ? null : str.ToString(), font, brush, rect, DrawParam.StringVertical);
+            e.Graphics.DrawString(str == null ? null : str.ToString(), font, brush, rect, DrawHelper.StringVertical);
             //将绘制聚焦框
             e.DrawFocusRectangle();
         }

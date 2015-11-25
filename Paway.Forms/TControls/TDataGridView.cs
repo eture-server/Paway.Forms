@@ -742,14 +742,14 @@ namespace Paway.Forms
 
                 colorFore = Color.Black;
                 //the first line
-                TextRenderer.DrawText(graphics, strFirst, fontFore, new Rectangle(intX, intY, intWidth, intHeight), colorFore, DrawParam.TextEnd);
+                TextRenderer.DrawText(graphics, strFirst, fontFore, new Rectangle(intX, intY, intWidth, intHeight), colorFore, DrawHelper.TextEnd);
 
                 fontFore = e.CellStyle.Font;
                 intY = intY + intHeight;
 
                 colorFore = Color.SteelBlue;
                 //the seconde line
-                TextRenderer.DrawText(graphics, strSecond, fontFore, new Rectangle(intX, intY, intWidth, intHeight), colorFore, DrawParam.TextEnd);
+                TextRenderer.DrawText(graphics, strSecond, fontFore, new Rectangle(intX, intY, intWidth, intHeight), colorFore, DrawHelper.TextEnd);
 
                 e.Handled = true;
             }
@@ -784,7 +784,7 @@ namespace Paway.Forms
 
                 //画字符串
                 e.Graphics.DrawString(e.Value == null ? null : e.Value.ToString(), e.CellStyle.Font, foreBrush,
-                    new Rectangle(e.CellBounds.Left + (bitmap == null ? 0 : bitmap.Width) + 10, e.CellBounds.Top, e.CellBounds.Width, e.CellBounds.Height), DrawParam.StringVertical);
+                    new Rectangle(e.CellBounds.Left + (bitmap == null ? 0 : bitmap.Width) + 10, e.CellBounds.Top, e.CellBounds.Width, e.CellBounds.Height), DrawHelper.StringVertical);
 
                 e.Handled = true;
             }
@@ -951,7 +951,7 @@ namespace Paway.Forms
 
                 //写小标题
                 g.DrawString(string.Format("{0}", e.Value), e.CellStyle.Font, fontBrush,
-                    new Rectangle(left, (top + bottom) / 2, right - left, (bottom - top) / 2), DrawParam.StringCenter);
+                    new Rectangle(left, (top + bottom) / 2, right - left, (bottom - top) / 2), DrawHelper.StringCenter);
                 left = this.GetColumnDisplayRectangle(SpanRows[e.ColumnIndex].Left, true).Left - 2;
 
                 if (left < 0) left = this.GetCellDisplayRectangle(-1, -1, true).Width;
@@ -959,7 +959,7 @@ namespace Paway.Forms
                 if (right < 0) right = this.Width;
 
                 g.DrawString(SpanRows[e.ColumnIndex].Text, e.CellStyle.Font, fontBrush,
-                    new Rectangle(left, top, right - left, (bottom - top) / 2), DrawParam.StringCenter);
+                    new Rectangle(left, top, right - left, (bottom - top) / 2), DrawHelper.StringCenter);
                 e.Handled = true;
             }
         }

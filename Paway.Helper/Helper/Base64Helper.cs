@@ -11,7 +11,7 @@ namespace Paway.Helper
     /// </summary>
     public abstract class Base64Helper
     {
-        private static string BASE64 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/";
+        private const string BASE64 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/";
         /// <summary>
         /// 生成两位的BASE64字符串。
         /// </summary>

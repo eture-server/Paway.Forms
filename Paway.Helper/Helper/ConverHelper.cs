@@ -996,5 +996,23 @@ namespace Paway.Helper
         }
 
         #endregion
+
+        #region 关于异常
+        /// <summary>
+        /// 获取异常中的所有描述
+        /// </summary>
+        public static string InnerMessage(this Exception ex)
+        {
+            string msg = ex.Message;
+            while (ex.InnerException != null)
+            {
+                ex = ex.InnerException;
+                if (!string.IsNullOrEmpty(ex.Message))
+                    msg = string.Format("{0}\r\n{1}", msg, ex.Message);
+            }
+            return msg;
+        }
+
+        #endregion
     }
 }
