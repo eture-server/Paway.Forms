@@ -64,8 +64,6 @@
     <Compile Include="Data\DataBase.cs" />
     <Compile Include="Data\SqlHelper.cs" />
     <Compile Include="Data\MySqlHelper.cs" />
-    <Compile Include="IPC\IPCServer.cs" />
-    <Compile Include="IPC\IPCClient.cs" />
     <Compile Include="Pdf\Export.cs" />
     <Compile Include="Data\SQLiteHelper.cs" />
     <Compile Include="Pdf\PdfHeaderContent.cs" />

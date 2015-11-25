@@ -12,7 +12,6 @@ namespace Paway.Helper
     public static class StringHelper
     {
         #region 方法
-
         /// <summary>
         /// 获取字符串的字符长度
         /// </summary>

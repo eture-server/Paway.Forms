@@ -1,24 +1,17 @@
-﻿using Paway.Helper;
-using System;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
 using System.Runtime.Serialization.Formatters;
-using System.Text;
 
-namespace Paway.Utils.Pdf
+namespace Paway.Helper
 {
     /// <summary>
     /// 服务端
     /// </summary>
     /// <typeparam name="T">子类型</typeparam>
-    public class IPCServer<T> : MarshalByRefObject
+    public class IPCServer<T> : MarshalByRefObject,IDisposable
     {
         private IpcChannel serverChannel = null;
         /// <summary>
@@ -64,5 +57,40 @@ namespace Paway.Utils.Pdf
             }
             IsBusy = false;
         }
+
+        #region Dispose
+        /// <summary>
+        /// Disposes the instance of SocketClient.
+        /// </summary>
+        public bool Disposed = false;
+        /// <summary>
+        /// 释放
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        private void Dispose(bool disposing)
+        {
+            if (!Disposed)
+            {
+                Disposed = true;
+                if (disposing)
+                {
+                    Stop();
+                }
+            }
+            Disposed = true;
+        }
+        /// <summary>
+        /// 析构
+        /// </summary>
+        ~IPCServer()
+        {
+            Dispose(false);
+        }
+
+        #endregion
     }
 }

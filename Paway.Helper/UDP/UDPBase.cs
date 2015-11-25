@@ -14,7 +14,7 @@ namespace Paway.Helper
         /// <summary>
         /// 标示
         /// </summary>
-        private readonly byte Preamble = 0XFA;
+        protected readonly byte Preamble = 0xFA;
         /// <summary>
         /// 广播地址
         /// </summary>
@@ -23,6 +23,10 @@ namespace Paway.Helper
         /// 通信端口
         /// </summary>
         protected int Port = 2008;
+        /// <summary>
+        /// 接收到的消息
+        /// </summary>
+        public event EventHandler<UDPEventArgs> MessageEvent;
         /// <summary>
         /// 服务器的地址
         /// </summary>
@@ -33,13 +37,21 @@ namespace Paway.Helper
                 return new IPEndPoint(BroadcastAddress, Port);
             }
         }
-
         /// <summary>
-        /// 获取消息包数据 虚函数，以实现多态
+        /// 抛出异常
         /// </summary>
-        protected byte[] PackageData
+        protected void OnError(string msg, IPEndPoint ipAddress)
         {
-            get { return new byte[] { this.Preamble }; }
+            if (MessageEvent != null)
+                MessageEvent(null, new UDPEventArgs(false, msg, ipAddress));
+        }
+        /// <summary>
+        /// 抛出消息
+        /// </summary>
+        protected void OnMessage(object msg, IPEndPoint ipAddress)
+        {
+            if (MessageEvent != null)
+                MessageEvent(null, new UDPEventArgs(true, msg, ipAddress));
         }
     }
 }

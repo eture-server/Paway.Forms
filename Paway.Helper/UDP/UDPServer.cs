@@ -10,12 +10,12 @@ namespace Paway.Helper
     /// <summary>
     /// UdpClient 接收数据
     /// </summary>
-    public class UDPServer : UDPBase
+    public class UDPServer : UDPBase, IDisposable
     {
         private AsyncCallback OnDataReceiveCallBack;
         private volatile bool IsStarting = false;
-
         private UdpClient udpServer = null;
+
         private static UDPServer instance = null;
         /// <summary>
         /// </summary>
@@ -48,9 +48,9 @@ namespace Paway.Helper
         public void Start()
         {
             if (IsStarting) return;
+            IsStarting = true;
             this.udpServer.JoinMulticastGroup(BroadcastAddress);
             this.udpServer.BeginReceive(this.OnDataReceiveCallBack, this.udpServer);
-            IsStarting = true;
         }
 
         /// <summary>
@@ -67,37 +67,89 @@ namespace Paway.Helper
         /// <summary>
         /// 接收数据的事件
         /// </summary>
-        /// <param name="async"></param>
         private void OnDataReceive(IAsyncResult async)
         {
-            string ipAddress = string.Empty;
+            IPEndPoint ipAddress = null;
             if (!this.IsStarting) return;//已关闭服务
             UdpClient server = null;
             try
             {
                 server = (UdpClient)async.AsyncState;
-                IPEndPoint remoteEP = new IPEndPoint(System.Net.IPAddress.Any, 0);
-                byte[] buffer = server.EndReceive(async, ref remoteEP);
-                if (buffer != null || buffer.Length != 0 && buffer[0] == this.PackageData[0])
+                ipAddress = new IPEndPoint(System.Net.IPAddress.Any, 0);
+                byte[] buffer = server.EndReceive(async, ref ipAddress);
+                if (buffer != null || buffer.Length != 0 && buffer[0] == this.Preamble)
                 {
-                    ipAddress = remoteEP.Address.ToString();
-                    //...
+                    byte[] data = new byte[buffer.Length - 5];
+                    for (int i = 0; i < data.Length; i++)
+                    {
+                        data[i] = (byte)buffer[i + 5];
+                    }
+                    HandleMessage(data, ipAddress);
                 }
-            }
-            catch (ObjectDisposedException ex)
-            {
-                //资源已释放
-                server = null;
-                throw new Exception("资源已释放", ex);
             }
             catch (Exception ex)
             {
-                throw new Exception("UdpClient接收数据错误", ex);
+                OnError(ex.Message, ipAddress);
             }
             finally
             {
                 server.BeginReceive(this.OnDataReceiveCallBack, server);
             }
         }
+        /// <summary>
+        /// 反序列化并处理消息
+        /// </summary>
+        private void HandleMessage(byte[] buffer, IPEndPoint ipAddress)
+        {
+            object message = null;
+            try
+            {
+                try
+                {
+                    message = SctructHelper.GetObjectFromByte(buffer);
+                }
+                catch
+                {
+                    message = buffer;
+                }
+                OnMessage(message, ipAddress);
+            }
+            catch { }
+        }
+
+        #region Dispose
+        /// <summary>
+        /// Disposes the instance of SocketClient.
+        /// </summary>
+        public bool Disposed = false;
+        /// <summary>
+        /// 释放
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        private void Dispose(bool disposing)
+        {
+            if (!Disposed)
+            {
+                Disposed = true;
+                if (disposing)
+                {
+                    Stop();
+                }
+            }
+            Disposed = true;
+        }
+        /// <summary>
+        /// 析构
+        /// </summary>
+        ~UDPServer()
+        {
+            Dispose(false);
+        }
+
+        #endregion
     }
 }

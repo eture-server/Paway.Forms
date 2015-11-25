@@ -353,7 +353,7 @@ namespace Paway.Utils.Tcp
         /// <summary>
         /// Disposes the instance of SocketClient.
         /// </summary>
-        public volatile bool Disposed = false;
+        public bool Disposed = false;
 
         /// <summary>
         /// 释放

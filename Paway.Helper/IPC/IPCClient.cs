@@ -1,22 +1,16 @@
-﻿using Paway.Helper;
-using System;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
 using System.Runtime.Serialization.Formatters;
-using System.Security.Permissions;
-using System.Text;
 
-namespace Paway.Utils.Pdf
+namespace Paway.Helper
 {
     /// <summary>
     /// IPC客户端
     /// </summary>
     /// <typeparam name="T">接口</typeparam>
-    public class IPCClient<T> where T : class
+    public class IPCClient<T> : IDisposable where T : class
     {
         private IpcChannel channel = null;
         /// <summary>
@@ -48,13 +42,13 @@ namespace Paway.Utils.Pdf
             }
             catch (Exception)
             {
-                Disconnect();
+                Stop();
             }
         }
         /// <summary>
         /// 断开IPC连接
         /// </summary>
-        public void Disconnect()
+        public void Stop()
         {
             if (channel != null)
             {
@@ -65,5 +59,40 @@ namespace Paway.Utils.Pdf
             obj = null;
             IsConnected = false;
         }
+
+        #region Dispose
+        /// <summary>
+        /// Disposes the instance of SocketClient.
+        /// </summary>
+        public bool Disposed = false;
+        /// <summary>
+        /// 释放
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        private void Dispose(bool disposing)
+        {
+            if (!Disposed)
+            {
+                Disposed = true;
+                if (disposing)
+                {
+                    Stop();
+                }
+            }
+            Disposed = true;
+        }
+        /// <summary>
+        /// 析构
+        /// </summary>
+        ~IPCClient()
+        {
+            Dispose(false);
+        }
+
+        #endregion
     }
 }
