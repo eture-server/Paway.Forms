@@ -148,6 +148,8 @@ namespace Paway.Forms
 
         private void DrawLines(Graphics g, System.Drawing.Size corSize, System.Drawing.Size gradientSize_LR, System.Drawing.Size gradientSize_TB)
         {
+            if (gradientSize_LR.Width == 0 || gradientSize_LR.Height == 0) return;
+            if (gradientSize_TB.Width == 0 || gradientSize_TB.Height == 0) return;
             Rectangle rect = new Rectangle(new System.Drawing.Point(corSize.Width, 0), gradientSize_TB);
             Rectangle rectangle2 = new Rectangle(new System.Drawing.Point(0, corSize.Width), gradientSize_LR);
             Rectangle rectangle3 = new Rectangle(new System.Drawing.Point(base.Size.Width - (Main.TRadius + 1), corSize.Width), gradientSize_LR);
@@ -311,17 +313,20 @@ namespace Paway.Forms
                 base.WndProc(ref m);
                 return;
             }
-            if (!this.IsDisposed)
-            {
-                m.HWnd = this.Main.Handle;
-            }
             switch (m.Msg)
             {
                 case (int)WindowsMessage.WM_NCHITTEST:
                     base.WndProc(ref m);
                     this.Main.WmNcHitTest(ref m);
                     break;
+                case (int)WindowsMessage.WM_SHOWWINDOW:
+                    base.WndProc(ref m);
+                    break;
                 default:
+                    if (!this.IsDisposed)
+                    {
+                        m.HWnd = this.Main.Handle;
+                    }
                     base.WndProc(ref m);
                     break;
             }
