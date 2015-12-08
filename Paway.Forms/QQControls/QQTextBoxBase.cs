@@ -54,6 +54,23 @@ namespace Paway.Forms
 
         #endregion
 
+        #region 构造
+        /// <summary>
+        /// </summary>
+        public QQTextBoxBase()
+        {
+            this.SetStyle(
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.ResizeRedraw |
+                ControlStyles.Selectable |
+                ControlStyles.SupportsTransparentBackColor, true);
+            this.SetStyle(ControlStyles.Opaque, false);
+            this.UpdateStyles();
+        }
+
+        #endregion
+
         #region 方法
         /// <summary>
         /// 绘制水印

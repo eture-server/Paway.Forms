@@ -49,6 +49,7 @@
             Paway.Forms.ToolItem toolItem9 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem10 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem11 = new Paway.Forms.ToolItem();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDemo));
             Paway.Forms.ToolItem toolItem12 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem13 = new Paway.Forms.ToolItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -723,6 +724,7 @@
             this.toolBar3.ItemSpace = 0;
             this.toolBar3.Location = new System.Drawing.Point(498, 16);
             this.toolBar3.Name = "toolBar3";
+            this.toolBar3.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolBar3.SelectImage")));
             this.toolBar3.Size = new System.Drawing.Size(50, 261);
             this.toolBar3.TabIndex = 44;
             this.toolBar3.TDirection = Paway.Forms.TDirection.Vertical;
@@ -745,6 +747,7 @@
             this.toolBar2.ItemSpace = 0;
             this.toolBar2.Location = new System.Drawing.Point(242, 20);
             this.toolBar2.Name = "toolBar2";
+            this.toolBar2.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolBar2.SelectImage")));
             this.toolBar2.Size = new System.Drawing.Size(116, 93);
             this.toolBar2.TabIndex = 43;
             this.toolBar2.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
