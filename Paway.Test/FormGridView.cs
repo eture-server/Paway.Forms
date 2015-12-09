@@ -59,9 +59,11 @@ namespace Paway.Test
         protected void WaitDrawDataGridView()
         {
             BindingList<WaitDrawDataGridViewData> list = new BindingList<WaitDrawDataGridViewData>();
+            tDataGridViewPager1.PagerInfo.PageSize = 5;
+            tDataGridViewPager1.PageChanged += tDataGridViewPager1_PageChanged;
             tDataGridViewPager1.DataSource = new WaitDrawDataGridViewData() { Device = "正在加载" };
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "image");
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 13; i++)
             {
                 bool a = false, b = false, c = false;
                 if (i > 1) a = true;
@@ -69,7 +71,7 @@ namespace Paway.Test
                 if (i > 5) c = true;
                 WaitDrawDataGridViewData dti = new WaitDrawDataGridViewData
                 {
-                    StatuImage = BitmapHelper.GetBitmapFormFile(string.Format("{0}\\{1}.png", path, i)),
+                    StatuImage = BitmapHelper.GetBitmapFormFile(string.Format("{0}\\{1}.png", path, i % 3)),
                     Device = "Device" + i,
                     Product = "Product" + (!b ? 1 : 2),
                     AppName = "AppName" + (!a ? 1 : (!b ? 2 : (!c ? 3 : 4))),
@@ -79,6 +81,9 @@ namespace Paway.Test
                 list.Add(dti);
             }
             tDataGridViewPager1.DataSource = list;
+        }
+        void tDataGridViewPager1_PageChanged(object sender, EventArgs e)
+        {
         }
         protected void CheckBoxDataGridView()
         {

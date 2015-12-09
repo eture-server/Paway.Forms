@@ -689,10 +689,7 @@ namespace Paway.Forms
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            if (this.Parent != null)
-            {
-                BaseText.BackColor = _isTrans ? this.Parent.BackColor : Color.White;
-            }
+            this.IsTrans = this.IsTrans;
         }
         /// <summary>
         /// </summary>
