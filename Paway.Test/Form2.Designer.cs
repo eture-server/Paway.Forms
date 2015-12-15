@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
@@ -75,9 +76,13 @@
             this.toolBar2 = new Paway.Forms.ToolBar();
             this.toolbar = new Paway.Forms.ToolBar();
             this.toolBar3 = new Paway.Forms.ToolBar();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.功能1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.功能2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.toolBar2.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel2
@@ -166,8 +171,10 @@
             this.toolBar2.Controls.Add(this.toolUp);
             this.toolBar2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolBar2.Font = new System.Drawing.Font("Tahoma", 15F);
+            this.toolBar2.IImageShow = true;
             this.toolBar2.ImageSize = new System.Drawing.Size(32, 32);
             this.toolBar2.IShowToolTop = true;
+            toolItem22.Image = global::Paway.Test.Properties.Resources.online;
             toolItem22.TColor.ColorNormal = System.Drawing.Color.Red;
             toolItem22.TColor.StringVertical = System.Drawing.StringAlignment.Center;
             toolItem22.Text = "白酒";
@@ -216,7 +223,7 @@
             this.toolBar2.Items.Add(toolItem41);
             this.toolBar2.Items.Add(toolItem42);
             this.toolBar2.Items.Add(toolItem43);
-            this.toolBar2.ItemSize = new System.Drawing.Size(60, 60);
+            this.toolBar2.ItemSize = new System.Drawing.Size(90, 90);
             this.toolBar2.ItemSpace = 5;
             this.toolBar2.Location = new System.Drawing.Point(0, 0);
             this.toolBar2.Name = "toolBar2";
@@ -292,6 +299,26 @@
             this.toolBar3.TabIndex = 58;
             this.toolBar3.Trans = 111;
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.功能1ToolStripMenuItem,
+            this.功能2ToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(108, 48);
+            // 
+            // 功能1ToolStripMenuItem
+            // 
+            this.功能1ToolStripMenuItem.Name = "功能1ToolStripMenuItem";
+            this.功能1ToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.功能1ToolStripMenuItem.Text = "功能1";
+            // 
+            // 功能2ToolStripMenuItem
+            // 
+            this.功能2ToolStripMenuItem.Name = "功能2ToolStripMenuItem";
+            this.功能2ToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.功能2ToolStripMenuItem.Text = "功能2";
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -303,9 +330,11 @@
             this.TBrush.ColorNormal = System.Drawing.Color.CornflowerBlue;
             this.TBrush.ColorSpace = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.Text = "Form2";
+            this.Controls.SetChildIndex(this.panel1, 0);
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.toolBar2.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -316,6 +345,9 @@
         private Forms.ToolBar toolBar3;
         private Forms.ToolBar toolUp;
         private Forms.ToolBar toolbar;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem 功能1ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 功能2ToolStripMenuItem;
 
 
 

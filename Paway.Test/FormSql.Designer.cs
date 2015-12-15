@@ -34,6 +34,7 @@
             this.btUpOrIn = new Paway.Forms.QQButton();
             this.btDelete = new Paway.Forms.QQButton();
             this.btSelect = new Paway.Forms.QQButton();
+            this.btnReplace = new Paway.Forms.QQButton();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -41,6 +42,7 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.btSelect);
+            this.panel1.Controls.Add(this.btnReplace);
             this.panel1.Controls.Add(this.btDelete);
             this.panel1.Controls.Add(this.btUpOrIn);
             this.panel1.Controls.Add(this.btUpdate);
@@ -112,6 +114,17 @@
             this.btSelect.UseVisualStyleBackColor = false;
             this.btSelect.Click += new System.EventHandler(this.btSelect_Click);
             // 
+            // btnReplace
+            // 
+            this.btnReplace.Image = null;
+            this.btnReplace.Location = new System.Drawing.Point(102, 201);
+            this.btnReplace.Name = "btnReplace";
+            this.btnReplace.Size = new System.Drawing.Size(59, 28);
+            this.btnReplace.TabIndex = 16;
+            this.btnReplace.Text = "Replace";
+            this.btnReplace.UseVisualStyleBackColor = false;
+            this.btnReplace.Click += new System.EventHandler(this.btnReplace_Click);
+            // 
             // FormSql
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -133,6 +146,7 @@
         private Forms.QQButton btUpOrIn;
         private Forms.QQButton btDelete;
         private Forms.QQButton btSelect;
+        private Forms.QQButton btnReplace;
 
 
 

@@ -683,30 +683,30 @@ namespace Paway.Utils.Data
         /// <summary>
         /// 更新或插入列
         /// </summary>
-        public bool Replace<T>(T t, DbCommand cmd = null)
+        public bool Replace<T>(T t, DbCommand cmd = null, params string[] args)
         {
             List<T> list = new List<T>() { t };
-            return Replace<T>(list, cmd);
+            return Replace<T>(list, cmd, args);
         }
         /// <summary>
         /// 更新或插入列表
         /// </summary>
-        public void Replace<T>(DataTable dt, DbCommand cmd = null)
+        public void Replace<T>(DataTable dt, DbCommand cmd = null, params string[] args)
         {
             IList<T> list = dt.ToIList<T>();
-            Replace<T>(list, cmd);
+            Replace<T>(list, cmd, args);
         }
         /// <summary>
         /// 更新或插入列表
         /// </summary>
-        public virtual bool Replace<T>(IList<T> list, DbCommand cmd = null)
+        public virtual bool Replace<T>(IList<T> list, DbCommand cmd = null, params string[] args)
         {
-            return Replace<T>(list, false, cmd);
+            return Replace<T>(list, false, cmd, args);
         }
         /// <summary>
         /// 更新或插入列表
         /// </summary>
-        protected bool Replace<T>(IList<T> list, bool isSqlite, DbCommand cmd = null)
+        protected bool Replace<T>(IList<T> list, bool isSqlite, DbCommand cmd = null, params string[] args)
         {
             bool iTrans = cmd == null;
             try
@@ -717,15 +717,15 @@ namespace Paway.Utils.Data
                     string sql = null;
                     if (isSqlite)
                     {
-                        sql = list[i].Replace<T>(GetId);
+                        sql = list[i].Replace<T>(GetId, args);
                     }
                     else
                     {
-                        sql = list[i].UpdateOrInsert<T>(GetId);
+                        sql = list[i].UpdateOrInsert<T>(GetId, args);
                     }
                     cmd.CommandText = sql;
                     OnCommandText(cmd);
-                    DbParameter[] pList = list[i].AddParameters<T>(paramType).ToArray();
+                    DbParameter[] pList = list[i].AddParameters<T>(paramType, args).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
                     using (DbDataReader dr = cmd.ExecuteReader())

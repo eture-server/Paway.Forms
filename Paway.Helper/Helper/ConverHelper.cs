@@ -270,7 +270,7 @@ namespace Paway.Helper
             T obj = Activator.CreateInstance<T>();//string 类型不支持无参的反射
             if (row == null) return obj;
 
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
             foreach (DataColumn column in row.Table.Columns)
             {
                 for (int i = 0; i < properties.Count; i++)
@@ -298,7 +298,7 @@ namespace Paway.Helper
         {
             Type type = typeof(T);
             T obj = Activator.CreateInstance<T>();//string 类型不支持无参的反射
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
             foreach (DataColumn column in row.Table.Columns)
             {
                 for (int i = 0; i < properties.Count; i++)
@@ -422,11 +422,11 @@ namespace Paway.Helper
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < properties.Count; i++)
             {
-                if (args.Length > 0 && args.FirstOrDefault(c => c == properties[i].Name) != properties[i].Name) continue;
-
                 string column = properties[i].Name;
                 if (IsSelect(type, properties[i], ref column))
                 {
+                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
+
                     sql = string.Format("{0} [{1}],", sql, column);
                 }
             }
@@ -480,12 +480,12 @@ namespace Paway.Helper
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < properties.Count; i++)
             {
-                if (attr.Key != null && properties[i].Name == attr.Key) continue;
-                if (args.Length > 0 && args.FirstOrDefault(c => c == properties[i].Name) != properties[i].Name) continue;
-
                 string column = properties[i].Name;
                 if (IsSelect(type, properties[i], ref column))
                 {
+                    if (column == attr.Key) continue;
+                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
+
                     if (IsNull(t, properties[i]))
                     {
                         sql = string.Format("{0} [{1}]=NULL,", sql, column);
@@ -517,7 +517,7 @@ namespace Paway.Helper
 
             string insert = null;
             string value = null;
-            t.Insert(attr, typeof(T), ref insert, ref value);
+            t.Insert(attr, typeof(T), false, ref insert, ref value);
             string sql = string.Format("insert into [{0}]({1}) values({2})", attr.Table, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
             if (Identity)
@@ -526,17 +526,19 @@ namespace Paway.Helper
             }
             return sql;
         }
-        private static void Insert<T>(this T t, PropertyAttribute attr, Type type, ref string insert, ref string value)
+        private static void Insert<T>(this T t, PropertyAttribute attr, Type type, bool replace, ref string insert, ref string value, params string[] args)
         {
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < properties.Count; i++)
             {
-                if (attr.Key != null && properties[i].Name == attr.Key) continue;
                 if (IsNull(t, properties[i])) continue;
 
                 string column = properties[i].Name;
                 if (IsSelect(type, properties[i], ref column))
                 {
+                    if (!replace && column == attr.Key) continue;
+                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
+
                     insert = string.Format("{0}[{1}],", insert, column);
                     value = string.Format("{0}@{1},", value, column);
                 }
@@ -556,14 +558,15 @@ namespace Paway.Helper
             if (value == null || value == DBNull.Value) return false;
             if (value.ToInt() == 0) return false;
 
-            PropertyAttribute attr = AttrMark(typeof(T));
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
+            Type type = typeof(T);
+            PropertyAttribute attr = AttrMark(type);
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < properties.Count; i++)
             {
-                if (properties[i].Name == attr.Key)
+                string column = properties[i].Name;
+                if (IsSelect(type, properties[i], ref column))
                 {
-                    object result = properties[i].GetValue(t);
-                    if (result.ToInt() > 0) break;
+                    if (column != attr.Key) continue;
 
                     if (properties[i].PropertyType == typeof(int))
                     {
@@ -590,13 +593,13 @@ namespace Paway.Helper
         /// <param name="t"></param>
         /// <param name="getId"></param>
         /// <returns></returns>
-        public static string Replace<T>(this T t, string getId)
+        public static string Replace<T>(this T t, string getId, params string[] args)
         {
             PropertyAttribute attr = AttrTable(typeof(T));
 
             string insert = null;
             string value = null;
-            t.Insert(attr, typeof(T), ref insert, ref value);
+            t.Insert(attr, typeof(T), true, ref insert, ref value, args);
             string sql = string.Format("replace into [{0}]({1}) values({2})", attr.Table, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
             return sql;
@@ -604,7 +607,7 @@ namespace Paway.Helper
         /// <summary>
         /// 将指定类型转为UpdateOrInsert语句
         /// </summary>
-        public static string UpdateOrInsert<T>(this T t, string getid)
+        public static string UpdateOrInsert<T>(this T t, string getid, params string[] args)
         {
             Type type = typeof(T);
             PropertyAttribute attr = AttrMark(type);
@@ -618,11 +621,12 @@ namespace Paway.Helper
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < properties.Count; i++)
             {
-                if (attr.Key != null && properties[i].Name == attr.Key) continue;
-
                 string column = properties[i].Name;
                 if (IsSelect(type, properties[i], ref column))
                 {
+                    if (column == attr.Key) continue;
+                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
+
                     if (IsNull(t, properties[i]))
                     {
                         update = string.Format("{0}[{1}]=NULL,", update, column);
@@ -672,18 +676,18 @@ namespace Paway.Helper
             Assembly asmb = Assembly.GetAssembly(ptype);
             List<DbParameter> pList = new List<DbParameter>();
 
-            PropertyAttribute attr = AttrMark(typeof(T));
+            PropertyAttribute attr = AttrMark(type);
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
-            string key = attr.Mark ?? attr.Key;
             for (int i = 0; i < properties.Count; i++)
             {
-                if (key != properties[i].Name && args.Length > 0 && args.FirstOrDefault(c => c == properties[i].Name) != properties[i].Name) continue;
                 object value = null;
                 if (!IsValue(t, properties[i], ref value)) continue;
 
                 string column = properties[i].Name;
                 if (IsSelect(type, properties[i], ref column))
                 {
+                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
+
                     DbParameter param = asmb.CreateInstance(ptype.FullName) as DbParameter;
                     param.ParameterName = string.Format("@{0}", column);
                     param.Value = value;

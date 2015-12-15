@@ -262,6 +262,7 @@
     <Content Include="alog.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\script.sql" />
     <None Include="Resources\serrch.png" />
     <None Include="Resources\noon.jpg" />
     <None Include="Resources\imgLoadding.gif" />

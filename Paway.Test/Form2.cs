@@ -1,4 +1,5 @@
 ﻿using Paway.Forms;
+using Paway.Test.Properties;
 using Paway.Test.UI;
 using Paway.Win32;
 using System;
@@ -41,9 +42,16 @@ namespace Paway.Test
             {
                 toolBar2.Items.Insert(0, new ToolItem(i.ToString()));
             }
-            for (int i = 0; i < 300; i++)
+            for (int i = 0; i < 900; i++)
             {
-                toolBar2.Items.Add(new ToolItem(i.ToString()));
+                ToolItem item = new ToolItem();
+                item.Text = i.ToString();
+                item.Image = Resources.online;
+                item.EndDesc = "x1";
+                item.HeadDesc = "16.00";
+                item.Desc = "+";
+                item.ContextMenuStrip = contextMenuStrip1;
+                toolBar2.Items.Add(item);
             }
             toolBar2.TChangeStart();
             //toolBar1.TClickFirst();

@@ -12,6 +12,8 @@ using System.Windows.Forms;
 using Paway.Utils;
 using System.Data.SqlClient;
 using Paway.Utils.Data;
+using System.IO;
+using Paway.Test.Properties;
 
 namespace Paway.Test
 {
@@ -98,6 +100,22 @@ namespace Paway.Test
             }
         }
 
+        private void btnReplace_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (list.Count == 0) return;
+                service.Insert(list[0]);
+                list[0].N2 = "V3";
+                list[0].T2 = 17;
+                service.Replace(list[0]);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, string.Format("{0}", ex), "SQL错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void btSelect_Click(object sender, EventArgs e)
         {
             try
@@ -110,15 +128,48 @@ namespace Paway.Test
             }
         }
     }
-    public class DataService : MySqlHelper//SqlHelper//MySQLHelper
+    public class DataService : SQLiteHelper //MySqlHelper//SqlHelper//SQLiteHelper
     {
+        public const string dbName = "paway.db";
         public DataService()
         {
-            base.InitConnect("127.0.0.1", "Test", "root", "mobot");
-            //base.InitConnect("ConnectionString");
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+            string file = Path.Combine(path, dbName);
+            base.InitConnect(file);
+            if (base.InitCreate(Resources.script))
+            {
+                UserInfo info = new UserInfo();
+                info.Name = "admin0";
+                Insert(info);
+                info.Id = 19;
+                info.Name = "admin001";
+                Replace(info);
+            }
+
+            //base.InitConnect("127.0.0.1", "Test", "root", "mobot");//MySqlHelper
+            //base.InitConnect("(local)", "Test", "mobot", "mobot");//SqlHelper
+            //base.InitConnect("ConnectionString");//SqlHelper
         }
     }
 
+    [Serializable]
+    [Property(Table = "Users", Key = "Id")]
+    public class UserInfo
+    {
+        [Property(Show = false)]
+        public long Id { get; set; }
+
+        [Property(Text = "用户名")]
+        public string Name { get; set; }
+
+        [Property(Show = false)]
+        public DateTime CreateDate { get; set; }
+
+        public UserInfo()
+        {
+            this.CreateDate = DateTime.Now;
+        }
+    }
     [Serializable, Property(Table = "Hello", Key = "Tid")]
     public class TestData
     {

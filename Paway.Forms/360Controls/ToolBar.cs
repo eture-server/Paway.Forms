@@ -10,6 +10,8 @@ using Paway.Helper;
 using System.Runtime.InteropServices;
 using System.Drawing.Text;
 using Paway.Win32;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
 
 namespace Paway.Forms
 {
@@ -864,6 +866,17 @@ namespace Paway.Forms
             TranColor = TBackGround.ColorSpace;
             g.FillRectangle(new SolidBrush(TranColor), temp);
 
+            //if (this.Items.Count > 0)
+            //{
+            //    //多线程处理(GDI是同一个，绘制效率没有提升)
+            //    Parallel.ForEach(Partitioner.Create(0, this.Items.Count), (H) =>
+            //    {
+            //        for (int i = H.Item1; i < H.Item2; i++)
+            //        {
+            //            DrawItem(g, this.Items[i]);
+            //        }
+            //    });
+            //}
             for (int i = 0; i < this.Items.Count; i++)
             {
                 DrawItem(g, this.Items[i]);

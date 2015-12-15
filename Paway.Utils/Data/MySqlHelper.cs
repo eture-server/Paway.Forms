@@ -102,9 +102,9 @@ namespace Paway.Utils.Data
         /// 更新或插入列表
         /// 需要标记唯一键为唯一索引
         /// </summary>
-        public override bool Replace<T>(IList<T> list, DbCommand cmd = null)
+        public override bool Replace<T>(IList<T> list, DbCommand cmd = null, params string[] args)
         {
-            return base.Replace<T>(list, true, cmd);
+            return base.Replace<T>(list, true, cmd, args);
         }
 
         #endregion
