@@ -674,6 +674,7 @@ namespace Paway.Helper
 
             PropertyAttribute attr = AttrMark(type);
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(type);
+            string key = attr.Mark ?? attr.Key;
             for (int i = 0; i < properties.Count; i++)
             {
                 object value = null;
@@ -682,7 +683,8 @@ namespace Paway.Helper
                 string column = properties[i].Name;
                 if (IsSelect(type, properties[i], ref column))
                 {
-                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
+                    ///Key必须要
+                    if (key != column && args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
                     DbParameter param = asmb.CreateInstance(ptype.FullName) as DbParameter;
                     param.ParameterName = string.Format("@{0}", column);

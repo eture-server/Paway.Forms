@@ -128,26 +128,26 @@ namespace Paway.Test
             }
         }
     }
-    public class DataService : SQLiteHelper //MySqlHelper//SqlHelper//SQLiteHelper
+    public class DataService : SqlHelper //MySqlHelper//SqlHelper//SQLiteHelper
     {
         public const string dbName = "paway.db";
         public DataService()
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory;
-            string file = Path.Combine(path, dbName);
-            base.InitConnect(file);
-            if (base.InitCreate(Resources.script))
-            {
-                UserInfo info = new UserInfo();
-                info.Name = "admin0";
-                Insert(info);
-                info.Id = 19;
-                info.Name = "admin001";
-                Replace(info);
-            }
+            //string path = AppDomain.CurrentDomain.BaseDirectory;
+            //string file = Path.Combine(path, dbName);
+            //base.InitConnect(file);
+            //if (base.InitCreate(Resources.script))
+            //{
+            //    UserInfo info = new UserInfo();
+            //    info.Name = "admin0";
+            //    Insert(info);
+            //    info.Id = 19;
+            //    info.Name = "admin001";
+            //    Replace(info);
+            //}
 
             //base.InitConnect("127.0.0.1", "Test", "root", "mobot");//MySqlHelper
-            //base.InitConnect("(local)", "Test", "mobot", "mobot");//SqlHelper
+            base.InitConnect("(local)", "Test", "mobot", "mobot");//SqlHelper
             //base.InitConnect("ConnectionString");//SqlHelper
         }
     }

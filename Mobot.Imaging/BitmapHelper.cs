@@ -696,11 +696,6 @@ namespace Mobot.Imaging
             return false;
         }
 
-        public static Bitmap ResizeBitmap(Bitmap image, IResizeOptions options)
-        {
-            return ResizeBitmap(image, options.Magnification, (InterpolationMode)options.InterpolationMode);
-        }
-
         public static Bitmap ResizeBitmap(Bitmap image, Size size, InterpolationMode mode)
         {
             Bitmap bitmap = new Bitmap(size.Width, size.Height, image.PixelFormat);
