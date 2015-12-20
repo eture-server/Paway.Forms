@@ -37,11 +37,11 @@ namespace Paway.Test
                 AssemblyTitleAttribute attrTitle = Attribute.GetCustomAttribute(assembly, typeof(AssemblyTitleAttribute)) as AssemblyTitleAttribute;
                 log.InfoFormat("{0} v{1} ({2})", attrTitle.Title, assembly.GetName().Version, Environment.MachineName);
 
-                //被识别的主图
-                //Bitmap on = Paway.Helper.BitmapHelper.GetBitmapFormFile(@"d:\23.jpg");
-                //需要识别的小图
-                //Bitmap fo = Paway.Helper.BitmapHelper.GetBitmapFormFile(@"d:\4.png");
-                //var a = ImageRecognitionHelper.SearchBitmap_Test(fo, on);
+                ////被识别的主图
+                //Bitmap on = Paway.Helper.BitmapHelper.GetBitmapFormFile(@"d:\0.png");
+                ////需要识别的小图
+                //Bitmap fo = Paway.Helper.BitmapHelper.GetBitmapFormFile(@"d:\2.png");
+                //SearchResult[] result = ImageRecognitionHelper.SearchBitmap_Test(fo, on);
 
                 //Color color = Color.FromArgb(30, 210, 120);
                 //int[] list = Paway.Helper.BitmapHelper.RGBToHSL(color);

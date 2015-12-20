@@ -304,9 +304,20 @@ namespace Paway.Forms
             set
             {
                 _regexType = value;
-                if (value == RegexType.Ip)
+                switch (value)
                 {
-                    BaseText.Text = "0.0.0.0";
+                    case RegexType.Ip:
+                        BaseText.Text = "0.0.0.0";
+                        break;
+                    case RegexType.PosInt:
+                        BaseText.Text = "0";
+                        break;
+                    case RegexType.Number:
+                        BaseText.Text = "0.0";
+                        break;
+                    default:
+                        BaseText.Text = null;
+                        break;
                 }
             }
         }
@@ -608,20 +619,7 @@ namespace Paway.Forms
             string result = null;
             if (BaseText.TextLength < RLength)
             {
-                switch (_regexType)
-                {
-                    case Helper.RegexType.Ip:
-                        result = "请输入不少于{0}位Ip地址";
-                        break;
-                    case Helper.RegexType.PosInt:
-                        result = "请输入不少于{0}位正整数";
-                        break;
-                    default:
-                        result = "请输入不少于{0}位字符";
-                        break;
-                }
-                result = string.Format(result, RLength);
-                Set(result);
+                Set(string.Format("请输入不少于{0}位字符", RLength));
                 return;
             }
             if (string.IsNullOrEmpty(BaseText.Text)) return;
@@ -631,6 +629,7 @@ namespace Paway.Forms
                 case RegexType.Normal:
                 case RegexType.Password:
                 case RegexType.PosInt:
+                case RegexType.Number:
                     result = StringHelper.RegexChecked(BaseText.Text, _regexType);
                     break;
                 case RegexType.Custom:

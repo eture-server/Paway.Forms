@@ -589,10 +589,6 @@ namespace Paway.Helper
         /// 将指定类型转为Replace语句
         /// Sqlite更新、插入方法，需将Key键设为唯一索引
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="t"></param>
-        /// <param name="getId"></param>
-        /// <returns></returns>
         public static string Replace<T>(this T t, string getId, params string[] args)
         {
             PropertyAttribute attr = AttrTable(typeof(T));

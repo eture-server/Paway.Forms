@@ -36,18 +36,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AForge">
-      <HintPath>..\Root\AForge.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Imaging">
-      <HintPath>..\Root\AForge.Imaging.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Imaging.Formats">
-      <HintPath>..\Root\AForge.Imaging.Formats.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Math">
-      <HintPath>..\Root\AForge.Math.dll</HintPath>
-    </Reference>
     <Reference Include="log4net">
       <HintPath>..\Root\log4net.dll</HintPath>
     </Reference>
@@ -64,34 +52,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BitmapHelper.2.cs" />
-    <Compile Include="BitmapHelper.cs" />
-    <Compile Include="GeometryHelper.cs" />
-    <Compile Include="IResizeOptions.cs" />
-    <Compile Include="Microsoft\ImageComparer.cs" />
-    <Compile Include="Microsoft\NativeMethods.cs" />
-    <Compile Include="Microsoft\Resource.cs" />
-    <Compile Include="Microsoft\SingleValueToleranceMap.cs" />
-    <Compile Include="Microsoft\Snapshot.cs" />
-    <Compile Include="Microsoft\ToleranceRectangle.cs" />
-    <Compile Include="Microsoft\ColorDifference.cs" />
-    <Compile Include="Microsoft\UITestUtilities.cs">
+    <Compile Include="BitmapHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="NingboUniversity\ImageComparer.cs" />
-    <Compile Include="NingboUniversity\ImgCompInterop.cs" />
-    <Compile Include="NingboUniversity\ImgCompServer.cs" />
-    <Compile Include="NingboUniversity\RequestInfo.cs" />
-    <Compile Include="NingboUniversity\ResultData.cs" />
+    <Compile Include="GeometryHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\AssemblyVersion.cs">
       <Link>Properties\AssemblyVersion.cs</Link>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
+    <Compile Include="SearchResult.cs" />
     <Compile Include="RecognitionHelper.BitmapSearch.cs" />
     <Compile Include="RecognitionHelper.BorderSearch.cs" />
     <Compile Include="RecognitionHelper.cs" />
@@ -99,16 +70,6 @@
     <Compile Include="RecognitionHelper.HorizontalPatternSearch.cs" />
     <Compile Include="RecognitionHelper.Test.cs" />
     <Compile Include="RecognitionHelper.VerticalPatternSearch.cs" />
-    <Compile Include="ResizeInterpolationMode.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\imgcomp.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

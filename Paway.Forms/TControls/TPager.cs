@@ -442,7 +442,7 @@ namespace Paway.Forms
         public event PageInfoChanged PageInfoChanged;
 
         private int currentPageIndex = 1; //当前页码
-        private int pageSize = 50;//每页显示的记录
+        private int pageSize = 20;//每页显示的记录
         private int recordCount = 0;//记录总数
 
         #region 属性变量
@@ -472,7 +472,7 @@ namespace Paway.Forms
         /// 获取或设置每页显示的记录
         /// </summary>
         [DataMember]
-        [Description("获取或设置每页显示的记录"), DefaultValue(50), Category("分页")]
+        [Description("获取或设置每页显示的记录"), DefaultValue(20), Category("分页")]
         public int PageSize
         {
             get { return pageSize; }

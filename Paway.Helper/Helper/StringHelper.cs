@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -83,6 +84,10 @@ namespace Paway.Helper
                 case RegexType.PosInt:
                     pattern = @"[0-9]*[1-9][0-9]*";
                     break;
+                case RegexType.Number:
+                    string sign = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+                    pattern = string.Format("[1-9]+[0-9]*([{0}][0-9]+)?|[0-9]([{0}][0-9]+)?", sign);
+                    break;
             }
             return RegexChecked(str, pattern);
         }
@@ -148,5 +153,9 @@ namespace Paway.Helper
         /// 正整数
         /// </summary>
         PosInt,
+        /// <summary>
+        /// 数字
+        /// </summary>
+        Number,
     }
 }
