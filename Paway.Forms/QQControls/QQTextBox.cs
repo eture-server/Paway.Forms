@@ -304,6 +304,7 @@ namespace Paway.Forms
             set
             {
                 _regexType = value;
+                if (!string.IsNullOrEmpty(BaseText.Text)) return;
                 switch (value)
                 {
                     case RegexType.Ip:
@@ -314,9 +315,6 @@ namespace Paway.Forms
                         break;
                     case RegexType.Number:
                         BaseText.Text = "0.0";
-                        break;
-                    default:
-                        BaseText.Text = null;
                         break;
                 }
             }

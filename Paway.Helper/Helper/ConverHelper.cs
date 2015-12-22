@@ -683,7 +683,7 @@ namespace Paway.Helper
                 string column = properties[i].Name;
                 if (IsSelect(type, properties[i], ref column))
                 {
-                    ///Key必须要
+                    //Key必须要
                     if (key != column && args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
                     DbParameter param = asmb.CreateInstance(ptype.FullName) as DbParameter;
