@@ -225,16 +225,14 @@ namespace Paway.Helper
                             case TConvertType.HSL:
                                 if (p[3] > 0)
                                 {
-                                    if (lastColor[0] != p[0] || lastColor[1] != p[1] || lastColor[2] != p[2])
+                                    if (lastColor.R != p[0] || lastColor.G != p[1] || lastColor.B != p[2])
                                     {
-                                        lastColor[0] = p[0];
-                                        lastColor[1] = p[1];
-                                        lastColor[2] = p[2];
-                                        int[] result = RGBToHSL(p[0], p[1], p[2]);
-                                        Color temp = HSLToRGB(result[0], result[1], result[2] + val);
-                                        lastHsl[0] = temp.R;
+                                        lastColor = Color.FromArgb(p[2], p[1], p[0]);
+                                        double[] result = RGBToHSL(p[2] / 255.0, p[1] / 255.0, p[0] / 255.0);
+                                        Color temp = HSLToRGB(result[0], result[1], result[2] + val * 1.0 / 240);
+                                        lastHsl[2] = temp.R;
                                         lastHsl[1] = temp.G;
-                                        lastHsl[2] = temp.B;
+                                        lastHsl[0] = temp.B;
                                     }
                                     p[0] = lastHsl[0];
                                     p[1] = lastHsl[1];
@@ -250,7 +248,7 @@ namespace Paway.Helper
             bitmap.UnlockBits(bmpData);
             return bitmap;
         }
-        private static int[] lastColor = new int[3];
+        private static Color lastColor = Color.Transparent;
         private static byte[] lastHsl = new byte[3];
 
         #region 左右翻转
@@ -685,114 +683,90 @@ namespace Paway.Helper
         /// RGB空间到HSL空间的转换
         /// 色调-饱和度-亮度(HSB) 转 Color
         /// </summary>
-        public static Color HSLToRGB(int H, int S, int L)
+        public static Color HSLToRGB(double H, double S, double L)
         {
-            if (H > 360) H = 360; if (H < 0) H = 0;
-            if (S > 100) S = 100; if (S < 0) S = 0;
-            if (L > 100) L = 100; if (L < 0) L = 0;
-            H = H * 255 / 360;
-            S = S * 255 / 100;
-            L = L * 255 / 100;
-
-            decimal fractionalSector;
-            decimal sectorNumber;
-            decimal sectorPos;
-            sectorPos = (Convert.ToDecimal(H) / 255 * 360) / 60;
-            sectorNumber = Convert.ToInt32(Math.Floor(Convert.ToDouble(sectorPos)));
-            fractionalSector = sectorPos - sectorNumber;
-
-            decimal p;
-            decimal q;
-            decimal t;
-
-            decimal r = 0;
-            decimal g = 0;
-            decimal b = 0;
-            decimal ss = Convert.ToDecimal(S) / 255;
-            decimal vv = Convert.ToDecimal(L) / 255;
-
-            p = vv * (1 - ss);
-            q = vv * (1 - (ss * fractionalSector));
-            t = vv * (1 - (ss * (1 - fractionalSector)));
-
-            switch (Convert.ToInt32(sectorNumber))
+            double R, G, B;
+            double var_1, var_2;
+            if (S == 0)                       //HSL values = 0 ÷ 1
             {
-                case 0:
-                    r = vv;
-                    g = t;
-                    b = p;
-                    break;
-                case 1:
-                    r = q;
-                    g = vv;
-                    b = p;
-                    break;
-                case 2:
-                    r = p;
-                    g = vv;
-                    b = t;
-                    break;
-                case 3:
-                    r = p;
-                    g = q;
-                    b = vv;
-                    break;
-                case 4:
-                    r = t;
-                    g = p;
-                    b = vv;
-                    break;
-                case 5:
-                    r = vv;
-                    g = p;
-                    b = q;
-                    break;
+                R = L * 255.0;                //RGB results = 0 ÷ 255
+                G = L * 255.0;
+                B = L * 255.0;
             }
-            return Color.FromArgb((r * 255).ToInt(), (g * 255).ToInt(), (b * 255).ToInt());
+            else
+            {
+                if (L < 0.5) var_2 = L * (1 + S);
+                else var_2 = (L + S) - (S * L);
+
+                var_1 = 2.0 * L - var_2;
+
+                R = 255.0 * Hue2RGB(var_1, var_2, H + (1.0 / 3.0));
+                G = 255.0 * Hue2RGB(var_1, var_2, H);
+                B = 255.0 * Hue2RGB(var_1, var_2, H - (1.0 / 3.0));
+            }
+
+            int r = R.ToInt(); if (r > 255) r = 255;
+            int g = G.ToInt(); if (g > 255) g = 255;
+            int b = B.ToInt(); if (b > 255) b = 255;
+            return Color.FromArgb(r, g, b);
+        }
+        private static double Hue2RGB(double v1, double v2, double vH)
+        {
+            if (vH < 0) vH += 1;
+            if (vH > 1) vH -= 1;
+            if (6.0 * vH < 1) return v1 + (v2 - v1) * 6.0 * vH;
+            if (2.0 * vH < 1) return v2;
+            if (3.0 * vH < 2) return v1 + (v2 - v1) * ((2.0 / 3.0) - vH) * 6.0;
+            return (v1);
         }
 
         /// <summary>
         /// RGB空间到HSL空间的转换
-        /// Color 转 色调-饱和度-亮度(HSB)
+        /// Color亮度变化
         /// </summary>
-        public static int[] RGBToHSL(Color color)
+        public static Color RGBAddLight(Color color, int value)
         {
-            return RGBToHSL(color.R, color.G, color.B);
+            double[] result = RGBToHSL(color.R / 255.0, color.G / 255.0, color.B / 255.0);
+            return HSLToRGB(result[0], result[1], result[2] + value * 1.0 / 240);
         }
         /// <summary>
         /// RGB空间到HSL空间的转换
         /// Color 转 色调-饱和度-亮度(HSB)
         /// </summary>
-        public static int[] RGBToHSL(int R, int G, int B)
+        public static double[] RGBToHSL(double R, double G, double B)
         {
-            double hue = 0;
+            double Max, Min, del_R, del_G, del_B, del_Max;
 
-            double Red = (double)R / 255;
-            double Green = (double)G / 255;
-            double Blue = (double)B / 255;
-            double max = Math.Max(Red, Math.Max(Green, Blue));
-            double min = Math.Min(Red, Math.Min(Green, Blue));
+            Min = Math.Min(R, Math.Min(G, B));    //Min. value of RGB
+            Max = Math.Max(R, Math.Max(G, B));    //Max. value of RGB
+            del_Max = Max - Min;        //Delta RGB value
 
-            if (max == Red && Green >= Blue)
+            double L = (Max + Min) / 2.0;
+            double H = 0, S = 0;
+            if (del_Max == 0)           //This is a gray, no chroma...
             {
-                if (max - min == 0) hue = 0.0;
-                else hue = 60 * (Green - Blue) / (max - min);
+                //H = 2.0/3.0;          //Windows下S值为0时，H值始终为160（2/3*240）
+                H = 0;                  //HSL results = 0 ÷ 1
+                S = 0;
             }
-            else if (max == Red && Green < Blue)
+            else                        //Chromatic data...
             {
-                hue = 60 * (Green - Blue) / (max - min) + 360;
-            }
-            else if (max == Green)
-            {
-                hue = 60 * (Blue - Red) / (max - min) + 120;
-            }
-            else if (max == Blue)
-            {
-                hue = 60 * (Red - Green) / (max - min) + 240;
-            }
-            double sat = (max == 0) ? 0 : (1 - (min / max));
+                if (L < 0.5) S = del_Max / (Max + Min);
+                else S = del_Max / (2 - Max - Min);
 
-            int[] HSL = new int[3] { hue.ToInt(), (sat * 100).ToInt(), (max * 100).ToInt() };
+                del_R = (((Max - R) / 6.0) + (del_Max / 2.0)) / del_Max;
+                del_G = (((Max - G) / 6.0) + (del_Max / 2.0)) / del_Max;
+                del_B = (((Max - B) / 6.0) + (del_Max / 2.0)) / del_Max;
+
+                if (R == Max) H = del_B - del_G;
+                else if (G == Max) H = (1.0 / 3.0) + del_R - del_B;
+                else if (B == Max) H = (2.0 / 3.0) + del_G - del_R;
+
+                if (H < 0) H += 1;
+                if (H > 1) H -= 1;
+            }
+
+            double[] HSL = new double[3] { H, S, L };
             return HSL;
         }
 

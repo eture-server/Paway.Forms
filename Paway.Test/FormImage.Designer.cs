@@ -40,6 +40,7 @@
             this.btClear = new System.Windows.Forms.Button();
             this.lbColor = new System.Windows.Forms.Label();
             this.btColor = new System.Windows.Forms.Button();
+            this.btnBrush = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -66,6 +67,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.label2);
             this.splitContainer1.Panel2.Controls.Add(this.textBox1);
             this.splitContainer1.Panel2.Controls.Add(this.btSave);
+            this.splitContainer1.Panel2.Controls.Add(this.btnBrush);
             this.splitContainer1.Panel2.Controls.Add(this.btClear);
             this.splitContainer1.Panel2.Controls.Add(this.lbColor);
             this.splitContainer1.Panel2.Controls.Add(this.btColor);
@@ -170,6 +172,15 @@
             this.btColor.Text = "取色";
             this.btColor.UseVisualStyleBackColor = true;
             // 
+            // btnBrush
+            // 
+            this.btnBrush.Location = new System.Drawing.Point(15, 286);
+            this.btnBrush.Name = "btnBrush";
+            this.btnBrush.Size = new System.Drawing.Size(73, 23);
+            this.btnBrush.TabIndex = 60;
+            this.btnBrush.Text = "渐变透明";
+            this.btnBrush.UseVisualStyleBackColor = true;
+            // 
             // FormImage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -203,6 +214,7 @@
         private System.Windows.Forms.Label lbColor;
         private System.Windows.Forms.Button btColor;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnBrush;
 
     }
 }

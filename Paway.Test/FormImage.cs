@@ -32,8 +32,23 @@ namespace Paway.Test
             btLess.Click += btLess_Click;
             btChange.Click += btChange_Click;
 
+            btnBrush.Click += btnBrush_Click;
             //ToSave();
             //CreateRoundedCorner(@"C:\Users\Tinn\Desktop\pk\d1.png", @"d:\2.png", null);
+        }
+
+        void btnBrush_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog()
+            {
+                Title = "Select Product Image",
+                Filter = "Image Files|*.gif;*.bmp;*.jpg;*.jpeg;*.png;*.tga;*.tif;*.tiff|GIF file format|*.gif|BMP file format|*.bmp|JPEG file format|*.jpg;*.jpeg|PNG file format|*.png|TGA file format|*.tga|TIFF file format|*.tif;*.tiff",
+            };
+            if (ofd.ShowDialog() == DialogResult.Cancel) return;
+
+            Bitmap image = BitmapHelper.GetBitmapFormFile(ofd.FileName);
+            image = BitmapHelper.ConvertTo(image, TConvertType.HSL, 30);
+            image.Save(@"d:\1.jpg", ImageFormat.Jpeg);
         }
 
         #region 替换图片圆角颜色
