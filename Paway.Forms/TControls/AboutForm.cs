@@ -33,8 +33,7 @@ namespace Paway.Forms
         /// <summary>
         /// 重置显示描述
         /// </summary>
-        /// <param name="desc"></param>
-        public void ReDescription(string desc)
+        public void Reset(string desc)
         {
             lbDesc.Text = desc;
         }
@@ -42,7 +41,6 @@ namespace Paway.Forms
         /// <summary>
         /// 输出软件名称和版本号
         /// </summary>
-        /// <param name="e"></param>
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -58,20 +56,17 @@ namespace Paway.Forms
             AssemblyTitleAttribute attrTitle = Attribute.GetCustomAttribute(assembly, typeof(AssemblyTitleAttribute)) as AssemblyTitleAttribute;
             AssemblyCopyrightAttribute attrCopyright = Attribute.GetCustomAttribute(Assembly.GetExecutingAssembly(), typeof(AssemblyCopyrightAttribute)) as AssemblyCopyrightAttribute;
             ProcessorArchitecture plat = assembly.GetName().ProcessorArchitecture;
-            lbPlatform.Text = string.Format("Platform:{0}", plat == ProcessorArchitecture.MSIL ? "Any" : plat.ToString());
-            lbVersion.Text = string.Format("{0} v{1} ({2})", attrTitle.Title, assembly.GetName().Version, Environment.MachineName);
+            lbVersion.Text = string.Format("{0}\r\nv{1}({2})<{3}>", attrTitle.Title, assembly.GetName().Version,
+                plat == ProcessorArchitecture.MSIL ? "Any" : plat.ToString(), Environment.MachineName);
             lbCopyright.Text = string.Format("{0}", attrCopyright.Copyright.Replace("\u00A9", "(C)"));
         }
 
         /// <summary>
         /// </summary>
-        /// <param name="e"></param>
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
 
-            this.TMouseMove(panel1);
-            this.TMouseMove(panel2);
             timer = new Timer();
             timer.Tick += timer_Tick;
             this.Opacity = 0.0;
@@ -114,7 +109,6 @@ namespace Paway.Forms
         /// <summary>
         /// 关闭时激发父窗体
         /// </summary>
-        /// <param name="e"></param>
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
@@ -127,17 +121,6 @@ namespace Paway.Forms
             else if (this.Owner != null)
             {
                 Owner.Activate();
-            }
-        }
-        /// <summary>
-        /// 按钮位置
-        /// </summary>
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-            if (btOk != null)
-            {
-                this.btOk.Location = new Point((this.Width - btOk.Width) / 2, 4);
             }
         }
     }

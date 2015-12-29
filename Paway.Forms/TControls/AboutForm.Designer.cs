@@ -28,163 +28,91 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new Paway.Forms.TControl();
-            this.label5 = new System.Windows.Forms.Label();
-            this.lbCopyright = new System.Windows.Forms.Label();
-            this.lbVersion = new System.Windows.Forms.Label();
             this.lbDesc = new System.Windows.Forms.Label();
-            this.panel2 = new Paway.Forms.TControl();
+            this.lbVersion = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.btOk = new Paway.Forms.QQButton();
-            this.lbPlatform = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.lbCopyright = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.lbCopyright);
-            this.panel1.Controls.Add(this.lbVersion);
-            this.panel1.Controls.Add(this.lbDesc);
-            this.panel1.Controls.Add(this.panel2);
-            this.panel1.Controls.Add(this.lbPlatform);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(1, 26);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(298, 273);
-            this.panel1.TabIndex = 0;
-            // 
-            // label5
-            // 
-            this.label5.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.label5.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(8, 105);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(283, 1);
-            this.label5.TabIndex = 9;
-            // 
-            // lbCopyright
-            // 
-            this.lbCopyright.AutoSize = true;
-            this.lbCopyright.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.lbCopyright.ForeColor = System.Drawing.Color.Black;
-            this.lbCopyright.Location = new System.Drawing.Point(20, 76);
-            this.lbCopyright.Name = "lbCopyright";
-            this.lbCopyright.Size = new System.Drawing.Size(95, 20);
-            this.lbCopyright.TabIndex = 8;
-            this.lbCopyright.Text = "<Copyright>";
-            // 
-            // lbVersion
-            // 
-            this.lbVersion.AutoSize = true;
-            this.lbVersion.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.lbVersion.ForeColor = System.Drawing.Color.Black;
-            this.lbVersion.Location = new System.Drawing.Point(20, 46);
-            this.lbVersion.Name = "lbVersion";
-            this.lbVersion.Size = new System.Drawing.Size(79, 20);
-            this.lbVersion.TabIndex = 7;
-            this.lbVersion.Text = "<Version>";
             // 
             // lbDesc
             // 
             this.lbDesc.AutoSize = true;
             this.lbDesc.Font = new System.Drawing.Font("微软雅黑", 11F);
-            this.lbDesc.ForeColor = System.Drawing.Color.Black;
-            this.lbDesc.Location = new System.Drawing.Point(20, 116);
+            this.lbDesc.ForeColor = System.Drawing.Color.White;
+            this.lbDesc.Location = new System.Drawing.Point(20, 72);
             this.lbDesc.Name = "lbDesc";
             this.lbDesc.Size = new System.Drawing.Size(115, 20);
             this.lbDesc.TabIndex = 5;
             this.lbDesc.Text = "<Description>";
             // 
-            // panel2
+            // lbVersion
             // 
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Controls.Add(this.btOk);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 236);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(298, 37);
-            this.panel2.TabIndex = 4;
+            this.lbVersion.AutoSize = true;
+            this.lbVersion.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.lbVersion.ForeColor = System.Drawing.Color.White;
+            this.lbVersion.Location = new System.Drawing.Point(20, 29);
+            this.lbVersion.Name = "lbVersion";
+            this.lbVersion.Size = new System.Drawing.Size(79, 20);
+            this.lbVersion.TabIndex = 7;
+            this.lbVersion.Text = "<Version>";
+            this.lbVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label1
             // 
-            this.label1.BackColor = System.Drawing.Color.DodgerBlue;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.BackColor = System.Drawing.Color.SkyBlue;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.label1.Location = new System.Drawing.Point(1, 268);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(298, 1);
-            this.label1.TabIndex = 3;
+            this.label1.TabIndex = 12;
             // 
-            // btOk
+            // lbCopyright
             // 
-            this.btOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btOk.Image = null;
-            this.btOk.Location = new System.Drawing.Point(113, 4);
-            this.btOk.Name = "btOk";
-            this.btOk.Size = new System.Drawing.Size(75, 28);
-            this.btOk.TabIndex = 2;
-            this.btOk.Text = "关闭";
-            this.btOk.UseVisualStyleBackColor = false;
-            // 
-            // lbPlatform
-            // 
-            this.lbPlatform.AutoSize = true;
-            this.lbPlatform.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.lbPlatform.ForeColor = System.Drawing.Color.Black;
-            this.lbPlatform.Location = new System.Drawing.Point(20, 17);
-            this.lbPlatform.Name = "lbPlatform";
-            this.lbPlatform.Size = new System.Drawing.Size(87, 20);
-            this.lbPlatform.TabIndex = 3;
-            this.lbPlatform.Text = "<Platform>";
+            this.lbCopyright.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lbCopyright.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.lbCopyright.ForeColor = System.Drawing.Color.White;
+            this.lbCopyright.Location = new System.Drawing.Point(1, 269);
+            this.lbCopyright.Name = "lbCopyright";
+            this.lbCopyright.Size = new System.Drawing.Size(298, 30);
+            this.lbCopyright.TabIndex = 11;
+            this.lbCopyright.Text = "<Copyright>";
+            this.lbCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // AboutForm
             // 
-            this.AcceptButton = this.btOk;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.DodgerBlue;
-            this.CancelButton = this.btOk;
+            this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(300, 300);
-            this.Controls.Add(this.panel1);
-            this.ForeColor = System.Drawing.Color.White;
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lbCopyright);
+            this.Controls.Add(this.lbVersion);
+            this.Controls.Add(this.lbDesc);
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.IDrawRound = false;
             this.IResize = false;
+            this.IShadow = false;
+            this.ITransfer = true;
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "AboutForm";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.SysButton = Paway.Forms.TSysButton.Close;
             this.Text = "关于我们";
-            this.TextShow = "关于我们";
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
+            this.TextShow = "";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbVersion;
         /// <summary>
-        /// </summary>
-        protected Paway.Forms.TControl panel1;
-        /// <summary>
-        /// </summary>
-        protected Paway.Forms.TControl panel2;
-        /// <summary>
-        /// </summary>
-        protected QQButton btOk;
-        /// <summary>
-        /// 描述
         /// </summary>
         protected System.Windows.Forms.Label lbDesc;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lbCopyright;
-        private System.Windows.Forms.Label lbVersion;
-        private System.Windows.Forms.Label lbPlatform;
-        private System.Windows.Forms.Label label5;
+
+
 
     }
 }
