@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections;
-using System.Drawing;
-using System.Drawing.Imaging;
+﻿using System.Drawing;
 
 namespace Mobot.Imaging
 {
     partial class ImageRecognitionHelper
     {
-        public static Rectangle[] SearchVerticalPattern(Bitmap screen, Bitmap searchFor, Rectangle searchArea, Point startFrom, int maxCount, int minLength, int tolerance)
+        public static Rectangle[] SearchVerticalPattern(Bitmap screen, Bitmap searchFor, Rectangle searchArea,
+            Point startFrom, int maxCount, int minLength, int tolerance)
         {
-            VerticalPatternSearch search = new VerticalPatternSearch(screen);
+            var search = new VerticalPatternSearch(screen);
             return search.FindAll(searchFor, searchArea, startFrom, maxCount, tolerance);
         }
-        internal class VerticalPatternSearch : ImageRecognitionHelper.HorizontalPatternSearch
+
+        internal class VerticalPatternSearch : HorizontalPatternSearch
         {
             public VerticalPatternSearch(Bitmap searchOn)
                 : base(searchOn)
@@ -21,23 +20,26 @@ namespace Mobot.Imaging
 
             protected override bool CheckLocation(int x, int y)
             {
-                if ((((x >= base._sl) && (y >= base._st)) && ((x < base._sr) && (y < base._sb))) && BitmapHelper.CompareBitmapLocked(base._searchOnData, base._searchForData, x, y, base._tolerance))
+                if ((x >= _sl) && (y >= _st) && (x < _sr) && (y < _sb) &&
+                    BitmapHelper.CompareBitmapLocked(_searchOnData, _searchForData, x, y, _tolerance))
                 {
-                    int num = y + base._searchFor.Height;
-                    while ((num < base._sb) && BitmapHelper.CompareBitmapLocked(base._searchOnData, base._searchForData, x, num, base._tolerance))
+                    var num = y + _searchFor.Height;
+                    while ((num < _sb) &&
+                           BitmapHelper.CompareBitmapLocked(_searchOnData, _searchForData, x, num, _tolerance))
                     {
-                        num += base._searchFor.Height;
+                        num += _searchFor.Height;
                     }
-                    int num2 = y - base._searchFor.Height;
-                    while ((num2 >= base._st) && BitmapHelper.CompareBitmapLocked(base._searchOnData, base._searchForData, x, num2, base._tolerance))
+                    var num2 = y - _searchFor.Height;
+                    while ((num2 >= _st) &&
+                           BitmapHelper.CompareBitmapLocked(_searchOnData, _searchForData, x, num2, _tolerance))
                     {
-                        num2 -= base._searchFor.Height;
+                        num2 -= _searchFor.Height;
                     }
-                    Rectangle r = Rectangle.FromLTRB(x, num2 + base._searchFor.Height, x + base._searchFor.Width, num);
-                    if ((r.Height / base._searchFor.Height) >= base._minLength)
+                    var r = Rectangle.FromLTRB(x, num2 + _searchFor.Height, x + _searchFor.Width, num);
+                    if (r.Height / _searchFor.Height >= _minLength)
                     {
-                        base.MaskRectangle(r);
-                        base._result.Add(r);
+                        MaskRectangle(r);
+                        _result.Add(r);
                         return true;
                     }
                 }

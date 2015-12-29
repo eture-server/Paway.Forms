@@ -47,7 +47,7 @@ namespace Paway.Test
             if (ofd.ShowDialog() == DialogResult.Cancel) return;
 
             Bitmap image = BitmapHelper.GetBitmapFormFile(ofd.FileName);
-            image = BitmapHelper.ConvertTo(image, TConvertType.HSL, 30);
+            image = BitmapHelper.ConvertTo(image, TConvertType.HSL, -10);
             image.Save(@"d:\1.jpg", ImageFormat.Jpeg);
         }
 

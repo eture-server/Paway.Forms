@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
 
@@ -7,13 +6,14 @@ namespace Mobot.Imaging
 {
     partial class ImageRecognitionHelper
     {
-        public static Rectangle[] SearchFourCorners(Bitmap screen, Bitmap topLeft, Bitmap topRight, Bitmap bottomLeft, Bitmap bottomRight, Rectangle searchArea, Point startFrom, int maxCount, int tolerance)
+        public static Rectangle[] SearchFourCorners(Bitmap screen, Bitmap topLeft, Bitmap topRight, Bitmap bottomLeft,
+            Bitmap bottomRight, Rectangle searchArea, Point startFrom, int maxCount, int tolerance)
         {
-            FourCornersSearch search = new FourCornersSearch(screen);
+            var search = new FourCornersSearch(screen);
             return search.FindAll(topLeft, topRight, bottomLeft, bottomRight, searchArea, startFrom, maxCount, tolerance);
         }
 
-        internal class FourCornersSearch : ImageRecognitionHelper.BitmapSearch
+        internal class FourCornersSearch : BitmapSearch
         {
             private Bitmap _bottomLeft;
             protected BitmapData _bottomLeftData;
@@ -32,25 +32,31 @@ namespace Mobot.Imaging
 
             protected override bool CheckLocation(int x, int y)
             {
-                if (((x >= base._sl) && (y >= base._st)) && ((x < base._sr) && (y < base._sb)))
+                if ((x >= _sl) && (y >= _st) && (x < _sr) && (y < _sb))
                 {
-                    switch (this._startCorner)
+                    switch (_startCorner)
                     {
                         case 0:
-                            if (BitmapHelper.CompareBitmapLocked(base._searchOnData, this._topLeftData, x, y, base._tolerance))
+                            if (BitmapHelper.CompareBitmapLocked(_searchOnData, _topLeftData, x, y, _tolerance))
                             {
-                                for (int i = x + this._topLeft.Width; i < base._sr; i++)
+                                for (var i = x + _topLeft.Width; i < _sr; i++)
                                 {
-                                    if (BitmapHelper.CompareBitmapLocked(base._searchOnData, this._topRightData, i, y, base._tolerance))
+                                    if (BitmapHelper.CompareBitmapLocked(_searchOnData, _topRightData, i, y, _tolerance))
                                     {
-                                        for (int j = y + this._topLeft.Height; j < base._sb; j++)
+                                        for (var j = y + _topLeft.Height; j < _sb; j++)
                                         {
-                                            if (BitmapHelper.CompareBitmapLocked(base._searchOnData, this._bottomRightData, i, j, base._tolerance) && BitmapHelper.CompareBitmapLocked(base._searchOnData, this._bottomLeftData, x, j, base._tolerance))
+                                            if (
+                                                BitmapHelper.CompareBitmapLocked(_searchOnData, _bottomRightData, i, j,
+                                                    _tolerance) &&
+                                                BitmapHelper.CompareBitmapLocked(_searchOnData, _bottomLeftData, x, j,
+                                                    _tolerance))
                                             {
-                                                Rectangle rectangle = this.Expand(Rectangle.FromLTRB(x, y, i + this._bottomRight.Width, j + this._bottomRight.Height));
-                                                base._result.Add(rectangle);
+                                                var rectangle =
+                                                    Expand(Rectangle.FromLTRB(x, y, i + _bottomRight.Width,
+                                                        j + _bottomRight.Height));
+                                                _result.Add(rectangle);
                                                 rectangle.Inflate(-1, -1);
-                                                base.MaskRectangle(rectangle);
+                                                MaskRectangle(rectangle);
                                                 return true;
                                             }
                                         }
@@ -60,20 +66,27 @@ namespace Mobot.Imaging
                             break;
 
                         case 1:
-                            if (BitmapHelper.CompareBitmapLocked(base._searchOnData, this._topRightData, x, y, base._tolerance))
+                            if (BitmapHelper.CompareBitmapLocked(_searchOnData, _topRightData, x, y, _tolerance))
                             {
-                                for (int k = y + this._topRight.Height; k < base._sb; k++)
+                                for (var k = y + _topRight.Height; k < _sb; k++)
                                 {
-                                    if (BitmapHelper.CompareBitmapLocked(base._searchOnData, this._bottomRightData, x, k, base._tolerance))
+                                    if (BitmapHelper.CompareBitmapLocked(_searchOnData, _bottomRightData, x, k,
+                                        _tolerance))
                                     {
-                                        for (int m = x - this._bottomLeft.Width; m >= base._sl; m--)
+                                        for (var m = x - _bottomLeft.Width; m >= _sl; m--)
                                         {
-                                            if (BitmapHelper.CompareBitmapLocked(base._searchOnData, this._bottomLeftData, m, k, base._tolerance) && BitmapHelper.CompareBitmapLocked(base._searchOnData, this._topLeftData, m, y, base._tolerance))
+                                            if (
+                                                BitmapHelper.CompareBitmapLocked(_searchOnData, _bottomLeftData, m, k,
+                                                    _tolerance) &&
+                                                BitmapHelper.CompareBitmapLocked(_searchOnData, _topLeftData, m, y,
+                                                    _tolerance))
                                             {
-                                                Rectangle rectangle2 = this.Expand(Rectangle.FromLTRB(m, y, x + this._topRight.Width, k + this._bottomRight.Height));
-                                                base._result.Add(rectangle2);
+                                                var rectangle2 =
+                                                    Expand(Rectangle.FromLTRB(m, y, x + _topRight.Width,
+                                                        k + _bottomRight.Height));
+                                                _result.Add(rectangle2);
                                                 rectangle2.Inflate(-1, -1);
-                                                base.MaskRectangle(rectangle2);
+                                                MaskRectangle(rectangle2);
                                                 return true;
                                             }
                                         }
@@ -83,20 +96,26 @@ namespace Mobot.Imaging
                             break;
 
                         case 2:
-                            if (BitmapHelper.CompareBitmapLocked(base._searchOnData, this._bottomLeftData, x, y, base._tolerance))
+                            if (BitmapHelper.CompareBitmapLocked(_searchOnData, _bottomLeftData, x, y, _tolerance))
                             {
-                                for (int n = y - this._topLeft.Height; n >= base._st; n--)
+                                for (var n = y - _topLeft.Height; n >= _st; n--)
                                 {
-                                    if (BitmapHelper.CompareBitmapLocked(base._searchOnData, this._topLeftData, x, n, base._tolerance))
+                                    if (BitmapHelper.CompareBitmapLocked(_searchOnData, _topLeftData, x, n, _tolerance))
                                     {
-                                        for (int num6 = x + this._topLeft.Width; num6 < base._sr; num6++)
+                                        for (var num6 = x + _topLeft.Width; num6 < _sr; num6++)
                                         {
-                                            if (BitmapHelper.CompareBitmapLocked(base._searchOnData, this._topRightData, num6, n, base._tolerance) && BitmapHelper.CompareBitmapLocked(base._searchOnData, this._bottomRightData, num6, y, base._tolerance))
+                                            if (
+                                                BitmapHelper.CompareBitmapLocked(_searchOnData, _topRightData, num6, n,
+                                                    _tolerance) &&
+                                                BitmapHelper.CompareBitmapLocked(_searchOnData, _bottomRightData, num6,
+                                                    y, _tolerance))
                                             {
-                                                Rectangle rectangle3 = this.Expand(Rectangle.FromLTRB(x, n, num6 + this._topRight.Width, y + this._bottomLeft.Height));
-                                                base._result.Add(rectangle3);
+                                                var rectangle3 =
+                                                    Expand(Rectangle.FromLTRB(x, n, num6 + _topRight.Width,
+                                                        y + _bottomLeft.Height));
+                                                _result.Add(rectangle3);
                                                 rectangle3.Inflate(-1, -1);
-                                                base.MaskRectangle(rectangle3);
+                                                MaskRectangle(rectangle3);
                                                 return true;
                                             }
                                         }
@@ -106,20 +125,27 @@ namespace Mobot.Imaging
                             break;
 
                         case 3:
-                            if (BitmapHelper.CompareBitmapLocked(base._searchOnData, this._bottomRightData, x, y, base._tolerance))
+                            if (BitmapHelper.CompareBitmapLocked(_searchOnData, _bottomRightData, x, y, _tolerance))
                             {
-                                for (int num7 = x - this._bottomLeft.Width; num7 >= base._sl; num7--)
+                                for (var num7 = x - _bottomLeft.Width; num7 >= _sl; num7--)
                                 {
-                                    if (BitmapHelper.CompareBitmapLocked(base._searchOnData, this._bottomLeftData, num7, y, base._tolerance))
+                                    if (BitmapHelper.CompareBitmapLocked(_searchOnData, _bottomLeftData, num7, y,
+                                        _tolerance))
                                     {
-                                        for (int num8 = y - this._topLeft.Height; num8 >= base._st; num8--)
+                                        for (var num8 = y - _topLeft.Height; num8 >= _st; num8--)
                                         {
-                                            if (BitmapHelper.CompareBitmapLocked(base._searchOnData, this._topLeftData, num7, num8, base._tolerance) && BitmapHelper.CompareBitmapLocked(base._searchOnData, this._topRightData, x, num8, base._tolerance))
+                                            if (
+                                                BitmapHelper.CompareBitmapLocked(_searchOnData, _topLeftData, num7, num8,
+                                                    _tolerance) &&
+                                                BitmapHelper.CompareBitmapLocked(_searchOnData, _topRightData, x, num8,
+                                                    _tolerance))
                                             {
-                                                Rectangle rectangle4 = this.Expand(Rectangle.FromLTRB(num7, num8, x + this._bottomRight.Width, y + this._bottomRight.Height));
-                                                base._result.Add(rectangle4);
+                                                var rectangle4 =
+                                                    Expand(Rectangle.FromLTRB(num7, num8, x + _bottomRight.Width,
+                                                        y + _bottomRight.Height));
+                                                _result.Add(rectangle4);
                                                 rectangle4.Inflate(-1, -1);
-                                                base.MaskRectangle(rectangle4);
+                                                MaskRectangle(rectangle4);
                                                 return true;
                                             }
                                         }
@@ -134,11 +160,11 @@ namespace Mobot.Imaging
 
             protected static unsafe int CornerQuality(BitmapData cornerBitmapData)
             {
-                uint* numPtr = (uint*)cornerBitmapData.Scan0;
-                int num = 0;
-                int capacity = cornerBitmapData.Width * cornerBitmapData.Height;
-                ArrayList list = new ArrayList(capacity);
-                int num3 = 0;
+                var numPtr = (uint*)cornerBitmapData.Scan0;
+                var num = 0;
+                var capacity = cornerBitmapData.Width * cornerBitmapData.Height;
+                var list = new ArrayList(capacity);
+                var num3 = 0;
                 while (num3 < capacity)
                 {
                     if ((numPtr[0] & 0xff000000) == 0xff000000)
@@ -161,22 +187,23 @@ namespace Mobot.Imaging
 
             protected Rectangle Expand(Rectangle rect)
             {
-                Rectangle rectangle = rect;
-                rectangle = this.ExpandToRight(rectangle);
-                rectangle = this.ExpandToLeft(rectangle);
-                rectangle = this.ExpandToTop(rectangle);
-                return this.ExpandToBottom(rectangle);
+                var rectangle = rect;
+                rectangle = ExpandToRight(rectangle);
+                rectangle = ExpandToLeft(rectangle);
+                rectangle = ExpandToTop(rectangle);
+                return ExpandToBottom(rectangle);
             }
 
             protected Rectangle ExpandToBottom(Rectangle rect)
             {
-                Rectangle rectangle = rect;
-                int x = rect.X;
-                int num2 = rect.Right - this._bottomRightData.Width;
-                int num3 = (rect.Bottom - this._bottomRightData.Height) + 1;
-                for (int i = num3; i < base._sb; i++)
+                var rectangle = rect;
+                var x = rect.X;
+                var num2 = rect.Right - _bottomRightData.Width;
+                var num3 = rect.Bottom - _bottomRightData.Height + 1;
+                for (var i = num3; i < _sb; i++)
                 {
-                    if (!BitmapHelper.CompareBitmapLocked(base._searchOnData, this._bottomLeftData, x, i, base._tolerance) || !BitmapHelper.CompareBitmapLocked(base._searchOnData, this._bottomRightData, num2, i, base._tolerance))
+                    if (!BitmapHelper.CompareBitmapLocked(_searchOnData, _bottomLeftData, x, i, _tolerance) ||
+                        !BitmapHelper.CompareBitmapLocked(_searchOnData, _bottomRightData, num2, i, _tolerance))
                     {
                         return rectangle;
                     }
@@ -187,13 +214,14 @@ namespace Mobot.Imaging
 
             protected Rectangle ExpandToLeft(Rectangle rect)
             {
-                Rectangle rectangle = rect;
-                int num = rect.X - 1;
-                int y = rect.Y;
-                int num3 = rect.Bottom - this._bottomLeftData.Height;
-                for (int i = num; i >= base._sl; i--)
+                var rectangle = rect;
+                var num = rect.X - 1;
+                var y = rect.Y;
+                var num3 = rect.Bottom - _bottomLeftData.Height;
+                for (var i = num; i >= _sl; i--)
                 {
-                    if (!BitmapHelper.CompareBitmapLocked(base._searchOnData, this._topLeftData, i, y, base._tolerance) || !BitmapHelper.CompareBitmapLocked(base._searchOnData, this._bottomLeftData, i, num3, base._tolerance))
+                    if (!BitmapHelper.CompareBitmapLocked(_searchOnData, _topLeftData, i, y, _tolerance) ||
+                        !BitmapHelper.CompareBitmapLocked(_searchOnData, _bottomLeftData, i, num3, _tolerance))
                     {
                         return rectangle;
                     }
@@ -205,13 +233,14 @@ namespace Mobot.Imaging
 
             protected Rectangle ExpandToRight(Rectangle rect)
             {
-                Rectangle rectangle = rect;
-                int num = (rect.Right - this._topRightData.Width) + 1;
-                int y = rect.Y;
-                int num3 = rect.Bottom - this._bottomRightData.Height;
-                for (int i = num; i < base._sr; i++)
+                var rectangle = rect;
+                var num = rect.Right - _topRightData.Width + 1;
+                var y = rect.Y;
+                var num3 = rect.Bottom - _bottomRightData.Height;
+                for (var i = num; i < _sr; i++)
                 {
-                    if (!BitmapHelper.CompareBitmapLocked(base._searchOnData, this._topRightData, i, y, base._tolerance) || !BitmapHelper.CompareBitmapLocked(base._searchOnData, this._bottomRightData, i, num3, base._tolerance))
+                    if (!BitmapHelper.CompareBitmapLocked(_searchOnData, _topRightData, i, y, _tolerance) ||
+                        !BitmapHelper.CompareBitmapLocked(_searchOnData, _bottomRightData, i, num3, _tolerance))
                     {
                         return rectangle;
                     }
@@ -222,13 +251,14 @@ namespace Mobot.Imaging
 
             protected Rectangle ExpandToTop(Rectangle rect)
             {
-                Rectangle rectangle = rect;
-                int x = rect.X;
-                int num2 = rect.Right - this._topRightData.Width;
-                int num3 = rect.Y - 1;
-                for (int i = num3; i >= base._st; i--)
+                var rectangle = rect;
+                var x = rect.X;
+                var num2 = rect.Right - _topRightData.Width;
+                var num3 = rect.Y - 1;
+                for (var i = num3; i >= _st; i--)
                 {
-                    if (!BitmapHelper.CompareBitmapLocked(base._searchOnData, this._topLeftData, x, i, base._tolerance) || !BitmapHelper.CompareBitmapLocked(base._searchOnData, this._topRightData, num2, i, base._tolerance))
+                    if (!BitmapHelper.CompareBitmapLocked(_searchOnData, _topLeftData, x, i, _tolerance) ||
+                        !BitmapHelper.CompareBitmapLocked(_searchOnData, _topRightData, num2, i, _tolerance))
                     {
                         return rectangle;
                     }
@@ -238,99 +268,105 @@ namespace Mobot.Imaging
                 return rectangle;
             }
 
-            public Rectangle[] FindAll(Bitmap topLeft, Bitmap topRight, Bitmap bottomLeft, Bitmap bottomRight, Rectangle searchArea, Point startFrom, int maxCount, int tolerance)
+            public Rectangle[] FindAll(Bitmap topLeft, Bitmap topRight, Bitmap bottomLeft, Bitmap bottomRight,
+                Rectangle searchArea, Point startFrom, int maxCount, int tolerance)
             {
-                this.StartSearch(topLeft, topRight, bottomLeft, bottomRight, searchArea, startFrom, maxCount, tolerance);
-                while (!this.FindNext().IsEmpty)
+                StartSearch(topLeft, topRight, bottomLeft, bottomRight, searchArea, startFrom, maxCount, tolerance);
+                while (!FindNext().IsEmpty)
                 {
                 }
-                return (Rectangle[])base._result.ToArray(typeof(Rectangle));
+                return (Rectangle[])_result.ToArray(typeof(Rectangle));
             }
 
             public override Rectangle FindNext()
             {
                 Rectangle rectangle;
-                this._topLeftData = null;
-                this._topRightData = null;
-                this._bottomLeftData = null;
-                this._bottomRightData = null;
+                _topLeftData = null;
+                _topRightData = null;
+                _bottomLeftData = null;
+                _bottomRightData = null;
                 try
                 {
-                    this._topLeftData = BitmapHelper.LockBits(this._topLeft, ImageLockMode.ReadOnly);
-                    this._topRightData = BitmapHelper.LockBits(this._topRight, ImageLockMode.ReadOnly);
-                    this._bottomLeftData = BitmapHelper.LockBits(this._bottomLeft, ImageLockMode.ReadOnly);
-                    this._bottomRightData = BitmapHelper.LockBits(this._bottomRight, ImageLockMode.ReadOnly);
+                    _topLeftData = BitmapHelper.LockBits(_topLeft, ImageLockMode.ReadOnly);
+                    _topRightData = BitmapHelper.LockBits(_topRight, ImageLockMode.ReadOnly);
+                    _bottomLeftData = BitmapHelper.LockBits(_bottomLeft, ImageLockMode.ReadOnly);
+                    _bottomRightData = BitmapHelper.LockBits(_bottomRight, ImageLockMode.ReadOnly);
                     rectangle = base.FindNext();
                 }
                 finally
                 {
-                    if (this._topLeftData != null)
+                    if (_topLeftData != null)
                     {
-                        BitmapHelper.UnlockBits(this._topLeft, this._topLeftData);
+                        BitmapHelper.UnlockBits(_topLeft, _topLeftData);
                     }
-                    if (this._topRightData != null)
+                    if (_topRightData != null)
                     {
-                        BitmapHelper.UnlockBits(this._topRight, this._topRightData);
+                        BitmapHelper.UnlockBits(_topRight, _topRightData);
                     }
-                    if (this._bottomLeftData != null)
+                    if (_bottomLeftData != null)
                     {
-                        BitmapHelper.UnlockBits(this._bottomLeft, this._bottomLeftData);
+                        BitmapHelper.UnlockBits(_bottomLeft, _bottomLeftData);
                     }
-                    if (this._bottomRightData != null)
+                    if (_bottomRightData != null)
                     {
-                        BitmapHelper.UnlockBits(this._bottomRight, this._bottomRightData);
+                        BitmapHelper.UnlockBits(_bottomRight, _bottomRightData);
                     }
                 }
                 return rectangle;
             }
 
-            public void StartSearch(Bitmap topLeft, Bitmap topRight, Bitmap bottomLeft, Bitmap bottomRight, Rectangle searchArea, Point startFrom, int maxCount, int tolerance)
+            public void StartSearch(Bitmap topLeft, Bitmap topRight, Bitmap bottomLeft, Bitmap bottomRight,
+                Rectangle searchArea, Point startFrom, int maxCount, int tolerance)
             {
                 int[] numArray;
-                this._topLeft = BitmapHelper.CloneBitmap(topLeft);
-                this._topRight = BitmapHelper.CloneBitmap(topRight);
-                this._bottomLeft = BitmapHelper.CloneBitmap(bottomLeft);
-                this._bottomRight = BitmapHelper.CloneBitmap(bottomRight);
+                _topLeft = BitmapHelper.CloneBitmap(topLeft);
+                _topRight = BitmapHelper.CloneBitmap(topRight);
+                _bottomLeft = BitmapHelper.CloneBitmap(bottomLeft);
+                _bottomRight = BitmapHelper.CloneBitmap(bottomRight);
                 base.StartSearch(topLeft, searchArea, startFrom, maxCount, tolerance);
-                this._topLeftData = null;
-                this._topRightData = null;
-                this._bottomLeftData = null;
-                this._bottomRightData = null;
+                _topLeftData = null;
+                _topRightData = null;
+                _bottomLeftData = null;
+                _bottomRightData = null;
                 try
                 {
-                    this._topLeftData = BitmapHelper.LockBits(this._topLeft, ImageLockMode.ReadOnly);
-                    this._topRightData = BitmapHelper.LockBits(this._topRight, ImageLockMode.ReadOnly);
-                    this._bottomLeftData = BitmapHelper.LockBits(this._bottomLeft, ImageLockMode.ReadOnly);
-                    this._bottomRightData = BitmapHelper.LockBits(this._bottomRight, ImageLockMode.ReadOnly);
-                    numArray = new int[] { CornerQuality(this._topLeftData), CornerQuality(this._topRightData), CornerQuality(this._bottomLeftData), CornerQuality(this._bottomRightData) };
+                    _topLeftData = BitmapHelper.LockBits(_topLeft, ImageLockMode.ReadOnly);
+                    _topRightData = BitmapHelper.LockBits(_topRight, ImageLockMode.ReadOnly);
+                    _bottomLeftData = BitmapHelper.LockBits(_bottomLeft, ImageLockMode.ReadOnly);
+                    _bottomRightData = BitmapHelper.LockBits(_bottomRight, ImageLockMode.ReadOnly);
+                    numArray = new[]
+                    {
+                        CornerQuality(_topLeftData), CornerQuality(_topRightData), CornerQuality(_bottomLeftData),
+                        CornerQuality(_bottomRightData)
+                    };
                 }
                 finally
                 {
-                    if (this._topLeftData != null)
+                    if (_topLeftData != null)
                     {
-                        BitmapHelper.UnlockBits(this._topLeft, this._topLeftData);
+                        BitmapHelper.UnlockBits(_topLeft, _topLeftData);
                     }
-                    if (this._topRightData != null)
+                    if (_topRightData != null)
                     {
-                        BitmapHelper.UnlockBits(this._topRight, this._topRightData);
+                        BitmapHelper.UnlockBits(_topRight, _topRightData);
                     }
-                    if (this._bottomLeftData != null)
+                    if (_bottomLeftData != null)
                     {
-                        BitmapHelper.UnlockBits(this._bottomLeft, this._bottomLeftData);
+                        BitmapHelper.UnlockBits(_bottomLeft, _bottomLeftData);
                     }
-                    if (this._bottomRightData != null)
+                    if (_bottomRightData != null)
                     {
-                        BitmapHelper.UnlockBits(this._bottomRight, this._bottomRightData);
+                        BitmapHelper.UnlockBits(_bottomRight, _bottomRightData);
                     }
                 }
-                int num = -2147483648;
-                this._startCorner = -1;
-                for (int i = 0; i < numArray.Length; i++)
+                var num = -2147483648;
+                _startCorner = -1;
+                for (var i = 0; i < numArray.Length; i++)
                 {
                     if (numArray[i] > num)
                     {
                         num = numArray[i];
-                        this._startCorner = i;
+                        _startCorner = i;
                     }
                 }
             }

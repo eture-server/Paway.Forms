@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using System.Reflection;
-using System.IO;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using System.Xml;
 
 namespace Paway.Helper
 {
     /// <summary>
-    /// 对 XML 操作的辅助类
+    ///     对 XML 操作的辅助类
     /// </summary>
     public abstract class XmlHelper
     {
         #region 常量
 
         /// <summary>
-        /// XML文件的声明
+        ///     XML文件的声明
         /// </summary>
         public const string XML_STATEMENT = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 
@@ -27,30 +26,31 @@ namespace Paway.Helper
         #endregion
 
         #region 方法
+
         /// <summary>
-        /// 通过文件地址加载Xml文件，获取XmlDocument对象
+        ///     通过文件地址加载Xml文件，获取XmlDocument对象
         /// </summary>
         /// <param name="filePath">xml文件地址所在的系统目录</param>
         /// <param name="assemblyPath">文件所在的程序集地址[针对嵌入的资源]</param>
         /// <returns>XmlDocument 对象</returns>
         public static XmlDocument LoadXml(string filePath, string assemblyPath)
         {
-            XmlDocument document = new XmlDocument();
+            var document = new XmlDocument();
             if (File.Exists(filePath))
             {
                 document.Load(filePath);
             }
             else
             {
-                Assembly assembly = Assembly.GetEntryAssembly();
-                Stream stream = assembly.GetManifestResourceStream(assemblyPath);
+                var assembly = Assembly.GetEntryAssembly();
+                var stream = assembly.GetManifestResourceStream(assemblyPath);
                 document.Load(stream);
             }
             return document;
         }
 
         /// <summary>
-        /// 生成XML字符串
+        ///     生成XML字符串
         /// </summary>
         /// <param name="root">根节点</param>
         /// <param name="allNodes">所有的子节点</param>
@@ -71,19 +71,19 @@ namespace Paway.Helper
 
             #endregion
 
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
             try
             {
                 //添加xml文件的声明
-                XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
+                var dec = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
                 doc.AppendChild(dec);
                 //添加根节点
-                XmlElement rootNode = doc.CreateElement(root);
+                var rootNode = doc.CreateElement(root);
                 doc.AppendChild(rootNode);
                 //添加子节点
-                for (int i = 0; i < allNodes.Length; i++)
+                for (var i = 0; i < allNodes.Length; i++)
                 {
-                    XmlElement childNode = doc.CreateElement(allNodes[i]);
+                    var childNode = doc.CreateElement(allNodes[i]);
                     childNode.InnerText = allValues[i];
                     rootNode.AppendChild(childNode);
                 }
@@ -99,7 +99,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        /// 返回对应的实体集合
+        ///     返回对应的实体集合
         ///     访问的XML文件与之对应的 实体类 名称必须大小写一致，数据类型必须是String
         ///     并且XML的编写格式必须按要求编写
         /// </summary>
@@ -108,23 +108,23 @@ namespace Paway.Helper
         /// <returns></returns>
         public static List<T> Select<T>(XmlDocument document)
         {
-            List<T> list = new List<T>();
+            var list = new List<T>();
             XmlNode xmlRoot = document.DocumentElement;
             if (xmlRoot != null)
             {
-                T obj = default(T);
-                Type type = typeof(T);
-                PropertyInfo[] propertyInfos = type.GetProperties();
+                var obj = default(T);
+                var type = typeof(T);
+                var propertyInfos = type.GetProperties();
                 foreach (XmlNode xmlNode in xmlRoot.ChildNodes)
                 {
-                    if (String.Compare(xmlNode.Name, type.Name, true) == 0)
+                    if (string.Compare(xmlNode.Name, type.Name, true) == 0)
                     {
                         obj = Activator.CreateInstance<T>();
-                        foreach (PropertyInfo propertyInfo in propertyInfos)
+                        foreach (var propertyInfo in propertyInfos)
                         {
-                            String propertyName = propertyInfo.Name;//获取属性名称
-                            object value = xmlNode.Attributes[propertyName].Value;//从XML中得到该属性的Value值
-                            propertyInfo.SetValue(obj, value, null);//将得到的属性值赋给obj对象
+                            var propertyName = propertyInfo.Name; //获取属性名称
+                            object value = xmlNode.Attributes[propertyName].Value; //从XML中得到该属性的Value值
+                            propertyInfo.SetValue(obj, value, null); //将得到的属性值赋给obj对象
                         }
                         list.Add(obj);
                     }

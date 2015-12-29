@@ -1,104 +1,51 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Paway.Forms.Metro
 {
     /// <summary>
-    /// 方向按钮
+    ///     方向按钮
     /// </summary>
     public class DirectionButton : Control
     {
-        #region 变量
-        /// <summary>
-        /// 上下按钮的默认大小
-        /// </summary>
-        private Size _defaultSize = new Size(80, 20);
-
-        private TMouseState _mouseState = TMouseState.Normal;
-        /// <summary>
-        /// 箭头所指向的方向
-        /// </summary>
-        private TLocation _direction = TLocation.Up;
-        #endregion
-
-        #region 构造函数
+        #region 构d造函数
 
         /// <summary>
-        /// 用默认设置初始化 Paway.Forms.DirectionButton 类的新实例。
+        ///     用默认设置初始化 Paway.Forms.DirectionButton 类的新实例。
         /// </summary>
         public DirectionButton()
         {
-            this.SetStyle(
+            SetStyle(
                 ControlStyles.UserPaint |
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.SupportsTransparentBackColor, true);
-            this.UpdateStyles();
+            UpdateStyles();
         }
 
-        #endregion
-
-        #region 属性
-        /// <summary>
-        /// 控件的默认大小
-        /// </summary>
-        [Description("控件的默认大小"), DefaultValue(typeof(Size), "80, 20")]
-        protected override Size DefaultSize
-        {
-            get { return this._defaultSize; }
-        }
-
-        /// <summary>
-        /// 针对于控件的鼠标状态
-        /// </summary>
-        [Description("针对于控件的鼠标状态"), DefaultValue(typeof(TMouseState), "Normal")]
-        protected TMouseState MouseState
-        {
-            get { return this._mouseState; }
-            set
-            {
-                this._mouseState = value;
-                this.Invalidate();
-            }
-        }
-
-        /// <summary>
-        /// 指定箭头所指向的方向
-        /// </summary>
-        [Browsable(true), Description("指定箭头所指向的方向"), DefaultValue(typeof(TLocation), "Up")]
-        public TLocation Direction
-        {
-            get { return this._direction; }
-            set
-            {
-                this._direction = value;
-                this.Invalidate();
-            }
-        }
         #endregion
 
         #region 方法
+
         /// <summary>
-        /// 绘制三角型
+        ///     绘制三角型
         /// </summary>
         /// <param name="g">画板，Graphics 对象</param>
         private void DrawTriangle(Graphics g)
         {
             //获取控件中心点和三角型所绘画的位置
-            int tWidth = 11;
-            int tHeight = 6;
-            int hCenter = this.Width / 2;
-            int vCenter = this.Height / 2 - 1;
-            int x = hCenter - tWidth / 2;
-            int y = vCenter - tHeight / 2;
+            var tWidth = 11;
+            var tHeight = 6;
+            var hCenter = Width/2;
+            var vCenter = Height/2 - 1;
+            var x = hCenter - tWidth/2;
+            var y = vCenter - tHeight/2;
             //构建三角型的路径
-            Point[] pointArray = new Point[3];
-            switch (this._direction)
+            var pointArray = new Point[3];
+            switch (_direction)
             {
                 case TLocation.Up:
                     pointArray[0] = new Point(hCenter, vCenter);
@@ -115,7 +62,7 @@ namespace Paway.Forms.Metro
                 case TLocation.Right:
                     break;
             }
-            using (GraphicsPath path = new GraphicsPath())
+            using (var path = new GraphicsPath())
             {
                 path.AddLines(pointArray);
                 path.CloseFigure();
@@ -132,11 +79,70 @@ namespace Paway.Forms.Metro
 
             //g.FillPolygon(Brushes.White, pointArray);
         }
+
+        #endregion
+
+        #region 变量
+
+        /// <summary>
+        ///     上下按钮的默认大小
+        /// </summary>
+        private readonly Size _defaultSize = new Size(80, 20);
+
+        private TMouseState _mouseState = TMouseState.Normal;
+
+        /// <summary>
+        ///     箭头所指向的方向
+        /// </summary>
+        private TLocation _direction = TLocation.Up;
+
+        #endregion
+
+        #region 属性
+
+        /// <summary>
+        ///     控件的默认大小
+        /// </summary>
+        [Description("控件的默认大小"), DefaultValue(typeof (Size), "80, 20")]
+        protected override Size DefaultSize
+        {
+            get { return _defaultSize; }
+        }
+
+        /// <summary>
+        ///     针对于控件的鼠标状态
+        /// </summary>
+        [Description("针对于控件的鼠标状态"), DefaultValue(typeof (TMouseState), "Normal")]
+        protected TMouseState MouseState
+        {
+            get { return _mouseState; }
+            set
+            {
+                _mouseState = value;
+                Invalidate();
+            }
+        }
+
+        /// <summary>
+        ///     指定箭头所指向的方向
+        /// </summary>
+        [Browsable(true), Description("指定箭头所指向的方向"), DefaultValue(typeof (TLocation), "Up")]
+        public TLocation Direction
+        {
+            get { return _direction; }
+            set
+            {
+                _direction = value;
+                Invalidate();
+            }
+        }
+
         #endregion
 
         #region Override Methods
+
         /// <summary>
-        /// 引发 System.Windows.Forms.Control.Paint 事件。
+        ///     引发 System.Windows.Forms.Control.Paint 事件。
         /// </summary>
         /// <param name="e">包含事件数据的 System.Windows.Forms.PaintEventArgs。</param>
         protected override void OnPaint(PaintEventArgs e)
@@ -146,44 +152,45 @@ namespace Paway.Forms.Metro
         }
 
         /// <summary>
-        /// 引发 System.Windows.Forms.Control.MouseMove 事件。
+        ///     引发 System.Windows.Forms.Control.MouseMove 事件。
         /// </summary>
         /// <param name="e">包含事件数据的 System.Windows.Forms.MouseEventArgs。</param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            this.MouseState = TMouseState.Move;
+            MouseState = TMouseState.Move;
         }
 
         /// <summary>
-        /// 引发 System.Windows.Forms.Control.MouseDown 事件。
+        ///     引发 System.Windows.Forms.Control.MouseDown 事件。
         /// </summary>
         /// <param name="e">包含事件数据的 System.Windows.Forms.MouseEventArgs。</param>
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-            this.MouseState = TMouseState.Down;
+            MouseState = TMouseState.Down;
         }
 
         /// <summary>
-        /// 引发 System.Windows.Forms.Control.MouseUp 事件。
+        ///     引发 System.Windows.Forms.Control.MouseUp 事件。
         /// </summary>
         /// <param name="e">包含事件数据的 System.Windows.Forms.MouseEventArgs。</param>
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
-            this.MouseState = TMouseState.Up;
+            MouseState = TMouseState.Up;
         }
 
         /// <summary>
-        /// 引发 System.Windows.Forms.Control.MouseLeave 事件。
+        ///     引发 System.Windows.Forms.Control.MouseLeave 事件。
         /// </summary>
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            this.MouseState = TMouseState.Leave;
+            MouseState = TMouseState.Leave;
         }
+
         #endregion
     }
 }

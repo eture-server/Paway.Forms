@@ -7,11 +7,13 @@ namespace Mobot.Imaging
 {
     partial class ImageRecognitionHelper
     {
-        public static Rectangle[] SearchBitmap(Bitmap screen, Bitmap searchFor, Rectangle searchArea, Point startFrom, int maxCount, int tolerance)
+        public static Rectangle[] SearchBitmap(Bitmap screen, Bitmap searchFor, Rectangle searchArea, Point startFrom,
+            int maxCount, int tolerance)
         {
-            BitmapSearch search = new BitmapSearch(screen);
+            var search = new BitmapSearch(screen);
             return search.FindAll(searchFor, searchArea, startFrom, maxCount, tolerance);
         }
+
         internal class BitmapSearch
         {
             protected int _i;
@@ -24,14 +26,17 @@ namespace Mobot.Imaging
             protected bool _searchFinished;
 
             /// <summary>
-            /// 要查找的图片（子图）。
+            ///     要查找的图片（子图）。
             /// </summary>
             protected Bitmap _searchFor;
+
             protected BitmapData _searchForData;
+
             /// <summary>
-            /// 大图。
+            ///     大图。
             /// </summary>
             protected Bitmap _searchOn;
+
             protected BitmapData _searchOnData;
             protected bool _searchStarted;
             protected int _sl;
@@ -46,140 +51,158 @@ namespace Mobot.Imaging
 
             public BitmapSearch(Bitmap searchOn)
             {
-                this._searchOn = BitmapHelper.CloneBitmap(searchOn);
+                _searchOn = BitmapHelper.CloneBitmap(searchOn);
+            }
+
+            public Rectangle[] Result
+            {
+                get { return (Rectangle[])_result.ToArray(typeof(Rectangle)); }
+            }
+
+            public bool SearchFinished
+            {
+                get { return _searchFinished; }
+            }
+
+            public bool SearchStarted
+            {
+                get { return _searchStarted; }
             }
 
             protected virtual bool CheckLocation(int cx, int cy)
             {
-                if ((((cx >= this._sl) && (cy >= this._st)) && ((cx < this._sr) && (cy < this._sb))) && BitmapHelper.CompareBitmapLocked(this._searchOnData, this._searchForData, cx, cy, this._tolerance))
+                if ((cx >= _sl) && (cy >= _st) && (cx < _sr) && (cy < _sb) &&
+                    BitmapHelper.CompareBitmapLocked(_searchOnData, _searchForData, cx, cy, _tolerance))
                 {
-                    Rectangle r = new Rectangle(cx, cy, this._searchForData.Width, this._searchForData.Height);
-                    this.MaskRectangle(r);
-                    this._result.Add(r);
+                    var r = new Rectangle(cx, cy, _searchForData.Width, _searchForData.Height);
+                    MaskRectangle(r);
+                    _result.Add(r);
                     return true;
                 }
                 return false;
             }
 
-            public virtual Rectangle[] FindAll(Bitmap searchFor, Rectangle searchArea, Point startFrom, int maxCount, int tolerance)
+            public virtual Rectangle[] FindAll(Bitmap searchFor, Rectangle searchArea, Point startFrom, int maxCount,
+                int tolerance)
             {
-                this.StartSearch(searchFor, searchArea, startFrom, maxCount, tolerance);
-                while (!this.FindNext().IsEmpty)
+                StartSearch(searchFor, searchArea, startFrom, maxCount, tolerance);
+                while (!FindNext().IsEmpty)
                 {
                 }
-                return (Rectangle[])this._result.ToArray(typeof(Rectangle));
+                return (Rectangle[])_result.ToArray(typeof(Rectangle));
             }
 
             public virtual Rectangle FindNext()
             {
                 Rectangle empty;
-                this._searchOnData = null;
-                this._searchForData = null;
+                _searchOnData = null;
+                _searchForData = null;
                 try
                 {
-                    this._searchOnData = BitmapHelper.LockBits(this._searchOn, ImageLockMode.ReadOnly);
-                    this._searchForData = BitmapHelper.LockBits(this._searchFor, ImageLockMode.ReadOnly);
-                    if (this._searchFinished)
+                    _searchOnData = BitmapHelper.LockBits(_searchOn, ImageLockMode.ReadOnly);
+                    _searchForData = BitmapHelper.LockBits(_searchFor, ImageLockMode.ReadOnly);
+                    if (_searchFinished)
                     {
                         return Rectangle.Empty;
                     }
-                    if (!this._searchStarted)
+                    if (!_searchStarted)
                     {
-                        throw new ApplicationException("Search is not started. Use StartSearch prior to calling FindNext");
+                        throw new ApplicationException(
+                            "Search is not started. Use StartSearch prior to calling FindNext");
                     }
-                    if (this._offset != 0)
-                    {
-                        goto Label_02CE;
-                    }
-                    this._offset++;
-                    if (!this.CheckLocation(this._x, this._y))
+                    if (_offset != 0)
                     {
                         goto Label_02CE;
                     }
-                    return (Rectangle)this._result[this._result.Count - 1];
+                    _offset++;
+                    if (!CheckLocation(_x, _y))
+                    {
+                        goto Label_02CE;
+                    }
+                    return (Rectangle)_result[_result.Count - 1];
                 Label_00A3:
-                    switch (this._pos)
+                    switch (_pos)
                     {
                         case 0:
-                            this._x0 = (this._x - this._i) + 1;
-                            this._y0 = this._y - this._offset;
+                            _x0 = _x - _i + 1;
+                            _y0 = _y - _offset;
                             break;
 
                         case 1:
-                            this._x0 = this._x + this._i;
-                            this._y0 = this._y - this._offset;
+                            _x0 = _x + _i;
+                            _y0 = _y - _offset;
                             break;
 
                         case 2:
-                            this._x0 = this._x + this._offset;
-                            this._y0 = (this._y - this._i) + 1;
+                            _x0 = _x + _offset;
+                            _y0 = _y - _i + 1;
                             break;
 
                         case 3:
-                            this._x0 = this._x + this._offset;
-                            this._y0 = this._y + this._i;
+                            _x0 = _x + _offset;
+                            _y0 = _y + _i;
                             break;
 
                         case 4:
-                            this._x0 = (this._x + this._i) - 1;
-                            this._y0 = this._y + this._offset;
+                            _x0 = _x + _i - 1;
+                            _y0 = _y + _offset;
                             break;
 
                         case 5:
-                            this._x0 = this._x - this._i;
-                            this._y0 = this._y + this._offset;
+                            _x0 = _x - _i;
+                            _y0 = _y + _offset;
                             break;
 
                         case 6:
-                            this._x0 = this._x - this._offset;
-                            this._y0 = (this._y + this._i) - 1;
+                            _x0 = _x - _offset;
+                            _y0 = _y + _i - 1;
                             break;
 
                         case 7:
-                            this._x0 = this._x - this._offset;
-                            this._y0 = this._y - this._i;
+                            _x0 = _x - _offset;
+                            _y0 = _y - _i;
                             break;
                     }
-                    this._pos++;
-                    if (this.CheckLocation(this._x0, this._y0))
+                    _pos++;
+                    if (CheckLocation(_x0, _y0))
                     {
-                        if (this._result.Count <= this._maxCount)
+                        if (_result.Count <= _maxCount)
                         {
-                            return (Rectangle)this._result[this._result.Count - 1];
+                            return (Rectangle)_result[_result.Count - 1];
                         }
                         return Rectangle.Empty;
                     }
                 Label_028A:
-                    if (this._pos < 8)
+                    if (_pos < 8)
                     {
                         goto Label_00A3;
                     }
-                    this._i++;
-                    this._pos = 0;
+                    _i++;
+                    _pos = 0;
                 Label_02AB:
-                    if (this._i <= this._offset)
+                    if (_i <= _offset)
                     {
                         goto Label_028A;
                     }
-                    this._offset++;
-                    this._i = 1;
+                    _offset++;
+                    _i = 1;
                 Label_02CE:
-                    if (this._offset <= this._maxOffset)
+                    if (_offset <= _maxOffset)
                     {
                         goto Label_02AB;
                     }
-                    this._searchFinished = true;
+                    _searchFinished = true;
                     empty = Rectangle.Empty;
                 }
                 finally
                 {
-                    if (this._searchForData != null)
+                    if (_searchForData != null)
                     {
-                        BitmapHelper.UnlockBits(this._searchFor, this._searchForData);
+                        BitmapHelper.UnlockBits(_searchFor, _searchForData);
                     }
-                    if (this._searchOnData != null)
+                    if (_searchOnData != null)
                     {
-                        BitmapHelper.UnlockBits(this._searchOn, this._searchOnData);
+                        BitmapHelper.UnlockBits(_searchOn, _searchOnData);
                     }
                 }
                 return empty;
@@ -187,75 +210,53 @@ namespace Mobot.Imaging
 
             protected void MaskRectangle(Rectangle R)
             {
-                BitmapHelper.MaskRectangle(this._searchOnData, R, true);
+                BitmapHelper.MaskRectangle(_searchOnData, R, true);
             }
 
-            public virtual void StartSearch(Bitmap searchFor, Rectangle searchArea, Point startFrom, int maxCount, int tolerance)
+            public virtual void StartSearch(Bitmap searchFor, Rectangle searchArea, Point startFrom, int maxCount,
+                int tolerance)
             {
                 BitmapHelper.CheckBitmap(searchFor);
-                this._searchFor = BitmapHelper.CloneBitmap(searchFor);
-                this._startFrom = startFrom;
-                this._tolerance = (tolerance * 0xfe01) / 100;
-                this._searchStarted = true;
-                this._maxCount = maxCount;
-                this._searchFinished = false;
-                Rectangle rectangle = searchArea;
-                rectangle.Intersect(new Rectangle(0, 0, this._searchOn.Width, this._searchOn.Height));
-                rectangle.Width -= this._searchFor.Width - 1;
-                rectangle.Height -= this._searchFor.Height - 1;
-                this._sl = rectangle.Left;
-                this._st = rectangle.Top;
-                this._sr = rectangle.Right;
-                this._sb = rectangle.Bottom;
-                this._startFrom.X -= this._searchFor.Width / 2;
-                this._startFrom.Y -= this._searchFor.Height / 2;
-                if (this._startFrom.X < this._sl)
+                _searchFor = BitmapHelper.CloneBitmap(searchFor);
+                _startFrom = startFrom;
+                _tolerance = tolerance * 0xfe01 / 100;
+                _searchStarted = true;
+                _maxCount = maxCount;
+                _searchFinished = false;
+                var rectangle = searchArea;
+                rectangle.Intersect(new Rectangle(0, 0, _searchOn.Width, _searchOn.Height));
+                rectangle.Width -= _searchFor.Width - 1;
+                rectangle.Height -= _searchFor.Height - 1;
+                _sl = rectangle.Left;
+                _st = rectangle.Top;
+                _sr = rectangle.Right;
+                _sb = rectangle.Bottom;
+                _startFrom.X -= _searchFor.Width / 2;
+                _startFrom.Y -= _searchFor.Height / 2;
+                if (_startFrom.X < _sl)
                 {
-                    this._startFrom.X = this._sl;
+                    _startFrom.X = _sl;
                 }
-                if (this._startFrom.Y < this._st)
+                if (_startFrom.Y < _st)
                 {
-                    this._startFrom.Y = this._st;
+                    _startFrom.Y = _st;
                 }
-                if (this._startFrom.X >= this._sr)
+                if (_startFrom.X >= _sr)
                 {
-                    this._startFrom.X = this._sr - 1;
+                    _startFrom.X = _sr - 1;
                 }
-                if (this._startFrom.Y >= this._sb)
+                if (_startFrom.Y >= _sb)
                 {
-                    this._startFrom.Y = this._sb - 1;
+                    _startFrom.Y = _sb - 1;
                 }
-                this._maxOffset = Math.Max(Math.Max((int)(this._startFrom.X - this._sl), (int)(this._sr - this._startFrom.X)), Math.Max((int)(this._startFrom.Y - this._st), (int)(this._sb - this._startFrom.Y)));
-                this._x = this._startFrom.X;
-                this._y = this._startFrom.Y;
-                this._offset = 0;
-                this._i = 1;
-                this._pos = 0;
-                this._result = new ArrayList(this._maxCount);
-            }
-
-            public Rectangle[] Result
-            {
-                get
-                {
-                    return (Rectangle[])this._result.ToArray(typeof(Rectangle));
-                }
-            }
-
-            public bool SearchFinished
-            {
-                get
-                {
-                    return this._searchFinished;
-                }
-            }
-
-            public bool SearchStarted
-            {
-                get
-                {
-                    return this._searchStarted;
-                }
+                _maxOffset = Math.Max(Math.Max(_startFrom.X - _sl, _sr - _startFrom.X),
+                    Math.Max(_startFrom.Y - _st, _sb - _startFrom.Y));
+                _x = _startFrom.X;
+                _y = _startFrom.Y;
+                _offset = 0;
+                _i = 1;
+                _pos = 0;
+                _result = new ArrayList(_maxCount);
             }
         }
     }

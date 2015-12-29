@@ -1,37 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Paway.Forms
+﻿namespace Paway.Forms
 {
     /// <summary>
-    /// Item 的类型
+    ///     Item 的类型
     /// </summary>
     public enum TItemType
     {
         /// <summary>
-        /// 当前应用程序
+        ///     当前应用程序
         /// </summary>
         Application,
+
         /// <summary>
-        /// 文件夹
+        ///     文件夹
         /// </summary>
         Directory,
+
         /// <summary>
-        /// 可执行文件
+        ///     可执行文件
         /// </summary>
         Exe,
+
         /// <summary>
-        /// 菜单
+        ///     菜单
         /// </summary>
         Menu,
+
         /// <summary>
-        /// 未知
+        ///     未知
         /// </summary>
         None,
+
         /// <summary>
-        /// 系统程序
+        ///     系统程序
         /// </summary>
-        System,
+        System
     }
 }

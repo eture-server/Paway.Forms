@@ -1,93 +1,103 @@
-﻿using System;
+﻿using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Drawing.Drawing2D;
-using System.ComponentModel;
 
 namespace Paway.Forms
 {
     internal class TabStripMenuGlyph
     {
-        #region 变量
-        private Rectangle _bounds = Rectangle.Empty;
-
-        private TMouseState _mouseState = TMouseState.Normal;
-
-        private ToolStripProfessionalRenderer _renderer;
-        #endregion
-
-        #region 构造函数
-        internal TabStripMenuGlyph() { }
-        internal TabStripMenuGlyph(ToolStripProfessionalRenderer renderer)
-        {
-            this._renderer = renderer;
-        }
-        internal TabStripMenuGlyph(Rectangle bounds, TMouseState mouseState)
-        {
-            this._bounds = bounds;
-            this._mouseState = mouseState;
-        }
-        #endregion
-
-        #region 属性
-        /// <summary>
-        /// 当前鼠标状态
-        /// </summary>
-        [DefaultValue(typeof(TMouseState), "Normal")]
-        public TMouseState MouseState
-        {
-            get { return this._mouseState; }
-            set { this._mouseState = value; }
-        }
-
-        /// <summary>
-        /// 菜单按钮的区域
-        /// </summary>
-        [DefaultValue(typeof(Rectangle), "Empty")]
-        public Rectangle Bounds
-        {
-            get { return this._bounds; }
-            set { this._bounds = value; }
-        }
-        #endregion
-
         #region 方法
+
         /// <summary>
-        /// 绘制菜单图型
+        ///     绘制菜单图型
         /// </summary>
         /// <param name="g"></param>
         public void DrawGlyph(Graphics g)
         {
-            if (this._mouseState == TMouseState.Move)
+            if (_mouseState == TMouseState.Move)
             {
-                Color fill = this._renderer.ColorTable.ButtonSelectedHighlight;
+                var fill = _renderer.ColorTable.ButtonSelectedHighlight;
                 using (Brush brush = new SolidBrush(fill))
                 {
-                    g.FillRectangle(brush, this._bounds);
+                    g.FillRectangle(brush, _bounds);
                 }
-                Rectangle borderRect = this._bounds;
+                var borderRect = _bounds;
                 borderRect.Width--;
                 borderRect.Height--;
 
                 g.DrawRectangle(SystemPens.Highlight, borderRect);
             }
-            SmoothingMode bak = g.SmoothingMode;
+            var bak = g.SmoothingMode;
 
-            using (Pen pen = new Pen(Color.Black))
+            using (var pen = new Pen(Color.Black))
             {
                 pen.Width = 2;
                 g.DrawLine(pen,
-                    new Point(this._bounds.Left + (this._bounds.Width / 3) - 2, this._bounds.Height / 2 - 1),
-                    new Point(this._bounds.Right - (this._bounds.Width / 3), this._bounds.Height / 2 - 1));
+                    new Point(_bounds.Left + _bounds.Width / 3 - 2, _bounds.Height / 2 - 1),
+                    new Point(_bounds.Right - _bounds.Width / 3, _bounds.Height / 2 - 1));
             }
-            g.FillPolygon(Brushes.Black, new Point[]
+            g.FillPolygon(Brushes.Black, new[]
             {
-                new Point(this._bounds.Left + (this._bounds.Width / 3) - 2, this._bounds.Height / 2+ 2),
-                new Point(this._bounds.Right - (this._bounds.Width / 3), this._bounds.Height / 2 + 2),
-                new Point(this._bounds.Left + this._bounds.Width / 2-1, this._bounds.Bottom -4)
+                new Point(_bounds.Left + _bounds.Width/3 - 2, _bounds.Height/2 + 2),
+                new Point(_bounds.Right - _bounds.Width/3, _bounds.Height/2 + 2),
+                new Point(_bounds.Left + _bounds.Width/2 - 1, _bounds.Bottom - 4)
             });
             g.SmoothingMode = bak;
         }
+
+        #endregion
+
+        #region 变量
+
+        private Rectangle _bounds = Rectangle.Empty;
+
+        private TMouseState _mouseState = TMouseState.Normal;
+
+        private readonly ToolStripProfessionalRenderer _renderer;
+
+        #endregion
+
+        #region 构造函数
+
+        internal TabStripMenuGlyph()
+        {
+        }
+
+        internal TabStripMenuGlyph(ToolStripProfessionalRenderer renderer)
+        {
+            _renderer = renderer;
+        }
+
+        internal TabStripMenuGlyph(Rectangle bounds, TMouseState mouseState)
+        {
+            _bounds = bounds;
+            _mouseState = mouseState;
+        }
+
+        #endregion
+
+        #region 属性
+
+        /// <summary>
+        ///     当前鼠标状态
+        /// </summary>
+        [DefaultValue(typeof(TMouseState), "Normal")]
+        public TMouseState MouseState
+        {
+            get { return _mouseState; }
+            set { _mouseState = value; }
+        }
+
+        /// <summary>
+        ///     菜单按钮的区域
+        /// </summary>
+        [DefaultValue(typeof(Rectangle), "Empty")]
+        public Rectangle Bounds
+        {
+            get { return _bounds; }
+            set { _bounds = value; }
+        }
+
         #endregion
     }
 }

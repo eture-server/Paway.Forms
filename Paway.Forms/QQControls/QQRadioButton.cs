@@ -1,54 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
-using Paway.Resource;
+using System.Windows.Forms;
 using Paway.Helper;
+using Paway.Resource;
 
 namespace Paway.Forms
 {
     /// <summary>
-    /// 
     /// </summary>
     [DefaultEvent("CheckedChanged")]
     [ToolboxBitmap(typeof(RadioButton))]
     public class QQRadioButton : RadioButton
     {
         #region 变量
+
         /// <summary>
-        /// 
         /// </summary>
         private TMouseState _mouseState = TMouseState.Normal;
 
         #endregion
 
         #region 构造函数
+
         /// <summary>
-        /// 
         /// </summary>
         public QQRadioButton()
         {
-            this.SetStyle(
+            SetStyle(
                 ControlStyles.UserPaint |
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.ResizeRedraw |
                 ControlStyles.Selectable |
                 ControlStyles.SupportsTransparentBackColor, true);
-            this.SetStyle(ControlStyles.Opaque, false);
-            this.UpdateStyles();
+            SetStyle(ControlStyles.Opaque, false);
+            UpdateStyles();
             TConfig.Init(this);
         }
 
         #endregion
 
         #region 属性
+
         /// <summary>
-        /// 重写CheckBox的Text属性
+        ///     重写CheckBox的Text属性
         /// </summary>
         [DefaultValue("QQCheckBox")]
         public override string Text
@@ -56,35 +54,38 @@ namespace Paway.Forms
             get { return base.Text; }
             set { base.Text = value; }
         }
+
         /// <summary>
-        /// 
         /// </summary>
         [Description("鼠标状态"), DefaultValue(typeof(TMouseState), "Normal")]
         internal TMouseState MouseState
         {
-            get { return this._mouseState; }
+            get { return _mouseState; }
             set
             {
-                this._mouseState = value;
-                base.Invalidate();
+                _mouseState = value;
+                Invalidate();
             }
         }
+
         /// <summary>
-        /// 文本区域
+        ///     文本区域
         /// </summary>
         internal Rectangle TextRect
         {
-            get { return new Rectangle(17, 0, this.Width - 17, this.Height); }
+            get { return new Rectangle(17, 0, Width - 17, Height); }
         }
+
         /// <summary>
-        /// 图片显示区域
+        ///     图片显示区域
         /// </summary>
         internal Rectangle ImageRect
         {
-            get { return new Rectangle(0, (this.Height - 17) / 2, 17, 17); }
+            get { return new Rectangle(0, (Height - 17) / 2, 17, 17); }
         }
+
         /// <summary>
-        /// 获取或设置控件的背景色
+        ///     获取或设置控件的背景色
         /// </summary>
         [Description("获取或设置控件的背景色"), DefaultValue(typeof(Color), "Transparent")]
         public override Color BackColor
@@ -99,8 +100,9 @@ namespace Paway.Forms
                 base.BackColor = value;
             }
         }
+
         /// <summary>
-        /// 获取或设置控件的前景色。
+        ///     获取或设置控件的前景色。
         /// </summary>
         [Description("获取或设置控件的前景色"), DefaultValue(typeof(Color), "Black")]
         public override Color ForeColor
@@ -119,38 +121,38 @@ namespace Paway.Forms
         #endregion
 
         #region Override 方法
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="pevent"></param>
         protected override void OnPaint(PaintEventArgs pevent)
         {
-            Graphics g = pevent.Graphics;
+            var g = pevent.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.TextRenderingHint = TextRenderingHint.AntiAlias;
 
-            Color foreColor = base.Enabled ? this.ForeColor : Color.Gray;
-            TextFormatFlags flags = TextFormatFlags.VerticalCenter |
-                                    TextFormatFlags.Left |
-                                    TextFormatFlags.SingleLine;
-            TextRenderer.DrawText(g, this.Text, this.Font, this.TextRect, foreColor, flags);
+            var foreColor = Enabled ? ForeColor : Color.Gray;
+            var flags = TextFormatFlags.VerticalCenter |
+                        TextFormatFlags.Left |
+                        TextFormatFlags.SingleLine;
+            TextRenderer.DrawText(g, Text, Font, TextRect, foreColor, flags);
 
-            switch (this.MouseState)
+            switch (MouseState)
             {
                 case TMouseState.Leave:
                 case TMouseState.Normal:
-                    if (base.Checked)
+                    if (Checked)
                     {
-                        using (Image normal = AssemblyHelper.GetImage("QQ.RadioButton.tick_normal.png"))
+                        using (var normal = AssemblyHelper.GetImage("QQ.RadioButton.tick_normal.png"))
                         {
-                            g.DrawImage(normal, this.ImageRect);
+                            g.DrawImage(normal, ImageRect);
                         }
                     }
                     else
                     {
-                        using (Image normal = AssemblyHelper.GetImage("QQ.RadioButton.normal.png"))
+                        using (var normal = AssemblyHelper.GetImage("QQ.RadioButton.normal.png"))
                         {
-                            g.DrawImage(normal, this.ImageRect);
+                            g.DrawImage(normal, ImageRect);
                         }
                     }
 
@@ -158,59 +160,60 @@ namespace Paway.Forms
                 case TMouseState.Move:
                 case TMouseState.Down:
                 case TMouseState.Up:
-                    if (base.Checked)
+                    if (Checked)
                     {
-                        using (Image high = AssemblyHelper.GetImage("QQ.RadioButton.tick_highlight.png"))
+                        using (var high = AssemblyHelper.GetImage("QQ.RadioButton.tick_highlight.png"))
                         {
-                            g.DrawImage(high, this.ImageRect);
+                            g.DrawImage(high, ImageRect);
                         }
                     }
                     else
                     {
-                        using (Image high = AssemblyHelper.GetImage("QQ.RadioButton.highlight.png"))
+                        using (var high = AssemblyHelper.GetImage("QQ.RadioButton.highlight.png"))
                         {
-                            g.DrawImage(high, this.ImageRect);
+                            g.DrawImage(high, ImageRect);
                         }
                     }
                     break;
             }
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="eventargs"></param>
         protected override void OnMouseEnter(EventArgs eventargs)
         {
             base.OnMouseEnter(eventargs);
-            this.MouseState = TMouseState.Move;
+            MouseState = TMouseState.Move;
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="eventargs"></param>
         protected override void OnMouseLeave(EventArgs eventargs)
         {
             base.OnMouseLeave(eventargs);
-            this.MouseState = TMouseState.Leave;
+            MouseState = TMouseState.Leave;
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="mevent"></param>
         protected override void OnMouseUp(MouseEventArgs mevent)
         {
             base.OnMouseUp(mevent);
-            this.MouseState = TMouseState.Up;
+            MouseState = TMouseState.Up;
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="mevent"></param>
         protected override void OnMouseDown(MouseEventArgs mevent)
         {
             base.OnMouseDown(mevent);
-            this.MouseState = TMouseState.Down;
+            MouseState = TMouseState.Down;
         }
+
         #endregion
     }
 }

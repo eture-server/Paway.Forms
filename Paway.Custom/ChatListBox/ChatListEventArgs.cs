@@ -1,25 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Paway.Custom
+﻿namespace Paway.Custom
 {
     //自定义事件参数类
     public class ChatListEventArgs
     {
-        private ChatListSubItem mouseOnSubItem;
-        public ChatListSubItem MouseOnSubItem {
-            get { return mouseOnSubItem; }
+        public ChatListEventArgs(ChatListSubItem mouseonsubitem, ChatListSubItem selectsubitem)
+        {
+            MouseOnSubItem = mouseonsubitem;
+            SelectSubItem = selectsubitem;
         }
 
-        private ChatListSubItem selectSubItem;
-        public ChatListSubItem SelectSubItem {
-            get { return selectSubItem; }
-        }
+        public ChatListSubItem MouseOnSubItem { get; private set; }
 
-        public ChatListEventArgs(ChatListSubItem mouseonsubitem, ChatListSubItem selectsubitem) {
-            this.mouseOnSubItem = mouseonsubitem;
-            this.selectSubItem = selectsubitem;
-        }
+        public ChatListSubItem SelectSubItem { get; private set; }
     }
 }

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using System.Drawing;
 using System.ComponentModel;
-using System.Runtime.InteropServices;
+using System.Drawing;
 using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 
 namespace Paway.Custom
 {
@@ -13,19 +10,83 @@ namespace Paway.Custom
     //[TypeConverter(typeof(ExpandableObjectConverter))]
     public class ChatListSubItem : IComparable
     {
-        private int id;
-        /// <summary>
-        /// 获取或者设置用户账号
-        /// </summary>
-        public int ID
+        //在线状态
+        public enum UserStatus
         {
-            get { return id; }
-            set { id = value; }
+            QMe,
+            Online,
+            Away,
+            Busy,
+            DontDisturb,
+            OffLine //貌似对于列表而言 没有隐身状态
         }
 
+        private string displayName;
+
+        private Image headImage;
+
+        private string ipAddress;
+
+        private bool isTwinkle;
+
         private string nicName;
+
+        private string personalMsg;
+
+        private UserStatus status;
+
+        public ChatListSubItem()
+        {
+            status = UserStatus.Online;
+            displayName = "displayName";
+            nicName = "nicName";
+            personalMsg = "Personal Message ...";
+        }
+
+        public ChatListSubItem(string nicname)
+        {
+            nicName = nicname;
+        }
+
+        public ChatListSubItem(string nicname, UserStatus status)
+        {
+            nicName = nicname;
+            this.status = status;
+        }
+
+        public ChatListSubItem(string nicname, string displayname, string personalmsg)
+        {
+            nicName = nicname;
+            displayName = displayname;
+            personalMsg = personalmsg;
+        }
+
+        public ChatListSubItem(string nicname, string displayname, string personalmsg, UserStatus status)
+        {
+            nicName = nicname;
+            displayName = displayname;
+            personalMsg = personalmsg;
+            this.status = status;
+        }
+
+        public ChatListSubItem(int id, string nicname, string displayname, string personalmsg, UserStatus status,
+            Bitmap head)
+        {
+            ID = id;
+            nicName = nicname;
+            displayName = displayname;
+            personalMsg = personalmsg;
+            this.status = status;
+            headImage = head;
+        }
+
         /// <summary>
-        /// 获取或者设置用户昵称
+        ///     获取或者设置用户账号
+        /// </summary>
+        public int ID { get; set; }
+
+        /// <summary>
+        ///     获取或者设置用户昵称
         /// </summary>
         public string NicName
         {
@@ -37,29 +98,34 @@ namespace Paway.Custom
             }
         }
 
-        private string displayName;
         /// <summary>
-        /// 获取或者设置用户备注名称
+        ///     获取或者设置用户备注名称
         /// </summary>
         public string DisplayName
         {
             get { return displayName; }
-            set { displayName = value; RedrawSubItem(); }
+            set
+            {
+                displayName = value;
+                RedrawSubItem();
+            }
         }
 
-        private string personalMsg;
         /// <summary>
-        /// 获取或者设置用户签名信息
+        ///     获取或者设置用户签名信息
         /// </summary>
         public string PersonalMsg
         {
             get { return personalMsg; }
-            set { personalMsg = value; RedrawSubItem(); }
+            set
+            {
+                personalMsg = value;
+                RedrawSubItem();
+            }
         }
 
-        private string ipAddress;
         /// <summary>
-        /// 获取或者设置用户IP地址
+        ///     获取或者设置用户IP地址
         /// </summary>
         public string IpAddress
         {
@@ -72,29 +138,18 @@ namespace Paway.Custom
             }
         }
 
-        private int updPort;
         /// <summary>
-        /// 获取或者设置用户Upd端口
+        ///     获取或者设置用户Upd端口
         /// </summary>
-        public int UpdPort
-        {
-            get { return updPort; }
-            set { updPort = value; }
-        }
+        public int UpdPort { get; set; }
 
-        private int tcpPort;
         /// <summary>
-        /// 获取或者设置用户Tcp端口
+        ///     获取或者设置用户Tcp端口
         /// </summary>
-        public int TcpPort
-        {
-            get { return tcpPort; }
-            set { tcpPort = value; }
-        }
+        public int TcpPort { get; set; }
 
-        private Image headImage;
         /// <summary>
-        /// 获取或者设置用户头像
+        ///     获取或者设置用户头像
         /// </summary>
         public Image HeadImage
         {
@@ -106,9 +161,8 @@ namespace Paway.Custom
             }
         }
 
-        private UserStatus status;
         /// <summary>
-        /// 获取或者设置用户当前状态
+        ///     获取或者设置用户当前状态
         /// </summary>
         public UserStatus Status
         {
@@ -117,14 +171,13 @@ namespace Paway.Custom
             {
                 if (status == value) return;
                 status = value;
-                if (this.ownerListItem != null)
-                    this.ownerListItem.SubItems.Sort();
+                if (OwnerListItem != null)
+                    OwnerListItem.SubItems.Sort();
             }
         }
 
-        private bool isTwinkle;
         /// <summary>
-        /// 获取或者设置是否闪动
+        ///     获取或者设置是否闪动
         /// </summary>
         public bool IsTwinkle
         {
@@ -132,72 +185,65 @@ namespace Paway.Custom
             set
             {
                 if (isTwinkle == value) return;
-                if (this.ownerListItem == null) return;
+                if (OwnerListItem == null) return;
                 isTwinkle = value;
                 if (isTwinkle)
-                    this.ownerListItem.TwinkleSubItemNumber++;
+                    OwnerListItem.TwinkleSubItemNumber++;
                 else
-                    this.ownerListItem.TwinkleSubItemNumber--;
+                    OwnerListItem.TwinkleSubItemNumber--;
             }
         }
 
-        private bool isTwinkleHide;
-        internal bool IsTwinkleHide
-        {
-            get { return isTwinkleHide; }
-            set { isTwinkleHide = value; }
-        }
+        internal bool IsTwinkleHide { get; set; }
 
-        private Rectangle bounds;
         /// <summary>
-        /// 获取列表子项显示区域
+        ///     获取列表子项显示区域
         /// </summary>
         [Browsable(false)]
-        public Rectangle Bounds
-        {
-            get { return bounds; }
-            internal set { bounds = value; }
-        }
+        public Rectangle Bounds { get; internal set; }
 
-        private Rectangle headRect;
         /// <summary>
-        /// 获取头像显示区域
+        ///     获取头像显示区域
         /// </summary>
         [Browsable(false)]
-        public Rectangle HeadRect
-        {
-            get { return headRect; }
-            internal set { headRect = value; }
-        }
+        public Rectangle HeadRect { get; internal set; }
 
-        private ChatListItem ownerListItem;
         /// <summary>
-        /// 获取当前列表子项所在的列表项
+        ///     获取当前列表子项所在的列表项
         /// </summary>
         [Browsable(false)]
-        public ChatListItem OwnerListItem
+        public ChatListItem OwnerListItem { get; internal set; }
+
+        //实现排序接口
+        int IComparable.CompareTo(object obj)
         {
-            get { return ownerListItem; }
-            internal set { ownerListItem = value; }
+            if (!(obj is ChatListSubItem))
+                throw new NotImplementedException("obj is not ChatListSubItem");
+            var subItem = obj as ChatListSubItem;
+            var name = displayName.CompareTo(subItem.displayName);
+            var statu = status.CompareTo(subItem.status);
+            return statu > 0 ? statu : name;
         }
 
         private void RedrawSubItem()
         {
-            if (this.ownerListItem != null)
-                if (this.ownerListItem.OwnerChatListBox != null)
-                    this.ownerListItem.OwnerChatListBox.Invalidate(this.bounds);
+            if (OwnerListItem != null)
+                if (OwnerListItem.OwnerChatListBox != null)
+                    OwnerListItem.OwnerChatListBox.Invalidate(Bounds);
         }
+
         /// <summary>
-        /// 获取当前用户的黑白头像
+        ///     获取当前用户的黑白头像
         /// </summary>
         /// <returns>黑白头像</returns>
         public Bitmap GetDarkImage()
         {
-            Bitmap b = new Bitmap(headImage);
-            Bitmap bmp = b.Clone(new Rectangle(0, 0, headImage.Width, headImage.Height), PixelFormat.Format24bppRgb);
+            var b = new Bitmap(headImage);
+            var bmp = b.Clone(new Rectangle(0, 0, headImage.Width, headImage.Height), PixelFormat.Format24bppRgb);
             b.Dispose();
-            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
-            byte[] byColorInfo = new byte[bmp.Height * bmpData.Stride];
+            var bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite,
+                bmp.PixelFormat);
+            var byColorInfo = new byte[bmp.Height * bmpData.Stride];
             Marshal.Copy(bmpData.Scan0, byColorInfo, 0, byColorInfo.Length);
             for (int x = 0, xLen = bmp.Width; x < xLen; x++)
             {
@@ -205,11 +251,11 @@ namespace Paway.Custom
                 {
                     byColorInfo[y * bmpData.Stride + x * 3] =
                         byColorInfo[y * bmpData.Stride + x * 3 + 1] =
-                        byColorInfo[y * bmpData.Stride + x * 3 + 2] =
-                        GetAvg(
-                        byColorInfo[y * bmpData.Stride + x * 3],
-                        byColorInfo[y * bmpData.Stride + x * 3 + 1],
-                        byColorInfo[y * bmpData.Stride + x * 3 + 2]);
+                            byColorInfo[y * bmpData.Stride + x * 3 + 2] =
+                                GetAvg(
+                                    byColorInfo[y * bmpData.Stride + x * 3],
+                                    byColorInfo[y * bmpData.Stride + x * 3 + 1],
+                                    byColorInfo[y * bmpData.Stride + x * 3 + 2]);
                 }
             }
             Marshal.Copy(byColorInfo, 0, bmpData.Scan0, byColorInfo.Length);
@@ -224,10 +270,10 @@ namespace Paway.Custom
 
         private bool CheckIpAddress(string str)
         {
-            string[] strIp = str.Split('.');
+            var strIp = str.Split('.');
             if (strIp.Length != 4)
                 return false;
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
                 try
                 {
@@ -240,60 +286,6 @@ namespace Paway.Custom
                 }
             }
             return true;
-        }
-        //实现排序接口
-        int IComparable.CompareTo(object obj)
-        {
-            if (!(obj is ChatListSubItem))
-                throw new NotImplementedException("obj is not ChatListSubItem");
-            ChatListSubItem subItem = obj as ChatListSubItem;
-            int name = (this.displayName).CompareTo(subItem.displayName);
-            int statu = (this.status).CompareTo(subItem.status);
-            return statu > 0 ? statu : name;
-        }
-
-        public ChatListSubItem()
-        {
-            this.status = UserStatus.Online;
-            this.displayName = "displayName";
-            this.nicName = "nicName";
-            this.personalMsg = "Personal Message ...";
-        }
-        public ChatListSubItem(string nicname)
-        {
-            this.nicName = nicname;
-        }
-        public ChatListSubItem(string nicname, UserStatus status)
-        {
-            this.nicName = nicname;
-            this.status = status;
-        }
-        public ChatListSubItem(string nicname, string displayname, string personalmsg)
-        {
-            this.nicName = nicname;
-            this.displayName = displayname;
-            this.personalMsg = personalmsg;
-        }
-        public ChatListSubItem(string nicname, string displayname, string personalmsg, UserStatus status)
-        {
-            this.nicName = nicname;
-            this.displayName = displayname;
-            this.personalMsg = personalmsg;
-            this.status = status;
-        }
-        public ChatListSubItem(int id, string nicname, string displayname, string personalmsg, UserStatus status, Bitmap head)
-        {
-            this.id = id;
-            this.nicName = nicname;
-            this.displayName = displayname;
-            this.personalMsg = personalmsg;
-            this.status = status;
-            this.headImage = head;
-        }
-        //在线状态
-        public enum UserStatus
-        {
-            QMe, Online, Away, Busy, DontDisturb, OffLine   //貌似对于列表而言 没有隐身状态
         }
     }
 }

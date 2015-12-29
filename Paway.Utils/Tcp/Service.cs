@@ -1,76 +1,113 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
+using System.Reflection;
 using System.Threading;
+using log4net;
 
 namespace Paway.Utils.Tcp
 {
     /// <summary>
-    /// 封装Socket通讯服务端
+    ///     封装Socket通讯服务端
     /// </summary>
     public class Service
     {
         /// <summary>
-        /// 错误日志
+        ///     错误日志
         /// </summary>
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
-        /// 心跳检测时长，默认3
+        ///     允许线程通过发信号互相通信。通常，此通信涉及一个线程在其他线程进行之前必须完成的任务。
         /// </summary>
-        private int heartTime = 3;
+        private readonly ManualResetEvent allDone = new ManualResetEvent(false);
+
         /// <summary>
-        ///服务端监听Socket
+        ///     线程标记
+        /// </summary>
+        private volatile bool ForceStop;
+
+        /// <summary>
+        ///     心跳检测时长，默认3
+        /// </summary>
+        private readonly int heartTime = 3;
+
+        /// <summary>
+        ///     服务端监听Socket
         /// </summary>
         private Socket socketListener;
+
         /// <summary>
-        /// 允许线程通过发信号互相通信。通常，此通信涉及一个线程在其他线程进行之前必须完成的任务。
-        /// </summary>
-        private ManualResetEvent allDone = new ManualResetEvent(false);
-        /// <summary>
-        /// 线程标记
-        /// </summary>
-        private volatile bool ForceStop = false;
-        /// <summary>
-        /// 服务端事件
-        /// </summary>
-        public event EventHandler<ServiceEventArgs> SystemEvent;
-        /// <summary>
-        /// 监听端口
+        ///     监听端口
         /// </summary>
         public IPEndPoint IpPort { get; private set; }
+
         /// <summary>
-        /// 开始监听
+        ///     服务端事件
+        /// </summary>
+        public event EventHandler<ServiceEventArgs> SystemEvent;
+
+        /// <summary>
+        ///     开始监听
         /// </summary>
         /// <param name="host"></param>
         /// <param name="port"></param>
         public void Listener(string host, int port)
         {
-            this.IpPort = new IPEndPoint(IPAddress.Parse(host), port);
+            IpPort = new IPEndPoint(IPAddress.Parse(host), port);
             socketListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             //绑定本端IP地址
             socketListener.Bind(IpPort);
             //启动监听
             socketListener.Listen(10);
             //启动监听服务
-            ThreadPool.QueueUserWorkItem(new WaitCallback(SocketServerListener));
+            ThreadPool.QueueUserWorkItem(SocketServerListener);
             //启动心跳服务
-            ThreadPool.QueueUserWorkItem(new WaitCallback(HeartListener));
+            ThreadPool.QueueUserWorkItem(HeartListener);
         }
+
         /// <summary>
-        /// 停止监听
+        ///     停止监听
         /// </summary>
         public void Stop()
         {
             ForceStop = true;
         }
 
-        #region Method
         /// <summary>
-        /// 心跳监听服务
+        ///     发送到所有连接对象
+        /// </summary>
+        public void InsertSendData(object msg)
+        {
+            InsertSendData(msg, true);
+        }
+
+        /// <summary>
+        ///     发送到所有连接对象
+        /// </summary>
+        /// <param name="msg">消息体</param>
+        /// <param name="ithrow">失败时中止标记</param>
+        public void InsertSendData(object msg, bool ithrow)
+        {
+            foreach (var socket in SocketConfig.ClientList)
+            {
+                try
+                {
+                    socket.InsertSendData(msg, ithrow);
+                }
+                catch (Exception ex)
+                {
+                    if (ithrow)
+                        throw new Exception(string.Empty, ex);
+                }
+            }
+        }
+
+        #region Method
+
+        /// <summary>
+        ///     心跳监听服务
         /// </summary>
         private void HeartListener(object state)
         {
@@ -93,8 +130,9 @@ namespace Paway.Utils.Tcp
                 SocketConfig.ThreadList.TryRemove(Thread.CurrentThread.ManagedThreadId, out name);
             }
         }
+
         /// <summary>
-        /// 监听服务
+        ///     监听服务
         /// </summary>
         private void SocketServerListener(object state)
         {
@@ -104,7 +142,7 @@ namespace Paway.Utils.Tcp
                 while (!ForceStop)
                 {
                     allDone.Reset();
-                    socketListener.BeginAccept(new AsyncCallback(OnClientConnect), null);
+                    socketListener.BeginAccept(OnClientConnect, null);
                     allDone.WaitOne();
                 }
             }
@@ -118,8 +156,9 @@ namespace Paway.Utils.Tcp
                 SocketConfig.ThreadList.TryRemove(Thread.CurrentThread.ManagedThreadId, out name);
             }
         }
+
         /// <summary>
-        /// 接受客户端连接
+        ///     接受客户端连接
         /// </summary>
         private void OnClientConnect(IAsyncResult asyn)
         {
@@ -130,13 +169,14 @@ namespace Paway.Utils.Tcp
                     OnSystemEvent(ServiceType.Limit, string.Format("超出连接限制：{0}，拒绝连接。", SocketConfig.Limit));
                     return;
                 }
-                if (SocketConfig.ClientList.ToList().FindAll(c => c.ConnectTime > DateTime.Now.AddMinutes(-10)).Count > SocketConfig.Current - 1)
+                if (SocketConfig.ClientList.ToList().FindAll(c => c.ConnectTime > DateTime.Now.AddMinutes(-10)).Count >
+                    SocketConfig.Current - 1)
                 {
                     OnSystemEvent(ServiceType.Current, string.Format("限定时间内连接数超出限制：{0}，拒绝连接。", SocketConfig.Current));
                     return;
                 }
-                Socket socket = socketListener.EndAccept(asyn);
-                SocketPackage client = new SocketPackage(this, socket);
+                var socket = socketListener.EndAccept(asyn);
+                var client = new SocketPackage(this, socket);
                 OnClientConnect(client);
                 SocketConfig.ClientList.Add(client);
                 client.ClientEvent += client_ClientEvent;
@@ -144,7 +184,7 @@ namespace Paway.Utils.Tcp
                 ClientFinished(client.IPPoint);
 
                 //等待客户端发送来的数据
-                AsynSocketArg state = new AsynSocketArg();
+                var state = new AsynSocketArg();
                 state.InitializeState(socket);
                 client.WaitForData(state);
             }
@@ -157,24 +197,27 @@ namespace Paway.Utils.Tcp
                 allDone.Set();
             }
         }
+
         /// <summary>
-        /// 系统事件
+        ///     系统事件
         /// </summary>
         private void OnSystemEvent(string message)
         {
             OnSystemEvent(ServiceType.Error, message);
         }
+
         /// <summary>
-        /// 系统事件
+        ///     系统事件
         /// </summary>
         private void OnSystemEvent(ServiceType type, string message)
         {
-            ServiceEventArgs msg = new ServiceEventArgs(type);
+            var msg = new ServiceEventArgs(type);
             msg.Message = message;
             OnSystemEvent(msg);
         }
+
         /// <summary>
-        /// 系统事件
+        ///     系统事件
         /// </summary>
         private void OnSystemEvent(ServiceEventArgs msg)
         {
@@ -190,61 +233,39 @@ namespace Paway.Utils.Tcp
                     SystemEvent(this, msg);
                 }
             }
-            catch { }
+            catch
+            {
+            }
         }
+
         /// <summary>
-        /// 抛出连接完成事件
+        ///     抛出连接完成事件
         /// </summary>
         protected virtual void ClientFinished(IPEndPoint point)
         {
-            ServiceEventArgs msg = new ServiceEventArgs(ServiceType.Connect);
+            var msg = new ServiceEventArgs(ServiceType.Connect);
             msg.Ip = point.Address.ToString();
             msg.Port = point.Port;
             OnSystemEvent(msg);
         }
-        /// <summary>
-        /// 抛出单个连接对象，用于消息发送
-        /// </summary>
-        protected virtual void OnClientConnect(SocketPackage client) { }
 
         /// <summary>
-        /// 客户端事件与断开连接事件
+        ///     抛出单个连接对象，用于消息发送
+        /// </summary>
+        protected virtual void OnClientConnect(SocketPackage client)
+        {
+        }
+
+        /// <summary>
+        ///     客户端事件与断开连接事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void client_ClientEvent(object sender, ServiceEventArgs e)
+        private void client_ClientEvent(object sender, ServiceEventArgs e)
         {
             OnSystemEvent(e);
         }
 
         #endregion
-
-        /// <summary>
-        /// 发送到所有连接对象
-        /// </summary>
-        public void InsertSendData(object msg)
-        {
-            InsertSendData(msg, true);
-        }
-        /// <summary>
-        ///发送到所有连接对象
-        /// </summary>
-        /// <param name="msg">消息体</param>
-        /// <param name="ithrow">失败时中止标记</param>
-        public void InsertSendData(object msg, bool ithrow)
-        {
-            foreach (SocketBase socket in SocketConfig.ClientList)
-            {
-                try
-                {
-                    socket.InsertSendData(msg, ithrow);
-                }
-                catch (Exception ex)
-                {
-                    if (ithrow)
-                        throw new Exception(string.Empty, ex);
-                }
-            }
-        }
     }
 }

@@ -1,77 +1,97 @@
-﻿using iTextSharp.text;
-using iTextSharp.text.pdf;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data;
 using System.IO;
-using System.Linq;
-using System.Text;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 namespace Paway.Utils.Pdf
 {
     /// <summary>
-    /// PDF打印功能实现类
+    ///     PDF打印功能实现类
     /// </summary>
     public class PdfPrinter : PdfPageEventHelper, IPdfPageEvent
     {
         /// <summary>
-        /// 默认字体：兼容亚洲文字
-        /// </summary> 
-        public Font DefaultFont { get; set; }
-        /// <summary>
-        /// PDF文件导出路径
-        /// </summary>
-        private string PrintPath { get; set; }
-        /// <summary>
-        /// 默认纸张大小
-        /// </summary>
-        public Rectangle DefaultPageSize { get; set; }
-        /// <summary>
-        /// 页眉内容集合
-        /// </summary>
-        public PdfHeaderContent HeaderContent { get; set; }
-        /// <summary>
-        /// 内部空白边
-        /// </summary>
-        public Rectangle Rectangle { get; set; }
-        /// <summary>
-        /// 全局PDF文档对象
-        /// </summary>
-        public Document Doc { get; set; }
-
-        /// <summary>
-        /// 构造函数
+        ///     构造函数
         /// </summary>
         /// <param name="printPath">指定PDF文件导出路径</param>
         public PdfPrinter(string printPath)
         {
-            string rootPath = Environment.GetEnvironmentVariable("SystemRoot");
+            var rootPath = Environment.GetEnvironmentVariable("SystemRoot");
             rootPath = Path.Combine(rootPath, "Fonts", "simsun.ttc,1");
-            BaseFont bfChinese = BaseFont.CreateFont(rootPath, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
-            DefaultFont = new Font(bfChinese, 12, iTextSharp.text.Font.NORMAL, new BaseColor(0, 0, 0));
+            var bfChinese = BaseFont.CreateFont(rootPath, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+            DefaultFont = new Font(bfChinese, 12, Font.NORMAL, new BaseColor(0, 0, 0));
             PrintPath = printPath;
             DefaultPageSize = PageSize.A4;
             HeaderContent = new PdfHeaderContent();
         }
+
         /// <summary>
-        /// 构造函数
+        ///     构造函数
         /// </summary>
         /// <param name="printPath">指定PDF文件导出路径</param>
         /// <param name="paperSize">纸张大小</param>
         /// <param name="headerContent">PDF文件页眉内容</param>
         public PdfPrinter(string printPath, Rectangle paperSize, PdfHeaderContent headerContent)
         {
-            string rootPath = Environment.GetEnvironmentVariable("SystemRoot");
+            var rootPath = Environment.GetEnvironmentVariable("SystemRoot");
             rootPath = Path.Combine(rootPath, "Fonts", "simsun.ttc,1");
-            BaseFont bfChinese = BaseFont.CreateFont(rootPath, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
-            DefaultFont = new Font(bfChinese, 12, iTextSharp.text.Font.NORMAL, new BaseColor(0, 0, 0));
+            var bfChinese = BaseFont.CreateFont(rootPath, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+            DefaultFont = new Font(bfChinese, 12, Font.NORMAL, new BaseColor(0, 0, 0));
             PrintPath = printPath;
             DefaultPageSize = paperSize;
             HeaderContent = headerContent;
         }
 
         /// <summary>
-        /// 初始化文档
+        ///     默认字体：兼容亚洲文字
+        /// </summary>
+        public Font DefaultFont { get; set; }
+
+        /// <summary>
+        ///     PDF文件导出路径
+        /// </summary>
+        private string PrintPath { get; set; }
+
+        /// <summary>
+        ///     默认纸张大小
+        /// </summary>
+        public Rectangle DefaultPageSize { get; set; }
+
+        /// <summary>
+        ///     页眉内容集合
+        /// </summary>
+        public PdfHeaderContent HeaderContent { get; set; }
+
+        /// <summary>
+        ///     内部空白边
+        /// </summary>
+        public Rectangle Rectangle { get; set; }
+
+        /// <summary>
+        ///     全局PDF文档对象
+        /// </summary>
+        public Document Doc { get; set; }
+
+        /// <summary>
+        ///     绘制页眉图片
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="document"></param>
+        public override void OnStartPage(PdfWriter writer, Document document)
+        {
+            var cb = writer.DirectContent;
+            if (HeaderContent.Image != null)
+            {
+                var img = Image.GetInstance(HeaderContent.Image, BaseColor.WHITE);
+                img.SetAbsolutePosition(0, document.Top + 10);
+                writer.DirectContent.AddImage(img);
+            }
+            base.OnStartPage(writer, document);
+        }
+
+        /// <summary>
+        ///     初始化文档
         /// </summary>
         public void Init()
         {
@@ -82,10 +102,9 @@ namespace Paway.Utils.Pdf
                 {
                     Doc.SetMargins(Doc.LeftMargin, Doc.RightMargin, HeaderContent.Image.Height + 10, Doc.BottomMargin);
                 }
-                FileStream fs = new FileStream(PrintPath, FileMode.Create);
-                PdfWriter writer = PdfWriter.GetInstance(Doc, fs);
-                writer.PageEvent = new PdfPrinter(this.PrintPath, this.DefaultPageSize, this.HeaderContent);
-
+                var fs = new FileStream(PrintPath, FileMode.Create);
+                var writer = PdfWriter.GetInstance(Doc, fs);
+                writer.PageEvent = new PdfPrinter(PrintPath, DefaultPageSize, HeaderContent);
             }
             if (!Doc.IsOpen())
             {
@@ -95,7 +114,7 @@ namespace Paway.Utils.Pdf
         }
 
         /// <summary>
-        /// 保存并释放文档
+        ///     保存并释放文档
         /// </summary>
         public void Close()
         {
@@ -103,33 +122,17 @@ namespace Paway.Utils.Pdf
         }
 
         /// <summary>
-        /// 绘制页眉图片
-        /// </summary>
-        /// <param name="writer"></param>
-        /// <param name="document"></param>
-        public override void OnStartPage(PdfWriter writer, Document document)
-        {
-            PdfContentByte cb = writer.DirectContent;
-            if (HeaderContent.Image != null)
-            {
-                Image img = Image.GetInstance(HeaderContent.Image, BaseColor.WHITE);
-                img.SetAbsolutePosition(0, document.Top + 10);
-                writer.DirectContent.AddImage(img);
-            }
-            base.OnStartPage(writer, document);
-        }
-        /// <summary>
-        /// 绘制页眉
+        ///     绘制页眉
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="document"></param>
         public void OnStartPage2(PdfWriter writer, Document document)
         {
-            float strWidth = 0f;
-            float fontSize = 0f;
-            float padTop = 40f;
+            var strWidth = 0f;
+            var fontSize = 0f;
+            var padTop = 40f;
 
-            PdfContentByte cb = writer.DirectContent;
+            var cb = writer.DirectContent;
             cb.BeginText();
             //标题
             if (!string.IsNullOrEmpty(HeaderContent.Title))
@@ -142,7 +145,7 @@ namespace Paway.Utils.Pdf
                 cb.ShowText(HeaderContent.Title);
             }
             //时间、页码
-            string str = DateTime.Now.ToString("yyyy年MM月dd日 HH:mm") + " 第" + writer.PageNumber + "頁";
+            var str = DateTime.Now.ToString("yyyy年MM月dd日 HH:mm") + " 第" + writer.PageNumber + "頁";
             fontSize = 10f;
             strWidth = str.Length * fontSize;
             cb.SetFontAndSize(DefaultFont.BaseFont, fontSize);
@@ -153,22 +156,23 @@ namespace Paway.Utils.Pdf
             padTop = 55f;
             if (HeaderContent.NamesA != null && HeaderContent.NamesA.Count > 0)
             {
-                List<float> positions = HeaderContent.PositionsA;
-                bool isPosEmpty = (positions == null || positions.Count != HeaderContent.NamesA.Count);//坐标为空或与表头数量不一致时默认位置
+                var positions = HeaderContent.PositionsA;
+                var isPosEmpty = positions == null || positions.Count != HeaderContent.NamesA.Count;
+                //坐标为空或与表头数量不一致时默认位置
 
                 fontSize = 12f;
                 cb.SetFontAndSize(DefaultFont.BaseFont, fontSize);
                 cb.SetCharacterSpacing(0);
-                float left = document.LeftMargin;//默认起始位置
-                for (int i = 0; i < HeaderContent.NamesA.Count; i++)
+                var left = document.LeftMargin; //默认起始位置
+                for (var i = 0; i < HeaderContent.NamesA.Count; i++)
                 {
-                    if (!isPosEmpty)//如果指定了详细位置则按照指定位置绘制否则自动计算
+                    if (!isPosEmpty) //如果指定了详细位置则按照指定位置绘制否则自动计算
                         left = HeaderContent.PositionsA[i];
                     cb.SetTextMatrix(left, document.PageSize.Height - padTop);
                     str = HeaderContent.NamesA[i];
                     cb.ShowText(str);
                     //left += str.Length * fontSize + 20f;
-                    float step = (document.PageSize.Width - document.LeftMargin * 2) / HeaderContent.NamesA.Count;
+                    var step = (document.PageSize.Width - document.LeftMargin * 2) / HeaderContent.NamesA.Count;
                     left += step;
                 }
             }
@@ -176,22 +180,23 @@ namespace Paway.Utils.Pdf
             padTop = 68f;
             if (HeaderContent.NamesB != null && HeaderContent.NamesB.Count > 0)
             {
-                List<float> positions = HeaderContent.PositionsB;
-                bool isPosEmpty = (positions == null || positions.Count != HeaderContent.NamesB.Count);//坐标为空或与表头数量不一致时默认位置
+                var positions = HeaderContent.PositionsB;
+                var isPosEmpty = positions == null || positions.Count != HeaderContent.NamesB.Count;
+                //坐标为空或与表头数量不一致时默认位置
 
                 fontSize = 12f;
                 cb.SetFontAndSize(DefaultFont.BaseFont, fontSize);
                 cb.SetCharacterSpacing(0);
-                float left = document.LeftMargin;//默认起始位置
-                for (int i = 0; i < HeaderContent.NamesB.Count; i++)
+                var left = document.LeftMargin; //默认起始位置
+                for (var i = 0; i < HeaderContent.NamesB.Count; i++)
                 {
-                    if (!isPosEmpty)//如果指定了详细位置则按照指定位置绘制否则自动计算
+                    if (!isPosEmpty) //如果指定了详细位置则按照指定位置绘制否则自动计算
                         left = HeaderContent.PositionsB[i];
                     cb.SetTextMatrix(left, document.PageSize.Height - padTop);
                     str = HeaderContent.NamesB[i];
                     cb.ShowText(str);
                     //left += str.Length * fontSize + 20f;
-                    float step = (document.PageSize.Width - document.LeftMargin * 2) / HeaderContent.NamesA.Count;
+                    var step = (document.PageSize.Width - document.LeftMargin * 2) / HeaderContent.NamesA.Count;
                     left += step;
                 }
             }
@@ -199,22 +204,23 @@ namespace Paway.Utils.Pdf
             padTop = 80f;
             if (HeaderContent.NamesC != null && HeaderContent.NamesC.Count > 0)
             {
-                List<float> positions = HeaderContent.PositionsC;
-                bool isPosEmpty = (positions == null || positions.Count != HeaderContent.NamesC.Count);//坐标为空或与表头数量不一致时默认位置
+                var positions = HeaderContent.PositionsC;
+                var isPosEmpty = positions == null || positions.Count != HeaderContent.NamesC.Count;
+                //坐标为空或与表头数量不一致时默认位置
 
                 fontSize = 12f;
                 cb.SetFontAndSize(DefaultFont.BaseFont, fontSize);
                 cb.SetCharacterSpacing(0);
-                float left = document.LeftMargin;//默认起始位置
-                for (int i = 0; i < HeaderContent.NamesC.Count; i++)
+                var left = document.LeftMargin; //默认起始位置
+                for (var i = 0; i < HeaderContent.NamesC.Count; i++)
                 {
-                    if (!isPosEmpty)//如果指定了详细位置则按照指定位置绘制否则自动计算
+                    if (!isPosEmpty) //如果指定了详细位置则按照指定位置绘制否则自动计算
                         left = HeaderContent.PositionsC[i];
                     cb.SetTextMatrix(left, document.PageSize.Height - padTop);
                     str = HeaderContent.NamesC[i];
                     cb.ShowText(str);
                     //left += str.Length * fontSize + 20f;
-                    float step = (document.PageSize.Width - document.LeftMargin * 2) / HeaderContent.NamesA.Count;
+                    var step = (document.PageSize.Width - document.LeftMargin * 2) / HeaderContent.NamesA.Count;
                     left += step;
                 }
             }
@@ -231,19 +237,19 @@ namespace Paway.Utils.Pdf
         }
 
         /// <summary>
-        /// 打印一段文字
+        ///     打印一段文字
         /// </summary>
         /// <param name="text">文字内容</param>
         /// <param name="align">文字对齐 0左、1中、2右</param>
         public void PrintString(string text, int align)
         {
-            Paragraph ps = new Paragraph(text, DefaultFont);
+            var ps = new Paragraph(text, DefaultFont);
             ps.Alignment = align;
             Doc.Add(ps);
         }
 
         /// <summary>
-        /// 打印一行表格数据
+        ///     打印一行表格数据
         /// </summary>
         /// <param name="pCells">数据行包含的单元格集合</param>
         /// <param name="cWidth">数据行包含的单元格各自的宽度集合</param>
@@ -251,10 +257,10 @@ namespace Paway.Utils.Pdf
         {
             if (pCells == null || pCells.Length <= 0)
                 throw new ArgumentNullException("can not found any cell.");
-            PdfPTable pt = new PdfPTable(pCells.Length);
+            var pt = new PdfPTable(pCells.Length);
             pt.WidthPercentage = 100f;
             pt.SkipFirstHeader = false;
-            PdfPRow pRow = new PdfPRow(pCells);
+            var pRow = new PdfPRow(pCells);
             pt.Rows.Add(pRow);
             if (cWidth != null && cWidth.Length == pCells.Length)
                 pt.SetWidths(cWidth);
@@ -262,7 +268,7 @@ namespace Paway.Utils.Pdf
         }
 
         /// <summary>
-        /// 打印一个表格数据
+        ///     打印一个表格数据
         /// </summary>
         /// <param name="table">表格</param>
         /// <param name="cWidth">宽度</param>
@@ -271,16 +277,16 @@ namespace Paway.Utils.Pdf
         {
             if (table == null || table.Columns == null || table.Columns.Count <= 0)
                 throw new ArgumentNullException("can not found any column from table.");
-            PdfPTable pt = new PdfPTable(table.Columns.Count);
+            var pt = new PdfPTable(table.Columns.Count);
             pt.WidthPercentage = 100f;
             pt.SkipFirstHeader = false;
-            PdfPCell[] pCells = new PdfPCell[table.Columns.Count];
+            var pCells = new PdfPCell[table.Columns.Count];
             PdfPRow pRow = null;
             //内容
             foreach (DataRow row in table.Rows)
             {
                 pCells = new PdfPCell[table.Columns.Count];
-                for (int i = 0; i < table.Columns.Count; i++)
+                for (var i = 0; i < table.Columns.Count; i++)
                 {
                     pCells[i] = new PdfPCell(new Phrase(row[i].ToString(), DefaultFont));
                     if (cAlign != null && cAlign.Length == table.Columns.Count)
@@ -299,7 +305,7 @@ namespace Paway.Utils.Pdf
         }
 
         /// <summary>
-        /// 换一页
+        ///     换一页
         /// </summary>
         public void NewPage()
         {

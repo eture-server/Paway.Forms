@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Paway.Utils.Tcp
 {
@@ -12,7 +9,8 @@ namespace Paway.Utils.Tcp
     public static class ConnListener
     {
         /// <summary>
-        /// Using IOControl code to configue socket KeepAliveValues for line disconnection detection(because default is toooo slow) 
+        ///     Using IOControl code to configue socket KeepAliveValues for line disconnection detection(because default is toooo
+        ///     slow)
         /// </summary>
         /// <param name="socket">TcpClient</param>
         /// <param name="keepAliveTime">The keep alive time. (ms)</param>
@@ -23,8 +21,8 @@ namespace Paway.Utils.Tcp
             //KeepAliveInterval: default value is 1s and Detect 5 times
 
             uint dummy = 0; //lenth = 4
-            byte[] inOptionValues = new byte[System.Runtime.InteropServices.Marshal.SizeOf(dummy) * 3]; //size = lenth * 3 = 12
-            bool OnOff = true;
+            var inOptionValues = new byte[Marshal.SizeOf(dummy) * 3]; //size = lenth * 3 = 12
+            var OnOff = true;
 
             BitConverter.GetBytes((uint)(OnOff ? 1 : 0)).CopyTo(inOptionValues, 0);
             BitConverter.GetBytes((uint)keepAliveTime).CopyTo(inOptionValues, Marshal.SizeOf(dummy));

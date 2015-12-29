@@ -1,45 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Paway.Forms
 {
     /// <summary>
-    /// 代表 QQTabControl 中继承于TabPage的项的集合。
+    ///     代表 QQTabControl 中继承于TabPage的项的集合。
     /// </summary>
     public class QQTabPageCollection : List<QQTabPage>
     {
         #region 变量
+
         /// <summary>
-        /// QQTabControl
+        ///     QQTabControl
         /// </summary>
-        private QQTabControl _owner = null;
+        private QQTabControl _owner;
 
         #endregion
 
         #region 构造函数
+
         /// <summary>
-        /// 初始化 Paway.Forms.ToolItemCollection 新的实例。
+        ///     初始化 Paway.Forms.ToolItemCollection 新的实例。
         /// </summary>
         /// <param name="owner">ToolBar</param>
         public QQTabPageCollection(QQTabControl owner)
         {
-            this._owner = owner;
+            _owner = owner;
         }
 
         #endregion
 
         #region 方法
+
         /// <summary>
-        /// 返回该项在集合中的索引值
+        ///     返回该项在集合中的索引值
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
         public int GetIndexOfRange(QQTabPage item)
         {
-            int result = -1;
-            for (int i = 0; i < base.Count; i++)
+            var result = -1;
+            for (var i = 0; i < Count; i++)
             {
                 if (item == base[i])
                 {
@@ -49,6 +49,7 @@ namespace Paway.Forms
             }
             return result;
         }
+
         #endregion
     }
 }

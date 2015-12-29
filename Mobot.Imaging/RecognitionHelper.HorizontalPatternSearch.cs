@@ -1,62 +1,65 @@
-﻿using System;
-using System.Collections;
-using System.Drawing;
-using System.Drawing.Imaging;
+﻿using System.Drawing;
 
 namespace Mobot.Imaging
 {
     partial class ImageRecognitionHelper
     {
-        public static Rectangle[] SearchHorizontalPattern(Bitmap screen, Bitmap searchFor, Rectangle searchArea, Point startFrom, int maxCount, int minLength, int tolerance)
+        public static Rectangle[] SearchHorizontalPattern(Bitmap screen, Bitmap searchFor, Rectangle searchArea,
+            Point startFrom, int maxCount, int minLength, int tolerance)
         {
-            HorizontalPatternSearch search = new HorizontalPatternSearch(screen);
+            var search = new HorizontalPatternSearch(screen);
             return search.FindAll(searchFor, searchArea, startFrom, maxCount, tolerance);
         }
 
-        internal class HorizontalPatternSearch : ImageRecognitionHelper.BitmapSearch
+        internal class HorizontalPatternSearch : BitmapSearch
         {
             protected int _minLength;
 
             public HorizontalPatternSearch(Bitmap searchOn)
                 : base(searchOn)
             {
-                this._minLength = 2;
+                _minLength = 2;
             }
 
             protected override bool CheckLocation(int x, int y)
             {
-                if ((((x >= base._sl) && (y >= base._st)) && ((x < base._sr) && (y < base._sb))) && BitmapHelper.CompareBitmapLocked(base._searchOnData, base._searchForData, x, y, base._tolerance))
+                if ((x >= _sl) && (y >= _st) && (x < _sr) && (y < _sb) &&
+                    BitmapHelper.CompareBitmapLocked(_searchOnData, _searchForData, x, y, _tolerance))
                 {
-                    int num = x + base._searchFor.Width;
-                    while ((num < base._sr) && BitmapHelper.CompareBitmapLocked(base._searchOnData, base._searchForData, num, y, base._tolerance))
+                    var num = x + _searchFor.Width;
+                    while ((num < _sr) &&
+                           BitmapHelper.CompareBitmapLocked(_searchOnData, _searchForData, num, y, _tolerance))
                     {
-                        num += base._searchFor.Width;
+                        num += _searchFor.Width;
                     }
-                    int num2 = x - base._searchFor.Width;
-                    while ((num2 >= base._sl) && BitmapHelper.CompareBitmapLocked(base._searchOnData, base._searchForData, num2, y, base._tolerance))
+                    var num2 = x - _searchFor.Width;
+                    while ((num2 >= _sl) &&
+                           BitmapHelper.CompareBitmapLocked(_searchOnData, _searchForData, num2, y, _tolerance))
                     {
-                        num2 -= base._searchFor.Width;
+                        num2 -= _searchFor.Width;
                     }
-                    Rectangle r = Rectangle.FromLTRB(num2 + base._searchFor.Width, y, num, y + base._searchForData.Height);
-                    if ((r.Width / base._searchFor.Width) >= this._minLength)
+                    var r = Rectangle.FromLTRB(num2 + _searchFor.Width, y, num, y + _searchForData.Height);
+                    if (r.Width / _searchFor.Width >= _minLength)
                     {
-                        base.MaskRectangle(r);
-                        base._result.Add(r);
+                        MaskRectangle(r);
+                        _result.Add(r);
                         return true;
                     }
                 }
                 return false;
             }
 
-            public Rectangle[] FindAll(Bitmap searchFor, Rectangle searchArea, Point startFrom, int maxCount, int minLength, int tolerance)
+            public Rectangle[] FindAll(Bitmap searchFor, Rectangle searchArea, Point startFrom, int maxCount,
+                int minLength, int tolerance)
             {
-                this._minLength = minLength;
+                _minLength = minLength;
                 return base.FindAll(searchFor, searchArea, startFrom, maxCount, tolerance);
             }
 
-            public void StartSearch(Bitmap searchFor, Rectangle searchArea, Point startFrom, int maxCount, int minLength, int tolerance)
+            public void StartSearch(Bitmap searchFor, Rectangle searchArea, Point startFrom, int maxCount, int minLength,
+                int tolerance)
             {
-                this._minLength = minLength;
+                _minLength = minLength;
                 base.StartSearch(searchFor, searchArea, startFrom, maxCount, tolerance);
             }
         }

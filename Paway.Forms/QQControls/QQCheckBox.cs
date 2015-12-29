@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-using System.Drawing;
 using System.ComponentModel;
-using System.Runtime.InteropServices;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
-using System.Drawing.Imaging;
-using Paway.Resource;
+using System.Windows.Forms;
 using Paway.Helper;
+using Paway.Resource;
 
 namespace Paway.Forms
 {
     /// <summary>
-    /// CheckBox
+    ///     CheckBox
     /// </summary>
     [DefaultEvent("CheckedChanged")]
     [DefaultProperty("Checked")]
@@ -22,28 +18,29 @@ namespace Paway.Forms
     public class QQCheckBox : CheckBox
     {
         #region 变量
+
         /// <summary>
-        /// 当前的属标状态
+        ///     当前的属标状态
         /// </summary>
         private TMouseState _mouseState = TMouseState.Normal;
 
         #endregion
 
         #region 构造函数
+
         /// <summary>
-        /// 
         /// </summary>
         public QQCheckBox()
         {
-            this.SetStyle(
+            SetStyle(
                 ControlStyles.UserPaint |
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.ResizeRedraw |
                 ControlStyles.Selectable |
                 ControlStyles.SupportsTransparentBackColor, true);
-            this.SetStyle(ControlStyles.Opaque, false);
-            this.UpdateStyles();
+            SetStyle(ControlStyles.Opaque, false);
+            UpdateStyles();
             TConfig.Init(this);
         }
 
@@ -52,35 +49,37 @@ namespace Paway.Forms
         #region 属性
 
         /// <summary>
-        /// 文本区域
+        ///     文本区域
         /// </summary>
         internal Rectangle TextRect
         {
-            get { return new Rectangle(17, 0, this.Width - 17, this.Height); }
+            get { return new Rectangle(17, 0, Width - 17, Height); }
         }
+
         /// <summary>
-        /// 图片显示区域
+        ///     图片显示区域
         /// </summary>
         internal Rectangle ImageRect
         {
-            get { return new Rectangle(0, (this.Height - 17) / 2, 17, 17); }
+            get { return new Rectangle(0, (Height - 17) / 2, 17, 17); }
         }
+
         /// <summary>
-        /// 鼠标状态
+        ///     鼠标状态
         /// </summary>
         [Description("鼠标状态"), DefaultValue(typeof(TMouseState), "Normal")]
         internal TMouseState MouseState
         {
-            get { return this._mouseState; }
+            get { return _mouseState; }
             set
             {
-                this._mouseState = value;
-                base.Invalidate();
+                _mouseState = value;
+                Invalidate();
             }
         }
 
         /// <summary>
-        /// 重写CheckBox的Text属性
+        ///     重写CheckBox的Text属性
         /// </summary>
         [DefaultValue("QQCheckBox")]
         public override string Text
@@ -88,8 +87,9 @@ namespace Paway.Forms
             get { return base.Text; }
             set { base.Text = value; }
         }
+
         /// <summary>
-        /// 获取或设置控件的背景色
+        ///     获取或设置控件的背景色
         /// </summary>
         [Description("获取或设置控件的背景色"), DefaultValue(typeof(Color), "Transparent")]
         public override Color BackColor
@@ -104,8 +104,9 @@ namespace Paway.Forms
                 base.BackColor = value;
             }
         }
+
         /// <summary>
-        /// 获取或设置控件的前景色。
+        ///     获取或设置控件的前景色。
         /// </summary>
         [Description("获取或设置控件的前景色"), DefaultValue(typeof(Color), "Black")]
         public override Color ForeColor
@@ -124,131 +125,131 @@ namespace Paway.Forms
         #endregion
 
         #region Override 方法
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
-            Graphics g = e.Graphics;
+            var g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.TextRenderingHint = TextRenderingHint.AntiAlias;
 
-            TextFormatFlags flags = TextFormatFlags.Left |
-                                    TextFormatFlags.SingleLine |
-                                    TextFormatFlags.VerticalCenter;
-            Color color = this.Enabled ? this.ForeColor : Color.LightGray;
-            TextRenderer.DrawText(e.Graphics, this.Text, this.Font, this.TextRect, color, flags);
-            if (!base.Enabled)
+            var flags = TextFormatFlags.Left |
+                        TextFormatFlags.SingleLine |
+                        TextFormatFlags.VerticalCenter;
+            var color = Enabled ? ForeColor : Color.LightGray;
+            TextRenderer.DrawText(e.Graphics, Text, Font, TextRect, color, flags);
+            if (!Enabled)
             {
-                switch (this.CheckState)
+                switch (CheckState)
                 {
                     case CheckState.Checked:
                         break;
                     case CheckState.Indeterminate:
                         break;
                     case CheckState.Unchecked:
-                        Bitmap bitmap = new Bitmap(
+                        var bitmap = new Bitmap(
                             AssemblyHelper.GetImage("QQ.CheckBox.normal.png"));
                         //bitmap = RGB2Gray(bitmap);
-                        g.DrawImage(bitmap, this.ImageRect);
+                        g.DrawImage(bitmap, ImageRect);
                         break;
                 }
             }
             else
             {
-                switch (this._mouseState)
+                switch (_mouseState)
                 {
                     case TMouseState.Normal:
                     case TMouseState.Leave:
-                        if (base.Checked)
+                        if (Checked)
                         {
-                            using (Image normal = AssemblyHelper.GetImage("QQ.CheckBox.tick_normal.png"))
+                            using (var normal = AssemblyHelper.GetImage("QQ.CheckBox.tick_normal.png"))
                             {
-                                g.DrawImage(normal, this.ImageRect);
+                                g.DrawImage(normal, ImageRect);
                             }
                         }
                         else
                         {
-                            using (Image normal = AssemblyHelper.GetImage("QQ.CheckBox.normal.png"))
+                            using (var normal = AssemblyHelper.GetImage("QQ.CheckBox.normal.png"))
                             {
-                                g.DrawImage(normal, this.ImageRect);
+                                g.DrawImage(normal, ImageRect);
                             }
                         }
                         break;
                     case TMouseState.Down:
                     case TMouseState.Up:
                     case TMouseState.Move:
-                        if (base.Checked)
+                        if (Checked)
                         {
-                            using (Image high = AssemblyHelper.GetImage("QQ.CheckBox.tick_highlight.png"))
+                            using (var high = AssemblyHelper.GetImage("QQ.CheckBox.tick_highlight.png"))
                             {
-                                g.DrawImage(high, this.ImageRect);
+                                g.DrawImage(high, ImageRect);
                             }
                         }
                         else
                         {
-                            using (Image high = AssemblyHelper.GetImage("QQ.CheckBox.hightlight.png"))
+                            using (var high = AssemblyHelper.GetImage("QQ.CheckBox.hightlight.png"))
                             {
-                                g.DrawImage(high, this.ImageRect);
+                                g.DrawImage(high, ImageRect);
                             }
                         }
                         break;
                 }
-                if (base.CheckState == CheckState.Indeterminate)
+                if (CheckState == CheckState.Indeterminate)
                 {
-                    if (this.MouseState == TMouseState.Down || this.MouseState == TMouseState.Move)
+                    if (MouseState == TMouseState.Down || MouseState == TMouseState.Move)
                     {
-                        using (Image normal = AssemblyHelper.GetImage("QQ.CheckBox._tick_normal.png"))
+                        using (var normal = AssemblyHelper.GetImage("QQ.CheckBox._tick_normal.png"))
                         {
-                            g.DrawImage(normal, this.ImageRect);
+                            g.DrawImage(normal, ImageRect);
                         }
                     }
                     else
                     {
-                        using (Image high = AssemblyHelper.GetImage("QQ.CheckBox._tick_highlight.png"))
+                        using (var high = AssemblyHelper.GetImage("QQ.CheckBox._tick_highlight.png"))
                         {
-                            g.DrawImage(high, this.ImageRect);
+                            g.DrawImage(high, ImageRect);
                         }
                     }
                 }
             }
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="eventargs"></param>
         protected override void OnMouseEnter(EventArgs eventargs)
         {
             base.OnMouseEnter(eventargs);
-            this.MouseState = TMouseState.Move;
+            MouseState = TMouseState.Move;
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="mevent"></param>
         protected override void OnMouseDown(MouseEventArgs mevent)
         {
             base.OnMouseDown(mevent);
-            this.MouseState = TMouseState.Down;
+            MouseState = TMouseState.Down;
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="eventargs"></param>
         protected override void OnMouseLeave(EventArgs eventargs)
         {
             base.OnMouseLeave(eventargs);
-            this.MouseState = TMouseState.Leave;
+            MouseState = TMouseState.Leave;
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="mevent"></param>
         protected override void OnMouseUp(MouseEventArgs mevent)
         {
             base.OnMouseUp(mevent);
-            this.MouseState = TMouseState.Up;
+            MouseState = TMouseState.Up;
         }
 
         #endregion

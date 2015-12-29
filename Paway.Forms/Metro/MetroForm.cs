@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Text;
 using System.Windows.Forms;
 using Paway.Resource;
 
@@ -12,93 +10,93 @@ namespace Paway.Forms.Metro
 {
     public partial class MetroForm : Form
     {
-        #region 变量
-        /// <summary>
-        /// Item宽度（高度）
-        /// </summary>
-        private int _itemWidth = 80;
-        /// <summary>
-        /// 
-        /// </summary>
-        private int _itemHeight = 80;
-        /// <summary>
-        /// 
-        /// </summary>
-        private MetroRenderer _renderer = null;
-        /// <summary>
-        /// 
-        /// </summary>
-        private MetroItemCollection _items = null;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private bool _mouseDown = false;
-        /// <summary>
-        /// 
-        /// </summary>
-        private Rectangle _startRect = Rectangle.Empty;
-        /// <summary>
-        /// 
-        /// </summary>
-        private readonly Image START_IMAGE = AssemblyHelper.GetImage("Icons.start.png");
-        /// <summary>
-        /// 
-        /// </summary>
-        private Size _startSize = new Size(50, 50);
-        /// <summary>
-        /// 
-        /// </summary>
-        private TMouseState _startState = TMouseState.Normal;
-        /// <summary>
-        /// 
-        /// </summary>
-        private static readonly object EventClickStart = new object();
-        /// <summary>
-        /// 
-        /// </summary>
-        private static readonly object EventClickMetroFormItem = new object();
-        #endregion
-
         #region 构造函数
+
         /// <summary>
-        /// 
         /// </summary>
         public MetroForm()
         {
-            this.SetStyle(
+            SetStyle(
                 ControlStyles.UserPaint |
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.ResizeRedraw |
                 ControlStyles.Selectable |
                 ControlStyles.ContainerControl, true);
-            this.SetStyle(ControlStyles.Opaque, false);
-            this.UpdateStyles();
+            SetStyle(ControlStyles.Opaque, false);
+            UpdateStyles();
 
-            this.BackColor = this.Renderer.BackColor;
+            BackColor = Renderer.BackColor;
             InitializeComponent();
         }
 
         #endregion
 
-        #region 属性
+        #region 变量
+
         /// <summary>
-        /// 
+        ///     Item宽度（高度）
+        /// </summary>
+        private readonly int _itemWidth = 80;
+
+        /// <summary>
+        /// </summary>
+        private int _itemHeight = 80;
+
+        /// <summary>
+        /// </summary>
+        private MetroRenderer _renderer;
+
+        /// <summary>
+        /// </summary>
+        private MetroItemCollection _items;
+
+        /// <summary>
+        /// </summary>
+        private bool _mouseDown;
+
+        /// <summary>
+        /// </summary>
+        private Rectangle _startRect = Rectangle.Empty;
+
+        /// <summary>
+        /// </summary>
+        private readonly Image START_IMAGE = AssemblyHelper.GetImage("Icons.start.png");
+
+        /// <summary>
+        /// </summary>
+        private Size _startSize = new Size(50, 50);
+
+        /// <summary>
+        /// </summary>
+        private TMouseState _startState = TMouseState.Normal;
+
+        /// <summary>
+        /// </summary>
+        private static readonly object EventClickStart = new object();
+
+        /// <summary>
+        /// </summary>
+        private static readonly object EventClickMetroFormItem = new object();
+
+        #endregion
+
+        #region 属性
+
+        /// <summary>
         /// </summary>
         public MetroRenderer Renderer
         {
             get
             {
-                if (this._renderer == null)
-                    this._renderer = new MetroRenderer();
-                return this._renderer;
+                if (_renderer == null)
+                    _renderer = new MetroRenderer();
+                return _renderer;
             }
-            set { this._renderer = value; }
+            set { _renderer = value; }
         }
 
         /// <summary>
-        /// 
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -106,89 +104,93 @@ namespace Paway.Forms.Metro
         {
             get
             {
-                if (this._items == null)
+                if (_items == null)
                 {
-                    this._items = new MetroItemCollection(this);
+                    _items = new MetroItemCollection(this);
                 }
-                return this._items;
+                return _items;
             }
         }
+
         /// <summary>
-        /// 
         /// </summary>
         [Description("每个项(Item)的高度"), DefaultValue(80)]
         public int ItemHeight
         {
-            get { return this._itemHeight; }
-            set { this._itemHeight = value; }
+            get { return _itemHeight; }
+            set { _itemHeight = value; }
         }
+
         /// <summary>
-        /// 
         /// </summary>
         protected Rectangle StartRect
         {
             get
             {
-                if (START_IMAGE != null && this._startRect == Rectangle.Empty)
+                if (START_IMAGE != null && _startRect == Rectangle.Empty)
                 {
-                    int y = this.Height - this._itemHeight;
-                    this._startRect = new Rectangle(0, y, this.Width, this._itemHeight);
+                    var y = Height - _itemHeight;
+                    _startRect = new Rectangle(0, y, Width, _itemHeight);
                 }
-                return this._startRect;
+                return _startRect;
             }
         }
 
         #endregion
 
         #region 事件
+
         /// <summary>
-        /// 当单击开始按钮时，激发的事件
+        ///     当单击开始按钮时，激发的事件
         /// </summary>
         public event EventHandler ClickStart
         {
-            add { base.Events.AddHandler(EventClickStart, value); }
-            remove { base.Events.RemoveHandler(EventClickStart, value); }
+            add { Events.AddHandler(EventClickStart, value); }
+            remove { Events.RemoveHandler(EventClickStart, value); }
         }
+
         /// <summary>
-        /// 当单击Item时激情的事件
+        ///     当单击Item时激情的事件
         /// </summary>
         public event EventHandler ClickMetroFormItem
         {
-            add { base.Events.AddHandler(EventClickMetroFormItem, value); }
-            remove { base.Events.RemoveHandler(EventClickMetroFormItem, value); }
+            add { Events.AddHandler(EventClickMetroFormItem, value); }
+            remove { Events.RemoveHandler(EventClickMetroFormItem, value); }
         }
 
         #endregion
 
         #region 方法
+
         /// <summary>
-        /// 绘制开始菜单UI
+        ///     绘制开始菜单UI
         /// </summary>
         /// <param name="g"></param>
         private void DrawStart(Graphics g)
         {
-            Color backColor = this.Renderer.BackColor;
-            switch (this._startState)
+            var backColor = Renderer.BackColor;
+            switch (_startState)
             {
                 case TMouseState.Normal:
                 case TMouseState.Leave:
-                    backColor = this.Renderer.BackColor;
+                    backColor = Renderer.BackColor;
                     break;
                 case TMouseState.Move:
                 case TMouseState.Up:
-                    backColor = this.Renderer.EnterColor;
+                    backColor = Renderer.EnterColor;
                     break;
                 case TMouseState.Down:
-                    backColor = this.Renderer.DownColor;
+                    backColor = Renderer.DownColor;
                     break;
             }
             using (Brush brush = new SolidBrush(backColor))
             {
-                g.FillRectangle(brush, this.StartRect);
+                g.FillRectangle(brush, StartRect);
             }
-            using (GraphicsPath path = new GraphicsPath())
+            using (var path = new GraphicsPath())
             {
                 #region 手工绘制
+
                 //const int TEMP = 4;
                 //int x = 15;
                 //int y = this.StartRect.Height / 5 - 2;
@@ -220,16 +222,18 @@ namespace Paway.Forms.Metro
                 //        lineX,
                 //        this.StartRect.Bottom - y);
                 //}
+
                 #endregion
-                int x = (this.Width - this._startSize.Width) / 2;
-                int y = this.StartRect.Y + (this.StartRect.Height - this._startSize.Height) / 2;
-                Rectangle rect = new Rectangle(new Point(x, y), this._startSize);
+
+                var x = (Width - _startSize.Width) / 2;
+                var y = StartRect.Y + (StartRect.Height - _startSize.Height) / 2;
+                var rect = new Rectangle(new Point(x, y), _startSize);
                 g.DrawImage(START_IMAGE, rect, 0, 0, START_IMAGE.Width, START_IMAGE.Height, GraphicsUnit.Pixel);
             }
         }
 
         /// <summary>
-        /// 打开Item
+        ///     打开Item
         /// </summary>
         /// <param name="item"></param>
         private void OpenProcess(MetroItem item)
@@ -262,11 +266,12 @@ namespace Paway.Forms.Metro
                     break;
             }
         }
+
         #endregion
 
         #region Override Methods
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
@@ -274,62 +279,62 @@ namespace Paway.Forms.Metro
             base.OnPaint(e);
             if (!DesignMode)
             {
-                Graphics g = e.Graphics;
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                var g = e.Graphics;
+                g.SmoothingMode = SmoothingMode.AntiAlias;
 
-                if (this.Items.Count > 0)
+                if (Items.Count > 0)
                 {
                     int x = 0, y = 0;
-                    int width = this.Width - 1;
+                    var width = Width - 1;
                     //循环绘制每一项
-                    foreach (MetroItem item in this._items)
+                    foreach (var item in _items)
                     {
-                        Rectangle itemRect = new Rectangle(x, y, width, this._itemHeight - 1);
+                        var itemRect = new Rectangle(x, y, width, _itemHeight - 1);
                         //itemRect.Inflate(1, 1);
                         item.Location = new Point(x, y);
-                        item.Size = new System.Drawing.Size(width, this._itemHeight);
-                        item.OnPaintBackground(g, itemRect, this.Renderer);
-                        item.OnPaint(g, itemRect, this.Renderer);
-                        y += this._itemHeight;
+                        item.Size = new Size(width, _itemHeight);
+                        item.OnPaintBackground(g, itemRect, Renderer);
+                        item.OnPaint(g, itemRect, Renderer);
+                        y += _itemHeight;
                     }
                 }
-                this.DrawStart(g);//绘制开始菜单
+                DrawStart(g); //绘制开始菜单
             }
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="e"></param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            if (!DesignMode && !this._mouseDown)
+            if (!DesignMode && !_mouseDown)
             {
-                if (this.Items.Count > 0)
+                if (Items.Count > 0)
                 {
-                    foreach (MetroItem item in this.Items)
+                    foreach (var item in Items)
                     {
                         if (item.Rectangle.Contains(e.Location))
                             item.MouseState = TMouseState.Move;
                         else
                             item.MouseState = TMouseState.Leave;
-                        this.Invalidate(item.Rectangle);
+                        Invalidate(item.Rectangle);
                     }
                 }
-                if (this.StartRect.Contains(e.Location))
+                if (StartRect.Contains(e.Location))
                 {
-                    this._startState = TMouseState.Move;
-                    this.Invalidate(this.StartRect);
+                    _startState = TMouseState.Move;
+                    Invalidate(StartRect);
                 }
                 else
                 {
-                    this._startState = TMouseState.Leave;
-                    this.Invalidate(this.StartRect);
+                    _startState = TMouseState.Leave;
+                    Invalidate(StartRect);
                 }
             }
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="e"></param>
         protected override void OnMouseDown(MouseEventArgs e)
@@ -337,28 +342,28 @@ namespace Paway.Forms.Metro
             base.OnMouseDown(e);
             if (!DesignMode && e.Button == MouseButtons.Left)
             {
-                if (this.Items.Count > 0)
+                if (Items.Count > 0)
                 {
-                    foreach (MetroItem item in this.Items)
+                    foreach (var item in Items)
                     {
                         if (item.Rectangle.Contains(e.Location))
                         {
                             item.MouseState = TMouseState.Down;
-                            this._mouseDown = true;
+                            _mouseDown = true;
                         }
-                        this.Invalidate(item.Rectangle);
+                        Invalidate(item.Rectangle);
                     }
                 }
-                if (this.StartRect.Contains(e.Location))
+                if (StartRect.Contains(e.Location))
                 {
-                    this._mouseDown = true;
-                    this._startState = TMouseState.Down;
-                    this.Invalidate(this.StartRect);
+                    _mouseDown = true;
+                    _startState = TMouseState.Down;
+                    Invalidate(StartRect);
                 }
             }
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="e"></param>
         protected override void OnMouseUp(MouseEventArgs e)
@@ -366,98 +371,99 @@ namespace Paway.Forms.Metro
             base.OnMouseUp(e);
             if (!DesignMode && e.Button == MouseButtons.Left)
             {
-                if (this.Items.Count > 0)
+                if (Items.Count > 0)
                 {
-                    foreach (MetroItem item in this.Items)
+                    foreach (var item in Items)
                     {
                         if (item.Rectangle.Contains(e.Location))
                         {
                             item.MouseState = TMouseState.Up;
-                            this.OnClickMetroFormItem(item, EventArgs.Empty);
-                            this.OpenProcess(item);
+                            OnClickMetroFormItem(item, EventArgs.Empty);
+                            OpenProcess(item);
                         }
-                        this.Invalidate(item.Rectangle);
+                        Invalidate(item.Rectangle);
                     }
                 }
-                if (this.StartRect.Contains(e.Location))
+                if (StartRect.Contains(e.Location))
                 {
-                    this._startState = TMouseState.Up;
-                    this.OnClickStart(this, EventArgs.Empty);
-                    this.Invalidate(this.StartRect);
+                    _startState = TMouseState.Up;
+                    OnClickStart(this, EventArgs.Empty);
+                    Invalidate(StartRect);
                 }
-                this._mouseDown = false;
+                _mouseDown = false;
             }
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="e"></param>
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            if (!DesignMode && this.Items.Count > 0)
+            if (!DesignMode && Items.Count > 0)
             {
-                foreach (MetroItem item in this.Items)
+                foreach (var item in Items)
                 {
                     if (item.MouseState != TMouseState.Leave)
                     {
                         item.MouseState = TMouseState.Leave;
-                        this.Invalidate(item.Rectangle);
+                        Invalidate(item.Rectangle);
                     }
                 }
-                if (this._startState != TMouseState.Leave)
+                if (_startState != TMouseState.Leave)
                 {
-                    this._startState = TMouseState.Leave;
-                    this.Invalidate(this.StartRect);
+                    _startState = TMouseState.Leave;
+                    Invalidate(StartRect);
                 }
             }
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="e"></param>
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
-            if (!this.DesignMode)
+            if (!DesignMode)
             {
-                int width = Screen.PrimaryScreen.WorkingArea.Width;
-                int height = Screen.PrimaryScreen.WorkingArea.Height;
-                this.Size = new Size(this._itemWidth, height);
-                this.Location = new Point(width - this._itemWidth, 0);
+                var width = Screen.PrimaryScreen.WorkingArea.Width;
+                var height = Screen.PrimaryScreen.WorkingArea.Height;
+                Size = new Size(_itemWidth, height);
+                Location = new Point(width - _itemWidth, 0);
             }
         }
 
         #endregion
 
         #region 激发事件的方法
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected virtual void OnClickStart(object sender, EventArgs e)
         {
-            EventHandler handler = base.Events[EventClickStart] as EventHandler;
+            var handler = Events[EventClickStart] as EventHandler;
             if (handler != null)
             {
                 handler(sender, e);
             }
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected virtual void OnClickMetroFormItem(object sender, EventArgs e)
         {
-            EventHandler handler = base.Events[EventClickMetroFormItem] as EventHandler;
+            var handler = Events[EventClickMetroFormItem] as EventHandler;
             if (handler != null)
             {
                 handler(sender, e);
             }
         }
+
         #endregion
     }
 }

@@ -1,103 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Text;
-using System.Text;
+﻿using System.Drawing;
 using System.Windows.Forms;
 using Paway.Resource;
-using Paway.Win32;
-using Paway.Helper;
 
 namespace Paway.Forms
 {
     /// <summary>
-    /// 
     /// </summary>
     public class QQForm : FormBase
     {
         #region 构造函数
-        /// <summary>
-        /// </summary>
-        public QQForm() : base() { }
 
-        #endregion
-
-        #region 属性
-        /// <summary>
-        /// 最大化按钮区域
-        /// </summary>
-        protected override Rectangle MaxRect
-        {
-            get
-            {
-                int x = 0;
-                int width = 28;
-                switch (base.SysButton)
-                {
-                    case TSysButton.Normal:
-                        x = this.Width - this.CloseRect.Width - width;
-                        break;
-                    default:
-                        x = -1 * width;
-                        break;
-                }
-                return new Rectangle(x, -1, width, 20);
-            }
-        }
-        /// <summary>
-        /// 最小化按钮区域
-        /// </summary>
-        protected override Rectangle MiniRect
-        {
-            get
-            {
-                int x = 0;
-                int width = 28;
-                switch (base.SysButton)
-                {
-                    case TSysButton.Normal:
-                        x = this.Width - width - this.CloseRect.Width - this.MaxRect.Width;
-                        break;
-                    case TSysButton.Close_Mini:
-                        x = this.Width - width - this.CloseRect.Width;
-                        break;
-                    default:
-                        x = -1 * width;
-                        break;
-                }
-                Rectangle rect = new Rectangle(x, -1, width, 20);
-                return rect;
-            }
-        }
-        /// <summary>
-        /// 系统控制按钮区域
-        /// </summary>
-        protected override Rectangle SysBtnRect
-        {
-            get
-            {
-                if (base._sysButton == TSysButton.Normal)
-                    return new Rectangle(this.Width - 28 * 2 - 39, 0, 39 + 28 + 28, 20);
-                else if (base._sysButton == TSysButton.Close_Mini)
-                    return new Rectangle(this.Width - 28 - 39, 0, 39 + 28, 20);
-                else
-                    return this.CloseRect;
-            }
-        }
-        /// <summary>
-        /// 关闭按钮区域
-        /// </summary>
-        protected override Rectangle CloseRect
-        {
-            get { return new Rectangle(this.Width - 39, -1, 39, 20); }
-        }
         #endregion
 
         #region 方法
+
         /// <summary>
-        /// 绘画按钮
+        ///     绘画按钮
         /// </summary>
         /// <param name="g">画板</param>
         /// <param name="mouseState">鼠标状态</param>
@@ -119,39 +37,115 @@ namespace Paway.Forms
                     break;
             }
         }
+
         #endregion
 
         #region Override Methods
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            Graphics g = e.Graphics;
+            var g = e.Graphics;
             //绘画系统控制按钮
             if (ControlBox)
             {
-                switch (base.SysButton)
+                switch (SysButton)
                 {
                     case TSysButton.Normal:
-                        this.DrawButton(g, base.MinState, this.MiniRect, "mini");
-                        this.DrawButton(g, base.CloseState, this.CloseRect, "close");
-                        if (this.WindowState == FormWindowState.Maximized)
-                            this.DrawButton(g, base.MaxState, this.MaxRect, "restore");
+                        DrawButton(g, MinState, MiniRect, "mini");
+                        DrawButton(g, CloseState, CloseRect, "close");
+                        if (WindowState == FormWindowState.Maximized)
+                            DrawButton(g, MaxState, MaxRect, "restore");
                         else
-                            this.DrawButton(g, base.MaxState, this.MaxRect, "max");
+                            DrawButton(g, MaxState, MaxRect, "max");
                         break;
                     case TSysButton.Close:
-                        this.DrawButton(g, base.CloseState, this.CloseRect, "close");
+                        DrawButton(g, CloseState, CloseRect, "close");
                         break;
                     case TSysButton.Close_Mini:
-                        this.DrawButton(g, base.MinState, this.MiniRect, "mini");
-                        this.DrawButton(g, base.CloseState, this.CloseRect, "close");
+                        DrawButton(g, MinState, MiniRect, "mini");
+                        DrawButton(g, CloseState, CloseRect, "close");
                         break;
                 }
             }
+        }
+
+        #endregion
+
+        #region 属性
+
+        /// <summary>
+        ///     最大化按钮区域
+        /// </summary>
+        protected override Rectangle MaxRect
+        {
+            get
+            {
+                var x = 0;
+                var width = 28;
+                switch (SysButton)
+                {
+                    case TSysButton.Normal:
+                        x = Width - CloseRect.Width - width;
+                        break;
+                    default:
+                        x = -1 * width;
+                        break;
+                }
+                return new Rectangle(x, -1, width, 20);
+            }
+        }
+
+        /// <summary>
+        ///     最小化按钮区域
+        /// </summary>
+        protected override Rectangle MiniRect
+        {
+            get
+            {
+                var x = 0;
+                var width = 28;
+                switch (SysButton)
+                {
+                    case TSysButton.Normal:
+                        x = Width - width - CloseRect.Width - MaxRect.Width;
+                        break;
+                    case TSysButton.Close_Mini:
+                        x = Width - width - CloseRect.Width;
+                        break;
+                    default:
+                        x = -1 * width;
+                        break;
+                }
+                var rect = new Rectangle(x, -1, width, 20);
+                return rect;
+            }
+        }
+
+        /// <summary>
+        ///     系统控制按钮区域
+        /// </summary>
+        protected override Rectangle SysBtnRect
+        {
+            get
+            {
+                if (_sysButton == TSysButton.Normal)
+                    return new Rectangle(Width - 28 * 2 - 39, 0, 39 + 28 + 28, 20);
+                if (_sysButton == TSysButton.Close_Mini)
+                    return new Rectangle(Width - 28 - 39, 0, 39 + 28, 20);
+                return CloseRect;
+            }
+        }
+
+        /// <summary>
+        ///     关闭按钮区域
+        /// </summary>
+        protected override Rectangle CloseRect
+        {
+            get { return new Rectangle(Width - 39, -1, 39, 20); }
         }
 
         #endregion

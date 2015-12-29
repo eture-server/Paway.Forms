@@ -1,58 +1,66 @@
-﻿using Paway.Win32;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows.Forms;
+using Paway.Win32;
 
 namespace Paway.Forms
 {
     /// <summary>
-    /// 窗体阴影
+    ///     窗体阴影
     /// </summary>
     public class SkinForm : Form
     {
-        private TForm Main;
-        private Color[] CornerColors;
-        private Color[] ShadowColors;
+        private readonly Color[] CornerColors;
+        private readonly TForm Main;
+        private readonly Color[] ShadowColors;
 
         /// <summary>
-        /// 构造
+        ///     构造
         /// </summary>
         public SkinForm(TForm main)
         {
-            this.SetStyle(
+            SetStyle(
                 ControlStyles.UserPaint |
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.ResizeRedraw |
                 ControlStyles.Selectable |
                 ControlStyles.SupportsTransparentBackColor, true);
-            this.UpdateStyles();
-            this.ShadowColors = new Color[] { Color.FromArgb(60, Color.Black), Color.Transparent };
-            this.CornerColors = new Color[] { Color.FromArgb(180, Color.Black), Color.Transparent };
-            this.Main = main;
-            this.InitializeComponent();
-            this.Init();
+            UpdateStyles();
+            ShadowColors = new[] { Color.FromArgb(60, Color.Black), Color.Transparent };
+            CornerColors = new[] { Color.FromArgb(180, Color.Black), Color.Transparent };
+            Main = main;
+            InitializeComponent();
+            Init();
+        }
+
+        /// <summary>
+        /// </summary>
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                var createParams = base.CreateParams;
+                createParams.ExStyle |= (int)WindowStyle.WS_SYSMENU;
+                return createParams;
+            }
         }
 
         #region 新加 - 移动窗体
+
         /// <summary>
-        /// 移动窗体
+        ///     移动窗体
         /// </summary>
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-            if (this.IsDisposed) return;
-            if (this.Main.WindowState != FormWindowState.Maximized)
+            if (IsDisposed) return;
+            if (Main.WindowState != FormWindowState.Maximized)
             {
                 NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(this.Main.Handle, (int)WindowsMessage.WM_SYSCOMMAND, (int)WindowsMessage.SC_MOVE, 0);
+                NativeMethods.SendMessage(Main.Handle, (int)WindowsMessage.WM_SYSCOMMAND, (int)WindowsMessage.SC_MOVE,
+                    0);
             }
         }
 
@@ -64,56 +72,57 @@ namespace Paway.Forms
             //NativeMethods.SetWindowLong(base.Handle, -20, 0x80020);
         }
 
-        private void DrawCorners(Graphics g, System.Drawing.Size corSize)
+        private void DrawCorners(Graphics g, Size corSize)
         {
             Action<int> action = delegate(int n)
             {
-                using (GraphicsPath path = new GraphicsPath())
+                using (var path = new GraphicsPath())
                 {
-                    System.Drawing.Point point;
+                    Point point;
                     float num2;
                     PointF tf;
-                    System.Drawing.Point point2;
-                    System.Drawing.Point point3;
-                    System.Drawing.Size size = new System.Drawing.Size(corSize.Width * 2, corSize.Height * 2);
-                    System.Drawing.Size size2 = new System.Drawing.Size(Main.TRadius * 2, Main.TRadius * 2);
+                    Point point2;
+                    Point point3;
+                    var size = new Size(corSize.Width * 2, corSize.Height * 2);
+                    var size2 = new Size(Main.TRadius * 2, Main.TRadius * 2);
                     switch (n)
                     {
                         case 1:
-                            point = new System.Drawing.Point(0, 0);
+                            point = new Point(0, 0);
                             num2 = 180f;
-                            tf = new PointF(size.Width - (size2.Width * 0.5f), size.Height - (size2.Height * 0.5f));
-                            point2 = new System.Drawing.Point(corSize.Width, Main.TRadius + 1);
-                            point3 = new System.Drawing.Point(Main.TRadius + 1, corSize.Height);
+                            tf = new PointF(size.Width - size2.Width * 0.5f, size.Height - size2.Height * 0.5f);
+                            point2 = new Point(corSize.Width, Main.TRadius + 1);
+                            point3 = new Point(Main.TRadius + 1, corSize.Height);
                             break;
 
                         case 3:
-                            point = new System.Drawing.Point(this.Width - size.Width, 0);
+                            point = new Point(Width - size.Width, 0);
                             num2 = 270f;
-                            tf = new PointF(point.X + (size2.Width * 0.5f), size.Height - (size2.Height * 0.5f));
-                            point2 = new System.Drawing.Point(this.Width - (Main.TRadius + 1), corSize.Height);
-                            point3 = new System.Drawing.Point(this.Width - corSize.Width, Main.TRadius + 1);
+                            tf = new PointF(point.X + size2.Width * 0.5f, size.Height - size2.Height * 0.5f);
+                            point2 = new Point(Width - (Main.TRadius + 1), corSize.Height);
+                            point3 = new Point(Width - corSize.Width, Main.TRadius + 1);
                             break;
 
                         case 7:
-                            point = new System.Drawing.Point(0, this.Height - size.Height);
+                            point = new Point(0, Height - size.Height);
                             num2 = 90f;
-                            tf = new PointF(size.Width - (size2.Width * 0.5f), point.Y + (size2.Height * 0.5f));
-                            point2 = new System.Drawing.Point(Main.TRadius + 1, this.Height - corSize.Height);
-                            point3 = new System.Drawing.Point(corSize.Width, this.Height - (Main.TRadius + 1));
+                            tf = new PointF(size.Width - size2.Width * 0.5f, point.Y + size2.Height * 0.5f);
+                            point2 = new Point(Main.TRadius + 1, Height - corSize.Height);
+                            point3 = new Point(corSize.Width, Height - (Main.TRadius + 1));
                             break;
 
                         default:
-                            point = new System.Drawing.Point(this.Width - size.Width, this.Height - size.Height);
+                            point = new Point(Width - size.Width, Height - size.Height);
                             num2 = 0f;
-                            tf = new PointF(point.X + (size2.Width * 0.5f), point.Y + (size2.Height * 0.5f));
-                            point2 = new System.Drawing.Point(this.Width - corSize.Width, this.Height - (Main.TRadius + 1));
-                            point3 = new System.Drawing.Point(this.Width - (Main.TRadius + 1), this.Height - corSize.Height);
+                            tf = new PointF(point.X + size2.Width * 0.5f, point.Y + size2.Height * 0.5f);
+                            point2 = new Point(Width - corSize.Width, Height - (Main.TRadius + 1));
+                            point3 = new Point(Width - (Main.TRadius + 1), Height - corSize.Height);
                             break;
                     }
-                    Rectangle rect = new Rectangle(point, size);
-                    System.Drawing.Point location = new System.Drawing.Point(point.X + ((size.Width - size2.Width) / 2), point.Y + ((size.Height - size2.Height) / 2));
-                    Rectangle rectangle2 = new Rectangle(location, size2);
+                    var rect = new Rectangle(point, size);
+                    var location = new Point(point.X + (size.Width - size2.Width) / 2,
+                        point.Y + (size.Height - size2.Height) / 2);
+                    var rectangle2 = new Rectangle(location, size2);
                     path.AddArc(rect, num2, 91f);
                     if (Main.TRadius > 3)
                     {
@@ -123,13 +132,13 @@ namespace Paway.Forms
                     {
                         path.AddLine(point2, point3);
                     }
-                    using (PathGradientBrush brush = new PathGradientBrush(path))
+                    using (var brush = new PathGradientBrush(path))
                     {
-                        Color[] colorArray = new Color[2];
-                        float[] numArray = new float[2];
-                        ColorBlend blend = new ColorBlend();
-                        colorArray[0] = this.CornerColors[1];
-                        colorArray[1] = this.CornerColors[0];
+                        var colorArray = new Color[2];
+                        var numArray = new float[2];
+                        var blend = new ColorBlend();
+                        colorArray[0] = CornerColors[1];
+                        colorArray[1] = CornerColors[0];
                         numArray[0] = 0f;
                         numArray[1] = 1f;
                         blend.Colors = colorArray;
@@ -146,21 +155,29 @@ namespace Paway.Forms
             action(9);
         }
 
-        private void DrawLines(Graphics g, System.Drawing.Size corSize, System.Drawing.Size gradientSize_LR, System.Drawing.Size gradientSize_TB)
+        private void DrawLines(Graphics g, Size corSize, Size gradientSize_LR, Size gradientSize_TB)
         {
             if (gradientSize_LR.Width == 0 || gradientSize_LR.Height == 0) return;
             if (gradientSize_TB.Width == 0 || gradientSize_TB.Height == 0) return;
-            Rectangle rect = new Rectangle(new System.Drawing.Point(corSize.Width, 0), gradientSize_TB);
-            Rectangle rectangle2 = new Rectangle(new System.Drawing.Point(0, corSize.Width), gradientSize_LR);
-            Rectangle rectangle3 = new Rectangle(new System.Drawing.Point(base.Size.Width - (Main.TRadius + 1), corSize.Width), gradientSize_LR);
-            Rectangle rectangle4 = new Rectangle(new System.Drawing.Point(corSize.Width, base.Size.Height - (Main.TRadius + 1)), gradientSize_TB);
-            using (LinearGradientBrush brush = new LinearGradientBrush(rect, this.ShadowColors[1], this.ShadowColors[0], LinearGradientMode.Vertical))
+            var rect = new Rectangle(new Point(corSize.Width, 0), gradientSize_TB);
+            var rectangle2 = new Rectangle(new Point(0, corSize.Width), gradientSize_LR);
+            var rectangle3 = new Rectangle(new Point(Size.Width - (Main.TRadius + 1), corSize.Width), gradientSize_LR);
+            var rectangle4 = new Rectangle(new Point(corSize.Width, Size.Height - (Main.TRadius + 1)), gradientSize_TB);
+            using (
+                var brush = new LinearGradientBrush(rect, ShadowColors[1], ShadowColors[0], LinearGradientMode.Vertical)
+                )
             {
-                using (LinearGradientBrush brush2 = new LinearGradientBrush(rectangle2, this.ShadowColors[1], this.ShadowColors[0], LinearGradientMode.Horizontal))
+                using (
+                    var brush2 = new LinearGradientBrush(rectangle2, ShadowColors[1], ShadowColors[0],
+                        LinearGradientMode.Horizontal))
                 {
-                    using (LinearGradientBrush brush3 = new LinearGradientBrush(rectangle3, this.ShadowColors[0], this.ShadowColors[1], LinearGradientMode.Horizontal))
+                    using (
+                        var brush3 = new LinearGradientBrush(rectangle3, ShadowColors[0], ShadowColors[1],
+                            LinearGradientMode.Horizontal))
                     {
-                        using (LinearGradientBrush brush4 = new LinearGradientBrush(rectangle4, this.ShadowColors[0], this.ShadowColors[1], LinearGradientMode.Vertical))
+                        using (
+                            var brush4 = new LinearGradientBrush(rectangle4, ShadowColors[0], ShadowColors[1],
+                                LinearGradientMode.Vertical))
                         {
                             g.FillRectangle(brush, rect);
                             g.FillRectangle(brush2, rectangle2);
@@ -174,100 +191,99 @@ namespace Paway.Forms
 
         private void DrawShadow(Graphics g)
         {
-            this.ShadowColors[0] = Color.FromArgb(60, Main.TShadowColor);
-            this.CornerColors[0] = Color.FromArgb(180, Main.TShadowColor);
-            System.Drawing.Size corSize = new System.Drawing.Size((Main.TRadius + 1) + Main.TRadius, (Main.TRadius + 1) + Main.TRadius);
-            System.Drawing.Size size2 = new System.Drawing.Size(Main.TRadius + 1, base.Size.Height - (corSize.Height * 2));
-            System.Drawing.Size size4 = new System.Drawing.Size(base.Size.Width - (corSize.Width * 2), Main.TRadius + 1);
-            this.DrawLines(g, corSize, size2, size4);
-            this.DrawCorners(g, corSize);
+            ShadowColors[0] = Color.FromArgb(60, Main.TShadowColor);
+            CornerColors[0] = Color.FromArgb(180, Main.TShadowColor);
+            var corSize = new Size(Main.TRadius + 1 + Main.TRadius, Main.TRadius + 1 + Main.TRadius);
+            var size2 = new Size(Main.TRadius + 1, Size.Height - corSize.Height * 2);
+            var size4 = new Size(Size.Width - corSize.Width * 2, Main.TRadius + 1);
+            DrawLines(g, corSize, size2, size4);
+            DrawCorners(g, corSize);
         }
 
         private void Init()
         {
-            base.TopMost = this.Main.TopMost;
-            this.Main.BringToFront();
-            base.ShowInTaskbar = false;
-            base.FormBorderStyle = FormBorderStyle.None;
-            base.Location = new System.Drawing.Point(this.Main.Location.X - (Main.TRadius + 1), this.Main.Location.Y - (Main.TRadius + 1));
-            base.Icon = this.Main.Icon;
-            base.ShowIcon = this.Main.ShowIcon;
-            base.Width = this.Main.Width + ((Main.TRadius + 1) * 2);
-            base.Height = this.Main.Height + ((Main.TRadius + 1) * 2);
-            this.Text = this.Main.Text;
-            this.Main.LocationChanged += new EventHandler(this.Main_LocationChanged);
-            this.Main.SizeChanged += new EventHandler(this.Main_SizeChanged);
-            this.Main.VisibleChanged += new EventHandler(this.Main_VisibleChanged);
-            this.Main.FormClosed += Main_FormClosed;
-            this.SetBits();
-            this.CanPenetrate();
+            TopMost = Main.TopMost;
+            Main.BringToFront();
+            ShowInTaskbar = false;
+            FormBorderStyle = FormBorderStyle.None;
+            Location = new Point(Main.Location.X - (Main.TRadius + 1), Main.Location.Y - (Main.TRadius + 1));
+            Icon = Main.Icon;
+            ShowIcon = Main.ShowIcon;
+            Width = Main.Width + (Main.TRadius + 1) * 2;
+            Height = Main.Height + (Main.TRadius + 1) * 2;
+            Text = Main.Text;
+            Main.LocationChanged += Main_LocationChanged;
+            Main.SizeChanged += Main_SizeChanged;
+            Main.VisibleChanged += Main_VisibleChanged;
+            Main.FormClosed += Main_FormClosed;
+            SetBits();
+            CanPenetrate();
         }
 
         private void InitializeComponent()
         {
-            this.SuspendLayout();
+            SuspendLayout();
             // 
             // SkinForm
             // 
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(259, 271);
-            this.Name = "SkinForm";
-            this.Text = "SkinForm";
-            this.TopMost = true;
-            this.ResumeLayout(false);
-
+            BackgroundImageLayout = ImageLayout.None;
+            ClientSize = new Size(259, 271);
+            Name = "SkinForm";
+            Text = "SkinForm";
+            TopMost = true;
+            ResumeLayout(false);
         }
 
         private void Main_LocationChanged(object sender, EventArgs e)
         {
-            base.Location = new System.Drawing.Point(this.Main.Left - (Main.TRadius + 1), this.Main.Top - (Main.TRadius + 1));
+            Location = new Point(Main.Left - (Main.TRadius + 1), Main.Top - (Main.TRadius + 1));
         }
 
         private void Main_SizeChanged(object sender, EventArgs e)
         {
-            base.Width = this.Main.Width + ((Main.TRadius + 1) * 2);
-            base.Height = this.Main.Height + ((Main.TRadius + 1) * 2);
-            this.SetBits();
+            Width = Main.Width + (Main.TRadius + 1) * 2;
+            Height = Main.Height + (Main.TRadius + 1) * 2;
+            SetBits();
         }
 
         private void Main_VisibleChanged(object sender, EventArgs e)
         {
-            base.Visible = this.Main.Visible;
+            Visible = Main.Visible;
         }
 
         /// <summary>
-        /// 
         /// </summary>
         public void SetBits()
         {
-            Bitmap image = new Bitmap(this.Main.Width + ((Main.TRadius + 1) * 2), this.Main.Height + ((Main.TRadius + 1) * 2));
-            Graphics g = Graphics.FromImage(image);
+            var image = new Bitmap(Main.Width + (Main.TRadius + 1) * 2, Main.Height + (Main.TRadius + 1) * 2);
+            var g = Graphics.FromImage(image);
             g.SmoothingMode = SmoothingMode.HighQuality;
             g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            this.DrawShadow(g);
+            DrawShadow(g);
             if (Image.IsCanonicalPixelFormat(image.PixelFormat) && Image.IsAlphaPixelFormat(image.PixelFormat))
             {
-                IntPtr screenDc = NativeMethods.GetDC(IntPtr.Zero);
-                IntPtr memDc = NativeMethods.CreateCompatibleDC(screenDc);
-                IntPtr hBitmap = IntPtr.Zero;
-                IntPtr oldBitmap = IntPtr.Zero;
+                var screenDc = NativeMethods.GetDC(IntPtr.Zero);
+                var memDc = NativeMethods.CreateCompatibleDC(screenDc);
+                var hBitmap = IntPtr.Zero;
+                var oldBitmap = IntPtr.Zero;
                 try
                 {
                     hBitmap = image.GetHbitmap(Color.FromArgb(0));
                     oldBitmap = NativeMethods.SelectObject(memDc, hBitmap);
 
-                    SIZE psize = new SIZE(base.Width, base.Height);
-                    POINT pointSource = new POINT(0, 0);
-                    POINT topPos = new POINT(base.Left, base.Top);
-                    BLENDFUNCTION blend = new BLENDFUNCTION();
+                    var psize = new SIZE(Width, Height);
+                    var pointSource = new POINT(0, 0);
+                    var topPos = new POINT(Left, Top);
+                    var blend = new BLENDFUNCTION();
                     blend.BlendOp = Consts.AC_SRC_OVER;
                     blend.BlendFlags = 0;
                     blend.SourceConstantAlpha = byte.Parse("255");
                     blend.AlphaFormat = Consts.AC_SRC_ALPHA;
 
-                    if (!this.IsDisposed)
+                    if (!IsDisposed)
                     {
-                        NativeMethods.UpdateLayeredWindow(base.Handle, screenDc, ref topPos, ref psize, memDc, ref pointSource, 0, ref blend, 2);
+                        NativeMethods.UpdateLayeredWindow(Handle, screenDc, ref topPos, ref psize, memDc,
+                            ref pointSource, 0, ref blend, 2);
                     }
                     return;
                 }
@@ -285,30 +301,19 @@ namespace Paway.Forms
             throw new ApplicationException("图片必须是32位带Alhpa通道的图片。");
         }
 
-        /// <summary>
-        /// </summary>
-        protected override CreateParams CreateParams
+        private void Main_FormClosed(object sender, FormClosedEventArgs e)
         {
-            get
-            {
-                System.Windows.Forms.CreateParams createParams = base.CreateParams;
-                createParams.ExStyle |= (int)WindowStyle.WS_SYSMENU;
-                return createParams;
-            }
+            Close();
         }
 
-        void Main_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            this.Close();
-        }
         /// <summary>
-        /// 处理 Windows 消息。
-        /// 邮阴影部分手动主窗体
+        ///     处理 Windows 消息。
+        ///     邮阴影部分手动主窗体
         /// </summary>
         /// <param name="m">要处理的 WindowsMessage。</param>
         protected override void WndProc(ref Message m)
         {
-            if (!this.Main.IResize)
+            if (!Main.IResize)
             {
                 base.WndProc(ref m);
                 return;
@@ -317,15 +322,15 @@ namespace Paway.Forms
             {
                 case (int)WindowsMessage.WM_NCHITTEST:
                     base.WndProc(ref m);
-                    this.Main.WmNcHitTest(ref m);
+                    Main.WmNcHitTest(ref m);
                     break;
                 case (int)WindowsMessage.WM_SHOWWINDOW:
                     base.WndProc(ref m);
                     break;
                 default:
-                    if (!this.IsDisposed)
+                    if (!IsDisposed)
                     {
-                        m.HWnd = this.Main.Handle;
+                        m.HWnd = Main.Handle;
                     }
                     base.WndProc(ref m);
                     break;

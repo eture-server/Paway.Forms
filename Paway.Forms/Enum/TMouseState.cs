@@ -1,33 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Paway.Forms
+﻿namespace Paway.Forms
 {
     /// <summary>
-    /// 鼠标状态
+    ///     鼠标状态
     /// </summary>
     public enum TMouseState
     {
         /// <summary>
-        /// 默认
+        ///     默认
         /// </summary>
         Normal,
+
         /// <summary>
-        /// 鼠标划过
+        ///     鼠标划过
         /// </summary>
         Move,
+
         /// <summary>
-        /// 鼠标按下
+        ///     鼠标按下
         /// </summary>
         Down,
+
         /// <summary>
-        /// 鼠标释放
+        ///     鼠标释放
         /// </summary>
         Up,
+
         /// <summary>
-        /// 鼠标离开
+        ///     鼠标离开
         /// </summary>
-        Leave,
+        Leave
     }
 }

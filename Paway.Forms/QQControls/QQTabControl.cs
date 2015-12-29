@@ -1,212 +1,219 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-using System.Drawing;
 using System.ComponentModel;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Text;
+using System.Windows.Forms;
+using Paway.Helper;
 using Paway.Resource;
 using Paway.Win32;
-using Paway.Helper;
 
 namespace Paway.Forms
 {
     /// <summary>
-    /// 
     /// </summary>
     [ToolboxBitmap(typeof(TabControl))]
     public class QQTabControl : TabControl
     {
-        #region 变量
-        private Image _titleBackground = AssemblyHelper.GetImage("QQ.TabControl.main_tab_bkg.png");
-        private Color _baseColor = Color.White;
-        private Color _backColor = Color.Transparent;
-        private Color _borderColor = Color.White;
-        private Color _pageColor = Color.White;
-        /// <summary>
-        /// 是否获取了焦点
-        /// </summary>
-        private bool _isFocus = false;
-        /// <summary>
-        /// 选项卡箭头区域
-        /// </summary>
-        private Rectangle _btnArrowRect = Rectangle.Empty;
-        #endregion
-
         #region 构造函数
+
         /// <summary>
-        /// 
         /// </summary>
         public QQTabControl()
-            : base()
         {
-            this.SetStyle(
+            SetStyle(
                 ControlStyles.UserPaint |
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.ResizeRedraw |
                 ControlStyles.Selectable |
                 ControlStyles.SupportsTransparentBackColor, true);
-            this.UpdateStyles();
+            UpdateStyles();
             TConfig.Init(this);
-            base.SizeMode = TabSizeMode.Fixed;
-            base.ItemSize = new Size(80, 32);
+            SizeMode = TabSizeMode.Fixed;
+            ItemSize = new Size(80, 32);
         }
+
+        #endregion
+
+        #region 变量
+
+        private readonly Image _titleBackground = AssemblyHelper.GetImage("QQ.TabControl.main_tab_bkg.png");
+        private Color _baseColor = Color.White;
+        private Color _backColor = Color.Transparent;
+        private Color _borderColor = Color.White;
+        private Color _pageColor = Color.White;
+
+        /// <summary>
+        ///     是否获取了焦点
+        /// </summary>
+        private bool _isFocus;
+
+        /// <summary>
+        ///     选项卡箭头区域
+        /// </summary>
+        private Rectangle _btnArrowRect = Rectangle.Empty;
+
         #endregion
 
         #region 属性
+
         /// <summary>
-        /// 
         /// </summary>
         [DefaultValue(typeof(Color), "White")]
-        [CategoryAttribute("自定义属性")]
+        [Category("自定义属性")]
         public Color BaseColor
         {
-            get { return this._baseColor; }
+            get { return _baseColor; }
             set
             {
-                this._baseColor = value;
-                base.Invalidate(true);
+                _baseColor = value;
+                Invalidate(true);
             }
         }
+
         /// <summary>
-        /// 
         /// </summary>
         [DefaultValue(typeof(Color), "Transparent")]
-        [CategoryAttribute("自定义属性")]
+        [Category("自定义属性")]
         public override Color BackColor
         {
-            get { return this._backColor; }
+            get { return _backColor; }
             set
             {
-                this._backColor = value;
-                base.Invalidate(true);
+                _backColor = value;
+                Invalidate(true);
             }
         }
+
         /// <summary>
-        /// 
         /// </summary>
         [DefaultValue(typeof(Color), "White")]
-        [CategoryAttribute("自定义属性")]
+        [Category("自定义属性")]
         public Color BorderColor
         {
-            get { return this._borderColor; }
+            get { return _borderColor; }
             set
             {
-                this._borderColor = value;
-                base.Invalidate(true);
+                _borderColor = value;
+                Invalidate(true);
             }
         }
+
         /// <summary>
-        /// 
         /// </summary>
         [DefaultValue(typeof(Color), "White")]
         [Description("所有TabPage的背景颜色")]
-        [CategoryAttribute("自定义属性")]
+        [Category("自定义属性")]
         public Color PageColor
         {
-            get { return this._pageColor; }
+            get { return _pageColor; }
             set
             {
-                this._pageColor = value;
-                if (this.TabPages.Count > 0)
+                _pageColor = value;
+                if (TabPages.Count > 0)
                 {
-                    for (int i = 0; i < this.TabPages.Count; i++)
+                    for (var i = 0; i < TabPages.Count; i++)
                     {
-                        this.TabPages[i].BackColor = this._pageColor;
+                        TabPages[i].BackColor = _pageColor;
                     }
                 }
-                base.Invalidate(true);
+                Invalidate(true);
             }
         }
+
         #endregion
 
         #region Override Methods
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            Graphics g = e.Graphics;
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBilinear;
-            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            var g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+            g.TextRenderingHint = TextRenderingHint.AntiAlias;
 
-            this.DrawBackground(g);
-            this.DrawTabPages(g);
+            DrawBackground(g);
+            DrawTabPages(g);
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="e"></param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            if (!this.DesignMode)
-                base.Invalidate();
+            if (!DesignMode)
+                Invalidate();
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="e"></param>
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            if (!this.DesignMode)
-                base.Invalidate();
+            if (!DesignMode)
+                Invalidate();
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="e"></param>
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-            if (!this.DesignMode)
+            if (!DesignMode)
             {
-                if (e.Button == MouseButtons.Left && this._btnArrowRect.Contains(e.Location))
+                if (e.Button == MouseButtons.Left && _btnArrowRect.Contains(e.Location))
                 {
-                    if (!this._isFocus)
+                    if (!_isFocus)
                     {
-                        this._isFocus = true;
-                        base.Invalidate(this._btnArrowRect);
+                        _isFocus = true;
+                        Invalidate(_btnArrowRect);
                     }
                 }
             }
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="m"></param>
         protected override void WndProc(ref Message m)
         {
-            if (m.Msg != (int)WindowsMessage.WM_CONTEXTMENU)//0x007B鼠标右键
+            if (m.Msg != (int)WindowsMessage.WM_CONTEXTMENU) //0x007B鼠标右键
             {
                 base.WndProc(ref m);
             }
         }
+
         #endregion
 
         #region Draw Methods
+
         /// <summary>
-        /// 绘制背景
+        ///     绘制背景
         /// </summary>
         /// <param name="g"></param>
         private void DrawBackground(Graphics g)
         {
-            int width = this.ClientRectangle.Width;
-            int height = this.ClientRectangle.Height - this.DisplayRectangle.Height;
-            Color backColor = this.Enabled ? this._backColor : SystemColors.Control;
-            using (SolidBrush brush = new SolidBrush(backColor))
+            var width = ClientRectangle.Width;
+            var height = ClientRectangle.Height - DisplayRectangle.Height;
+            var backColor = Enabled ? _backColor : SystemColors.Control;
+            using (var brush = new SolidBrush(backColor))
             {
-                g.FillRectangle(brush, this.ClientRectangle);
+                g.FillRectangle(brush, ClientRectangle);
             }
-            Rectangle bgRect = new Rectangle(2, 2, this.Width - 2, this.ItemSize.Height);
-            this.DrawImage(g, this._titleBackground, bgRect);//绘制背景图
+            var bgRect = new Rectangle(2, 2, Width - 2, ItemSize.Height);
+            DrawImage(g, _titleBackground, bgRect); //绘制背景图
         }
+
         /// <summary>
-        /// 绘图
+        ///     绘图
         /// </summary>
         /// <param name="g"></param>
         /// <param name="image"></param>
@@ -215,48 +222,54 @@ namespace Paway.Forms
         {
             g.DrawImage(image, new Rectangle(rect.X, rect.Y, 5, rect.Height), 0, 0, 5, image.Height,
                 GraphicsUnit.Pixel);
-            g.DrawImage(image, new Rectangle(rect.X + 5, rect.Y, rect.Width - 10, rect.Height), 5, 0, image.Width - 10, image.Height, GraphicsUnit.Pixel);
-            g.DrawImage(image, new Rectangle(rect.X + rect.Width - 5, rect.Y, 5, rect.Height), image.Width - 5, 0, 5, image.Height, GraphicsUnit.Pixel);
+            g.DrawImage(image, new Rectangle(rect.X + 5, rect.Y, rect.Width - 10, rect.Height), 5, 0, image.Width - 10,
+                image.Height, GraphicsUnit.Pixel);
+            g.DrawImage(image, new Rectangle(rect.X + rect.Width - 5, rect.Y, 5, rect.Height), image.Width - 5, 0, 5,
+                image.Height, GraphicsUnit.Pixel);
         }
+
         private void DrawTabPages(Graphics g)
         {
-            using (SolidBrush brush = new SolidBrush(this._pageColor))
+            using (var brush = new SolidBrush(_pageColor))
             {
-                int x = 2;
-                int y = this.ItemSize.Height;
-                int width = this.Width - 2;
-                int height = this.Height - this.ItemSize.Height;
+                var x = 2;
+                var y = ItemSize.Height;
+                var width = Width - 2;
+                var height = Height - ItemSize.Height;
                 g.FillRectangle(brush, x, y, width, height);
-                g.DrawRectangle(new Pen(this._borderColor), x, y, width - 1, height - 1);
+                g.DrawRectangle(new Pen(_borderColor), x, y, width - 1, height - 1);
             }
-            Rectangle tabRect = Rectangle.Empty;
-            Point cursorPoint = this.PointToClient(MousePosition);
-            for (int i = 0; i < base.TabCount; i++)
+            var tabRect = Rectangle.Empty;
+            var cursorPoint = PointToClient(MousePosition);
+            for (var i = 0; i < TabCount; i++)
             {
-                TabPage page = this.TabPages[i];
-                tabRect = this.GetTabRect(i);
-                Color baseColor = Color.Yellow;
+                var page = TabPages[i];
+                tabRect = GetTabRect(i);
+                var baseColor = Color.Yellow;
                 Image baseTabHeaderImage = null;
                 Image btnArrowImage = null;
 
-                if (this.SelectedIndex == i)//是否选中
+                if (SelectedIndex == i) //是否选中
                 {
                     baseTabHeaderImage = AssemblyHelper.GetImage("QQ.TabControl.main_tab_check.png");
-                    if (this.TabPages[i] is QQTabPage)
+                    if (TabPages[i] is QQTabPage)
                     {
-                        Point contextMenuLocation = this.PointToScreen(new Point(this._btnArrowRect.Left, this._btnArrowRect.Top + this._btnArrowRect.Height + 5));
-                        ContextMenuStrip contextMenuStrip = (this.TabPages[i] as QQTabPage).ContextMenuShow;
+                        var contextMenuLocation =
+                            PointToScreen(new Point(_btnArrowRect.Left, _btnArrowRect.Top + _btnArrowRect.Height + 5));
+                        var contextMenuStrip = (TabPages[i] as QQTabPage).ContextMenuShow;
                         if (contextMenuStrip != null)
                         {
                             contextMenuStrip.Closed -= contextMenuStrip_Closed;
                             contextMenuStrip.Closed += contextMenuStrip_Closed;
-                            if (contextMenuLocation.X + contextMenuStrip.Width > Screen.PrimaryScreen.WorkingArea.Width - 20)
+                            if (contextMenuLocation.X + contextMenuStrip.Width >
+                                Screen.PrimaryScreen.WorkingArea.Width - 20)
                             {
-                                contextMenuLocation.X = Screen.PrimaryScreen.WorkingArea.Width - contextMenuStrip.Width - 50;
+                                contextMenuLocation.X = Screen.PrimaryScreen.WorkingArea.Width - contextMenuStrip.Width -
+                                                        50;
                             }
                             if (tabRect.Contains(cursorPoint))
                             {
-                                if (this._isFocus)
+                                if (_isFocus)
                                 {
                                     btnArrowImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_down.png");
                                     contextMenuStrip.Show(contextMenuLocation);
@@ -265,9 +278,10 @@ namespace Paway.Forms
                                 {
                                     btnArrowImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_highlight.png");
                                 }
-                                this._btnArrowRect = new Rectangle(tabRect.X + tabRect.Width - btnArrowImage.Width, tabRect.Y, btnArrowImage.Width, btnArrowImage.Height);
+                                _btnArrowRect = new Rectangle(tabRect.X + tabRect.Width - btnArrowImage.Width, tabRect.Y,
+                                    btnArrowImage.Width, btnArrowImage.Height);
                             }
-                            else if (this._isFocus)
+                            else if (_isFocus)
                             {
                                 btnArrowImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_down.png");
                                 contextMenuStrip.Show(contextMenuLocation);
@@ -275,33 +289,34 @@ namespace Paway.Forms
                         }
                     }
                 }
-                else if (tabRect.Contains(cursorPoint))//鼠标滑过
+                else if (tabRect.Contains(cursorPoint)) //鼠标滑过
                 {
                     baseTabHeaderImage = AssemblyHelper.GetImage("QQ.TabControl.main_tab_highlight.png");
                 }
                 if (baseTabHeaderImage != null)
                 {
-                    if (this.SelectedIndex == i)
+                    if (SelectedIndex == i)
                     {
-                        if (this.SelectedIndex == this.TabCount - 1)
+                        if (SelectedIndex == TabCount - 1)
                             tabRect.Inflate(2, 0);
                         else
                             tabRect.Inflate(1, 0);
                     }
-                    this.DrawImage(g, baseTabHeaderImage, tabRect);
+                    DrawImage(g, baseTabHeaderImage, tabRect);
                     if (btnArrowImage != null)
                     {
                         //当鼠标进入当前选中的的选项卡时，显示下拉按钮
-                        g.DrawImage(btnArrowImage, this._btnArrowRect);
+                        g.DrawImage(btnArrowImage, _btnArrowRect);
                     }
                 }
                 TextRenderer.DrawText(g, page.Text, page.Font, tabRect, page.ForeColor);
             }
         }
-        void contextMenuStrip_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+
+        private void contextMenuStrip_Closed(object sender, ToolStripDropDownClosedEventArgs e)
         {
-            this._isFocus = false;
-            base.Invalidate(this._btnArrowRect);
+            _isFocus = false;
+            Invalidate(_btnArrowRect);
         }
 
         #endregion

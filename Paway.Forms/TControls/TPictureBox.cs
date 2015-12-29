@@ -1,98 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Paway.Helper;
 
 namespace Paway.Forms.TControls
 {
     /// <summary>
-    /// 自定PictureBox，添加缩放
+    ///     自定PictureBox，添加缩放
     /// </summary>
     public class TPictureBox : PictureBox
     {
-        #region 属性
-        /// <summary>
-        /// 用于展示的图片
-        /// </summary>
-        private Image screen;
-        /// <summary>
-        /// 拖动标记
-        /// </summary>
-        private bool isMove = false;
-        /// <summary>
-        /// 图片绘制区域
-        /// </summary>
-        private Rectangle rect = Rectangle.Empty;
-        /// <summary>
-        /// 图片显示大小
-        /// </summary>
-        private Size size = Size.Empty;
-        /// <summary>
-        /// 图片是否走出窗体容纳
-        /// </summary>
-        private bool isExceed = false;
-        /// <summary>
-        /// 起点
-        /// </summary>
-        private Point pStart = Point.Empty;
-        /// <summary>
-        /// 放大缩小时定点
-        /// </summary>
-        private Point point = Point.Empty;
-        /// <summary>
-        /// 图片宽高比
-        /// </summary>
-        private double ratio = 0.0;
-        /// <summary>
-        /// 放大缩小时比例
-        /// </summary>
-        private double dx = 0, dy = 0;
-        /// <summary>
-        /// 获取或设置由 System.Windows.Forms.PictureBox 显示的图像
-        /// </summary>
-        public new Image Image
-        {
-            get { return this.screen; }
-            set
-            {
-                this.screen = value;
-                if (screen == null)
-                {
-                    rect = Rectangle.Empty;
-                }
-                else if (rect == Rectangle.Empty)
-                {
-                    this.ratio = this.screen.Width * 1.0 / this.screen.Height;
-                    this.size = value.Size;
-                    if (size.Width > this.Width)
-                    {
-                        size.Width = this.Width;
-                        size.Height = (size.Width / this.ratio).ToInt();
-                    }
-                    if (size.Height > this.Height)
-                    {
-                        size.Height = this.Height;
-                        size.Width = (this.ratio * size.Height).ToInt();
-                    }
-                    this.rect = new Rectangle((this.Width - size.Width) / 2, (this.Height - size.Height) / 2, size.Width, size.Height);
-                }
-                this.Refresh();
-            }
-        }
-
-        #endregion
-
         #region public
+
         /// <summary>
-        /// 获取原图坐标点
+        ///     获取原图坐标点
         /// </summary>
         public Point GetPoint(Point point)
         {
-            Point temp = Point.Empty;
+            var temp = Point.Empty;
             if (screen != null)
             {
                 temp.X = (point.X - rect.X) * screen.Width / size.Width;
@@ -105,15 +31,98 @@ namespace Paway.Forms.TControls
 
         #endregion
 
-        #region override
+        #region 属性
+
         /// <summary>
-        /// 重绘绘制方法
+        ///     用于展示的图片
+        /// </summary>
+        private Image screen;
+
+        /// <summary>
+        ///     拖动标记
+        /// </summary>
+        private bool isMove;
+
+        /// <summary>
+        ///     图片绘制区域
+        /// </summary>
+        private Rectangle rect = Rectangle.Empty;
+
+        /// <summary>
+        ///     图片显示大小
+        /// </summary>
+        private Size size = Size.Empty;
+
+        /// <summary>
+        ///     图片是否走出窗体容纳
+        /// </summary>
+        private bool isExceed;
+
+        /// <summary>
+        ///     起点
+        /// </summary>
+        private Point pStart = Point.Empty;
+
+        /// <summary>
+        ///     放大缩小时定点
+        /// </summary>
+        private Point point = Point.Empty;
+
+        /// <summary>
+        ///     图片宽高比
+        /// </summary>
+        private double ratio;
+
+        /// <summary>
+        ///     放大缩小时比例
+        /// </summary>
+        private double dx, dy;
+
+        /// <summary>
+        ///     获取或设置由 System.Windows.Forms.PictureBox 显示的图像
+        /// </summary>
+        public new Image Image
+        {
+            get { return screen; }
+            set
+            {
+                screen = value;
+                if (screen == null)
+                {
+                    rect = Rectangle.Empty;
+                }
+                else if (rect == Rectangle.Empty)
+                {
+                    ratio = screen.Width * 1.0 / screen.Height;
+                    size = value.Size;
+                    if (size.Width > Width)
+                    {
+                        size.Width = Width;
+                        size.Height = (size.Width / ratio).ToInt();
+                    }
+                    if (size.Height > Height)
+                    {
+                        size.Height = Height;
+                        size.Width = (ratio * size.Height).ToInt();
+                    }
+                    rect = new Rectangle((Width - size.Width) / 2, (Height - size.Height) / 2, size.Width, size.Height);
+                }
+                Refresh();
+            }
+        }
+
+        #endregion
+
+        #region override
+
+        /// <summary>
+        ///     重绘绘制方法
         /// </summary>
         protected override void OnPaint(PaintEventArgs pe)
         {
             if (screen != null)
             {
-                Graphics g = pe.Graphics;
+                var g = pe.Graphics;
                 //g.DrawImage(screen, rect);
 
                 // 设置画布的描绘质量 - 最临近插值法(显示像素点)
@@ -124,8 +133,9 @@ namespace Paway.Forms.TControls
             }
             base.OnPaint(pe);
         }
+
         /// <summary>
-        /// 滚动鼠标缩放
+        ///     滚动鼠标缩放
         /// </summary>
         /// <param name="e"></param>
         protected override void OnMouseWheel(MouseEventArgs e)
@@ -136,16 +146,18 @@ namespace Paway.Forms.TControls
             dy = (e.Y - rect.Y) * 1.0 / rect.Height;
             Reset(e.Delta / 120);
         }
+
         /// <summary>
-        /// 停止移动
+        ///     停止移动
         /// </summary>
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
             isMove = false;
         }
+
         /// <summary>
-        /// 移动
+        ///     移动
         /// </summary>
         protected override void OnMouseMove(MouseEventArgs e)
         {
@@ -157,12 +169,13 @@ namespace Paway.Forms.TControls
             }
             base.OnMouseMove(e);
         }
+
         /// <summary>
-        /// 移动开始点，获取焦点，允许滚动
+        ///     移动开始点，获取焦点，允许滚动
         /// </summary>
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            this.Focus();
+            Focus();
             if (e.Button == MouseButtons.Left)
             {
                 if (isExceed && rect.Contains(e.Location))
@@ -180,8 +193,9 @@ namespace Paway.Forms.TControls
         #endregion
 
         #region 缩放与移动
+
         /// <summary>
-        /// 放大或缩小
+        ///     放大或缩小
         /// </summary>
         /// <param name="steps">鼠标滚轮步进数</param>
         private void Reset(int steps)
@@ -189,9 +203,9 @@ namespace Paway.Forms.TControls
             if (screen == null) return;
             if (size.Width / screen.Width > 16 && steps > 0) return;
             if (screen.Width / size.Width > 20 && steps < 0) return;
-            this.Invalidate(rect);
+            Invalidate(rect);
             double bit = 1;
-            for (int i = 0; i < Math.Abs(steps); i++)
+            for (var i = 0; i < Math.Abs(steps); i++)
             {
                 bit *= 1.2;
             }
@@ -216,56 +230,56 @@ namespace Paway.Forms.TControls
                 size.Width = (size.Height * ratio).ToInt();
             }
 
-            rect = new Rectangle((this.Width - size.Width) / 2, (this.Height - size.Height) / 2, size.Width, size.Height);
+            rect = new Rectangle((Width - size.Width) / 2, (Height - size.Height) / 2, size.Width, size.Height);
             isExceed = rect.X < 0 || rect.Y < 0;
             if (isExceed)
             {
-                if (rect.Width > this.Width)
+                if (rect.Width > Width)
                 {
                     rect.X = (point.X - rect.Width * dx).ToInt();
                     if (rect.X > 0) rect.X = 0;
-                    if (rect.X + rect.Width < this.Width) rect.X = this.Width - rect.Width;
+                    if (rect.X + rect.Width < Width) rect.X = Width - rect.Width;
                 }
-                if (rect.Height > this.Height)
+                if (rect.Height > Height)
                 {
                     rect.Y = (point.Y - rect.Height * dy).ToInt();
                     if (rect.Y > 0) rect.Y = 0;
-                    if (rect.Y + rect.Height < this.Height) rect.Y = this.Height - rect.Height;
+                    if (rect.Y + rect.Height < Height) rect.Y = Height - rect.Height;
                 }
             }
-            this.Invalidate(rect);
+            Invalidate(rect);
         }
 
         /// <summary>
-        /// 移动图片
+        ///     移动图片
         /// </summary>
         /// <param name="pMove">鼠标落点</param>
         private void Reset(Point pMove)
         {
-            this.Invalidate(rect);
+            Invalidate(rect);
             int x = 0, y = 0;
-            if (rect.Width > this.Width)
+            if (rect.Width > Width)
             {
                 x = rect.X + pMove.X - pStart.X;
                 if (x > 0) x = 0;
-                if (x + rect.Width < this.Width) x = this.Width - rect.Width;
+                if (x + rect.Width < Width) x = Width - rect.Width;
             }
             else
             {
                 x = rect.X;
             }
-            if (rect.Height > this.Height)
+            if (rect.Height > Height)
             {
                 y = rect.Y + pMove.Y - pStart.Y;
                 if (y > 0) y = 0;
-                if (y + rect.Height < this.Height) y = this.Height - rect.Height;
+                if (y + rect.Height < Height) y = Height - rect.Height;
             }
             else
             {
                 y = rect.Y;
             }
             rect = new Rectangle(x, y, rect.Width, rect.Height);
-            this.Invalidate(rect);
+            Invalidate(rect);
         }
 
         #endregion

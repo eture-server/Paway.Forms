@@ -1,38 +1,38 @@
-﻿using Paway.Helper;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading;
+using Paway.Helper;
 
 namespace Paway.Utils.Tcp
 {
     /// <summary>
-    /// 数据发送类
+    ///     数据发送类
     /// </summary>
     public class SendDataService : IDisposable
     {
         /// <summary>
-        /// Socket连接实例
+        ///     发送数据间隔(ms)
         /// </summary>
-        private SocketBase Socket = null;
-        /// <summary>
-        /// 强制退出数据发送
-        /// </summary>
-        private volatile bool SendStop;
-        /// <summary>
-        /// 发送数据队列
-        /// </summary>
-        private volatile ConcurrentQueue<byte[]> MessageQueue = new ConcurrentQueue<byte[]>();
-        /// <summary>
-        /// 发送数据间隔(ms)
-        /// </summary>
-        private int interval = 5;
+        private readonly int interval = 5;
 
         /// <summary>
-        /// 传入Socket实例初始化 数据发送类
+        ///     发送数据队列
+        /// </summary>
+        private volatile ConcurrentQueue<byte[]> MessageQueue = new ConcurrentQueue<byte[]>();
+
+        /// <summary>
+        ///     强制退出数据发送
+        /// </summary>
+        private volatile bool SendStop;
+
+        /// <summary>
+        ///     Socket连接实例
+        /// </summary>
+        private SocketBase Socket;
+
+        /// <summary>
+        ///     传入Socket实例初始化 数据发送类
         /// </summary>
         public SendDataService(SocketBase socket)
         {
@@ -41,11 +41,11 @@ namespace Paway.Utils.Tcp
             if (socket == null) return;
             Socket = socket;
             Socket.IPPoint = socket.Socket.RemoteEndPoint as IPEndPoint;
-            ThreadPool.QueueUserWorkItem(new WaitCallback(IntervalSendData), Socket.IPPoint);
+            ThreadPool.QueueUserWorkItem(IntervalSendData, Socket.IPPoint);
         }
 
         /// <summary>
-        /// 发送数据
+        ///     发送数据
         /// </summary>
         /// <param name="byteData"></param>
         public void SendData(byte[] byteData)
@@ -54,7 +54,7 @@ namespace Paway.Utils.Tcp
         }
 
         /// <summary>
-        /// 线程发送消息
+        ///     线程发送消息
         /// </summary>
         protected void IntervalSendData(object state)
         {
@@ -80,13 +80,14 @@ namespace Paway.Utils.Tcp
         }
 
         #region Dispose
-        /// <summary>
-        /// Disposes the instance of SocketClient.
-        /// </summary>
-        private bool disposed = false;
 
         /// <summary>
-        /// 释放资源
+        ///     Disposes the instance of SocketClient.
+        /// </summary>
+        private bool disposed;
+
+        /// <summary>
+        ///     释放资源
         /// </summary>
         public void Dispose()
         {
@@ -101,7 +102,7 @@ namespace Paway.Utils.Tcp
                 if (disposing)
                 {
                     Socket.SendStop = true;
-                    this.SendStop = true;
+                    SendStop = true;
 
                     MessageQueue = null;
                     Socket = null;
@@ -111,12 +112,13 @@ namespace Paway.Utils.Tcp
         }
 
         /// <summary>
-        /// 析构
+        ///     析构
         /// </summary>
         ~SendDataService()
         {
             Dispose(false);
         }
+
         #endregion
     }
 }

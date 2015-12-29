@@ -1,38 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Management;
 using System.Net;
-using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Paway.Helper
 {
     /// <summary>
-    /// 硬件信息控制器
+    ///     硬件信息控制器
     /// </summary>
     public abstract class HardWareHandler
     {
         /// <summary>
-        /// 机器CPU内核数 
+        ///     机器CPU内核数
         /// </summary>
-        public static int CpuCount { get { return System.Environment.ProcessorCount; } }
+        public static int CpuCount
+        {
+            get { return Environment.ProcessorCount; }
+        }
+
         /// <summary>
-        /// 获取本地主机名
+        ///     获取本地主机名
         /// </summary>
         /// <returns></returns>
         public static string GetHostName()
         {
-            return System.Net.Dns.GetHostName();
+            return Dns.GetHostName();
         }
+
         /// <summary>
-        /// 获取CPU编号
+        ///     获取CPU编号
         /// </summary>
         /// <returns></returns>
         public static string GetCpuId()
         {
-            ManagementClass mc = new ManagementClass("Win32_Processor");
-            ManagementObjectCollection moc = mc.GetInstances();
-            String strCpuID = string.Empty;
+            var mc = new ManagementClass("Win32_Processor");
+            var moc = mc.GetInstances();
+            var strCpuID = string.Empty;
             foreach (ManagementObject mo in moc)
             {
                 if (mo.Properties["ProcessorId"] != null)
@@ -43,20 +47,21 @@ namespace Paway.Helper
             }
             return strCpuID;
         }
+
         /// <summary>
-        /// 获取网卡地址
+        ///     获取网卡地址
         /// </summary>
         /// <returns></returns>
         public static string[] GetNetCardMacAddressArray()
         {
-            string macAddress = GetNetCardMacAddress();
+            var macAddress = GetNetCardMacAddress();
             if (macAddress == "")
             {
                 macAddress = "54:04:A6:C2:7B:9A";
             }
-            List<string> lstMac = new List<string>();
-            string[] arrMac = macAddress.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-            foreach (string mac in arrMac)
+            var lstMac = new List<string>();
+            var arrMac = macAddress.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            foreach (var mac in arrMac)
             {
                 if (!lstMac.Contains(mac))
                     lstMac.Add(mac);
@@ -78,8 +83,9 @@ namespace Paway.Helper
             //    return null;
             //}
         }
+
         /// <summary>
-        /// 获取MAC地址
+        ///     获取MAC地址
         /// </summary>
         /// <returns></returns>
         public static string GetNetCardMacAddress()
@@ -90,11 +96,11 @@ namespace Paway.Helper
                 ManagementObjectCollection moc;
                 mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
                 moc = mc.GetInstances();
-                string str = "";
+                var str = "";
                 foreach (ManagementObject mo in moc)
                 {
-                    if ((bool)mo["IPEnabled"] == true)
-                        str += "," + mo["MacAddress"].ToString();
+                    if ((bool)mo["IPEnabled"])
+                        str += "," + mo["MacAddress"];
                 }
                 return str.Length > 0 ? str.Substring(1) : str;
             }
@@ -105,15 +111,15 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        /// 获取主硬盘编号
+        ///     获取主硬盘编号
         /// </summary>
         /// <returns></returns>
         public static string GetMainHardDiskId()
         {
             try
             {
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PhysicalMedia");
-                String strHardDiskID = string.Empty;
+                var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PhysicalMedia");
+                var strHardDiskID = string.Empty;
                 foreach (ManagementObject mo in searcher.Get())
                 {
                     strHardDiskID = mo["SerialNumber"].ToString().Trim();
@@ -127,34 +133,38 @@ namespace Paway.Helper
                 return string.Empty;
             }
         }
+
         /// <summary>
-        /// 获取IP地址
+        ///     获取IP地址
         /// </summary>
         /// <returns></returns>
         public static string GetIpAddress()
         {
             try
             {
-                IPAddress[] ips = Dns.GetHostAddresses(Dns.GetHostName());
+                var ips = Dns.GetHostAddresses(Dns.GetHostName());
                 if (ips != null && ips.Length > 0)
                 {
-                    foreach (IPAddress ip in ips)
+                    foreach (var ip in ips)
                     {
                         if (ip.AddressFamily.ToString().Equals("InterNetwork"))
                             return ip.ToString();
                     }
                 }
             }
-            catch { }
+            catch
+            {
+            }
             return string.Empty;
         }
+
         /// <summary>
-        /// 获取最大线程数
+        ///     获取最大线程数
         /// </summary>
         /// <returns></returns>
         public static int GetMaxThreads()
         {
-            int threadCount = 4;
+            var threadCount = 4;
             if (CpuCount > 1)
             {
                 threadCount = CpuCount * 2;
@@ -162,15 +172,17 @@ namespace Paway.Helper
             threadCount = threadCount > 8 ? 8 : threadCount;
             return threadCount;
         }
+
         /// <summary>
-        /// 验证服务端IP
+        ///     验证服务端IP
         /// </summary>
         /// <returns></returns>
         public static bool ValidateIpAddress(string ip, out string msg)
         {
             msg = string.Empty;
-            string strReg = @"^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$";
-            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(strReg);
+            var strReg =
+                @"^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$";
+            var regex = new Regex(strReg);
             if (!regex.IsMatch(ip))
             {
                 msg = "配置的IP地址格式不正确!";
@@ -178,8 +190,9 @@ namespace Paway.Helper
             }
             return true;
         }
+
         /// <summary>
-        /// 验证端口号
+        ///     验证端口号
         /// </summary>
         /// <param name="intNum"></param>
         /// <param name="msg"></param>
@@ -187,8 +200,9 @@ namespace Paway.Helper
         public static bool ValidateNum(int intNum, out string msg)
         {
             msg = string.Empty;
-            string strReg = @"^([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$";
-            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(strReg);
+            var strReg =
+                @"^([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$";
+            var regex = new Regex(strReg);
             if (!regex.IsMatch(intNum.ToString()))
             {
                 msg = "服务端口请输入0到65535的整数";

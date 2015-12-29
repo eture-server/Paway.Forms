@@ -1,41 +1,148 @@
-﻿using Paway.Helper;
-using Paway.Resource;
-using Paway.Win32;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Text;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using Paway.Helper;
+using Paway.Resource;
+using Paway.Win32;
 
 namespace Paway.Forms
 {
     /// <summary>
-    /// 自定义基控件
+    ///     自定义基控件
     /// </summary>
     [Designer("System.Windows.Forms.Design.ParentControlDesigner, System.Design")]
     public class TControl : UserControl, IControl
     {
-        #region 变量
+        #region 构造
+
         /// <summary>
-        /// 指定窗体窗口如何显示
+        ///     构造
+        /// </summary>
+        public TControl()
+        {
+            TFixedBackground = false;
+            IMouseMove = false;
+            SetStyle(
+                ControlStyles.UserPaint |
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.ResizeRedraw |
+                ControlStyles.Selectable |
+                ControlStyles.SupportsTransparentBackColor, true);
+            SetStyle(ControlStyles.Opaque, false);
+            UpdateStyles();
+            TConfig.Init(this);
+            InitShow();
+
+            BackgroundImageLayout = ImageLayout.Stretch;
+        }
+
+        #endregion
+
+        #region 重载属性默认值
+
+        /// <summary>
+        ///     获取或设置在 System.Windows.Forms.ImageLayout 枚举中定义的背景图像布局。
+        /// </summary>
+        [Description("获取或设置在 System.Windows.Forms.ImageLayout 枚举中定义的背景图像布局")]
+        [DefaultValue(typeof(ImageLayout), "Stretch")]
+        public override ImageLayout BackgroundImageLayout
+        {
+            get { return base.BackgroundImageLayout; }
+            set { base.BackgroundImageLayout = value; }
+        }
+
+        #endregion
+
+        #region 事件
+
+        /// <summary>
+        ///     移动特效正常完成事件。
+        /// </summary>
+        public event EventHandler MoveFinished;
+
+        #endregion
+
+        #region 背景
+
+        /// <summary>
+        ///     绘制背景
+        /// </summary>
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            var g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+
+            //绘制背景
+            if (TBrush.ColorSpace != Color.Empty && TBrush.ColorNormal != Color.Empty)
+            {
+                TranColor = TBrush.ColorNormal;
+                var normal = TranColor;
+                TranColor = TBrush.ColorSpace;
+                var space = TranColor;
+                using (var brush = new LinearGradientBrush(ClientRectangle, normal, space, _tBrushMode))
+                {
+                    var blend = new Blend();
+                    blend.Factors = new[] { 1f, 0.5f, 0f };
+                    blend.Positions = new[] { 0f, 0.5f, 1f };
+                    g.FillRectangle(brush, ClientRectangle);
+                }
+            }
+        }
+
+        #endregion
+
+        #region 移动窗体
+
+        /// <summary>
+        ///     移动控件父窗体
+        /// </summary>
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+            if (IsDisposed) return;
+            if (!IMouseMove) return;
+            if (e.Button != MouseButtons.Left) return;
+            if (Contain(e.Location)) return;
+            if (ParentForm != null && ParentForm.WindowState != FormWindowState.Maximized)
+            {
+                if (ParentForm is TForm)
+                {
+                    var form = ParentForm as TForm;
+                    if (form.WindowState == FormWindowState.Maximized) return;
+                }
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(ParentForm.Handle, (int)WindowsMessage.WM_SYSCOMMAND,
+                    (int)WindowsMessage.SC_MOVE, 0);
+            }
+        }
+
+        #endregion
+
+        #region 变量
+
+        /// <summary>
+        ///     指定窗体窗口如何显示
         /// </summary>
         protected FormWindowState _windowState = FormWindowState.Normal;
+
         /// <summary>
-        /// 星星图
+        ///     星星图
         /// </summary>
         private Image star = AssemblyHelper.GetImage("Controls.t.png");
+
         /// <summary>
-        /// 加载标记
+        ///     加载标记
         /// </summary>
         protected bool ILoad;
 
         private Color _tranColor;
+
         /// <summary>
-        /// 绘制背景时自动颜色透明度
+        ///     绘制背景时自动颜色透明度
         /// </summary>
         protected Color TranColor
         {
@@ -52,41 +159,12 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 事件
-        /// <summary>
-        /// 移动特效正常完成事件。
-        /// </summary>
-        public event EventHandler MoveFinished;
-
-        #endregion
-
-        #region 构造
-        /// <summary>
-        /// 构造
-        /// </summary>
-        public TControl()
-        {
-            this.SetStyle(
-                ControlStyles.UserPaint |
-                ControlStyles.AllPaintingInWmPaint |
-                ControlStyles.OptimizedDoubleBuffer |
-                ControlStyles.ResizeRedraw |
-                ControlStyles.Selectable |
-                ControlStyles.SupportsTransparentBackColor, true);
-            this.SetStyle(ControlStyles.Opaque, false);
-            this.UpdateStyles();
-            TConfig.Init(this);
-            InitShow();
-
-            this.BackgroundImageLayout = ImageLayout.Stretch;
-        }
-
-        #endregion
-
         #region 接口 属性
+
         private TMDirection _mDirection = TMDirection.None;
+
         /// <summary>
-        /// 移动特效方向
+        ///     移动特效方向
         /// </summary>
         [Description("移动特效方向"), DefaultValue(typeof(TMDirection), "None")]
         public TMDirection MDirection
@@ -94,21 +172,25 @@ namespace Paway.Forms
             get { return _mDirection; }
             set { _mDirection = value; }
         }
+
         /// <summary>
-        /// 透明过度(旋转前)图片
+        ///     透明过度(旋转前)图片
         /// </summary>
         [Browsable(false)]
         [Description("透明过度(旋转前)图片"), DefaultValue(typeof(Image), "null")]
         public Image TranImage { get; set; }
+
         /// <summary>
-        /// 旋转后图片
+        ///     旋转后图片
         /// </summary>
         [Browsable(false)]
         [Description("旋转后图片"), DefaultValue(typeof(Image), "null")]
         public Image TranLaterImage { get; set; }
+
         private int _mInterval = 12;
+
         /// <summary>
-        /// 移动特效间隔
+        ///     移动特效间隔
         /// </summary>
         [Description("移动特效间隔"), DefaultValue(12)]
         public int MInterval
@@ -116,8 +198,9 @@ namespace Paway.Forms
             get { return _mInterval; }
             set { _mInterval = value; }
         }
+
         /// <summary>
-        /// 获取或设置控件的背景色
+        ///     获取或设置控件的背景色
         /// </summary>
         [Description("获取或设置控件的背景色"), DefaultValue(typeof(Color), "Transparent")]
         public override Color BackColor
@@ -134,7 +217,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        /// 获取或设置控件的前景色。
+        ///     获取或设置控件的前景色。
         /// </summary>
         [Description("获取或设置控件的前景色"), DefaultValue(typeof(Color), "Black")]
         public override Color ForeColor
@@ -151,11 +234,12 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        /// 线性渐变绘制
+        ///     线性渐变绘制
         /// </summary>
         private TProperties _tBrush;
+
         /// <summary>
-        /// 线性渐变绘制
+        ///     线性渐变绘制
         /// </summary>
         [Description("线性渐变绘制，从ColorNormal到ColorSpace")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -166,18 +250,19 @@ namespace Paway.Forms
                 if (_tBrush == null)
                 {
                     _tBrush = new TProperties();
-                    _tBrush.ValueChange += delegate { this.Invalidate(this.ClientRectangle); };
+                    _tBrush.ValueChange += delegate { Invalidate(ClientRectangle); };
                 }
                 return _tBrush;
             }
         }
 
         /// <summary>
-        /// 指定线性渐变的方向
+        ///     指定线性渐变的方向
         /// </summary>
         private LinearGradientMode _tBrushMode = LinearGradientMode.Vertical;
+
         /// <summary>
-        /// 指定线性渐变的方向
+        ///     指定线性渐变的方向
         /// </summary>
         [Description("指定线性渐变的方向")]
         [DefaultValue(typeof(LinearGradientMode), "Vertical")]
@@ -187,13 +272,14 @@ namespace Paway.Forms
             set
             {
                 _tBrushMode = value;
-                this.Invalidate(this.ClientRectangle);
+                Invalidate(ClientRectangle);
             }
         }
 
         private int _trans = 255;
+
         /// <summary>
-        /// 控件透明度
+        ///     控件透明度
         /// </summary>
         [Description("透明度"), DefaultValue(255)]
         public int Trans
@@ -206,116 +292,43 @@ namespace Paway.Forms
                     value = 255;
                 }
                 _trans = value;
-                this.Invalidate(this.ClientRectangle);
+                Invalidate(ClientRectangle);
             }
         }
 
-        private bool _iMousemove = false;
         /// <summary>
-        /// 移动控件父窗体
+        ///     移动控件父窗体
         /// </summary>
         [Description("移动控件父窗体"), DefaultValue(false)]
-        public bool IMouseMove
-        {
-            get { return _iMousemove; }
-            set { _iMousemove = value; }
-        }
+        public bool IMouseMove { get; set; }
 
         /// <summary>
-        /// 坐标点是否包含在项中
+        ///     坐标点是否包含在项中
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
-        public virtual bool Contain(Point p) { return false; }
-
-        #endregion
-
-        #region 背景
-        /// <summary>
-        /// 绘制背景
-        /// </summary>
-        protected override void OnPaint(PaintEventArgs e)
+        public virtual bool Contain(Point p)
         {
-            base.OnPaint(e);
-            Graphics g = e.Graphics;
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-
-            //绘制背景
-            if (TBrush.ColorSpace != Color.Empty && TBrush.ColorNormal != Color.Empty)
-            {
-                TranColor = TBrush.ColorNormal;
-                Color normal = TranColor;
-                TranColor = TBrush.ColorSpace;
-                Color space = TranColor;
-                using (LinearGradientBrush brush = new LinearGradientBrush(this.ClientRectangle, normal, space, _tBrushMode))
-                {
-                    Blend blend = new Blend();
-                    blend.Factors = new float[] { 1f, 0.5f, 0f };
-                    blend.Positions = new float[] { 0f, 0.5f, 1f };
-                    g.FillRectangle(brush, this.ClientRectangle);
-                }
-            }
-        }
-
-        #endregion
-
-        #region 重载属性默认值
-        /// <summary>
-        /// 获取或设置在 System.Windows.Forms.ImageLayout 枚举中定义的背景图像布局。
-        /// </summary>
-        [Description("获取或设置在 System.Windows.Forms.ImageLayout 枚举中定义的背景图像布局")]
-        [DefaultValue(typeof(ImageLayout), "Stretch")]
-        public override ImageLayout BackgroundImageLayout
-        {
-            get { return base.BackgroundImageLayout; }
-            set { base.BackgroundImageLayout = value; }
-        }
-
-        #endregion
-
-        #region 移动窗体
-        /// <summary>
-        /// 移动控件父窗体
-        /// </summary>
-        protected override void OnMouseDown(MouseEventArgs e)
-        {
-            base.OnMouseDown(e);
-            if (this.IsDisposed) return;
-            if (!_iMousemove) return;
-            if (e.Button != MouseButtons.Left) return;
-            if (this.Contain(e.Location)) return;
-            if (this.ParentForm != null && this.ParentForm.WindowState != FormWindowState.Maximized)
-            {
-                if (this.ParentForm is TForm)
-                {
-                    TForm form = this.ParentForm as TForm;
-                    if (form.WindowState == FormWindowState.Maximized) return;
-                }
-                NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(this.ParentForm.Handle, (int)WindowsMessage.WM_SYSCOMMAND, (int)WindowsMessage.SC_MOVE, 0);
-            }
+            return false;
         }
 
         #endregion
 
         #region 固定窗体背景 - 同TForm
-        private bool _fixedBackground = false;
+
         /// <summary>
-        /// 固定窗体背景
+        ///     固定窗体背景
         /// </summary>
         [Category("Appearance"), Description("固定窗体背景"), DefaultValue(false)]
-        public bool TFixedBackground
-        {
-            get { return _fixedBackground; }
-            set { _fixedBackground = value; }
-        }
+        public bool TFixedBackground { get; set; }
+
         /// <summary>
-        /// 处理滚动条事件
+        ///     处理滚动条事件
         /// </summary>
         /// <param name="se"></param>
         protected override void OnScroll(ScrollEventArgs se)
         {
-            if (!this.IsDisposed && _fixedBackground)
+            if (!IsDisposed && TFixedBackground)
             {
                 // 执行固定背景的操作
                 if (se.Type == ScrollEventType.ThumbTrack)
@@ -323,32 +336,33 @@ namespace Paway.Forms
                     // 若滚动框正在移动，解除对控件用户界面的锁定
                     NativeMethods.LockWindowUpdate(IntPtr.Zero);
                     // 立即重新绘制控件所有的用户界面
-                    this.Refresh();
+                    Refresh();
                     // 锁定控件的用户界面
-                    NativeMethods.LockWindowUpdate(this.Handle);
+                    NativeMethods.LockWindowUpdate(Handle);
                 }
                 else
                 {
                     // 解除对控件用户界面的锁定
                     NativeMethods.LockWindowUpdate(IntPtr.Zero);
                     // 声明控件的所有的内容无效，但不立即重新绘制
-                    this.Invalidate();
+                    Invalidate();
                 }
             }
             base.OnScroll(se);
         }
+
         /// <summary>
-        /// 处理鼠标滚轮事件
+        ///     处理鼠标滚轮事件
         /// </summary>
         /// <param name="e"></param>
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            if (!this.IsDisposed && _fixedBackground)
+            if (!IsDisposed && TFixedBackground)
             {
-                NativeMethods.LockWindowUpdate(this.Handle);
+                NativeMethods.LockWindowUpdate(Handle);
                 base.OnMouseWheel(e);
                 NativeMethods.LockWindowUpdate(IntPtr.Zero);
-                this.Invalidate();
+                Invalidate();
             }
             else
             {
@@ -359,6 +373,7 @@ namespace Paway.Forms
         #endregion
 
         #region 按指定方向显示移动特效
+
         private Timer sTimer;
         private int intervel;
         private DockStyle dock;
@@ -369,6 +384,7 @@ namespace Paway.Forms
         private int color = 255;
         private bool i3d;
         private Image image;
+
         private void InitShow()
         {
             sTimer = new Timer();
@@ -377,25 +393,26 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        /// 初始化控件位置
+        ///     初始化控件位置
         /// </summary>
         protected override void OnLoad(EventArgs e)
         {
-            this.ILoad = true;
+            ILoad = true;
             base.OnLoad(e);
             MChild();
         }
+
         /// <summary>
-        /// 为标题栏准备
+        ///     为标题栏准备
         /// </summary>
         public void MChild()
         {
-            for (int i = 0; i < this.Controls.Count; i++)
+            for (var i = 0; i < Controls.Count; i++)
             {
-                if (this.Controls[i] is Panel || this.Controls[i] is TControl)
+                if (Controls[i] is Panel || Controls[i] is TControl)
                 {
-                    Control panel = this.Controls[i];
-                    for (int j = 0; j < panel.Controls.Count; j++)
+                    var panel = Controls[i];
+                    for (var j = 0; j < panel.Controls.Count; j++)
                     {
                         if (panel.Controls[j] is TControl)
                         {
@@ -406,16 +423,18 @@ namespace Paway.Forms
             }
             MStart();
         }
+
         /// <summary>
-        /// 启动特效
+        ///     启动特效
         /// </summary>
         public void MStart(TMDirection dirction, int interval = 10)
         {
-            this.MDirection = dirction;
+            MDirection = dirction;
             MStart(interval);
         }
+
         /// <summary>
-        /// 停止特效，并还原
+        ///     停止特效，并还原
         /// </summary>
         public void MStop()
         {
@@ -424,20 +443,20 @@ namespace Paway.Forms
                 sTimer.Stop();
             }
             if (!iReader) return;
-            this.Size = this.size;
-            this.Dock = dock;
-            switch (this.MDirection)
+            Size = size;
+            Dock = dock;
+            switch (MDirection)
             {
                 case TMDirection.Left:
                 case TMDirection.Right:
-                    this.Left = this.point.X;
+                    Left = point.X;
                     break;
                 case TMDirection.Up:
                 case TMDirection.Down:
-                    this.Top = this.point.Y;
+                    Top = point.Y;
                     break;
                 case TMDirection.Center:
-                    this.Location = this.point;
+                    Location = point;
                     break;
                 case TMDirection.Transparent:
                 case TMDirection.T3DLeft:
@@ -448,17 +467,19 @@ namespace Paway.Forms
                 case TMDirection.T3DUpToDown:
                 case TMDirection.T3DDown:
                 case TMDirection.T3DDownToUp:
-                    this.Controls.Remove(alpha);
-                    this.BackgroundImage = this.image;
+                    Controls.Remove(alpha);
+                    BackgroundImage = image;
                     break;
             }
         }
+
         /// <summary>
-        /// 是否使用过特效
+        ///     是否使用过特效
         /// </summary>
         private bool iReader;
+
         /// <summary>
-        /// 启动特效
+        ///     启动特效
         /// </summary>
         public void MStart(int interval = 10)
         {
@@ -470,39 +491,39 @@ namespace Paway.Forms
                 sTimer.Interval = interval;
             }
 
-            this.point = this.Location;
-            this.dock = this.Dock;
-            if (this.Parent != null && this.dock == DockStyle.Fill)
+            point = Location;
+            dock = Dock;
+            if (Parent != null && dock == DockStyle.Fill)
             {
-                this.Size = this.Parent.Size;
+                Size = Parent.Size;
             }
-            this.size = this.Size;
-            this.Dock = DockStyle.None;
-            this.Size = this.size;
-            this.sTimer.Interval = 10;
-            switch (this.MDirection)
+            size = Size;
+            Dock = DockStyle.None;
+            Size = size;
+            sTimer.Interval = 10;
+            switch (MDirection)
             {
                 case TMDirection.Left:
-                    this.Left = -this.Width;
-                    this.intervel = this.Width / this.MInterval;
+                    Left = -Width;
+                    intervel = Width / MInterval;
                     break;
                 case TMDirection.Right:
-                    this.Left = this.Parent != null ? this.Parent.Width : this.Right;
-                    this.intervel = this.Width / this.MInterval;
+                    Left = Parent != null ? Parent.Width : Right;
+                    intervel = Width / MInterval;
                     break;
                 case TMDirection.Up:
-                    this.Top = -this.Height;
-                    this.intervel = this.Height / this.MInterval;
+                    Top = -Height;
+                    intervel = Height / MInterval;
                     break;
                 case TMDirection.Down:
-                    this.Top = this.Parent != null ? this.Parent.Height : this.Bottom;
-                    this.intervel = this.Height / this.MInterval;
+                    Top = Parent != null ? Parent.Height : Bottom;
+                    intervel = Height / MInterval;
                     break;
                 case TMDirection.Center:
-                    this.step = new Size(this.Width / this.MInterval, this.Height / this.MInterval);
-                    this.Size = step;
-                    this.Left = point.X + (this.size.Width - this.Size.Width) / 2;
-                    this.Top = point.Y + (this.size.Height - this.Size.Height) / 2;
+                    step = new Size(Width / MInterval, Height / MInterval);
+                    Size = step;
+                    Left = point.X + (size.Width - Size.Width) / 2;
+                    Top = point.Y + (size.Height - Size.Height) / 2;
                     break;
                 case TMDirection.Transparent:
                 case TMDirection.T3DLeft:
@@ -513,7 +534,7 @@ namespace Paway.Forms
                 case TMDirection.T3DUpToDown:
                 case TMDirection.T3DDown:
                 case TMDirection.T3DDownToUp:
-                    this.sTimer.Interval = 45;
+                    sTimer.Interval = 45;
                     if (interval >= 45)
                     {
                         sTimer.Interval = interval;
@@ -522,14 +543,14 @@ namespace Paway.Forms
                     {
                         alpha = new TControl();
                     }
-                    image = this.BackgroundImage;
-                    if (this.Width > 0 && this.Height > 0)
+                    image = BackgroundImage;
+                    if (Width > 0 && Height > 0)
                     {
                         //if (this.TranImage != null)
                         {
-                            this.Parent.BackgroundImage = null;
-                            Bitmap bitmap = new Bitmap(this.Width, this.Height);
-                            this.DrawToBitmap(bitmap, new Rectangle(0, 0, this.Width, this.Height));
+                            Parent.BackgroundImage = null;
+                            var bitmap = new Bitmap(Width, Height);
+                            DrawToBitmap(bitmap, new Rectangle(0, 0, Width, Height));
                             switch (MDirection)
                             {
                                 case TMDirection.Transparent:
@@ -537,22 +558,22 @@ namespace Paway.Forms
                                 case TMDirection.T3DRight:
                                 case TMDirection.T3DUp:
                                 case TMDirection.T3DDown:
-                                    this.BackgroundImage = bitmap;
+                                    BackgroundImage = bitmap;
                                     break;
                             }
-                            if (this.TranLaterImage == null)
+                            if (TranLaterImage == null)
                             {
-                                this.TranLaterImage = bitmap;
+                                TranLaterImage = bitmap;
                             }
                         }
                         color = 255;
                         i3d = true;
-                        this.intervel = 255 / this.MInterval;
+                        intervel = 255 / MInterval;
 
-                        if (this.TranImage == null)
+                        if (TranImage == null)
                             alpha.BackColor = Color.FromArgb(255, alpha.BackColor);
-                        this.Controls.Add(this.alpha);
-                        this.Controls.SetChildIndex(this.alpha, 0);
+                        Controls.Add(alpha);
+                        Controls.SetChildIndex(alpha, 0);
                         alpha.Dock = DockStyle.Fill;
 
                         AlphaImage();
@@ -561,25 +582,27 @@ namespace Paway.Forms
             }
             sTimer.Start();
         }
+
         private void AlphaImage()
         {
-            if (this.TranImage == null) return;
-            Bitmap temp = BitmapHelper.ConvertTo(this.TranImage, TConvertType.Trans, color);
+            if (TranImage == null) return;
+            var temp = BitmapHelper.ConvertTo(TranImage, TConvertType.Trans, color);
             if (alpha.Size != temp.Size)
             {
                 temp = BitmapHelper.CutBitmap(temp, alpha.Bounds);
             }
             alpha.BackgroundImage = temp;
         }
+
         private void Alpha3DImage(Image image, T3Direction direction)
         {
             if (image == null) return;
-            Bitmap temp = image.Clone() as Bitmap;
+            var temp = image.Clone() as Bitmap;
             if (alpha.Size != temp.Size)
             {
                 temp = BitmapHelper.CutBitmap(temp, alpha.Bounds);
             }
-            bool iCenter = false;
+            var iCenter = false;
             switch (MDirection)
             {
                 case TMDirection.T3DLeftToRight:
@@ -592,73 +615,74 @@ namespace Paway.Forms
             temp = BitmapHelper.TrapezoidTransformation(temp, 0.8 + color * 0.2 / 255, color * 1.0 / 255, direction, iCenter);
             alpha.BackgroundImage = temp;
         }
-        void sTimer_Tick(object sender, EventArgs e)
+
+        private void sTimer_Tick(object sender, EventArgs e)
         {
-            if (this.IsDisposed) return;
+            if (IsDisposed) return;
             if (point == new Point(-1, -1))
             {
-                point = this.Location;
+                point = Location;
             }
             //NativeMethods.LockWindowUpdate(this.Handle);
-            switch (this.MDirection)
+            switch (MDirection)
             {
                 case TMDirection.Normal:
                     Reset();
                     break;
                 case TMDirection.Left:
-                    if (this.Left + intervel < this.point.X)
+                    if (Left + intervel < point.X)
                     {
-                        this.Left += intervel;
+                        Left += intervel;
                     }
                     else
                     {
-                        this.Left = this.point.X;
+                        Left = point.X;
                         Reset();
                     }
                     break;
                 case TMDirection.Right:
-                    if (this.Left - intervel > this.point.X)
+                    if (Left - intervel > point.X)
                     {
-                        this.Left -= intervel;
+                        Left -= intervel;
                     }
                     else
                     {
-                        this.Left = this.point.X;
+                        Left = point.X;
                         Reset();
                     }
                     break;
                 case TMDirection.Up:
-                    if (this.Top + intervel < this.point.Y)
+                    if (Top + intervel < point.Y)
                     {
-                        this.Top += intervel;
+                        Top += intervel;
                     }
                     else
                     {
-                        this.Top = this.point.Y;
+                        Top = point.Y;
                         Reset();
                     }
                     break;
                 case TMDirection.Down:
-                    if (this.Top - intervel > this.point.Y)
+                    if (Top - intervel > point.Y)
                     {
-                        this.Top -= intervel;
+                        Top -= intervel;
                     }
                     else
                     {
-                        this.Top = this.point.Y;
+                        Top = point.Y;
                         Reset();
                     }
                     break;
                 case TMDirection.Center:
-                    if (this.Size.Width + step.Width < this.size.Width)
+                    if (Size.Width + step.Width < size.Width)
                     {
-                        this.Size = new Size(this.Size.Width + step.Width, this.Size.Height + step.Height);
-                        this.Left = point.X + (this.size.Width - this.Size.Width) / 2;
-                        this.Top = point.Y + (this.size.Height - this.Size.Height) / 2;
+                        Size = new Size(Size.Width + step.Width, Size.Height + step.Height);
+                        Left = point.X + (size.Width - Size.Width) / 2;
+                        Top = point.Y + (size.Height - Size.Height) / 2;
                     }
                     else
                     {
-                        this.Location = this.point;
+                        Location = point;
                         Reset();
                     }
                     break;
@@ -666,7 +690,7 @@ namespace Paway.Forms
                     if (color > intervel)
                     {
                         color -= intervel;
-                        if (this.TranImage == null)
+                        if (TranImage == null)
                         {
                             alpha.BackColor = Color.FromArgb(color, alpha.BackColor);
                         }
@@ -707,6 +731,7 @@ namespace Paway.Forms
             }
             //NativeMethods.LockWindowUpdate(IntPtr.Zero);
         }
+
         private void T3D(T3Direction d1, T3Direction d2)
         {
             if (d1 != T3Direction.None && i3d && color > intervel)
@@ -724,7 +749,7 @@ namespace Paway.Forms
                         }
                         break;
                 }
-                Alpha3DImage(this.TranImage, d1);
+                Alpha3DImage(TranImage, d1);
             }
             else if (d2 != T3Direction.None)
             {
@@ -745,7 +770,7 @@ namespace Paway.Forms
                                 break;
                         }
                         color += intervel;
-                        Alpha3DImage(this.TranLaterImage, d2);
+                        Alpha3DImage(TranLaterImage, d2);
                     }
                     else
                     {
@@ -755,7 +780,7 @@ namespace Paway.Forms
                 else
                 {
                     color = 0;
-                    Alpha3DImage(this.TranLaterImage, d2);
+                    Alpha3DImage(TranLaterImage, d2);
                 }
                 i3d = false;
                 if (color == 255)
@@ -768,11 +793,12 @@ namespace Paway.Forms
                 Reset();
             }
         }
+
         private void Reset()
         {
             sTimer.Stop();
-            this.Size = this.size;
-            this.Dock = dock;
+            Size = size;
+            Dock = dock;
             switch (MDirection)
             {
                 case TMDirection.Transparent:
@@ -784,8 +810,8 @@ namespace Paway.Forms
                 case TMDirection.T3DUpToDown:
                 case TMDirection.T3DDown:
                 case TMDirection.T3DDownToUp:
-                    this.Controls.Remove(alpha);
-                    this.BackgroundImage = this.image;
+                    Controls.Remove(alpha);
+                    BackgroundImage = image;
                     break;
             }
             if (MoveFinished != null)

@@ -1,100 +1,49 @@
 using System;
-using System.Windows.Forms;
 using System.ComponentModel;
 using System.Drawing;
-using System.IO;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading;
+using System.Windows.Forms;
+using Paway.Helper;
 
 namespace Paway.Forms
 {
     /// <summary>
-    /// 数值编辑:TextBox
-    /// design by: csust.hulihui(mailto: ehulh@163.com, home at: http://blog.csdn.net/hulihui)
-    /// creation date: 2007-9-17
-    /// modified date: 2008-9-29
-    /// 1) ContextMenu delete operator is not captueed
-    /// 2) add property AllowNegative
-    /// 3) call base.OnTextChanged when mouse Paste/Cut/Clear
-    /// 4) bug when cut negative number
-    /// 5) bug when ReadOnly changed, override property ReadOnly.(2008-9-29)
-    /// 6) bug when input 1 0 and 1 but displays 11.(2008-10-23)
-    /// 7) use culture number format. (2008-10-23)
-    /// 8) do not clear value when input minus. (2008-11-14)
+    ///     数值编辑:TextBox
+    ///     design by: csust.hulihui(mailto: ehulh@163.com, home at: http://blog.csdn.net/hulihui)
+    ///     creation date: 2007-9-17
+    ///     modified date: 2008-9-29
+    ///     1) ContextMenu delete operator is not captueed
+    ///     2) add property AllowNegative
+    ///     3) call base.OnTextChanged when mouse Paste/Cut/Clear
+    ///     4) bug when cut negative number
+    ///     5) bug when ReadOnly changed, override property ReadOnly.(2008-9-29)
+    ///     6) bug when input 1 0 and 1 but displays 11.(2008-10-23)
+    ///     7) use culture number format. (2008-10-23)
+    ///     8) do not clear value when input minus. (2008-11-14)
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(TextBox))]
     public class TNumTestBox : QQTextBox
     {
-        #region  member fields
-
-        private const int m_MaxDecimalLength = 10;  // max dot length
-        private const int m_MaxValueLength = 27; // decimal can be 28 bits.
-
-        private const int WM_CHAR = 0x0102; // char key message
-        private const int WM_CUT = 0x0300;  // mouse message in ContextMenu
-        private const int WM_COPY = 0x0301;
-        private const int WM_PASTE = 0x0302;
-        private const int WM_CLEAR = 0x0303;
-
-        private int m_decimalLength = 0;
-        private bool m_allowNegative = true;
-        private string m_valueFormatStr = string.Empty;
-
-        private char m_decimalSeparator = '.';
-        private char m_negativeSign = '-';
-
-        #endregion
-
         #region  class constructor
+
         /// <summary>
-        /// 
         /// </summary>
         public TNumTestBox()
         {
-            this.SetStyle(
+            SetStyle(
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer, true);
-            this.UpdateStyles();
+            UpdateStyles();
 
             base.Text = "0";
-            base.MaxLength = 10;
+            MaxLength = 10;
 
-            System.Globalization.CultureInfo ci = System.Threading.Thread.CurrentThread.CurrentCulture;
+            var ci = Thread.CurrentThread.CurrentCulture;
             m_decimalSeparator = ci.NumberFormat.CurrencyDecimalSeparator[0];
             m_negativeSign = ci.NumberFormat.NegativeSign[0];
 
-            this.SetValueFormatStr();
-        }
-
-        #endregion
-
-        #region  disabled public properties
-
-        /// <summary>
-        /// 控件前景色默认:WindowText
-        /// </summary>
-        [DefaultValue(typeof(Color), "WindowText")]
-        public new Color ForeColor
-        {
-            get { return base.ForeColor; }
-            set { base.ForeColor = value; }
-        }
-
-        /// <summary>
-        /// 关闭多行编辑
-        /// </summary>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(false)]
-        public override bool Multiline
-        {
-            get
-            {
-                return base.Multiline;
-            }
-            set
-            {
-                base.Multiline = false;
-            }
+            SetValueFormatStr();
         }
 
         #endregion
@@ -102,15 +51,12 @@ namespace Paway.Forms
         #region override public properties
 
         /// <summary>
-        /// ??
+        ///     ??
         /// </summary>
         [DefaultValue("0")]
         public override string Text
         {
-            get
-            {
-                return base.Text;
-            }
+            get { return base.Text; }
             set
             {
                 decimal val;
@@ -127,19 +73,80 @@ namespace Paway.Forms
 
         #endregion
 
-        #region  custom public properties
+        private void InitializeComponent()
+        {
+            SuspendLayout();
+            // 
+            // BaseText
+            // 
+            BaseText.BackColor = Color.White;
+            // 
+            // TNumTestBox
+            // 
+            AutoScaleDimensions = new SizeF(7F, 17F);
+            Lines = new string[0];
+            Margin = new Padding(3, 4, 3, 4);
+            Name = "TNumTestBox";
+            Padding = new Padding(0, 0, 0, 4);
+            Size = new Size(166, 34);
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #region  member fields
+
+        private const int m_MaxDecimalLength = 10; // max dot length
+        private const int m_MaxValueLength = 27; // decimal can be 28 bits.
+
+        private const int WM_CHAR = 0x0102; // char key message
+        private const int WM_CUT = 0x0300; // mouse message in ContextMenu
+        private const int WM_COPY = 0x0301;
+        private const int WM_PASTE = 0x0302;
+        private const int WM_CLEAR = 0x0303;
+
+        private int m_decimalLength;
+        private bool m_allowNegative = true;
+        private string m_valueFormatStr = string.Empty;
+
+        private readonly char m_decimalSeparator = '.';
+        private readonly char m_negativeSign = '-';
+
+        #endregion
+
+        #region  disabled public properties
+
         /// <summary>
-        /// 
+        ///     控件前景色默认:WindowText
+        /// </summary>
+        [DefaultValue(typeof(Color), "WindowText")]
+        public new Color ForeColor
+        {
+            get { return base.ForeColor; }
+            set { base.ForeColor = value; }
+        }
+
+        /// <summary>
+        ///     关闭多行编辑
+        /// </summary>
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(false)]
+        public override bool Multiline
+        {
+            get { return base.Multiline; }
+            set { base.Multiline = false; }
+        }
+
+        #endregion
+
+        #region  custom public properties
+
+        /// <summary>
         /// </summary>
         [Category("Custom")]
         [Description("Set/Get dot length(0 is integer, 10 is maximum).")]
         [DefaultValue(0)]
         public int DecimalLength
         {
-            get
-            {
-                return m_decimalLength;
-            }
+            get { return m_decimalLength; }
             set
             {
                 if (m_decimalLength != value)
@@ -152,13 +159,13 @@ namespace Paway.Forms
                     {
                         m_decimalLength = value;
                     }
-                    this.SetValueFormatStr();
-                    base.Text = this.Value.ToString(m_valueFormatStr);
+                    SetValueFormatStr();
+                    base.Text = Value.ToString(m_valueFormatStr);
                 }
             }
         }
+
         /// <summary>
-        /// 
         /// </summary>
         [Category("Custom")]
         [Description("Get decimal value of textbox."), DefaultValue(0)]
@@ -174,8 +181,8 @@ namespace Paway.Forms
                 return 0;
             }
         }
+
         /// <summary>
-        /// 
         /// </summary>
         [Category("Custom")]
         [Description("Get integer value of textbox.")]
@@ -183,12 +190,12 @@ namespace Paway.Forms
         {
             get
             {
-                decimal val = this.Value;
+                var val = Value;
                 return (int)val;
             }
         }
+
         /// <summary>
-        /// 
         /// </summary>
         [Category("Custom")]
         [Description("Number can be negative or not.")]
@@ -208,40 +215,40 @@ namespace Paway.Forms
         #endregion
 
         #region  override events or methods
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="m"></param>
         protected override void WndProc(ref Message m)
         {
-            if (m.Msg == WM_PASTE)  // mouse paste
+            if (m.Msg == WM_PASTE) // mouse paste
             {
-                this.ClearSelection();
+                ClearSelection();
                 SendKeys.Send(Clipboard.GetText());
-                base.OnTextChanged(EventArgs.Empty);
+                OnTextChanged(EventArgs.Empty);
             }
-            else if (m.Msg == WM_COPY)  // mouse copy
+            else if (m.Msg == WM_COPY) // mouse copy
             {
-                Clipboard.SetText(this.SelectedText);
+                Clipboard.SetText(SelectedText);
             }
-            else if (m.Msg == WM_CUT)  // mouse cut or ctrl+x shortcut
+            else if (m.Msg == WM_CUT) // mouse cut or ctrl+x shortcut
             {
-                Clipboard.SetText(this.SelectedText);
-                this.ClearSelection();
-                base.OnTextChanged(EventArgs.Empty);
+                Clipboard.SetText(SelectedText);
+                ClearSelection();
+                OnTextChanged(EventArgs.Empty);
             }
             else if (m.Msg == WM_CLEAR)
             {
-                this.ClearSelection();
-                base.OnTextChanged(EventArgs.Empty);
+                ClearSelection();
+                OnTextChanged(EventArgs.Empty);
             }
             else
             {
                 base.WndProc(ref m);
             }
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="msg"></param>
         /// <param name="keyData"></param>
@@ -250,58 +257,57 @@ namespace Paway.Forms
         {
             if (keyData == (Keys)Shortcut.CtrlV)
             {
-                this.ClearSelection();
+                ClearSelection();
 
-                string text = Clipboard.GetText();
+                var text = Clipboard.GetText();
                 //                SendKeys.Send(text);
 
-                for (int k = 0; k < text.Length; k++) // can not use SendKeys.Send
+                for (var k = 0; k < text.Length; k++) // can not use SendKeys.Send
                 {
                     SendCharKey(text[k]);
                 }
                 return true;
             }
-            else if (keyData == (Keys)Shortcut.CtrlC)
+            if (keyData == (Keys)Shortcut.CtrlC)
             {
-                Clipboard.SetText(this.SelectedText);
+                Clipboard.SetText(SelectedText);
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="e"></param>
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
 
-            if (!this.ReadOnly)
+            if (!ReadOnly)
             {
                 if (e.KeyData == Keys.Delete || e.KeyData == Keys.Back)
                 {
-                    if (this.SelectionLength > 0)
+                    if (SelectionLength > 0)
                     {
-                        this.ClearSelection();
+                        ClearSelection();
                     }
                     else
                     {
-                        this.DeleteText(e.KeyData);
+                        DeleteText(e.KeyData);
                     }
-                    e.SuppressKeyPress = true;  // does not transform event to KeyPress, but to KeyUp
+                    e.SuppressKeyPress = true; // does not transform event to KeyPress, but to KeyUp
                 }
             }
-
         }
 
         /// <summary>
-        /// repostion SelectionStart, recalculate SelectedLength
+        ///     repostion SelectionStart, recalculate SelectedLength
         /// </summary>
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
             base.OnKeyPress(e);
 
-            if (this.ReadOnly)
+            if (ReadOnly)
             {
                 return;
             }
@@ -335,102 +341,98 @@ namespace Paway.Forms
                 return;
             }
 
-            if (e.KeyChar == m_decimalSeparator || e.KeyChar == m_negativeSign)  // will position after dot(.) or first
+            if (e.KeyChar == m_decimalSeparator || e.KeyChar == m_negativeSign) // will position after dot(.) or first
             {
-                this.SelectionLength = 0;
-            }
-            else
-            {
-                //this.ClearSelection();
+                SelectionLength = 0;
             }
 
-            bool isNegative = (base.Text[0] == m_negativeSign) ? true : false;
+            var isNegative = base.Text[0] == m_negativeSign ? true : false;
 
-            if (isNegative && this.SelectionStart == 0)
+            if (isNegative && SelectionStart == 0)
             {
-                this.SelectionStart = 1;
+                SelectionStart = 1;
             }
 
             if (e.KeyChar == m_negativeSign)
             {
-                int selStart = this.SelectionStart;
+                var selStart = SelectionStart;
 
                 if (!isNegative)
                 {
                     base.Text = m_negativeSign + base.Text;
-                    this.SelectionStart = selStart + 1;
+                    SelectionStart = selStart + 1;
                 }
                 else
                 {
                     base.Text = base.Text.Substring(1, base.Text.Length - 1);
                     if (selStart >= 1)
                     {
-                        this.SelectionStart = selStart - 1;
+                        SelectionStart = selStart - 1;
                     }
                     else
                     {
-                        this.SelectionStart = 0;
+                        SelectionStart = 0;
                     }
                 }
-                e.Handled = true;  // minus(-) has been handled
+                e.Handled = true; // minus(-) has been handled
                 return;
             }
 
-            int dotPos = base.Text.IndexOf(m_decimalSeparator) + 1;
+            var dotPos = base.Text.IndexOf(m_decimalSeparator) + 1;
 
             if (e.KeyChar == m_decimalSeparator)
             {
                 if (dotPos > 0)
                 {
-                    this.SelectionStart = dotPos;
+                    SelectionStart = dotPos;
                 }
-                e.Handled = true;  // dot has been handled 
+                e.Handled = true; // dot has been handled 
                 return;
             }
 
             if (base.Text == "0")
             {
-                this.BaseText.SelectAll();//清除默认0
+                BaseText.SelectAll(); //清除默认0
                 //this.SelectionStart = 0;
                 //this.SelectionStart = 1;  // replace thre first char, ie. 0
             }
             else if (base.Text == m_negativeSign + "0")
             {
-                this.SelectionStart = 1;
-                this.SelectionLength = 1;// replace thre first char, ie. 0
+                SelectionStart = 1;
+                SelectionLength = 1; // replace thre first char, ie. 0
             }
             else if (m_decimalLength > 0)
             {
-                if (base.Text[0] == '0' && dotPos == 2 && this.SelectionStart <= 1)
+                if (base.Text[0] == '0' && dotPos == 2 && SelectionStart <= 1)
                 {
-                    this.SelectionStart = 0;
-                    this.SelectionLength = 1;  // replace thre first char, ie. 0
+                    SelectionStart = 0;
+                    SelectionLength = 1; // replace thre first char, ie. 0
                 }
-                else if (base.Text.Substring(0, 2) == m_negativeSign + "0" && dotPos == 3 && this.SelectionStart <= 2)
+                else if (base.Text.Substring(0, 2) == m_negativeSign + "0" && dotPos == 3 && SelectionStart <= 2)
                 {
-                    this.SelectionStart = 1;
-                    this.SelectionLength = 1;  // replace thre first char, ie. 0
+                    SelectionStart = 1;
+                    SelectionLength = 1; // replace thre first char, ie. 0
                 }
-                else if (this.SelectionStart == dotPos + m_decimalLength)
+                else if (SelectionStart == dotPos + m_decimalLength)
                 {
-                    this.SelectionStart -= 1;
-                    this.SelectionLength = 1;  // last position after text
+                    SelectionStart -= 1;
+                    SelectionLength = 1; // last position after text
                 }
-                else if (this.SelectionStart >= dotPos)
+                else if (SelectionStart >= dotPos)
                 {
-                    this.SelectionLength = 1;
+                    SelectionLength = 1;
                 }
-                else if (this.SelectionLength == dotPos + m_decimalLength)
+                else if (SelectionLength == dotPos + m_decimalLength)
                 {
-                    this.ClearSelection();
-                    this.SelectionStart = 0;
-                    this.SelectionLength = 1;
+                    ClearSelection();
+                    SelectionStart = 0;
+                    SelectionLength = 1;
                 }
             }
         }
 
         /// <summary>
-        /// reformat the base.Text
+        ///     reformat the base.Text
         /// </summary>
         protected override void OnLeave(EventArgs e)
         {
@@ -440,7 +442,7 @@ namespace Paway.Forms
             }
             else
             {
-                base.Text = this.Value.ToString(m_valueFormatStr);
+                base.Text = Value.ToString(m_valueFormatStr);
             }
             base.OnLeave(e);
         }
@@ -451,15 +453,15 @@ namespace Paway.Forms
 
         private void SetValueFormatStr()
         {
-            m_valueFormatStr = "F" + m_decimalLength.ToString();
+            m_valueFormatStr = "F" + m_decimalLength;
         }
 
         private void SendCharKey(char c)
         {
-            Message msg = new Message();
-            if (!this.IsDisposed)
+            var msg = new Message();
+            if (!IsDisposed)
             {
-                msg.HWnd = this.Handle;
+                msg.HWnd = Handle;
                 msg.Msg = WM_CHAR;
                 msg.WParam = (IntPtr)c;
                 msg.LParam = IntPtr.Zero;
@@ -469,61 +471,62 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        /// Delete operator will be changed to BackSpace in order to
-        /// uniformly handle the position of deleted digit.
+        ///     Delete operator will be changed to BackSpace in order to
+        ///     uniformly handle the position of deleted digit.
         /// </summary>
         private void DeleteText(Keys key)
         {
-            int selStart = this.SelectionStart;  // base.Text will be delete at selStart - 1
+            var selStart = SelectionStart; // base.Text will be delete at selStart - 1
 
-            if (key == Keys.Delete)  // Delete key change to BackSpace key, adjust selStart value
+            if (key == Keys.Delete) // Delete key change to BackSpace key, adjust selStart value
             {
-                selStart += 1;  // adjust position for BackSpace
-                if (selStart > base.Text.Length)  // text end
+                selStart += 1; // adjust position for BackSpace
+                if (selStart > base.Text.Length) // text end
                 {
                     return;
                 }
 
-                if (this.IsSeparator(selStart - 1))  // next if delete dot(.) or thousands(;)
+                if (IsSeparator(selStart - 1)) // next if delete dot(.) or thousands(;)
                 {
                     selStart++;
                 }
             }
-            else  // BackSpace key
+            else // BackSpace key
             {
-                if (selStart == 0)  // first position
+                if (selStart == 0) // first position
                 {
                     return;
                 }
 
-                if (this.IsSeparator(selStart - 1)) // char which will be delete is separator
+                if (IsSeparator(selStart - 1)) // char which will be delete is separator
                 {
                     selStart--;
                 }
             }
 
-            if (selStart == 0 || selStart > base.Text.Length)  // selStart - 1 no digig
+            if (selStart == 0 || selStart > base.Text.Length) // selStart - 1 no digig
             {
                 return;
             }
 
-            int dotPos = base.Text.IndexOf(m_decimalSeparator);
-            bool isNegative = (base.Text.IndexOf(m_negativeSign) >= 0) ? true : false;
+            var dotPos = base.Text.IndexOf(m_decimalSeparator);
+            var isNegative = base.Text.IndexOf(m_negativeSign) >= 0 ? true : false;
 
-            if (selStart > dotPos && dotPos >= 0)  // delete digit after dot(.)
+            if (selStart > dotPos && dotPos >= 0) // delete digit after dot(.)
             {
-                base.Text = base.Text.Substring(0, selStart - 1) + base.Text.Substring(selStart, base.Text.Length - selStart) + "0";
-                base.SelectionStart = selStart - 1;  // SelectionStart is unchanged
+                base.Text = base.Text.Substring(0, selStart - 1) +
+                            base.Text.Substring(selStart, base.Text.Length - selStart) + "0";
+                SelectionStart = selStart - 1; // SelectionStart is unchanged
             }
             else // delete digit before dot(.)
             {
-                if (selStart == 1 && isNegative)  // delete 1st digit and Text is negative,ie. delete minus(-)
+                if (selStart == 1 && isNegative) // delete 1st digit and Text is negative,ie. delete minus(-)
                 {
-                    if (base.Text.Length == 1)  // ie. base.Text is '-'
+                    if (base.Text.Length == 1) // ie. base.Text is '-'
                     {
                         base.Text = "0";
                     }
-                    else if (dotPos == 1)  // -.* format
+                    else if (dotPos == 1) // -.* format
                     {
                         base.Text = "0" + base.Text.Substring(1, base.Text.Length - 1);
                     }
@@ -531,65 +534,67 @@ namespace Paway.Forms
                     {
                         base.Text = base.Text.Substring(1, base.Text.Length - 1);
                     }
-                    base.SelectionStart = 0;
+                    SelectionStart = 0;
                 }
-                else if (selStart == 1 && (dotPos == 1 || base.Text.Length == 1))  // delete 1st digit before dot(.) or Text.Length = 1
+                else if (selStart == 1 && (dotPos == 1 || base.Text.Length == 1))
+                // delete 1st digit before dot(.) or Text.Length = 1
                 {
                     base.Text = "0" + base.Text.Substring(1, base.Text.Length - 1);
-                    base.SelectionStart = 1;
+                    SelectionStart = 1;
                 }
-                else if (isNegative && selStart == 2 && base.Text.Length == 2)  // -* format
+                else if (isNegative && selStart == 2 && base.Text.Length == 2) // -* format
                 {
                     base.Text = m_negativeSign + "0";
-                    base.SelectionStart = 1;
+                    SelectionStart = 1;
                 }
-                else if (isNegative && selStart == 2 && dotPos == 2)  // -*.* format
+                else if (isNegative && selStart == 2 && dotPos == 2) // -*.* format
                 {
                     base.Text = m_negativeSign + "0" + base.Text.Substring(2, base.Text.Length - 2);
-                    base.SelectionStart = 1;
+                    SelectionStart = 1;
                 }
-                else  // selStart > 0
+                else // selStart > 0
                 {
-                    base.Text = base.Text.Substring(0, selStart - 1) + base.Text.Substring(selStart, base.Text.Length - selStart);
-                    base.SelectionStart = selStart - 1;
+                    base.Text = base.Text.Substring(0, selStart - 1) +
+                                base.Text.Substring(selStart, base.Text.Length - selStart);
+                    SelectionStart = selStart - 1;
                 }
             }
         }
 
         /// <summary>
-        /// clear base.SelectedText
+        ///     clear base.SelectedText
         /// </summary>
         private void ClearSelection()
         {
-            if (this.SelectionLength == 0)
+            if (SelectionLength == 0)
             {
                 return;
             }
 
-            if (this.SelectedText.Length == base.Text.Length)
+            if (SelectedText.Length == base.Text.Length)
             {
                 base.Text = 0.ToString(m_valueFormatStr);
                 return;
             }
 
-            int selLength = this.SelectedText.Length;
-            if (this.SelectedText.IndexOf(m_decimalSeparator) >= 0)
+            var selLength = SelectedText.Length;
+            if (SelectedText.IndexOf(m_decimalSeparator) >= 0)
             {
                 selLength--; // selected text contains dot(.), selected length minus 1
             }
 
-            this.SelectionStart += this.SelectedText.Length;  // after selected text
-            this.SelectionLength = 0;
+            SelectionStart += SelectedText.Length; // after selected text
+            SelectionLength = 0;
 
-            for (int k = 1; k <= selLength; k++)
+            for (var k = 1; k <= selLength; k++)
             {
-                this.DeleteText(Keys.Back);
+                DeleteText(Keys.Back);
             }
         }
 
         private bool IsSeparator(int index)
         {
-            return this.IsSeparator(base.Text[index]);
+            return IsSeparator(base.Text[index]);
         }
 
         private bool IsSeparator(char c)
@@ -604,6 +609,7 @@ namespace Paway.Forms
         #endregion
 
         #region 隐藏正则
+
         /// <summary>
         /// </summary>
         [Browsable(false)]
@@ -612,36 +618,16 @@ namespace Paway.Forms
             get { return null; }
             set { }
         }
+
         /// <summary>
         /// </summary>
         [Browsable(false)]
-        public override Helper.RegexType RegexType
+        public override RegexType RegexType
         {
-            get { return Helper.RegexType.None; }
+            get { return RegexType.None; }
             set { }
         }
+
         #endregion
-
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // BaseText
-            // 
-            this.BaseText.BackColor = System.Drawing.Color.White;
-            // 
-            // TNumTestBox
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
-            this.Lines = new string[0];
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Name = "TNumTestBox";
-            this.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
-            this.Size = new System.Drawing.Size(166, 34);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
-        }
-
     }
 }
