@@ -188,40 +188,42 @@ namespace Paway.Forms
                 }
 
                 //移除旧控件
-                if (parent.Controls.Count > 0)
+                Control temp = parent;
+                if (parent.Controls.Count == 1)
                 {
                     if (parent.Controls[0] is MControl)
                     {
-                        MControl temp = parent.Controls[0] as MControl;
+                        temp = parent.Controls[0];
                         //拒绝移除
-                        if (!temp.UnLoad())
+                        if (!(temp as MControl).UnLoad())
                         {
                             return null;
                         }
-                        switch (direction)
-                        {
-                            case TMDirection.Transparent:
-                            case TMDirection.T3DLeft:
-                            case TMDirection.T3DLeftToRight:
-                            case TMDirection.T3DRight:
-                            case TMDirection.T3DRightToLeft:
-                            case TMDirection.T3DUp:
-                            case TMDirection.T3DUpToDown:
-                            case TMDirection.T3DDown:
-                            case TMDirection.T3DDownToUp:
-                                if (temp.Width > 0 && temp.Height > 0)
-                                {
-                                    Bitmap bitmap = new Bitmap(temp.Width, temp.Height);
-                                    temp.DrawToBitmap(bitmap, new Rectangle(0, 0, temp.Width, temp.Height));
-                                    control.TranImage = bitmap;
-                                    parent.BackgroundImageLayout = ImageLayout.Stretch;
-                                    parent.BackgroundImage = control.TranImage;
-                                }
-                                break;
-                        }
                     }
-                    parent.Controls.Clear();
                 }
+                //特效显示
+                switch (direction)
+                {
+                    case TMDirection.Transparent:
+                    case TMDirection.T3DLeft:
+                    case TMDirection.T3DLeftToRight:
+                    case TMDirection.T3DRight:
+                    case TMDirection.T3DRightToLeft:
+                    case TMDirection.T3DUp:
+                    case TMDirection.T3DUpToDown:
+                    case TMDirection.T3DDown:
+                    case TMDirection.T3DDownToUp:
+                        if (temp.Width > 0 && temp.Height > 0)
+                        {
+                            Bitmap bitmap = new Bitmap(temp.Width, temp.Height);
+                            temp.DrawToBitmap(bitmap, new Rectangle(0, 0, temp.Width, temp.Height));
+                            control.TranImage = bitmap;
+                            parent.BackgroundImageLayout = ImageLayout.Stretch;
+                            parent.BackgroundImage = control.TranImage;
+                        }
+                        break;
+                }
+                parent.Controls.Clear();
 
                 //加载新控件属性
                 control.MDirection = TMDirection.None;
