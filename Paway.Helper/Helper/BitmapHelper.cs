@@ -685,6 +685,8 @@ namespace Paway.Helper
         /// </summary>
         public static Color HSLToRGB(double H, double S, double L)
         {
+            if (L < 0) L = 0;
+            if (L > 1) L = 1;
             double R, G, B;
             double var_1, var_2;
             if (S == 0)                       //HSL values = 0 ÷ 1
