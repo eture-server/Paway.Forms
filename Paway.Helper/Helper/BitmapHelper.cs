@@ -756,7 +756,7 @@ namespace Paway.Helper
         public static Color RGBAddLight(Color color, int value)
         {
             var result = RGBToHSL(color.R / 255.0, color.G / 255.0, color.B / 255.0);
-            return HSLToRGB(result[0], result[1], value);
+            return HSLToRGB(result[0], result[1], result[2] + value * 1.0 / 240);
         }
 
         /// <summary>
