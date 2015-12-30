@@ -104,7 +104,7 @@ namespace Paway.Win32
                 if (result == 0)
                 {
                     var errorCode = Marshal.GetLastWin32Error();
-                    throw new Win32Exception("KeyHook.Uninstall_Hook()->" + NativeMethods.GetLastErrorString(errorCode));
+                    throw new Win32Exception(string.Format("MouseHook.Uninstall_Hook()->{0:D5}", errorCode));
                 }
             }
         }

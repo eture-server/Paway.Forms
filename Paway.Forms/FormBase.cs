@@ -30,9 +30,6 @@ namespace Paway.Forms
             {
                 TMouseMove(this);
             }
-            var windowLong = NativeMethods.GetWindowLong(new HandleRef(this, Handle), -16);
-            NativeMethods.SetWindowLong(new HandleRef(this, Handle), -16, windowLong | (int)WindowStyle.WS_SYSMENU);
-
             StartPosition = FormStartPosition.CenterScreen;
             AutoScaleMode = AutoScaleMode.None;
         }
@@ -741,6 +738,7 @@ namespace Paway.Forms
         {
             base.OnLoad(e);
             OnSizeChanged(e);
+            Win32Helper.ShowSysMenu(this, (int)_sysButton, _iResize);
             if (!DesignMode)
             {
                 switch (StartPosition)

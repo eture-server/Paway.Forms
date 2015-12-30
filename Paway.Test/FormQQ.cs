@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Paway.Forms;
-using Paway.Custom;
 using Paway.Test.Properties;
 using System.IO;
 using Paway.Helper;
@@ -44,39 +43,7 @@ namespace Paway.Test
             base.OnShown(e);
             this.contextMenuStrip1.ContextMenuStripChanged += contextMenuStrip1_ContextMenuStripChanged;
             this.contextMenuStrip1.Paint += contextMenuStrip1_Paint;
-            ChatListBox();
             TreeView();
-        }
-        private void ChatListBox()
-        {
-            Random rnd = new Random();
-            string[] strs = { "兴业", "建行", "招商" };
-            for (int i = 0; i < strs.Length; i++)
-            {
-                Bitmap bitmap = i == 0 ? Resources.online : Resources.busy;
-                ChatListItem item = new ChatListItem(strs[i]);
-                for (int j = 0; j < 6; j++)
-                {
-                    ChatListSubItem subItem = new ChatListSubItem("1984yy998", "测试账号", "描述...", ChatListSubItem.UserStatus.Online);
-                    subItem.HeadImage = bitmap;
-                    subItem.ID = j;
-                    if (i == 0)
-                    {
-                        subItem.Status = (ChatListSubItem.UserStatus)j;
-                    }
-                    else
-                    {
-                        if (j % 2 == 0) subItem.Status = ChatListSubItem.UserStatus.OffLine;
-                    }
-                    subItem.DisplayName = ((ChatListSubItem.UserStatus)j).ToString();
-                    item.SubItems.AddAccordingToStatus(subItem);
-                    //闪动
-                    if (i == 0 && j > 4) subItem.IsTwinkle = true;
-                }
-
-                item.SubItems.Sort();
-                chatListBox1.Items.Add(item);
-            }
         }
 
         private void TreeView()

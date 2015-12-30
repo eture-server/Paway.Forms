@@ -3,12 +3,12 @@
     /// <summary>
     ///     系统控制按钮
     /// </summary>
-    public enum TSysButton
+    public enum TSysButton : int
     {
         /// <summary>
         ///     默认-最小化，最大化，关闭
         /// </summary>
-        Normal,
+        Normal = 0,
 
         /// <summary>
         ///     关闭按钮

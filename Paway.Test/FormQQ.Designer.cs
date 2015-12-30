@@ -29,22 +29,16 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            Paway.Custom.ChatListItem chatListItem1 = new Paway.Custom.ChatListItem();
-            Paway.Custom.ChatListSubItem chatListSubItem1 = new Paway.Custom.ChatListSubItem();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormQQ));
-            Paway.Custom.ChatListSubItem chatListSubItem2 = new Paway.Custom.ChatListSubItem();
-            Paway.Custom.ChatListSubItem chatListSubItem3 = new Paway.Custom.ChatListSubItem();
             Paway.Forms.TreeItem treeItem1 = new Paway.Forms.TreeItem();
             Paway.Forms.TreeItem treeItem2 = new Paway.Forms.TreeItem();
             Paway.Forms.TreeItem treeItem3 = new Paway.Forms.TreeItem();
             Paway.Forms.TreeItem treeItem4 = new Paway.Forms.TreeItem();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormQQ));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.在线ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.离开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.离开ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.chatListBox2 = new Paway.Custom.ChatListBox();
             this.qqTabPage2 = new Paway.Forms.QQTabPage();
             this.drawListBox1 = new Paway.Forms.TListBox();
             this.qqTabPage1 = new Paway.Forms.QQTabPage();
@@ -52,8 +46,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.treeView1 = new Paway.Forms.TTreeView();
-            this.tabPage2 = new Paway.Forms.QQTabPage();
-            this.chatListBox1 = new Paway.Custom.ChatListBox();
             this.tabPage1 = new Paway.Forms.QQTabPage();
             this.qqTextBoxEx1 = new Paway.Forms.QQTextBox();
             this.qqRadioButton2 = new Paway.Forms.QQRadioButton();
@@ -62,10 +54,8 @@
             this.qqButton1 = new Paway.Forms.QQButton();
             this.qqTabControl1 = new Paway.Forms.QQTabControl();
             this.contextMenuStrip1.SuspendLayout();
-            this.tabPage3.SuspendLayout();
             this.qqTabPage2.SuspendLayout();
             this.qqTabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.qqTabControl1.SuspendLayout();
             this.SuspendLayout();
@@ -102,65 +92,6 @@
             this.离开ToolStripMenuItem1.Name = "离开ToolStripMenuItem1";
             this.离开ToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
             this.离开ToolStripMenuItem1.Text = "离开";
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.BackColor = System.Drawing.Color.White;
-            this.tabPage3.Controls.Add(this.chatListBox2);
-            this.tabPage3.Location = new System.Drawing.Point(4, 36);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(291, 246);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "ChatListBox";
-            // 
-            // chatListBox2
-            // 
-            this.chatListBox2.BackColor = System.Drawing.Color.White;
-            this.chatListBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chatListBox2.ForeColor = System.Drawing.Color.DarkOrange;
-            chatListItem1.IsOpen = true;
-            chatListSubItem1.DisplayName = "用户1";
-            chatListSubItem1.HeadImage = ((System.Drawing.Image)(resources.GetObject("chatListSubItem1.HeadImage")));
-            chatListSubItem1.ID = 0;
-            chatListSubItem1.IpAddress = null;
-            chatListSubItem1.IsTwinkle = false;
-            chatListSubItem1.NicName = "name1";
-            chatListSubItem1.PersonalMsg = "Personal Message ...";
-            chatListSubItem1.Status = Paway.Custom.ChatListSubItem.UserStatus.QMe;
-            chatListSubItem1.TcpPort = 0;
-            chatListSubItem1.UpdPort = 0;
-            chatListSubItem2.DisplayName = "用户2";
-            chatListSubItem2.HeadImage = ((System.Drawing.Image)(resources.GetObject("chatListSubItem2.HeadImage")));
-            chatListSubItem2.ID = 0;
-            chatListSubItem2.IpAddress = null;
-            chatListSubItem2.IsTwinkle = false;
-            chatListSubItem2.NicName = "name2";
-            chatListSubItem2.PersonalMsg = "Personal Message ...";
-            chatListSubItem2.Status = Paway.Custom.ChatListSubItem.UserStatus.Online;
-            chatListSubItem2.TcpPort = 0;
-            chatListSubItem2.UpdPort = 0;
-            chatListSubItem3.DisplayName = "用户3";
-            chatListSubItem3.HeadImage = ((System.Drawing.Image)(resources.GetObject("chatListSubItem3.HeadImage")));
-            chatListSubItem3.ID = 0;
-            chatListSubItem3.IpAddress = null;
-            chatListSubItem3.IsTwinkle = false;
-            chatListSubItem3.NicName = "name3";
-            chatListSubItem3.PersonalMsg = "Personal Message ...";
-            chatListSubItem3.Status = Paway.Custom.ChatListSubItem.UserStatus.OffLine;
-            chatListSubItem3.TcpPort = 0;
-            chatListSubItem3.UpdPort = 0;
-            chatListItem1.SubItems.AddRange(new Paway.Custom.ChatListSubItem[] {
-            chatListSubItem1,
-            chatListSubItem2,
-            chatListSubItem3});
-            chatListItem1.Text = "分组";
-            this.chatListBox2.Items.AddRange(new Paway.Custom.ChatListItem[] {
-            chatListItem1});
-            this.chatListBox2.Location = new System.Drawing.Point(0, 0);
-            this.chatListBox2.Name = "chatListBox2";
-            this.chatListBox2.Size = new System.Drawing.Size(291, 246);
-            this.chatListBox2.TabIndex = 2;
-            this.chatListBox2.Text = "chatListBox2";
             // 
             // qqTabPage2
             // 
@@ -269,29 +200,6 @@
             this.treeView1.TabIndex = 1;
             this.treeView1.TRoot = "0";
             // 
-            // tabPage2
-            // 
-            this.tabPage2.BackColor = System.Drawing.Color.White;
-            this.tabPage2.ContextMenuShow = null;
-            this.tabPage2.Controls.Add(this.chatListBox1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 36);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(291, 246);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "ChatListBox";
-            // 
-            // chatListBox1
-            // 
-            this.chatListBox1.BackColor = System.Drawing.Color.White;
-            this.chatListBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chatListBox1.ForeColor = System.Drawing.Color.DarkOrange;
-            this.chatListBox1.Location = new System.Drawing.Point(3, 3);
-            this.chatListBox1.Name = "chatListBox1";
-            this.chatListBox1.Size = new System.Drawing.Size(285, 240);
-            this.chatListBox1.TabIndex = 0;
-            this.chatListBox1.Text = "chatListBox1";
-            // 
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.White;
@@ -369,10 +277,8 @@
             // qqTabControl1
             // 
             this.qqTabControl1.Controls.Add(this.tabPage1);
-            this.qqTabControl1.Controls.Add(this.tabPage2);
             this.qqTabControl1.Controls.Add(this.qqTabPage1);
             this.qqTabControl1.Controls.Add(this.qqTabPage2);
-            this.qqTabControl1.Controls.Add(this.tabPage3);
             this.qqTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.qqTabControl1.ForeColor = System.Drawing.Color.Black;
             this.qqTabControl1.ItemSize = new System.Drawing.Size(75, 32);
@@ -400,10 +306,8 @@
             this.Text = "Form2";
             this.TextShow = "Form2";
             this.contextMenuStrip1.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
             this.qqTabPage2.ResumeLayout(false);
             this.qqTabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.qqTabControl1.ResumeLayout(false);
@@ -418,14 +322,10 @@
         private System.Windows.Forms.ToolStripMenuItem 离开ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem 离开ToolStripMenuItem1;
-        private System.Windows.Forms.TabPage tabPage3;
-        private Custom.ChatListBox chatListBox2;
         private Forms.QQTabPage qqTabPage2;
         private Forms.TListBox drawListBox1;
         private Forms.QQTabPage qqTabPage1;
         private Forms.TTreeView treeView1;
-        private Forms.QQTabPage tabPage2;
-        private Custom.ChatListBox chatListBox1;
         private Forms.QQTabPage tabPage1;
         private Forms.QQTextBox qqTextBoxEx1;
         private Forms.QQRadioButton qqRadioButton2;
