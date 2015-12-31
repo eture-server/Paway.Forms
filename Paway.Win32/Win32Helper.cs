@@ -443,11 +443,15 @@ namespace Paway.Win32
         #region 显示系统菜单
         /// <summary>
         ///     显示系统菜单
+        ///     改变窗口大小与系统菜单冲突
         /// </summary>
         public static void ShowSysMenu(Form form, int sysButton, bool iResize)
         {
+            if (iResize) return;
+
             int windowLong = (NativeMethods.GetWindowLong(new HandleRef(form, form.Handle), -16));
-            NativeMethods.SetWindowLong(new HandleRef(form, form.Handle), -16, windowLong | (int)WindowStyle.WS_SYSMENU);
+            //| (int)WindowStyle.WS_THICKFRAME & ~(int)WindowStyle.WS_BORDER
+            NativeMethods.SetWindowLong(new HandleRef(form, form.Handle), -16, windowLong | (int)(WindowStyle.WS_SYSMENU));
             int menu = NativeMethods.GetSystemMenu(form.Handle, false);
 
             switch (sysButton)

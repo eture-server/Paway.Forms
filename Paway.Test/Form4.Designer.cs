@@ -61,7 +61,7 @@
             this.ClientSize = new System.Drawing.Size(300, 300);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.tProgressBar1);
-            this.Location = new System.Drawing.Point(0, 0);
+            this.IShadow = false;
             this.Name = "Form4";
             this.Text = "Form4";
             this.ResumeLayout(false);

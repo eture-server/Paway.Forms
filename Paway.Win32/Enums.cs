@@ -1115,6 +1115,7 @@ namespace Paway.Win32
 
         /// <summary>
         ///     透明
+        ///     系统菜单
         ///     0x00080000
         /// </summary>
         WS_SYSMENU = 0x00080000,

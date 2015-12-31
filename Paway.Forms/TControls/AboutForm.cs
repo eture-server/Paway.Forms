@@ -70,6 +70,40 @@ namespace Paway.Forms
             timer.Start();
         }
 
+        /// <summary>
+        ///     按下
+        /// </summary>
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                if (e.Clicks == 2)
+                {
+                    Close();
+                }
+            }
+            base.OnMouseDown(e);
+        }
+
+        /// <summary>
+        ///     关闭时激发父窗体
+        /// </summary>
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            if (m_showing)
+            {
+                e.Cancel = true;
+                m_showing = false;
+                timer.Start();
+            }
+            else if (Owner != null)
+            {
+                Owner.Activate();
+            }
+        }
+
+        #region 动态效果
         private void timer_Tick(object sender, EventArgs e)
         {
             if (m_showing)
@@ -101,22 +135,6 @@ namespace Paway.Forms
             }
         }
 
-        /// <summary>
-        ///     关闭时激发父窗体
-        /// </summary>
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            base.OnFormClosing(e);
-            if (m_showing)
-            {
-                e.Cancel = true;
-                m_showing = false;
-                timer.Start();
-            }
-            else if (Owner != null)
-            {
-                Owner.Activate();
-            }
-        }
+        #endregion
     }
 }
