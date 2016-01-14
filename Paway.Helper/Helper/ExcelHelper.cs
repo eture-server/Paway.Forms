@@ -64,17 +64,13 @@ namespace Paway.Helper
 
         /// <summary>
         ///     将DataTable导出到Excel
-        /// </summary>
-        public static void ExportExcel<T>(DataTable dt, string fileName, string sheet)
-        {
-            ExportExcel<T>(dt, fileName, sheet, false);
-        }
-
-        /// <summary>
-        ///     将DataTable导出到Excel
         ///     HDR=yes 第一行写入列标题
         /// </summary>
-        public static void ExportExcel<T>(DataTable dt, string fileName, string sheet, bool hdd)
+        /// <param name="dt">数据源</param>
+        /// <param name="fileName">excel2003文件名</param>
+        /// <param name="sheet">工作薄名称</param>
+        /// <param name="title">文件描述,在F1=0</param>
+        public static void ExportExcel(DataTable dt, string fileName, string sheet, string title = null)
         {
             var conString =
                 string.Format(
@@ -95,31 +91,14 @@ namespace Paway.Helper
                     insert = string.Format("{0}F{1},", insert, i + 1);
                 }
                 insert = insert.TrimEnd(',');
-                string sql = null;
-                //写入列标题
-                if (hdd)
+                //写入标题
+                if (!string.IsNullOrEmpty(title))
                 {
-                    var type = typeof(T);
-                    for (var i = 0; i < dt.Columns.Count; i++)
-                    {
-                        var pro = type.GetProperty(dt.Columns[i].ColumnName);
-                        var name = dt.Columns[i].ColumnName;
-                        if (pro != null)
-                        {
-                            var itemList =
-                                pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-                            if (itemList != null && itemList[0].Text != null)
-                            {
-                                name = itemList[0].Text;
-                            }
-                        }
-                        sql = string.Format("{0}'{1}',", sql, name.Replace("'", "''"));
-                    }
-                    sql = sql.TrimEnd(',');
-                    sql = string.Format("insert into [{0}$]({1}) values({2})", sheet, insert, sql);
-                    cmd.CommandText = sql;
+                    string update = string.Format("update [{0}$] set F2 = '{1}' where F1 = 0", sheet, title);
+                    cmd.CommandText = update;
                     cmd.ExecuteNonQuery();
                 }
+                string sql = null;
                 //写入数据
                 for (var i = 0; i < dt.Rows.Count; i++)
                 {
@@ -127,7 +106,10 @@ namespace Paway.Helper
                     sql = null;
                     for (var j = 0; j < dt.Columns.Count; j++)
                     {
-                        sql = string.Format("{0}'{1}',", sql, dr[j].ToString().Replace("'", "''"));
+                        if (dr[j] == DBNull.Value)
+                            sql = string.Format("{0}null,", sql);
+                        else
+                            sql = string.Format("{0}'{1}',", sql, dr[j].ToString().Replace("'", "''"));
                     }
                     sql = sql.TrimEnd(',');
                     sql = string.Format("insert into [{0}$]({1}) values({2})", sheet, insert, sql);
