@@ -90,17 +90,18 @@ namespace Paway.Forms
         /// </summary>
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            base.OnFormClosing(e);
             if (m_showing)
             {
                 e.Cancel = true;
                 m_showing = false;
                 timer.Start();
+                return;
             }
             else if (Owner != null)
             {
                 Owner.Activate();
             }
+            base.OnFormClosing(e);
         }
 
         #region 动态效果

@@ -138,7 +138,7 @@ namespace Paway.Test
             this.btAbout.Click += btAbout_Click;
             this.btGridView.Click += delegate { new FormGridView().Show(); };
             this.btDemo360.Click += delegate { new Demo360().Show(); };
-            this.btQQDemo.Click += delegate { new QQDemo().Show(); };
+            this.btQQDemo.Click += delegate { new QQDemo().ShowDialog(this); };
             this.btImage.Click += btImage_Click;
             toolBar2.ItemClick += toolBar2_ItemClick;
             this.btSearch.Click += btSearch_Click;
@@ -184,7 +184,7 @@ namespace Paway.Test
             }
             ImageForm iform = new ImageForm(searchOn);
             iform.BackColor = Color.Black;
-            iform.Show(this);
+            iform.ShowDialog(this);
         }
 
         void qqTextBox1_TextChanged(object sender, EventArgs e)
@@ -203,7 +203,7 @@ namespace Paway.Test
                 Bitmap image = BitmapHelper.GetBitmapFormFile(ofd.FileName);
                 ImageForm iform = new ImageForm(image);
                 iform.BackColor = Color.Black;
-                iform.Show(this);
+                iform.ShowDialog(this);
             }
         }
 

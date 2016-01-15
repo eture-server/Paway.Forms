@@ -25,11 +25,11 @@ namespace Paway.Forms
         /// <param name="e"></param>
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            base.OnFormClosing(e);
             if (Owner != null)
             {
                 Owner.Activate();
             }
+            base.OnFormClosing(e);
         }
 
         /// <summary>

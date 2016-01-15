@@ -335,8 +335,8 @@ namespace Paway.Forms
                 NativeMethods.AnimateWindow(Handle, 150, 0x90000);
                 Update();
             }
-            base.OnFormClosing(e);
             this.Dispose();
+            base.OnFormClosing(e);
         }
 
         /// <summary>
