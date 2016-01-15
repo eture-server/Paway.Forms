@@ -330,12 +330,13 @@ namespace Paway.Forms
         /// </summary>
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            base.OnFormClosing(e);
             if (!IsDisposed && !DesignMode && ISpecial)
             {
                 NativeMethods.AnimateWindow(Handle, 150, 0x90000);
                 Update();
             }
+            base.OnFormClosing(e);
+            this.Dispose();
         }
 
         /// <summary>
