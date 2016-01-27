@@ -133,7 +133,9 @@ namespace Paway.Forms
             get { return _windowState; }
             set
             {
+                FormWindowState old = base.WindowState;
                 base.WindowState = value;
+                if (old == FormWindowState.Minimized) return;
                 switch (_windowState)
                 {
                     case FormWindowState.Maximized:
