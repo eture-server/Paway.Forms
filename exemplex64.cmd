@@ -32,8 +32,7 @@ Paway.Forms.temp.dll ^
 Paway.Utils.dll ^
 Paway.Helper.dll ^
 Paway.Resource.dll ^
-Paway.Win32.dll ^
-Paway.Custom.dll
+Paway.Win32.dll
 xcopy Paway.Forms.dll	"%OUT%\"	/I /R /Y /Q
 xcopy Paway.Forms.xml	"%OUT%\"	/I /R /Y /Q
 
