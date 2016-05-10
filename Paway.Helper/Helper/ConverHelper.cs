@@ -40,8 +40,6 @@ namespace Paway.Helper
         /// <summary>
         ///     Double转换
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
         public static double ToDouble(this object obj)
         {
             if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
@@ -56,8 +54,6 @@ namespace Paway.Helper
         /// <summary>
         ///     Int32转换
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
         public static int ToInt(this object obj)
         {
             if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
@@ -88,8 +84,6 @@ namespace Paway.Helper
         /// <summary>
         ///     Bool转换
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
         public static bool ToBool(this object obj)
         {
             if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
@@ -108,8 +102,6 @@ namespace Paway.Helper
         /// <summary>
         ///     Long转换
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
         public static long ToLong(this object obj)
         {
             if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
@@ -124,8 +116,6 @@ namespace Paway.Helper
         /// <summary>
         ///     String转换
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
         public static string ToString2(this object obj)
         {
             if (obj == null || obj == DBNull.Value)
@@ -137,8 +127,6 @@ namespace Paway.Helper
         /// <summary>
         ///     DateTime转换
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
         public static DateTime ToDateTime(this object obj)
         {
             if (obj == null || obj == DBNull.Value || obj.ToString() == string.Empty)
@@ -170,9 +158,6 @@ namespace Paway.Helper
         /// <summary>
         ///     IList转为 DataTable
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list"></param>
-        /// <returns></returns>
         public static DataTable ToDataTable<T>(this IList<T> list)
         {
             var table = CreateTable<T>();
@@ -183,10 +168,6 @@ namespace Paway.Helper
         /// <summary>
         ///     IList转为 DataTable
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="list"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public static DataTable ToDataTable(this Type type, IList list, object id = null)
         {
             var table = type.CreateTable();
@@ -212,8 +193,6 @@ namespace Paway.Helper
         /// <summary>
         ///     将指定类型转为DataTable
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
         public static DataTable CreateTable<T>()
         {
             var entityType = typeof(T);
@@ -238,9 +217,6 @@ namespace Paway.Helper
 
         /// <summary>
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="rows"></param>
-        /// <returns></returns>
         public static IList<T> ToIList<T>(IList<DataRow> rows)
         {
             IList<T> list = null;
@@ -262,9 +238,6 @@ namespace Paway.Helper
         /// <summary>
         ///     将DataTable转为IList
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="table"></param>
-        /// <returns></returns>
         public static IList<T> ToIList<T>(this DataTable table)
         {
             if (table == null)
@@ -379,8 +352,6 @@ namespace Paway.Helper
         /// <summary>
         ///     该方法仅能转换DataTable的首列
         /// </summary>
-        /// <param name="table"></param>
-        /// <returns></returns>
         public static List<string> ConvertToListWithFirstColumn(this DataTable table)
         {
             if (table == null)
@@ -584,9 +555,6 @@ namespace Paway.Helper
         /// <summary>
         ///     设置主键值
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="t"></param>
-        /// <param name="value"></param>
         public static bool SetMark<T>(this T t, object value)
         {
             if (value == null || value == DBNull.Value) return false;
@@ -827,8 +795,6 @@ namespace Paway.Helper
         /// <summary>
         ///     返回泛型实参数类型
         /// </summary>
-        /// <param name="list"></param>
-        /// <returns></returns>
         public static Type GetListType(this IList list)
         {
             var type = list.GetType();
@@ -840,8 +806,6 @@ namespace Paway.Helper
         /// <summary>
         ///     返回泛型实参实例
         /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
         public static IList CreateList(this Type type)
         {
             var listType = typeof(List<>);
@@ -853,9 +817,6 @@ namespace Paway.Helper
         /// <summary>
         ///     一般复制
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="t"></param>
-        /// <returns></returns>
         public static T Clone<T>(this T t)
         {
             return t.Clone(false);
@@ -882,10 +843,6 @@ namespace Paway.Helper
         /// <summary>
         ///     复制子级
         /// </summary>
-        /// <param name="parent"></param>
-        /// <param name="copy"></param>
-        /// <param name="t"></param>
-        /// <param name="child"></param>
         public static void Clone(this Type parent, ref object copy, object t, bool child)
         {
             var properties = TypeDescriptor.GetProperties(parent);

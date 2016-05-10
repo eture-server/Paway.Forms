@@ -122,6 +122,7 @@ namespace Paway.Helper
         /// <returns></returns>
         public static string Decrypt3DES(string sourceData, string key)
         {
+            if (sourceData == null) sourceData = string.Empty;
             var result = string.Empty;
             MemoryStream ms = null;
             try
