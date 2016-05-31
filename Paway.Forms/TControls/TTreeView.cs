@@ -559,9 +559,12 @@ namespace Paway.Forms
             }
         }
 
-        private void AddNodes(DataTable dt, TreeNode parent, string id)
+        /// <summary>
+        /// 添加子节点
+        /// </summary>
+        protected virtual void AddNodes(DataTable dt, TreeNode parent, string parentId)
         {
-            var dr = dt.Select(string.Format("{0} = '{1}'", TParentId, id));
+            var dr = dt.Select(string.Format("{0} = '{1}'", TParentId, parentId));
             for (var i = 0; i < dr.Length; i++)
             {
                 var node = new ItemNode(dr[i]);
