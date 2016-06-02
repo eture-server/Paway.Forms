@@ -33,6 +33,8 @@ namespace Paway.Test
             btChange.Click += btChange_Click;
 
             btnBrush.Click += btnBrush_Click;
+            splitContainer1.SplitterMoved += delegate { tPictureBox1.Focus(); };
+            tPictureBox1.Focus();
             //ToSave();
             //CreateRoundedCorner(@"C:\Users\Tinn\Desktop\pk\d1.png", @"d:\2.png", null);
         }

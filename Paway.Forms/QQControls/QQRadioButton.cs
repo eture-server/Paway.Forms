@@ -38,7 +38,6 @@ namespace Paway.Forms
                 ControlStyles.SupportsTransparentBackColor, true);
             SetStyle(ControlStyles.Opaque, false);
             UpdateStyles();
-            TConfig.Init(this);
         }
 
         #endregion

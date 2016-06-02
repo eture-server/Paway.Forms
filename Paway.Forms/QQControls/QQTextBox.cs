@@ -481,7 +481,6 @@ namespace Paway.Forms
             InitializeComponent();
             InitEvents();
             Padding = new Padding(0, 0, 0, 3);
-            TConfig.Init(this);
         }
 
         /// <summary>
@@ -489,42 +488,41 @@ namespace Paway.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            components = new Container();
-            var resources = new ComponentResourceManager(typeof(QQTextBox));
-            error = new ErrorProvider(components);
-            BaseText = new QQTextBoxBase();
-            ((ISupportInitialize)error).BeginInit();
-            SuspendLayout();
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QQTextBox));
+            this.error = new System.Windows.Forms.ErrorProvider(this.components);
+            this.BaseText = new Paway.Forms.QQTextBoxBase();
+            ((System.ComponentModel.ISupportInitialize)(this.error)).BeginInit();
+            this.SuspendLayout();
             // 
             // error
             // 
-            error.BlinkStyle = ErrorBlinkStyle.NeverBlink;
-            error.ContainerControl = this;
-            error.Icon = (Icon)resources.GetObject("error.Icon");
+            this.error.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.error.ContainerControl = this;
+            this.error.Icon = ((System.Drawing.Icon)(resources.GetObject("error.Icon")));
             // 
             // BaseText
             // 
-            BaseText.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
-                              | AnchorStyles.Left
-                              | AnchorStyles.Right;
-            BaseText.BorderStyle = BorderStyle.None;
-            BaseText.Location = new Point(3, 4);
-            BaseText.Name = "BaseText";
-            BaseText.Size = new Size(100, 16);
-            BaseText.TabIndex = 0;
+            this.BaseText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.BaseText.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.BaseText.Location = new System.Drawing.Point(3, 4);
+            this.BaseText.Name = "BaseText";
+            this.BaseText.Size = new System.Drawing.Size(100, 16);
+            this.BaseText.TabIndex = 0;
             // 
             // QQTextBox
             // 
-            AutoScaleDimensions = new SizeF(7F, 17F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Black;
-            Controls.Add(BaseText);
-            Font = new Font("微软雅黑", 9F);
-            Name = "QQTextBox";
-            Size = new Size(166, 24);
-            ((ISupportInitialize)error).EndInit();
-            ResumeLayout(false);
-            PerformLayout();
+            this.BackColor = System.Drawing.Color.Transparent;
+            this.Controls.Add(this.BaseText);
+            this.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.Name = "QQTextBox";
+            this.Size = new System.Drawing.Size(166, 24);
+            ((System.ComponentModel.ISupportInitialize)(this.error)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion

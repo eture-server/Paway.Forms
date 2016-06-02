@@ -29,7 +29,6 @@ namespace Paway.Forms
                 ControlStyles.Selectable |
                 ControlStyles.SupportsTransparentBackColor, true);
             UpdateStyles();
-            TConfig.Init(this);
             SizeMode = TabSizeMode.Fixed;
             ItemSize = new Size(80, 32);
         }

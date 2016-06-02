@@ -30,17 +30,16 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tPictureBox1 = new Paway.Forms.TControls.TPictureBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.btLess = new System.Windows.Forms.Button();
             this.btAdd = new System.Windows.Forms.Button();
             this.btChange = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btSave = new System.Windows.Forms.Button();
+            this.btnBrush = new System.Windows.Forms.Button();
             this.btClear = new System.Windows.Forms.Button();
             this.lbColor = new System.Windows.Forms.Label();
             this.btColor = new System.Windows.Forms.Button();
-            this.btnBrush = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -60,7 +59,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.label3);
+            this.splitContainer1.Panel2.BackColor = System.Drawing.Color.White;
             this.splitContainer1.Panel2.Controls.Add(this.btLess);
             this.splitContainer1.Panel2.Controls.Add(this.btAdd);
             this.splitContainer1.Panel2.Controls.Add(this.btChange);
@@ -73,10 +72,12 @@
             this.splitContainer1.Panel2.Controls.Add(this.btColor);
             this.splitContainer1.Size = new System.Drawing.Size(554, 371);
             this.splitContainer1.SplitterDistance = 411;
+            this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 50;
             // 
             // tPictureBox1
             // 
+            this.tPictureBox1.BackColor = System.Drawing.Color.White;
             this.tPictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tPictureBox1.Image = null;
             this.tPictureBox1.Location = new System.Drawing.Point(0, 0);
@@ -84,15 +85,6 @@
             this.tPictureBox1.Size = new System.Drawing.Size(411, 371);
             this.tPictureBox1.TabIndex = 55;
             this.tPictureBox1.TabStop = false;
-            // 
-            // label3
-            // 
-            this.label3.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label3.Location = new System.Drawing.Point(0, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(2, 371);
-            this.label3.TabIndex = 67;
             // 
             // btLess
             // 
@@ -147,6 +139,15 @@
             this.btSave.Text = "保存";
             this.btSave.UseVisualStyleBackColor = true;
             // 
+            // btnBrush
+            // 
+            this.btnBrush.Location = new System.Drawing.Point(15, 286);
+            this.btnBrush.Name = "btnBrush";
+            this.btnBrush.Size = new System.Drawing.Size(73, 23);
+            this.btnBrush.TabIndex = 60;
+            this.btnBrush.Text = "渐变透明";
+            this.btnBrush.UseVisualStyleBackColor = true;
+            // 
             // btClear
             // 
             this.btClear.Location = new System.Drawing.Point(15, 257);
@@ -172,19 +173,11 @@
             this.btColor.Text = "取色";
             this.btColor.UseVisualStyleBackColor = true;
             // 
-            // btnBrush
-            // 
-            this.btnBrush.Location = new System.Drawing.Point(15, 286);
-            this.btnBrush.Name = "btnBrush";
-            this.btnBrush.Size = new System.Drawing.Size(73, 23);
-            this.btnBrush.TabIndex = 60;
-            this.btnBrush.Text = "渐变透明";
-            this.btnBrush.UseVisualStyleBackColor = true;
-            // 
             // FormImage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(153)))), ((int)(((byte)(188)))));
             this.ClientSize = new System.Drawing.Size(554, 371);
             this.Controls.Add(this.splitContainer1);
             this.Name = "FormImage";
@@ -213,7 +206,6 @@
         private System.Windows.Forms.Button btClear;
         private System.Windows.Forms.Label lbColor;
         private System.Windows.Forms.Button btColor;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnBrush;
 
     }

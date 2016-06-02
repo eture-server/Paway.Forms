@@ -101,6 +101,7 @@
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
             this.panel1.Controls.Add(this.tDataGridViewPager1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.ForeColor = System.Drawing.Color.White;
             this.panel1.Location = new System.Drawing.Point(0, 108);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(1, 0, 1, 2);
@@ -109,6 +110,7 @@
             // 
             // tDataGridViewPager1
             // 
+            this.tDataGridViewPager1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
             this.tDataGridViewPager1.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // 
@@ -148,6 +150,7 @@
             this.tDataGridViewPager1.Edit.Size = new System.Drawing.Size(848, 374);
             this.tDataGridViewPager1.Edit.TabIndex = 12;
             this.tDataGridViewPager1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tDataGridViewPager1.ForeColor = System.Drawing.Color.White;
             this.tDataGridViewPager1.Location = new System.Drawing.Point(1, 0);
             this.tDataGridViewPager1.Name = "tDataGridViewPager1";
             this.tDataGridViewPager1.Size = new System.Drawing.Size(848, 404);
@@ -158,6 +161,7 @@
             this.tDataGridViewPager1.TPager.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
             this.tDataGridViewPager1.TPager.Cursor = System.Windows.Forms.Cursors.Hand;
             this.tDataGridViewPager1.TPager.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tDataGridViewPager1.TPager.ForeColor = System.Drawing.Color.White;
             this.tDataGridViewPager1.TPager.Location = new System.Drawing.Point(0, 374);
             this.tDataGridViewPager1.TPager.Name = "pager1";
             this.tDataGridViewPager1.TPager.Size = new System.Drawing.Size(848, 30);
@@ -197,7 +201,6 @@
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "Form360";
             this.Padding = new System.Windows.Forms.Padding(0, 26, 0, 0);
             this.ShowIcon = false;

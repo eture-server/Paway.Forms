@@ -41,36 +41,37 @@ namespace Paway.Forms
 
         private void InitializeComponent()
         {
-            Edit = new TComboBoxBase();
-            SuspendLayout();
+            this.tComboBox1 = new Paway.Forms.TComboBoxBase();
+            this.SuspendLayout();
             // 
             // tComboBox1
             // 
-            Edit.IntegralHeight = false;
-            Edit.Location = new Point(1, 1);
-            Edit.Name = "Edit";
-            Edit.Size = new Size(121, 23);
-            Edit.TabIndex = 0;
+            this.tComboBox1.IntegralHeight = false;
+            this.tComboBox1.Location = new System.Drawing.Point(1, 1);
+            this.tComboBox1.Name = "tComboBox1";
+            this.tComboBox1.Size = new System.Drawing.Size(121, 23);
+            this.tComboBox1.TabIndex = 0;
             // 
             // TComboBox
             // 
-            Controls.Add(Edit);
-            Font = new Font("微软雅黑", 9F);
-            Name = "TComboBox";
-            Size = new Size(123, 25);
-            ResumeLayout(false);
+            this.Controls.Add(this.tComboBox1);
+            this.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.Name = "TComboBox";
+            this.Size = new System.Drawing.Size(123, 25);
+            this.ResumeLayout(false);
         }
 
         #endregion
 
         #region 属性
 
+        private TComboBoxBase tComboBox1;
         /// <summary>
         ///     编辑控件
         /// </summary>
         [Category("Properties")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public TComboBoxBase Edit { get; private set; }
+        public TComboBoxBase Edit { get { return tComboBox1; } }
 
         private Image _borderImage = AssemblyHelper.GetImage("QQ.TextBox.normal.png");
         private TMouseState _mouseState = TMouseState.Normal;
@@ -142,7 +143,6 @@ namespace Paway.Forms
         public TComboBox()
         {
             InitializeComponent();
-            TConfig.Init(this);
             Edit.SizeChanged += tComboBox1_SizeChanged;
         }
 

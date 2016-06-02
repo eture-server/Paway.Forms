@@ -261,172 +261,169 @@ namespace Paway.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            var toolItem1 = new ToolItem();
-            var resources = new ComponentResourceManager(typeof(TPager));
-            var toolItem2 = new ToolItem();
-            var toolItem3 = new ToolItem();
-            var toolItem4 = new ToolItem();
-            lblPageInfo = new Label();
-            txtCurrentPage = new TNumTestBox();
-            toolLast = new ToolBar();
-            toolNext = new ToolBar();
-            toolPrevious = new ToolBar();
-            toolFirst = new ToolBar();
-            SuspendLayout();
+            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TPager));
+            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
+            this.lblPageInfo = new System.Windows.Forms.Label();
+            this.txtCurrentPage = new Paway.Forms.TNumTestBox();
+            this.toolLast = new Paway.Forms.ToolBar();
+            this.toolNext = new Paway.Forms.ToolBar();
+            this.toolPrevious = new Paway.Forms.ToolBar();
+            this.toolFirst = new Paway.Forms.ToolBar();
+            this.SuspendLayout();
             // 
             // lblPageInfo
             // 
-            lblPageInfo.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            lblPageInfo.AutoSize = true;
-            lblPageInfo.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 134);
-            lblPageInfo.ForeColor = Color.Black;
-            lblPageInfo.Location = new Point(358, 7);
-            lblPageInfo.Name = "lblPageInfo";
-            lblPageInfo.Size = new Size(220, 14);
-            lblPageInfo.TabIndex = 0;
-            lblPageInfo.Text = "共 {0} 条记录，每页 {1} 条，共 {2} 页";
+            this.lblPageInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblPageInfo.AutoSize = true;
+            this.lblPageInfo.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblPageInfo.ForeColor = System.Drawing.Color.Black;
+            this.lblPageInfo.Location = new System.Drawing.Point(358, 7);
+            this.lblPageInfo.Name = "lblPageInfo";
+            this.lblPageInfo.Size = new System.Drawing.Size(220, 14);
+            this.lblPageInfo.TabIndex = 0;
+            this.lblPageInfo.Text = "共 {0} 条记录，每页 {1} 条，共 {2} 页";
             // 
             // txtCurrentPage
             // 
-            txtCurrentPage.ForeColor = Color.Black;
-            txtCurrentPage.Icon = null;
-            txtCurrentPage.IsPasswordChat = '\0';
-            txtCurrentPage.IsTrans = true;
-            txtCurrentPage.Lines = new[]
-            {
-                "1"
-            };
-            txtCurrentPage.Location = new Point(86, 3);
-            txtCurrentPage.MaxLength = 10;
-            txtCurrentPage.Name = "txtCurrentPage";
-            txtCurrentPage.SelectedText = "";
-            txtCurrentPage.Size = new Size(28, 25);
-            txtCurrentPage.TabIndex = 1;
+            this.txtCurrentPage.ForeColor = System.Drawing.Color.Black;
+            this.txtCurrentPage.Icon = null;
+            this.txtCurrentPage.IsPasswordChat = '\0';
+            this.txtCurrentPage.IsTrans = true;
+            this.txtCurrentPage.Lines = new string[] {
+        "1"};
+            this.txtCurrentPage.Location = new System.Drawing.Point(86, 3);
+            this.txtCurrentPage.MaxLength = 10;
+            this.txtCurrentPage.Name = "txtCurrentPage";
+            this.txtCurrentPage.SelectedText = "";
+            this.txtCurrentPage.Size = new System.Drawing.Size(28, 25);
+            this.txtCurrentPage.TabIndex = 1;
             // 
             // toolLast
             // 
-            toolLast.ICheckEvent = true;
-            toolLast.ImageSize = new Size(0, 0);
+            this.toolLast.ICheckEvent = true;
+            this.toolLast.ImageSize = new System.Drawing.Size(0, 0);
             toolItem1.Text = ">|";
-            toolLast.Items.Add(toolItem1);
-            toolLast.ItemSize = new Size(30, 24);
-            toolLast.ItemSpace = 5;
-            toolLast.Location = new Point(146, 1);
-            toolLast.Name = "toolLast";
-            toolLast.Padding = new Padding(0, 2, 0, 0);
-            toolLast.SelectImage = (Image)resources.GetObject("toolLast.SelectImage");
-            toolLast.Size = new Size(30, 28);
-            toolLast.TabIndex = 44;
-            toolLast.TBackGround.ColorDown = Color.FromArgb(31, 94, 167);
-            toolLast.TBackGround.ColorMove = Color.FromArgb(108, 171, 244);
-            toolLast.TBackGround.ColorNormal = Color.FromArgb(207, 221, 238);
-            toolLast.TEvent = TEvent.Up;
-            toolLast.TextFirst.ColorDown = Color.White;
-            toolLast.TextFirst.ColorMove = Color.White;
-            toolLast.TextFirst.ColorNormal = Color.Black;
-            toolLast.TextFirst.FontDown = new Font("微软雅黑", 10F);
-            toolLast.TextFirst.FontMove = new Font("微软雅黑", 10F);
-            toolLast.TextFirst.FontNormal = new Font("微软雅黑", 10F);
-            toolLast.TextFirst.StringVertical = StringAlignment.Center;
-            toolLast.Trans = 150;
+            this.toolLast.Items.Add(toolItem1);
+            this.toolLast.ItemSize = new System.Drawing.Size(30, 24);
+            this.toolLast.ItemSpace = 5;
+            this.toolLast.Location = new System.Drawing.Point(146, 1);
+            this.toolLast.Name = "toolLast";
+            this.toolLast.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            this.toolLast.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolLast.SelectImage")));
+            this.toolLast.Size = new System.Drawing.Size(30, 28);
+            this.toolLast.TabIndex = 44;
+            this.toolLast.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
+            this.toolLast.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
+            this.toolLast.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
+            this.toolLast.TEvent = Paway.Forms.TEvent.Up;
+            this.toolLast.TextFirst.ColorDown = System.Drawing.Color.White;
+            this.toolLast.TextFirst.ColorMove = System.Drawing.Color.White;
+            this.toolLast.TextFirst.ColorNormal = System.Drawing.Color.Black;
+            this.toolLast.TextFirst.FontDown = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolLast.TextFirst.FontMove = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolLast.TextFirst.FontNormal = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolLast.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolLast.Trans = 150;
             // 
             // toolNext
             // 
-            toolNext.ICheckEvent = true;
-            toolNext.ImageSize = new Size(0, 0);
+            this.toolNext.ICheckEvent = true;
+            this.toolNext.ImageSize = new System.Drawing.Size(0, 0);
             toolItem2.Text = ">";
-            toolNext.Items.Add(toolItem2);
-            toolNext.ItemSize = new Size(30, 24);
-            toolNext.ItemSpace = 5;
-            toolNext.Location = new Point(114, 1);
-            toolNext.Name = "toolNext";
-            toolNext.Padding = new Padding(0, 2, 0, 0);
-            toolNext.SelectImage = (Image)resources.GetObject("toolNext.SelectImage");
-            toolNext.Size = new Size(30, 28);
-            toolNext.TabIndex = 45;
-            toolNext.TBackGround.ColorDown = Color.FromArgb(31, 94, 167);
-            toolNext.TBackGround.ColorMove = Color.FromArgb(108, 171, 244);
-            toolNext.TBackGround.ColorNormal = Color.FromArgb(207, 221, 238);
-            toolNext.TEvent = TEvent.Up;
-            toolNext.TextFirst.ColorDown = Color.White;
-            toolNext.TextFirst.ColorMove = Color.White;
-            toolNext.TextFirst.ColorNormal = Color.Black;
-            toolNext.TextFirst.FontDown = new Font("微软雅黑", 10F);
-            toolNext.TextFirst.FontMove = new Font("微软雅黑", 10F);
-            toolNext.TextFirst.FontNormal = new Font("微软雅黑", 10F);
-            toolNext.TextFirst.StringVertical = StringAlignment.Center;
-            toolNext.Trans = 150;
+            this.toolNext.Items.Add(toolItem2);
+            this.toolNext.ItemSize = new System.Drawing.Size(30, 24);
+            this.toolNext.ItemSpace = 5;
+            this.toolNext.Location = new System.Drawing.Point(114, 1);
+            this.toolNext.Name = "toolNext";
+            this.toolNext.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            this.toolNext.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolNext.SelectImage")));
+            this.toolNext.Size = new System.Drawing.Size(30, 28);
+            this.toolNext.TabIndex = 45;
+            this.toolNext.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
+            this.toolNext.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
+            this.toolNext.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
+            this.toolNext.TEvent = Paway.Forms.TEvent.Up;
+            this.toolNext.TextFirst.ColorDown = System.Drawing.Color.White;
+            this.toolNext.TextFirst.ColorMove = System.Drawing.Color.White;
+            this.toolNext.TextFirst.ColorNormal = System.Drawing.Color.Black;
+            this.toolNext.TextFirst.FontDown = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolNext.TextFirst.FontMove = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolNext.TextFirst.FontNormal = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolNext.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolNext.Trans = 150;
             // 
             // toolPrevious
             // 
-            toolPrevious.ICheckEvent = true;
-            toolPrevious.ImageSize = new Size(0, 0);
+            this.toolPrevious.ICheckEvent = true;
+            this.toolPrevious.ImageSize = new System.Drawing.Size(0, 0);
             toolItem3.Text = "<";
-            toolPrevious.Items.Add(toolItem3);
-            toolPrevious.ItemSize = new Size(30, 24);
-            toolPrevious.ItemSpace = 5;
-            toolPrevious.Location = new Point(53, 1);
-            toolPrevious.Name = "toolPrevious";
-            toolPrevious.Padding = new Padding(0, 2, 0, 0);
-            toolPrevious.SelectImage = (Image)resources.GetObject("toolPrevious.SelectImage");
-            toolPrevious.Size = new Size(30, 28);
-            toolPrevious.TabIndex = 46;
-            toolPrevious.TBackGround.ColorDown = Color.FromArgb(31, 94, 167);
-            toolPrevious.TBackGround.ColorMove = Color.FromArgb(108, 171, 244);
-            toolPrevious.TBackGround.ColorNormal = Color.FromArgb(207, 221, 238);
-            toolPrevious.TEvent = TEvent.Up;
-            toolPrevious.TextFirst.ColorDown = Color.White;
-            toolPrevious.TextFirst.ColorMove = Color.White;
-            toolPrevious.TextFirst.ColorNormal = Color.Black;
-            toolPrevious.TextFirst.FontDown = new Font("微软雅黑", 10F);
-            toolPrevious.TextFirst.FontMove = new Font("微软雅黑", 10F);
-            toolPrevious.TextFirst.FontNormal = new Font("微软雅黑", 10F);
-            toolPrevious.TextFirst.StringVertical = StringAlignment.Center;
-            toolPrevious.Trans = 150;
+            this.toolPrevious.Items.Add(toolItem3);
+            this.toolPrevious.ItemSize = new System.Drawing.Size(30, 24);
+            this.toolPrevious.ItemSpace = 5;
+            this.toolPrevious.Location = new System.Drawing.Point(53, 1);
+            this.toolPrevious.Name = "toolPrevious";
+            this.toolPrevious.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            this.toolPrevious.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolPrevious.SelectImage")));
+            this.toolPrevious.Size = new System.Drawing.Size(30, 28);
+            this.toolPrevious.TabIndex = 46;
+            this.toolPrevious.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
+            this.toolPrevious.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
+            this.toolPrevious.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
+            this.toolPrevious.TEvent = Paway.Forms.TEvent.Up;
+            this.toolPrevious.TextFirst.ColorDown = System.Drawing.Color.White;
+            this.toolPrevious.TextFirst.ColorMove = System.Drawing.Color.White;
+            this.toolPrevious.TextFirst.ColorNormal = System.Drawing.Color.Black;
+            this.toolPrevious.TextFirst.FontDown = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolPrevious.TextFirst.FontMove = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolPrevious.TextFirst.FontNormal = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolPrevious.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolPrevious.Trans = 150;
             // 
             // toolFirst
             // 
-            toolFirst.ICheckEvent = true;
-            toolFirst.ImageSize = new Size(0, 0);
+            this.toolFirst.ICheckEvent = true;
+            this.toolFirst.ImageSize = new System.Drawing.Size(0, 0);
             toolItem4.Text = "|<";
-            toolFirst.Items.Add(toolItem4);
-            toolFirst.ItemSize = new Size(30, 24);
-            toolFirst.ItemSpace = 5;
-            toolFirst.Location = new Point(21, 1);
-            toolFirst.Name = "toolFirst";
-            toolFirst.Padding = new Padding(0, 2, 0, 0);
-            toolFirst.SelectImage = (Image)resources.GetObject("toolFirst.SelectImage");
-            toolFirst.Size = new Size(30, 28);
-            toolFirst.TabIndex = 47;
-            toolFirst.TBackGround.ColorDown = Color.FromArgb(31, 94, 167);
-            toolFirst.TBackGround.ColorMove = Color.FromArgb(108, 171, 244);
-            toolFirst.TBackGround.ColorNormal = Color.FromArgb(207, 221, 238);
-            toolFirst.TEvent = TEvent.Up;
-            toolFirst.TextFirst.ColorDown = Color.White;
-            toolFirst.TextFirst.ColorMove = Color.White;
-            toolFirst.TextFirst.ColorNormal = Color.Black;
-            toolFirst.TextFirst.FontDown = new Font("微软雅黑", 10F);
-            toolFirst.TextFirst.FontMove = new Font("微软雅黑", 10F);
-            toolFirst.TextFirst.FontNormal = new Font("微软雅黑", 10F);
-            toolFirst.TextFirst.StringVertical = StringAlignment.Center;
-            toolFirst.Trans = 150;
+            this.toolFirst.Items.Add(toolItem4);
+            this.toolFirst.ItemSize = new System.Drawing.Size(30, 24);
+            this.toolFirst.ItemSpace = 5;
+            this.toolFirst.Location = new System.Drawing.Point(21, 1);
+            this.toolFirst.Name = "toolFirst";
+            this.toolFirst.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            this.toolFirst.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolFirst.SelectImage")));
+            this.toolFirst.Size = new System.Drawing.Size(30, 28);
+            this.toolFirst.TabIndex = 47;
+            this.toolFirst.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
+            this.toolFirst.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
+            this.toolFirst.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
+            this.toolFirst.TEvent = Paway.Forms.TEvent.Up;
+            this.toolFirst.TextFirst.ColorDown = System.Drawing.Color.White;
+            this.toolFirst.TextFirst.ColorMove = System.Drawing.Color.White;
+            this.toolFirst.TextFirst.ColorNormal = System.Drawing.Color.Black;
+            this.toolFirst.TextFirst.FontDown = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolFirst.TextFirst.FontMove = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolFirst.TextFirst.FontNormal = new System.Drawing.Font("微软雅黑", 10F);
+            this.toolFirst.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolFirst.Trans = 150;
             // 
             // TPager
             // 
-            AutoScaleDimensions = new SizeF(6F, 12F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(207, 221, 238);
-            Controls.Add(toolFirst);
-            Controls.Add(toolPrevious);
-            Controls.Add(toolNext);
-            Controls.Add(toolLast);
-            Controls.Add(txtCurrentPage);
-            Controls.Add(lblPageInfo);
-            Cursor = Cursors.Hand;
-            Name = "TPager";
-            Size = new Size(606, 30);
-            ResumeLayout(false);
-            PerformLayout();
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
+            this.Controls.Add(this.toolFirst);
+            this.Controls.Add(this.toolPrevious);
+            this.Controls.Add(this.toolNext);
+            this.Controls.Add(this.toolLast);
+            this.Controls.Add(this.txtCurrentPage);
+            this.Controls.Add(this.lblPageInfo);
+            this.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Name = "TPager";
+            this.Size = new System.Drawing.Size(606, 30);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
