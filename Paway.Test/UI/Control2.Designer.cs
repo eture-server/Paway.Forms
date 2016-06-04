@@ -28,12 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem5 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem6 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem7 = new Paway.Forms.ToolItem();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Control2));
+            Paway.Forms.ToolItem toolItem8 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem9 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem10 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem11 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem12 = new Paway.Forms.ToolItem();
             this.qqTextBox1 = new Paway.Forms.QQTextBox();
             this.btQQDemo = new Paway.Forms.QQButton();
             this.tbPrompt = new Paway.Forms.QQTextBox();
@@ -48,6 +49,7 @@
             // 
             // qqTextBox1
             // 
+            this.qqTextBox1.ForeColor = System.Drawing.SystemColors.WindowText;
             this.qqTextBox1.Icon = null;
             this.qqTextBox1.IsPasswordChat = '\0';
             this.qqTextBox1.Lines = new string[] {
@@ -60,6 +62,7 @@
             // 
             // btQQDemo
             // 
+            this.btQQDemo.BackColor = System.Drawing.Color.Wheat;
             this.btQQDemo.Image = null;
             this.btQQDemo.Location = new System.Drawing.Point(340, 126);
             this.btQQDemo.Name = "btQQDemo";
@@ -103,11 +106,12 @@
             this.toolRight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolRight.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolRight.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem1.Text = "右";
-            this.toolRight.Items.Add(toolItem1);
+            toolItem7.Text = "右";
+            this.toolRight.Items.Add(toolItem7);
             this.toolRight.ItemSize = new System.Drawing.Size(90, 40);
             this.toolRight.Location = new System.Drawing.Point(29, 126);
             this.toolRight.Name = "toolRight";
+            this.toolRight.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolRight.SelectImage")));
             this.toolRight.Size = new System.Drawing.Size(90, 42);
             this.toolRight.TabIndex = 58;
             this.toolRight.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
@@ -126,11 +130,12 @@
             this.toolDown.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolDown.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolDown.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem2.Text = "下";
-            this.toolDown.Items.Add(toolItem2);
+            toolItem8.Text = "下";
+            this.toolDown.Items.Add(toolItem8);
             this.toolDown.ItemSize = new System.Drawing.Size(90, 40);
             this.toolDown.Location = new System.Drawing.Point(29, 72);
             this.toolDown.Name = "toolDown";
+            this.toolDown.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolDown.SelectImage")));
             this.toolDown.Size = new System.Drawing.Size(90, 42);
             this.toolDown.TabIndex = 57;
             this.toolDown.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
@@ -149,11 +154,12 @@
             this.toolUp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolUp.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolUp.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem3.Text = "上";
-            this.toolUp.Items.Add(toolItem3);
+            toolItem9.Text = "上";
+            this.toolUp.Items.Add(toolItem9);
             this.toolUp.ItemSize = new System.Drawing.Size(90, 40);
             this.toolUp.Location = new System.Drawing.Point(221, 126);
             this.toolUp.Name = "toolUp";
+            this.toolUp.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolUp.SelectImage")));
             this.toolUp.Size = new System.Drawing.Size(90, 42);
             this.toolUp.TabIndex = 56;
             this.toolUp.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
@@ -172,11 +178,12 @@
             this.toolTran.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolTran.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolTran.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem4.Text = "色";
-            this.toolTran.Items.Add(toolItem4);
+            toolItem10.Text = "色";
+            this.toolTran.Items.Add(toolItem10);
             this.toolTran.ItemSize = new System.Drawing.Size(90, 40);
             this.toolTran.Location = new System.Drawing.Point(125, 180);
             this.toolTran.Name = "toolTran";
+            this.toolTran.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolTran.SelectImage")));
             this.toolTran.Size = new System.Drawing.Size(90, 42);
             this.toolTran.TabIndex = 55;
             this.toolTran.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
@@ -195,11 +202,12 @@
             this.toolLeft.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolLeft.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolLeft.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem5.Text = "左";
-            this.toolLeft.Items.Add(toolItem5);
+            toolItem11.Text = "左";
+            this.toolLeft.Items.Add(toolItem11);
             this.toolLeft.ItemSize = new System.Drawing.Size(90, 40);
             this.toolLeft.Location = new System.Drawing.Point(221, 72);
             this.toolLeft.Name = "toolLeft";
+            this.toolLeft.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolLeft.SelectImage")));
             this.toolLeft.Size = new System.Drawing.Size(90, 42);
             this.toolLeft.TabIndex = 54;
             this.toolLeft.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
@@ -218,11 +226,12 @@
             this.toolCenter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolCenter.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolCenter.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem6.Text = "中";
-            this.toolCenter.Items.Add(toolItem6);
+            toolItem12.Text = "中";
+            this.toolCenter.Items.Add(toolItem12);
             this.toolCenter.ItemSize = new System.Drawing.Size(90, 40);
             this.toolCenter.Location = new System.Drawing.Point(125, 72);
             this.toolCenter.Name = "toolCenter";
+            this.toolCenter.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolCenter.SelectImage")));
             this.toolCenter.Size = new System.Drawing.Size(90, 42);
             this.toolCenter.TabIndex = 53;
             this.toolCenter.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
@@ -237,8 +246,6 @@
             // 
             // Control2
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Wheat;
             this.Controls.Add(this.toolRight);
             this.Controls.Add(this.toolDown);

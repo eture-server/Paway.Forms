@@ -120,10 +120,9 @@
             // 
             // Control1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tDataGridViewPager1);
             this.Controls.Add(this.panel1);
+            this.Font = new System.Drawing.Font("微软雅黑", 15F);
             this.Name = "Control1";
             this.Size = new System.Drawing.Size(533, 217);
             this.panel1.ResumeLayout(false);

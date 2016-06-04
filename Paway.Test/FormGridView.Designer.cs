@@ -258,6 +258,7 @@
             this.tDataGridView1.MultiSelect = true;
             this.tDataGridView1.Name = "tDataGridView1";
             dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Red;
             dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.tDataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
@@ -341,9 +342,9 @@
             // 
             // FormGridView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.BackColor = System.Drawing.Color.CornflowerBlue;
             this.ClientSize = new System.Drawing.Size(467, 574);
+            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "FormGridView";
             this.Text = "DemoGridView";
             this.TextShow = "hello,world";

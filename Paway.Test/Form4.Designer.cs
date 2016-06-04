@@ -57,7 +57,6 @@
             // Form4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(300, 300);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.tProgressBar1);

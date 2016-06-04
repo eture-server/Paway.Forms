@@ -251,7 +251,6 @@ namespace Paway.Forms
             // TDataGridViewPager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tDataGridView1);
             this.Controls.Add(this.pager1);
             this.Name = "TDataGridViewPager";

@@ -176,7 +176,6 @@
             // FormImage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(153)))), ((int)(((byte)(188)))));
             this.ClientSize = new System.Drawing.Size(554, 371);
             this.Controls.Add(this.splitContainer1);

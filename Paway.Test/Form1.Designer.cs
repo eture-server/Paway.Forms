@@ -42,6 +42,7 @@
             Paway.Forms.ToolItem toolItem11 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem12 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem13 = new Paway.Forms.ToolItem();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             Paway.Forms.ToolItem toolItem14 = new Paway.Forms.ToolItem();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolAdd = new System.Windows.Forms.ToolStripMenuItem();
@@ -92,6 +93,8 @@
             // 
             // btName
             // 
+            this.btName.BackColor = System.Drawing.Color.Gainsboro;
+            this.btName.ForeColor = System.Drawing.Color.White;
             this.btName.Image = null;
             this.btName.Location = new System.Drawing.Point(35, 274);
             this.btName.Name = "btName";
@@ -149,6 +152,7 @@
             this.toolBar.Location = new System.Drawing.Point(35, 29);
             this.toolBar.MDirection = Paway.Forms.TMDirection.Center;
             this.toolBar.Name = "toolBar";
+            this.toolBar.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolBar.SelectImage")));
             this.toolBar.Size = new System.Drawing.Size(263, 215);
             this.toolBar.TabIndex = 31;
             this.toolBar.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
@@ -179,11 +183,12 @@
             // tbRsa2
             // 
             this.tbRsa2.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.tbRsa2.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tbRsa2.Icon = null;
             this.tbRsa2.IsPasswordChat = '\0';
             this.tbRsa2.Lines = new string[0];
             this.tbRsa2.Location = new System.Drawing.Point(137, 277);
-            this.tbRsa2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbRsa2.Margin = new System.Windows.Forms.Padding(4);
             this.tbRsa2.MaxLength = 128;
             this.tbRsa2.Name = "tbRsa2";
             this.tbRsa2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
@@ -216,6 +221,7 @@
             this.toolBar1.ItemSize = new System.Drawing.Size(181, 127);
             this.toolBar1.Location = new System.Drawing.Point(3, 3);
             this.toolBar1.Name = "toolBar1";
+            this.toolBar1.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolBar1.SelectImage")));
             this.toolBar1.Size = new System.Drawing.Size(181, 127);
             this.toolBar1.TabIndex = 67;
             // 
@@ -242,6 +248,7 @@
             // qqTextBox1
             // 
             this.qqTextBox1.BackColor = System.Drawing.Color.White;
+            this.qqTextBox1.ForeColor = System.Drawing.SystemColors.WindowText;
             this.qqTextBox1.Icon = null;
             this.qqTextBox1.IsBorder = false;
             this.qqTextBox1.IsPasswordChat = '\0';
@@ -257,12 +264,13 @@
             // 
             this.tbName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tbName.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.tbName.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tbName.Icon = global::Paway.Test.Properties.Resources.serrch;
             this.tbName.IconIsButton = true;
             this.tbName.IsPasswordChat = '\0';
             this.tbName.Lines = new string[0];
             this.tbName.Location = new System.Drawing.Point(271, 277);
-            this.tbName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbName.Margin = new System.Windows.Forms.Padding(4);
             this.tbName.MaxLength = 10;
             this.tbName.Name = "tbName";
             this.tbName.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
@@ -274,8 +282,6 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.BackColor = System.Drawing.Color.Gainsboro;
@@ -288,11 +294,9 @@
             this.Controls.Add(this.toolBar);
             this.Controls.Add(this.btName);
             this.Controls.Add(this.pictureBox1);
-            this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ForeColor = System.Drawing.Color.White;
             this.IDrawBorder = true;
             this.IResize = false;
-            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "Form1";
             this.Padding = new System.Windows.Forms.Padding(0, 26, 3, 3);
             this.Text = "Form1";

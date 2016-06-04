@@ -54,6 +54,17 @@ namespace Paway.Forms
             set { base.BackgroundImageLayout = value; }
         }
 
+        /// <summary>
+        ///     获取或设置控件的自动缩放模式。
+        /// </summary>
+        [Description("获取或设置控件的自动缩放模式")]
+        [DefaultValue(typeof(FormStartPosition), "None")]
+        public new AutoScaleMode AutoScaleMode
+        {
+            get { return base.AutoScaleMode; }
+            set { base.AutoScaleMode = value; }
+        }
+
         #endregion
 
         #region 事件
