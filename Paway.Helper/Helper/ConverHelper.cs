@@ -7,6 +7,7 @@ using System.Data.Common;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Paway.Helper
@@ -149,6 +150,58 @@ namespace Paway.Helper
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        ///     拼音转换
+        /// </summary>
+        public static string ToSpell(this object obj)
+        {
+            string text = obj.ToString2();
+            string str = "";
+            for (int i = 0; i < text.Length; i++)
+            {
+                //取单个汉字
+                str += GetSpell(text.Substring(i, 1));
+            }
+            return str;
+        }
+        /// <summary>
+        /// 根据一个汉字获得其首拼音
+        /// </summary>
+        private static string GetSpell(string chart)
+        {
+            //获得其ASSIC码
+            byte[] arrCN = Encoding.Default.GetBytes(chart);
+            if (arrCN.Length > 1)
+            {
+                int area = (short)arrCN[0];
+                int pos = (short)arrCN[1];
+
+                //int code = (area << 8) + pos;
+                int code = area * 256 + pos;
+                //0~65535
+                //a~Z的数字表示
+                int[] areacode = { 45217, 45253, 45761, 46318, 46826, 47010, 47297,
+                                     47614, 48119, 48119, 49062, 49324, 49896, 50371,
+                                     50614, 50622, 50906, 51387, 51446, 52218,
+                                     52698, 52698, 52698, 52980, 53689, 54481 };
+                //判断其值在那2个数字之间
+                for (int i = 0; i < 26; i++)
+                {
+                    //最后一个汉字的值
+                    int max = 55290;
+                    if (i != 25)
+                        max = areacode[i + 1];
+                    if (areacode[i] <= code && code < max)
+                    {
+                        //转为字母返回
+                        return Encoding.Default.GetString(new byte[] { (byte)(97 + i) });
+                    }
+                }
+                return "*";
+            }
+            else return chart;
         }
 
         #endregion
