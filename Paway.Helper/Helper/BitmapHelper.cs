@@ -321,14 +321,37 @@ namespace Paway.Helper
         /// <summary>
         ///     高质量缩放图像，显示像素点
         /// </summary>
-        public static Image HighImage(Image image, Rectangle rect)
+        public static Image HighImage(Image image, InterpolationMode mode = InterpolationMode.NearestNeighbor)
         {
-            Image temp = new Bitmap(rect.Width, rect.Height);
+            if (image == null) return null;
+            int width = image.Width;
+            if (image.Height > width)
+                width = image.Height;
+            return HighImage(image, new Size(width, width), mode);
+        }
+        /// <summary>
+        ///     高质量缩放图像，显示像素点
+        /// </summary>
+        public static Image HighImage(Image image, Size size, InterpolationMode mode)
+        {
+            if (image == null) return null;
+            Image temp = new Bitmap(size.Width, size.Height);
             using (var g = Graphics.FromImage(temp))
             {
-                g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                g.InterpolationMode = mode;
                 g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                g.DrawImage(image, new Rectangle(rect.Location, rect.Size), new Rectangle(Point.Empty, image.Size),
+                Rectangle rect = Rectangle.Empty;
+                if (size.Width * 1.0 / size.Height > image.Width * 1.0 / image.Height)
+                {
+                    int width = image.Width * size.Height / image.Height;
+                    rect = new Rectangle((size.Width - width) / 2, 0, width, size.Height);
+                }
+                else
+                {
+                    int height = image.Height * size.Width / image.Width;
+                    rect = new Rectangle(0, (size.Height - height) / 2, size.Width, height);
+                }
+                g.DrawImage(image, rect, new Rectangle(Point.Empty, image.Size),
                     GraphicsUnit.Pixel);
                 g.PixelOffsetMode = PixelOffsetMode.Default;
             }

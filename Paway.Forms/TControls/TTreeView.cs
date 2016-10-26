@@ -580,7 +580,7 @@ namespace Paway.Forms
             string result = null;
             for (var j = 0; j < _items.Count; j++)
             {
-                result = string.Format("{0}{1}&", result, dr[_items[j].Name]);
+                result = string.Format("{0}{1}&&", result, dr[_items[j].Name]);
             }
             if (result == null) result = dr[TId.ToString()].ToString();
             else result = result.TrimEnd('&');

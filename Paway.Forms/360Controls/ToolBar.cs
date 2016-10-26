@@ -1331,7 +1331,7 @@ namespace Paway.Forms
                 }
                 else
                 {
-                    var text = item.Text.Split(new[] { "\r\n", "&" }, StringSplitOptions.RemoveEmptyEntries);
+                    var text = item.Text.Split(new[] { "\r\n", "&&" }, StringSplitOptions.RemoveEmptyEntries);
                     if (text.Length > 0)
                     {
                         var fHight = HeightFont(item.MouseState, TextFirst);

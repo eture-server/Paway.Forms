@@ -74,7 +74,7 @@ namespace Paway.Forms
                 First = null;
                 Sencond = null;
                 if (string.IsNullOrEmpty(value)) return;
-                var text = _text.Split(new[] { "\r\n", "&" }, StringSplitOptions.RemoveEmptyEntries);
+                var text = _text.Split(new[] { "\r\n", "&&" }, StringSplitOptions.RemoveEmptyEntries);
                 if (text.Length > 0)
                 {
                     First = text[0];

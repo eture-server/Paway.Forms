@@ -64,7 +64,7 @@ namespace Paway.Forms
         /// <param name="e"></param>
         private void DrawMultiText(DataGridViewCellPaintingEventArgs e)
         {
-            if (e.Value == null || e.Value.ToString().Trim() == string.Empty || e.Value.ToString().IndexOf("&") == -1)
+            if (e.Value == null || e.Value.ToString().Trim() == string.Empty || e.Value.ToString().IndexOf("&&") == -1)
                 return;
 
             var cell = Columns[e.ColumnIndex] as DataGridViewTextBoxColumn;
@@ -80,7 +80,7 @@ namespace Paway.Forms
                 }
                 DrawBounds(e.Graphics, new SolidBrush(colorBack), e.CellBounds, e.RowIndex);
 
-                var index = e.Value.ToString().IndexOf("&");
+                var index = e.Value.ToString().IndexOf("&&");
                 var strFirst = e.Value.ToString().Substring(0, index);
                 var strSecond = e.Value.ToString().Substring(index + 1);
 
