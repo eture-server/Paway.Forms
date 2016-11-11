@@ -29,7 +29,7 @@ namespace Paway.Forms
                 ControlStyles.SupportsTransparentBackColor, true);
             UpdateStyles();
             //选中与颜色重绘
-            DrawMode = TreeViewDrawMode.OwnerDrawAll;
+            DrawMode = TreeViewDrawMode.OwnerDrawText;
             ItemHeight = 23;
             HideSelection = false;
             FullRowSelect = true;
@@ -304,7 +304,7 @@ namespace Paway.Forms
         ///     获取或设置绘制控件的模式。
         /// </summary>
         [Description("获取或设置绘制控件的模式")]
-        [DefaultValue(typeof(TreeViewDrawMode), "OwnerDrawAll")]
+        [DefaultValue(typeof(TreeViewDrawMode), "OwnerDrawText")]
         public new TreeViewDrawMode DrawMode
         {
             get { return base.DrawMode; }
@@ -659,8 +659,6 @@ namespace Paway.Forms
         protected override void OnDrawNode(DrawTreeNodeEventArgs e)
         {
             base.OnDrawNode(e);
-            //C_DrawNode(e.Graphics, e.Node);
-            //C_DrawAdd(e.Graphics, e.Node);
         }
 
         private void C_DrawNode(Graphics g, TreeNode node)
@@ -702,12 +700,6 @@ namespace Paway.Forms
             rect = new Rectangle(rect.Location, new Size(Width - 4 - rect.X - 2, rect.Height - 1));
             g.FillRectangle(new SolidBrush(backColor), rect);
             C_DrawString(g, node, rect, foreColor);
-            if (height > 0)
-            {
-                rect = node.Bounds;
-                rect = new Rectangle(new Point(rect.X, rect.Y + 1), new Size(Width - 4 - rect.X - 2, rect.Height - 3));
-                //g.DrawRectangle(new Pen(this.ColorHotLine), rect);
-            }
         }
 
         /// <summary>
@@ -854,20 +846,15 @@ namespace Paway.Forms
         #endregion
 
         #region 节点选中事件
-
         private void DrawTreeView_AfterCheck(object sender, TreeViewEventArgs e)
         {
             if (!CheckBoxes) return;
 
             AfterCheck -= DrawTreeView_AfterCheck;
             ParentNodeCheck(e.Node.Parent);
-            for (var i = 0; i < e.Node.Nodes.Count; i++)
-            {
-                e.Node.Nodes[i].Checked = e.Node.Checked;
-            }
+            ChildNodeCheck(e.Node);
             AfterCheck += DrawTreeView_AfterCheck;
         }
-
         /// <summary>
         ///     父节点
         /// </summary>
@@ -885,11 +872,23 @@ namespace Paway.Forms
                 }
             }
             node.Checked = result;
+            ParentNodeCheck(node.Parent);
+        }
+        /// <summary>
+        ///     子节点
+        /// </summary>
+        /// <param name="node"></param>
+        private void ChildNodeCheck(TreeNode node)
+        {
+            for (var i = 0; i < node.Nodes.Count; i++)
+            {
+                node.Nodes[i].Checked = node.Checked;
+                ChildNodeCheck(node.Nodes[i]);
+            }
         }
 
         #endregion
     }
-
     /// <summary>
     ///     自定义树节点
     /// </summary>
