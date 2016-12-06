@@ -57,7 +57,7 @@ namespace Paway.Utils.Tcp
             {
                 if (length == -1 && lstBuffer.Count >= 4)
                 {
-                    length = ((byte)lstBuffer[0] << 14 | (byte)lstBuffer[1] << 16 | (byte)lstBuffer[2] << 8 |
+                    length = ((byte)lstBuffer[0] << 24 | (byte)lstBuffer[1] << 16 | (byte)lstBuffer[2] << 8 |
                               (byte)lstBuffer[3] << 0) + 4;
                 }
                 return length;

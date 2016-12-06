@@ -1,7 +1,7 @@
 ::混淆工具不支持x64
 @echo off
 @set ILMerge="C:\Program Files (x86)\Microsoft\ILMerge\ILMerge.exe"
-@set VS_HOME="C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat"
+@set VS_HOME="C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
 
 @echo off
 @echo 发布目录更新脚本

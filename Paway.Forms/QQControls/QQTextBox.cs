@@ -533,6 +533,10 @@ namespace Paway.Forms
         /// <summary>
         /// </summary>
         public event EventHandler IconClick;
+        /// <summary>
+        /// 处理窗口消息事件
+        /// </summary>
+        public event EventHandler<CmdKeyEventArgs> CmdKeyEvent;
 
         /// <summary>
         /// </summary>
@@ -729,6 +733,20 @@ namespace Paway.Forms
             {
                 BaseText.SelectAll();
             }
+        }
+        /// <summary>
+        /// 监听键盘事件
+        /// </summary>
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (CmdKeyEvent != null)
+            {
+                CmdKeyEventArgs eve = new CmdKeyEventArgs(msg, keyData);
+                CmdKeyEvent(this, eve);
+                if (eve.Result)
+                    return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         #endregion
