@@ -57,9 +57,9 @@ namespace Paway.Win32
                 };
                 return process.Start();
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             finally
             {

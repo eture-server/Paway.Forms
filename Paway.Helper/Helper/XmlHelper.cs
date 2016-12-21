@@ -89,11 +89,10 @@ namespace Paway.Helper
                 }
                 //doc.Save("\\demo.xml");
             }
-
             catch (Exception ex)
             {
                 Debug.WriteLine("XmlHelper.CreateXmlStr(string, string[], string[]) :: " + ex.Message);
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             return doc.InnerXml;
         }

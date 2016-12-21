@@ -55,7 +55,7 @@ namespace Paway.Helper
             {
                 var pro = type.GetProperty(properties[i].Name, properties[i].PropertyType);
                 var itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-                if (itemList == null || itemList.Length == 0 || itemList[0].Excel)
+                if (itemList.Length == 0 || itemList[0].Excel)
                 {
                     dt.Columns[index++].ColumnName = properties[i].Name;
                 }
@@ -69,8 +69,7 @@ namespace Paway.Helper
         /// <param name="dt">数据源</param>
         /// <param name="fileName">excel2003文件名</param>
         /// <param name="sheet">工作薄名称</param>
-        /// <param name="title">文件描述,在F1=0</param>
-        public static void ExportExcel(DataTable dt, string fileName, string sheet, string title = null)
+        public static void ExportExcel(DataTable dt, string fileName, string sheet)
         {
             var conString =
                 string.Format(
@@ -91,13 +90,6 @@ namespace Paway.Helper
                     insert = string.Format("{0}F{1},", insert, i + 1);
                 }
                 insert = insert.TrimEnd(',');
-                //写入标题
-                if (!string.IsNullOrEmpty(title))
-                {
-                    string update = string.Format("update [{0}$] set F2 = '{1}' where F1 = 0", sheet, title);
-                    cmd.CommandText = update;
-                    cmd.ExecuteNonQuery();
-                }
                 string sql = null;
                 //写入数据
                 for (var i = 0; i < dt.Rows.Count; i++)
@@ -118,13 +110,13 @@ namespace Paway.Helper
                 }
                 trans.Commit();
             }
-            catch (Exception ex)
+            catch
             {
                 if (cmd != null && cmd.Transaction != null)
                 {
                     cmd.Transaction.Rollback();
                 }
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             finally
             {

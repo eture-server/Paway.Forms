@@ -236,7 +236,9 @@ namespace Paway.Helper
                 for (var j = 0; j < properties.Count; j++)
                 {
                     if (properties[j].PropertyType.IsGenericType) continue;
-                    row[properties[j].Name] = properties[j].GetValue(list[i]);
+                    var name = properties[j].Name;
+                    if (!IsTabel(type, properties[j], ref name)) continue;
+                    row[name] = properties[j].GetValue(list[i]);
                 }
                 table.Rows.Add(row);
             }
@@ -263,7 +265,9 @@ namespace Paway.Helper
             for (var i = 0; i < properties.Count; i++)
             {
                 if (properties[i].PropertyType.IsGenericType) continue;
-                table.Columns.Add(properties[i].Name, properties[i].PropertyType);
+                var name = properties[i].Name;
+                if (!IsTabel(type, properties[i], ref name)) continue;
+                table.Columns.Add(name, properties[i].PropertyType);
             }
             return table;
         }
@@ -810,14 +814,14 @@ namespace Paway.Helper
             {
                 column = itemList[0].Column;
             }
-            return itemList.Length == 0 || itemList[0].Select || itemList[0].Excel;
+            return itemList.Length == 0 || itemList[0].Excel;
         }
 
         private static bool IsClone(Type type, PropertyDescriptor prop)
         {
             var pro = type.GetProperty(prop.Name, prop.PropertyType);
             var itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            return itemList == null || itemList.Length == 0 || itemList[0].Clone;
+            return itemList.Length == 0 || itemList[0].Clone;
         }
 
         /// <summary>

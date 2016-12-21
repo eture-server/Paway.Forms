@@ -39,7 +39,7 @@ namespace Paway.Helper
             catch (Exception ex)
             {
                 Debug.WriteLine("Encryption.GetSign(string) :: " + ex.Message);
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             return result;
         }
@@ -100,7 +100,7 @@ namespace Paway.Helper
             catch (Exception ex)
             {
                 Debug.WriteLine("Encryption.Encrypt3DES(string, string) :: " + ex.Message);
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             finally
             {
@@ -142,7 +142,7 @@ namespace Paway.Helper
             catch (Exception ex)
             {
                 Debug.WriteLine("Encryption.Decrypt3DES(string, string) :: " + ex.Message);
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             finally
             {
@@ -249,9 +249,9 @@ namespace Paway.Helper
                     return GetMD5(file);
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception(string.Empty, ex);
+                throw;
             }
         }
 

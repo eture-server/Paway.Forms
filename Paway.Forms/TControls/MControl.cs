@@ -265,9 +265,9 @@ namespace Paway.Forms
 
                 return control;
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             finally
             {

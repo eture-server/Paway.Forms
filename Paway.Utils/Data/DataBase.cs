@@ -75,7 +75,7 @@ namespace Paway.Utils.Data
             catch (Exception ex)
             {
                 log.Error(string.Format("ExecuteNonQuery.Error[{0}]\r\n{1}", sql, ex));
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             finally
             {
@@ -99,7 +99,7 @@ namespace Paway.Utils.Data
             catch (Exception ex)
             {
                 log.Error(string.Format("ExecuteScalar.Error[{0}]\r\n{1}", sql, ex));
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             finally
             {
@@ -128,7 +128,7 @@ namespace Paway.Utils.Data
             catch (Exception ex)
             {
                 log.Error(string.Format("ExecuteDataTable.Error[{0}]\r\n{1}", sql, ex));
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             finally
             {
@@ -157,7 +157,7 @@ namespace Paway.Utils.Data
             catch (Exception ex)
             {
                 if (iTrans) TransError(cmd, ex);
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             finally
             {
@@ -196,7 +196,7 @@ namespace Paway.Utils.Data
             catch (Exception ex)
             {
                 log.Error(string.Format("StartCommand.Error[{0}]\r\n{1}", sql, ex));
-                throw new Exception(string.Empty, ex);
+                throw;
             }
         }
 
@@ -221,7 +221,7 @@ namespace Paway.Utils.Data
             catch (Exception ex)
             {
                 log.Error(string.Format("EndCommand.Error[{0}]\r\n{1}", cmd.CommandText, ex));
-                throw new Exception(string.Empty, ex);
+                throw;
             }
         }
 
@@ -246,7 +246,7 @@ namespace Paway.Utils.Data
             catch (Exception ex)
             {
                 log.Error(string.Format("TransStartCommand.Error\r\n{0}", ex));
-                throw new Exception(string.Empty, ex);
+                throw;
             }
         }
 
@@ -265,7 +265,7 @@ namespace Paway.Utils.Data
             catch (Exception ex)
             {
                 TransError(cmd, ex);
-                throw new Exception(string.Empty, ex);
+                throw;
             }
         }
 
@@ -284,7 +284,7 @@ namespace Paway.Utils.Data
             catch (Exception ex)
             {
                 log.Error(string.Format("TransError.Error{0}\r\n{1}", cmd.CommandText, ex));
-                throw new Exception(string.Empty, ex);
+                throw;
             }
         }
 
@@ -339,7 +339,7 @@ namespace Paway.Utils.Data
             catch (Exception ex)
             {
                 log.Error(string.Format("Find.Error[{0}]\r\n{1}", sql, ex));
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             finally
             {
@@ -410,7 +410,7 @@ namespace Paway.Utils.Data
             catch (Exception ex)
             {
                 log.Error(string.Format("Find.Error[{0}]\r\n{1}", sql, ex));
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             finally
             {
@@ -495,7 +495,7 @@ namespace Paway.Utils.Data
             catch (Exception ex)
             {
                 if (iTrans) TransError(cmd, ex);
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             finally
             {
@@ -531,7 +531,7 @@ namespace Paway.Utils.Data
             catch (Exception ex)
             {
                 if (iTrans) TransError(cmd, ex);
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             finally
             {
@@ -582,7 +582,7 @@ namespace Paway.Utils.Data
             catch (Exception ex)
             {
                 if (iTrans) TransError(cmd, ex);
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             finally
             {
@@ -624,7 +624,7 @@ namespace Paway.Utils.Data
             catch (Exception ex)
             {
                 log.Error(string.Format("Delete.Error[{0}]\r\n{1}", sql, ex));
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             finally
             {
@@ -650,7 +650,7 @@ namespace Paway.Utils.Data
             catch (Exception ex)
             {
                 log.Error(string.Format("Delete.Error[{0}]\r\n{1}", sql, ex));
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             finally
             {
@@ -701,7 +701,7 @@ namespace Paway.Utils.Data
             catch (Exception ex)
             {
                 if (iTrans) TransError(cmd, ex);
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             finally
             {
@@ -782,7 +782,7 @@ namespace Paway.Utils.Data
             catch (Exception ex)
             {
                 if (iTrans) TransError(cmd, ex);
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             finally
             {

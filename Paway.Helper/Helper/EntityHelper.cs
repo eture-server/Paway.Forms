@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace Paway.Helper
 {
@@ -33,9 +34,8 @@ namespace Paway.Helper
     public abstract class EntityHelper
     {
         /// <summary>
+        /// 获取指定枚举特性值
         /// </summary>
-        /// <param name="e"></param>
-        /// <returns></returns>
         public static string GetEnumTextValue(Enum e)
         {
             var ret = string.Empty;
@@ -52,6 +52,38 @@ namespace Paway.Helper
                 }
             }
             return ret;
+        }
+        /// <summary>
+        /// 将枚举常数的名称或数字值的字符串表示转换成等效的枚举对象
+        /// </summary>
+        /// <returns></returns>
+        public static T Parse<T>(string value)
+        {
+            Type type = typeof(T);
+            foreach (FieldInfo field in type.GetFields())
+            {
+                string name = GetText(field);
+                if (string.Equals(name, value, StringComparison.CurrentCultureIgnoreCase))
+                    return (T)field.GetRawConstantValue();
+            }
+            foreach (FieldInfo field in type.GetFields())
+            {
+                string name = field.Name;
+                if (string.Equals(name, value, StringComparison.CurrentCultureIgnoreCase))
+                    return (T)field.GetRawConstantValue();
+            }
+            return default(T);
+        }
+        /// <summary>
+        /// 获取指定字段特性值
+        /// </summary>
+        public static string GetText(FieldInfo field)
+        {
+            EnumTextValueAttribute[] attribs = field.GetCustomAttributes(typeof(EnumTextValueAttribute), false) as EnumTextValueAttribute[];
+            string name = field.Name;
+            if (attribs.Length > 0)
+                name = ((EnumTextValueAttribute)attribs[0]).Text;
+            return name;
         }
     }
 

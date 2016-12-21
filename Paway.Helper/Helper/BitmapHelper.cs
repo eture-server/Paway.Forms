@@ -277,7 +277,7 @@ namespace Paway.Helper
             catch (Exception ex)
             {
                 Debug.WriteLine("ImageProcess.GetScreenPic() :: " + ex.Message);
-                throw new Exception(string.Empty, ex);
+                throw;
             }
             return bitmap;
         }
@@ -332,7 +332,7 @@ namespace Paway.Helper
         /// <summary>
         ///     高质量缩放图像，显示像素点
         /// </summary>
-        public static Image HighImage(Image image, Size size, InterpolationMode mode)
+        public static Image HighImage(Image image, Size size, InterpolationMode mode = InterpolationMode.NearestNeighbor)
         {
             if (image == null) return null;
             Image temp = new Bitmap(size.Width, size.Height);

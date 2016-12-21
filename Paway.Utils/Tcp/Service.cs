@@ -96,10 +96,9 @@ namespace Paway.Utils.Tcp
                 {
                     socket.InsertSendData(msg, ithrow);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    if (ithrow)
-                        throw new Exception(string.Empty, ex);
+                    if (ithrow) throw;
                 }
             }
         }
