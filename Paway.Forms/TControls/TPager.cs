@@ -262,7 +262,6 @@ namespace Paway.Forms
         private void InitializeComponent()
         {
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TPager));
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
@@ -312,7 +311,6 @@ namespace Paway.Forms
             this.toolLast.Location = new System.Drawing.Point(146, 1);
             this.toolLast.Name = "toolLast";
             this.toolLast.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
-            this.toolLast.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolLast.SelectImage")));
             this.toolLast.Size = new System.Drawing.Size(30, 28);
             this.toolLast.TabIndex = 44;
             this.toolLast.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
@@ -339,7 +337,6 @@ namespace Paway.Forms
             this.toolNext.Location = new System.Drawing.Point(114, 1);
             this.toolNext.Name = "toolNext";
             this.toolNext.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
-            this.toolNext.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolNext.SelectImage")));
             this.toolNext.Size = new System.Drawing.Size(30, 28);
             this.toolNext.TabIndex = 45;
             this.toolNext.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
@@ -366,7 +363,6 @@ namespace Paway.Forms
             this.toolPrevious.Location = new System.Drawing.Point(53, 1);
             this.toolPrevious.Name = "toolPrevious";
             this.toolPrevious.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
-            this.toolPrevious.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolPrevious.SelectImage")));
             this.toolPrevious.Size = new System.Drawing.Size(30, 28);
             this.toolPrevious.TabIndex = 46;
             this.toolPrevious.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
@@ -393,7 +389,6 @@ namespace Paway.Forms
             this.toolFirst.Location = new System.Drawing.Point(21, 1);
             this.toolFirst.Name = "toolFirst";
             this.toolFirst.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
-            this.toolFirst.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolFirst.SelectImage")));
             this.toolFirst.Size = new System.Drawing.Size(30, 28);
             this.toolFirst.TabIndex = 47;
             this.toolFirst.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));

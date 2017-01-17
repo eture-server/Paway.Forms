@@ -75,7 +75,7 @@ namespace Paway.Forms
         /// </summary>
         private Image _normalImage;
 
-        private readonly Image _normalImage2 = AssemblyHelper.GetImage("_360.ToolBar.toolbar_normal.png");
+        private Image _normalImage2 = AssemblyHelper.GetImage("_360.ToolBar.toolbar_normal.png");
 
         /// <summary>
         ///     默认图片
@@ -97,7 +97,7 @@ namespace Paway.Forms
         /// </summary>
         private Image _downImage;
 
-        private readonly Image _downImage2 = AssemblyHelper.GetImage("_360.ToolBar.toolbar_hover.png");
+        private Image _downImage2 = AssemblyHelper.GetImage("_360.ToolBar.toolbar_hover.png");
 
         /// <summary>
         ///     鼠标按下时的图片
@@ -119,7 +119,7 @@ namespace Paway.Forms
         /// </summary>
         private Image _moveImage;
 
-        private readonly Image _moveImage2 = AssemblyHelper.GetImage("_360.ToolBar.toolbar_pushed.png");
+        private Image _moveImage2 = AssemblyHelper.GetImage("_360.ToolBar.toolbar_pushed.png");
 
         /// <summary>
         ///     鼠标划过时的图片
@@ -139,12 +139,16 @@ namespace Paway.Forms
         /// <summary>
         ///     多选状态下选中时附加的图片
         /// </summary>
-        private Image _selectImage = AssemblyHelper.GetImage("Controls.accept_16.png");
+        private Image _selectImage;
+        /// <summary>
+        ///     多选状态下选中时附加的图片
+        /// </summary>
+        private Image _selectImage2 = AssemblyHelper.GetImage("Controls.accept_16.png");
 
         /// <summary>
         ///     多选状态下选中时附加的图片
         /// </summary>
-        //[DefaultValue((string)null)]
+        [DefaultValue(null)]
         [Description("多选状态下选中时附加的图片")]
         public virtual Image SelectImage
         {
@@ -1175,11 +1179,10 @@ namespace Paway.Forms
                     {
                         DrawBackground(g, TranColor, item);
                     }
-                    if (_iMultiple && _selectImage != null)
+                    Image image = _selectImage ?? _selectImage2;
+                    if (_iMultiple && image != null)
                     {
-                        g.DrawImage(_selectImage,
-                            new Rectangle(item.Rectangle.Right - _selectImage.Width,
-                                item.Rectangle.Bottom - _selectImage.Height, _selectImage.Width, _selectImage.Height));
+                        g.DrawImage(image, new Rectangle(item.Rectangle.Right - image.Width, item.Rectangle.Bottom - image.Height, image.Width, image.Height));
                     }
                     IsContextMenu(g, item);
                     break;
@@ -1910,7 +1913,7 @@ namespace Paway.Forms
         /// <returns></returns>
         public override string ToString()
         {
-            return "Tinn&a";
+            return string.Format("{0} - Tinn&a", this.Name);
         }
 
         #endregion
@@ -2123,8 +2126,7 @@ namespace Paway.Forms
         #endregion
 
         #region 动态显示项的图片
-
-        private readonly Timer tDynamic = new Timer();
+        private Timer tDynamic = new Timer();
         private PictureBox pictureBox1;
 
         /// <summary>
@@ -2233,8 +2235,7 @@ namespace Paway.Forms
         #endregion
 
         #region 变色项
-
-        private readonly Timer tChange = new Timer();
+        private Timer tChange = new Timer();
 
         /// <summary>
         ///     动态项
@@ -2296,7 +2297,6 @@ namespace Paway.Forms
         #endregion
 
         #region 滚动条
-
         /// <summary>
         ///     垂直滚动条
         /// </summary>
@@ -2652,7 +2652,6 @@ namespace Paway.Forms
         #endregion
 
         #region 悬停窗口显示说明
-
         /// <summary>
         ///     表示一个长方形的小弹出窗口，该窗口在用户将指针悬停在一个控件上时显示有关该控件用途的简短说明。
         /// </summary>
@@ -2671,6 +2670,69 @@ namespace Paway.Forms
             {
                 toolTop.Active = false;
             }
+        }
+
+        #endregion
+
+        #region Dispose
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_change != null)
+                    _change.Dispose();
+                if (_text != null)
+                    _text.Dispose();
+                if (_textSencond != null)
+                    _textSencond.Dispose();
+                if (_desc != null)
+                    _desc.Dispose();
+                if (_headDesc != null)
+                    _headDesc.Dispose();
+                if (_endDesc != null)
+                    _endDesc.Dispose();
+                if (_backGround != null)
+                    _backGround.Dispose();
+                _normalImage = null;
+                _normalImage2.Dispose();
+                _downImage = null;
+                _downImage2.Dispose();
+                _downImage2 = null;
+                _moveImage = null;
+                _moveImage2.Dispose();
+                _moveImage2 = null;
+                _selectImage = null;
+                _selectImage2.Dispose();
+                _selectImage2 = null;
+                if (toolTop != null)
+                    toolTop.Dispose();
+                if (_tempItem != null)
+                    _tempItem.Dispose();
+                if (_selectedItem != null)
+                    _selectedItem.Dispose();
+                if (MoveItem != null)
+                    MoveItem.Dispose();
+                if (_vScroll != null)
+                    _vScroll.Dispose();
+                if (_hScroll != null)
+                    _hScroll.Dispose();
+                if (_vScroll2 != null)
+                    _vScroll2.Dispose();
+                if (_items != null)
+                    _items.Dispose();
+                tChange.Stop();
+                tChange = null;
+                tDynamic.Stop();
+                tDynamic = null;
+                image = null;
+                pictureBox1.Image = null;
+                pictureBox1.Dispose();
+                pictureBox1 = null;
+            }
+            base.Dispose(disposing);
         }
 
         #endregion

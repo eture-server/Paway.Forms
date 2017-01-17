@@ -31,7 +31,6 @@
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Control1));
             this.panel1 = new Paway.Forms.TControl();
             this.toolbar = new Paway.Forms.ToolBar();
             this.tDataGridViewPager1 = new Paway.Forms.TDataGridViewPager();
@@ -75,7 +74,6 @@
             this.toolbar.Location = new System.Drawing.Point(0, 0);
             this.toolbar.MDirection = Paway.Forms.TMDirection.Up;
             this.toolbar.Name = "toolbar";
-            this.toolbar.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolbar.SelectImage")));
             this.toolbar.Size = new System.Drawing.Size(533, 49);
             this.toolbar.TabIndex = 88;
             this.toolbar.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));

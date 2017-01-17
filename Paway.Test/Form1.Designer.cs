@@ -42,7 +42,6 @@
             Paway.Forms.ToolItem toolItem11 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem12 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem13 = new Paway.Forms.ToolItem();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             Paway.Forms.ToolItem toolItem14 = new Paway.Forms.ToolItem();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolAdd = new System.Windows.Forms.ToolStripMenuItem();
@@ -152,7 +151,6 @@
             this.toolBar.Location = new System.Drawing.Point(35, 29);
             this.toolBar.MDirection = Paway.Forms.TMDirection.Center;
             this.toolBar.Name = "toolBar";
-            this.toolBar.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolBar.SelectImage")));
             this.toolBar.Size = new System.Drawing.Size(263, 215);
             this.toolBar.TabIndex = 31;
             this.toolBar.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
@@ -221,7 +219,6 @@
             this.toolBar1.ItemSize = new System.Drawing.Size(181, 127);
             this.toolBar1.Location = new System.Drawing.Point(3, 3);
             this.toolBar1.Name = "toolBar1";
-            this.toolBar1.SelectImage = ((System.Drawing.Image)(resources.GetObject("toolBar1.SelectImage")));
             this.toolBar1.Size = new System.Drawing.Size(181, 127);
             this.toolBar1.TabIndex = 67;
             // 
