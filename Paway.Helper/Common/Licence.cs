@@ -59,7 +59,6 @@ namespace Paway.Helper
         /// <param name="days"></param>
         public static bool Checking(int days)
         {
-            return true;
             EncryptHelper.EncryptMD5(days.ToString());
             var file = new FileInfo(Assembly.GetExecutingAssembly().Location);
             var ts = DateTime.Now.Subtract(file.LastWriteTime);
@@ -68,6 +67,7 @@ namespace Paway.Helper
             {
                 return false;
             }
+            return true;
         }
     }
 }
