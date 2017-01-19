@@ -37,6 +37,7 @@
             // lbDesc
             // 
             this.lbDesc.AutoSize = true;
+            this.lbDesc.BackColor = System.Drawing.Color.Transparent;
             this.lbDesc.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.lbDesc.ForeColor = System.Drawing.Color.White;
             this.lbDesc.Location = new System.Drawing.Point(20, 72);
@@ -48,6 +49,7 @@
             // lbVersion
             // 
             this.lbVersion.AutoSize = true;
+            this.lbVersion.BackColor = System.Drawing.Color.Transparent;
             this.lbVersion.Font = new System.Drawing.Font("微软雅黑", 10F);
             this.lbVersion.ForeColor = System.Drawing.Color.White;
             this.lbVersion.Location = new System.Drawing.Point(20, 29);
@@ -68,6 +70,7 @@
             // 
             // lbCopyright
             // 
+            this.lbCopyright.BackColor = System.Drawing.Color.Transparent;
             this.lbCopyright.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lbCopyright.Font = new System.Drawing.Font("微软雅黑", 10F);
             this.lbCopyright.ForeColor = System.Drawing.Color.White;
@@ -91,7 +94,6 @@
             this.IResize = false;
             this.IShadow = false;
             this.ITransfer = true;
-            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "AboutForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;

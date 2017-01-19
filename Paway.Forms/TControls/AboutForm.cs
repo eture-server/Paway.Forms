@@ -17,6 +17,9 @@ namespace Paway.Forms
         public AboutForm()
         {
             InitializeComponent();
+            this.TMouseMove(lbVersion);
+            this.TMouseMove(lbDesc);
+            this.TMouseMove(lbCopyright);
             //输出软件名称和版本号
             var assembly = Assembly.GetExecutingAssembly();
             lbDesc.Text = "宁波欢迎您";
