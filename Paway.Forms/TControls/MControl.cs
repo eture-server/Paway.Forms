@@ -165,8 +165,7 @@ namespace Paway.Forms
         ///     如已加载，则调用ReLoad()
         ///     如调用委托，要求参数：object sender ,EventArgs e
         /// </summary>
-        public static MControl ReLoad(Control parent, Type type, EventArgs e, TMDirection direction,
-            Delegate method = null, int intervel = -1)
+        public static MControl ReLoad(Control parent, Type type, EventArgs e, TMDirection direction, Delegate method = null, int intervel = -1)
         {
             if (!Licence.Checking()) return null;
 
@@ -187,6 +186,8 @@ namespace Paway.Forms
                 if (_iList.ContainsKey(type.FullName))
                 {
                     control = _iList[type.FullName];
+                    if (method != null)
+                        control.InitDelegate(method);
                     if (control.ILoad) return control;
                 }
 
