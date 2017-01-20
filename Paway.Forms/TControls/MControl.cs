@@ -186,8 +186,6 @@ namespace Paway.Forms
                 if (_iList.ContainsKey(type.FullName))
                 {
                     control = _iList[type.FullName];
-                    if (method != null)
-                        control.InitDelegate(method);
                     if (control.ILoad) return control;
                 }
 
@@ -197,12 +195,18 @@ namespace Paway.Forms
                 {
                     var asmb = Assembly.GetAssembly(type);
                     control = asmb.CreateInstance(type.FullName) as MControl;
-                    control.Tag = e;
-                    control.InitDelegate(method);
                 }
                 if (control == null)
                 {
-                    throw new ArgumentException(string.Format("{0} 不是有效的MControl", type.GetType().FullName));
+                    throw new ArgumentException(string.Format("{0} 不是有效的MControl", type.FullName));
+                }
+                if (e != null)
+                {
+                    control.Tag = e;
+                }
+                if (method != null)
+                {
+                    control.InitDelegate(method);
                 }
                 if (direction == TMDirection.None)
                 {
@@ -298,6 +302,23 @@ namespace Paway.Forms
         }
 
         /// <summary>
+        ///     将指定类型控件加入列表
+        /// </summary>
+        /// <returns>成功返回列表中的已加入的MControl控件</returns>
+        public static MControl Add<T>() where T : MControl
+        {
+            Type type = typeof(T);
+            if (!MControl.List.ContainsKey(type.FullName))
+            {
+                var asmb = Assembly.GetAssembly(type);
+                MControl control = asmb.CreateInstance(type.FullName) as MControl;
+                MControl.List.Add(type.FullName, control);
+                return control;
+            }
+            return MControl.List[type.FullName];
+        }
+
+        /// <summary>
         ///     返回控件上的当前子控件
         /// </summary>
         public static MControl Get(Control parent)
@@ -308,6 +329,23 @@ namespace Paway.Forms
                 if (_iList[item].Parent == parent)
                 {
                     return _iList[item];
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        ///     返回指定类型控件
+        /// </summary>
+        public static MControl Get<T>() where T : MControl
+        {
+            Type type = typeof(T);
+            for (var i = 0; i < MControl.List.Count; i++)
+            {
+                var item = MControl.List.Keys.ElementAt(i);
+                if (MControl.List[item].GetType() == type)
+                {
+                    return MControl.List[item];
                 }
             }
             return null;
