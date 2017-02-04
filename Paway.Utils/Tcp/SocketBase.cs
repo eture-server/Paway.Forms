@@ -118,7 +118,6 @@ namespace Paway.Utils.Tcp
                 if (IsConnected && !Socket.Connected)
                 {
                     //用于异常情况下的触发通知
-                    IsConnected = false;
                     OnSocketException(SocketError.NotConnected);
                 }
                 return;
@@ -224,7 +223,7 @@ namespace Paway.Utils.Tcp
         {
             if (Disposed) return;
             IsConnected = false;
-            OnSocketException();
+            OnSocketException(socketError.ToString());
         }
 
         /// <summary>
@@ -252,11 +251,12 @@ namespace Paway.Utils.Tcp
         /// <summary>
         ///     触发socker异常事件->断开
         /// </summary>
-        protected virtual void OnSocketException()
+        protected virtual void OnSocketException(string message)
         {
             try
             {
                 var msg = new ServiceEventArgs(ServiceType.DisConnect);
+                msg.Message = message;
                 msg.Ip = IPPoint.Address.ToString();
                 msg.Port = IPPoint.Port;
                 if (ClientEvent != null)
@@ -315,7 +315,12 @@ namespace Paway.Utils.Tcp
                 SendDataService.SendData(byteData);
             }
             else if (ithrow)
-                throw new ArgumentException("SendDataService is null or message is null");
+            {
+                if (SendDataService == null)
+                    throw new ArgumentException("SendDataService is null");
+                if (message == null)
+                    throw new ArgumentException("message is null");
+            }
         }
 
         /// <summary>
@@ -346,20 +351,11 @@ namespace Paway.Utils.Tcp
         /// </summary>
         public void Disconnect()
         {
-            try
+            if (Socket != null && Socket.Connected)
             {
-                if (Socket != null && Socket.Connected)
-                {
-                    Socket.Disconnect(false);
-                }
+                Socket.Disconnect(false);
             }
-            catch
-            {
-            }
-            finally
-            {
-                IsConnected = false;
-            }
+            OnSocketException(SocketError.NotConnected);
         }
 
         #endregion

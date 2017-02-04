@@ -57,10 +57,6 @@ namespace Paway.Win32
                 };
                 return process.Start();
             }
-            catch
-            {
-                throw;
-            }
             finally
             {
                 if (process != null)

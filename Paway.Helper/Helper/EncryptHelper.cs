@@ -242,16 +242,9 @@ namespace Paway.Helper
         /// <returns></returns>
         public static string GetMD5(string path)
         {
-            try
+            using (Stream file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                using (Stream file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    return GetMD5(file);
-                }
-            }
-            catch
-            {
-                throw;
+                return GetMD5(file);
             }
         }
 

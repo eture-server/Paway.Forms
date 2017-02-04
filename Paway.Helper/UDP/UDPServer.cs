@@ -102,19 +102,13 @@ namespace Paway.Helper
             object message = null;
             try
             {
-                try
-                {
-                    message = SctructHelper.GetObjectFromByte(buffer);
-                }
-                catch
-                {
-                    message = buffer;
-                }
-                OnMessage(message, ipAddress);
+                message = SctructHelper.GetObjectFromByte(buffer);
             }
             catch
             {
+                message = buffer;
             }
+            OnMessage(message, ipAddress);
         }
 
         #region Dispose

@@ -90,24 +90,17 @@ namespace Paway.Helper
         /// <returns></returns>
         public static string GetNetCardMacAddress()
         {
-            try
+            ManagementClass mc;
+            ManagementObjectCollection moc;
+            mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
+            moc = mc.GetInstances();
+            var str = "";
+            foreach (ManagementObject mo in moc)
             {
-                ManagementClass mc;
-                ManagementObjectCollection moc;
-                mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
-                moc = mc.GetInstances();
-                var str = "";
-                foreach (ManagementObject mo in moc)
-                {
-                    if ((bool)mo["IPEnabled"])
-                        str += "," + mo["MacAddress"];
-                }
-                return str.Length > 0 ? str.Substring(1) : str;
+                if ((bool)mo["IPEnabled"])
+                    str += "," + mo["MacAddress"];
             }
-            catch
-            {
-                return string.Empty;
-            }
+            return str.Length > 0 ? str.Substring(1) : str;
         }
 
         /// <summary>
@@ -116,22 +109,15 @@ namespace Paway.Helper
         /// <returns></returns>
         public static string GetMainHardDiskId()
         {
-            try
+            var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PhysicalMedia");
+            var strHardDiskID = string.Empty;
+            foreach (ManagementObject mo in searcher.Get())
             {
-                var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PhysicalMedia");
-                var strHardDiskID = string.Empty;
-                foreach (ManagementObject mo in searcher.Get())
-                {
-                    strHardDiskID = mo["SerialNumber"].ToString().Trim();
-                    if (!string.IsNullOrEmpty(strHardDiskID))
-                        break;
-                }
-                return strHardDiskID;
+                strHardDiskID = mo["SerialNumber"].ToString().Trim();
+                if (!string.IsNullOrEmpty(strHardDiskID))
+                    break;
             }
-            catch
-            {
-                return string.Empty;
-            }
+            return strHardDiskID;
         }
 
         /// <summary>
@@ -140,20 +126,14 @@ namespace Paway.Helper
         /// <returns></returns>
         public static string GetIpAddress()
         {
-            try
+            var ips = Dns.GetHostAddresses(Dns.GetHostName());
+            if (ips != null && ips.Length > 0)
             {
-                var ips = Dns.GetHostAddresses(Dns.GetHostName());
-                if (ips != null && ips.Length > 0)
+                foreach (var ip in ips)
                 {
-                    foreach (var ip in ips)
-                    {
-                        if (ip.AddressFamily.ToString().Equals("InterNetwork"))
-                            return ip.ToString();
-                    }
+                    if (ip.AddressFamily.ToString().Equals("InterNetwork"))
+                        return ip.ToString();
                 }
-            }
-            catch
-            {
             }
             return string.Empty;
         }

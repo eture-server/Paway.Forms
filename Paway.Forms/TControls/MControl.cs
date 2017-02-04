@@ -270,10 +270,6 @@ namespace Paway.Forms
 
                 return control;
             }
-            catch
-            {
-                throw;
-            }
             finally
             {
                 if (control != null)

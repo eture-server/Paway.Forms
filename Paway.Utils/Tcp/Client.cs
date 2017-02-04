@@ -29,9 +29,9 @@ namespace Paway.Utils.Tcp
         /// <summary>
         ///     连接错误
         /// </summary>
-        protected override void OnSocketException()
+        protected override void OnSocketException(string msg)
         {
-            base.OnSocketException();
+            base.OnSocketException(msg);
         }
     }
 }

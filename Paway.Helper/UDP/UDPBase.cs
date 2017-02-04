@@ -50,8 +50,14 @@ namespace Paway.Helper
         /// </summary>
         protected void OnMessage(object msg, IPEndPoint ipAddress)
         {
-            if (MessageEvent != null)
-                MessageEvent(null, new UDPEventArgs(true, msg, ipAddress));
+            try
+            {
+                if (MessageEvent != null)
+                    MessageEvent(null, new UDPEventArgs(true, msg, ipAddress));
+            }
+            catch
+            {
+            }
         }
     }
 }
