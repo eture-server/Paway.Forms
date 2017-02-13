@@ -68,8 +68,9 @@ namespace Paway.Helper
         /// </summary>
         /// <param name="dt">数据源</param>
         /// <param name="fileName">excel2003文件名</param>
-        /// <param name="sheet">工作薄名称</param>
-        public static void ExportExcel(DataTable dt, string fileName, string sheet)
+        /// <param name="sheet">工作薄名称</param> 
+        /// <param name="title">文件描述,在F1=0</param>
+        public static void ExportExcel(DataTable dt, string fileName, string sheet, string title = null)
         {
             var conString =
                 string.Format(
@@ -90,6 +91,13 @@ namespace Paway.Helper
                     insert = string.Format("{0}F{1},", insert, i + 1);
                 }
                 insert = insert.TrimEnd(',');
+                //写入标题
+                if (!string.IsNullOrEmpty(title))
+                {
+                    string update = string.Format("update [{0}$] set F2 = '{1}' where F1 = 0", sheet, title);
+                    cmd.CommandText = update;
+                    cmd.ExecuteNonQuery();
+                }
                 string sql = null;
                 //写入数据
                 for (var i = 0; i < dt.Rows.Count; i++)

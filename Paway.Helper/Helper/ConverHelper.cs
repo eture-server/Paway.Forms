@@ -814,7 +814,7 @@ namespace Paway.Helper
             {
                 column = itemList[0].Column;
             }
-            return itemList.Length == 0 || itemList[0].Excel;
+            return itemList.Length == 0 || itemList[0].Select || itemList[0].Excel;
         }
 
         private static bool IsClone(Type type, PropertyDescriptor prop)
