@@ -39,7 +39,7 @@ namespace Paway.Helper
             var clientProvider = new BinaryClientFormatterSinkProvider();
             serverProvider.TypeFilterLevel = TypeFilterLevel.Full;
             IDictionary props = new Hashtable();
-            props["portName"] = string.Format("ServerChannel-Server.{0}", TConfig.Name);
+            props["portName"] = string.Format("ServerChannel-Server.{0}", typeof(T).Name);
             serverChannel = new IpcChannel(props, clientProvider, serverProvider);
             // 注册这个IPC信道.
             ChannelServices.RegisterChannel(serverChannel, true);

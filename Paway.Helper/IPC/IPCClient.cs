@@ -27,7 +27,7 @@ namespace Paway.Helper
         /// <summary>
         ///     创建一个IPC信道。
         /// </summary>
-        public void Connect()
+        public void Connect(string name)
         {
             try
             {
@@ -35,13 +35,11 @@ namespace Paway.Helper
                 var clientProvider = new BinaryClientFormatterSinkProvider();
                 serverProvider.TypeFilterLevel = TypeFilterLevel.Full;
                 IDictionary props = new Hashtable();
-                props["name"] = "ServerChannel";
-                props["portName"] = string.Format("ServerChannel-Client.{0}", TConfig.Name);
+                props["name"] = string.Format("ServerChannel.{0}", name);
+                props["portName"] = string.Format("ServerChannel-Client.{0}", name);
                 channel = new IpcChannel(props, clientProvider, serverProvider);
                 ChannelServices.RegisterChannel(channel, true);
-                obj =
-                    Activator.GetObject(typeof(T),
-                        string.Format("ipc://ServerChannel-Server.{0}/IPCObject", TConfig.Name)) as T;
+                obj = Activator.GetObject(typeof(T), string.Format("ipc://ServerChannel-Server.{0}/IPCObject", name)) as T;
                 if (obj != null)
                     IsConnected = true;
             }
