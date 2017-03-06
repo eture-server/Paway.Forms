@@ -316,7 +316,6 @@ namespace Paway.Forms
             this.toolLast.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
             this.toolLast.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
             this.toolLast.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
-            this.toolLast.TEvent = Paway.Forms.TEvent.Up;
             this.toolLast.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolLast.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolLast.TextFirst.ColorNormal = System.Drawing.Color.Black;
@@ -342,7 +341,6 @@ namespace Paway.Forms
             this.toolNext.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
             this.toolNext.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
             this.toolNext.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
-            this.toolNext.TEvent = Paway.Forms.TEvent.Up;
             this.toolNext.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolNext.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolNext.TextFirst.ColorNormal = System.Drawing.Color.Black;
@@ -368,7 +366,6 @@ namespace Paway.Forms
             this.toolPrevious.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
             this.toolPrevious.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
             this.toolPrevious.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
-            this.toolPrevious.TEvent = Paway.Forms.TEvent.Up;
             this.toolPrevious.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolPrevious.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolPrevious.TextFirst.ColorNormal = System.Drawing.Color.Black;
@@ -394,7 +391,6 @@ namespace Paway.Forms
             this.toolFirst.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
             this.toolFirst.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
             this.toolFirst.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
-            this.toolFirst.TEvent = Paway.Forms.TEvent.Up;
             this.toolFirst.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolFirst.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolFirst.TextFirst.ColorNormal = System.Drawing.Color.Black;

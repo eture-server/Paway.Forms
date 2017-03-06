@@ -160,7 +160,6 @@
             this.toolBar.TChange.ColorMove = System.Drawing.Color.Red;
             this.toolBar.TChange.ColorNormal = System.Drawing.Color.Yellow;
             this.toolBar.TDesc.ColorDown = System.Drawing.Color.White;
-            this.toolBar.TEvent = Paway.Forms.TEvent.Up;
             this.toolBar.TextFirst.ColorDown = System.Drawing.Color.Black;
             this.toolBar.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolBar.TextFirst.ColorNormal = System.Drawing.Color.Black;

@@ -370,7 +370,10 @@ namespace Paway.Helper
             return obj;
         }
 
-        private static void SetValue<T>(T obj, PropertyDescriptor pro, object value)
+        /// <summary>
+        /// 赋值
+        /// </summary>
+        public static void SetValue<T>(T obj, PropertyDescriptor pro, object value)
         {
             if (pro.PropertyType == typeof(Image) && value is byte[])
             {
@@ -874,9 +877,9 @@ namespace Paway.Helper
         /// <summary>
         ///     一般复制
         /// </summary>
-        public static T Clone<T>(this T t)
+        public static T Clone<T>(this T t, T copy = default(T))
         {
-            return t.Clone(false);
+            return t.Clone(copy, false);
         }
 
         /// <summary>
@@ -885,13 +888,15 @@ namespace Paway.Helper
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="t"></param>
+        /// <param name="copy"></param>
         /// <param name="child">是否深度复制 引用、IList子级</param>
         /// <returns></returns>
-        public static T Clone<T>(this T t, bool child)
+        public static T Clone<T>(this T t, object copy, bool child)
         {
             var type = typeof(T);
             var asmb = Assembly.GetAssembly(type);
-            var copy = asmb.CreateInstance(type.FullName);
+            if (copy == null)
+                copy = asmb.CreateInstance(type.FullName);
             type.Clone(ref copy, t, child);
 
             return (T)copy;

@@ -79,7 +79,6 @@
             this.toolbar.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
             this.toolbar.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(127)))), ((int)(((byte)(104)))));
             this.toolbar.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(72)))), ((int)(((byte)(38)))));
-            this.toolbar.TEvent = Paway.Forms.TEvent.Up;
             this.toolbar.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolbar.TextFirst.ColorMove = System.Drawing.Color.Black;
             this.toolbar.TextFirst.ColorNormal = System.Drawing.Color.White;

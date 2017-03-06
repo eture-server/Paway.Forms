@@ -434,12 +434,12 @@ namespace Paway.Forms
         /// <summary>
         ///     事件触发点
         /// </summary>
-        private TEvent _tEvent = TEvent.Down;
+        private TEvent _tEvent = TEvent.Up;
 
         /// <summary>
         ///     事件触发点
         /// </summary>
-        [Description("事件触发点"), DefaultValue(typeof(TEvent), "Down")]
+        [Description("事件触发点"), DefaultValue(typeof(TEvent), "Up")]
         public TEvent TEvent
         {
             get { return _tEvent; }

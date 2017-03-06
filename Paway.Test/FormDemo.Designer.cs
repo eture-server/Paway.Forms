@@ -726,7 +726,6 @@
             this.toolBar3.Size = new System.Drawing.Size(50, 261);
             this.toolBar3.TabIndex = 44;
             this.toolBar3.TDirection = Paway.Forms.TDirection.Vertical;
-            this.toolBar3.TEvent = Paway.Forms.TEvent.Up;
             this.toolBar3.TLocation = Paway.Forms.TILocation.Left;
             // 
             // toolBar2
@@ -751,7 +750,6 @@
             this.toolBar2.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.toolBar2.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.toolBar2.TDirection = Paway.Forms.TDirection.Vertical;
-            this.toolBar2.TEvent = Paway.Forms.TEvent.Up;
             this.toolBar2.TLocation = Paway.Forms.TILocation.Left;
             // 
             // btTTsRead
