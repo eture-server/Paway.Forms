@@ -879,7 +879,7 @@ namespace Paway.Helper
         /// </summary>
         public static T Clone<T>(this T t, T copy = default(T))
         {
-            return t.Clone(copy, false);
+            return t.Clone(false, copy);
         }
 
         /// <summary>
@@ -888,15 +888,15 @@ namespace Paway.Helper
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="t"></param>
-        /// <param name="copy"></param>
         /// <param name="child">是否深度复制 引用、IList子级</param>
+        /// <param name="copy"></param>
         /// <returns></returns>
-        public static T Clone<T>(this T t, object copy, bool child)
+        public static T Clone<T>(this T t, bool child, T copy = default(T))
         {
             var type = typeof(T);
             var asmb = Assembly.GetAssembly(type);
             if (copy == null)
-                copy = asmb.CreateInstance(type.FullName);
+                copy = (T)asmb.CreateInstance(type.FullName);
             type.Clone(ref copy, t, child);
 
             return (T)copy;
@@ -905,7 +905,7 @@ namespace Paway.Helper
         /// <summary>
         ///     复制子级
         /// </summary>
-        public static void Clone(this Type parent, ref object copy, object t, bool child)
+        public static void Clone<T>(this Type parent, ref T copy, object t, bool child)
         {
             var properties = TypeDescriptor.GetProperties(parent);
             for (var i = 0; i < properties.Count; i++)
