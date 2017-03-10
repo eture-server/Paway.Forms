@@ -22,6 +22,8 @@ namespace Paway.Forms
         {
             InitializeComponent();
             TPager.PageChanged += pager1_PageChanged;
+            this.Edit.CellClick += gridview1_CellClick;
+            this.Edit.Sorted += gridview1_Sorted;
         }
 
         #endregion
@@ -32,6 +34,10 @@ namespace Paway.Forms
         public event EventHandler PageChanged;
 
         #region 属性
+        /// <summary>
+        /// 排序列
+        /// </summary>
+        private int sortIndex;
 
         private TPager pager1;
         /// <summary>
@@ -91,6 +97,45 @@ namespace Paway.Forms
         {
             get { return PagerInfo.CurrentPageIndex; }
             set { PagerInfo.CurrentPageIndex = value; }
+        }
+
+        #endregion
+
+        #region 排序
+        private void gridview1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+            {
+                sortIndex = e.ColumnIndex;
+                return;
+            }
+        }
+        private void gridview1_Sorted(object sender, EventArgs e)
+        {
+            if (dataSource == null) return;
+            DataGridViewColumn column = this.Edit.Columns[this.sortIndex];
+            if (column.SortMode != DataGridViewColumnSortMode.Automatic) return;
+            SortOrder order = this.Edit.SortOrder;
+            string sort = string.Format("{0} {1}", column.Name, order == SortOrder.Descending ? "desc" : "asc");
+            if (dataSource is IList)
+            {
+                IList list = dataSource as IList;
+                Type type = list.GetListType();
+                DataTable dt = type.ToDataTable(list);
+                DataRow[] rows = dt.Select(String.Empty, sort);
+                this.DataSource = rows.CopyToDataTable();
+            }
+            if (dataSource is DataTable)
+            {
+                DataTable dt = dataSource as DataTable;
+                DataRow[] rows = dt.Select(String.Empty, sort);
+                this.DataSource = rows.CopyToDataTable();
+            }
+            else return;
+            this.Edit.Sorted -= gridview1_Sorted;
+            column = this.Edit.Columns[this.sortIndex];
+            this.Edit.Sort(column, order == SortOrder.Descending ? ListSortDirection.Descending : ListSortDirection.Ascending);
+            this.Edit.Sorted += gridview1_Sorted;
         }
 
         #endregion

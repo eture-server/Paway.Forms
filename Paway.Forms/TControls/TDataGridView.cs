@@ -468,7 +468,7 @@ namespace Paway.Forms
             {
                 var list = value as IList;
                 type = list.GetListType();
-                base.DataSource = type.ToDataTable(value as IList);
+                base.DataSource = type.ToDataTable(list);
             }
             else if (value is DataTable)
             {
