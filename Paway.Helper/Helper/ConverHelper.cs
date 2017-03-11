@@ -211,7 +211,7 @@ namespace Paway.Helper
         /// <summary>
         ///     IList转为 DataTable
         /// </summary>
-        public static DataTable ToDataTable<T>(this IList<T> list)
+        public static DataTable ToDataTable<T>(this List<T> list)
         {
             var table = CreateTable<T>();
             var type = typeof(T);
@@ -274,9 +274,9 @@ namespace Paway.Helper
 
         /// <summary>
         /// </summary>
-        public static IList<T> ToIList<T>(IList<DataRow> rows)
+        public static List<T> ToList<T>(List<DataRow> rows)
         {
-            IList<T> list = null;
+            List<T> list = null;
 
             if (rows != null)
             {
@@ -295,7 +295,7 @@ namespace Paway.Helper
         /// <summary>
         ///     将DataTable转为IList
         /// </summary>
-        public static IList<T> ToIList<T>(this DataTable table)
+        public static List<T> ToList<T>(this DataTable table)
         {
             if (table == null)
             {
@@ -309,7 +309,7 @@ namespace Paway.Helper
                 rows.Add(row);
             }
 
-            return ToIList<T>(rows);
+            return ToList<T>(rows);
         }
 
         /// <summary>

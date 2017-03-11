@@ -119,7 +119,7 @@ namespace Paway.Forms
             string sort = string.Format("{0} {1}", column.Name, order == SortOrder.Descending ? "desc" : "asc");
             if (dataSource is IList)
             {
-                IList list = dataSource as IList;
+                var list = dataSource as IList;
                 Type type = list.GetListType();
                 DataTable dt = type.ToDataTable(list);
                 DataRow[] rows = dt.Select(String.Empty, sort);
@@ -127,7 +127,7 @@ namespace Paway.Forms
             }
             if (dataSource is DataTable)
             {
-                DataTable dt = dataSource as DataTable;
+                var dt = dataSource as DataTable;
                 DataRow[] rows = dt.Select(String.Empty, sort);
                 this.DataSource = rows.CopyToDataTable();
             }

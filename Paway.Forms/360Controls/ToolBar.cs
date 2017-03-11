@@ -1926,15 +1926,15 @@ namespace Paway.Forms
         /// <returns></returns>
         public List<ToolItem> TSelectedItems()
         {
-            var iList = new List<ToolItem>();
+            var list = new List<ToolItem>();
             for (var i = 0; i < _items.Count; i++)
             {
                 if (_items[i].MouseState == TMouseState.Down)
                 {
-                    iList.Add(_items[i]);
+                    list.Add(_items[i]);
                 }
             }
-            return iList;
+            return list;
         }
 
         /// <summary>

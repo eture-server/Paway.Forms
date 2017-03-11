@@ -116,9 +116,9 @@ namespace Paway.Utils.Data
 
         /// <summary>
         ///     查找指定查询语句
-        ///     填充 System.Data.DataSet 并返回一个IList列表
+        ///     填充 System.Data.DataSet 并返回一个List列表
         /// </summary>
-        public override IList<T> FindTop<T>(string find, int count, DbCommand cmd = null, params string[] args)
+        public override List<T> FindTop<T>(string find, int count, DbCommand cmd = null, params string[] args)
         {
             return base.FindTop<T>(find, count, true, cmd, args);
         }
@@ -127,7 +127,7 @@ namespace Paway.Utils.Data
         ///     更新或插入列表
         ///     需要标记唯一键为唯一索引
         /// </summary>
-        public override bool Replace<T>(IList<T> list, DbCommand cmd = null, params string[] args)
+        public override bool Replace<T>(List<T> list, DbCommand cmd = null, params string[] args)
         {
             return base.Replace(list, true, cmd, args);
         }

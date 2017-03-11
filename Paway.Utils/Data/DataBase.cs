@@ -348,39 +348,39 @@ namespace Paway.Utils.Data
         }
 
         /// <summary>
-        ///     填充 System.Data.DataSet 并返回一个IList列表
+        ///     填充 System.Data.DataSet 并返回一个List列表
         /// </summary>
-        public IList<T> Find<T>(DbCommand cmd = null, params string[] args)
+        public List<T> Find<T>(DbCommand cmd = null, params string[] args)
         {
             return FindTop<T>(null, 0, false, cmd, args);
         }
 
         /// <summary>
-        ///     填充 System.Data.DataSet 并返回一个IList列表
+        ///     填充 System.Data.DataSet 并返回一个List列表
         ///     查找指定查询语句
         /// </summary>
-        public IList<T> Find<T>(string find, DbCommand cmd = null, params string[] args)
+        public List<T> Find<T>(string find, DbCommand cmd = null, params string[] args)
         {
             return FindTop<T>(find, 0, false, cmd, args);
         }
 
         /// <summary>
-        ///     填充 System.Data.DataSet 并返回一个IList列表
+        ///     填充 System.Data.DataSet 并返回一个List列表
         ///     查找指定查询语句
         ///     指定返回行数
         /// </summary>
-        public virtual IList<T> FindTop<T>(string find, int count, DbCommand cmd = null, params string[] args)
+        public virtual List<T> FindTop<T>(string find, int count, DbCommand cmd = null, params string[] args)
         {
             return FindTop<T>(find, count, false, cmd, args);
         }
 
         /// <summary>
-        ///     填充 System.Data.DataSet 并返回一个IList列表
+        ///     填充 System.Data.DataSet 并返回一个List列表
         ///     查找指定查询语句
         ///     指定返回行数
         ///     是否SQLite
         /// </summary>
-        protected IList<T> FindTop<T>(string find, int count, bool isSQLite, DbCommand cmd = null, params string[] args)
+        protected List<T> FindTop<T>(string find, int count, bool isSQLite, DbCommand cmd = null, params string[] args)
         {
             var iTrans = cmd == null;
             string sql = null;
@@ -418,7 +418,7 @@ namespace Paway.Utils.Data
             }
         }
 
-        private IList<T> LoadDr<T>(DbDataReader dr, int count = int.MaxValue)
+        private List<T> LoadDr<T>(DbDataReader dr, int count = int.MaxValue)
         {
             var temp = dr.GetSchemaTable();
             var dt = new DataTable();
@@ -429,7 +429,7 @@ namespace Paway.Utils.Data
                 dt.Columns.Add(ilRow["ColumnName"].ToString(), TilRowType);
             }
             var row = dt.NewRow();
-            IList<T> list = new List<T>();
+            List<T> list = new List<T>();
             for (var i = 0; dr.Read() && i < count; i++)
             {
                 var info = dr.CreateItem<T>(row);
@@ -456,14 +456,14 @@ namespace Paway.Utils.Data
         /// </summary>
         public bool Insert<T>(DataTable dt, DbCommand cmd = null, bool Identity = false)
         {
-            var list = dt.ToIList<T>();
+            var list = dt.ToList<T>();
             return Insert(list, cmd, Identity);
         }
 
         /// <summary>
         ///     插入列表
         /// </summary>
-        public bool Insert<T>(IList<T> list, DbCommand cmd = null, bool Identity = false)
+        public bool Insert<T>(List<T> list, DbCommand cmd = null, bool Identity = false)
         {
             var iTrans = cmd == null;
             try
@@ -553,14 +553,14 @@ namespace Paway.Utils.Data
         /// </summary>
         public bool Update<T>(DataTable dt, DbCommand cmd = null, params string[] args)
         {
-            var list = dt.ToIList<T>();
+            var list = dt.ToList<T>();
             return Update(list, cmd, args);
         }
 
         /// <summary>
         ///     更新列表
         /// </summary>
-        public bool Update<T>(IList<T> list, DbCommand cmd = null, params string[] args)
+        public bool Update<T>(List<T> list, DbCommand cmd = null, params string[] args)
         {
             var iTrans = cmd == null;
             try
@@ -672,14 +672,14 @@ namespace Paway.Utils.Data
         /// </summary>
         public bool Delete<T>(DataTable dt, DbCommand cmd = null)
         {
-            var list = dt.ToIList<T>();
+            var list = dt.ToList<T>();
             return Delete(list, cmd);
         }
 
         /// <summary>
         ///     删除列表
         /// </summary>
-        public bool Delete<T>(IList<T> list, DbCommand cmd = null)
+        public bool Delete<T>(List<T> list, DbCommand cmd = null)
         {
             var iTrans = cmd == null;
             var sql = default(T).Delete();
@@ -727,14 +727,14 @@ namespace Paway.Utils.Data
         /// </summary>
         public void Replace<T>(DataTable dt, DbCommand cmd = null, params string[] args)
         {
-            var list = dt.ToIList<T>();
+            var list = dt.ToList<T>();
             Replace(list, cmd, args);
         }
 
         /// <summary>
         ///     更新或插入列表
         /// </summary>
-        public virtual bool Replace<T>(IList<T> list, DbCommand cmd = null, params string[] args)
+        public virtual bool Replace<T>(List<T> list, DbCommand cmd = null, params string[] args)
         {
             return Replace(list, false, cmd, args);
         }
@@ -742,7 +742,7 @@ namespace Paway.Utils.Data
         /// <summary>
         ///     更新或插入列表
         /// </summary>
-        protected bool Replace<T>(IList<T> list, bool isSqlite, DbCommand cmd = null, params string[] args)
+        protected bool Replace<T>(List<T> list, bool isSqlite, DbCommand cmd = null, params string[] args)
         {
             var iTrans = cmd == null;
             try

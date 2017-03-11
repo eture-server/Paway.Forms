@@ -113,14 +113,14 @@ namespace Paway.Forms
         /// <summary>
         ///     基类控件列表
         /// </summary>
-        private static readonly Dictionary<string, MControl> _iList = new Dictionary<string, MControl>();
+        private static readonly Dictionary<string, MControl> _list = new Dictionary<string, MControl>();
 
         /// <summary>
         ///     控件列表
         /// </summary>
         public static Dictionary<string, MControl> List
         {
-            get { return _iList; }
+            get { return _list; }
         }
 
         /// <summary>
@@ -183,9 +183,9 @@ namespace Paway.Forms
                     return null;
                 }
                 //加载控件
-                if (_iList.ContainsKey(type.FullName))
+                if (_list.ContainsKey(type.FullName))
                 {
-                    control = _iList[type.FullName];
+                    control = _list[type.FullName];
                     if (control.ILoad) return control;
                 }
 
@@ -261,9 +261,9 @@ namespace Paway.Forms
                 parent.Controls.Add(control);
                 control.MDirection = direction;
                 control.MChild();
-                if (!_iList.ContainsKey(type.FullName))
+                if (!_list.ContainsKey(type.FullName))
                 {
-                    _iList.Add(type.FullName, control);
+                    _list.Add(type.FullName, control);
                 }
                 parent.BackgroundImage = null;
                 parent.ResumeLayout();
@@ -289,12 +289,12 @@ namespace Paway.Forms
         public static MControl Add(MControl control)
         {
             var type = control.GetType();
-            if (!_iList.ContainsKey(type.FullName))
+            if (!_list.ContainsKey(type.FullName))
             {
-                _iList.Add(type.FullName, control);
+                _list.Add(type.FullName, control);
                 return control;
             }
-            return _iList[type.FullName];
+            return _list[type.FullName];
         }
 
         /// <summary>
@@ -319,12 +319,12 @@ namespace Paway.Forms
         /// </summary>
         public static MControl Get(Control parent)
         {
-            for (var i = 0; i < _iList.Count; i++)
+            for (var i = 0; i < _list.Count; i++)
             {
-                var item = _iList.Keys.ElementAt(i);
-                if (_iList[item].Parent == parent)
+                var item = _list.Keys.ElementAt(i);
+                if (_list[item].Parent == parent)
                 {
-                    return _iList[item];
+                    return _list[item];
                 }
             }
             return null;
@@ -352,18 +352,18 @@ namespace Paway.Forms
         /// </summary>
         public static void ReSet()
         {
-            for (var i = _iList.Count - 1; i >= 0; i--)
+            for (var i = _list.Count - 1; i >= 0; i--)
             {
-                var item = _iList.Keys.ElementAt(i);
-                if (_iList[item] == Current)
+                var item = _list.Keys.ElementAt(i);
+                if (_list[item] == Current)
                 {
                     Current = null;
-                    if (!_iList[item].IsDisposed)
+                    if (!_list[item].IsDisposed)
                     {
-                        _iList[item].Dispose();
+                        _list[item].Dispose();
                     }
-                    _iList[item] = null;
-                    _iList.Remove(item);
+                    _list[item] = null;
+                    _list.Remove(item);
                     break;
                 }
             }
@@ -374,21 +374,21 @@ namespace Paway.Forms
         /// </summary>
         public static void ReSet(Control parent)
         {
-            for (var i = _iList.Count - 1; i >= 0; i--)
+            for (var i = _list.Count - 1; i >= 0; i--)
             {
-                var item = _iList.Keys.ElementAt(i);
-                if (_iList[item].Parent == parent)
+                var item = _list.Keys.ElementAt(i);
+                if (_list[item].Parent == parent)
                 {
-                    if (_iList[item] == Current)
+                    if (_list[item] == Current)
                     {
                         Current = null;
                     }
-                    if (!_iList[item].IsDisposed)
+                    if (!_list[item].IsDisposed)
                     {
-                        _iList[item].Dispose();
+                        _list[item].Dispose();
                     }
-                    _iList[item] = null;
-                    _iList.Remove(item);
+                    _list[item] = null;
+                    _list.Remove(item);
                 }
             }
         }
@@ -398,17 +398,17 @@ namespace Paway.Forms
         /// </summary>
         public static void ReSetAll()
         {
-            for (var i = _iList.Count - 1; i >= 0; i--)
+            for (var i = _list.Count - 1; i >= 0; i--)
             {
-                var item = _iList.Keys.ElementAt(i);
-                if (!_iList[item].IsDisposed)
+                var item = _list.Keys.ElementAt(i);
+                if (!_list[item].IsDisposed)
                 {
-                    _iList[item].Dispose();
+                    _list[item].Dispose();
                 }
-                _iList[item] = null;
+                _list[item] = null;
             }
             Current = null;
-            _iList.Clear();
+            _list.Clear();
         }
 
         /// <summary>
@@ -416,10 +416,10 @@ namespace Paway.Forms
         /// </summary>
         public static void RefreshAll(object sender, EventArgs e)
         {
-            for (var i = 0; i < _iList.Count; i++)
+            for (var i = 0; i < _list.Count; i++)
             {
-                var item = _iList.Keys.ElementAt(i);
-                _iList[item].Refresh(sender, e);
+                var item = _list.Keys.ElementAt(i);
+                _list[item].Refresh(sender, e);
             }
         }
 
