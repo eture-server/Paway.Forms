@@ -237,7 +237,7 @@ namespace Paway.Helper
                 {
                     if (properties[j].PropertyType.IsGenericType) continue;
                     var name = properties[j].Name;
-                    if (!IsTabel(type, properties[j], ref name)) continue;
+                    if (!type.IsTabel(properties[j], ref name)) continue;
                     row[name] = properties[j].GetValue(list[i]);
                 }
                 table.Rows.Add(row);
@@ -266,7 +266,7 @@ namespace Paway.Helper
             {
                 if (properties[i].PropertyType.IsGenericType) continue;
                 var name = properties[i].Name;
-                if (!IsTabel(type, properties[i], ref name)) continue;
+                if (!type.IsTabel(properties[i], ref name)) continue;
                 table.Columns.Add(name, properties[i].PropertyType);
             }
             return table;
@@ -327,7 +327,7 @@ namespace Paway.Helper
                 for (var i = 0; i < properties.Count; i++)
                 {
                     var name = properties[i].Name;
-                    if (!IsTabel(type, properties[i], ref name)) continue;
+                    if (!type.IsTabel(properties[i], ref name)) continue;
                     if (name != column.ColumnName) continue;
 
                     var pro = properties[i];
@@ -355,7 +355,7 @@ namespace Paway.Helper
                 for (var i = 0; i < properties.Count; i++)
                 {
                     var name = properties[i].Name;
-                    if (!IsTabel(type, properties[i], ref name)) continue;
+                    if (!type.IsTabel(properties[i], ref name)) continue;
                     if (name != column.ColumnName) continue;
 
                     var pro = properties[i];
@@ -801,30 +801,39 @@ namespace Paway.Helper
         private static bool IsSelect(Type type, PropertyDescriptor prop, ref string column)
         {
             var pro = type.GetProperty(prop.Name, prop.PropertyType);
-            var itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            if (itemList.Length == 1 && itemList[0].Column != null)
+            var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+            if (list.Length == 1 && list[0].Column != null)
             {
-                column = itemList[0].Column;
+                column = list[0].Column;
             }
-            return itemList.Length == 0 || itemList[0].Select;
+            return list.Length == 0 || list[0].Select;
         }
-
-        private static bool IsTabel(Type type, PropertyDescriptor prop, ref string column)
+        /// <summary>
+        /// </summary>
+        private static bool IsTabel(this Type type, PropertyDescriptor prop, ref string column)
         {
             var pro = type.GetProperty(prop.Name, prop.PropertyType);
-            var itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            if (itemList.Length == 1 && itemList[0].Column != null)
+            var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+            if (list.Length == 1 && list[0].Column != null)
             {
-                column = itemList[0].Column;
+                column = list[0].Column;
             }
-            return itemList.Length == 0 || itemList[0].Select || itemList[0].Excel;
+            return list.Length == 0 || list[0].Select || list[0].Excel;
+        }
+        /// <summary>
+        /// </summary>
+        public static bool IsSort(this Type type, PropertyDescriptor prop)
+        {
+            var pro = type.GetProperty(prop.Name, prop.PropertyType);
+            var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+            return list.Length > 0 && list[0].Sort;
         }
 
         private static bool IsClone(Type type, PropertyDescriptor prop)
         {
             var pro = type.GetProperty(prop.Name, prop.PropertyType);
-            var itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            return itemList.Length == 0 || itemList[0].Clone;
+            var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+            return list.Length == 0 || list[0].Clone;
         }
 
         /// <summary>

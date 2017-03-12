@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using Paway.Helper;
+using System.Collections.Generic;
 
 namespace Paway.Forms
 {
@@ -23,7 +24,7 @@ namespace Paway.Forms
             InitializeComponent();
             TPager.PageChanged += pager1_PageChanged;
             this.Edit.CellClick += gridview1_CellClick;
-            this.Edit.Sorted += gridview1_Sorted;
+            this.Edit.ColumnHeaderMouseClick += gridview1_ColumnHeaderMouseClick;
         }
 
         #endregion
@@ -101,7 +102,7 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 排序
+        #region 全文排序
         private void gridview1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0)
@@ -110,32 +111,70 @@ namespace Paway.Forms
                 return;
             }
         }
-        private void gridview1_Sorted(object sender, EventArgs e)
+        private void gridview1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (dataSource == null) return;
+            if (this.DataSource == null) return;
+            if (this.Edit.CurrentCell == null) return;
             DataGridViewColumn column = this.Edit.Columns[this.sortIndex];
-            if (column.SortMode != DataGridViewColumnSortMode.Automatic) return;
-            SortOrder order = this.Edit.SortOrder;
-            string sort = string.Format("{0} {1}", column.Name, order == SortOrder.Descending ? "desc" : "asc");
-            if (dataSource is IList)
+            var sort = column.HeaderCell.SortGlyphDirection;
             {
-                var list = dataSource as IList;
+                if (sort == SortOrder.None) sort = SortOrder.Ascending;
+                else if (sort == SortOrder.Ascending) sort = SortOrder.Descending;
+                else if (sort == SortOrder.Descending) sort = SortOrder.Ascending;
+            }
+            column.HeaderCell.SortGlyphDirection = sort;
+            if (this.DataSource is IList)
+            {
+                var list = this.DataSource as IList;
                 Type type = list.GetListType();
                 DataTable dt = type.ToDataTable(list);
-                DataRow[] rows = dt.Select(String.Empty, sort);
-                this.DataSource = rows.CopyToDataTable();
+                SortData(type, column.Name, dt, this.sortIndex, sort);
             }
-            if (dataSource is DataTable)
+            else if (this.DataSource is DataTable)
             {
-                var dt = dataSource as DataTable;
-                DataRow[] rows = dt.Select(String.Empty, sort);
-                this.DataSource = rows.CopyToDataTable();
+                var dt = this.DataSource as DataTable;
+                SortData(DType, column.Name, dt, this.sortIndex, sort);
             }
             else return;
-            this.Edit.Sorted -= gridview1_Sorted;
-            column = this.Edit.Columns[this.sortIndex];
-            this.Edit.Sort(column, order == SortOrder.Descending ? ListSortDirection.Descending : ListSortDirection.Ascending);
-            this.Edit.Sorted += gridview1_Sorted;
+            if (this.Edit.DataSource is DataTable)
+            {
+                column = this.Edit.Columns[this.sortIndex];
+                column.HeaderCell.SortGlyphDirection = sort;
+            }
+        }
+        private void SortData(Type type, string name, DataTable dt, int index, SortOrder sort)
+        {
+            if (type == null) return;
+            bool result = false;
+            var properties = TypeDescriptor.GetProperties(type);
+            for (var i = 0; i < properties.Count; i++)
+            {
+                if (properties[i].PropertyType.IsGenericType) continue;
+                if (properties[i].Name == name)
+                {
+                    if (type.IsSort(properties[i]))
+                    {
+                        result = true;
+                        this.DataSource = SortColumn(dt, index, sort);
+                    }
+                    break;
+                }
+            }
+            if (!result)
+            {
+                string order = string.Format("{0} {1}", name, sort == SortOrder.Descending ? "desc" : "asc");
+                DataRow[] rows = dt.Select(String.Empty, order);
+                this.DataSource = rows.CopyToDataTable();
+            }
+        }
+        private DataTable SortColumn(DataTable dt, int index, SortOrder sort)
+        {
+            Dictionary<int, SortOrder> sortColumns = new Dictionary<int, SortOrder>();
+            sortColumns.Add(index, sort);
+            RowComparer comp = new RowComparer();
+            comp.SortColumns = sortColumns;
+            var query = dt.AsEnumerable().OrderBy(q => q, comp);
+            return query.AsDataView().ToTable();
         }
 
         #endregion
@@ -201,7 +240,20 @@ namespace Paway.Forms
             }
             else
             {
+                DType = null;
                 Edit.DataSource = dataSource;
+            }
+            UpdateColumnsSortMode(DType);
+        }
+        /// <summary>
+        ///     更新列排序模式
+        /// </summary>
+        private void UpdateColumnsSortMode(Type type)
+        {
+            if (type == null || type == typeof(string) || type.IsValueType) return;
+            for (var i = 0; i < Edit.Columns.Count; i++)
+            {
+                Edit.Columns[i].SortMode = DataGridViewColumnSortMode.Programmatic;
             }
         }
 

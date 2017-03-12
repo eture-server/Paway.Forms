@@ -98,6 +98,16 @@ namespace Paway.Helper
         private bool _excel = true;
         private bool _select = true;
         private bool _show = true;
+        private bool _sort = false;
+
+        /// <summary>
+        ///     是否自定义排序数字字符列,
+        /// </summary>
+        public bool Sort
+        {
+            get { return _sort; }
+            set { _sort = value; }
+        }
 
         /// <summary>
         ///     是否生成列,
