@@ -65,11 +65,11 @@ namespace Paway.Helper
                         s2 += arr2[j];
                         j++;
                     }
-                    if (int.Parse(s1) > int.Parse(s2))
+                    if (long.Parse(s1) > long.Parse(s2))
                     {
                         return 1;
                     }
-                    if (int.Parse(s1) < int.Parse(s2))
+                    if (long.Parse(s1) < long.Parse(s2))
                     {
                         return -1;
                     }
