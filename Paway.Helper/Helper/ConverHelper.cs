@@ -37,21 +37,6 @@ namespace Paway.Helper
         #endregion
 
         #region 数据转换
-
-        /// <summary>
-        ///     Double转换
-        /// </summary>
-        public static double ToDouble(this object obj)
-        {
-            if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
-                return 0;
-
-            double value;
-            if (double.TryParse(obj.ToString(), out value))
-                return value;
-            return 0;
-        }
-
         /// <summary>
         ///     Int32转换
         /// </summary>
@@ -81,7 +66,45 @@ namespace Paway.Helper
             }
             return -1;
         }
+        /// <summary>
+        ///     Long转换
+        /// </summary>
+        public static long ToLong(this object obj)
+        {
+            if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
+                return -1;
 
+            long value;
+            if (long.TryParse(obj.ToString(), out value))
+                return value;
+            return -1;
+        }
+        /// <summary>
+        ///     Double转换
+        /// </summary>
+        public static double ToDouble(this object obj)
+        {
+            if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
+                return 0;
+
+            double value;
+            if (double.TryParse(obj.ToString(), out value))
+                return value;
+            return 0;
+        }
+        /// <summary>
+        ///     float
+        /// </summary>
+        public static float ToFloat(this object obj)
+        {
+            if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
+                return 0;
+
+            float value;
+            if (float.TryParse(obj.ToString(), out value))
+                return value;
+            return 0;
+        }
         /// <summary>
         ///     Bool转换
         /// </summary>
@@ -99,21 +122,6 @@ namespace Paway.Helper
                 return value;
             return false;
         }
-
-        /// <summary>
-        ///     Long转换
-        /// </summary>
-        public static long ToLong(this object obj)
-        {
-            if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
-                return -1;
-
-            long value;
-            if (long.TryParse(obj.ToString(), out value))
-                return value;
-            return -1;
-        }
-
         /// <summary>
         ///     String转换
         /// </summary>
@@ -124,7 +132,6 @@ namespace Paway.Helper
 
             return obj.ToString().Trim();
         }
-
         /// <summary>
         ///     DateTime转换
         /// </summary>
@@ -135,7 +142,6 @@ namespace Paway.Helper
 
             return Convert.ToDateTime(obj);
         }
-
         /// <summary>
         ///     检测obj,如果为DBNUll或空字符串 返回true
         /// </summary>
@@ -151,7 +157,6 @@ namespace Paway.Helper
             }
             return false;
         }
-
         /// <summary>
         ///     拼音转换
         /// </summary>
@@ -379,10 +384,6 @@ namespace Paway.Helper
             {
                 pro.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image);
             }
-            else if (pro.PropertyType == typeof(double) || pro.PropertyType == typeof(double?))
-            {
-                pro.SetValue(obj, value.ToDouble());
-            }
             else if (pro.PropertyType == typeof(int) || pro.PropertyType == typeof(int?))
             {
                 pro.SetValue(obj, value.ToInt());
@@ -390,6 +391,14 @@ namespace Paway.Helper
             else if (pro.PropertyType == typeof(long) || pro.PropertyType == typeof(long?))
             {
                 pro.SetValue(obj, value.ToLong());
+            }
+            else if (pro.PropertyType == typeof(double) || pro.PropertyType == typeof(double?))
+            {
+                pro.SetValue(obj, value.ToDouble());
+            }
+            else if (pro.PropertyType == typeof(float) || pro.PropertyType == typeof(float?))
+            {
+                pro.SetValue(obj, value.ToFloat());
             }
             else if (pro.PropertyType == typeof(bool) || pro.PropertyType == typeof(bool?))
             {
@@ -822,9 +831,8 @@ namespace Paway.Helper
         }
         /// <summary>
         /// </summary>
-        public static bool IsSort(this Type type, PropertyDescriptor prop)
+        public static bool ISort(this PropertyInfo pro)
         {
-            var pro = type.GetProperty(prop.Name, prop.PropertyType);
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             return list.Length > 0 && list[0].Sort;
         }
@@ -1073,6 +1081,108 @@ namespace Paway.Helper
                 var y = form.Height * (tList[i].Point.Y + top) / normal.Height;
                 tList[i].Control.Location = new Point(x - left, y - top);
             }
+        }
+
+        #endregion
+
+        #region 含数字的字符串比较数字
+        /// <summary>
+        /// 含数字的字符串比较数字
+        /// </summary>
+        public static int TCompare(this object obj1, object obj2)
+        {
+            string x = obj1 as string;
+            string y = obj2 as string;
+            if (x == null || y == null) return 0;
+            if (x == null) return -1;
+            if (y == null) return 1;
+            char[] arr1 = x.ToCharArray();
+            char[] arr2 = y.ToCharArray();
+            int i = 0, j = 0;
+            while (i < arr1.Length && j < arr2.Length)
+            {
+                if (char.IsDigit(arr1[i]) && char.IsDigit(arr2[j]))
+                {
+                    string s1 = "", s2 = "";
+                    while (i < arr1.Length && char.IsDigit(arr1[i]))
+                    {
+                        s1 += arr1[i];
+                        i++;
+                    }
+                    while (j < arr2.Length && char.IsDigit(arr2[j]))
+                    {
+                        s2 += arr2[j];
+                        j++;
+                    }
+                    if (long.Parse(s1) > long.Parse(s2))
+                    {
+                        return 1;
+                    }
+                    if (long.Parse(s1) < long.Parse(s2))
+                    {
+                        return -1;
+                    }
+                }
+                else
+                {
+                    if (arr1[i] > arr2[j])
+                    {
+                        return 1;
+                    }
+                    if (arr1[i] < arr2[j])
+                    {
+                        return -1;
+                    }
+                    i++;
+                    j++;
+                }
+            }
+            if (arr1.Length == arr2.Length)
+            {
+                return 0;
+            }
+            else
+            {
+                return arr1.Length > arr2.Length ? 1 : -1;
+            }
+        }
+        /// <summary>
+        /// </summary>
+        public static int TCompare(this PropertyInfo pro, object obj1, object obj2)
+        {
+            if (pro.PropertyType == typeof(Image))
+            {
+                return 0;
+            }
+            else if (pro.PropertyType == typeof(int))
+            {
+                return ((int)obj1).CompareTo((int)obj2);
+            }
+            else if (pro.PropertyType == typeof(long))
+            {
+                return ((long)obj1).CompareTo((long)obj2);
+            }
+            else if (pro.PropertyType == typeof(double))
+            {
+                return ((double)obj1).CompareTo((double)obj2);
+            }
+            else if (pro.PropertyType == typeof(float))
+            {
+                return ((float)obj1).CompareTo((float)obj2);
+            }
+            else if (pro.PropertyType == typeof(bool))
+            {
+                return ((bool)obj1).CompareTo((bool)obj2);
+            }
+            else if (pro.PropertyType == typeof(DateTime))
+            {
+                return ((DateTime)obj1).CompareTo((DateTime)obj2);
+            }
+            else if (pro.PropertyType == typeof(string))
+            {
+                return (obj1.ToString2()).CompareTo(obj2.ToString2());
+            }
+            else return 0;
         }
 
         #endregion

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Paway.Helper;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Paway.Forms
 {
@@ -74,21 +75,25 @@ namespace Paway.Forms
         public object DataSource
         {
             get { return dataSource; }
-            set
+            set { UpdateData(value, false); }
+        }
+        /// <summary>
+        /// 设置数据
+        /// </summary>
+        public void UpdateData(object value, bool iObject)
+        {
+            if (Edit.Columns != null)
             {
-                if (Edit.Columns != null)
-                {
-                    Edit.Columns.Clear();
-                }
-                dataSource = value;
-                BingData();
+                Edit.Columns.Clear();
             }
+            dataSource = value;
+            BingData(iObject);
         }
 
         /// <summary>
         ///     数据类型
         /// </summary>
-        private Type DType;
+        private Type DataType;
 
         /// <summary>
         ///     获取或设置当前页码
@@ -126,41 +131,51 @@ namespace Paway.Forms
             if (this.DataSource is IList)
             {
                 var list = this.DataSource as IList;
-                Type type = list.GetListType();
-                DataTable dt = type.ToDataTable(list);
-                SortData(type, column.Name, dt, this.sortIndex, sort);
+                List<object> tempList = new List<object>();
+                for (int i = 0; i < list.Count; i++)
+                {
+                    tempList.Add(list[i]);
+                }
+                var pro = DataType.GetProperty(column.Name);
+                string sorts = sort == SortOrder.Descending ? "desc" : "asc";
+                if (pro.ISort())
+                {
+                    tempList.Sort((x, y) => TCompare(pro.GetValue(x, null), pro.GetValue(y, null), sorts));
+                }
+                else
+                {
+                    tempList.Sort((x, y) => TCompare(pro, x, y, sorts));
+                }
+                this.UpdateData(tempList, true);
             }
             else if (this.DataSource is DataTable)
             {
                 var dt = this.DataSource as DataTable;
-                SortData(DType, column.Name, dt, this.sortIndex, sort);
+                SortData(DataType, column.Name, dt, this.sortIndex, sort);
             }
             else return;
-            if (this.Edit.DataSource is DataTable)
-            {
-                column = this.Edit.Columns[this.sortIndex];
-                column.HeaderCell.SortGlyphDirection = sort;
-            }
+            column = this.Edit.Columns[this.sortIndex];
+            column.HeaderCell.SortGlyphDirection = sort;
+        }
+        private int TCompare(PropertyInfo pro, object obj1, object obj2, string sort)
+        {
+            int result = pro.TCompare(pro.GetValue(obj1, null), pro.GetValue(obj2, null));
+            return sort == "asc" ? result : -result;
+        }
+        private int TCompare(object obj1, object obj2, string sort)
+        {
+            int result = obj1.TCompare(obj2);
+            return sort == "asc" ? result : -result;
         }
         private void SortData(Type type, string name, DataTable dt, int index, SortOrder sort)
         {
             if (type == null) return;
-            bool result = false;
-            var properties = TypeDescriptor.GetProperties(type);
-            for (var i = 0; i < properties.Count; i++)
+            var pro = type.GetProperty(name);
+            if (pro.ISort())
             {
-                if (properties[i].PropertyType.IsGenericType) continue;
-                if (properties[i].Name == name)
-                {
-                    if (type.IsSort(properties[i]))
-                    {
-                        result = true;
-                        this.DataSource = SortColumn(dt, index, sort);
-                    }
-                    break;
-                }
+                this.DataSource = SortColumn(dt, index, sort);
             }
-            if (!result)
+            else
             {
                 string order = string.Format("{0} {1}", name, sort == SortOrder.Descending ? "desc" : "asc");
                 DataRow[] rows = dt.Select(String.Empty, order);
@@ -204,7 +219,7 @@ namespace Paway.Forms
         /// <summary>
         ///     分页加载数据
         /// </summary>
-        public void BingData()
+        public void BingData(bool iObject = false)
         {
             if (dataSource == null) return;
             if (dataSource is DataTable)
@@ -220,15 +235,16 @@ namespace Paway.Forms
                     temp.Rows.Add(dt.Rows[i].ItemArray);
                 }
                 Edit.DataSource = temp;
-                Edit.UpdateColumns(DType);
+                Edit.UpdateColumns(DataType);
             }
             else if (dataSource is IList)
             {
                 var list = dataSource as IList;
-                DType = list.GetListType();
+                if (!iObject)
+                    DataType = list.GetListType();
 
                 PagerInfo.RecordCount = list.Count;
-                var temp = DType.CreateList();
+                var temp = DataType.CreateList();
 
                 var index = PagerInfo.PageSize * (PagerInfo.CurrentPageIndex - 1);
                 for (var i = index; i < index + PagerInfo.PageSize; i++)
@@ -240,10 +256,10 @@ namespace Paway.Forms
             }
             else
             {
-                DType = null;
+                DataType = null;
                 Edit.DataSource = dataSource;
             }
-            UpdateColumnsSortMode(DType);
+            UpdateColumnsSortMode(DataType);
         }
         /// <summary>
         ///     更新列排序模式
