@@ -87,13 +87,13 @@ namespace Paway.Forms
 
         #region 属性
 
-        private Color _select = Color.FromArgb(207, 227, 253);
+        private Color _select = Color.FromArgb(200, 207, 227, 253);
 
         /// <summary>
         ///     项被选中后的背景颜色(有焦点)
         /// </summary>
         [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的背景颜色(有焦点)")]
-        [DefaultValue(typeof(Color), "207, 227, 253")]
+        [DefaultValue(typeof(Color), "200, 207, 227, 253")]
         public Color ColorSelect
         {
             get { return _select; }
@@ -126,13 +126,13 @@ namespace Paway.Forms
             set { _selectFore = value; }
         }
 
-        private Color _selectNoFocus = Color.FromArgb(242, 242, 242);
+        private Color _selectNoFocus = Color.FromArgb(200, 242, 242, 242);
 
         /// <summary>
         ///     项被选中后的背景颜色(无焦点)
         /// </summary>
         [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的背景颜色(无焦点)")]
-        [DefaultValue(typeof(Color), "242, 242, 242")]
+        [DefaultValue(typeof(Color), "200, 242, 242, 242")]
         public Color ColorSelectNoFocus
         {
             get { return _selectNoFocus; }
@@ -165,13 +165,13 @@ namespace Paway.Forms
             set { _selectForeNoFocus = value; }
         }
 
-        private Color _hot = Color.FromArgb(244, 249, 255);
+        private Color _hot = Color.FromArgb(200, 244, 249, 255);
 
         /// <summary>
         ///     鼠标移过项时的背景颜色
         /// </summary>
         [Browsable(true), Category("控件的重绘设置"), Description("鼠标移过项时的背景颜色")]
-        [DefaultValue(typeof(Color), "244, 249, 255")]
+        [DefaultValue(typeof(Color), "200, 244, 249, 255")]
         public Color ColorHot
         {
             get { return _hot; }

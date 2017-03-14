@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Paway.Helper
@@ -278,43 +279,25 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        /// </summary>
-        public static List<T> ToList<T>(List<DataRow> rows)
-        {
-            List<T> list = null;
-
-            if (rows != null)
-            {
-                list = new List<T>();
-
-                foreach (var row in rows)
-                {
-                    var item = CreateItem<T>(row);
-                    list.Add(item);
-                }
-            }
-
-            return list;
-        }
-
-        /// <summary>
         ///     将DataTable转为IList
         /// </summary>
-        public static List<T> ToList<T>(this DataTable table)
+        public static List<T> ToList<T>(this DataTable table, int count = int.MaxValue)
         {
             if (table == null)
             {
                 return null;
             }
-
-            var rows = new List<DataRow>();
-
-            foreach (DataRow row in table.Rows)
+            List<T> list = new List<T>();
+            if (count > table.Rows.Count) count = table.Rows.Count;
+            Parallel.For(0, count, new ParallelOptions() { MaxDegreeOfParallelism = 16 }, (i) =>
             {
-                rows.Add(row);
-            }
-
-            return ToList<T>(rows);
+                var item = table.Rows[i].CreateItem<T>();
+                lock (list)
+                {
+                    list.Add(item);
+                }
+            });
+            return list;
         }
 
         /// <summary>

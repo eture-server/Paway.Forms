@@ -332,7 +332,9 @@ namespace Paway.Utils.Data
 
                 using (var dr = cmd.ExecuteReader())
                 {
-                    var list = LoadDr<T>(dr, 1);
+                    DataTable dt = new DataTable();
+                    dt.Load(dr);
+                    var list = dt.ToList<T>(1);
                     return list.Count == 1 ? list[0] : default(T);
                 }
             }
@@ -404,7 +406,44 @@ namespace Paway.Utils.Data
                 OnCommandText(cmd);
                 using (var dr = cmd.ExecuteReader())
                 {
-                    return LoadDr<T>(dr);
+                    DataTable dt = new DataTable();
+                    dt.Load(dr);
+                    return dt.ToList<T>();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(string.Format("Find.Error[{0}]\r\n{1}", sql, ex));
+                throw;
+            }
+            finally
+            {
+                if (iTrans) CommandEnd(cmd);
+            }
+        }
+
+        /// <summary>
+        ///     填充 System.Data.DataSet 并返回一个DataTable
+        ///     查找指定查询语句
+        ///     指定返回行数
+        ///     是否SQLite
+        /// </summary>
+        protected DataTable FindTable<T>(string find, DbCommand cmd = null, params string[] args)
+        {
+            var iTrans = cmd == null;
+            string sql = null;
+            try
+            {
+                if (iTrans) cmd = CommandStart();
+
+                sql = default(T).Select(find, args);
+                cmd.CommandText = sql;
+                OnCommandText(cmd);
+                using (var dr = cmd.ExecuteReader())
+                {
+                    DataTable dt = new DataTable();
+                    dt.Load(dr);
+                    return dt;
                 }
             }
             catch (Exception ex)

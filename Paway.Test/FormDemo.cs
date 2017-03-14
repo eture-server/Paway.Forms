@@ -61,7 +61,7 @@ namespace Paway.Test
             TDirection[] tList = (TDirection[])Enum.GetValues(typeof(TDirection));
             for (int i = 0; i < tList.Length; i++)
             {
-                this.tComboBox21.Edit.Items.Add(EntityHelper.GetEnumTextValue((TDirection)tList[i]));
+                this.tComboBox21.Edit.Items.Add(EntityHelper.GetValue((TDirection)tList[i]));
             }
         }
 

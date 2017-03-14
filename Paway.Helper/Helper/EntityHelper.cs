@@ -36,7 +36,7 @@ namespace Paway.Helper
         /// <summary>
         /// 获取指定枚举特性值
         /// </summary>
-        public static string GetEnumTextValue(Enum e)
+        public static string GetValue(Enum e)
         {
             var ret = string.Empty;
             if (e == null) return ret;
