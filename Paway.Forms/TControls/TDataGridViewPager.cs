@@ -36,10 +36,15 @@ namespace Paway.Forms
         public event EventHandler PageChanged;
 
         #region 属性
+        private bool _isort = true;
+        /// <summary>
+        /// 是否排序
+        /// </summary>
+        public bool ISort { get { return _isort; } set { _isort = value; } }
         /// <summary>
         /// 排序列
         /// </summary>
-        private int sortIndex;
+        protected int Index;
 
         private TPager pager1;
         /// <summary>
@@ -93,7 +98,7 @@ namespace Paway.Forms
         /// <summary>
         ///     数据类型
         /// </summary>
-        private Type DataType;
+        protected Type DataType { get; set; }
 
         /// <summary>
         ///     获取或设置当前页码
@@ -112,15 +117,22 @@ namespace Paway.Forms
         {
             if (e.RowIndex < 0)
             {
-                sortIndex = e.ColumnIndex;
+                Index = e.ColumnIndex;
                 return;
             }
         }
         private void gridview1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            if (ISort) SortColumn();
+        }
+        /// <summary>
+        /// 自定义排序
+        /// </summary>
+        protected void SortColumn()
+        {
             if (this.DataSource == null) return;
             if (this.Edit.CurrentCell == null) return;
-            DataGridViewColumn column = this.Edit.Columns[this.sortIndex];
+            DataGridViewColumn column = this.Edit.Columns[this.Index];
             var sort = column.HeaderCell.SortGlyphDirection;
             {
                 if (sort == SortOrder.None) sort = SortOrder.Ascending;
@@ -151,10 +163,10 @@ namespace Paway.Forms
             else if (this.DataSource is DataTable)
             {
                 var dt = this.DataSource as DataTable;
-                SortData(DataType, column.Name, dt, this.sortIndex, sort);
+                SortData(DataType, column.Name, dt, this.Index, sort);
             }
             else return;
-            column = this.Edit.Columns[this.sortIndex];
+            column = this.Edit.Columns[this.Index];
             column.HeaderCell.SortGlyphDirection = sort;
         }
         private int TCompare(PropertyInfo pro, object obj1, object obj2, string sort)

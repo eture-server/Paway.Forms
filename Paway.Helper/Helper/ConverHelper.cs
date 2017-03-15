@@ -227,27 +227,26 @@ namespace Paway.Helper
         /// <summary>
         ///     IList转为 DataTable
         /// </summary>
-        public static DataTable ToDataTable(this Type type, IList list, object id = null)
+        public static DataTable ToDataTable(this Type type, IList list)
         {
             var table = type.CreateTable();
             var properties = TypeDescriptor.GetProperties(type);
-            for (var i = 0; i < list.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
-                var row = table.NewRow();
-                if (id != null)
-                {
-                    var value = properties[0].GetValue(list[i]);
-                    if (value.ToString2() != id.ToString2()) continue;
-                }
-                for (var j = 0; j < properties.Count; j++)
-                {
-                    if (properties[j].PropertyType.IsGenericType) continue;
-                    var name = properties[j].Name;
-                    if (!type.IsTabel(properties[j], ref name)) continue;
-                    row[name] = properties[j].GetValue(list[i]);
-                }
-                table.Rows.Add(row);
+                table.Rows.Add(table.NewRow());
             }
+            Parallel.For(0, properties.Count, new ParallelOptions() { MaxDegreeOfParallelism = 4 }, (i) =>
+            {
+                if (properties[i].PropertyType.IsGenericType) return;
+                var name = properties[i].Name;
+                if (!type.ITable(properties[i], ref name)) return;
+                for (int j = 0; j < table.Rows.Count; j++)
+                {
+                    var value = properties[i].GetValue(list[j]);
+                    lock (table)
+                        table.Rows[j][name] = value;
+                }
+            });
             return table;
         }
 
@@ -272,7 +271,7 @@ namespace Paway.Helper
             {
                 if (properties[i].PropertyType.IsGenericType) continue;
                 var name = properties[i].Name;
-                if (!type.IsTabel(properties[i], ref name)) continue;
+                if (!type.ITable(properties[i], ref name)) continue;
                 table.Columns.Add(name, properties[i].PropertyType);
             }
             return table;
@@ -287,14 +286,31 @@ namespace Paway.Helper
             {
                 return null;
             }
-            List<T> list = new List<T>();
             if (count > table.Rows.Count) count = table.Rows.Count;
-            Parallel.For(0, count, new ParallelOptions() { MaxDegreeOfParallelism = 16 }, (i) =>
+            List<T> list = new List<T>();
+            var type = typeof(T);
+            var properties = TypeDescriptor.GetProperties(type);
+            for (int i = 0; i < count; i++)
             {
-                var item = table.Rows[i].CreateItem<T>();
-                lock (list)
+                list.Add(Activator.CreateInstance<T>());
+            }
+            Parallel.For(0, properties.Count, new ParallelOptions() { MaxDegreeOfParallelism = 4 }, (i) =>
+            {
+                var name = properties[i].Name;
+                if (!type.ITable(properties[i], ref name)) return;
+
+                var pro = properties[i];
+                foreach (DataColumn column in table.Columns)
                 {
-                    list.Add(item);
+                    if (name != column.ColumnName) continue;
+                    for (var j = 0; j < count; j++)
+                    {
+                        var value = table.Rows[j][column.ColumnName];
+                        if (value == DBNull.Value) break;
+                        lock (list)
+                            SetValue(list[j], pro, value);
+                    }
+                    break;
                 }
             });
             return list;
@@ -308,21 +324,19 @@ namespace Paway.Helper
             var type = typeof(T);
             var obj = Activator.CreateInstance<T>(); //string 类型不支持无参的反射
             if (row == null) return obj;
-
             var properties = TypeDescriptor.GetProperties(type);
-            foreach (DataColumn column in row.Table.Columns)
+            for (var i = 0; i < properties.Count; i++)
             {
-                for (var i = 0; i < properties.Count; i++)
-                {
-                    var name = properties[i].Name;
-                    if (!type.IsTabel(properties[i], ref name)) continue;
-                    if (name != column.ColumnName) continue;
+                var name = properties[i].Name;
+                if (!type.ITable(properties[i], ref name)) continue;
 
-                    var pro = properties[i];
+                var pro = properties[i];
+                foreach (DataColumn column in row.Table.Columns)
+                {
+                    if (name != column.ColumnName) continue;
                     var value = row[column.ColumnName];
                     if (value == DBNull.Value) break;
                     SetValue(obj, pro, value);
-
                     break;
                 }
             }
@@ -343,7 +357,7 @@ namespace Paway.Helper
                 for (var i = 0; i < properties.Count; i++)
                 {
                     var name = properties[i].Name;
-                    if (!type.IsTabel(properties[i], ref name)) continue;
+                    if (!type.ITable(properties[i], ref name)) continue;
                     if (name != column.ColumnName) continue;
 
                     var pro = properties[i];
@@ -802,7 +816,7 @@ namespace Paway.Helper
         }
         /// <summary>
         /// </summary>
-        private static bool IsTabel(this Type type, PropertyDescriptor prop, ref string column)
+        private static bool ITable(this Type type, PropertyDescriptor prop, ref string column)
         {
             var pro = type.GetProperty(prop.Name, prop.PropertyType);
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
@@ -810,6 +824,13 @@ namespace Paway.Helper
             {
                 column = list[0].Column;
             }
+            return list.Length == 0 || list[0].Select || list[0].Excel;
+        }
+        /// <summary>
+        /// </summary>
+        public static bool ITable(this PropertyInfo pro)
+        {
+            var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             return list.Length == 0 || list[0].Select || list[0].Excel;
         }
         /// <summary>

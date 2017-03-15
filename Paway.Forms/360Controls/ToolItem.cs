@@ -108,6 +108,12 @@ namespace Paway.Forms
         [Description("Item 上显示的尾部描述信息"), DefaultValue(null)]
         public string EndDesc { get; set; }
 
+        /// <summary>
+        ///     Item 上鼠标悬停显示信息
+        /// </summary>
+        [Description("Item 上显示的尾部描述信息"), DefaultValue(null)]
+        public string Hit { get; set; }
+
         private TProperties _color;
 
         /// <summary>

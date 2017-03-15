@@ -418,7 +418,7 @@ namespace Paway.Forms
             {
                 var list = _dataSource as IList;
                 type = list.GetListType();
-                dt = type.ToDataTable(list, id);
+                dt = type.ToDataTable(list);
             }
             if (dt == null) return;
             var dr = dt.Select(string.Format("{0} = '{1}'", TId, id));
