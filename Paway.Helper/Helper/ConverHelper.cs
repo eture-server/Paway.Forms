@@ -235,7 +235,7 @@ namespace Paway.Helper
             {
                 table.Rows.Add(table.NewRow());
             }
-            Parallel.For(0, properties.Count, new ParallelOptions() { MaxDegreeOfParallelism = 4 }, (i) =>
+            Parallel.For(0, properties.Count, (i) =>
             {
                 if (properties[i].PropertyType.IsGenericType) return;
                 var name = properties[i].Name;
@@ -294,7 +294,7 @@ namespace Paway.Helper
             {
                 list.Add(Activator.CreateInstance<T>());
             }
-            Parallel.For(0, properties.Count, new ParallelOptions() { MaxDegreeOfParallelism = 4 }, (i) =>
+            Parallel.For(0, properties.Count, (i) =>
             {
                 var name = properties[i].Name;
                 if (!type.ITable(properties[i], ref name)) return;

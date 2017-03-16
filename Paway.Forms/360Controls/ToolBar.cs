@@ -953,7 +953,7 @@ namespace Paway.Forms
                 g.FillRectangle(new SolidBrush(TranColor), temp);
 
             //多线程处理(GDI是同一个，占用更多CPU，绘制效率有提升吗)
-            Parallel.For(0, Items.Count, new ParallelOptions() { MaxDegreeOfParallelism = 2 }, (i) =>
+            Parallel.For(0, Items.Count, (i) =>
             {
                 DrawItem(g, Items[i]);
             });
