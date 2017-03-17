@@ -100,6 +100,14 @@ namespace Paway.Forms
                 RefreshData();
             }
         }
+        /// <summary>
+        /// 外部设置数据
+        /// </summary>
+        public void UpdateData(object value)
+        {
+            dataSource = value;
+            RefreshData();
+        }
 
         /// <summary>
         ///     数据类型

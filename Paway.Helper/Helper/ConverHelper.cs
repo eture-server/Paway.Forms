@@ -828,19 +828,18 @@ namespace Paway.Helper
         }
         /// <summary>
         /// </summary>
-        public static bool ITable(this PropertyInfo pro)
+        public static bool IShow(this PropertyInfo pro)
         {
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            return list.Length == 0 || list[0].Select || list[0].Excel;
+            return list.Length == 0 || list[0].Show;
         }
         /// <summary>
         /// </summary>
         public static bool ISort(this PropertyInfo pro)
         {
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            return list.Length > 0 && list[0].Sort;
+            return list.Length == 0 || list[0].Sort;
         }
-
         private static bool IsClone(Type type, PropertyDescriptor prop)
         {
             var pro = type.GetProperty(prop.Name, prop.PropertyType);
