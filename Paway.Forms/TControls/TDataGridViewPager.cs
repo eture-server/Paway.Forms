@@ -40,6 +40,7 @@ namespace Paway.Forms
         /// <summary>
         /// 是否排序
         /// </summary>
+        [Browsable(false), DefaultValue(true)]
         public bool ISort { get { return _isort; } set { _isort = value; } }
         /// <summary>
         /// 排序列
@@ -82,29 +83,22 @@ namespace Paway.Forms
             get { return dataSource; }
             set
             {
-                if (value is IList)
+                if (Edit.Columns != null)
                 {
-                    var list = value as IList;
+                    Edit.Columns.Clear();
+                }
+                dataSource = value;
+                if (dataSource is IList)
+                {
+                    var list = dataSource as IList;
                     DataType = list.GetListType();
                 }
-                else if (!(value is DataTable))
+                else if (!(dataSource is DataTable))
                 {
                     DataType = null;
                 }
-                UpdateData(value);
+                RefreshData();
             }
-        }
-        /// <summary>
-        /// 设置数据
-        /// </summary>
-        public void UpdateData(object value)
-        {
-            if (Edit.Columns != null)
-            {
-                Edit.Columns.Clear();
-            }
-            dataSource = value;
-            RefreshData();
         }
 
         /// <summary>
@@ -170,7 +164,8 @@ namespace Paway.Forms
                 {
                     tempList.Sort((x, y) => TCompare(pro, x, y, sorts));
                 }
-                this.UpdateData(tempList);
+                this.dataSource = tempList;
+                RefreshData();
             }
             else if (this.DataSource is DataTable)
             {

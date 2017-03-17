@@ -59,16 +59,16 @@ namespace Paway.Test
         protected void WaitDrawDataGridView()
         {
             BindingList<WaitDrawDataGridViewData> list = new BindingList<WaitDrawDataGridViewData>();
-            tDataGridViewPager1.PagerInfo.PageSize = 5;
+            tDataGridViewPager1.PagerInfo.PageSize = 50;
             //tDataGridViewPager1.PageChanged += tDataGridViewPager1_PageChanged;
-            tDataGridViewPager1.DataSource = new WaitDrawDataGridViewData() { Device = "正在加载" };
+            tDataGridViewPager1.DataSource = new Data2() { A = "正在加载" };
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "image");
-            for (int i = 0; i < 13; i++)
+            for (int i = 0; i < 113; i++)
             {
                 bool a = false, b = false, c = false;
-                if (i > 1) a = true;
-                if (i > 3) b = true;
-                if (i > 5) c = true;
+                if (i % 10 == 1) a = true;
+                if (i % 10 == 3) b = true;
+                if (i % 10 == 5) c = true;
                 WaitDrawDataGridViewData dti = new WaitDrawDataGridViewData
                 {
                     StatuImage = BitmapHelper.GetBitmapFormFile(string.Format("{0}\\{1}.png", path, i % 3)),

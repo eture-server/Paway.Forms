@@ -1186,8 +1186,9 @@ namespace Paway.Forms
                     }
                     if (TranColor == Color.Empty)
                     {
-                        lock (g)
-                            g.DrawImage(_normalImage ?? _normalImage2, item.Rectangle);
+                        var temp = _normalImage ?? _normalImage2;
+                        lock (g) lock (temp)
+                                g.DrawImage(temp, item.Rectangle);
                     }
                     else
                     {
@@ -1202,8 +1203,9 @@ namespace Paway.Forms
                     TranColor = item.TColor.ColorDown == Color.Empty ? TBackGround.ColorDown : item.TColor.ColorDown;
                     if (TranColor == Color.Empty)
                     {
-                        lock (g)
-                            g.DrawImage(_downImage ?? _downImage2, item.Rectangle);
+                        var temp = _downImage ?? _downImage2;
+                        lock (g) lock (temp)
+                                g.DrawImage(temp, item.Rectangle);
                     }
                     else
                     {
@@ -1212,8 +1214,8 @@ namespace Paway.Forms
                     Image image = _selectImage ?? _selectImage2;
                     if (_iMultiple && image != null)
                     {
-                        lock (g)
-                            g.DrawImage(image, new Rectangle(item.Rectangle.Right - image.Width, item.Rectangle.Bottom - image.Height, image.Width, image.Height));
+                        lock (g) lock (image)
+                                g.DrawImage(image, new Rectangle(item.Rectangle.Right - image.Width, item.Rectangle.Bottom - image.Height, image.Width, image.Height));
                     }
                     break;
             }
@@ -1258,8 +1260,9 @@ namespace Paway.Forms
             TranColor = item.TColor.ColorMove == Color.Empty ? TBackGround.ColorMove : item.TColor.ColorMove;
             if (TranColor == Color.Empty)
             {
-                lock (g)
-                    g.DrawImage(_moveImage ?? _moveImage2, item.Rectangle);
+                var temp = _moveImage ?? _moveImage2;
+                lock (g) lock (temp)
+                        g.DrawImage(temp, item.Rectangle);
             }
             else
             {
@@ -1290,8 +1293,8 @@ namespace Paway.Forms
                 }
                 imageRect.Size = _imageSizeShow;
                 item.ImageRect = imageRect;
-                lock (g)
-                    g.DrawImage(item.Image, imageRect);
+                lock (g) lock (item.Image)
+                        g.DrawImage(item.Image, imageRect);
             }
         }
 
@@ -1568,8 +1571,7 @@ namespace Paway.Forms
             if (btnArrowImage != null)
             {
                 //当鼠标进入当前选中的的选项卡时，显示下拉按钮
-                lock (g)
-                    g.DrawImage(btnArrowImage, _btnArrowRect);
+                g.DrawImage(btnArrowImage, _btnArrowRect);
             }
         }
 
