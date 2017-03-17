@@ -60,7 +60,7 @@ namespace Paway.Test
         {
             BindingList<WaitDrawDataGridViewData> list = new BindingList<WaitDrawDataGridViewData>();
             tDataGridViewPager1.PagerInfo.PageSize = 5;
-            tDataGridViewPager1.PageChanged += tDataGridViewPager1_PageChanged;
+            //tDataGridViewPager1.PageChanged += tDataGridViewPager1_PageChanged;
             tDataGridViewPager1.DataSource = new WaitDrawDataGridViewData() { Device = "正在加载" };
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "image");
             for (int i = 0; i < 13; i++)

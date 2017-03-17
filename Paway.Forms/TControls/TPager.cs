@@ -42,6 +42,7 @@ namespace Paway.Forms
                 {
                     pagerInfo = new PagerInfo();
                     pagerInfo.PageInfoChanged += pagerInfo_PageInfoChanged;
+                    PagerInfo.CountChanged += PagerInfo_CountChanged;
                 }
                 return pagerInfo;
             }
@@ -50,6 +51,10 @@ namespace Paway.Forms
         private void pagerInfo_PageInfoChanged(PagerInfo info)
         {
             InitPageInfo(info.RecordCount, info.PageSize);
+        }
+        private void PagerInfo_CountChanged(PagerInfo info)
+        {
+            InitPageInfo(true);
         }
 
         #endregion
@@ -128,7 +133,7 @@ namespace Paway.Forms
         /// <summary>
         ///     更新分页信息
         /// </summary>
-        public void InitPageInfo()
+        public void InitPageInfo(bool iTotal = false)
         {
             if (PagerInfo.PageSize < 1)
                 PagerInfo.PageSize = 10; //如果每页记录数不正确，即更改为10
@@ -153,9 +158,9 @@ namespace Paway.Forms
             toolNext.Enabled = enable;
 
             txtCurrentPage.Text = PagerInfo.CurrentPageIndex.ToString();
-            OnPageChanged(EventArgs.Empty);
-            lblPageInfo.Text = string.Format("共 {0} 条记录，每页 {1} 条，共 {2} 页", PagerInfo.RecordCount, PagerInfo.PageSize,
-                PagerInfo.PageCount);
+            if (!iTotal)
+                OnPageChanged(EventArgs.Empty);
+            lblPageInfo.Text = string.Format("共 {0} 条记录，每页 {1} 条，共 {2} 页", PagerInfo.RecordCount, PagerInfo.PageSize, PagerInfo.PageCount);
         }
 
         #region 当前页更新
@@ -441,6 +446,10 @@ namespace Paway.Forms
         ///     在分页属性变动时发生
         /// </summary>
         public event PageInfoChanged PageInfoChanged;
+        /// <summary>
+        ///     在分页属性变动时发生
+        /// </summary>
+        public event PageInfoChanged CountChanged;
 
         #region 属性变量
 
@@ -501,9 +510,9 @@ namespace Paway.Forms
                 if (recordCount != value)
                 {
                     recordCount = value;
-                    if (PageInfoChanged != null)
+                    if (CountChanged != null)
                     {
-                        PageInfoChanged(this);
+                        CountChanged(this);
                     }
                 }
             }
@@ -521,9 +530,9 @@ namespace Paway.Forms
                 if (PageSize == 0) PageSize = 1;
                 if (RecordCount % PageSize == 0)
                 {
-                    return recordCount / pageSize;
+                    return RecordCount / pageSize;
                 }
-                return recordCount / pageSize + 1;
+                return RecordCount / pageSize + 1;
             }
         }
 

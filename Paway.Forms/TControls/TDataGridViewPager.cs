@@ -80,19 +80,31 @@ namespace Paway.Forms
         public object DataSource
         {
             get { return dataSource; }
-            set { UpdateData(value, false); }
+            set
+            {
+                if (value is IList)
+                {
+                    var list = value as IList;
+                    DataType = list.GetListType();
+                }
+                else if (!(value is DataTable))
+                {
+                    DataType = null;
+                }
+                UpdateData(value);
+            }
         }
         /// <summary>
         /// 设置数据
         /// </summary>
-        public void UpdateData(object value, bool iObject)
+        public void UpdateData(object value)
         {
             if (Edit.Columns != null)
             {
                 Edit.Columns.Clear();
             }
             dataSource = value;
-            BingData(iObject);
+            RefreshData();
         }
 
         /// <summary>
@@ -158,7 +170,7 @@ namespace Paway.Forms
                 {
                     tempList.Sort((x, y) => TCompare(pro, x, y, sorts));
                 }
-                this.UpdateData(tempList, true);
+                this.UpdateData(tempList);
             }
             else if (this.DataSource is DataTable)
             {
@@ -207,15 +219,6 @@ namespace Paway.Forms
         #endregion
 
         #region 分页
-
-        /// <summary>
-        ///     刷新数据
-        /// </summary>
-        public void RefreshData()
-        {
-            BingData();
-        }
-
         private void pager1_PageChanged(object sender, EventArgs e)
         {
             if (PageChanged != null)
@@ -224,14 +227,14 @@ namespace Paway.Forms
             }
             else
             {
-                BingData();
+                RefreshData();
             }
         }
 
         /// <summary>
-        ///     分页加载数据
+        ///     刷新数据(分页加载数据)
         /// </summary>
-        public void BingData(bool iObject = false)
+        public void RefreshData()
         {
             if (dataSource == null) return;
             if (dataSource is DataTable)
@@ -252,8 +255,6 @@ namespace Paway.Forms
             else if (dataSource is IList)
             {
                 var list = dataSource as IList;
-                if (!iObject)
-                    DataType = list.GetListType();
 
                 PagerInfo.RecordCount = list.Count;
                 var temp = DataType.CreateList();
@@ -268,7 +269,7 @@ namespace Paway.Forms
             }
             else
             {
-                DataType = null;
+                PagerInfo.RecordCount = 0;
                 Edit.DataSource = dataSource;
             }
             UpdateColumnsSortMode(DataType);
