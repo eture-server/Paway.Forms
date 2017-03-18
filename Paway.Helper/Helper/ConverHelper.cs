@@ -213,36 +213,32 @@ namespace Paway.Helper
         #endregion
 
         #region IList 与　DataTable 互转
-
         /// <summary>
         ///     IList转为 DataTable
         /// </summary>
         public static DataTable ToDataTable<T>(this List<T> list)
         {
-            var table = CreateTable<T>();
-            var type = typeof(T);
-            return type.ToDataTable(list as IList);
+            return typeof(T).ToDataTable(list);
         }
-
         /// <summary>
         ///     IList转为 DataTable
         /// </summary>
         public static DataTable ToDataTable(this Type type, IList list)
         {
             var table = type.CreateTable();
-            var properties = TypeDescriptor.GetProperties(type);
+            var properties = type.GetProperties();
             for (int i = 0; i < list.Count; i++)
             {
                 table.Rows.Add(table.NewRow());
             }
-            Parallel.For(0, properties.Count, (i) =>
+            Parallel.For(0, properties.Length, (i) =>
             {
                 if (properties[i].PropertyType.IsGenericType) return;
                 var name = properties[i].Name;
-                if (!type.ITable(properties[i], ref name)) return;
+                if (!properties[i].ITable(ref name)) return;
                 for (int j = 0; j < table.Rows.Count; j++)
                 {
-                    var value = properties[i].GetValue(list[j]);
+                    var value = properties[i].GetValue(list[j], null);
                     lock (table)
                         table.Rows[j][name] = value;
                 }
@@ -253,25 +249,16 @@ namespace Paway.Helper
         /// <summary>
         ///     将指定类型转为DataTable
         /// </summary>
-        public static DataTable CreateTable<T>()
-        {
-            var entityType = typeof(T);
-            return entityType.CreateTable();
-        }
-
-        /// <summary>
-        ///     将指定类型转为DataTable
-        /// </summary>
         /// <returns></returns>
         public static DataTable CreateTable(this Type type)
         {
             var table = new DataTable(type.Name);
-            var properties = TypeDescriptor.GetProperties(type);
-            for (var i = 0; i < properties.Count; i++)
+            var properties = type.GetProperties();
+            for (var i = 0; i < properties.Length; i++)
             {
                 if (properties[i].PropertyType.IsGenericType) continue;
                 var name = properties[i].Name;
-                if (!type.ITable(properties[i], ref name)) continue;
+                if (!properties[i].ITable(ref name)) continue;
                 table.Columns.Add(name, properties[i].PropertyType);
             }
             return table;
@@ -289,26 +276,25 @@ namespace Paway.Helper
             if (count > table.Rows.Count) count = table.Rows.Count;
             List<T> list = new List<T>();
             var type = typeof(T);
-            var properties = TypeDescriptor.GetProperties(type);
+            var properties = type.GetProperties();
             for (int i = 0; i < count; i++)
             {
                 list.Add(Activator.CreateInstance<T>());
             }
-            Parallel.For(0, properties.Count, (i) =>
+            Parallel.For(0, properties.Length, (i) =>
             {
                 var name = properties[i].Name;
-                if (!type.ITable(properties[i], ref name)) return;
+                if (!properties[i].ITable(ref name)) return;
 
                 var pro = properties[i];
                 foreach (DataColumn column in table.Columns)
                 {
                     if (name != column.ColumnName) continue;
-                    for (var j = 0; j < count; j++)
+                    for (var j = 0; j < list.Count; j++)
                     {
                         var value = table.Rows[j][column.ColumnName];
                         if (value == DBNull.Value) break;
-                        lock (list)
-                            SetValue(list[j], pro, value);
+                        SetValue(list[j], pro, value);
                     }
                     break;
                 }
@@ -324,11 +310,11 @@ namespace Paway.Helper
             var type = typeof(T);
             var obj = Activator.CreateInstance<T>(); //string 类型不支持无参的反射
             if (row == null) return obj;
-            var properties = TypeDescriptor.GetProperties(type);
-            for (var i = 0; i < properties.Count; i++)
+            var properties = type.GetProperties();
+            for (var i = 0; i < properties.Length; i++)
             {
                 var name = properties[i].Name;
-                if (!type.ITable(properties[i], ref name)) continue;
+                if (!properties[i].ITable(ref name)) continue;
 
                 var pro = properties[i];
                 foreach (DataColumn column in row.Table.Columns)
@@ -345,91 +331,46 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     从数据库直接加载实例
-        /// </summary>
-        public static T CreateItem<T>(this DbDataReader dr, DataRow row)
-        {
-            var type = typeof(T);
-            var obj = Activator.CreateInstance<T>(); //string 类型不支持无参的反射
-            var properties = TypeDescriptor.GetProperties(type);
-            foreach (DataColumn column in row.Table.Columns)
-            {
-                for (var i = 0; i < properties.Count; i++)
-                {
-                    var name = properties[i].Name;
-                    if (!type.ITable(properties[i], ref name)) continue;
-                    if (name != column.ColumnName) continue;
-
-                    var pro = properties[i];
-                    var value = dr[column.ColumnName];
-                    if (value == DBNull.Value) break;
-                    SetValue(obj, pro, value);
-
-                    break;
-                }
-            }
-
-            return obj;
-        }
-
-        /// <summary>
         /// 赋值
         /// </summary>
-        public static void SetValue<T>(T obj, PropertyDescriptor pro, object value)
+        public static void SetValue<T>(T obj, PropertyInfo pro, object value)
         {
             if (pro.PropertyType == typeof(Image) && value is byte[])
             {
-                pro.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image);
+                pro.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image, null);
             }
             else if (pro.PropertyType == typeof(int) || pro.PropertyType == typeof(int?))
             {
-                pro.SetValue(obj, value.ToInt());
+                pro.SetValue(obj, value.ToInt(), null);
             }
             else if (pro.PropertyType == typeof(long) || pro.PropertyType == typeof(long?))
             {
-                pro.SetValue(obj, value.ToLong());
+                pro.SetValue(obj, value.ToLong(), null);
             }
             else if (pro.PropertyType == typeof(double) || pro.PropertyType == typeof(double?))
             {
-                pro.SetValue(obj, value.ToDouble());
+                pro.SetValue(obj, value.ToDouble(), null);
             }
             else if (pro.PropertyType == typeof(float) || pro.PropertyType == typeof(float?))
             {
-                pro.SetValue(obj, value.ToFloat());
+                pro.SetValue(obj, value.ToFloat(), null);
             }
             else if (pro.PropertyType == typeof(bool) || pro.PropertyType == typeof(bool?))
             {
-                pro.SetValue(obj, value.ToBool());
+                pro.SetValue(obj, value.ToBool(), null);
             }
             else if (pro.PropertyType == typeof(DateTime) || pro.PropertyType == typeof(DateTime?))
             {
-                pro.SetValue(obj, value.ToDateTime());
+                pro.SetValue(obj, value.ToDateTime(), null);
             }
             else if (pro.PropertyType == typeof(string))
             {
-                pro.SetValue(obj, value.ToString2());
+                pro.SetValue(obj, value.ToString2(), null);
             }
             else
             {
-                pro.SetValue(obj, value);
+                pro.SetValue(obj, value, null);
             }
-        }
-
-        /// <summary>
-        ///     该方法仅能转换DataTable的首列
-        /// </summary>
-        public static List<string> ConvertToListWithFirstColumn(this DataTable table)
-        {
-            if (table == null)
-            {
-                return null;
-            }
-            var list = new List<string>();
-            foreach (DataRow row in table.Rows)
-            {
-                list.Add(row[0].ToString());
-            }
-            return list;
         }
 
         #endregion
@@ -437,15 +378,14 @@ namespace Paway.Helper
         #region 基本Sql语句
 
         #region Select
-
         /// <summary>
         ///     将指定类型转为Select语句
         ///     指定查询条件为主列
         /// </summary>
-        public static string Select<T>(this T t, params string[] args)
+        public static string Select<T>(params string[] args)
         {
             var attr = AttrMark(typeof(T));
-            var sql = t.Select(0, args);
+            var sql = Select<T>(0, args);
             sql = string.Format("{0} from [{1}]", sql, attr.Table);
             sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Mark ?? attr.Key);
             return sql;
@@ -453,20 +393,22 @@ namespace Paway.Helper
 
         /// <summary>
         ///     将指定类型转为Select语句
+        ///     指定查询条件
         /// </summary>
-        public static string Select<T>(this T t, string find, params string[] args)
+        public static string Select<T>(string find, params string[] args)
         {
-            return t.Select(find, 0, args);
+            return Select<T>(find, 0, args);
         }
 
         /// <summary>
         ///     将指定类型转为Select语句
+        ///     指定查询条件
         ///     返回指定行数
         /// </summary>
-        public static string Select<T>(this T t, string find, int count, params string[] args)
+        public static string Select<T>(string find, int count, params string[] args)
         {
             var attr = AttrTable(typeof(T));
-            var sql = t.Select(count, args);
+            var sql = Select<T>(count, args);
             sql = string.Format("{0} from [{1}]", sql, attr.Table);
             if (find != null)
             {
@@ -475,7 +417,7 @@ namespace Paway.Helper
             return sql;
         }
 
-        private static string Select<T>(this T t, int count, params string[] args)
+        private static string Select<T>(int count, params string[] args)
         {
             var type = typeof(T);
             var sql = "select";
@@ -483,11 +425,11 @@ namespace Paway.Helper
             {
                 sql = string.Format("{0} Top {1}", sql, count);
             }
-            var properties = TypeDescriptor.GetProperties(type);
-            for (var i = 0; i < properties.Count; i++)
+            var properties = type.GetProperties();
+            for (var i = 0; i < properties.Length; i++)
             {
                 var column = properties[i].Name;
-                if (IsSelect(type, properties[i], ref column))
+                if (properties[i].IsSelect(ref column))
                 {
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
@@ -501,11 +443,11 @@ namespace Paway.Helper
         #endregion
 
         #region Delete
-
         /// <summary>
         ///     将指定类型转为Delete语句
+        ///     指定删除条件为主列
         /// </summary>
-        public static string Delete<T>(this T t)
+        public static string Delete<T>()
         {
             var attr = AttrMark(typeof(T));
             var sql = string.Format("delete from [{0}] where [{1}]=@{1}", attr.Table, attr.Mark ?? attr.Key);
@@ -516,23 +458,28 @@ namespace Paway.Helper
         ///     将指定类型转为Delete语句
         ///     指定删除条件
         /// </summary>
-        public static string Delete<T>(this T t, string find)
+        public static string Delete<T>(string find)
         {
             var attr = AttrTable(typeof(T));
-            var sql = string.Format("delete from [{0}] where {1}", attr.Table, find);
-            return sql;
+            return string.Format("delete from [{0}] where {1}", attr.Table, find);
         }
 
         #endregion
 
         #region Update
-
         /// <summary>
         ///     将指定类型转为Update语句
         /// </summary>
         public static string Update<T>(this T t, params string[] args)
         {
             return t.Update(false, args);
+        }
+        /// <summary>
+        ///     将指定类型转为Update语句
+        /// </summary>
+        public static string Update<T>(this DataRow row, params string[] args)
+        {
+            return row.Update<T>(false, args);
         }
 
         /// <summary>
@@ -545,16 +492,53 @@ namespace Paway.Helper
             var attr = AttrMark(type);
             var sql = "update [{0}] set";
             sql = string.Format(sql, attr.Table);
-            var properties = TypeDescriptor.GetProperties(type);
-            for (var i = 0; i < properties.Count; i++)
+            var properties = type.GetProperties();
+            for (var i = 0; i < properties.Length; i++)
             {
                 var column = properties[i].Name;
-                if (IsSelect(type, properties[i], ref column))
+                if (properties[i].IsSelect(ref column))
                 {
                     if (column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
-                    if (IsNull(t, properties[i]))
+                    if (t.IsNull(properties[i]))
+                    {
+                        sql = string.Format("{0} [{1}]=NULL,", sql, column);
+                    }
+                    else if (append)
+                    {
+                        sql = string.Format("{0} [{1}]=[{1}]+@{1},", sql, column);
+                    }
+                    else
+                    {
+                        sql = string.Format("{0} [{1}]=@{1},", sql, column);
+                    }
+                }
+            }
+            sql = sql.TrimEnd(',');
+            sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Mark ?? attr.Key);
+            return sql;
+        }
+        /// <summary>
+        ///     将指定类型转为Update语句
+        ///     append=true时为附加,对应Sql语句中的+
+        /// </summary>
+        public static string Update<T>(this DataRow row, bool append = false, params string[] args)
+        {
+            var type = typeof(T);
+            var attr = AttrMark(type);
+            var sql = "update [{0}] set";
+            sql = string.Format(sql, attr.Table);
+            var properties = type.GetProperties();
+            for (var i = 0; i < properties.Length; i++)
+            {
+                var column = properties[i].Name;
+                if (properties[i].IsSelect(ref column))
+                {
+                    if (column == attr.Key) continue;
+                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
+
+                    if (row.IsNull(properties[i]))
                     {
                         sql = string.Format("{0} [{1}]=NULL,", sql, column);
                     }
@@ -576,7 +560,6 @@ namespace Paway.Helper
         #endregion
 
         #region Insert
-
         /// <summary>
         ///     将指定类型转为Insert语句
         /// </summary>
@@ -595,17 +578,54 @@ namespace Paway.Helper
             }
             return sql;
         }
-
-        private static void Insert<T>(this T t, PropertyAttribute attr, Type type, bool replace, ref string insert,
-            ref string value, params string[] args)
+        /// <summary>
+        ///     将指定类型转为Insert语句
+        /// </summary>
+        public static string Insert<T>(this DataRow row, string getId, bool Identity)
         {
-            var properties = TypeDescriptor.GetProperties(type);
-            for (var i = 0; i < properties.Count; i++)
+            var attr = AttrTable(typeof(T));
+
+            string insert = null;
+            string value = null;
+            row.Insert<T>(attr, typeof(T), false, ref insert, ref value);
+            var sql = string.Format("insert into [{0}]({1}) values({2})", attr.Table, insert, value);
+            sql = string.Format("{0};{1}", sql, getId);
+            if (Identity)
             {
-                if (IsNull(t, properties[i])) continue;
+                sql = string.Format("SET IDENTITY_INSERT [{0}] ON;{1}", attr.Table, sql);
+            }
+            return sql;
+        }
+
+        private static void Insert<T>(this T t, PropertyAttribute attr, Type type, bool replace, ref string insert, ref string value, params string[] args)
+        {
+            var properties = type.GetProperties();
+            for (var i = 0; i < properties.Length; i++)
+            {
+                if (t.IsNull(properties[i])) continue;
 
                 var column = properties[i].Name;
-                if (IsSelect(type, properties[i], ref column))
+                if (properties[i].IsSelect(ref column))
+                {
+                    if (!replace && column == attr.Key) continue;
+                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
+
+                    insert = string.Format("{0}[{1}],", insert, column);
+                    value = string.Format("{0}@{1},", value, column);
+                }
+            }
+            insert = insert.TrimEnd(',');
+            value = value.TrimEnd(',');
+        }
+        private static void Insert<T>(this DataRow row, PropertyAttribute attr, Type type, bool replace, ref string insert, ref string value, params string[] args)
+        {
+            var properties = type.GetProperties();
+            for (var i = 0; i < properties.Length; i++)
+            {
+                if (row.IsNull(properties[i])) continue;
+
+                var column = properties[i].Name;
+                if (properties[i].IsSelect(ref column))
                 {
                     if (!replace && column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -628,22 +648,46 @@ namespace Paway.Helper
 
             var type = typeof(T);
             var attr = AttrMark(type);
-            var properties = TypeDescriptor.GetProperties(type);
-            for (var i = 0; i < properties.Count; i++)
+            var properties = type.GetProperties();
+            for (var i = 0; i < properties.Length; i++)
             {
                 var column = properties[i].Name;
-                if (IsSelect(type, properties[i], ref column))
+                if (properties[i].IsSelect(ref column))
                 {
                     if (column != attr.Key) continue;
 
                     if (properties[i].PropertyType == typeof(int))
                     {
-                        properties[i].SetValue(t, value.ToInt());
+                        properties[i].SetValue(t, value.ToInt(), null);
                     }
                     if (properties[i].PropertyType == typeof(long))
                     {
-                        properties[i].SetValue(t, value.ToLong());
+                        properties[i].SetValue(t, value.ToLong(), null);
                     }
+                    return true;
+                }
+            }
+            return false;
+        }
+        /// <summary>
+        ///     设置主键值
+        /// </summary>
+        public static bool SetMark<T>(this DataRow row, object value)
+        {
+            if (value == null || value == DBNull.Value) return false;
+            if (value.ToInt() == 0) return false;
+
+            var type = typeof(T);
+            var attr = AttrMark(type);
+            var properties = type.GetProperties();
+            for (var i = 0; i < properties.Length; i++)
+            {
+                var column = properties[i].Name;
+                if (properties[i].IsSelect(ref column))
+                {
+                    if (column != attr.Key) continue;
+
+                    row[properties[i].Name] = value;
                     return true;
                 }
             }
@@ -653,7 +697,6 @@ namespace Paway.Helper
         #endregion
 
         #region Replace
-
         /// <summary>
         ///     将指定类型转为Replace语句
         ///     Sqlite更新、插入方法，需将Key键设为唯一索引
@@ -665,6 +708,21 @@ namespace Paway.Helper
             string insert = null;
             string value = null;
             t.Insert(attr, typeof(T), true, ref insert, ref value, args);
+            var sql = string.Format("replace into [{0}]({1}) values({2})", attr.Table, insert, value);
+            sql = string.Format("{0};{1}", sql, getId);
+            return sql;
+        }
+        /// <summary>
+        ///     将指定类型转为Replace语句
+        ///     Sqlite更新、插入方法，需将Key键设为唯一索引
+        /// </summary>
+        public static string Replace<T>(this DataRow row, string getId, params string[] args)
+        {
+            var attr = AttrTable(typeof(T));
+
+            string insert = null;
+            string value = null;
+            row.Insert<T>(attr, typeof(T), true, ref insert, ref value, args);
             var sql = string.Format("replace into [{0}]({1}) values({2})", attr.Table, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
             return sql;
@@ -684,16 +742,60 @@ namespace Paway.Helper
             string update = null;
             string insert = null;
             string values = null;
-            var properties = TypeDescriptor.GetProperties(type);
-            for (var i = 0; i < properties.Count; i++)
+            var properties = type.GetProperties();
+            for (var i = 0; i < properties.Length; i++)
             {
                 var column = properties[i].Name;
-                if (IsSelect(type, properties[i], ref column))
+                if (properties[i].IsSelect(ref column))
                 {
                     if (column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
-                    if (IsNull(t, properties[i]))
+                    if (t.IsNull(properties[i]))
+                    {
+                        update = string.Format("{0}[{1}]=NULL,", update, column);
+                    }
+                    else
+                    {
+                        update = string.Format("{0}[{1}]=@{1},", update, column);
+                        insert = string.Format("{0}[{1}],", insert, column);
+                        values = string.Format("{0}@{1},", values, column);
+                    }
+                }
+            }
+            update = update.TrimEnd(',');
+            insert = insert.TrimEnd(',');
+            values = values.TrimEnd(',');
+            sql = string.Format("{0} update [{1}] set {2} where {3}=@{3} else insert into [{1}]({4}) values({5})",
+                sql, attr.Table, update, attr.Mark ?? attr.Key, insert, values);
+
+            sql = string.Format("{0};{1}", sql, getid);
+            return sql;
+        }
+        /// <summary>
+        ///     将指定类型转为UpdateOrInsert语句
+        /// </summary>
+        public static string UpdateOrInsert<T>(this DataRow row, string getid, params string[] args)
+        {
+            var type = typeof(T);
+            var attr = AttrMark(type);
+
+            var sql = "if exists(select 0 from [{1}] where [{0}]=@{0})";
+            sql = string.Format(sql, attr.Mark ?? attr.Key, attr.Table);
+
+            string update = null;
+            string insert = null;
+            string values = null;
+            var properties = type.GetProperties();
+            for (var i = 0; i < properties.Length; i++)
+            {
+                var column = properties[i].Name;
+                if (properties[i].IsSelect(ref column))
+                {
+                    if (column == attr.Key) continue;
+                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
+
+                    if (row.IsNull(properties[i]))
                     {
                         update = string.Format("{0}[{1}]=NULL,", update, column);
                     }
@@ -718,12 +820,11 @@ namespace Paway.Helper
         #endregion
 
         #region AddParameter
-
         /// <summary>
         ///     添加参数值到参数列表
         ///     主键
         /// </summary>
-        public static DbParameter AddParameter<T>(this T t, Type ptype, object value)
+        public static DbParameter AddParameter<T>(Type ptype, object value)
         {
             var attr = AttrMark(typeof(T));
 
@@ -733,7 +834,6 @@ namespace Paway.Helper
             param.Value = value;
             return param;
         }
-
         /// <summary>
         ///     添加参数值到参数列表
         ///     通用型
@@ -745,15 +845,47 @@ namespace Paway.Helper
             var pList = new List<DbParameter>();
 
             var attr = AttrMark(type);
-            var properties = TypeDescriptor.GetProperties(type);
             var key = attr.Mark ?? attr.Key;
-            for (var i = 0; i < properties.Count; i++)
+            var properties = type.GetProperties();
+            for (var i = 0; i < properties.Length; i++)
             {
                 object value = null;
-                if (!IsValue(t, properties[i], ref value)) continue;
+                if (!t.IsValue(properties[i], ref value)) continue;
 
                 var column = properties[i].Name;
-                if (IsSelect(type, properties[i], ref column))
+                if (properties[i].IsSelect(ref column))
+                {
+                    //Key必须要
+                    if (key != column && args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
+
+                    var param = asmb.CreateInstance(ptype.FullName) as DbParameter;
+                    param.ParameterName = string.Format("@{0}", column);
+                    param.Value = value;
+                    pList.Add(param);
+                }
+            }
+            return pList;
+        }
+        /// <summary>
+        ///     添加参数值到参数列表
+        ///     通用型
+        /// </summary>
+        public static List<DbParameter> AddParameters<T>(this DataRow row, Type ptype, params string[] args)
+        {
+            var type = typeof(T);
+            var asmb = Assembly.GetAssembly(ptype);
+            var pList = new List<DbParameter>();
+
+            var attr = AttrMark(type);
+            var key = attr.Mark ?? attr.Key;
+            var properties = type.GetProperties();
+            for (var i = 0; i < properties.Length; i++)
+            {
+                object value = null;
+                if (!row.IsValue(properties[i], ref value)) continue;
+
+                var column = properties[i].Name;
+                if (properties[i].IsSelect(ref column))
                 {
                     //Key必须要
                     if (key != column && args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -769,9 +901,22 @@ namespace Paway.Helper
 
         #endregion
 
-        private static bool IsNull<T>(T t, PropertyDescriptor prop)
+        #region 特性
+        private static bool IsNull<T>(this T t, PropertyInfo prop)
         {
-            var value = prop.GetValue(t);
+            var value = prop.GetValue(t, null);
+            if (value == null || value == DBNull.Value) return true;
+
+            if (prop.PropertyType == typeof(DateTime) && value is DateTime)
+            {
+                var dt = value.ToDateTime();
+                if (dt == DateTime.MinValue) return true;
+            }
+            return false;
+        }
+        private static bool IsNull(this DataRow row, PropertyInfo prop)
+        {
+            var value = row[prop.Name];
             if (value == null || value == DBNull.Value) return true;
 
             if (prop.PropertyType == typeof(DateTime) && value is DateTime)
@@ -782,9 +927,30 @@ namespace Paway.Helper
             return false;
         }
 
-        private static bool IsValue<T>(T t, PropertyDescriptor prop, ref object value)
+        private static bool IsValue<T>(this T t, PropertyInfo prop, ref object value)
         {
-            value = prop.GetValue(t);
+            value = prop.GetValue(t, null);
+            if (value == null || value == DBNull.Value) return false;
+
+            if (prop.PropertyType == typeof(Image) && value is Image)
+            {
+                value = SctructHelper.GetByteFromObject(value);
+            }
+            if (prop.PropertyType == typeof(DateTime) && value is DateTime)
+            {
+                var dt = value.ToDateTime();
+                if (dt == DateTime.MinValue)
+                {
+                    value = null;
+                    return false;
+                }
+                value = dt;
+            }
+            return true;
+        }
+        private static bool IsValue(this DataRow row, PropertyInfo prop, ref object value)
+        {
+            value = row[prop.Name];
             if (value == null || value == DBNull.Value) return false;
 
             if (prop.PropertyType == typeof(Image) && value is Image)
@@ -804,9 +970,8 @@ namespace Paway.Helper
             return true;
         }
 
-        private static bool IsSelect(Type type, PropertyDescriptor prop, ref string column)
+        private static bool IsSelect(this PropertyInfo pro, ref string column)
         {
-            var pro = type.GetProperty(prop.Name, prop.PropertyType);
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             if (list.Length == 1 && list[0].Column != null)
             {
@@ -816,9 +981,8 @@ namespace Paway.Helper
         }
         /// <summary>
         /// </summary>
-        private static bool ITable(this Type type, PropertyDescriptor prop, ref string column)
+        public static bool ITable(this PropertyInfo pro, ref string column)
         {
-            var pro = type.GetProperty(prop.Name, prop.PropertyType);
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             if (list.Length == 1 && list[0].Column != null)
             {
@@ -840,12 +1004,13 @@ namespace Paway.Helper
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             return list.Length == 0 || list[0].Sort;
         }
-        private static bool IsClone(Type type, PropertyDescriptor prop)
+        private static bool IsClone(this PropertyInfo pro)
         {
-            var pro = type.GetProperty(prop.Name, prop.PropertyType);
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             return list.Length == 0 || list[0].Clone;
         }
+
+        #endregion
 
         /// <summary>
         ///     返回特性，检查表名
@@ -871,7 +1036,6 @@ namespace Paway.Helper
         #endregion
 
         #region Clone
-
         /// <summary>
         ///     返回泛型实参数类型
         /// </summary>
@@ -927,17 +1091,17 @@ namespace Paway.Helper
         /// </summary>
         public static void Clone<T>(this Type parent, ref T copy, object t, bool child)
         {
-            var properties = TypeDescriptor.GetProperties(parent);
-            for (var i = 0; i < properties.Count; i++)
+            var properties = parent.GetProperties();
+            for (var i = 0; i < properties.Length; i++)
             {
-                if (!IsClone(parent, properties[i])) continue;
+                if (!properties[i].IsClone()) continue;
 
-                var value = properties[i].GetValue(t);
-                properties[i].SetValue(copy, value);
+                var value = properties[i].GetValue(t, null);
+                properties[i].SetValue(copy, value, null);
                 if (!child) continue;
                 if (value is IList)
                 {
-                    var clist = properties[i].GetValue(copy) as IList;
+                    var clist = properties[i].GetValue(copy, null) as IList;
                     var list = value as IList;
                     var type = list.GetListType();
                     var asmb = Assembly.GetAssembly(type);

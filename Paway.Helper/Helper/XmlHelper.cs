@@ -111,14 +111,13 @@ namespace Paway.Helper
             XmlNode xmlRoot = document.DocumentElement;
             if (xmlRoot != null)
             {
-                var obj = default(T);
                 var type = typeof(T);
                 var propertyInfos = type.GetProperties();
                 foreach (XmlNode xmlNode in xmlRoot.ChildNodes)
                 {
                     if (string.Compare(xmlNode.Name, type.Name, true) == 0)
                     {
-                        obj = Activator.CreateInstance<T>();
+                        var obj = Activator.CreateInstance<T>();
                         foreach (var propertyInfo in propertyInfos)
                         {
                             var propertyName = propertyInfo.Name; //获取属性名称

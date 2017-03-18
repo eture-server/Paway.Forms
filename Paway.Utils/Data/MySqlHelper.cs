@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Common;
 using MySql.Data.MySqlClient;
+using System.Data;
 
 namespace Paway.Utils.Data
 {
@@ -98,9 +99,17 @@ namespace Paway.Utils.Data
         ///     查找指定查询语句
         ///     填充 System.Data.DataSet 并返回一个List列表
         /// </summary>
-        public override List<T> FindTop<T>(string find, int count, DbCommand cmd = null, params string[] args)
+        public override List<T> Find<T>(string find, int count, DbCommand cmd = null, params string[] args)
         {
-            return base.FindTop<T>(find, count, true, cmd, args);
+            return base.Find<T>(find, count, true, cmd, args);
+        }
+        /// <summary>
+        ///     查找指定查询语句
+        ///     填充 System.Data.DataSet 并返回一个DataTable
+        /// </summary>
+        public override DataTable FindTable<T>(string find, int count, DbCommand cmd = null, params string[] args)
+        {
+            return base.FindTable<T>(find, count, true, cmd, args);
         }
 
         /// <summary>
@@ -110,6 +119,14 @@ namespace Paway.Utils.Data
         public override bool Replace<T>(List<T> list, DbCommand cmd = null, params string[] args)
         {
             return base.Replace(list, true, cmd, args);
+        }
+        /// <summary>
+        ///     更新或插入列表
+        ///     需要标记唯一键为唯一索引
+        /// </summary>
+        public override bool Replace<T>(DataTable table, DbCommand cmd = null, params string[] args)
+        {
+            return base.Replace<T>(table, true, cmd, args);
         }
 
         #endregion
