@@ -369,6 +369,7 @@ namespace Paway.Helper
         /// </summary>
         public static void SetValue<T>(T obj, PropertyInfo pro, object value)
         {
+            if (!pro.CanWrite) return;
             if (pro.PropertyType == typeof(Image) && value is byte[])
             {
                 pro.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image, null);
@@ -947,7 +948,7 @@ namespace Paway.Helper
         private static bool IsNull(this DataRow row, PropertyInfo prop)
         {
             var value = row[prop.Name];
-            if (value == null || value == DBNull.Value) return true;
+            if (value == null || value == DBNull.Value) return prop.PropertyType.IsValueType;
 
             if (prop.PropertyType == typeof(DateTime) && value is DateTime)
             {
@@ -966,14 +967,10 @@ namespace Paway.Helper
             {
                 value = SctructHelper.GetByteFromObject(value);
             }
-            if (prop.PropertyType == typeof(DateTime) && value is DateTime)
+            else if (prop.PropertyType == typeof(DateTime) && value is DateTime)
             {
                 var dt = value.ToDateTime();
-                if (dt == DateTime.MinValue)
-                {
-                    value = null;
-                    return false;
-                }
+                if (dt == DateTime.MinValue) return false;
                 value = dt;
             }
             return true;
@@ -981,20 +978,21 @@ namespace Paway.Helper
         private static bool IsValue(this DataRow row, PropertyInfo prop, ref object value)
         {
             value = row[prop.Name];
-            if (value == null || value == DBNull.Value) return false;
+            if (value == null || value == DBNull.Value)
+            {
+                bool result = prop.PropertyType.IsValueType;
+                if (result) value = Activator.CreateInstance(prop.PropertyType);
+                return result;
+            }
 
             if (prop.PropertyType == typeof(Image) && value is Image)
             {
                 value = SctructHelper.GetByteFromObject(value);
             }
-            if (prop.PropertyType == typeof(DateTime) && value is DateTime)
+            else if (prop.PropertyType == typeof(DateTime) && value is DateTime)
             {
                 var dt = value.ToDateTime();
-                if (dt == DateTime.MinValue)
-                {
-                    value = null;
-                    return false;
-                }
+                if (dt == DateTime.MinValue) return false;
                 value = dt;
             }
             return true;
@@ -1331,7 +1329,7 @@ namespace Paway.Helper
         {
             string x = obj1 as string;
             string y = obj2 as string;
-            if (x == null || y == null) return 0;
+            if (x == null && y == null) return 0;
             if (x == null) return -1;
             if (y == null) return 1;
             char[] arr1 = x.ToCharArray();
@@ -1388,6 +1386,9 @@ namespace Paway.Helper
         /// </summary>
         public static int TCompare(this PropertyInfo pro, object obj1, object obj2)
         {
+            if ((obj1 == null || obj1 == DBNull.Value) && (obj2 == null || obj2 == DBNull.Value)) return 0;
+            if (obj1 == null || obj1 == DBNull.Value) return -1;
+            if (obj2 == null || obj2 == DBNull.Value) return 1;
             if (pro.PropertyType == typeof(Image))
             {
                 return 0;
