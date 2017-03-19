@@ -49,13 +49,11 @@ namespace Paway.Helper
         public static void UpdateColumn<T>(DataTable dt)
         {
             var type = typeof(T);
-            var properties = TypeDescriptor.GetProperties(type);
             var index = 0;
-            for (var i = 0; i < properties.Count; i++)
+            var properties = type.GetProperties();
+            for (var i = 0; i < properties.Length; i++)
             {
-                var pro = type.GetProperty(properties[i].Name, properties[i].PropertyType);
-                var itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-                if (itemList.Length == 0 || itemList[0].Excel)
+                if (properties[i].IExcel())
                 {
                     dt.Columns[index++].ColumnName = properties[i].Name;
                 }

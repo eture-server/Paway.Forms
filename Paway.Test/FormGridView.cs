@@ -146,10 +146,11 @@ namespace Paway.Test
     {
         public string A { get; set; }
 
+        [Property(Show = false, Select = false)]
         public string B { get; set; }
 
     }
-    public class WaitDrawDataGridViewData
+    public class WaitDrawDataGridViewData : Data2
     {
         public int Statu { get; set; }
 

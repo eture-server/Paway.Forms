@@ -595,18 +595,12 @@ namespace Paway.Forms
             if (type == null || type == typeof(string) || type.IsValueType) return;
             if (Items.Count == 0)
             {
-                var properties = TypeDescriptor.GetProperties(type);
-                for (var i = 0; i < properties.Count; i++)
+                var properties = type.GetProperties();
+                for (var i = 0; i < properties.Length; i++)
                 {
-                    var pro = type.GetProperty(properties[i].Name);
-                    if (pro == null) continue;
-                    var itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-                    if (itemList != null && itemList.Length != 0)
+                    if (properties[i].IShow())
                     {
-                        if (!itemList[0].Show)
-                        {
-                            Items.Add(new TreeItem());
-                        }
+                        Items.Add(new TreeItem());
                     }
                 }
             }

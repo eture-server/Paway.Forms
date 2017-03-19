@@ -158,6 +158,10 @@ namespace Paway.Helper
         ///     标识(唯一)列名称，可更新
         /// </summary>
         public string Mark { get; set; }
+        /// <summary>
+        /// 标识
+        /// </summary>
+        public string Keys { get { return Mark ?? Key; } }
 
         /// <summary>
         ///     列名称

@@ -214,6 +214,21 @@ namespace Paway.Helper
 
         #region IList 与　DataTable 互转
         /// <summary>
+        /// 多行加到新的DataTable
+        /// </summary>
+        public static DataTable ToDataTable(this DataRow[] rows)
+        {
+            if (rows == null || rows.Length == 0) return null;
+            // 复制DataRow的表结构
+            DataTable table = rows[0].Table.Clone();
+            foreach (DataRow row in rows)
+            {
+                // 将DataRow添加到DataTable中
+                table.ImportRow(row);
+            }
+            return table;
+        }
+        /// <summary>
         ///     IList转为 DataTable
         /// </summary>
         public static DataTable ToDataTable<T>(this List<T> list)
@@ -244,6 +259,25 @@ namespace Paway.Helper
                 }
             });
             return table;
+        }
+        /// <summary>
+        ///     从类创建行
+        /// </summary>
+        public static DataRow CreateItem<T>(this T t, DataTable table = null)
+        {
+            Type type = typeof(T);
+            if (table == null)
+                table = type.CreateTable();
+            DataRow row = table.NewRow();
+            var properties = type.GetProperties();
+            for (int i = 0; i < properties.Length; i++)
+            {
+                if (properties[i].PropertyType.IsGenericType) continue;
+                var name = properties[i].Name;
+                if (!properties[i].ITable(ref name)) continue;
+                row[name] = properties[i].GetValue(t, null);
+            }
+            return row;
         }
 
         /// <summary>
@@ -384,10 +418,10 @@ namespace Paway.Helper
         /// </summary>
         public static string Select<T>(params string[] args)
         {
-            var attr = AttrMark(typeof(T));
+            var attr = typeof(T).Table();
             var sql = Select<T>(0, args);
             sql = string.Format("{0} from [{1}]", sql, attr.Table);
-            sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Mark ?? attr.Key);
+            sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Keys);
             return sql;
         }
 
@@ -449,8 +483,8 @@ namespace Paway.Helper
         /// </summary>
         public static string Delete<T>()
         {
-            var attr = AttrMark(typeof(T));
-            var sql = string.Format("delete from [{0}] where [{1}]=@{1}", attr.Table, attr.Mark ?? attr.Key);
+            var attr = typeof(T).Table();
+            var sql = string.Format("delete from [{0}] where [{1}]=@{1}", attr.Table, attr.Keys);
             return sql;
         }
 
@@ -489,7 +523,7 @@ namespace Paway.Helper
         public static string Update<T>(this T t, bool append = false, params string[] args)
         {
             var type = typeof(T);
-            var attr = AttrMark(type);
+            var attr = type.Table();
             var sql = "update [{0}] set";
             sql = string.Format(sql, attr.Table);
             var properties = type.GetProperties();
@@ -516,7 +550,7 @@ namespace Paway.Helper
                 }
             }
             sql = sql.TrimEnd(',');
-            sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Mark ?? attr.Key);
+            sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Keys);
             return sql;
         }
         /// <summary>
@@ -526,7 +560,7 @@ namespace Paway.Helper
         public static string Update<T>(this DataRow row, bool append = false, params string[] args)
         {
             var type = typeof(T);
-            var attr = AttrMark(type);
+            var attr = type.Table();
             var sql = "update [{0}] set";
             sql = string.Format(sql, attr.Table);
             var properties = type.GetProperties();
@@ -553,7 +587,7 @@ namespace Paway.Helper
                 }
             }
             sql = sql.TrimEnd(',');
-            sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Mark ?? attr.Key);
+            sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Keys);
             return sql;
         }
 
@@ -647,14 +681,14 @@ namespace Paway.Helper
             if (value.ToInt() == 0) return false;
 
             var type = typeof(T);
-            var attr = AttrMark(type);
+            string key = type.TableKey();
             var properties = type.GetProperties();
             for (var i = 0; i < properties.Length; i++)
             {
                 var column = properties[i].Name;
                 if (properties[i].IsSelect(ref column))
                 {
-                    if (column != attr.Key) continue;
+                    if (column != key) continue;
 
                     if (properties[i].PropertyType == typeof(int))
                     {
@@ -678,14 +712,14 @@ namespace Paway.Helper
             if (value.ToInt() == 0) return false;
 
             var type = typeof(T);
-            var attr = AttrMark(type);
+            string key = type.TableKey();
             var properties = type.GetProperties();
             for (var i = 0; i < properties.Length; i++)
             {
                 var column = properties[i].Name;
                 if (properties[i].IsSelect(ref column))
                 {
-                    if (column != attr.Key) continue;
+                    if (column != key) continue;
 
                     row[properties[i].Name] = value;
                     return true;
@@ -734,10 +768,10 @@ namespace Paway.Helper
         public static string UpdateOrInsert<T>(this T t, string getid, params string[] args)
         {
             var type = typeof(T);
-            var attr = AttrMark(type);
+            var attr = type.Table();
 
             var sql = "if exists(select 0 from [{1}] where [{0}]=@{0})";
-            sql = string.Format(sql, attr.Mark ?? attr.Key, attr.Table);
+            sql = string.Format(sql, attr.Keys, attr.Table);
 
             string update = null;
             string insert = null;
@@ -767,7 +801,7 @@ namespace Paway.Helper
             insert = insert.TrimEnd(',');
             values = values.TrimEnd(',');
             sql = string.Format("{0} update [{1}] set {2} where {3}=@{3} else insert into [{1}]({4}) values({5})",
-                sql, attr.Table, update, attr.Mark ?? attr.Key, insert, values);
+                sql, attr.Table, update, attr.Keys, insert, values);
 
             sql = string.Format("{0};{1}", sql, getid);
             return sql;
@@ -778,10 +812,10 @@ namespace Paway.Helper
         public static string UpdateOrInsert<T>(this DataRow row, string getid, params string[] args)
         {
             var type = typeof(T);
-            var attr = AttrMark(type);
+            var attr = type.Table();
 
             var sql = "if exists(select 0 from [{1}] where [{0}]=@{0})";
-            sql = string.Format(sql, attr.Mark ?? attr.Key, attr.Table);
+            sql = string.Format(sql, attr.Keys, attr.Table);
 
             string update = null;
             string insert = null;
@@ -811,7 +845,7 @@ namespace Paway.Helper
             insert = insert.TrimEnd(',');
             values = values.TrimEnd(',');
             sql = string.Format("{0} update [{1}] set {2} where {3}=@{3} else insert into [{1}]({4}) values({5})",
-                sql, attr.Table, update, attr.Mark ?? attr.Key, insert, values);
+                sql, attr.Table, update, attr.Keys, insert, values);
 
             sql = string.Format("{0};{1}", sql, getid);
             return sql;
@@ -826,11 +860,9 @@ namespace Paway.Helper
         /// </summary>
         public static DbParameter AddParameter<T>(Type ptype, object value)
         {
-            var attr = AttrMark(typeof(T));
-
             var asmb = Assembly.GetAssembly(ptype);
             var param = asmb.CreateInstance(ptype.FullName) as DbParameter;
-            param.ParameterName = string.Format("@{0}", attr.Mark ?? attr.Key);
+            param.ParameterName = string.Format("@{0}", typeof(T).TableKey());
             param.Value = value;
             return param;
         }
@@ -844,8 +876,7 @@ namespace Paway.Helper
             var asmb = Assembly.GetAssembly(ptype);
             var pList = new List<DbParameter>();
 
-            var attr = AttrMark(type);
-            var key = attr.Mark ?? attr.Key;
+            var key = type.TableKey();
             var properties = type.GetProperties();
             for (var i = 0; i < properties.Length; i++)
             {
@@ -876,8 +907,7 @@ namespace Paway.Helper
             var asmb = Assembly.GetAssembly(ptype);
             var pList = new List<DbParameter>();
 
-            var attr = AttrMark(type);
-            var key = attr.Mark ?? attr.Key;
+            var key = type.TableKey();
             var properties = type.GetProperties();
             for (var i = 0; i < properties.Length; i++)
             {
@@ -992,6 +1022,13 @@ namespace Paway.Helper
         }
         /// <summary>
         /// </summary>
+        public static bool IExcel(this PropertyInfo pro)
+        {
+            var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+            return list.Length == 0 || list[0].Excel;
+        }
+        /// <summary>
+        /// </summary>
         public static bool IShow(this PropertyInfo pro)
         {
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
@@ -1026,11 +1063,26 @@ namespace Paway.Helper
         /// <summary>
         ///     返回特性，检查表名及主键或主列
         /// </summary>
-        private static PropertyAttribute AttrMark(Type type)
+        private static PropertyAttribute Table(this Type type)
         {
             var attr = AttrTable(type);
-            if (attr.Key == null && attr.Mark == null) throw new ArgumentException("没有指定主键或主列名称");
+            if (attr.Keys == null) throw new ArgumentException("没有指定主键或主列名称");
             return attr;
+        }
+        /// <summary>
+        /// 获取表名
+        /// </summary>
+        public static string TableName(this Type type)
+        {
+            return type.Table().Table;
+        }
+        /// <summary>
+        /// 获取主键
+        /// </summary>
+        public static string TableKey(this Type type)
+        {
+            var attr = type.Table();
+            return attr.Keys;
         }
 
         #endregion
@@ -1097,7 +1149,8 @@ namespace Paway.Helper
                 if (!properties[i].IsClone()) continue;
 
                 var value = properties[i].GetValue(t, null);
-                properties[i].SetValue(copy, value, null);
+                if (properties[i].CanWrite)
+                    properties[i].SetValue(copy, value, null);
                 if (!child) continue;
                 if (value is IList)
                 {
@@ -1126,6 +1179,24 @@ namespace Paway.Helper
                     var obj = asmb.CreateInstance(type.FullName);
                     type.Clone(ref obj, value, child);
                 }
+            }
+        }
+
+        /// <summary>
+        ///     从实体类复制到DataRow
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="row"></param>
+        /// <param name="copy"></param>
+        /// <returns></returns>
+        public static void Clone<T>(this DataRow row, DataRow copy)
+        {
+            var type = typeof(T);
+            var properties = type.GetProperties();
+            for (var i = 0; i < properties.Length; i++)
+            {
+                if (!properties[i].IsClone()) continue;
+                copy[properties[i].Name] = row[properties[i].Name];
             }
         }
 
@@ -1343,7 +1414,7 @@ namespace Paway.Helper
             }
             else if (pro.PropertyType == typeof(DateTime))
             {
-                return ((DateTime)obj1).CompareTo((DateTime)obj2);
+                return (obj1.ToDateTime()).CompareTo(obj2.ToDateTime());
             }
             else if (pro.PropertyType == typeof(string))
             {

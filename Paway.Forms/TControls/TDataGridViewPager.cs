@@ -93,12 +93,24 @@ namespace Paway.Forms
                     var list = dataSource as IList;
                     DataType = list.GetListType();
                 }
-                else if (!(dataSource is DataTable))
+                else if (this.DataSource is DataTable)
+                {
+                    UpdateType(null);
+                }
+                else
                 {
                     DataType = null;
                 }
                 RefreshData();
             }
+        }
+        /// <summary>
+        /// 更新Type
+        /// </summary>
+        protected virtual void UpdateType(Type type)
+        {
+            if (type != null)
+                DataType = type;
         }
         /// <summary>
         /// 外部设置数据

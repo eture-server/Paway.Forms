@@ -332,9 +332,9 @@ namespace Paway.Utils.Data
 
                 using (var dr = cmd.ExecuteReader())
                 {
-                    DataTable dt = new DataTable();
-                    dt.Load(dr);
-                    var list = dt.ToList<T>(1);
+                    DataTable table = new DataTable();
+                    table.Load(dr);
+                    var list = table.ToList<T>(1);
                     return list.Count == 1 ? list[0] : default(T);
                 }
             }
@@ -430,9 +430,9 @@ namespace Paway.Utils.Data
                 OnCommandText(cmd);
                 using (var dr = cmd.ExecuteReader())
                 {
-                    DataTable dt = new DataTable();
-                    dt.Load(dr);
-                    return dt.ToList<T>();
+                    DataTable table = new DataTable();
+                    table.Load(dr);
+                    return table.ToList<T>();
                 }
             }
             catch (Exception ex)
@@ -453,6 +453,7 @@ namespace Paway.Utils.Data
         /// </summary>
         protected DataTable FindTable<T>(string find, int count, bool isSQLite, DbCommand cmd = null, params string[] args)
         {
+            Type type = typeof(T);
             var iTrans = cmd == null;
             string sql = null;
             try
@@ -475,8 +476,10 @@ namespace Paway.Utils.Data
                 OnCommandText(cmd);
                 using (var dr = cmd.ExecuteReader())
                 {
-                    DataTable table = new DataTable();
+                    var table = type.CreateTable();
                     table.Load(dr);
+                    table.PrimaryKey = new DataColumn[] { table.Columns[type.TableKey()] };
+                    table.PrimaryKey = null;
                     return table;
                 }
             }
@@ -504,6 +507,31 @@ namespace Paway.Utils.Data
         }
 
         /// <summary>
+        ///     插入列
+        /// </summary>
+        public bool Insert<T>(DataRow row, DbCommand cmd = null, bool Identity = false)
+        {
+            var iTrans = cmd == null;
+            try
+            {
+                if (iTrans) cmd = TransStart();
+
+                InsertChild<T>(row, cmd, Identity);
+
+                if (iTrans) return TransCommit(cmd);
+                else return true;
+            }
+            catch (Exception ex)
+            {
+                if (iTrans) TransError(cmd, ex);
+                throw;
+            }
+            finally
+            {
+                if (iTrans) CommandEnd(cmd);
+            }
+        }
+        /// <summary>
         ///     插入列表
         /// </summary>
         public bool Insert<T>(DataTable table, DbCommand cmd = null, bool Identity = false)
@@ -514,23 +542,7 @@ namespace Paway.Utils.Data
                 if (iTrans) cmd = TransStart();
                 for (var i = 0; i < table.Rows.Count; i++)
                 {
-                    var sql = table.Rows[i].Insert<T>(GetId, Identity);
-                    cmd.CommandText = sql;
-                    OnCommandText(cmd);
-                    var pList = table.Rows[i].AddParameters<T>(paramType).ToArray();
-                    cmd.Parameters.Clear();
-                    cmd.Parameters.AddRange(pList);
-                    using (var dr = cmd.ExecuteReader())
-                    {
-                        if (dr.Read())
-                        {
-                            table.Rows[i].SetMark<T>(dr[0]);
-                        }
-                        else
-                        {
-                            throw new Exception("插入失败：无法读取Id");
-                        }
-                    }
+                    InsertChild<T>(table.Rows[i], cmd, Identity);
                 }
                 if (iTrans) return TransCommit(cmd);
                 else return true;
@@ -543,6 +555,26 @@ namespace Paway.Utils.Data
             finally
             {
                 if (iTrans) CommandEnd(cmd);
+            }
+        }
+        private void InsertChild<T>(DataRow row, DbCommand cmd = null, bool Identity = false)
+        {
+            var sql = row.Insert<T>(GetId, Identity);
+            cmd.CommandText = sql;
+            OnCommandText(cmd);
+            var pList = row.AddParameters<T>(paramType).ToArray();
+            cmd.Parameters.Clear();
+            cmd.Parameters.AddRange(pList);
+            using (var dr = cmd.ExecuteReader())
+            {
+                if (dr.Read())
+                {
+                    row.SetMark<T>(dr[0]);
+                }
+                else
+                {
+                    throw new Exception("插入失败：无法读取Id");
+                }
             }
         }
 
@@ -636,6 +668,31 @@ namespace Paway.Utils.Data
         /// <summary>
         ///     更新列表
         /// </summary>
+        public bool Update<T>(DataRow row, DbCommand cmd = null, params string[] args)
+        {
+            var iTrans = cmd == null;
+            try
+            {
+                if (iTrans) cmd = TransStart();
+
+                UpdateChild<T>(row, cmd, args);
+
+                if (iTrans) return TransCommit(cmd);
+                else return true;
+            }
+            catch (Exception ex)
+            {
+                if (iTrans) TransError(cmd, ex);
+                throw;
+            }
+            finally
+            {
+                if (iTrans) CommandEnd(cmd);
+            }
+        }
+        /// <summary>
+        ///     更新列表
+        /// </summary>
         public bool Update<T>(DataTable table, DbCommand cmd = null, params string[] args)
         {
             var iTrans = cmd == null;
@@ -644,13 +701,7 @@ namespace Paway.Utils.Data
                 if (iTrans) cmd = TransStart();
                 for (var i = 0; i < table.Rows.Count; i++)
                 {
-                    var sql = table.Rows[i].Update<T>(args);
-                    cmd.CommandText = sql;
-                    OnCommandText(cmd);
-                    var pList = table.Rows[i].AddParameters<T>(paramType, args).ToArray();
-                    cmd.Parameters.Clear();
-                    cmd.Parameters.AddRange(pList);
-                    cmd.ExecuteNonQuery();
+                    UpdateChild<T>(table.Rows[i], cmd, args);
                 }
                 if (iTrans) return TransCommit(cmd);
                 else return true;
@@ -664,6 +715,16 @@ namespace Paway.Utils.Data
             {
                 if (iTrans) CommandEnd(cmd);
             }
+        }
+        private void UpdateChild<T>(DataRow row, DbCommand cmd = null, params string[] args)
+        {
+            var sql = row.Update<T>(args);
+            cmd.CommandText = sql;
+            OnCommandText(cmd);
+            var pList = row.AddParameters<T>(paramType, args).ToArray();
+            cmd.Parameters.Clear();
+            cmd.Parameters.AddRange(pList);
+            cmd.ExecuteNonQuery();
         }
 
         /// <summary>
