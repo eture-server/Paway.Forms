@@ -107,7 +107,7 @@ namespace Paway.Forms
         /// <summary>
         /// 更新Type
         /// </summary>
-        protected virtual void UpdateType(Type type)
+        public virtual void UpdateType(Type type)
         {
             if (type != null)
                 DataType = type;

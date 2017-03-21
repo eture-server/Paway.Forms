@@ -1182,18 +1182,15 @@ namespace Paway.Helper
 
         /// <summary>
         ///     从实体类复制到DataRow
+        ///     是否同步复制开关
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="row"></param>
-        /// <param name="copy"></param>
-        /// <returns></returns>
-        public static void Clone<T>(this DataRow row, DataRow copy)
+        public static void Clone<T>(this DataRow row, DataRow copy, bool aysc = true)
         {
             var type = typeof(T);
             var properties = type.GetProperties();
             for (var i = 0; i < properties.Length; i++)
             {
-                if (!properties[i].IsClone()) continue;
+                if (aysc && !properties[i].IsClone()) continue;
                 copy[properties[i].Name] = row[properties[i].Name];
             }
         }
