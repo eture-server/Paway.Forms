@@ -241,19 +241,19 @@ namespace Paway.Helper
         public static DataTable ToDataTable(this Type type, IList list)
         {
             var table = type.CreateTable();
-            var properties = type.GetProperties();
+            var properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < list.Count; i++)
             {
                 table.Rows.Add(table.NewRow());
             }
-            Parallel.For(0, properties.Length, (i) =>
+            Parallel.For(0, properties.Count, (i) =>
             {
                 if (properties[i].PropertyType.IsGenericType) return;
                 var name = properties[i].Name;
-                if (!properties[i].ITable(ref name)) return;
+                if (!type.GetProperty(properties[i].Name).ITable(ref name)) return;
                 for (int j = 0; j < table.Rows.Count; j++)
                 {
-                    var value = properties[i].GetValue(list[j], null);
+                    var value = properties[i].GetValue(list[j]);
                     lock (table)
                         table.Rows[j][name] = value;
                 }
@@ -269,13 +269,13 @@ namespace Paway.Helper
             if (table == null)
                 table = type.CreateTable();
             DataRow row = table.NewRow();
-            var properties = type.GetProperties();
-            for (int i = 0; i < properties.Length; i++)
+            var properties = TypeDescriptor.GetProperties(type);
+            for (int i = 0; i < properties.Count; i++)
             {
                 if (properties[i].PropertyType.IsGenericType) continue;
                 var name = properties[i].Name;
-                if (!properties[i].ITable(ref name)) continue;
-                row[name] = properties[i].GetValue(t, null);
+                if (!type.GetProperty(properties[i].Name).ITable(ref name)) continue;
+                row[name] = properties[i].GetValue(t);
             }
             return row;
         }
@@ -310,17 +310,17 @@ namespace Paway.Helper
             if (count > table.Rows.Count) count = table.Rows.Count;
             List<T> list = new List<T>();
             var type = typeof(T);
-            var properties = type.GetProperties();
+            var properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < count; i++)
             {
                 list.Add(Activator.CreateInstance<T>());
             }
-            Parallel.For(0, properties.Length, (i) =>
+            Parallel.For(0, properties.Count, (i) =>
             {
                 var name = properties[i].Name;
-                if (!properties[i].ITable(ref name)) return;
-
                 var pro = properties[i];
+                if (!type.GetProperty(pro.Name).ITable(ref name)) return;
+
                 foreach (DataColumn column in table.Columns)
                 {
                     if (name != column.ColumnName) continue;
@@ -328,7 +328,7 @@ namespace Paway.Helper
                     {
                         var value = table.Rows[j][column.ColumnName];
                         if (value == DBNull.Value) continue;
-                        SetValue(list[j], pro, value);
+                        list[j].SetValue(pro, value);
                     }
                     break;
                 }
@@ -344,11 +344,11 @@ namespace Paway.Helper
             var type = typeof(T);
             var obj = Activator.CreateInstance<T>(); //string 类型不支持无参的反射
             if (row == null) return obj;
-            var properties = type.GetProperties();
-            for (var i = 0; i < properties.Length; i++)
+            var properties = TypeDescriptor.GetProperties(type);
+            for (var i = 0; i < properties.Count; i++)
             {
                 var name = properties[i].Name;
-                if (!properties[i].ITable(ref name)) continue;
+                if (!type.GetProperty(properties[i].Name).ITable(ref name)) continue;
 
                 var pro = properties[i];
                 foreach (DataColumn column in row.Table.Columns)
@@ -356,7 +356,7 @@ namespace Paway.Helper
                     if (name != column.ColumnName) continue;
                     var value = row[column.ColumnName];
                     if (value == DBNull.Value) break;
-                    SetValue(obj, pro, value);
+                    obj.SetValue(pro, value);
                     break;
                 }
             }
@@ -367,44 +367,43 @@ namespace Paway.Helper
         /// <summary>
         /// 赋值
         /// </summary>
-        public static void SetValue<T>(T obj, PropertyInfo pro, object value)
+        public static void SetValue<T>(this T obj, PropertyDescriptor pro, object value)
         {
-            if (!pro.CanWrite) return;
             if (pro.PropertyType == typeof(Image) && value is byte[])
             {
-                pro.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image, null);
+                pro.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image);
             }
             else if (pro.PropertyType == typeof(int) || pro.PropertyType == typeof(int?))
             {
-                pro.SetValue(obj, value.ToInt(), null);
+                pro.SetValue(obj, value.ToInt());
             }
             else if (pro.PropertyType == typeof(long) || pro.PropertyType == typeof(long?))
             {
-                pro.SetValue(obj, value.ToLong(), null);
+                pro.SetValue(obj, value.ToLong());
             }
             else if (pro.PropertyType == typeof(double) || pro.PropertyType == typeof(double?))
             {
-                pro.SetValue(obj, value.ToDouble(), null);
+                pro.SetValue(obj, value.ToDouble());
             }
             else if (pro.PropertyType == typeof(float) || pro.PropertyType == typeof(float?))
             {
-                pro.SetValue(obj, value.ToFloat(), null);
+                pro.SetValue(obj, value.ToFloat());
             }
             else if (pro.PropertyType == typeof(bool) || pro.PropertyType == typeof(bool?))
             {
-                pro.SetValue(obj, value.ToBool(), null);
+                pro.SetValue(obj, value.ToBool());
             }
             else if (pro.PropertyType == typeof(DateTime) || pro.PropertyType == typeof(DateTime?))
             {
-                pro.SetValue(obj, value.ToDateTime(), null);
+                pro.SetValue(obj, value.ToDateTime());
             }
             else if (pro.PropertyType == typeof(string))
             {
-                pro.SetValue(obj, value.ToString2(), null);
+                pro.SetValue(obj, value.ToString2());
             }
             else
             {
-                pro.SetValue(obj, value, null);
+                pro.SetValue(obj, value);
             }
         }
 
@@ -527,11 +526,11 @@ namespace Paway.Helper
             var attr = type.Table();
             var sql = "update [{0}] set";
             sql = string.Format(sql, attr.Table);
-            var properties = type.GetProperties();
-            for (var i = 0; i < properties.Length; i++)
+            var properties = TypeDescriptor.GetProperties(type);
+            for (var i = 0; i < properties.Count; i++)
             {
                 var column = properties[i].Name;
-                if (properties[i].IsSelect(ref column))
+                if (type.GetProperty(properties[i].Name).IsSelect(ref column))
                 {
                     if (column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -634,13 +633,13 @@ namespace Paway.Helper
 
         private static void Insert<T>(this T t, PropertyAttribute attr, Type type, bool replace, ref string insert, ref string value, params string[] args)
         {
-            var properties = type.GetProperties();
-            for (var i = 0; i < properties.Length; i++)
+            var properties = TypeDescriptor.GetProperties(type);
+            for (var i = 0; i < properties.Count; i++)
             {
                 if (t.IsNull(properties[i])) continue;
 
                 var column = properties[i].Name;
-                if (properties[i].IsSelect(ref column))
+                if (type.GetProperty(properties[i].Name).IsSelect(ref column))
                 {
                     if (!replace && column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -683,21 +682,21 @@ namespace Paway.Helper
 
             var type = typeof(T);
             string key = type.TableKey();
-            var properties = type.GetProperties();
-            for (var i = 0; i < properties.Length; i++)
+            var properties = TypeDescriptor.GetProperties(type);
+            for (var i = 0; i < properties.Count; i++)
             {
                 var column = properties[i].Name;
-                if (properties[i].IsSelect(ref column))
+                if (type.GetProperty(properties[i].Name).IsSelect(ref column))
                 {
                     if (column != key) continue;
 
                     if (properties[i].PropertyType == typeof(int))
                     {
-                        properties[i].SetValue(t, value.ToInt(), null);
+                        properties[i].SetValue(t, value.ToInt());
                     }
                     if (properties[i].PropertyType == typeof(long))
                     {
-                        properties[i].SetValue(t, value.ToLong(), null);
+                        properties[i].SetValue(t, value.ToLong());
                     }
                     return true;
                 }
@@ -777,11 +776,11 @@ namespace Paway.Helper
             string update = null;
             string insert = null;
             string values = null;
-            var properties = type.GetProperties();
-            for (var i = 0; i < properties.Length; i++)
+            var properties = TypeDescriptor.GetProperties(type);
+            for (var i = 0; i < properties.Count; i++)
             {
                 var column = properties[i].Name;
-                if (properties[i].IsSelect(ref column))
+                if (type.GetProperty(properties[i].Name).IsSelect(ref column))
                 {
                     if (column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -859,7 +858,7 @@ namespace Paway.Helper
         ///     添加参数值到参数列表
         ///     主键
         /// </summary>
-        public static DbParameter AddParameter<T>(Type ptype, object value)
+        public static DbParameter AddParameter<T>(this Type ptype, object value)
         {
             var asmb = Assembly.GetAssembly(ptype);
             var param = asmb.CreateInstance(ptype.FullName) as DbParameter;
@@ -878,14 +877,14 @@ namespace Paway.Helper
             var pList = new List<DbParameter>();
 
             var key = type.TableKey();
-            var properties = type.GetProperties();
-            for (var i = 0; i < properties.Length; i++)
+            var properties = TypeDescriptor.GetProperties(type);
+            for (var i = 0; i < properties.Count; i++)
             {
                 object value = null;
                 if (!t.IsValue(properties[i], ref value)) continue;
 
                 var column = properties[i].Name;
-                if (properties[i].IsSelect(ref column))
+                if (type.GetProperty(properties[i].Name).IsSelect(ref column))
                 {
                     //Key必须要
                     if (key != column && args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -933,9 +932,9 @@ namespace Paway.Helper
         #endregion
 
         #region 特性
-        private static bool IsNull<T>(this T t, PropertyInfo prop)
+        private static bool IsNull<T>(this T t, PropertyDescriptor prop)
         {
-            var value = prop.GetValue(t, null);
+            var value = prop.GetValue(t);
             if (value == null || value == DBNull.Value) return true;
 
             if (prop.PropertyType == typeof(DateTime) && value is DateTime)
@@ -958,9 +957,9 @@ namespace Paway.Helper
             return false;
         }
 
-        private static bool IsValue<T>(this T t, PropertyInfo prop, ref object value)
+        private static bool IsValue<T>(this T t, PropertyDescriptor prop, ref object value)
         {
-            value = prop.GetValue(t, null);
+            value = prop.GetValue(t);
             if (value == null || value == DBNull.Value) return false;
 
             if (prop.PropertyType == typeof(Image) && value is Image)
@@ -1139,20 +1138,20 @@ namespace Paway.Helper
         /// <summary>
         ///     复制子级
         /// </summary>
-        public static void Clone<T>(this Type parent, ref T copy, object t, bool child)
+        public static void Clone<T>(this Type parent, ref T copy, T t, bool child)
         {
-            var properties = parent.GetProperties();
-            for (var i = 0; i < properties.Length; i++)
+            Type parentType = typeof(T);
+            var properties = TypeDescriptor.GetProperties(parentType);
+            for (var i = 0; i < properties.Count; i++)
             {
-                if (!properties[i].IsClone()) continue;
+                if (!parentType.GetProperty(properties[i].Name).IsClone()) continue;
 
-                var value = properties[i].GetValue(t, null);
-                if (properties[i].CanWrite)
-                    properties[i].SetValue(copy, value, null);
+                var value = properties[i].GetValue(t);
+                properties[i].SetValue(copy, value);
                 if (!child) continue;
                 if (value is IList)
                 {
-                    var clist = properties[i].GetValue(copy, null) as IList;
+                    var clist = properties[i].GetValue(copy) as IList;
                     var list = value as IList;
                     var type = list.GetListType();
                     var asmb = Assembly.GetAssembly(type);
@@ -1381,7 +1380,7 @@ namespace Paway.Helper
         }
         /// <summary>
         /// </summary>
-        public static int TCompare(this PropertyInfo pro, object obj1, object obj2)
+        public static int TCompare(this PropertyDescriptor pro, object obj1, object obj2)
         {
             if ((obj1 == null || obj1 == DBNull.Value) && (obj2 == null || obj2 == DBNull.Value)) return 0;
             if (obj1 == null || obj1 == DBNull.Value) return -1;

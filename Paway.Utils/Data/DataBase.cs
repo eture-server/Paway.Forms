@@ -323,7 +323,7 @@ namespace Paway.Utils.Data
                 if (iTrans) cmd = CommandStart();
                 sql = ConverHelper.Select<T>(args);
 
-                var parame = ConverHelper.AddParameter<T>(paramType, id);
+                var parame = paramType.AddParameter<T>(id);
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
                 cmd.CommandType = CommandType.Text;
@@ -782,7 +782,7 @@ namespace Paway.Utils.Data
             {
                 if (iTrans) cmd = CommandStart();
                 sql = ConverHelper.Delete<T>();
-                var parame = ConverHelper.AddParameter<T>(paramType, id);
+                var parame = paramType.AddParameter<T>(id);
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
                 cmd.CommandType = CommandType.Text;

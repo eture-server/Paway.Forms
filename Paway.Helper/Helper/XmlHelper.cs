@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -112,17 +113,17 @@ namespace Paway.Helper
             if (xmlRoot != null)
             {
                 var type = typeof(T);
-                var propertyInfos = type.GetProperties();
+                var properties = TypeDescriptor.GetProperties(type);
                 foreach (XmlNode xmlNode in xmlRoot.ChildNodes)
                 {
                     if (string.Compare(xmlNode.Name, type.Name, true) == 0)
                     {
                         var obj = Activator.CreateInstance<T>();
-                        foreach (var propertyInfo in propertyInfos)
+                        for (int i = 0; i < properties.Count; i++)
                         {
-                            var propertyName = propertyInfo.Name; //获取属性名称
+                            var propertyName = properties[i].Name; //获取属性名称
                             object value = xmlNode.Attributes[propertyName].Value; //从XML中得到该属性的Value值
-                            propertyInfo.SetValue(obj, value, null); //将得到的属性值赋给obj对象
+                            properties[i].SetValue(obj, value); //将得到的属性值赋给obj对象
                         }
                         list.Add(obj);
                     }

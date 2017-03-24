@@ -174,11 +174,17 @@ namespace Paway.Forms
                 {
                     tempList.Add(list[i]);
                 }
-                var pro = DataType.GetProperty(column.Name);
-                string sorts = sort == SortOrder.Descending ? "desc" : "asc";
-                if (pro.ISort())
+                var properties = TypeDescriptor.GetProperties(DataType);
+                PropertyDescriptor pro = null;
+                for (int i = 0; i < properties.Count; i++)
                 {
-                    tempList.Sort((x, y) => TCompare(pro.GetValue(x, null), pro.GetValue(y, null), sorts));
+                    if (properties[i].Name == column.Name)
+                        pro = properties[i];
+                }
+                string sorts = sort == SortOrder.Descending ? "desc" : "asc";
+                if (DataType.GetProperty(column.Name).ISort())
+                {
+                    tempList.Sort((x, y) => TCompare(pro.GetValue(x), pro.GetValue(y), sorts));
                 }
                 else
                 {
@@ -196,9 +202,9 @@ namespace Paway.Forms
             column = this.Edit.Columns[this.Index];
             column.HeaderCell.SortGlyphDirection = sort;
         }
-        private int TCompare(PropertyInfo pro, object obj1, object obj2, string sort)
+        private int TCompare(PropertyDescriptor pro, object obj1, object obj2, string sort)
         {
-            int result = pro.TCompare(pro.GetValue(obj1, null), pro.GetValue(obj2, null));
+            int result = pro.TCompare(pro.GetValue(obj1), pro.GetValue(obj2));
             return sort == "asc" ? result : -result;
         }
         private int TCompare(object obj1, object obj2, string sort)
