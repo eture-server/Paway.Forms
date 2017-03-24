@@ -327,7 +327,7 @@ namespace Paway.Helper
                     for (var j = 0; j < list.Count; j++)
                     {
                         var value = table.Rows[j][column.ColumnName];
-                        if (value == DBNull.Value) break;
+                        if (value == DBNull.Value) continue;
                         SetValue(list[j], pro, value);
                     }
                     break;
