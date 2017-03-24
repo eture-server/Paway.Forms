@@ -36,12 +36,6 @@ namespace Paway.Forms
         public event EventHandler PageChanged;
 
         #region 属性
-        private bool _isort = true;
-        /// <summary>
-        /// 是否排序
-        /// </summary>
-        [Browsable(false), DefaultValue(true)]
-        public bool ISort { get { return _isort; } set { _isort = value; } }
         /// <summary>
         /// 排序列
         /// </summary>
@@ -83,7 +77,7 @@ namespace Paway.Forms
             get { return dataSource; }
             set
             {
-                if (Edit.Columns != null)
+                if (Edit.Columns.Count == 1)
                 {
                     Edit.Columns.Clear();
                 }
@@ -96,10 +90,6 @@ namespace Paway.Forms
                 else if (this.DataSource is DataTable)
                 {
                     UpdateType(null);
-                }
-                else
-                {
-                    DataType = null;
                 }
                 RefreshData();
             }
@@ -149,12 +139,12 @@ namespace Paway.Forms
         }
         private void gridview1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (ISort) SortColumn();
+            SortColumn();
         }
         /// <summary>
         /// 自定义排序
         /// </summary>
-        protected void SortColumn()
+        protected virtual void SortColumn()
         {
             if (this.DataSource == null) return;
             if (this.Edit.CurrentCell == null) return;
@@ -175,12 +165,7 @@ namespace Paway.Forms
                     tempList.Add(list[i]);
                 }
                 var properties = TypeDescriptor.GetProperties(DataType);
-                PropertyDescriptor pro = null;
-                for (int i = 0; i < properties.Count; i++)
-                {
-                    if (properties[i].Name == column.Name)
-                        pro = properties[i];
-                }
+                var pro = properties.Find(column.Name, false);
                 string sorts = sort == SortOrder.Descending ? "desc" : "asc";
                 if (DataType.GetProperty(column.Name).ISort())
                 {
@@ -255,7 +240,7 @@ namespace Paway.Forms
         /// <summary>
         ///     刷新数据(分页加载数据)
         /// </summary>
-        public void RefreshData()
+        public virtual void RefreshData()
         {
             if (dataSource == null) return;
             if (dataSource is DataTable)
