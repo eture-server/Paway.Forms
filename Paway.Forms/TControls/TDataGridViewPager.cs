@@ -82,10 +82,9 @@ namespace Paway.Forms
                     Edit.Columns.Clear();
                 }
                 dataSource = value;
-                if (dataSource is IList)
+                if (dataSource is IList || dataSource is IEnumerable)
                 {
-                    var list = dataSource as IList;
-                    DataType = list.GetListType();
+                    DataType = dataSource.GenericType();
                 }
                 else if (this.DataSource is DataTable)
                 {
@@ -248,14 +247,13 @@ namespace Paway.Forms
                 var dt = dataSource as DataTable;
                 PagerInfo.RecordCount = dt.Rows.Count;
 
-                var temp = dt.Clone();
+                var table = dt.Clone();
                 var index = PagerInfo.PageSize * (PagerInfo.CurrentPageIndex - 1);
-                for (var i = index; i < index + PagerInfo.PageSize; i++)
+                for (var i = index; i < index + PagerInfo.PageSize && i < dt.Rows.Count; i++)
                 {
-                    if (i >= dt.Rows.Count) break;
-                    temp.Rows.Add(dt.Rows[i].ItemArray);
+                    table.Rows.Add(dt.Rows[i].ItemArray);
                 }
-                Edit.DataSource = temp;
+                Edit.DataSource = table;
                 Edit.UpdateColumns(DataType);
             }
             else if (dataSource is IList)
@@ -263,15 +261,13 @@ namespace Paway.Forms
                 var list = dataSource as IList;
 
                 PagerInfo.RecordCount = list.Count;
-                var temp = DataType.CreateList();
-
+                var dataList = DataType.CreateList();
                 var index = PagerInfo.PageSize * (PagerInfo.CurrentPageIndex - 1);
-                for (var i = index; i < index + PagerInfo.PageSize; i++)
+                for (var i = index; i < index + PagerInfo.PageSize && i < list.Count; i++)
                 {
-                    if (i >= list.Count) break;
-                    temp.Add(list[i]);
+                    dataList.Add(list[i]);
                 }
-                Edit.DataSource = temp;
+                Edit.DataSource = dataList;
             }
             else
             {

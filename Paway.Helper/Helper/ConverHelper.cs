@@ -1088,10 +1088,9 @@ namespace Paway.Helper
         /// <summary>
         ///     返回泛型实参数类型
         /// </summary>
-        public static Type GetListType(this IList list)
+        public static Type GenericType(this object obj)
         {
-            var type = list.GetType();
-            var types = type.GetGenericArguments();
+            var types = obj.GetType().GetGenericArguments();
             if (types.Length == 1) return types[0];
             return null;
         }
@@ -1153,7 +1152,7 @@ namespace Paway.Helper
                 {
                     var clist = properties[i].GetValue(copy) as IList;
                     var list = value as IList;
-                    var type = list.GetListType();
+                    var type = list.GenericType();
                     var asmb = Assembly.GetAssembly(type);
                     for (var j = 0; j < list.Count; j++)
                     {

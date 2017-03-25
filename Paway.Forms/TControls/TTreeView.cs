@@ -254,7 +254,7 @@ namespace Paway.Forms
                 if (_dataSource is IList)
                 {
                     var list = _dataSource as IList;
-                    type = list.GetListType();
+                    type = list.GenericType();
                 }
                 UpdateColumns(type);
             }
@@ -386,7 +386,7 @@ namespace Paway.Forms
             else if (_dataSource is IList)
             {
                 var list = _dataSource as IList;
-                type = list.GetListType();
+                type = list.GenericType();
                 dt = type.ToDataTable(list);
             }
             else if (type == typeof(string) || type.IsValueType)
@@ -417,7 +417,7 @@ namespace Paway.Forms
             else if (_dataSource is IList)
             {
                 var list = _dataSource as IList;
-                type = list.GetListType();
+                type = list.GenericType();
                 dt = type.ToDataTable(list);
             }
             if (dt == null) return;
