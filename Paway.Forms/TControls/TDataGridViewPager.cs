@@ -77,10 +77,6 @@ namespace Paway.Forms
             get { return dataSource; }
             set
             {
-                if (Edit.Columns.Count == 1)
-                {
-                    Edit.Columns.Clear();
-                }
                 dataSource = value;
                 if (dataSource is IList || dataSource is IEnumerable)
                 {
@@ -110,10 +106,20 @@ namespace Paway.Forms
             RefreshData();
         }
 
+        private Type _dataType;
         /// <summary>
         ///     数据类型
         /// </summary>
-        protected Type DataType { get; set; }
+        protected Type DataType
+        {
+            get { return _dataType; }
+            set
+            {
+                if (_dataType == null || value == null || _dataType.Name != value.Name)
+                    Edit.Columns.Clear();
+                _dataType = value;
+            }
+        }
 
         /// <summary>
         ///     获取或设置当前页码
@@ -138,13 +144,6 @@ namespace Paway.Forms
         }
         private void gridview1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            SortColumn();
-        }
-        /// <summary>
-        /// 自定义排序
-        /// </summary>
-        protected virtual void SortColumn()
-        {
             if (this.DataSource == null) return;
             if (this.Edit.CurrentCell == null) return;
             DataGridViewColumn column = this.Edit.Columns[this.Index];
@@ -155,6 +154,15 @@ namespace Paway.Forms
                 else if (sort == SortOrder.Descending) sort = SortOrder.Ascending;
             }
             column.HeaderCell.SortGlyphDirection = sort;
+            if (!SortColumn(sort, column.Name)) return;
+            column = this.Edit.Columns[this.Index];
+            column.HeaderCell.SortGlyphDirection = sort;
+        }
+        /// <summary>
+        /// 自定义排序数据
+        /// </summary>
+        protected virtual bool SortColumn(SortOrder sort, string name)
+        {
             if (this.DataSource is IList)
             {
                 var list = this.DataSource as IList;
@@ -164,9 +172,9 @@ namespace Paway.Forms
                     tempList.Add(list[i]);
                 }
                 var properties = TypeDescriptor.GetProperties(DataType);
-                var pro = properties.Find(column.Name, false);
+                var pro = properties.Find(name, false);
                 string sorts = sort == SortOrder.Descending ? "desc" : "asc";
-                if (DataType.GetProperty(column.Name).ISort())
+                if (DataType.GetProperty(name).ISort())
                 {
                     tempList.Sort((x, y) => TCompare(pro.GetValue(x), pro.GetValue(y), sorts));
                 }
@@ -180,11 +188,10 @@ namespace Paway.Forms
             else if (this.DataSource is DataTable)
             {
                 var dt = this.DataSource as DataTable;
-                SortData(DataType, column.Name, dt, this.Index, sort);
+                SortData(DataType, name, dt, this.Index, sort);
             }
-            else return;
-            column = this.Edit.Columns[this.Index];
-            column.HeaderCell.SortGlyphDirection = sort;
+            else return false;
+            return true;
         }
         private int TCompare(PropertyDescriptor pro, object obj1, object obj2, string sort)
         {
@@ -269,19 +276,42 @@ namespace Paway.Forms
                 }
                 Edit.DataSource = dataList;
             }
+            else if (dataSource is IEnumerable)
+            {
+                UpdateSort(dataSource as IEnumerable);
+            }
             else
             {
                 PagerInfo.RecordCount = 0;
                 Edit.DataSource = dataSource;
             }
-            UpdateColumnsSortMode(DataType);
+            UpdateColumnsSortMode();
+        }
+        /// <summary>
+        /// IEnumerable
+        /// </summary>
+        protected void UpdateSort(IEnumerable query)
+        {
+            int i = 0;
+            var index = PagerInfo.PageSize * (PagerInfo.CurrentPageIndex - 1);
+            var temp = DataType.CreateList();
+            foreach (var item in query)
+            {
+                i++;
+                if (i > index && i <= index + PagerInfo.PageSize)
+                {
+                    temp.Add(item);
+                }
+            }
+            PagerInfo.RecordCount = i;
+            Edit.DataSource = temp;
         }
         /// <summary>
         ///     更新列排序模式
         /// </summary>
-        private void UpdateColumnsSortMode(Type type)
+        protected void UpdateColumnsSortMode()
         {
-            if (type == null || type == typeof(string) || type.IsValueType) return;
+            if (DataType == null || DataType == typeof(string) || DataType.IsValueType) return;
             for (var i = 0; i < Edit.Columns.Count; i++)
             {
                 Edit.Columns[i].SortMode = DataGridViewColumnSortMode.Programmatic;
