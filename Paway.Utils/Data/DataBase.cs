@@ -139,7 +139,7 @@ namespace Paway.Utils.Data
         /// <summary>
         ///     使用事务处理  Transact-SQL 语句列表
         /// </summary>
-        public bool TransExecuteNonQuery(List<string> sqlList, DbCommand cmd = null)
+        public bool TransExecuteNonQuery(IList<string> sqlList, DbCommand cmd = null)
         {
             var iTrans = cmd == null;
             try
@@ -581,7 +581,7 @@ namespace Paway.Utils.Data
         /// <summary>
         ///     插入列表
         /// </summary>
-        public bool Insert<T>(List<T> list, DbCommand cmd = null, bool Identity = false)
+        public bool Insert<T>(IList<T> list, DbCommand cmd = null, bool Identity = false)
         {
             var iTrans = cmd == null;
             try
@@ -730,7 +730,7 @@ namespace Paway.Utils.Data
         /// <summary>
         ///     更新列表
         /// </summary>
-        public bool Update<T>(List<T> list, DbCommand cmd = null, params string[] args)
+        public bool Update<T>(IList<T> list, DbCommand cmd = null, params string[] args)
         {
             var iTrans = cmd == null;
             try
@@ -872,7 +872,7 @@ namespace Paway.Utils.Data
         /// <summary>
         ///     删除列表
         /// </summary>
-        public bool Delete<T>(List<T> list, DbCommand cmd = null)
+        public bool Delete<T>(IList<T> list, DbCommand cmd = null)
         {
             var iTrans = cmd == null;
             var sql = ConverHelper.Delete<T>();
@@ -926,7 +926,7 @@ namespace Paway.Utils.Data
         /// <summary>
         ///     更新或插入列表
         /// </summary>
-        public virtual bool Replace<T>(List<T> list, DbCommand cmd = null, params string[] args)
+        public virtual bool Replace<T>(IList<T> list, DbCommand cmd = null, params string[] args)
         {
             return Replace(list, false, cmd, args);
         }
@@ -934,7 +934,7 @@ namespace Paway.Utils.Data
         /// <summary>
         ///     更新或插入列表
         /// </summary>
-        protected bool Replace<T>(List<T> list, bool isSqlite, DbCommand cmd = null, params string[] args)
+        protected bool Replace<T>(IList<T> list, bool isSqlite, DbCommand cmd = null, params string[] args)
         {
             var iTrans = cmd == null;
             try
