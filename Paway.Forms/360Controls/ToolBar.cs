@@ -1344,6 +1344,7 @@ namespace Paway.Forms
                         Width = textRect.Width,
                         Height = headHeight
                     };
+                    item.RectHeadDesc = rect;
                     DrawOtherDesc(g, item, THeadDesc, item.HeadDesc, rect);
                 }
                 var endHeight = 0;
@@ -1357,6 +1358,7 @@ namespace Paway.Forms
                         Width = textRect.Width,
                         Height = endHeight
                     };
+                    item.RectEndDesc = rect;
                     DrawOtherDesc(g, item, TEndDesc, item.EndDesc, rect);
                 }
                 if (!string.IsNullOrEmpty(item.Desc))

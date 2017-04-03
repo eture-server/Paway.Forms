@@ -39,12 +39,6 @@ namespace Paway.Forms
         public object Tag { get; set; }
 
         /// <summary>
-        ///     分组文字
-        /// </summary>
-        [Description("分组文字"), DefaultValue(null)]
-        public string Group { get; private set; }
-
-        /// <summary>
         ///     首行文字
         /// </summary>
         [Browsable(false), Description("首行文字"), DefaultValue(null)]
@@ -95,18 +89,33 @@ namespace Paway.Forms
         /// </summary>
         [Description("Item 上显示的描述信息"), DefaultValue(null)]
         public string Desc { get; set; }
+        /// <summary>
+        ///     Item 上显示的描述信息边框
+        /// </summary>
+        [Browsable(false)]
+        public Rectangle RectDesc { get; internal set; }
 
         /// <summary>
         ///     Item 上显示的头部描述信息
         /// </summary>
         [Description("Item 上显示的头部描述信息"), DefaultValue(null)]
         public string HeadDesc { get; set; }
+        /// <summary>
+        ///     Item 上显示的头部描述信息边框
+        /// </summary>
+        [Browsable(false)]
+        public Rectangle RectHeadDesc { get; internal set; }
 
         /// <summary>
         ///     Item 上显示的尾部描述信息
         /// </summary>
         [Description("Item 上显示的尾部描述信息"), DefaultValue(null)]
         public string EndDesc { get; set; }
+        /// <summary>
+        ///     Item 上显示的尾部描述信息边框
+        /// </summary>
+        [Browsable(false)]
+        public Rectangle RectEndDesc { get; internal set; }
 
         /// <summary>
         ///     Item 上鼠标悬停显示信息
@@ -136,11 +145,6 @@ namespace Paway.Forms
         /// </summary>
         [Browsable(false)]
         public Rectangle Rectangle { get; internal set; }
-
-        /// <summary>
-        ///     描述信息边框
-        /// </summary>
-        internal Rectangle RectDesc { get; set; }
 
         /// <summary>
         ///     描述信息的鼠标状态

@@ -253,8 +253,7 @@ namespace Paway.Forms
                 var type = _dataSource.GetType();
                 if (_dataSource is IList)
                 {
-                    var list = _dataSource as IList;
-                    type = list.GenericType();
+                    type = _dataSource.GenericType();
                 }
                 UpdateColumns(type);
             }
