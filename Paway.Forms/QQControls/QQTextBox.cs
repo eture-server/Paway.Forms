@@ -441,6 +441,7 @@ namespace Paway.Forms
             get { return _mouseState; }
             set
             {
+                if (_mouseState == value) return;
                 _mouseState = value;
                 Invalidate();
             }
@@ -454,6 +455,7 @@ namespace Paway.Forms
             get { return _iconMouseState; }
             set
             {
+                if (_iconMouseState == value) return;
                 _iconMouseState = value;
                 Invalidate();
             }

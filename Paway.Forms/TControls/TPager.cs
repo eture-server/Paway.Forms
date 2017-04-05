@@ -161,6 +161,7 @@ namespace Paway.Forms
             if (!iTotal)
                 OnPageChanged(EventArgs.Empty);
             lblPageInfo.Text = string.Format("共 {0} 条记录，每页 {1} 条，共 {2} 页", PagerInfo.RecordCount, PagerInfo.PageSize, PagerInfo.PageCount);
+            lblPageInfo.Location = new Point(this.Width - lblPageInfo.Width - 20, lblPageInfo.Location.Y);
         }
 
         #region 当前页更新
@@ -284,7 +285,7 @@ namespace Paway.Forms
             this.lblPageInfo.AutoSize = true;
             this.lblPageInfo.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lblPageInfo.ForeColor = System.Drawing.Color.Black;
-            this.lblPageInfo.Location = new System.Drawing.Point(358, 7);
+            this.lblPageInfo.Location = new System.Drawing.Point(366, 8);
             this.lblPageInfo.Name = "lblPageInfo";
             this.lblPageInfo.Size = new System.Drawing.Size(220, 14);
             this.lblPageInfo.TabIndex = 0;
