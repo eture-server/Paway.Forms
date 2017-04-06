@@ -173,9 +173,7 @@
             // treeView1
             // 
             this.treeView1.BackColor = System.Drawing.Color.Transparent;
-            this.treeView1.ColorHot = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(244)))), ((int)(((byte)(249)))), ((int)(((byte)(255)))));
-            this.treeView1.ColorSelect = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(207)))), ((int)(((byte)(227)))), ((int)(((byte)(253)))));
-            this.treeView1.ColorSelectNoFocus = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
+            this.treeView1.CheckBoxes = true;
             this.treeView1.DataSource = null;
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             treeItem1.Name = "Name";
@@ -291,14 +289,12 @@
             // 
             // FormQQ
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.BackColor = System.Drawing.Color.DodgerBlue;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(300, 486);
             this.Controls.Add(this.qqTabControl1);
             this.IDrawBorder = true;
-            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "FormQQ";
             this.Padding = new System.Windows.Forms.Padding(0, 120, 1, 80);
             this.SysButton = Paway.Forms.TSysButton.Close;

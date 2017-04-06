@@ -29,7 +29,6 @@ namespace Paway.Forms
                 ControlStyles.SupportsTransparentBackColor, true);
             UpdateStyles();
             //选中与颜色重绘
-            DrawMode = TreeViewDrawMode.OwnerDrawText;
             ItemHeight = 23;
             HideSelection = false;
             FullRowSelect = true;
@@ -67,25 +66,25 @@ namespace Paway.Forms
         #endregion
 
         #region 变量
-
         /// <summary>
         ///     鼠标上一次移过的项
         /// </summary>
         private TreeNode lastnode;
 
-        /// <summary>
-        ///     +
-        /// </summary>
         private readonly Image add = AssemblyHelper.GetImage("Controls.+.png");
-
-        /// <summary>
-        ///     -
-        /// </summary>
         private readonly Image less = AssemblyHelper.GetImage("Controls.-.png");
+
+        private readonly Image check_normal = AssemblyHelper.GetImage("QQ.CheckBox.normal.png");
+        private readonly Image check_tick = AssemblyHelper.GetImage("QQ.CheckBox.tick_normal.png");
+        private readonly Image check_hight = AssemblyHelper.GetImage("QQ.CheckBox._tick_highlight.png");
 
         #endregion
 
         #region 属性
+        /// <summary>
+        /// 正在排序
+        /// </summary>
+        public bool Checking { get; set; }
 
         private Color _select = Color.FromArgb(200, 207, 227, 253);
 
@@ -298,18 +297,6 @@ namespace Paway.Forms
         #endregion
 
         #region 重载属性默认值
-
-        /// <summary>
-        ///     获取或设置绘制控件的模式。
-        /// </summary>
-        [Description("获取或设置绘制控件的模式")]
-        [DefaultValue(typeof(TreeViewDrawMode), "OwnerDrawText")]
-        public new TreeViewDrawMode DrawMode
-        {
-            get { return base.DrawMode; }
-            set { base.DrawMode = value; }
-        }
-
         /// <summary>
         ///     获取或设置树视图控件中每个树节点的高度。
         /// </summary>
@@ -750,18 +737,27 @@ namespace Paway.Forms
         {
             var rect = node.Bounds;
             rect = new Rectangle(rect.Location, new Size(Width - 4 - rect.X - 2, rect.Height - 1));
+            int interval = 6;
+            if (this.CheckBoxes) interval += 13;
             if (node.IsExpanded)
             {
                 var indent = (rect.Height - add.Height) / 2;
-                var plusRect = new Rectangle(node.Bounds.Left - add.Width - 6, rect.Top + indent, add.Width, add.Height);
+                var plusRect = new Rectangle(rect.X - add.Width - interval, rect.Top + indent, add.Width, add.Height);
                 g.DrawImage(add, plusRect);
             }
             else if (node.Nodes.Count > 0)
             {
                 var indent = (rect.Height - less.Height) / 2;
-                var plusRect = new Rectangle(node.Bounds.Left - less.Width - 6, rect.Top + indent, less.Width,
-                    less.Height);
+                var plusRect = new Rectangle(rect.X - less.Width - interval, rect.Top + indent, less.Width, less.Height);
                 g.DrawImage(less, plusRect);
+            }
+            if (this.CheckBoxes)
+            {
+                var item = node as ItemNode;
+                Image image = item.Checked ? check_tick : item.CheckHight ? check_hight : check_normal;
+                var indent = (rect.Height - image.Height) / 2;
+                rect = new Rectangle(node.Bounds.X - image.Height, rect.Top + indent, image.Height, image.Height);
+                g.DrawImage(image, rect);
             }
         }
 
@@ -842,11 +838,45 @@ namespace Paway.Forms
         private void DrawTreeView_AfterCheck(object sender, TreeViewEventArgs e)
         {
             if (!CheckBoxes) return;
+            if (Checking) return;
 
+            Checking = true;
             AfterCheck -= DrawTreeView_AfterCheck;
-            ParentNodeCheck(e.Node.Parent);
-            ChildNodeCheck(e.Node);
-            AfterCheck += DrawTreeView_AfterCheck;
+            try
+            {
+                (e.Node as ItemNode).CheckHight = false;
+                ParentNodeCheck(e.Node.Parent);
+                ChildNodeCheck(e.Node);
+                this.Refresh();
+            }
+            finally
+            {
+                Checking = false;
+                AfterCheck += DrawTreeView_AfterCheck;
+            }
+        }
+        /// <summary>
+        /// 检查选中点
+        /// </summary>
+        public void Checked()
+        {
+            this.Checking = true;
+            Checked(this.Nodes);
+            this.Checking = false;
+        }
+        private void Checked(TreeNodeCollection nodes)
+        {
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                if (nodes[i].Nodes.Count > 0)
+                {
+                    Checked(nodes[i].Nodes);
+                }
+                if (i == nodes.Count - 1)
+                {
+                    ParentNodeCheck(nodes[i].Parent);
+                }
+            }
         }
         /// <summary>
         ///     父节点
@@ -855,16 +885,21 @@ namespace Paway.Forms
         private void ParentNodeCheck(TreeNode node)
         {
             if (node == null) return;
-            var result = true;
+            bool icheck = true, hight = false;
             for (var i = 0; i < node.Nodes.Count; i++)
             {
-                if (!node.Nodes[i].Checked)
+                var temp = node.Nodes[i] as ItemNode;
+                if (!temp.Checked && !temp.CheckHight)
                 {
-                    result = false;
-                    break;
+                    icheck = false;
+                }
+                else
+                {
+                    hight = true;
                 }
             }
-            node.Checked = result;
+            node.Checked = icheck;
+            (node as ItemNode).CheckHight = hight;
             ParentNodeCheck(node.Parent);
         }
         /// <summary>
@@ -905,6 +940,11 @@ namespace Paway.Forms
         {
             this.dr = dr;
         }
+
+        /// <summary>
+        /// 部分选中
+        /// </summary>
+        public bool CheckHight { get; set; }
 
         /// <summary>
         ///     TreeView中ItemNode的键值
