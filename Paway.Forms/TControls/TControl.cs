@@ -198,12 +198,12 @@ namespace Paway.Forms
         [Description("旋转后图片"), DefaultValue(typeof(Image), "null")]
         public Image TranLaterImage { get; set; }
 
-        private int _mInterval = 12;
+        private int _mInterval = 7;
 
         /// <summary>
         ///     移动特效间隔
         /// </summary>
-        [Description("移动特效间隔"), DefaultValue(12)]
+        [Description("移动特效间隔"), DefaultValue(7)]
         public int MInterval
         {
             get { return _mInterval; }
@@ -399,7 +399,7 @@ namespace Paway.Forms
         private void InitShow()
         {
             sTimer = new Timer();
-            sTimer.Interval = 10;
+            sTimer.Interval = 45;
             sTimer.Tick += sTimer_Tick;
         }
 
@@ -438,7 +438,7 @@ namespace Paway.Forms
         /// <summary>
         ///     启动特效
         /// </summary>
-        public void MStart(TMDirection dirction, int interval = 10)
+        public void MStart(TMDirection dirction, int interval = 0)
         {
             MDirection = dirction;
             MStart(interval);
@@ -492,12 +492,12 @@ namespace Paway.Forms
         /// <summary>
         ///     启动特效
         /// </summary>
-        public void MStart(int interval = 10)
+        public void MStart(int interval = 0)
         {
             MStop();
             if (MDirection == TMDirection.None) return;
             iReader = true;
-            if (interval >= 10)
+            if (interval > 0)
             {
                 sTimer.Interval = interval;
             }
@@ -545,11 +545,6 @@ namespace Paway.Forms
                 case TMDirection.T3DUpToDown:
                 case TMDirection.T3DDown:
                 case TMDirection.T3DDownToUp:
-                    sTimer.Interval = 45;
-                    if (interval >= 45)
-                    {
-                        sTimer.Interval = interval;
-                    }
                     if (alpha == null)
                     {
                         alpha = new TControl();
@@ -579,7 +574,7 @@ namespace Paway.Forms
                         }
                         color = 255;
                         i3d = true;
-                        intervel = 255 / MInterval;
+                        intervel = 255 * 2 / (3 * MInterval);
 
                         if (TranImage == null)
                             alpha.BackColor = Color.FromArgb(255, alpha.BackColor);
@@ -780,7 +775,6 @@ namespace Paway.Forms
                                 }
                                 break;
                         }
-                        color += intervel;
                         Alpha3DImage(TranLaterImage, d2);
                     }
                     else

@@ -69,11 +69,9 @@
             // 
             // Form3
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.ClientSize = new System.Drawing.Size(384, 346);
             this.Controls.Add(this.btChange);
             this.Controls.Add(this.tControl1);
-            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "Form3";
             this.TBrush.ColorNormal = System.Drawing.Color.CornflowerBlue;
             this.TBrush.ColorSpace = System.Drawing.Color.Ivory;
