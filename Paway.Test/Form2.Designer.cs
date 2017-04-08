@@ -172,7 +172,6 @@
             this.toolBar2.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolBar2.IImageShow = true;
             this.toolBar2.ImageSize = new System.Drawing.Size(32, 32);
-            this.toolBar2.IShowToolTop = true;
             toolItem22.Image = global::Paway.Test.Properties.Resources.online;
             toolItem22.TColor.ColorNormal = System.Drawing.Color.Red;
             toolItem22.TColor.StringVertical = System.Drawing.StringAlignment.Center;

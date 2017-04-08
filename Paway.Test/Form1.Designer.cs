@@ -107,7 +107,6 @@
             this.toolBar.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolBar.ImageSize = new System.Drawing.Size(32, 32);
             this.toolBar.IScroll = false;
-            this.toolBar.IShowToolTop = true;
             toolItem1.Desc = "";
             toolItem1.IHeard = true;
             toolItem1.TColor.StringVertical = System.Drawing.StringAlignment.Center;

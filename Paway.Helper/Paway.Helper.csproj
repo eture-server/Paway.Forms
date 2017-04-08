@@ -53,6 +53,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\CodeTimer.cs" />
     <Compile Include="Common\RowComparer.cs" />
     <Compile Include="Common\Compare.cs" />
     <Compile Include="Common\Licence.cs" />

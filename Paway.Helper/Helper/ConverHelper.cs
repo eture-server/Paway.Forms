@@ -327,7 +327,6 @@ namespace Paway.Helper
                     for (var j = 0; j < list.Count; j++)
                     {
                         var value = table.Rows[j][column.ColumnName];
-                        if (value == DBNull.Value) continue;
                         list[j].SetValue(pro, value);
                     }
                     break;
@@ -355,7 +354,6 @@ namespace Paway.Helper
                 {
                     if (name != column.ColumnName) continue;
                     var value = row[column.ColumnName];
-                    if (value == DBNull.Value) break;
                     obj.SetValue(pro, value);
                     break;
                 }
@@ -369,7 +367,11 @@ namespace Paway.Helper
         /// </summary>
         public static void SetValue<T>(this T obj, PropertyDescriptor pro, object value)
         {
-            if (pro.PropertyType == typeof(Image) && value is byte[])
+            if (value == null || value == DBNull.Value)
+            {
+                pro.SetValue(obj, null);
+            }
+            else if (pro.PropertyType == typeof(Image) && value is byte[])
             {
                 pro.SetValue(obj, SctructHelper.GetObjectFromByte(value as byte[]) as Image);
             }
@@ -1387,27 +1389,27 @@ namespace Paway.Helper
             {
                 return 0;
             }
-            else if (pro.PropertyType == typeof(int))
+            else if (pro.PropertyType == typeof(int) || pro.PropertyType == typeof(int?))
             {
                 return ((int)obj1).CompareTo((int)obj2);
             }
-            else if (pro.PropertyType == typeof(long))
+            else if (pro.PropertyType == typeof(long) || pro.PropertyType == typeof(long?))
             {
                 return ((long)obj1).CompareTo((long)obj2);
             }
-            else if (pro.PropertyType == typeof(double))
+            else if (pro.PropertyType == typeof(double) || pro.PropertyType == typeof(double?))
             {
                 return ((double)obj1).CompareTo((double)obj2);
             }
-            else if (pro.PropertyType == typeof(float))
+            else if (pro.PropertyType == typeof(float) || pro.PropertyType == typeof(float?))
             {
                 return ((float)obj1).CompareTo((float)obj2);
             }
-            else if (pro.PropertyType == typeof(bool))
+            else if (pro.PropertyType == typeof(bool) || pro.PropertyType == typeof(bool?))
             {
                 return ((bool)obj1).CompareTo((bool)obj2);
             }
-            else if (pro.PropertyType == typeof(DateTime))
+            else if (pro.PropertyType == typeof(DateTime) || pro.PropertyType == typeof(DateTime?))
             {
                 return (obj1.ToDateTime()).CompareTo(obj2.ToDateTime());
             }

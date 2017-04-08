@@ -535,6 +535,14 @@ namespace Paway.Forms
                     {
                         base.WndProc(ref m);
                     }
+                    if (m.Result != Consts.TRUE)
+                    {
+                        Win32Helper.HideSysMenu(this);
+                    }
+                    else
+                    {
+                        Win32Helper.ShowSysMenu(this, (int)_sysButton, _iResize);
+                    }
                 }
                 else
                 {
@@ -981,6 +989,18 @@ namespace Paway.Forms
                 }
                 return param;
             }
+        }
+
+        /// <summary>
+        /// 允许弹出右键系统菜单
+        /// </summary>
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if ((keyData & Keys.Alt) == Keys.Alt)
+            {
+                Win32Helper.ShowSysMenu(this, (int)_sysButton, _iResize);
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         #endregion

@@ -288,12 +288,12 @@ namespace Paway.Forms
         #endregion
 
         #region bool
-
+        private bool _iShowTop = true;
         /// <summary>
         ///     显示简短说明
         /// </summary>
-        [Description("显示简短说明"), DefaultValue(false)]
-        public bool IShowToolTop { get; set; }
+        [Description("显示简短说明"), DefaultValue(true)]
+        public bool IShowTop { get { return _iShowTop; } set { _iShowTop = value; } }
 
         private bool _iText;
 
@@ -1677,7 +1677,7 @@ namespace Paway.Forms
                         if (item.MouseState != TMouseState.Move && item.MouseState != TMouseState.Down)
                         {
                             InvalidateItem(item, TMouseState.Move);
-                            if (IShowToolTop)
+                            if (IShowTop)
                             {
                                 ShowTooTip(item.Hit ?? item.Sencond ?? item.First);
                             }

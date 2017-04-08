@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Paway.Helper
 {
@@ -14,7 +16,7 @@ namespace Paway.Helper
         ///     获取标准北京时间，读取http://www.beijing-time.org/time.asp
         /// </summary>
         /// <returns>返回网络时间</returns>
-        public static DateTime GetBeijingTime()
+        public static DateTime BeijingTime()
         {
             DateTime dt;
             WebRequest wrt = null;
@@ -46,13 +48,9 @@ namespace Paway.Helper
 
                 dt = DateTime.Parse(year + "-" + month + "-" + day + " " + hour + ":" + minite + ":" + second);
             }
-            catch (WebException)
+            catch
             {
-                return DateTime.Parse("2011-1-1");
-            }
-            catch (Exception)
-            {
-                return DateTime.Parse("2011-1-1");
+                throw;
             }
             finally
             {
@@ -65,35 +63,39 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     获取网页内容
+        ///     获取网页内容，并过滤
         /// </summary>
-        public static string GetHtml(string url, Encoding format)
+        public static string Html(string url, Regex regex, Encoding code, params object[] args)
         {
-            WebRequest wrq = null;
-            WebResponse wrp = null;
-            try
+            using (var client = new WebClient())
             {
-                wrq = WebRequest.Create(url);
-                wrp = wrq.GetResponse();
-
-                var html = string.Empty;
-                var stream = wrp.GetResponseStream();
-                using (var sr = new StreamReader(stream, format))
+                //获取或设置用于向Internet资源的请求进行身份验证的网络凭据
+                client.Credentials = CredentialCache.DefaultCredentials;
+                //从指定网站下载数据
+                client.Encoding = code;
+                url = string.Format(url, args);
+                var html = client.DownloadString(url);
+                client.Dispose();
+                if (regex != null && regex.IsMatch(html))
                 {
-                    html = sr.ReadToEnd();
+                    html = regex.Replace(html, "");
                 }
                 return html;
             }
-            catch (Exception)
+        }
+
+        /// <summary>
+        /// 下载图片
+        /// </summary>
+        public static Image Image(string url)
+        {
+            using (var client = new WebClient())
             {
-                return null;
-            }
-            finally
-            {
-                if (wrp != null)
-                    wrp.Close();
-                if (wrq != null)
-                    wrq.Abort();
+                //获取或设置用于向Internet资源的请求进行身份验证的网络凭据
+                client.Credentials = CredentialCache.DefaultCredentials;
+                //从指定网站下载图片
+                client.DownloadFile(url, "tmp.png");
+                return BitmapHelper.GetBitmapFormFile("tmp.png");
             }
         }
     }

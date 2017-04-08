@@ -43,7 +43,6 @@ namespace Paway.Forms
             // 
             // QQDemo
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.BackColor = System.Drawing.Color.DarkCyan;
             this.ClientSize = new System.Drawing.Size(380, 270);
             this.Controls.Add(this.panel1);
