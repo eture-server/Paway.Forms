@@ -17,6 +17,13 @@ namespace Paway.Forms
     /// </summary>
     public class FormBase : TForm
     {
+        #region 事件
+        /// <summary>
+        /// 关于
+        /// </summary>
+        public event EventHandler AboutEvent;
+
+        #endregion
         #region 构造函数
 
         /// <summary>
@@ -537,11 +544,11 @@ namespace Paway.Forms
                     }
                     if (m.Result != Consts.TRUE)
                     {
-                        Win32Helper.HideSysMenu(this);
+                        HideSysMenu();
                     }
                     else
                     {
-                        Win32Helper.ShowSysMenu(this, (int)_sysButton, _iResize);
+                        ShowSysMenu();
                     }
                 }
                 else
@@ -748,7 +755,7 @@ namespace Paway.Forms
         {
             base.OnLoad(e);
             OnSizeChanged(e);
-            Win32Helper.ShowSysMenu(this, (int)_sysButton, _iResize);
+            ShowSysMenu();
             if (!DesignMode)
             {
                 switch (StartPosition)
@@ -785,6 +792,26 @@ namespace Paway.Forms
                 case (int)WindowsMessage.WM_NCHITTEST:
                     base.WndProc(ref m);
                     WmNcHitTest(ref m);
+                    break;
+                case 0x112:
+                    switch ((MenuType)m.WParam.ToInt32())
+                    {
+                        case MenuType.About:
+                            if (AboutEvent == null)
+                            {
+                                new AboutForm().ShowDialog(this);
+                            }
+                            else
+                            {
+                                AboutEvent(this, EventArgs.Empty);
+                            }
+                            break;
+                        case MenuType.Restore:
+                        case MenuType.MaxSize:
+                            WindowMax();
+                            break;
+                    }
+                    base.WndProc(ref m);
                     break;
                 default:
                     base.WndProc(ref m);
@@ -998,7 +1025,7 @@ namespace Paway.Forms
         {
             if ((keyData & Keys.Alt) == Keys.Alt)
             {
-                Win32Helper.ShowSysMenu(this, (int)_sysButton, _iResize);
+                ShowSysMenu();
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
@@ -1144,6 +1171,60 @@ namespace Paway.Forms
             if (!control.IsDisposed)
             {
                 NativeMethods.SetWindowRgn(control.Handle, rgn, true);
+            }
+        }
+
+        #endregion
+
+        #region 显示系统菜单
+        /// <summary>
+        ///     显示系统菜单
+        ///     改变窗口大小与系统菜单冲突
+        /// </summary>
+        public void ShowSysMenu()
+        {
+            int windowLong = (NativeMethods.GetWindowLong(this.Handle, -16));
+            NativeMethods.SetWindowLong(this.Handle, -16, windowLong | (int)WindowStyle.WS_SYSMENU);
+            int menu = NativeMethods.GetSystemMenu(this.Handle, false);
+
+            NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_RESTORE, 0x0);
+            NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_MOVE, 0x0);
+            NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_SIZE, 0x0);
+            NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_MAXIMIZE, 0x0);
+            switch (_sysButton)
+            {
+                //正常
+                case TSysButton.Normal:
+                    NativeMethods.DeleteMenu(menu, (int)MenuType.About, 0);
+                    NativeMethods.InsertMenu(menu, (int)WindowStyle.SC_MINIMIZE, 0, (int)MenuType.About, "关于");
+                    NativeMethods.DeleteMenu(menu, (int)MenuType.Restore, 0);
+                    NativeMethods.InsertMenu(menu, (int)WindowStyle.SC_MINIMIZE, (this.WindowState == FormWindowState.Maximized) ? 0 : 2, (int)MenuType.Restore, "还原");
+                    NativeMethods.DeleteMenu(menu, (int)MenuType.MaxSize, 0);
+                    NativeMethods.InsertMenu(menu, 0, (this.WindowState == FormWindowState.Maximized) ? 2 : 0, (int)MenuType.MaxSize, "最大化");
+                    break;
+                //关闭按钮
+                case TSysButton.Close:
+                    NativeMethods.DeleteMenu(menu, (int)MenuType.About, 0);
+                    NativeMethods.InsertMenu(menu, 0, 0, (int)MenuType.About, "关于");
+                    NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_MINIMIZE, 0x0);
+                    break;
+                //关闭按钮，最小化
+                case TSysButton.Close_Mini:
+                    NativeMethods.DeleteMenu(menu, (int)MenuType.About, 0);
+                    NativeMethods.InsertMenu(menu, (int)WindowStyle.SC_MINIMIZE, 0, (int)MenuType.About, "关于");
+                    break;
+            }
+        }
+        /// <summary>
+        ///     显示系统菜单
+        /// </summary>
+        public void HideSysMenu()
+        {
+            int windowLong = (NativeMethods.GetWindowLong(this.Handle, -16));
+            if ((windowLong & (int)WindowStyle.WS_SYSMENU) == (int)WindowStyle.WS_SYSMENU)
+            {
+                windowLong -= (int)WindowStyle.WS_SYSMENU;
+                NativeMethods.SetWindowLong(this.Handle, -16, windowLong);
             }
         }
 

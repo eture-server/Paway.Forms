@@ -58,6 +58,7 @@
     <Compile Include="Common\Compare.cs" />
     <Compile Include="Common\Licence.cs" />
     <Compile Include="Common\TConfig.cs" />
+    <Compile Include="Enum\MenuType.cs" />
     <Compile Include="Helper\ExcelHelper.cs" />
     <Compile Include="Helper\WebHelper.cs" />
     <Compile Include="Helper\Base64Helper.cs" />

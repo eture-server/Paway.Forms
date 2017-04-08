@@ -27,13 +27,13 @@ namespace Paway.Win32
         ///     获得有关指定窗口的信息，函数也获得在额外窗口内存中指定偏移位地址的32位度整型值。
         /// </summary>
         [DllImport("user32.DLL", CharSet = CharSet.Auto)]
-        public static extern int GetWindowLong(HandleRef hWnd, int nIndex);
+        public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
         /// <summary>
         ///     改变指定窗口的属性．函数也将指定的一个32位值设置在窗口的额外存储空间的指定偏移位置。
         /// </summary>
         [DllImport("user32.DLL", CharSet = CharSet.Auto)]
-        public static extern IntPtr SetWindowLong(HandleRef hWnd, int nIndex, int dwNewLong);
+        public static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
         /// <summary>
         ///     允许应用程序为复制或修改而访问
@@ -47,6 +47,16 @@ namespace Paway.Win32
         /// <returns></returns>
         [DllImport("user32.dll", EntryPoint = "DeleteMenu", CharSet = CharSet.Auto)]
         public static extern bool DeleteMenu(int hMenu, int uPosition, int uFlags);
+        /// <summary>
+        /// 追加菜单条目
+        /// </summary>
+        [DllImport("user32.dll")]
+        public static extern int AppendMenu(int hMenu, int Flagsw, int IDNewItem, string lpNewItem);
+        /// <summary>
+        /// 插入菜单条目
+        /// </summary>
+        [DllImport("user32.dll")]
+        public static extern int InsertMenu(int hMenu, int uFlags, int Flagsw, int IDNewItem, string lpNewItem);
 
         #endregion
 

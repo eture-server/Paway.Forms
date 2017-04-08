@@ -435,50 +435,5 @@ namespace Paway.Win32
         }
 
         #endregion
-
-        #region 显示系统菜单
-        /// <summary>
-        ///     显示系统菜单
-        ///     改变窗口大小与系统菜单冲突
-        /// </summary>
-        public static void ShowSysMenu(Form form, int sysButton, bool iResize)
-        {
-            //if (iResize) return;
-
-            int windowLong = (NativeMethods.GetWindowLong(new HandleRef(form, form.Handle), -16));
-            NativeMethods.SetWindowLong(new HandleRef(form, form.Handle), -16, windowLong | (int)WindowStyle.WS_SYSMENU);
-            int menu = NativeMethods.GetSystemMenu(form.Handle, false);
-
-            switch (sysButton)
-            {
-                //关闭按钮
-                case 1:
-                    NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_RESTORE, 0x0);
-                    NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_MAXIMIZE, 0x0);
-                    NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_MINIMIZE, 0x0);
-                    break;
-                //关闭按钮，最小化
-                case 2:
-                    NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_RESTORE, 0x0);
-                    NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_MAXIMIZE, 0x0);
-                    break;
-            }
-            if (!iResize)
-                NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_SIZE, 0x0);
-        }
-        /// <summary>
-        ///     显示系统菜单
-        /// </summary>
-        public static void HideSysMenu(Form form)
-        {
-            int windowLong = (NativeMethods.GetWindowLong(new HandleRef(form, form.Handle), -16));
-            if ((windowLong & (int)WindowStyle.WS_SYSMENU) == (int)WindowStyle.WS_SYSMENU)
-            {
-                windowLong -= (int)WindowStyle.WS_SYSMENU;
-                NativeMethods.SetWindowLong(new HandleRef(form, form.Handle), -16, windowLong);
-            }
-        }
-
-        #endregion
     }
 }
