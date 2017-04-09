@@ -11,6 +11,10 @@ namespace Paway.Helper
     public enum MenuType : int
     {
         /// <summary>
+        /// 横线
+        /// </summary>
+        None = 3000,
+        /// <summary>
         /// 关于
         /// </summary>
         About = 3001,

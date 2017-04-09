@@ -58,6 +58,12 @@ namespace Paway.Win32
         [DllImport("user32.dll")]
         public static extern int InsertMenu(int hMenu, int uFlags, int Flagsw, int IDNewItem, string lpNewItem);
 
+        /// <summary>
+        /// 该函数在指定位置显示快捷菜单，并跟踪菜单项的选择
+        /// </summary>
+        [DllImport("user32.dll")]
+        public static extern int TrackPopupMenu(int hMenu, int uFlags, int x, int y, int nReserved, IntPtr hWnd, ref RECT rect);
+
         #endregion
 
         #region 窗体阴影

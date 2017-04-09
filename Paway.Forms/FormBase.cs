@@ -85,14 +85,22 @@ namespace Paway.Forms
         protected TMouseState _minState = TMouseState.Normal;
 
         /// <summary>
-        ///     记录窗体大小
+        ///     记录窗体Normal大小
         /// </summary>
-        protected Size _formSize = Size.Empty;
+        protected Size? _normalSize = null;
+        /// <summary>
+        ///     记录窗体Restore大小
+        /// </summary>
+        protected Size _restoreSize = Size.Empty;
 
         /// <summary>
-        ///     记录窗体位置
+        ///     记录窗体Normal位置
         /// </summary>
-        protected Point _formPoint = Point.Empty;
+        protected Point? _normalPoint = null;
+        /// <summary>
+        ///     记录窗体Restore位置
+        /// </summary>
+        protected Point _restorePoint = Point.Empty;
 
         /// <summary>
         ///     是否显示图标
@@ -130,6 +138,10 @@ namespace Paway.Forms
         #endregion
 
         #region 属性
+        /// <summary>
+        /// 记录上一次窗体状态，用于还原
+        /// </summary>
+        private FormWindowState lastState;
 
         /// <summary>
         ///     指定窗体窗口如何显示
@@ -140,14 +152,29 @@ namespace Paway.Forms
             get { return _windowState; }
             set
             {
-                FormWindowState old = base.WindowState;
+                lastState = base.WindowState;
+                switch (value)
+                {
+                    case FormWindowState.Minimized:
+                        _restoreSize = Size;
+                        _restorePoint = Location;
+                        break;
+                }
                 base.WindowState = value;
-                if (old == FormWindowState.Minimized) return;
+                ShowSysMenu();
+                switch (_windowState)
+                {
+                    case FormWindowState.Normal:
+                        Size = _normalSize ?? _restoreSize;
+                        Location = _normalPoint ?? _restorePoint;
+                        break;
+                }
+                if (lastState == FormWindowState.Minimized) return;
                 switch (_windowState)
                 {
                     case FormWindowState.Maximized:
-                        _formSize = Size;
-                        _formPoint = Location;
+                        _normalSize = Size;
+                        _normalPoint = Location;
                         Location = new Point(0, 0);
                         Width = Screen.PrimaryScreen.WorkingArea.Width;
                         Height = Screen.PrimaryScreen.WorkingArea.Height;
@@ -794,23 +821,7 @@ namespace Paway.Forms
                     WmNcHitTest(ref m);
                     break;
                 case 0x112:
-                    switch ((MenuType)m.WParam.ToInt32())
-                    {
-                        case MenuType.About:
-                            if (AboutEvent == null)
-                            {
-                                new AboutForm().ShowDialog(this);
-                            }
-                            else
-                            {
-                                AboutEvent(this, EventArgs.Empty);
-                            }
-                            break;
-                        case MenuType.Restore:
-                        case MenuType.MaxSize:
-                            WindowMax();
-                            break;
-                    }
+                    MenuClick((MenuType)m.WParam.ToInt32());
                     base.WndProc(ref m);
                     break;
                 default:
@@ -828,6 +839,40 @@ namespace Paway.Forms
                 }
             }
         }
+        private void MenuClick(MenuType type)
+        {
+            switch (type)
+            {
+                case MenuType.About:
+                    if (AboutEvent == null)
+                    {
+                        new AboutForm().ShowDialog(this);
+                    }
+                    else
+                    {
+                        AboutEvent(this, EventArgs.Empty);
+                    }
+                    break;
+                case (MenuType)(int)WindowStyle.SC_MAXIMIZE:
+                    WindowState = FormWindowState.Maximized;
+                    break;
+                case (MenuType)(int)WindowStyle.SC_MINIMIZE:
+                    WindowState = FormWindowState.Minimized;
+                    break;
+                case (MenuType)(int)WindowStyle.SC_RESTORE:
+                    WindowState = lastState;
+                    break;
+                case MenuType.Restore:
+                    WindowState = FormWindowState.Normal;
+                    break;
+                case MenuType.MaxSize:
+                    WindowState = FormWindowState.Maximized;
+                    break;
+                case (MenuType)(int)WindowStyle.SC_CLOSE:
+                    this.Close();
+                    break;
+            }
+        }
 
         private bool CloseContains(Point point)
         {
@@ -843,9 +888,19 @@ namespace Paway.Forms
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-            if (e.Button != MouseButtons.Left) return;
-
             var point = e.Location;
+            if (e.Button == MouseButtons.Right)
+            {
+                if (this.TitleBarRect.Contains(point) && !SysBtnRect.Contains(point))
+                {
+                    int menu = NativeMethods.GetSystemMenu(this.Handle, false);
+                    RECT rect = new RECT();
+                    var result = NativeMethods.TrackPopupMenu(menu, 0x0100, MousePosition.X, MousePosition.Y, 0, this.Handle, ref rect);
+                    MenuClick((MenuType)result);
+                }
+                return;
+            }
+
             if (CloseContains(point))
                 CloseState = TMouseState.Down;
             else if (MiniRect.Contains(point))
@@ -987,8 +1042,6 @@ namespace Paway.Forms
             if (WindowState == FormWindowState.Maximized)
             {
                 WindowState = FormWindowState.Normal;
-                Size = _formSize;
-                Location = _formPoint;
             }
             else
             {
@@ -1191,26 +1244,26 @@ namespace Paway.Forms
             NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_MOVE, 0x0);
             NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_SIZE, 0x0);
             NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_MAXIMIZE, 0x0);
+            NativeMethods.DeleteMenu(menu, (int)MenuType.About, 0);
+            NativeMethods.DeleteMenu(menu, (int)MenuType.None, 0);
+            NativeMethods.DeleteMenu(menu, (int)MenuType.Restore, 0);
+            NativeMethods.DeleteMenu(menu, (int)MenuType.MaxSize, 0);
             switch (_sysButton)
             {
                 //正常
                 case TSysButton.Normal:
-                    NativeMethods.DeleteMenu(menu, (int)MenuType.About, 0);
                     NativeMethods.InsertMenu(menu, (int)WindowStyle.SC_MINIMIZE, 0, (int)MenuType.About, "关于");
-                    NativeMethods.DeleteMenu(menu, (int)MenuType.Restore, 0);
+                    NativeMethods.InsertMenu(menu, (int)WindowStyle.SC_MINIMIZE, 0, (int)MenuType.None, null);
                     NativeMethods.InsertMenu(menu, (int)WindowStyle.SC_MINIMIZE, (this.WindowState == FormWindowState.Maximized) ? 0 : 2, (int)MenuType.Restore, "还原");
-                    NativeMethods.DeleteMenu(menu, (int)MenuType.MaxSize, 0);
                     NativeMethods.InsertMenu(menu, 0, (this.WindowState == FormWindowState.Maximized) ? 2 : 0, (int)MenuType.MaxSize, "最大化");
                     break;
                 //关闭按钮
                 case TSysButton.Close:
-                    NativeMethods.DeleteMenu(menu, (int)MenuType.About, 0);
                     NativeMethods.InsertMenu(menu, 0, 0, (int)MenuType.About, "关于");
                     NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_MINIMIZE, 0x0);
                     break;
                 //关闭按钮，最小化
                 case TSysButton.Close_Mini:
-                    NativeMethods.DeleteMenu(menu, (int)MenuType.About, 0);
                     NativeMethods.InsertMenu(menu, (int)WindowStyle.SC_MINIMIZE, 0, (int)MenuType.About, "关于");
                     break;
             }
