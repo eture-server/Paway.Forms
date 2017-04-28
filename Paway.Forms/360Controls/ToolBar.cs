@@ -952,20 +952,20 @@ namespace Paway.Forms
             lock (g)
                 g.FillRectangle(new SolidBrush(TranColor), temp);
 
-            //多线程处理(GDI是同一个，占用更多CPU，绘制效率有提升吗)
-            Parallel.For(0, Items.Count, (i) =>
-            {
-                DrawItem(g, Items[i]);
-            });
-            for (var i = 0; i < Items.Count; i++)
-            {
-                DrawItemAysc(g, Items[i]);
-            }
-            //for (var i = 0; i < Items.Count; i++)
+            ////多线程处理(GDI是同一个，占用更多CPU，绘制效率有提升吗)
+            //Parallel.For(0, Items.Count, (i) =>
             //{
             //    DrawItem(g, Items[i]);
+            //});
+            //for (var i = 0; i < Items.Count; i++)
+            //{
             //    DrawItemAysc(g, Items[i]);
             //}
+            for (var i = 0; i < Items.Count; i++)
+            {
+                DrawItem(g, Items[i]);
+                DrawItemAysc(g, Items[i]);
+            }
             if (_iAdd)
             {
                 AddItem(g);
