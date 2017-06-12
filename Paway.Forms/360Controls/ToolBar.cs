@@ -940,17 +940,13 @@ namespace Paway.Forms
         {
             base.OnPaint(e);
             var g = e.Graphics;
-            lock (g)
-                g.TranslateTransform(Offset.X, Offset.Y);
+            g.TranslateTransform(Offset.X, Offset.Y);
             //g.PixelOffsetMode = PixelOffsetMode.Half; //与AntiAlias作用相反
-            lock (g)
-                g.SmoothingMode = SmoothingMode.AntiAlias;
             var temp = g.VisibleClipBounds;
             //修理毛边
             temp = new RectangleF(temp.X - 1, temp.Y - 1, temp.Width + 2, temp.Height + 2);
             TranColor = TBackGround.ColorSpace;
-            lock (g)
-                g.FillRectangle(new SolidBrush(TranColor), temp);
+            g.FillRectangle(new SolidBrush(TranColor), temp);
 
             ////多线程处理(GDI是同一个，占用更多CPU，绘制效率有提升吗)
             //Parallel.For(0, Items.Count, (i) =>
@@ -1030,15 +1026,13 @@ namespace Paway.Forms
                     switch (_tDirection)
                     {
                         case TDirection.Level:
-                            lock (g)
-                                TextRenderer.DrawText(g, item.Text, item.TColor.FontNormal, temp, item.TColor.ColorNormal, item.TColor.TextFormat);
+                            TextRenderer.DrawText(g, item.Text, item.TColor.FontNormal, temp, item.TColor.ColorNormal, item.TColor.TextFormat);
                             break;
                         case TDirection.Vertical:
                             var color = item.TColor.ColorNormal;
                             if (color == Color.Empty) color = Color.Black;
-                            lock (g)
-                                g.DrawString(item.Text, item.TColor.FontNormal, new SolidBrush(color), temp,
-                                item.TColor.StringFormat);
+                            g.DrawString(item.Text, item.TColor.FontNormal, new SolidBrush(color), temp,
+                            item.TColor.StringFormat);
                             break;
                     }
                 }
@@ -1120,8 +1114,7 @@ namespace Paway.Forms
         private void DrawItem(Graphics g, ToolItem item)
         {
             RectangleF temp = RectangleF.Empty;
-            lock (g)
-                temp = RectangleF.Intersect(g.VisibleClipBounds, item.Rectangle);
+            temp = RectangleF.Intersect(g.VisibleClipBounds, item.Rectangle);
             if (temp != RectangleF.Empty)
             {
                 if (item.IHeard)
@@ -1187,8 +1180,7 @@ namespace Paway.Forms
                     if (TranColor == Color.Empty)
                     {
                         var temp = _normalImage ?? _normalImage2;
-                        lock (g) lock (temp)
-                                g.DrawImage(temp, item.Rectangle);
+                        g.DrawImage(temp, item.Rectangle);
                     }
                     else
                     {
@@ -1204,8 +1196,7 @@ namespace Paway.Forms
                     if (TranColor == Color.Empty)
                     {
                         var temp = _downImage ?? _downImage2;
-                        lock (g) lock (temp)
-                                g.DrawImage(temp, item.Rectangle);
+                        g.DrawImage(temp, item.Rectangle);
                     }
                     else
                     {
@@ -1214,8 +1205,7 @@ namespace Paway.Forms
                     Image image = _selectImage ?? _selectImage2;
                     if (_iMultiple && image != null)
                     {
-                        lock (g) lock (image)
-                                g.DrawImage(image, new Rectangle(item.Rectangle.Right - image.Width, item.Rectangle.Bottom - image.Height, image.Width, image.Height));
+                        g.DrawImage(image, new Rectangle(item.Rectangle.Right - image.Width, item.Rectangle.Bottom - image.Height, image.Width, image.Height));
                     }
                     break;
             }
@@ -1230,24 +1220,20 @@ namespace Paway.Forms
             if (radiu > 0)
             {
                 var path = DrawHelper.CreateRoundPath(item.Rectangle, radiu);
-                lock (g)
-                    g.FillPath(new SolidBrush(color), path);
+                g.FillPath(new SolidBrush(color), path);
                 if (_iItemLine)
                 {
-                    lock (g)
-                        g.DrawPath(new Pen(Color.FromArgb(Trans, 100, 100, 100)), path);
+                    g.DrawPath(new Pen(Color.FromArgb(Trans, 100, 100, 100)), path);
                 }
             }
             else
             {
-                lock (g)
-                    g.FillRectangle(new SolidBrush(color), item.Rectangle);
+                g.FillRectangle(new SolidBrush(color), item.Rectangle);
                 if (_iItemLine)
                 {
                     var rect = item.Rectangle;
                     rect = new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1);
-                    lock (g)
-                        g.DrawRectangle(new Pen(Color.FromArgb(Trans, 100, 100, 100)), rect);
+                    g.DrawRectangle(new Pen(Color.FromArgb(Trans, 100, 100, 100)), rect);
                 }
             }
         }
@@ -1261,8 +1247,7 @@ namespace Paway.Forms
             if (TranColor == Color.Empty)
             {
                 var temp = _moveImage ?? _moveImage2;
-                lock (g) lock (temp)
-                        g.DrawImage(temp, item.Rectangle);
+                g.DrawImage(temp, item.Rectangle);
             }
             else
             {
@@ -1293,8 +1278,7 @@ namespace Paway.Forms
                 }
                 imageRect.Size = _imageSizeShow;
                 item.ImageRect = imageRect;
-                lock (g) lock (item.Image)
-                        g.DrawImage(item.Image, imageRect);
+                g.DrawImage(item.Image, imageRect);
             }
         }
 
@@ -1479,14 +1463,12 @@ namespace Paway.Forms
             {
                 if (IText || item.IText)
                 {
-                    lock (g)
-                        g.DrawString(text, font, new SolidBrush(color), rect, desc.StringFormat);
+                    g.DrawString(text, font, new SolidBrush(color), rect, desc.StringFormat);
                 }
                 else
                 {
                     var temp = new Rectangle(rect.X + Offset.X, rect.Y + Offset.Y, rect.Width, rect.Height);
-                    lock (g)
-                        TextRenderer.DrawText(g, text, font, temp, color, desc.TextFormat);
+                    TextRenderer.DrawText(g, text, font, temp, color, desc.TextFormat);
                 }
                 return;
             }
@@ -1510,14 +1492,12 @@ namespace Paway.Forms
             if (color == Color.Empty) color = ForeColor;
             if (IText || item.IText)
             {
-                lock (g)
-                    g.DrawString(text, font, new SolidBrush(color), rect, desc.StringFormat);
+                g.DrawString(text, font, new SolidBrush(color), rect, desc.StringFormat);
             }
             else
             {
                 var temp = new Rectangle(rect.X + Offset.X, rect.Y + Offset.Y, rect.Width, rect.Height);
-                lock (g)
-                    TextRenderer.DrawText(g, text, font, temp, color, desc.TextFormat);
+                TextRenderer.DrawText(g, text, font, temp, color, desc.TextFormat);
             }
         }
 
@@ -1822,8 +1802,8 @@ namespace Paway.Forms
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
-            if (e.Button != MouseButtons.Left) return;
             if (DesignMode) return;
+            if (e.Button != MouseButtons.Left) return;
 
             var point = e.Location;
             point.X -= Offset.X;

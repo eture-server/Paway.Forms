@@ -288,7 +288,7 @@ namespace Paway.Forms
             this.lblPageInfo.Location = new System.Drawing.Point(366, 8);
             this.lblPageInfo.Name = "lblPageInfo";
             this.lblPageInfo.Size = new System.Drawing.Size(220, 14);
-            this.lblPageInfo.TabIndex = 0;
+            this.lblPageInfo.TabIndex = 16;
             this.lblPageInfo.Text = "共 {0} 条记录，每页 {1} 条，共 {2} 页";
             // 
             // txtCurrentPage
@@ -304,7 +304,7 @@ namespace Paway.Forms
             this.txtCurrentPage.Name = "txtCurrentPage";
             this.txtCurrentPage.SelectedText = "";
             this.txtCurrentPage.Size = new System.Drawing.Size(43, 25);
-            this.txtCurrentPage.TabIndex = 1;
+            this.txtCurrentPage.TabIndex = 13;
             this.txtCurrentPage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // toolLast
@@ -319,7 +319,7 @@ namespace Paway.Forms
             this.toolLast.Name = "toolLast";
             this.toolLast.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.toolLast.Size = new System.Drawing.Size(30, 28);
-            this.toolLast.TabIndex = 44;
+            this.toolLast.TabIndex = 15;
             this.toolLast.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
             this.toolLast.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
             this.toolLast.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
@@ -344,7 +344,7 @@ namespace Paway.Forms
             this.toolNext.Name = "toolNext";
             this.toolNext.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.toolNext.Size = new System.Drawing.Size(30, 28);
-            this.toolNext.TabIndex = 45;
+            this.toolNext.TabIndex = 14;
             this.toolNext.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
             this.toolNext.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
             this.toolNext.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
@@ -369,7 +369,7 @@ namespace Paway.Forms
             this.toolPrevious.Name = "toolPrevious";
             this.toolPrevious.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.toolPrevious.Size = new System.Drawing.Size(30, 28);
-            this.toolPrevious.TabIndex = 46;
+            this.toolPrevious.TabIndex = 12;
             this.toolPrevious.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
             this.toolPrevious.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
             this.toolPrevious.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
@@ -394,7 +394,7 @@ namespace Paway.Forms
             this.toolFirst.Name = "toolFirst";
             this.toolFirst.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.toolFirst.Size = new System.Drawing.Size(30, 28);
-            this.toolFirst.TabIndex = 47;
+            this.toolFirst.TabIndex = 11;
             this.toolFirst.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
             this.toolFirst.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
             this.toolFirst.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
