@@ -87,20 +87,20 @@ namespace Paway.Forms
         /// <summary>
         ///     记录窗体Normal大小
         /// </summary>
-        protected Size? _normalSize = null;
+        protected Size? _normalSize;
         /// <summary>
         ///     记录窗体Restore大小
         /// </summary>
-        protected Size _restoreSize = Size.Empty;
+        protected Size? _restoreSize;
 
         /// <summary>
         ///     记录窗体Normal位置
         /// </summary>
-        protected Point? _normalPoint = null;
+        protected Point? _normalPoint;
         /// <summary>
         ///     记录窗体Restore位置
         /// </summary>
-        protected Point _restorePoint = Point.Empty;
+        protected Point? _restorePoint;
 
         /// <summary>
         ///     是否显示图标
@@ -152,7 +152,9 @@ namespace Paway.Forms
             get { return _windowState; }
             set
             {
-                lastState = base.WindowState;
+                bool iSame = base.WindowState == value;
+                if (!iSame)
+                    lastState = base.WindowState;
                 switch (value)
                 {
                     case FormWindowState.Minimized:
@@ -161,12 +163,13 @@ namespace Paway.Forms
                         break;
                 }
                 base.WindowState = value;
+                if (iSame) return;
                 ShowSysMenu();
                 switch (_windowState)
                 {
                     case FormWindowState.Normal:
-                        Size = _normalSize ?? _restoreSize;
-                        Location = _normalPoint ?? _restorePoint;
+                        Size = _normalSize ?? _restoreSize ?? Size;
+                        Location = _normalPoint ?? _restorePoint ?? Location;
                         break;
                 }
                 if (lastState == FormWindowState.Minimized) return;
@@ -175,9 +178,8 @@ namespace Paway.Forms
                     case FormWindowState.Maximized:
                         _normalSize = Size;
                         _normalPoint = Location;
-                        Location = new Point(0, 0);
-                        Width = Screen.PrimaryScreen.WorkingArea.Width;
-                        Height = Screen.PrimaryScreen.WorkingArea.Height;
+                        Size = Screen.PrimaryScreen.WorkingArea.Size;
+                        Location = Point.Empty;
                         break;
                 }
             }
@@ -821,8 +823,9 @@ namespace Paway.Forms
                     WmNcHitTest(ref m);
                     break;
                 case 0x112:
-                    MenuClick((MenuType)m.WParam.ToInt32());
-                    base.WndProc(ref m);
+                    //过滤窗体重复消息
+                    if (!MenuClick((MenuType)m.WParam.ToInt32()))
+                        base.WndProc(ref m);
                     break;
                 default:
                     base.WndProc(ref m);
@@ -839,7 +842,7 @@ namespace Paway.Forms
                 }
             }
         }
-        private void MenuClick(MenuType type)
+        private bool MenuClick(MenuType type)
         {
             switch (type)
             {
@@ -860,7 +863,10 @@ namespace Paway.Forms
                     WindowState = FormWindowState.Minimized;
                     break;
                 case (MenuType)(int)WindowStyle.SC_RESTORE:
-                    WindowState = lastState;
+                    if (WindowState != FormWindowState.Minimized)
+                        WindowState = WindowState;
+                    else
+                        WindowState = lastState;
                     break;
                 case MenuType.Restore:
                     WindowState = FormWindowState.Normal;
@@ -871,7 +877,9 @@ namespace Paway.Forms
                 case (MenuType)(int)WindowStyle.SC_CLOSE:
                     this.Close();
                     break;
+                default: return false;
             }
+            return true;
         }
 
         private bool CloseContains(Point point)

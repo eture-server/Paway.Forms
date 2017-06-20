@@ -65,6 +65,7 @@ namespace Paway.Forms
                 switch (_windowState)
                 {
                     case FormWindowState.Normal:
+                    case FormWindowState.Maximized:
                         base.WindowState = FormWindowState.Normal;
                         break;
                     case FormWindowState.Minimized:
