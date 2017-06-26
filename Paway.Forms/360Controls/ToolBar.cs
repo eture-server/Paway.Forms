@@ -239,10 +239,12 @@ namespace Paway.Forms
                 if (_hScroll != null)
                 {
                     _hScroll.Height = value;
+                    panelScroll.Height = value;
                 }
                 if (_vScroll != null)
                 {
                     _vScroll.Width = value;
+                    panelScroll.Width = value;
                 }
                 TRefresh();
             }
@@ -463,6 +465,8 @@ namespace Paway.Forms
             {
                 _tDirection = value;
                 TRefresh();
+                //重新刷新一次
+                TRefresh();
             }
         }
 
@@ -530,6 +534,7 @@ namespace Paway.Forms
                 _vScroll.Visible = false;
                 _hScroll.Visible = false;
                 _vScroll2.Visible = false;
+                panelScroll.Visible = false;
                 TPaint();
                 UpdateImageSize();
                 UpdateScroll();
@@ -2078,13 +2083,27 @@ namespace Paway.Forms
         {
             FixScroll(0);
         }
-
         /// <summary>
         ///     刷新控件到指定位置
         /// </summary>
         public void TStart(int value)
         {
             FixScroll(IHaveScroll ? value : 0);
+        }
+        /// <summary>
+        ///     刷新控件到尾部
+        /// </summary>
+        public void TEnd()
+        {
+            switch (TDirection)
+            {
+                case TDirection.Level:
+                    FixScroll(_vScroll.Maximum);
+                    break;
+                case TDirection.Vertical:
+                    FixScroll(_vScroll2.Maximum);
+                    break;
+            }
         }
 
         /// <summary>
@@ -2141,6 +2160,7 @@ namespace Paway.Forms
             _vScroll.Visible = false;
             _hScroll.Visible = false;
             _vScroll2.Visible = false;
+            panelScroll.Visible = false;
             TPaint();
             UpdateScroll();
             Invalidate(ClientRectangle);
@@ -2321,6 +2341,10 @@ namespace Paway.Forms
 
         #region 滚动条
         /// <summary>
+        /// 滚动条外框
+        /// </summary>
+        private TControl panelScroll;
+        /// <summary>
         ///     垂直滚动条
         /// </summary>
         private VScrollBar _vScroll;
@@ -2425,11 +2449,14 @@ namespace Paway.Forms
         /// </summary>
         private void CustomScroll()
         {
+            panelScroll = new TControl();
+            Controls.Add(panelScroll);
+
             _hScroll = new HScrollBar();
             _hScroll.Scroll += _hScroll_Scroll;
-            _hScroll.Dock = DockStyle.Bottom;
-            _hScroll.Height = _tScrollHeight;
-            Controls.Add(_hScroll);
+            //_hScroll.Dock = DockStyle.Bottom;
+            //_hScroll.Height = _tScrollHeight;
+            panelScroll.Controls.Add(_hScroll);
             {
                 _vScroll2 = new VScrollBar();
                 //_vScroll2.Scroll += _hScroll_Scroll;
@@ -2440,13 +2467,14 @@ namespace Paway.Forms
 
             _vScroll = new VScrollBar();
             _vScroll.Scroll += _vScroll_Scroll;
-            _vScroll.Dock = DockStyle.Right;
-            _vScroll.Width = _tScrollHeight;
-            Controls.Add(_vScroll);
+            //_vScroll.Dock = DockStyle.Right;
+            //_vScroll.Width = _tScrollHeight;
+            panelScroll.Controls.Add(_vScroll);
 
-            _hScroll.Visible = false;
             _vScroll.Visible = false;
+            _hScroll.Visible = false;
             _vScroll2.Visible = false;
+            panelScroll.Visible = false;
         }
 
         /// <summary>
@@ -2519,6 +2547,7 @@ namespace Paway.Forms
             _vScroll.Visible = false;
             _hScroll.Visible = false;
             _vScroll2.Visible = false;
+            panelScroll.Visible = false;
             TPaint();
             UpdateScroll();
         }
@@ -2532,6 +2561,7 @@ namespace Paway.Forms
             _vScroll.Visible = false;
             _hScroll.Visible = false;
             _vScroll2.Visible = false;
+            panelScroll.Visible = false;
             iScrollHide = false;
             switch (TDirection)
             {
@@ -2541,6 +2571,11 @@ namespace Paway.Forms
                     {
                         iScrollHide = true;
                         _vScroll.Visible = _iScroll;
+                        panelScroll.Width = _tScrollHeight;
+                        panelScroll.Dock = DockStyle.Right;
+                        _vScroll.Size = new Size(panelScroll.Width, panelScroll.Height + 17 * 2 + 1);
+                        _vScroll.Location = new Point(0, -17);
+                        panelScroll.Visible = _iScroll;
                     }
                     else if (_vScroll.Value >= 0)
                     {
@@ -2554,6 +2589,11 @@ namespace Paway.Forms
                         iScrollHide = true;
                         _hScroll.Visible = _iScroll;
                         _vScroll2.Visible = _iScroll;
+                        panelScroll.Height = _tScrollHeight;
+                        panelScroll.Dock = DockStyle.Bottom;
+                        _hScroll.Size = new Size(panelScroll.Width + 17 * 2 + 1, panelScroll.Height);
+                        _hScroll.Location = new Point(-17, 0);
+                        panelScroll.Visible = _iScroll;
                     }
                     else if (_vScroll2.Value >= 0)
                     {
@@ -2581,7 +2621,8 @@ namespace Paway.Forms
                         _vScroll.Maximum = max + _vScroll.LargeChange;
 
                         valid = !valid | toLast & toValid;
-                        FixScroll(toLast ? _vScroll.Maximum : 0, valid);
+                        if (toLast)
+                            FixScroll(_vScroll.Maximum, valid);
                         break;
                     case TDirection.Vertical:
                         max = GetWidth() - Width;
@@ -2599,7 +2640,8 @@ namespace Paway.Forms
                             _hScroll.Maximum = _vScroll2.Maximum;
                         }
                         valid = !valid | toLast & toValid;
-                        FixScroll(toLast ? _vScroll2.Maximum : 0, valid);
+                        if (toLast)
+                            FixScroll(_vScroll2.Maximum, valid);
                         break;
                 }
             }
