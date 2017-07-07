@@ -465,8 +465,6 @@ namespace Paway.Forms
             {
                 _tDirection = value;
                 TRefresh();
-                //重新刷新一次
-                TRefresh();
             }
         }
 
@@ -2573,9 +2571,9 @@ namespace Paway.Forms
                         _vScroll.Visible = _iScroll;
                         panelScroll.Width = _tScrollHeight;
                         panelScroll.Dock = DockStyle.Right;
+                        panelScroll.Visible = _iScroll;
                         _vScroll.Size = new Size(panelScroll.Width, panelScroll.Height + 17 * 2 + 1);
                         _vScroll.Location = new Point(0, -17);
-                        panelScroll.Visible = _iScroll;
                     }
                     else if (_vScroll.Value >= 0)
                     {
@@ -2591,9 +2589,9 @@ namespace Paway.Forms
                         _vScroll2.Visible = _iScroll;
                         panelScroll.Height = _tScrollHeight;
                         panelScroll.Dock = DockStyle.Bottom;
+                        panelScroll.Visible = _iScroll;
                         _hScroll.Size = new Size(panelScroll.Width + 17 * 2 + 1, panelScroll.Height);
                         _hScroll.Location = new Point(-17, 0);
-                        panelScroll.Visible = _iScroll;
                     }
                     else if (_vScroll2.Value >= 0)
                     {
