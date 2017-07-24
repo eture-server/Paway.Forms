@@ -1038,7 +1038,7 @@ namespace Paway.Helper
         public static bool ISort(this PropertyInfo pro)
         {
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            return list.Length == 0 || list[0].Sort;
+            return list.Length == 1 && list[0].Sort;
         }
         private static bool IsClone(this PropertyInfo pro)
         {
@@ -1415,9 +1415,45 @@ namespace Paway.Helper
             }
             else if (pro.PropertyType == typeof(string))
             {
-                return (obj1.ToString2()).CompareTo(obj2.ToString2());
+                return obj1.TCompare(obj2);
             }
-            else return 0;
+            else if (pro.PropertyType.IsEnum)
+            {
+                Type type = pro.PropertyType.GetEnumUnderlyingType();
+                if (type == typeof(byte))
+                {
+                    return ((byte)obj1).CompareTo((byte)obj2);
+                }
+                else if (type == typeof(sbyte))
+                {
+                    return ((sbyte)obj1).CompareTo((sbyte)obj2);
+                }
+                else if (type == typeof(short))
+                {
+                    return ((short)obj1).CompareTo((short)obj2);
+                }
+                else if (type == typeof(ushort))
+                {
+                    return ((ushort)obj1).CompareTo((ushort)obj2);
+                }
+                else if (type == typeof(int))
+                {
+                    return ((int)obj1).CompareTo((int)obj2);
+                }
+                else if (type == typeof(uint))
+                {
+                    return ((uint)obj1).CompareTo((uint)obj2);
+                }
+                else if (type == typeof(long))
+                {
+                    return ((long)obj1).CompareTo((long)obj2);
+                }
+                else if (type == typeof(ulong))
+                {
+                    return ((ulong)obj1).CompareTo((ulong)obj2);
+                }
+            }
+            return 0;
         }
 
         #endregion

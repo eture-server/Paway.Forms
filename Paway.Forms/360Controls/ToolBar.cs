@@ -1939,7 +1939,7 @@ namespace Paway.Forms
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("{0} - Tinn&a", this.Name);
+            return string.Format("{0} - {1}", this.Name, TConfig.Name);
         }
 
         #endregion
@@ -2093,6 +2093,7 @@ namespace Paway.Forms
         /// </summary>
         public void TEnd()
         {
+            if (!IHaveScroll) return;
             switch (TDirection)
             {
                 case TDirection.Level:

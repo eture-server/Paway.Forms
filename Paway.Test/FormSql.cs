@@ -19,7 +19,8 @@ namespace Paway.Test
 {
     public partial class FormSql : QQDemo
     {
-        DataService service = new DataService();
+        SqlDataService service = new SqlDataService();
+        SerDataService service2 = new SerDataService();
         List<TestData> list = new List<TestData>();
 
         public FormSql()
@@ -128,10 +129,10 @@ namespace Paway.Test
             }
         }
     }
-    public class DataService : SqlHelper //MySqlHelper//SqlHelper//SQLiteHelper
+    public class SqlDataService : SqlHelper //MySqlHelper//SqlHelper//SQLiteHelper
     {
         public const string dbName = "paway.db";
-        public DataService()
+        public SqlDataService()
         {
             //string path = AppDomain.CurrentDomain.BaseDirectory;
             //string file = Path.Combine(path, dbName);
@@ -149,6 +150,14 @@ namespace Paway.Test
             //base.InitConnect("127.0.0.1", "Test", "root", "mobot");//MySqlHelper
             base.InitConnect("(local)", "Test", "mobot", "mobot");//SqlHelper
             //base.InitConnect("ConnectionString");//SqlHelper
+        }
+    }
+    public class SerDataService : SqlHelper
+    {
+        private object syncLock = new object();
+        public SerDataService()
+        {
+            base.InitConnect(@"(local)\SQLEXPRESS", "DiningLC", "mobot", "mobot");
         }
     }
 

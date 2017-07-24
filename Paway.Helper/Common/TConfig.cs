@@ -11,14 +11,9 @@ namespace Paway.Helper
     public abstract class TConfig
     {
         #region 一些常量
-
         /// <summary>
         /// </summary>
-        public const string Name = "Tinn&a";
-
-        /// <summary>
-        /// </summary>
-        public const string QQ = "9030140";
+        public const string Name = "Tinn";
 
         #endregion
 

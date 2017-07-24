@@ -72,12 +72,17 @@ namespace Paway.Test
                 WaitDrawDataGridViewData dti = new WaitDrawDataGridViewData
                 {
                     StatuImage = BitmapHelper.GetBitmapFormFile(string.Format("{0}\\{1}.png", path, i % 3)),
-                    Device = "Device" + i,
                     Product = "Product" + (!b ? 1 : 2),
                     AppName = "AppName" + (!a ? 1 : (!b ? 2 : (!c ? 3 : 4))),
                     Index = i,
                     Progress = i,
                 };
+                switch (i % 3)
+                {
+                    case 0: dti.Device = DeviceType.Carte; break;
+                    case 1: dti.Device = DeviceType.Delete; break;
+                    case 2: dti.Device = DeviceType.Checkout; break;
+                }
                 list.Add(dti);
             }
             tDataGridViewPager1.DataSource = list;
@@ -156,7 +161,7 @@ namespace Paway.Test
 
         public Image StatuImage { get; set; }
 
-        public string Device { get; set; }
+        public DeviceType Device { get; set; }
 
         public string Product { get; set; }
 
@@ -191,5 +196,13 @@ namespace Paway.Test
         public long ProSize { get; set; }
 
         public long Price { get; set; }
+    }
+    public enum DeviceType
+    {
+        None,
+        Carte,
+        Delete,
+        Checkout,
+        Query,
     }
 }

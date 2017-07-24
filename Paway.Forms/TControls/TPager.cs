@@ -311,6 +311,7 @@ namespace Paway.Forms
             // 
             this.toolLast.ICheckEvent = true;
             this.toolLast.ImageSize = new System.Drawing.Size(0, 0);
+            toolItem1.Hit = "End";
             toolItem1.Text = ">|";
             this.toolLast.Items.Add(toolItem1);
             this.toolLast.ItemSize = new System.Drawing.Size(30, 24);
@@ -336,6 +337,7 @@ namespace Paway.Forms
             // 
             this.toolNext.ICheckEvent = true;
             this.toolNext.ImageSize = new System.Drawing.Size(0, 0);
+            toolItem2.Hit = "Next";
             toolItem2.Text = ">";
             this.toolNext.Items.Add(toolItem2);
             this.toolNext.ItemSize = new System.Drawing.Size(30, 24);
@@ -361,6 +363,7 @@ namespace Paway.Forms
             // 
             this.toolPrevious.ICheckEvent = true;
             this.toolPrevious.ImageSize = new System.Drawing.Size(0, 0);
+            toolItem3.Hit = "Last";
             toolItem3.Text = "<";
             this.toolPrevious.Items.Add(toolItem3);
             this.toolPrevious.ItemSize = new System.Drawing.Size(30, 24);
@@ -386,6 +389,7 @@ namespace Paway.Forms
             // 
             this.toolFirst.ICheckEvent = true;
             this.toolFirst.ImageSize = new System.Drawing.Size(0, 0);
+            toolItem4.Hit = "First";
             toolItem4.Text = "|<";
             this.toolFirst.Items.Add(toolItem4);
             this.toolFirst.ItemSize = new System.Drawing.Size(30, 24);

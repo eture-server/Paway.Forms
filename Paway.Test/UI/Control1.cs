@@ -32,7 +32,7 @@ namespace Paway.Test.UI
         protected void WaitDrawDataGridView()
         {
             BindingList<WaitDrawDataGridViewData> list = new BindingList<WaitDrawDataGridViewData>();
-            tDataGridViewPager1.DataSource = new WaitDrawDataGridViewData() { Device = "正在加载" };
+            tDataGridViewPager1.DataSource = new WaitDrawDataGridViewData() { Device = DeviceType.Query };
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "image");
             for (int i = 0; i < 100; i++)
             {
@@ -44,7 +44,7 @@ namespace Paway.Test.UI
                 WaitDrawDataGridViewData dti = new WaitDrawDataGridViewData
                 {
                     StatuImage = BitmapHelper.GetBitmapFormFile(string.Format("{0}\\{1}.png", path, index)),
-                    Device = "Device" + i,
+                    Device = DeviceType.Query,
                     Product = "Product" + (!b ? 1 : 2),
                     AppName = "AppName" + (!a ? 1 : (!b ? 2 : (!c ? 3 : 4))),
                     Index = i,

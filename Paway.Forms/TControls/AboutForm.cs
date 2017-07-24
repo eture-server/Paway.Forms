@@ -22,7 +22,7 @@ namespace Paway.Forms
             this.TMouseMove(lbCopyright);
             //输出软件名称和版本号
             var assembly = Assembly.GetExecutingAssembly();
-            lbDesc.Text = "宁波欢迎您";
+            lbDesc.Text = "Welcome";
         }
 
         /// <summary>
