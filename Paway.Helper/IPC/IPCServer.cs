@@ -19,7 +19,7 @@ namespace Paway.Helper
         /// <summary>
         ///     服务状态
         /// </summary>
-        public bool IsBusy { get; private set; }
+        public bool IBusy { get; private set; }
 
         /// <summary>
         ///     启动
@@ -46,7 +46,7 @@ namespace Paway.Helper
             // 向信道暴露一个远程对象.
             var type = MethodBase.GetCurrentMethod().DeclaringType;
             RemotingConfiguration.RegisterWellKnownServiceType(typeof(T), "IPCObject", mode);
-            IsBusy = true;
+            IBusy = true;
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Paway.Helper
                 serverChannel.StopListening(null);
                 serverChannel = null;
             }
-            IsBusy = false;
+            IBusy = false;
         }
 
         #region Dispose

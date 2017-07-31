@@ -7,25 +7,11 @@ namespace Paway.Win32
     /// </summary>
     public class MouseEventExtArgs : MouseEventArgs
     {
-        #region 变量
-
-        /// <summary>
-        ///     如果为 true 防止进一步的处理其他应用程序事件。
-        /// </summary>
-        private bool _handled;
-
-        #endregion
-
         #region 属性
-
         /// <summary>
         ///     如果为 true 防止进一步的处理其他应用程序事件。
         /// </summary>
-        public bool Handled
-        {
-            get { return _handled; }
-            set { _handled = value; }
-        }
+        public bool Handled { get; set; }
 
         #endregion
 

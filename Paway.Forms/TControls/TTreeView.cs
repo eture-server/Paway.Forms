@@ -84,6 +84,7 @@ namespace Paway.Forms
         /// <summary>
         /// 正在排序
         /// </summary>
+        [Browsable(false), Description("正在排序"), DefaultValue(false)]
         public bool Checking { get; set; }
 
         private Color _select = Color.FromArgb(200, 207, 227, 253);
@@ -237,18 +238,17 @@ namespace Paway.Forms
             set { _id = value; }
         }
 
-        private bool _autoWidth = true;
-
+        private bool _iAutoWidth = true;
         /// <summary>
         ///     自动调整宽度至整行
         /// </summary>
         [Browsable(true), Description("自动调整宽度至整行"), DefaultValue(true)]
-        public bool TAutoWidth
+        public bool IAutoWidth
         {
-            get { return _autoWidth; }
+            get { return _iAutoWidth; }
             set
             {
-                _autoWidth = value;
+                _iAutoWidth = value;
                 if (_dataSource == null || TId == null || TParentId == null) return;
                 var type = _dataSource.GetType();
                 if (_dataSource is IList)
@@ -293,6 +293,17 @@ namespace Paway.Forms
                     _items = new TreeItemCollection(this);
                 return _items;
             }
+        }
+
+        private bool _iTree = true;
+        /// <summary>
+        ///     普通树显示
+        /// </summary>
+        [Browsable(true), Description("普通树显示"), DefaultValue(true)]
+        public bool ITree
+        {
+            get { return _iTree; }
+            set { _iTree = value; }
         }
 
         #endregion
@@ -591,7 +602,7 @@ namespace Paway.Forms
                     }
                 }
             }
-            if (TAutoWidth)
+            if (_iAutoWidth)
             {
                 var total = 0;
                 for (var i = 0; i < Items.Count; i++)
@@ -705,8 +716,7 @@ namespace Paway.Forms
                         continue;
                     var irect = new Rectangle(
                         rect.X + left, rect.Y,
-                        _items[i].Width + (i == 0 ? x - rect.X : 0), rect.Height
-                        );
+                        _items[i].Width + (i == 0 && !_iTree ? x - rect.X : 0), rect.Height);
                     left += irect.Width;
                     if (_items[i].Type == TreeItemType.Text)
                     {
@@ -769,10 +779,14 @@ namespace Paway.Forms
                 var bitmap = obj as Bitmap;
                 if (bitmap != null)
                 {
-                    irect.X += (irect.Width - bitmap.Width) / 2;
-                    irect.Y += (irect.Height - bitmap.Height) / 2;
-                    irect.Width = bitmap.Width;
-                    irect.Height = bitmap.Height;
+                    double w1 = irect.Width * 1.0 / bitmap.Width;
+                    double h1 = irect.Height * 1.0 / bitmap.Height;
+                    double wh = Math.Min(w1, h1);
+                    if (wh > 1) irect.X += 1;
+                    irect.Width = (int)(bitmap.Width * wh);
+                    int height = irect.Height;
+                    irect.Height = (int)(bitmap.Height * wh);
+                    irect.Y += (height - irect.Height) / 2;
                     g.DrawImage(bitmap, irect);
                 }
             }

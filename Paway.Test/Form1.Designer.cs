@@ -244,7 +244,7 @@
             this.qqTextBox1.BackColor = System.Drawing.Color.White;
             this.qqTextBox1.ForeColor = System.Drawing.SystemColors.WindowText;
             this.qqTextBox1.Icon = null;
-            this.qqTextBox1.IsBorder = false;
+            this.qqTextBox1.IBorder = false;
             this.qqTextBox1.IsPasswordChat = '\0';
             this.qqTextBox1.Lines = new string[] {
         "qqTextBox1"};

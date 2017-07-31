@@ -164,7 +164,6 @@ namespace Paway.Forms
         public ContextMenuStrip ContextMenuStrip { get; set; }
 
         private bool _enable = true;
-
         /// <summary>
         ///     Item 当前启用状态
         /// </summary>

@@ -28,7 +28,7 @@ namespace Paway.Forms
         /// </summary>
         public TForm()
         {
-            TFixedBackground = false;
+            IFixedBackground = false;
             ISpecial = false;
             SetStyle(
                 ControlStyles.UserPaint |
@@ -130,7 +130,6 @@ namespace Paway.Forms
         public bool ISpecial { get; set; }
 
         private bool _iShadow = true;
-
         /// <summary>
         ///     是否启用窗体阴影
         /// </summary>
@@ -164,7 +163,7 @@ namespace Paway.Forms
         ///     固定窗体背景
         /// </summary>
         [Category("Appearance"), Description("固定窗体背景"), DefaultValue(false)]
-        public bool TFixedBackground { get; set; }
+        public bool IFixedBackground { get; set; }
 
         /// <summary>
         ///     处理滚动条事件
@@ -172,7 +171,7 @@ namespace Paway.Forms
         /// <param name="se"></param>
         protected override void OnScroll(ScrollEventArgs se)
         {
-            if (!IsDisposed && TFixedBackground)
+            if (!IsDisposed && IFixedBackground)
             {
                 // 执行固定背景的操作
                 if (se.Type == ScrollEventType.ThumbTrack)
@@ -201,7 +200,7 @@ namespace Paway.Forms
         /// <param name="e"></param>
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            if (!IsDisposed && TFixedBackground)
+            if (!IsDisposed && IFixedBackground)
             {
                 NativeMethods.LockWindowUpdate(Handle);
                 base.OnMouseWheel(e);
@@ -279,7 +278,6 @@ namespace Paway.Forms
         }
 
         private bool _iMousemove = true;
-
         /// <summary>
         ///     移动窗体
         /// </summary>

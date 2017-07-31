@@ -58,6 +58,7 @@ namespace Paway.Test
                     Name = "Name" + i,
                     Custom = "Custom" + i,
                     Value = "Value" + i,
+                    Statu = BitmapHelper.GetBitmapFormFile(string.Format("{0}\\{1}.png", path, i)),
                 };
                 list.Add(tda);
                 for (int j = 10; j < 14; j++)

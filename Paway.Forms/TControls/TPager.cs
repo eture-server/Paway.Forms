@@ -94,12 +94,12 @@ namespace Paway.Forms
 
         private void txtCurrentPage_LostFocus(object sender, EventArgs e)
         {
-            txtCurrentPage.IsTrans = true;
+            txtCurrentPage.ITrans = true;
         }
 
         private void txtCurrentPage_GotFocus(object sender, EventArgs e)
         {
-            txtCurrentPage.IsTrans = false;
+            txtCurrentPage.ITrans = false;
         }
 
         #endregion
@@ -296,7 +296,7 @@ namespace Paway.Forms
             this.txtCurrentPage.ForeColor = System.Drawing.Color.Black;
             this.txtCurrentPage.Icon = null;
             this.txtCurrentPage.IsPasswordChat = '\0';
-            this.txtCurrentPage.IsTrans = true;
+            this.txtCurrentPage.ITrans = true;
             this.txtCurrentPage.Lines = new string[] {
         "1"};
             this.txtCurrentPage.Location = new System.Drawing.Point(80, 4);

@@ -38,7 +38,7 @@ namespace Paway.Utils.Tcp
         {
             if (e != null && e.SocketError == SocketError.Success)
             {
-                IsConnected = true;
+                IConnected = true;
                 //启动发送数据线程
                 SendDataService = new SendDataService(this);
 

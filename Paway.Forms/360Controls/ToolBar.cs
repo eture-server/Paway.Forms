@@ -298,7 +298,6 @@ namespace Paway.Forms
         public bool IShowTop { get { return _iShowTop; } set { _iShowTop = value; } }
 
         private bool _iText;
-
         /// <summary>
         ///     显示为文本内容
         /// </summary>
@@ -318,9 +317,7 @@ namespace Paway.Forms
         /// </summary>
         [Description("普通项，不响应鼠标绘制"), DefaultValue(false)]
         public bool INormal { get; set; }
-
         private bool _iItemLine;
-
         /// <summary>
         ///     绘制边框线开关
         /// </summary>
@@ -339,7 +336,6 @@ namespace Paway.Forms
         ///     补充整行\列
         /// </summary>
         private bool _iAdd;
-
         /// <summary>
         ///     补充整行\列
         /// </summary>
@@ -358,24 +354,13 @@ namespace Paway.Forms
         ///     单击事件开关
         ///     单击松开后取消选中状态，只有鼠标移入状态
         /// </summary>
-        private bool _iCheckEvent;
-
-        /// <summary>
-        ///     单击事件开关
-        ///     单击松开后取消选中状态，只有鼠标移入状态
-        /// </summary>
         [Description("单击事件开关"), DefaultValue(false)]
-        public bool ICheckEvent
-        {
-            get { return _iCheckEvent; }
-            set { _iCheckEvent = value; }
-        }
+        public bool ICheckEvent { get; set; }
 
         /// <summary>
         ///     图片显示开关
         /// </summary>
         private bool _iImageShow;
-
         /// <summary>
         ///     图片显示开关
         /// </summary>
@@ -395,7 +380,6 @@ namespace Paway.Forms
         ///     多选开关
         /// </summary>
         private bool _iMultiple;
-
         /// <summary>
         ///     多选开关
         /// </summary>
@@ -864,7 +848,7 @@ namespace Paway.Forms
         public virtual void OnItemClick(ToolItem item, EventArgs e)
         {
             if (!item.Enable) return;
-            if (_iCheckEvent)
+            if (ICheckEvent)
             {
                 var handler = Events[EventItemClick] as EventHandler;
                 if (handler != null)
@@ -1065,7 +1049,7 @@ namespace Paway.Forms
             if (_iAutoWidth)
             {
                 Graphics g = this.CreateGraphics();
-                if (IText || item.IText)
+                if (_iText || item.IText)
                 {
                     SizeF size1 = g.MeasureString(item.Text, TextFirst.FontNormal, item.Rectangle.Size);
                     item.Rectangle = new Rectangle(item.Rectangle.X, item.Rectangle.Y, size1.Width.ToInt() + 1 + _textPading.Left + _textPading.Right, item.Rectangle.Height);
@@ -1383,7 +1367,7 @@ namespace Paway.Forms
                     var size = TextRenderer.MeasureText(item.Desc, GetFont(item.IMouseState, TDesc));
                     textRect.Width -= size.Width;
                 }
-                if (IText || item.IText)
+                if (_iText || item.IText)
                 {
                     var rect = new Rectangle(textRect.X, textRect.Y + headHeight, textRect.Width,
                         textRect.Height - headHeight - endHeight);
@@ -1494,7 +1478,7 @@ namespace Paway.Forms
 
             if (!item.Enable)
             {
-                if (IText || item.IText)
+                if (_iText || item.IText)
                 {
                     g.DrawString(text, font, new SolidBrush(color), rect, desc.StringFormat);
                 }
@@ -1523,7 +1507,7 @@ namespace Paway.Forms
                     break;
             }
             if (color == Color.Empty) color = ForeColor;
-            if (IText || item.IText)
+            if (_iText || item.IText)
             {
                 g.DrawString(text, font, new SolidBrush(color), rect, desc.StringFormat);
             }
@@ -1684,13 +1668,13 @@ namespace Paway.Forms
                             InvaRectDesc(item, TMouseState.Move);
                         }
                     }
-                    if (_iCheckEvent || item.MouseState != TMouseState.Down)
+                    if (ICheckEvent || item.MouseState != TMouseState.Down)
                     {
                         flag = false;
                         if (item.MouseState != TMouseState.Move && item.MouseState != TMouseState.Down)
                         {
                             InvalidateItem(item, TMouseState.Move);
-                            if (IShowTop)
+                            if (_iShowTop)
                             {
                                 ShowTooTip(item.Hit ?? item.Sencond ?? item.First);
                             }
@@ -1700,7 +1684,7 @@ namespace Paway.Forms
                 else
                 {
                     InvaRectDesc(item, TMouseState.Normal);
-                    if (_iCheckEvent || item.MouseState != TMouseState.Down)
+                    if (ICheckEvent || item.MouseState != TMouseState.Down)
                     {
                         InvalidateItem(item, TMouseState.Normal);
                     }
@@ -1727,7 +1711,7 @@ namespace Paway.Forms
             foreach (var item in Items)
             {
                 InvaRectDesc(item, TMouseState.Normal);
-                if ((_iCheckEvent && !_iMultiple) || item.MouseState != TMouseState.Down)
+                if ((ICheckEvent && !_iMultiple) || item.MouseState != TMouseState.Down)
                 {
                     InvalidateItem(item, TMouseState.Normal);
                 }
@@ -1747,7 +1731,7 @@ namespace Paway.Forms
             var point = e.Location;
             point.X -= Offset.X;
             point.Y -= Offset.Y;
-            var contain = Contain(point) && !TContainDesc(point);
+            var contain = Contain(point) && !ContainDesc(point);
 
             for (var i = 0; i < Items.Count; i++)
             {
@@ -1890,7 +1874,7 @@ namespace Paway.Forms
             {
                 InvaRectDesc(item, TMouseState.Normal);
             }
-            if (!_iMultiple && _iCheckEvent && item.MouseState == TMouseState.Down)
+            if (!_iMultiple && ICheckEvent && item.MouseState == TMouseState.Down)
             {
                 InvalidateItem(item, TMouseState.Move);
             }
@@ -2015,7 +1999,7 @@ namespace Paway.Forms
         /// </summary>
         /// <param name="point"></param>
         /// <returns></returns>
-        public bool TContainDesc(Point point)
+        public bool ContainDesc(Point point)
         {
             for (var i = 0; i < Items.Count; i++)
             {
@@ -2092,7 +2076,7 @@ namespace Paway.Forms
             if (index >= 0)
             {
                 _selectedItem = _items[index];
-                if (!_iCheckEvent)
+                if (!ICheckEvent)
                 {
                     InvalidateItem(_selectedItem, TMouseState.Down);
                     OnSelectedItemChanged(_items[index], EventArgs.Empty);
@@ -2397,7 +2381,6 @@ namespace Paway.Forms
         ///     是否显示滚动条
         /// </summary>
         private bool _iScroll = true;
-
         /// <summary>
         ///     是否显示滚动条
         /// </summary>

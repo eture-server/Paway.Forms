@@ -81,17 +81,17 @@ namespace Paway.Utils.Tcp
         /// <summary>
         ///     是否连接客户端
         /// </summary>
-        public bool IsConnected { get; internal set; }
+        public bool IConnected { get; internal set; }
 
         /// <summary>
         ///     是否注册客户端
         /// </summary>
-        public bool IsRegisted { get; internal set; }
+        public bool IRegisted { get; internal set; }
 
         /// <summary>
         ///     是否注销客户端
         /// </summary>
-        public bool IsUNRegisted { get; internal set; }
+        public bool IUNRegisted { get; internal set; }
 
         /// <summary>
         ///     客户端事件
@@ -113,9 +113,9 @@ namespace Paway.Utils.Tcp
         private void ReceiveCallback(IAsyncResult arg)
         {
             if (SendStop) return;
-            if (IsUNRegisted || !IsConnected || !Socket.Connected)
+            if (IUNRegisted || !IConnected || !Socket.Connected)
             {
-                if (IsConnected && !Socket.Connected)
+                if (IConnected && !Socket.Connected)
                 {
                     //用于异常情况下的触发通知
                     OnSocketException(SocketError.NotConnected);
@@ -222,7 +222,7 @@ namespace Paway.Utils.Tcp
         protected void OnSocketException(SocketError socketError)
         {
             if (Disposed) return;
-            IsConnected = false;
+            IConnected = false;
             OnSocketException(socketError.ToString());
         }
 

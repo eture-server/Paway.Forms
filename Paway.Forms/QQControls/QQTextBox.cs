@@ -296,7 +296,7 @@ namespace Paway.Forms
         ///     是否通过正则表达式
         /// </summary>
         [Browsable(false), Description("是否通过正则表达式")]
-        public bool IsError
+        public bool IError
         {
             get
             {
@@ -353,12 +353,11 @@ namespace Paway.Forms
         public int RLength { get; set; }
 
         private bool _isBorder = true;
-
         /// <summary>
         ///     是否显示边框
         /// </summary>
         [Description("是否显示边框"), DefaultValue(true)]
-        public bool IsBorder
+        public bool IBorder
         {
             get { return _isBorder; }
             set
@@ -369,12 +368,11 @@ namespace Paway.Forms
         }
 
         private bool _isTrans;
-
         /// <summary>
         ///     背景是否透明
         /// </summary>
         [Description("背景是否透明"), DefaultValue(false)]
-        public bool IsTrans
+        public bool ITrans
         {
             get { return _isTrans; }
             set
@@ -761,7 +759,7 @@ namespace Paway.Forms
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            IsTrans = IsTrans;
+            ITrans = ITrans;
         }
 
         /// <summary>

@@ -57,7 +57,7 @@ namespace Paway.Forms.Metro
         /// <summary>
         ///     是否为系统程序
         /// </summary>
-        public bool IsSystem
+        public bool ISystem
         {
             get { return _isSystem; }
             set { _isSystem = value; }

@@ -154,7 +154,6 @@ namespace Paway.Forms
         ///     是否合并绘制列
         /// </summary>
         private bool _iMerger;
-
         /// <summary>
         ///     是否合并绘制列
         /// </summary>
@@ -170,7 +169,6 @@ namespace Paway.Forms
         }
 
         private bool _iMove = true;
-
         /// <summary>
         ///     是否绘制鼠标移过时的颜色
         /// </summary>
@@ -197,7 +195,6 @@ namespace Paway.Forms
         ///     是否绘制CheckBox
         /// </summary>
         private bool _iCheckBox;
-
         /// <summary>
         ///     是否绘制CheckBox
         /// </summary>
@@ -561,7 +558,7 @@ namespace Paway.Forms
 
         private void ComBoxGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
-            if (!IMove) return;
+            if (!_iMove) return;
             if (e.RowIndex >= 0)
             {
                 Rows[e.RowIndex].DefaultCellStyle.BackColor = RowTemplate.DefaultCellStyle.BackColor;
@@ -570,7 +567,7 @@ namespace Paway.Forms
 
         private void ComBoxGridView_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (!IMove) return;
+            if (!_iMove) return;
             if (e.RowIndex >= 0)
             {
                 Rows[e.RowIndex].DefaultCellStyle.BackColor = IMoveColor;

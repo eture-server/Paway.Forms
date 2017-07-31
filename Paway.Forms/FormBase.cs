@@ -108,11 +108,6 @@ namespace Paway.Forms
         protected bool _showIcon = true;
 
         /// <summary>
-        ///     是否透明化
-        /// </summary>
-        private bool _iTransfer;
-
-        /// <summary>
         ///     窗体标题文字
         /// </summary>
         private string _textShow;
@@ -189,11 +184,7 @@ namespace Paway.Forms
         ///     是否透明
         /// </summary>
         [Description("指定窗体是否透明"), DefaultValue(false)]
-        public bool ITransfer
-        {
-            get { return _iTransfer; }
-            set { _iTransfer = value; }
-        }
+        public bool ITransfer { get; set; }
 
         /// <summary>
         ///     窗体大小的最小值
@@ -411,7 +402,6 @@ namespace Paway.Forms
         ///     是否绘制边框
         /// </summary>
         protected bool _iDrawBorder;
-
         /// <summary>
         ///     是否绘制边框
         /// </summary>
@@ -430,7 +420,6 @@ namespace Paway.Forms
         ///     是否剪成圆角
         /// </summary>
         protected bool _iDrawRound = true;
-
         /// <summary>
         ///     是否剪成圆角
         /// </summary>
@@ -1067,7 +1056,7 @@ namespace Paway.Forms
                 var param = base.CreateParams;
                 if (DesignMode) return param;
 
-                if (_iTransfer)
+                if (ITransfer)
                 {
                     param.ExStyle = (int)WindowStyle.WS_SYSMENU;
                 }

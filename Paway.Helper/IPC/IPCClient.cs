@@ -22,7 +22,7 @@ namespace Paway.Helper
         /// <summary>
         ///     连接状态
         /// </summary>
-        public bool IsConnected { get; private set; }
+        public bool IConnected { get; private set; }
 
         /// <summary>
         ///     创建一个IPC信道。
@@ -41,7 +41,7 @@ namespace Paway.Helper
                 ChannelServices.RegisterChannel(channel, true);
                 obj = Activator.GetObject(typeof(T), string.Format("ipc://ServerChannel-Server.{0}/IPCObject", name)) as T;
                 if (obj != null)
-                    IsConnected = true;
+                    IConnected = true;
             }
             catch (Exception)
             {
@@ -61,7 +61,7 @@ namespace Paway.Helper
             }
             channel = null;
             obj = null;
-            IsConnected = false;
+            IConnected = false;
         }
 
         #region Dispose

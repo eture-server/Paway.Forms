@@ -942,7 +942,7 @@
             this.numEditTestBox2.ForeColor = System.Drawing.Color.Black;
             this.numEditTestBox2.Icon = null;
             this.numEditTestBox2.IsPasswordChat = '\0';
-            this.numEditTestBox2.IsTrans = true;
+            this.numEditTestBox2.ITrans = true;
             this.numEditTestBox2.Lines = new string[] {
         "0"};
             this.numEditTestBox2.Location = new System.Drawing.Point(16, 155);

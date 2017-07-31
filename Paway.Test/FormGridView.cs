@@ -99,7 +99,7 @@ namespace Paway.Test
                 list.Add(new CheckBoxDataGridViewData
                 {
                     Id = (i + 3).ToString(),
-                    IsSelect = false,
+                    ISelect = false,
                     CommandType = "点击",
                     ActionTime = DateTime.Now.ToString(),
                     Image = imageList1.Images[i],
@@ -173,7 +173,7 @@ namespace Paway.Test
     }
     public class CheckBoxDataGridViewData
     {
-        public bool IsSelect { get; set; }
+        public bool ISelect { get; set; }
 
         public string Id { get; set; }
 
