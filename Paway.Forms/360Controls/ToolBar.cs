@@ -271,7 +271,7 @@ namespace Paway.Forms
             set
             {
                 _textSpace = value;
-                Invalidate(ClientRectangle);
+                TRefresh();
             }
         }
 
@@ -410,6 +410,24 @@ namespace Paway.Forms
             }
         }
 
+        /// <summary>
+        ///     自动项宽度
+        /// </summary>
+        private bool _iAutoWidth;
+        /// <summary>
+        ///     自动项宽度
+        /// </summary>
+        [Description("自动项宽度"), DefaultValue(false)]
+        public bool IAutoWidth
+        {
+            get { return _iAutoWidth; }
+            set
+            {
+                _iAutoWidth = value;
+                TRefresh();
+            }
+        }
+
         #endregion
 
         #region 其它
@@ -429,8 +447,7 @@ namespace Paway.Forms
             set
             {
                 _textPading = value;
-                UpdateImageSize();
-                Invalidate(ClientRectangle);
+                TRefresh();
             }
         }
 
@@ -944,7 +961,7 @@ namespace Paway.Forms
             base.OnPaint(e);
             var g = e.Graphics;
             g.TranslateTransform(Offset.X, Offset.Y);
-            //g.PixelOffsetMode = PixelOffsetMode.Half; //与AntiAlias作用相反
+            g.PixelOffsetMode = PixelOffsetMode.Half; //与AntiAlias作用相反
             var temp = g.VisibleClipBounds;
             //修理毛边
             temp = new RectangleF(temp.X - 1, temp.Y - 1, temp.Width + 2, temp.Height + 2);
@@ -1024,8 +1041,7 @@ namespace Paway.Forms
             {
                 if (g != null)
                 {
-                    var temp = new Rectangle(item.Rectangle.X, item.Rectangle.Y + Offset.Y,
-                        item.Rectangle.Width, item.Rectangle.Height);
+                    var temp = new Rectangle(item.Rectangle.X, item.Rectangle.Y + Offset.Y, item.Rectangle.Width, item.Rectangle.Height);
                     switch (_tDirection)
                     {
                         case TDirection.Level:
@@ -1046,11 +1062,25 @@ namespace Paway.Forms
         {
             // 当前 Item 所在的矩型区域
             item.Rectangle = new Rectangle(xPos, yPos, _itemSize.Width, _itemSize.Height);
+            if (_iAutoWidth)
+            {
+                Graphics g = this.CreateGraphics();
+                if (IText || item.IText)
+                {
+                    SizeF size1 = g.MeasureString(item.Text, TextFirst.FontNormal, item.Rectangle.Size);
+                    item.Rectangle = new Rectangle(item.Rectangle.X, item.Rectangle.Y, size1.Width.ToInt() + 1 + _textPading.Left + _textPading.Right, item.Rectangle.Height);
+                }
+                else
+                {
+                    SizeF size1 = TextRenderer.MeasureText(item.Text, TextFirst.FontNormal, item.Rectangle.Size);
+                    item.Rectangle = new Rectangle(item.Rectangle.X, item.Rectangle.Y, size1.Width.ToInt() + _textPading.Left + _textPading.Right, item.Rectangle.Height);
+                }
+            }
             var size = TextRenderer.MeasureText("你", Font);
             switch (_tDirection)
             {
                 case TDirection.Level:
-                    var isNew = xPos + item.Rectangle.Width * 2 + _itemSpace + Padding.Right > TWidth;
+                    var isNew = xPos + item.Rectangle.Width + _itemSize.Width + _itemSpace + Padding.Right > TWidth;
                     if (item.IHeard || isNew)
                     {
                         xPos = Padding.Left;

@@ -203,12 +203,13 @@ namespace Paway.Forms
             set { _hotFore = value; }
         }
 
+        private object _tRoot = "0";
         /// <summary>
         ///     根节点
         /// </summary>
         [TypeConverter(typeof(StringConverter))]
-        [Browsable(true), Category("控件的数据设置"), Description("根节点"), DefaultValue(null)]
-        public object TRoot { get; set; }
+        [Browsable(true), Category("控件的数据设置"), Description("根节点"), DefaultValue("0")]
+        public object TRoot { get { return _tRoot; } set { _tRoot = value; } }
 
         private object _parentId = "ParentId";
 

@@ -174,6 +174,7 @@
             // 
             this.treeView1.BackColor = System.Drawing.Color.Transparent;
             this.treeView1.CheckBoxes = true;
+            this.treeView1.Checking = false;
             this.treeView1.DataSource = null;
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             treeItem1.Name = "Name";
@@ -196,7 +197,6 @@
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(291, 246);
             this.treeView1.TabIndex = 1;
-            this.treeView1.TRoot = "0";
             // 
             // tabPage1
             // 

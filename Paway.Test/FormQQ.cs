@@ -55,7 +55,6 @@ namespace Paway.Test
                 TreeData tda = new TreeData
                 {
                     Id = i,
-                    ParentId = 0,
                     Name = "Name" + i,
                     Custom = "Custom" + i,
                     Value = "Value" + i,
