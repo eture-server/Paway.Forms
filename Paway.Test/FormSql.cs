@@ -78,7 +78,7 @@ namespace Paway.Test
                 if (list.Count == 0) return;
                 list[0].N2 = DateTime.Now.Minute.ToString();
                 list[0].V2 = DateTime.Now.Second.ToString();
-                service.Replace<TestData>(list[0]);
+                service.Replace(list[0]);
             }
             catch (Exception ex)
             {

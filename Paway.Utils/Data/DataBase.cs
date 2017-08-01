@@ -310,7 +310,13 @@ namespace Paway.Utils.Data
         #region 扩展.语句
 
         #region Find
-
+        /// <summary>
+        ///     查找指定主列的数据
+        /// </summary>
+        public T Find<T>(long id, params string[] args)
+        {
+            return Find<T>(id, null, args);
+        }
         /// <summary>
         ///     查找指定主列的数据
         /// </summary>
@@ -352,6 +358,13 @@ namespace Paway.Utils.Data
         /// <summary>
         ///     填充 System.Data.DataSet 并返回一个List列表
         /// </summary>
+        public List<T> Find<T>(params string[] args)
+        {
+            return Find<T>(null, null, args);
+        }
+        /// <summary>
+        ///     填充 System.Data.DataSet 并返回一个List列表
+        /// </summary>
         public List<T> Find<T>(DbCommand cmd = null, params string[] args)
         {
             return Find<T>(null, 0, false, cmd, args);
@@ -364,6 +377,14 @@ namespace Paway.Utils.Data
             return FindTable<T>(null, 0, false, cmd, args);
         }
 
+        /// <summary>
+        ///     填充 System.Data.DataSet 并返回一个List列表
+        ///     查找指定查询语句
+        /// </summary>
+        public List<T> Find<T>(string find, params string[] args)
+        {
+            return Find<T>(find, null, args);
+        }
         /// <summary>
         ///     填充 System.Data.DataSet 并返回一个List列表
         ///     查找指定查询语句
@@ -659,10 +680,17 @@ namespace Paway.Utils.Data
         /// <summary>
         ///     更新列
         /// </summary>
+        public bool Update<T>(T t, params string[] args)
+        {
+            return Update<T>(t, null, args);
+        }
+        /// <summary>
+        ///     更新列
+        /// </summary>
         public bool Update<T>(T t, DbCommand cmd = null, params string[] args)
         {
             var list = new List<T> { t };
-            return Update<T>(list, cmd, args);
+            return Update(list, cmd, args);
         }
 
         /// <summary>
@@ -727,6 +755,13 @@ namespace Paway.Utils.Data
             cmd.ExecuteNonQuery();
         }
 
+        /// <summary>
+        ///     更新列表
+        /// </summary>
+        public bool Update<T>(List<T> list, params string[] args)
+        {
+            return Update(list, null, args);
+        }
         /// <summary>
         ///     更新列表
         /// </summary>
@@ -905,7 +940,13 @@ namespace Paway.Utils.Data
         #endregion
 
         #region Replace
-
+        /// <summary>
+        ///     更新或插入列
+        /// </summary>
+        public bool Replace<T>(T t, params string[] args)
+        {
+            return Replace(t, null, args);
+        }
         /// <summary>
         ///     更新或插入列
         /// </summary>
@@ -923,6 +964,13 @@ namespace Paway.Utils.Data
             return Replace<T>(table, false, cmd, args);
         }
 
+        /// <summary>
+        ///     更新或插入列表
+        /// </summary>
+        public virtual bool Replace<T>(List<T> list, params string[] args)
+        {
+            return Replace(list, null, args);
+        }
         /// <summary>
         ///     更新或插入列表
         /// </summary>

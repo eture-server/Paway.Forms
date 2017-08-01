@@ -105,14 +105,11 @@ namespace Paway.Test
         private void button2_Click(object sender, EventArgs e)
         {
             ItemNode node = treeView1.SelectedNode as ItemNode;
-            if (node == null) return;
-
-            int id = node["Id"].ToInt();
             List<TreeData> list = this.treeView1.DataSource as List<TreeData>;
 
             TreeData info = new TreeData() { Id = list[list.Count - 1].Id + 1 };
             info.Name = DateTime.Now.Second.ToString();
-            info.ParentId = id;
+            info.ParentId = node == null ? 0 : node["Id"].ToInt();
             list.Add(info);
             treeView1.UpdateNode(info.Id);
         }

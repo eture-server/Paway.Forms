@@ -407,7 +407,6 @@ namespace Paway.Forms
         {
             if (id == null || _dataSource == null || TId == null || TParentId == null) return;
             DataTable dt = null;
-            var type = _dataSource.GetType();
             if (_dataSource is DataTable)
             {
                 dt = _dataSource as DataTable;
@@ -415,7 +414,7 @@ namespace Paway.Forms
             else if (_dataSource is IList)
             {
                 var list = _dataSource as IList;
-                type = list.GenericType();
+                var type = list.GenericType();
                 dt = type.ToDataTable(list);
             }
             if (dt == null) return;
@@ -458,10 +457,41 @@ namespace Paway.Forms
 
         private void AddNode(TreeNodeCollection nodes, DataRow dr)
         {
-            var node = new ItemNode(dr);
+            var node = AddNode(dr);
             node.Text = (_items.Count > 0 ? dr[_items[0].Name] : dr[TId.ToString()]).ToString();
             node.Name = dr[TId.ToString()].ToString();
             nodes.Add(node);
+        }
+        private ItemNode AddNode(DataRow dr)
+        {
+            var node = new ItemNode(dr);
+            if (_dataSource is IList)
+            {
+                var list = _dataSource as IList;
+                var type = list.GenericType();
+                var properties = TypeDescriptor.GetProperties(type);
+                for (int i = 0; i < properties.Count; i++)
+                {
+                    if (properties[i].Name == TId.ToString())
+                    {
+                        var value = dr[TId.ToString()].ToString();
+                        for (int j = 0; j < list.Count; j++)
+                        {
+                            if (value == properties[i].GetValue(list[j]).ToString())
+                            {
+                                node.Tag = list[j];
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                node.Tag = dr;
+            }
+            return node;
         }
 
         private bool UpdateNode(TreeNodeCollection nodes, DataRow dr, string name)
@@ -474,7 +504,7 @@ namespace Paway.Forms
                     var oldParent = old[TParentId.ToString()].ToString2();
                     var temp = nodes[i].Nodes;
                     nodes.RemoveAt(i);
-                    var node = new ItemNode(dr);
+                    var node = AddNode(dr);
                     node.Text = (_items.Count > 0 ? dr[_items[0].Name] : dr[TId.ToString()]).ToString();
                     node.Name = dr[TId.ToString()].ToString();
                     for (var j = 0; j < temp.Count; j++)
@@ -549,7 +579,7 @@ namespace Paway.Forms
             }
             for (var i = 0; i < dr.Length; i++)
             {
-                var node = new ItemNode(dr[i]);
+                var node = AddNode(dr[i]);
                 node.Text = (_items.Count > 0 ? dr[i][_items[0].Name] : dr[i][TId.ToString()]).ToString();
                 node.Name = dr[i][TId.ToString()].ToString();
                 Nodes.Add(node);
@@ -565,7 +595,7 @@ namespace Paway.Forms
             var dr = dt.Select(string.Format("{0} = '{1}'", TParentId, parentId));
             for (var i = 0; i < dr.Length; i++)
             {
-                var node = new ItemNode(dr[i]);
+                var node = AddNode(dr[i]);
                 node.Text = (_items.Count > 0 ? dr[i][_items[0].Name] : dr[i][TId.ToString()]).ToString();
                 node.Name = dr[i][TId.ToString()].ToString();
                 parent.Nodes.Add(node);
