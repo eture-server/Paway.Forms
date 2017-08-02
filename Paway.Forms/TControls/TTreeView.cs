@@ -35,10 +35,10 @@ namespace Paway.Forms
             HotTracking = true;
             BorderStyle = BorderStyle.None;
             AfterCheck += DrawTreeView_AfterCheck;
+            InitDrop();
         }
 
         #region 双击展开
-
         /// <summary>
         ///     双击展开项
         /// </summary>
@@ -264,7 +264,7 @@ namespace Paway.Forms
         /// <summary>
         ///     数据源
         /// </summary>
-        [Browsable(false), Category("控件的数据设置"), Description("数据源")]
+        [Browsable(false), Category("控件的数据设置"), Description("数据源"), DefaultValue(null)]
         public object DataSource
         {
             get { return _dataSource; }
@@ -295,16 +295,17 @@ namespace Paway.Forms
             }
         }
 
-        private bool _iTree = true;
+        #endregion
+
+        #region 事件
         /// <summary>
-        ///     普通树显示
+        /// 节点移动完成事件
         /// </summary>
-        [Browsable(true), Description("普通树显示"), DefaultValue(true)]
-        public bool ITree
-        {
-            get { return _iTree; }
-            set { _iTree = value; }
-        }
+        public event EventHandler<TreeEventArgs> DropCompleteEvent;
+        /// <summary>
+        /// 节点移动判断事件
+        /// </summary>
+        public event EventHandler<TreeEventArgs> DropMoveEvent;
 
         #endregion
 
@@ -349,8 +350,8 @@ namespace Paway.Forms
         [DefaultValue(true)]
         public new bool HotTracking
         {
-            get { return base.FullRowSelect; }
-            set { base.FullRowSelect = value; }
+            get { return base.HotTracking; }
+            set { base.HotTracking = value; }
         }
 
         /// <summary>
@@ -415,7 +416,7 @@ namespace Paway.Forms
             {
                 var list = _dataSource as IList;
                 var type = list.GenericType();
-                dt = type.ToDataTable(list);
+                dt = type.ToDataTable(list, TId, id);
             }
             if (dt == null) return;
             var dr = dt.Select(string.Format("{0} = '{1}'", TId, id));
@@ -454,15 +455,14 @@ namespace Paway.Forms
             }
             return false;
         }
-
         private void AddNode(TreeNodeCollection nodes, DataRow dr)
         {
-            var node = AddNode(dr);
-            node.Text = (_items.Count > 0 ? dr[_items[0].Name] : dr[TId.ToString()]).ToString();
-            node.Name = dr[TId.ToString()].ToString();
+            var node = CreateNode(dr);
             nodes.Add(node);
+            if (node.Parent != null)
+                node.Parent.Expand();
         }
-        private ItemNode AddNode(DataRow dr)
+        private ItemNode CreateNode(DataRow dr)
         {
             var node = new ItemNode(dr);
             if (_dataSource is IList)
@@ -491,43 +491,44 @@ namespace Paway.Forms
             {
                 node.Tag = dr;
             }
+            node.Text = CreateText(dr);
+            node.Name = dr[TId.ToString()].ToString();
             return node;
         }
+        private string CreateText(DataRow dr)
+        {
+            string text = null;
+            for (int i = 0; i < _items.Count; i++)
+            {
+                if (_items[i].Type == TreeItemType.Text)
+                    text = string.Format("{0}{1},", text, dr[_items[i].Name]);
+                else
+                    text = string.Format("{0}Image,", text);
+            }
+            if (text == null) text = dr[TId.ToString()].ToString();
+            else text = text.TrimEnd(',');
+            return text;
+        }
 
+        /// <summary>
+        ///     更新Node
+        /// </summary>
+        public void UpdateNode(TreeNode node)
+        {
+            ItemNode item = (ItemNode)node;
+            string name = item[TId.ToString()].ToString();
+            UpdateNode(Nodes, item.DataRow, name);
+        }
         private bool UpdateNode(TreeNodeCollection nodes, DataRow dr, string name)
         {
             for (var i = 0; i < nodes.Count; i++)
             {
                 if (nodes[i].Name == name)
                 {
-                    var old = nodes[i] as ItemNode;
-                    var oldParent = old[TParentId.ToString()].ToString2();
-                    var temp = nodes[i].Nodes;
-                    nodes.RemoveAt(i);
-                    var node = AddNode(dr);
-                    node.Text = (_items.Count > 0 ? dr[_items[0].Name] : dr[TId.ToString()]).ToString();
-                    node.Name = dr[TId.ToString()].ToString();
-                    for (var j = 0; j < temp.Count; j++)
-                    {
-                        node.Nodes.Add(temp[j]);
-                    }
-                    var newParent = dr[TParentId.ToString()].ToString2();
-                    if (oldParent == newParent)
-                    {
-                        nodes.Insert(i, node);
-                    }
-                    else
-                    {
-                        var parentNodes = Nodes.Find(newParent, true);
-                        if (parentNodes.Length == 1)
-                        {
-                            parentNodes[0].Nodes.Add(node);
-                        }
-                        else
-                        {
-                            Nodes.Add(node);
-                        }
-                    }
+                    var item = (ItemNode)nodes[i];
+                    item.DataRow = dr;
+                    item.Text = CreateText(dr);
+                    item.Name = dr[TId.ToString()].ToString();
                     return true;
                 }
                 if (UpdateNode(nodes[i].Nodes, dr, name)) return true;
@@ -535,13 +536,22 @@ namespace Paway.Forms
             return false;
         }
 
+        /// <summary>
+        ///     删除Node
+        /// </summary>
+        public void DeleteNode(TreeNode node)
+        {
+            ItemNode item = (ItemNode)node;
+            string name = item[TId.ToString()].ToString();
+            DeleteNode(Nodes, name);
+        }
         private bool DeleteNode(TreeNodeCollection nodes, string name)
         {
             for (var i = 0; i < nodes.Count; i++)
             {
                 if (nodes[i].Name == name)
                 {
-                    nodes.RemoveAt(i);
+                    nodes[i].Remove();
                     return true;
                 }
                 if (DeleteNode(nodes[i].Nodes, name)) return true;
@@ -579,40 +589,23 @@ namespace Paway.Forms
             }
             for (var i = 0; i < dr.Length; i++)
             {
-                var node = AddNode(dr[i]);
-                node.Text = (_items.Count > 0 ? dr[i][_items[0].Name] : dr[i][TId.ToString()]).ToString();
-                node.Name = dr[i][TId.ToString()].ToString();
+                var node = CreateNode(dr[i]);
                 Nodes.Add(node);
-                AddNodes(dt, node, dr[i][TId.ToString()].ToString());
+                AddNodes(dt, node);
             }
         }
-
         /// <summary>
         /// 添加子节点
         /// </summary>
-        protected virtual void AddNodes(DataTable dt, TreeNode parent, string parentId)
+        protected virtual void AddNodes(DataTable dt, ItemNode parent)
         {
-            var dr = dt.Select(string.Format("{0} = '{1}'", TParentId, parentId));
+            var dr = dt.Select(string.Format("{0} = '{1}'", TParentId, parent[TId.ToString()]));
             for (var i = 0; i < dr.Length; i++)
             {
-                var node = AddNode(dr[i]);
-                node.Text = (_items.Count > 0 ? dr[i][_items[0].Name] : dr[i][TId.ToString()]).ToString();
-                node.Name = dr[i][TId.ToString()].ToString();
+                var node = CreateNode(dr[i]);
                 parent.Nodes.Add(node);
-                AddNodes(dt, node, dr[i][TId.ToString()].ToString());
+                AddNodes(dt, node);
             }
-        }
-
-        private string GetText(DataRow dr)
-        {
-            string result = null;
-            for (var j = 0; j < _items.Count; j++)
-            {
-                result = string.Format("{0}{1}&&", result, dr[_items[j].Name]);
-            }
-            if (result == null) result = dr[TId.ToString()].ToString();
-            else result = result.TrimEnd('&');
-            return result;
         }
 
         /// <summary>
@@ -675,14 +668,6 @@ namespace Paway.Forms
             }
         }
 
-        /// <summary>
-        ///     重绘Text
-        /// </summary>
-        protected override void OnDrawNode(DrawTreeNodeEventArgs e)
-        {
-            base.OnDrawNode(e);
-        }
-
         private void C_DrawNode(Graphics g, TreeNode node)
         {
             var rect = node.Bounds;
@@ -730,7 +715,7 @@ namespace Paway.Forms
         private void C_DrawString(Graphics g, TreeNode node, Rectangle rect, Color foreColor)
         {
             if (rect.Height == 0) return;
-            var item = node as ItemNode;
+            var item = (ItemNode)node;
             if (item == null || _items.Count <= 1)
             {
                 TextRenderer.DrawText(g, node.Text, Font, rect, foreColor, DrawHelper.TextEnd);
@@ -746,7 +731,7 @@ namespace Paway.Forms
                         continue;
                     var irect = new Rectangle(
                         rect.X + left, rect.Y,
-                        _items[i].Width + (i == 0 && !_iTree ? x - rect.X : 0), rect.Height);
+                        _items[i].Width + (_items[i].IAlign ? x - rect.X : 0), rect.Height);
                     left += irect.Width;
                     if (_items[i].Type == TreeItemType.Text)
                     {
@@ -780,21 +765,26 @@ namespace Paway.Forms
             rect = new Rectangle(rect.Location, new Size(Width - 4 - rect.X - 2, rect.Height - 1));
             int interval = 6;
             if (this.CheckBoxes) interval += 13;
-            if (node.IsExpanded)
+            if (node.Nodes.Count > 0)
             {
-                var indent = (rect.Height - add.Height) / 2;
-                var plusRect = new Rectangle(rect.X - add.Width - interval, rect.Top + indent, add.Width, add.Height);
-                g.DrawImage(add, plusRect);
-            }
-            else if (node.Nodes.Count > 0)
-            {
-                var indent = (rect.Height - less.Height) / 2;
-                var plusRect = new Rectangle(rect.X - less.Width - interval, rect.Top + indent, less.Width, less.Height);
-                g.DrawImage(less, plusRect);
+                if (node.IsExpanded)
+                {
+                    var indent = (rect.Height - add.Height) / 2;
+                    var plusRect = new Rectangle(rect.X - add.Width - interval, rect.Top + indent, add.Width, add.Height);
+                    Console.WriteLine(DateTime.Now + " Add");
+                    g.DrawImage(add, plusRect);
+                }
+                else
+                {
+                    var indent = (rect.Height - less.Height) / 2;
+                    var lessRect = new Rectangle(rect.X - less.Width - interval, rect.Top + indent, less.Width, less.Height);
+                    g.DrawImage(less, lessRect);
+                    Console.WriteLine(DateTime.Now + " Less");
+                }
             }
             if (this.CheckBoxes)
             {
-                var item = node as ItemNode;
+                var item = (ItemNode)node;
                 Image image = item.Checked ? check_tick : item.CheckHight ? check_hight : check_normal;
                 var indent = (rect.Height - image.Height) / 2;
                 rect = new Rectangle(node.Bounds.X - image.Height, rect.Top + indent, image.Height, image.Height);
@@ -933,8 +923,8 @@ namespace Paway.Forms
             bool icheck = true, hight = false;
             for (var i = 0; i < node.Nodes.Count; i++)
             {
-                var temp = node.Nodes[i] as ItemNode;
-                if (!temp.Checked && !temp.CheckHight)
+                var item = (ItemNode)node.Nodes[i];
+                if (!item.Checked && !item.CheckHight)
                 {
                     icheck = false;
                 }
@@ -961,14 +951,115 @@ namespace Paway.Forms
         }
 
         #endregion
+
+        #region 移动事件
+        private void InitDrop()
+        {
+            this.DragEnter += TreeView1_DragEnter;
+            this.ItemDrag += TreeView1_ItemDrag;
+            this.DragOver += TreeView1_DragOver;
+            this.DragDrop += TreeView1_DragDrop;
+        }
+        private void TreeView1_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
+        }
+        private void TreeView1_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                this.DoDragDrop(e.Item, DragDropEffects.Move);
+            }
+        }
+        private void TreeView1_DragOver(object sender, DragEventArgs e)
+        {
+            var fromNode = (ItemNode)e.Data.GetData(typeof(ItemNode));
+            if (fromNode == null) return;
+
+            Point point = this.PointToClient(new Point(e.X, e.Y));
+            var toNode = (ItemNode)this.GetNodeAt(point);
+            if (toNode != null && fromNode != toNode)
+            {
+                TreeEventArgs te = new TreeEventArgs(fromNode, toNode);
+                if (DropMoveEvent != null)
+                    DropMoveEvent(this, te);
+                if (te.Cancel)
+                {
+                    e.Effect = DragDropEffects.None;
+                }
+                else
+                {
+                    e.Effect = DragDropEffects.Move;
+                    if (toNode.Nodes.Count > 0 && !toNode.IsExpanded)
+                    {
+                        toNode.Expand();
+                    }
+                }
+            }
+        }
+        private void TreeView1_DragDrop(object sender, DragEventArgs e)
+        {
+            var fromNode = (TreeNode)e.Data.GetData(typeof(ItemNode));
+            if (fromNode == null) return;
+
+            Point point = this.PointToClient(new Point(e.X, e.Y));
+            var toNode = this.GetNodeAt(point);
+            if (toNode != null && fromNode != toNode)
+            {
+                var lastParent = fromNode.Parent;
+                if (DropCompleteEvent != null)
+                    DropCompleteEvent(this, new TreeEventArgs(fromNode, toNode));
+                if (lastParent != null && lastParent.Nodes.Count == 0)
+                    this.UpdateNode(lastParent);
+                if (fromNode.Parent != null && fromNode.Parent.Nodes.Count == 1)
+                    fromNode.Parent.Expand();
+            }
+        }
+
+        #endregion
     }
+    /// <summary>
+    ///     提供树事件数据
+    /// </summary>
+    public class TreeEventArgs : EventArgs
+    {
+        /// <summary>
+        ///  从此节点移出
+        /// </summary>
+        public TreeNode FromNode { get; private set; }
+        /// <summary>
+        ///  移入此节点
+        /// </summary>
+        public TreeNode ToNode { get; private set; }
+        /// <summary>
+        /// 是否取消
+        /// </summary>
+        public bool Cancel { get; set; }
+        /// <summary>
+        /// 提供树事件数据
+        /// </summary>
+        public TreeEventArgs(TreeNode fromNode, TreeNode toNode)
+        {
+            this.FromNode = fromNode;
+            this.ToNode = toNode;
+        }
+    }
+
     /// <summary>
     ///     自定义树节点
     /// </summary>
     [Serializable]
     public class ItemNode : TreeNode
     {
-        private readonly DataRow dr;
+        private DataRow dr;
+        /// <summary>
+        ///     DataRow数据
+        /// </summary>
+        public DataRow DataRow
+        {
+            get { return dr; }
+            set { dr = value; }
+        }
 
         /// <summary>
         ///     默认构造
@@ -1064,7 +1155,6 @@ namespace Paway.Forms
     public class TreeItem
     {
         #region 属性
-
         /// <summary>
         ///     项显示的类型
         /// </summary>
@@ -1074,7 +1164,6 @@ namespace Paway.Forms
         /// <summary>
         ///     项上绑定的字段
         /// </summary>
-        [DefaultValue("toolItem")]
         public string Name { get; set; }
 
         private int width = 100;
@@ -1098,12 +1187,19 @@ namespace Paway.Forms
         /// <summary>
         ///     当前 Item 在 TreeItem 中的 Rectangle
         /// </summary>
+        [Browsable(false)]
         public Rectangle Rectangle { get; protected set; }
+
+        /// <summary>
+        /// 对齐
+        /// </summary>
+        [DefaultValue(false)]
+        public bool IAlign { get; set; }
 
         /// <summary>
         ///     获取或设置包含有关控件的数据的对象。
         /// </summary>
-        [TypeConverter(typeof(StringConverter))]
+        [Browsable(false), DefaultValue(null)]
         public object Tag { get; set; }
 
         #endregion

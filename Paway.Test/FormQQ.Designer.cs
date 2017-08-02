@@ -174,20 +174,15 @@
             // 
             this.treeView1.BackColor = System.Drawing.Color.Transparent;
             this.treeView1.CheckBoxes = true;
-            this.treeView1.Checking = false;
-            this.treeView1.DataSource = null;
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             treeItem1.Name = "Statu";
-            treeItem1.Tag = null;
             treeItem1.Type = Paway.Forms.TreeItemType.Image;
             treeItem1.Width = 16;
+            treeItem2.IAlign = true;
             treeItem2.Name = "Name";
-            treeItem2.Tag = null;
             treeItem3.Name = "Custom";
-            treeItem3.Tag = null;
             treeItem3.Width = 60;
             treeItem4.Name = "Value";
-            treeItem4.Tag = null;
             treeItem4.Width = 80;
             this.treeView1.Items.Add(treeItem1);
             this.treeView1.Items.Add(treeItem2);

@@ -99,6 +99,7 @@ namespace Paway.Test
             TreeData info = list.Find(c => c.Id == id);
 
             info.Name = DateTime.Now.Second.ToString();
+            info.Custom = "new";
             treeView1.UpdateNode(info.Id);
         }
 

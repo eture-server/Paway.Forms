@@ -261,11 +261,28 @@ namespace Paway.Helper
             return table;
         }
         /// <summary>
+        ///     IList转为 DataTable
+        ///     指定列名的值
+        /// </summary>
+        public static DataTable ToDataTable(this Type type, IList list, object name, object value)
+        {
+            var table = type.CreateTable();
+            var properties = TypeDescriptor.GetProperties(type);
+            PropertyDescriptor item = properties.Find(name.ToString(), false);
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (item.GetValue(list[i]).Equals(value))
+                {
+                    table.Rows.Add(type.CreateItem(list[i], table));
+                }
+            }
+            return table;
+        }
+        /// <summary>
         ///     从类创建行
         /// </summary>
-        public static DataRow CreateItem<T>(this T t, DataTable table = null)
+        public static DataRow CreateItem<T>(this Type type, T t, DataTable table = null)
         {
-            Type type = typeof(T);
             if (table == null)
                 table = type.CreateTable();
             DataRow row = table.NewRow();
