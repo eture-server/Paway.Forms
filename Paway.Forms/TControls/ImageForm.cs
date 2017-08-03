@@ -14,7 +14,6 @@ namespace Paway.Forms
     public partial class ImageForm : QQForm
     {
         #region 构造
-
         /// <summary>
         ///     构造
         ///     设置窗体Size

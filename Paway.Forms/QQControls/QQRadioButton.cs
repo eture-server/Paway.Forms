@@ -118,6 +118,11 @@ namespace Paway.Forms
             }
         }
 
+        private readonly Image tick_normalImage = AssemblyHelper.GetImage("QQ.RadioButton.tick_normal.png");
+        private readonly Image normalImage = AssemblyHelper.GetImage("QQ.RadioButton.normal.png");
+        private readonly Image tick_highlightImage = AssemblyHelper.GetImage("QQ.RadioButton.tick_highlight.png");
+        private readonly Image highlightImage = AssemblyHelper.GetImage("QQ.RadioButton.highlight.png");
+
         #endregion
 
         #region Override 方法
@@ -143,17 +148,11 @@ namespace Paway.Forms
                 case TMouseState.Normal:
                     if (Checked)
                     {
-                        using (var normal = AssemblyHelper.GetImage("QQ.RadioButton.tick_normal.png"))
-                        {
-                            g.DrawImage(normal, ImageRect);
-                        }
+                        g.DrawImage(tick_normalImage, ImageRect);
                     }
                     else
                     {
-                        using (var normal = AssemblyHelper.GetImage("QQ.RadioButton.normal.png"))
-                        {
-                            g.DrawImage(normal, ImageRect);
-                        }
+                        g.DrawImage(normalImage, ImageRect);
                     }
 
                     break;
@@ -162,17 +161,11 @@ namespace Paway.Forms
                 case TMouseState.Up:
                     if (Checked)
                     {
-                        using (var high = AssemblyHelper.GetImage("QQ.RadioButton.tick_highlight.png"))
-                        {
-                            g.DrawImage(high, ImageRect);
-                        }
+                        g.DrawImage(tick_highlightImage, ImageRect);
                     }
                     else
                     {
-                        using (var high = AssemblyHelper.GetImage("QQ.RadioButton.highlight.png"))
-                        {
-                            g.DrawImage(high, ImageRect);
-                        }
+                        g.DrawImage(highlightImage, ImageRect);
                     }
                     break;
             }

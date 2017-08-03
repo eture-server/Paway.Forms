@@ -15,7 +15,6 @@ namespace Paway.Forms
     public class TDataGridView : DataGridView
     {
         #region 构造函数
-
         /// <summary>
         ///     构造
         /// </summary>
@@ -57,7 +56,6 @@ namespace Paway.Forms
         #endregion
 
         #region 绘制多行文本
-
         /// <summary>
         ///     绘制多行文本
         /// </summary>
@@ -112,7 +110,6 @@ namespace Paway.Forms
         #endregion
 
         #region 变量
-
         /// <summary>
         ///     绘制列数据在源中的序号
         /// </summary>
@@ -131,7 +128,6 @@ namespace Paway.Forms
         #endregion
 
         #region 属性
-
         /// <summary>
         ///     文本图片列-文本列
         /// </summary>
@@ -180,7 +176,6 @@ namespace Paway.Forms
         }
 
         private Color _colorMove = Color.Azure;
-
         /// <summary>
         ///     鼠标移过的行颜色
         /// </summary>
@@ -229,7 +224,6 @@ namespace Paway.Forms
         #endregion
 
         #region 重载属性默认值
-
         /// <summary>
         ///     获取或设置 DataGridView 的背景色。
         /// </summary>
@@ -436,7 +430,6 @@ namespace Paway.Forms
         #endregion
 
         #region 加载数据
-
         /// <summary>
         ///     原数据源
         /// </summary>
@@ -520,7 +513,6 @@ namespace Paway.Forms
         #endregion
 
         #region 重载单元格绘制
-
         /// <summary>
         ///     绘制行号
         /// </summary>
@@ -555,7 +547,6 @@ namespace Paway.Forms
         #endregion
 
         #region 鼠标移过的行颜色
-
         private void ComBoxGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
             if (!_iMove) return;
@@ -577,7 +568,6 @@ namespace Paway.Forms
         #endregion
 
         #region 绘制Combox
-
         private void HeaderCheckBox_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Space)
@@ -624,7 +614,6 @@ namespace Paway.Forms
         #endregion
 
         #region 合并单元格
-
         /// <summary>
         ///     合并单元格
         /// </summary>
@@ -772,8 +761,7 @@ namespace Paway.Forms
         /// <param name="UpRows"></param>
         /// <param name="DownRows"></param>
         /// <param name="count"></param>
-        private void PaintingFont(DataGridViewCellPaintingEventArgs e, int cellwidth, int UpRows, int DownRows,
-            int count)
+        private void PaintingFont(DataGridViewCellPaintingEventArgs e, int cellwidth, int UpRows, int DownRows, int count)
         {
             var fontBrush = new SolidBrush(e.CellStyle.ForeColor);
             var value = e.Value == null ? null : e.Value.ToString();
@@ -836,7 +824,6 @@ namespace Paway.Forms
         #endregion
 
         #region 绘制文本图片列
-
         /// <summary>
         ///     绘制文本图片列
         /// </summary>
@@ -895,7 +882,6 @@ namespace Paway.Forms
         #endregion
 
         #region 动态文本图片列
-
         private readonly Timer timer = new Timer();
         private PictureBox pictureBox1;
 

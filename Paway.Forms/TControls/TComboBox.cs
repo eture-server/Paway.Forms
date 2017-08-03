@@ -14,7 +14,7 @@ namespace Paway.Forms
     public class TComboBox : TControl
     {
         #region override
-
+        private readonly Image moveImage = AssemblyHelper.GetImage("QQ.TextBox.move.png");
         /// <summary>
         ///     边框图片
         /// </summary>
@@ -27,10 +27,7 @@ namespace Paway.Forms
             switch (_mouseState)
             {
                 case TMouseState.Move:
-                    using (var hotLine = AssemblyHelper.GetImage("QQ.TextBox.move.png"))
-                    {
-                        DrawHelper.RendererBackground(g, ClientRectangle, hotLine, true);
-                    }
+                    DrawHelper.RendererBackground(g, ClientRectangle, moveImage, true);
                     break;
             }
         }
@@ -38,7 +35,6 @@ namespace Paway.Forms
         #endregion
 
         #region 设计器
-
         private void InitializeComponent()
         {
             this.tComboBox1 = new Paway.Forms.TComboBoxBase();
@@ -64,7 +60,6 @@ namespace Paway.Forms
         #endregion
 
         #region 属性
-
         private TComboBoxBase tComboBox1;
         /// <summary>
         ///     编辑控件
@@ -73,7 +68,7 @@ namespace Paway.Forms
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TComboBoxBase Edit { get { return tComboBox1; } }
 
-        private Image _borderImage = AssemblyHelper.GetImage("QQ.TextBox.normal.png");
+        private readonly Image _borderImage = AssemblyHelper.GetImage("QQ.TextBox.normal.png");
         private TMouseState _mouseState = TMouseState.Normal;
 
         /// <summary>
@@ -136,7 +131,6 @@ namespace Paway.Forms
         #endregion
 
         #region 构造
-
         /// <summary>
         ///     构造
         /// </summary>
@@ -155,7 +149,6 @@ namespace Paway.Forms
         #endregion
 
         #region 鼠标移动时的背影事件
-
         /// <summary>
         ///     背影事件
         /// </summary>
@@ -169,12 +162,10 @@ namespace Paway.Forms
             Edit.MouseLeave += TComboBox2_MouseLeave;
             Edit.DropDownClosed += TComboBox2_MouseLeave;
         }
-
         private void TComboBox2_MouseLeave(object sender, EventArgs e)
         {
             MouseState = TMouseState.Leave;
         }
-
         private void TComboBox2_MouseMove(object sender, MouseEventArgs e)
         {
             MouseState = TMouseState.Move;

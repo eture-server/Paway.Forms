@@ -75,9 +75,7 @@ namespace Paway.Forms
         ///     默认时的按钮图片
         /// </summary>
         private Image _normalImage;
-
-        private Image _normalImage2 = AssemblyHelper.GetImage("_360.ToolBar.toolbar_normal.png");
-
+        private readonly Image _normalImage2 = AssemblyHelper.GetImage("_360.ToolBar.toolbar_normal.png");
         /// <summary>
         ///     默认图片
         /// </summary>
@@ -97,9 +95,7 @@ namespace Paway.Forms
         ///     鼠标按下时的图片
         /// </summary>
         private Image _downImage;
-
-        private Image _downImage2 = AssemblyHelper.GetImage("_360.ToolBar.toolbar_hover.png");
-
+        private readonly Image _downImage2 = AssemblyHelper.GetImage("_360.ToolBar.toolbar_hover.png");
         /// <summary>
         ///     鼠标按下时的图片
         /// </summary>
@@ -119,9 +115,7 @@ namespace Paway.Forms
         ///     鼠标划过时的图片
         /// </summary>
         private Image _moveImage;
-
-        private Image _moveImage2 = AssemblyHelper.GetImage("_360.ToolBar.toolbar_pushed.png");
-
+        private readonly Image _moveImage2 = AssemblyHelper.GetImage("_360.ToolBar.toolbar_pushed.png");
         /// <summary>
         ///     鼠标划过时的图片
         /// </summary>
@@ -144,8 +138,7 @@ namespace Paway.Forms
         /// <summary>
         ///     多选状态下选中时附加的图片
         /// </summary>
-        private Image _selectImage2 = AssemblyHelper.GetImage("Controls.accept_16.png");
-
+        private readonly Image _selectImage2 = AssemblyHelper.GetImage("Controls.accept_16.png");
         /// <summary>
         ///     多选状态下选中时附加的图片
         /// </summary>
@@ -160,6 +153,9 @@ namespace Paway.Forms
                 Invalidate(ClientRectangle);
             }
         }
+
+        private readonly Image main_tabbtn_downImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_down.png");
+        private readonly Image main_tabbtn_highlightImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_highlight.png");
 
         #endregion
 
@@ -1551,11 +1547,11 @@ namespace Paway.Forms
                 {
                     if (_iDown && (_btnArrowRect.Contains(point) || item.RectDesc.Contains(point)))
                     {
-                        btnArrowImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_down.png");
+                        btnArrowImage = main_tabbtn_downImage;
                     }
                     else
                     {
-                        btnArrowImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_highlight.png");
+                        btnArrowImage = main_tabbtn_highlightImage;
                     }
                     if (_iFocus && (_btnArrowRect.Contains(point) || item.RectDesc.Contains(point)))
                     {
@@ -2776,14 +2772,8 @@ namespace Paway.Forms
                 _normalImage = null;
                 _normalImage2.Dispose();
                 _downImage = null;
-                _downImage2.Dispose();
-                _downImage2 = null;
                 _moveImage = null;
-                _moveImage2.Dispose();
-                _moveImage2 = null;
                 _selectImage = null;
-                _selectImage2.Dispose();
-                _selectImage2 = null;
                 if (toolTop != null)
                     toolTop.Dispose();
                 if (_tempItem != null)

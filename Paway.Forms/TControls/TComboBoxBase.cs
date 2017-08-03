@@ -32,7 +32,6 @@ namespace Paway.Forms
         }
 
         #region 方法
-
         private void DrawCombobox_DrawItem(object sender, DrawItemEventArgs e)
         {
             //如果当前控件为空
@@ -103,9 +102,7 @@ namespace Paway.Forms
         #endregion
 
         #region 属性
-
         private Color _colorSelect = Color.PaleTurquoise;
-
         /// <summary>
         ///     当鼠标指针移到该项上时的高亮度颜色
         /// </summary>
@@ -122,7 +119,6 @@ namespace Paway.Forms
         }
 
         private Color _colorFore = Color.Black;
-
         /// <summary>
         ///     项被选中后的字体颜色
         /// </summary>
@@ -141,7 +137,6 @@ namespace Paway.Forms
         #endregion
 
         #region 重载属性默认值
-
         /// <summary>
         ///     获取或设置 System.Windows.Forms.ComboBox 下拉部分的高度（以像素为单位）。
         /// </summary>
@@ -188,9 +183,7 @@ namespace Paway.Forms
         ///     获取或设置一个值，该值指示是否将格式设置应用于 System.Windows.Forms.ListControl 的
         ///     System.Windows.Forms.ListControl.DisplayMember 属性。
         /// </summary>
-        [Description(
-            "获取或设置一个值，该值指示是否将格式设置应用于 System.Windows.Forms.ListControl 的System.Windows.Forms.ListControl.DisplayMember 属性"
-            )]
+        [Description("获取或设置一个值，该值指示是否将格式设置应用于 System.Windows.Forms.ListControl 的System.Windows.Forms.ListControl.DisplayMember 属性")]
         [DefaultValue(true)]
         public new bool FormattingEnabled
         {

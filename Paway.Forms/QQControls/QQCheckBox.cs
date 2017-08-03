@@ -122,6 +122,13 @@ namespace Paway.Forms
             }
         }
 
+        private readonly Image normalImage = AssemblyHelper.GetImage("QQ.CheckBox.normal.png");
+        private readonly Image tick_normalImage = AssemblyHelper.GetImage("QQ.CheckBox.tick_normal.png");
+        private readonly Image tick_highlightImage = AssemblyHelper.GetImage("QQ.CheckBox.tick_highlight.png");
+        private readonly Image hightlightImage = AssemblyHelper.GetImage("QQ.CheckBox.hightlight.png");
+        private readonly Image _tick_normalImage = AssemblyHelper.GetImage("QQ.CheckBox._tick_normal.png");
+        private readonly Image _tick_highlightImage = AssemblyHelper.GetImage("QQ.CheckBox._tick_highlight.png");
+
         #endregion
 
         #region Override 方法
@@ -149,10 +156,7 @@ namespace Paway.Forms
                     case CheckState.Indeterminate:
                         break;
                     case CheckState.Unchecked:
-                        var bitmap = new Bitmap(
-                            AssemblyHelper.GetImage("QQ.CheckBox.normal.png"));
-                        //bitmap = RGB2Gray(bitmap);
-                        g.DrawImage(bitmap, ImageRect);
+                        g.DrawImage(normalImage, ImageRect);
                         break;
                 }
             }
@@ -164,17 +168,11 @@ namespace Paway.Forms
                     case TMouseState.Leave:
                         if (Checked)
                         {
-                            using (var normal = AssemblyHelper.GetImage("QQ.CheckBox.tick_normal.png"))
-                            {
-                                g.DrawImage(normal, ImageRect);
-                            }
+                            g.DrawImage(tick_normalImage, ImageRect);
                         }
                         else
                         {
-                            using (var normal = AssemblyHelper.GetImage("QQ.CheckBox.normal.png"))
-                            {
-                                g.DrawImage(normal, ImageRect);
-                            }
+                            g.DrawImage(normalImage, ImageRect);
                         }
                         break;
                     case TMouseState.Down:
@@ -182,17 +180,11 @@ namespace Paway.Forms
                     case TMouseState.Move:
                         if (Checked)
                         {
-                            using (var high = AssemblyHelper.GetImage("QQ.CheckBox.tick_highlight.png"))
-                            {
-                                g.DrawImage(high, ImageRect);
-                            }
+                            g.DrawImage(tick_highlightImage, ImageRect);
                         }
                         else
                         {
-                            using (var high = AssemblyHelper.GetImage("QQ.CheckBox.hightlight.png"))
-                            {
-                                g.DrawImage(high, ImageRect);
-                            }
+                            g.DrawImage(hightlightImage, ImageRect);
                         }
                         break;
                 }
@@ -200,17 +192,11 @@ namespace Paway.Forms
                 {
                     if (MouseState == TMouseState.Down || MouseState == TMouseState.Move)
                     {
-                        using (var normal = AssemblyHelper.GetImage("QQ.CheckBox._tick_normal.png"))
-                        {
-                            g.DrawImage(normal, ImageRect);
-                        }
+                        g.DrawImage(_tick_normalImage, ImageRect);
                     }
                     else
                     {
-                        using (var high = AssemblyHelper.GetImage("QQ.CheckBox._tick_highlight.png"))
-                        {
-                            g.DrawImage(high, ImageRect);
-                        }
+                        g.DrawImage(_tick_highlightImage, ImageRect);
                     }
                 }
             }

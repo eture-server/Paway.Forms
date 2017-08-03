@@ -31,7 +31,6 @@ namespace Paway.Forms
         #endregion
 
         #region virtual Method
-
         private Delegate method;
 
         /// <summary>

@@ -121,6 +121,11 @@ namespace Paway.Forms
             }
         }
 
+        private readonly Image main_tab_checkImage = AssemblyHelper.GetImage("QQ.TabControl.main_tab_check.png");
+        private readonly Image main_tabbtn_downImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_down.png");
+        private readonly Image main_tabbtn_highlightImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_highlight.png");
+        private readonly Image main_tab_highlightImage = AssemblyHelper.GetImage("QQ.TabControl.main_tab_highlight.png");
+
         #endregion
 
         #region Override Methods
@@ -250,7 +255,7 @@ namespace Paway.Forms
 
                 if (SelectedIndex == i) //是否选中
                 {
-                    baseTabHeaderImage = AssemblyHelper.GetImage("QQ.TabControl.main_tab_check.png");
+                    baseTabHeaderImage = main_tab_checkImage;
                     if (TabPages[i] is QQTabPage)
                     {
                         var contextMenuLocation =
@@ -270,19 +275,19 @@ namespace Paway.Forms
                             {
                                 if (_isFocus)
                                 {
-                                    btnArrowImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_down.png");
+                                    btnArrowImage = main_tabbtn_downImage;
                                     contextMenuStrip.Show(contextMenuLocation);
                                 }
                                 else
                                 {
-                                    btnArrowImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_highlight.png");
+                                    btnArrowImage = main_tabbtn_highlightImage;
                                 }
                                 _btnArrowRect = new Rectangle(tabRect.X + tabRect.Width - btnArrowImage.Width, tabRect.Y,
                                     btnArrowImage.Width, btnArrowImage.Height);
                             }
                             else if (_isFocus)
                             {
-                                btnArrowImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_down.png");
+                                btnArrowImage = main_tabbtn_downImage;
                                 contextMenuStrip.Show(contextMenuLocation);
                             }
                         }
@@ -290,7 +295,7 @@ namespace Paway.Forms
                 }
                 else if (tabRect.Contains(cursorPoint)) //鼠标滑过
                 {
-                    baseTabHeaderImage = AssemblyHelper.GetImage("QQ.TabControl.main_tab_highlight.png");
+                    baseTabHeaderImage = main_tab_highlightImage;
                 }
                 if (baseTabHeaderImage != null)
                 {

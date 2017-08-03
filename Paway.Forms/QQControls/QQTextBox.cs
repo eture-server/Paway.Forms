@@ -16,6 +16,7 @@ namespace Paway.Forms
         #region 变量
 
         private readonly Image _borderImage = AssemblyHelper.GetImage("QQ.TextBox.normal.png");
+        private readonly Image moveImage = AssemblyHelper.GetImage("QQ.TextBox.move.png");
         private Cursor _cursor = Cursors.IBeam;
         private TMouseState _mouseState = TMouseState.Normal;
         private TMouseState _iconMouseState = TMouseState.Normal;
@@ -775,10 +776,7 @@ namespace Paway.Forms
                 case TMouseState.Move:
                     if (!_isTrans)
                     {
-                        using (var hotLine = AssemblyHelper.GetImage("QQ.TextBox.move.png"))
-                        {
-                            DrawHelper.RendererBackground(g, ClientRectangle, hotLine, true);
-                        }
+                        DrawHelper.RendererBackground(g, ClientRectangle, moveImage, true);
                     }
                     break;
                 default:

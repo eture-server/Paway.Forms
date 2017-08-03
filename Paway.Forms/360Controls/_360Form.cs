@@ -61,7 +61,7 @@ namespace Paway.Forms
         /// <summary>
         ///     边框图片
         /// </summary>
-        private Image _borderImage = AssemblyHelper.GetImage("_360.Form.framemod.png");
+        private readonly Image _borderImage = AssemblyHelper.GetImage("_360.Form.framemod.png");
 
         /// <summary>
         ///     关闭按钮图片

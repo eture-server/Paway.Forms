@@ -18,7 +18,6 @@ namespace Paway.Forms
     public class QQButton : Button
     {
         #region 变量
-
         /// <summary>
         ///     文本对齐方式
         /// </summary>
@@ -27,7 +26,6 @@ namespace Paway.Forms
         #endregion
 
         #region 构造函数
-
         /// <summary>
         ///     实例化 Paway.Forms.QQButton 新的实例。
         /// </summary>
@@ -49,7 +47,6 @@ namespace Paway.Forms
         #endregion
 
         #region 方法
-
         private void QQButton_LostFocus(object sender, EventArgs e)
         {
             MouseState = TMouseState.Leave;
@@ -58,7 +55,6 @@ namespace Paway.Forms
         #endregion
 
         #region 属性
-
         /// <summary>
         ///     默认大小
         /// </summary>
@@ -72,7 +68,6 @@ namespace Paway.Forms
         ///     默认时的按钮图片
         /// </summary>
         private Image _normalImage;
-
         /// <summary>
         ///     默认图片
         /// </summary>
@@ -97,7 +92,6 @@ namespace Paway.Forms
         ///     鼠标按下时的图片
         /// </summary>
         private Image _downImage;
-
         /// <summary>
         ///     鼠标按下时的图片
         /// </summary>
@@ -122,7 +116,6 @@ namespace Paway.Forms
         ///     鼠标划过时的图片
         /// </summary>
         private Image _moveImage;
-
         /// <summary>
         ///     鼠标划过时的图片
         /// </summary>
@@ -144,11 +137,15 @@ namespace Paway.Forms
             }
         }
 
+        private readonly Image lightImage = AssemblyHelper.GetImage("QQ.Button.Light.png");
+        private readonly Image focusImage = AssemblyHelper.GetImage("QQ.Button.focus.png");
+        private readonly Image grayImage = AssemblyHelper.GetImage("QQ.Button.gray.png");
+
+
         /// <summary>
         ///     是否按下了鼠标
         /// </summary>
         private bool _isShowBorder = true;
-
         /// <summary>
         ///     是否显示发光边框
         /// </summary>
@@ -324,7 +321,6 @@ namespace Paway.Forms
         #endregion
 
         #region Override 方法
-
         /// <summary>
         ///     引发 System.Windows.Forms.Form.Paint 事件。
         /// </summary>
@@ -341,14 +337,9 @@ namespace Paway.Forms
                 {
                     if (Focused) //得到焦点的时候，绘制边框
                     {
-                        using (var light = AssemblyHelper.GetImage("QQ.Button.Light.png"))
-                        {
-                            //g.DrawImage(light, this.AllRect);
-                            DrawHelper.RendererBackground(g, AllRect, light, true);
-                        }
+                        DrawHelper.RendererBackground(g, AllRect, lightImage, true);
                     }
                 }
-
                 switch (MouseState)
                 {
                     case TMouseState.Leave:
@@ -357,10 +348,7 @@ namespace Paway.Forms
                         {
                             if (IsShowBorder)
                             {
-                                using (var focus = AssemblyHelper.GetImage("QQ.Button.focus.png"))
-                                {
-                                    DrawHelper.RendererBackground(g, TextRect, focus, true);
-                                }
+                                DrawHelper.RendererBackground(g, TextRect, focusImage, true);
                             }
                             else
                             {
@@ -380,36 +368,11 @@ namespace Paway.Forms
                         DrawHelper.RendererBackground(g, TextRect, DownImage, true);
                         break;
                 }
-
-                //if (this.Image != null)
-                //{
-                //int y = (this.Height - this.Image.Height) / 2;
-                //int x = 10;
-
-                //if (!string.IsNullOrEmpty(this.Text))
-                //    x = (this.AllRect.Width - (TextHelper.GetStringLen(this.Text) * 6 + this.Image.Width)) / 2;
-                //else
-                //    x = (this.Width - this.Image.Width) / 2;//将图片绘制在按钮居中位置
-                //Rectangle rect = new Rectangle(x, y, this.Image.Width, this.Image.Height);
-                //Rectangle imgRect = new Rectangle(0, 0, this.Image.Width, this.Image.Height);
-                ////绘制图片
-                //g.DrawImage(this.Image, rect, imgRect, GraphicsUnit.Pixel);
-                ////绘制文字
-                //Rectangle textRect = new Rectangle(this.TextRect.X + this.Image.Width, this.TextRect.Y, this.TextRect.Width, this.TextRect.Height);
-                //TextRenderer.DrawText(g, this.Text, this.Font, textRect, this.ForeColor, _textAlign);
-                //}
-                //else
-                //{
-                //绘制按钮上的文字
                 TextRenderer.DrawText(g, Text, Font, TextRect, ForeColor, _textAlign);
-                //}
             }
             else
             {
-                using (var gray = AssemblyHelper.GetImage("QQ.Button.gray.png"))
-                {
-                    DrawHelper.RendererBackground(g, TextRect, gray, true);
-                }
+                DrawHelper.RendererBackground(g, TextRect, grayImage, true);
                 TextRenderer.DrawText(g, Text, Font, TextRect, Color.Gray, _textAlign);
             }
         }

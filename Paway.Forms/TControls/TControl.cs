@@ -36,13 +36,13 @@ namespace Paway.Forms
             TConfig.Init(this);
             InitShow();
 
+            AutoScaleMode = AutoScaleMode.None;
             BackgroundImageLayout = ImageLayout.Stretch;
         }
 
         #endregion
 
         #region 重载属性默认值
-
         /// <summary>
         ///     获取或设置在 System.Windows.Forms.ImageLayout 枚举中定义的背景图像布局。
         /// </summary>
@@ -58,7 +58,7 @@ namespace Paway.Forms
         ///     获取或设置控件的自动缩放模式。
         /// </summary>
         [Description("获取或设置控件的自动缩放模式")]
-        [DefaultValue(typeof(FormStartPosition), "None")]
+        [DefaultValue(typeof(AutoScaleMode), "None")]
         public new AutoScaleMode AutoScaleMode
         {
             get { return base.AutoScaleMode; }
@@ -68,7 +68,6 @@ namespace Paway.Forms
         #endregion
 
         #region 事件
-
         /// <summary>
         ///     移动特效正常完成事件。
         /// </summary>
@@ -76,10 +75,9 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 背景
-
+        #region 重绘背景
         /// <summary>
-        ///     绘制背景
+        ///     重绘背景
         /// </summary>
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -107,7 +105,6 @@ namespace Paway.Forms
         #endregion
 
         #region 移动窗体
-
         /// <summary>
         ///     移动控件父窗体
         /// </summary>
@@ -134,24 +131,12 @@ namespace Paway.Forms
         #endregion
 
         #region 变量
-
-        /// <summary>
-        ///     指定窗体窗口如何显示
-        /// </summary>
-        protected FormWindowState _windowState = FormWindowState.Normal;
-
-        /// <summary>
-        ///     星星图
-        /// </summary>
-        private Image star = AssemblyHelper.GetImage("Controls.t.png");
-
         /// <summary>
         ///     加载标记
         /// </summary>
         protected bool ILoad;
 
         private Color _tranColor;
-
         /// <summary>
         ///     绘制背景时自动颜色透明度
         /// </summary>
@@ -171,18 +156,11 @@ namespace Paway.Forms
         #endregion
 
         #region 接口 属性
-
-        private TMDirection _mDirection = TMDirection.None;
-
         /// <summary>
         ///     移动特效方向
         /// </summary>
         [Description("移动特效方向"), DefaultValue(typeof(TMDirection), "None")]
-        public TMDirection MDirection
-        {
-            get { return _mDirection; }
-            set { _mDirection = value; }
-        }
+        public TMDirection MDirection { get; set; }
 
         /// <summary>
         ///     透明过度(旋转前)图片
@@ -199,7 +177,6 @@ namespace Paway.Forms
         public Image TranLaterImage { get; set; }
 
         private int _mInterval = 7;
-
         /// <summary>
         ///     移动特效间隔
         /// </summary>
@@ -244,11 +221,7 @@ namespace Paway.Forms
             }
         }
 
-        /// <summary>
-        ///     线性渐变绘制
-        /// </summary>
         private TProperties _tBrush;
-
         /// <summary>
         ///     线性渐变绘制
         /// </summary>
@@ -267,11 +240,7 @@ namespace Paway.Forms
             }
         }
 
-        /// <summary>
-        ///     指定线性渐变的方向
-        /// </summary>
         private LinearGradientMode _tBrushMode = LinearGradientMode.Vertical;
-
         /// <summary>
         ///     指定线性渐变的方向
         /// </summary>
@@ -288,7 +257,6 @@ namespace Paway.Forms
         }
 
         private int _trans = 255;
-
         /// <summary>
         ///     控件透明度
         /// </summary>
@@ -326,7 +294,6 @@ namespace Paway.Forms
         #endregion
 
         #region 固定窗体背景 - 同TForm
-
         /// <summary>
         ///     固定窗体背景
         /// </summary>
@@ -384,7 +351,6 @@ namespace Paway.Forms
         #endregion
 
         #region 按指定方向显示移动特效
-
         private Timer sTimer;
         private int intervel;
         private DockStyle dock;
@@ -395,6 +361,10 @@ namespace Paway.Forms
         private int color = 255;
         private bool i3d;
         private Image image;
+        /// <summary>
+        ///     是否使用过特效
+        /// </summary>
+        private bool iReader;
 
         private void InitShow()
         {
@@ -483,11 +453,6 @@ namespace Paway.Forms
                     break;
             }
         }
-
-        /// <summary>
-        ///     是否使用过特效
-        /// </summary>
-        private bool iReader;
 
         /// <summary>
         ///     启动特效
