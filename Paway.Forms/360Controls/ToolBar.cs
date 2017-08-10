@@ -29,6 +29,22 @@ namespace Paway.Forms
             InitChange();
             CustomScroll();
             toolTop = new ToolTip();
+            this.MouseEnter += ToolBar_MouseEnter;
+            _vScroll.MouseEnter += ToolBar_MouseEnter;
+            _hScroll.MouseEnter += ToolBar_MouseEnter;
+            this.MouseLeave += ToolBar_MouseLeave;
+            _vScroll.MouseLeave += ToolBar_MouseLeave;
+            _hScroll.MouseLeave += ToolBar_MouseLeave;
+        }
+        private void ToolBar_MouseLeave(object sender, EventArgs e)
+        {
+            iMouseStatu = false;
+            AutoMouseStatu();
+        }
+        private void ToolBar_MouseEnter(object sender, EventArgs e)
+        {
+            iMouseStatu = true;
+            AutoMouseStatu();
         }
 
         #endregion
@@ -1699,8 +1715,7 @@ namespace Paway.Forms
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            if (_iFocus || INormal) return;
-            if (DesignMode) return;
+            if (_iFocus || INormal || DesignMode) return;
 
             _iDown = false;
             MoveItem = null;
@@ -2174,6 +2189,23 @@ namespace Paway.Forms
             UpdateScroll();
             Invalidate(ClientRectangle);
         }
+        private void AutoMouseStatu()
+        {
+            bool result = iScrollHide & _iScroll & iMouseStatu;
+            int time = result ? 1 : 3;
+            new Action<int>(AutoMouseStatu2).BeginInvoke(time, null, null);
+        }
+        private void AutoMouseStatu2(int time)
+        {
+            for (int i = 0; i < time; i++)
+                System.Threading.Thread.Sleep(50);
+            if (DesignMode) return;
+            this.Invoke(new Action(AutoMouseStatu3));
+        }
+        private void AutoMouseStatu3()
+        {
+            panelScroll.Visible = iScrollHide & _iScroll & iMouseStatu;
+        }
 
         #endregion
 
@@ -2390,6 +2422,10 @@ namespace Paway.Forms
                 TRefresh();
             }
         }
+        /// <summary>
+        /// 当前鼠标进入状态
+        /// </summary>
+        private bool iMouseStatu;
 
         /// <summary>
         ///     获取滚动条是否有显示
@@ -2653,6 +2689,7 @@ namespace Paway.Forms
                         break;
                 }
             }
+            panelScroll.Visible = DesignMode;
         }
 
         /// <summary>

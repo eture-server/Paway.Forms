@@ -54,6 +54,7 @@ namespace Paway.Test
                 toolBar2.Items.Add(item);
             }
             toolBar2.TChangeStart();
+            toolBar2.TStart();
             //toolBar1.TClickFirst();
         }
         void toolBar2_ItemClick(object sender, EventArgs e)

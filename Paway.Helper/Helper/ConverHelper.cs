@@ -44,13 +44,13 @@ namespace Paway.Helper
         public static int ToInt(this object obj)
         {
             if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
-                return -1;
+                return 0;
 
             if (obj.ToString().ToUpper() == "TRUE")
                 return 1;
             if (obj.ToString().ToUpper() == "FALSE")
                 return 0;
-            var data = -1;
+            var data = 0;
             if (int.TryParse(obj.ToString(), out data))
             {
                 return data;
@@ -65,7 +65,7 @@ namespace Paway.Helper
                     return data;
                 }
             }
-            return -1;
+            return 0;
         }
         /// <summary>
         ///     Long转换
@@ -73,12 +73,12 @@ namespace Paway.Helper
         public static long ToLong(this object obj)
         {
             if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
-                return -1;
+                return 0;
 
             long value;
             if (long.TryParse(obj.ToString(), out value))
                 return value;
-            return -1;
+            return 0;
         }
         /// <summary>
         ///     Double转换
