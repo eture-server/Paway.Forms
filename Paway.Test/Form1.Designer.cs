@@ -149,7 +149,7 @@
             this.toolBar.Location = new System.Drawing.Point(35, 29);
             this.toolBar.MDirection = Paway.Forms.TMDirection.Center;
             this.toolBar.Name = "toolBar";
-            this.toolBar.Size = new System.Drawing.Size(263, 215);
+            this.toolBar.Size = new System.Drawing.Size(260, 215);
             this.toolBar.TabIndex = 31;
             this.toolBar.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
             this.toolBar.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(127)))), ((int)(((byte)(104)))));
@@ -243,8 +243,8 @@
             // 
             this.qqTextBox1.BackColor = System.Drawing.Color.White;
             this.qqTextBox1.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.qqTextBox1.Icon = null;
             this.qqTextBox1.IBorder = false;
+            this.qqTextBox1.Icon = null;
             this.qqTextBox1.IsPasswordChat = '\0';
             this.qqTextBox1.Lines = new string[] {
         "qqTextBox1"};

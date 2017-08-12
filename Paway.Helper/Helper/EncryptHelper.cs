@@ -13,6 +13,18 @@ namespace Paway.Helper
     public abstract class EncryptHelper
     {
         #region 字符加解密
+        /// <summary>
+        /// sha256加密
+        /// </summary>
+        public static string EncryptSHA256(string str)
+        {
+            byte[] key = Encoding.UTF8.GetBytes(str);
+
+            SHA256Managed Sha256 = new SHA256Managed();
+            byte[] buffer = Sha256.ComputeHash(key);
+
+            return Convert.ToBase64String(buffer);
+        }
 
         /// <summary>
         ///     Base64(MD5)

@@ -235,12 +235,12 @@ namespace Paway.Forms
         /// <summary>
         ///     滚动条宽度
         /// </summary>
-        private int _tScrollHeight = 3;
+        private int _tScrollHeight = 5;
 
         /// <summary>
         ///     滚动条宽度
         /// </summary>
-        [Description("滚动条宽度"), DefaultValue(3)]
+        [Description("滚动条宽度"), DefaultValue(5)]
         public int TScrollHeight
         {
             get { return _tScrollHeight; }
@@ -258,7 +258,6 @@ namespace Paway.Forms
                     _vScroll.Width = value;
                     panelScroll.Width = value;
                 }
-                TRefresh();
             }
         }
 
@@ -1076,7 +1075,7 @@ namespace Paway.Forms
             switch (_tDirection)
             {
                 case TDirection.Level:
-                    var isNew = xPos + item.Rectangle.Width + _itemSize.Width + _itemSpace + Padding.Right > TWidth;
+                    var isNew = xPos + item.Rectangle.Width + _itemSize.Width + _itemSpace + Padding.Right > Width;
                     if (item.IHeard || isNew)
                     {
                         xPos = Padding.Left;
@@ -1089,7 +1088,7 @@ namespace Paway.Forms
                                     yPos += _itemSize.Height + _itemSpace;
                                     TCountLine++;
                                 }
-                                item.Rectangle = new Rectangle(xPos, yPos, TWidth, size.Height);
+                                item.Rectangle = new Rectangle(xPos, yPos, Width, size.Height);
                                 THeardLength += size.Height + _itemSpace * 2;
                             }
                             else
@@ -1107,7 +1106,7 @@ namespace Paway.Forms
                     isLastNew = isNew;
                     break;
                 case TDirection.Vertical:
-                    isNew = yPos + item.Rectangle.Height * 2 + _itemSpace + Padding.Bottom > THeight;
+                    isNew = yPos + item.Rectangle.Height * 2 + _itemSpace + Padding.Bottom > Height;
                     if (item.IHeard || isNew)
                     {
                         yPos = Padding.Top;
@@ -1120,7 +1119,7 @@ namespace Paway.Forms
                                     xPos += _itemSize.Width + _itemSpace;
                                     TCountColumn++;
                                 }
-                                item.Rectangle = new Rectangle(xPos, yPos, size.Width, THeight);
+                                item.Rectangle = new Rectangle(xPos, yPos, size.Width, Height);
                                 THeardLength += size.Width + _itemSpace * 2;
                             }
                             else
@@ -2148,10 +2147,10 @@ namespace Paway.Forms
             switch (TDirection)
             {
                 case TDirection.Level:
-                    THeight = GetHeight();
+                    Height = GetHeight();
                     break;
                 case TDirection.Vertical:
-                    TWidth = GetWidth();
+                    Width = GetWidth();
                     break;
             }
         }
@@ -2191,14 +2190,12 @@ namespace Paway.Forms
         }
         private void AutoMouseStatu()
         {
-            bool result = iScrollHide & _iScroll & iMouseStatu;
-            int time = result ? 1 : 3;
-            new Action<int>(AutoMouseStatu2).BeginInvoke(time, null, null);
+            if (panelScroll.Visible == iScrollHide & _iScroll & iMouseStatu) return;
+            new Action(AutoMouseStatu2).BeginInvoke(null, null);
         }
-        private void AutoMouseStatu2(int time)
+        private void AutoMouseStatu2()
         {
-            for (int i = 0; i < time; i++)
-                System.Threading.Thread.Sleep(50);
+            System.Threading.Thread.Sleep(50);
             if (DesignMode) return;
             this.Invoke(new Action(AutoMouseStatu3));
         }
@@ -2466,24 +2463,6 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     控件显示区域宽度
-        /// </summary>
-        private int TWidth
-        {
-            get { return _vScroll.Visible ? Width - _vScroll.Width : Width; }
-            set { Width = value; }
-        }
-
-        /// <summary>
-        ///     控件显示区域高度
-        /// </summary>
-        private int THeight
-        {
-            get { return _hScroll.Visible ? Height - _hScroll.Height : Height; }
-            set { Height = value; }
-        }
-
-        /// <summary>
         ///     控件显示偏移坐标
         /// </summary>
         private Point Offset = Point.Empty;
@@ -2611,7 +2590,7 @@ namespace Paway.Forms
             {
                 case TDirection.Level:
                     var height = GetHeight();
-                    if (THeight < height)
+                    if (Height < height)
                     {
                         iScrollHide = true;
                         _vScroll.Visible = _iScroll;
@@ -2628,7 +2607,7 @@ namespace Paway.Forms
                     break;
                 case TDirection.Vertical:
                     var width = GetWidth();
-                    if (TWidth < width)
+                    if (Width < width)
                     {
                         iScrollHide = true;
                         _hScroll.Visible = _iScroll;
