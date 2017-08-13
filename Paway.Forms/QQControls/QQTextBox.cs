@@ -302,7 +302,9 @@ namespace Paway.Forms
             get
             {
                 BaseText_LostFocus(this, EventArgs.Empty);
-                return !string.IsNullOrEmpty(error.GetError(this));
+                bool result = !string.IsNullOrEmpty(error.GetError(this));
+                if (result) this.Focus();
+                return result;
             }
         }
 

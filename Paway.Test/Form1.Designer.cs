@@ -189,6 +189,7 @@
             this.tbRsa2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
             this.tbRsa2.Regex = "[0-9]+(\\.[0-9]+)?";
             this.tbRsa2.RegexType = Paway.Helper.RegexType.Custom;
+            this.tbRsa2.RLength = 1;
             this.tbRsa2.SelectedText = "";
             this.tbRsa2.Size = new System.Drawing.Size(94, 29);
             this.tbRsa2.TabIndex = 60;

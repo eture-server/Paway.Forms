@@ -48,6 +48,7 @@ namespace Paway.Test
 
         void btName_Click(object sender, EventArgs e)
         {
+            if (tbRsa2.IError) return;
             toolBar.TStart();
             string ip = HardWareHandler.GetIpAddress();
             try
