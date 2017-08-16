@@ -35,7 +35,6 @@ namespace Paway.Forms
             HotTracking = true;
             BorderStyle = BorderStyle.None;
             AfterCheck += DrawTreeView_AfterCheck;
-            InitDrop();
         }
 
         #region 双击展开
@@ -178,19 +177,6 @@ namespace Paway.Forms
             set { _hot = value; }
         }
 
-        private Color _hotLine = Color.FromArgb(185, 215, 252);
-
-        /// <summary>
-        ///     鼠标移过项时的边框颜色
-        /// </summary>
-        [Browsable(true), Category("控件的重绘设置"), Description("鼠标移过项时的边框颜色")]
-        [DefaultValue(typeof(Color), "185, 215, 252")]
-        public Color ColorHotLine
-        {
-            get { return _hotLine; }
-            set { _hotLine = value; }
-        }
-
         private Color _hotFore = Color.Black;
 
         /// <summary>
@@ -238,11 +224,11 @@ namespace Paway.Forms
             set { _id = value; }
         }
 
-        private bool _iAutoWidth = true;
+        private bool _iAutoWidth = false;
         /// <summary>
         ///     自动调整宽度至整行
         /// </summary>
-        [Browsable(true), Description("自动调整宽度至整行"), DefaultValue(true)]
+        [Browsable(true), Description("自动调整宽度至整行"), DefaultValue(false)]
         public bool IAutoWidth
         {
             get { return _iAutoWidth; }
@@ -625,6 +611,10 @@ namespace Paway.Forms
                     }
                 }
             }
+            AutoWidth();
+        }
+        private void AutoWidth()
+        {
             if (_iAutoWidth)
             {
                 var total = 0;
@@ -642,7 +632,14 @@ namespace Paway.Forms
         #endregion
 
         #region 重绘节点
-
+        /// <summary>
+        /// 自动调整大小
+        /// </summary>
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            AutoWidth();
+        }
         /// <summary>
         ///     重绘节点
         /// </summary>
@@ -650,21 +647,21 @@ namespace Paway.Forms
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            var g = e.Graphics;
-            OnPaint(g, Nodes, e.ClipRectangle);
+            OnPaint(e.Graphics, Nodes, e.ClipRectangle);
         }
 
         private void OnPaint(Graphics g, TreeNodeCollection nodes, Rectangle rect)
         {
             for (var i = 0; i < nodes.Count; i++)
             {
-                if (Rectangle.Union(rect, nodes[i].Bounds) != Rectangle.Empty)
+                var node = nodes[i];
+                if (Rectangle.Union(rect, node.Bounds) != Rectangle.Empty)
                 {
-                    C_DrawNode(g, ForeColor, BackColor, nodes[i], 0);
-                    C_DrawAdd(g, nodes[i]);
+                    C_DrawNode(g, node.ForeColor == Color.Empty ? ForeColor : node.ForeColor, node.BackColor == Color.Empty ? BackColor : node.BackColor, nodes[i], 0);
+                    C_DrawAdd(g, node);
                 }
-                if (nodes[i].IsExpanded && nodes[i].Nodes.Count > 0)
-                    OnPaint(g, nodes[i].Nodes, rect);
+                if (node.IsExpanded && node.Nodes.Count > 0)
+                    OnPaint(g, node.Nodes, rect);
             }
         }
 
@@ -678,19 +675,14 @@ namespace Paway.Forms
                 {
                     g.FillRectangle(new SolidBrush(ColorSelect), rect);
                     C_DrawString(g, node, rect, ColorSelectFore);
-                    g.DrawRectangle(new Pen(ColorSelectLine), rect);
+                    g.DrawRectangle(new Pen(node.BackColor == Color.Empty ? ColorSelectLine : node.BackColor), rect);
                 }
                 else
                 {
-                    g.FillRectangle(new SolidBrush(ColorSelectNoFocus), rect);
-                    C_DrawString(g, node, rect, ColorSelectForeNoFocus);
+                    g.FillRectangle(new SolidBrush(node.BackColor == Color.Empty ? ColorSelectNoFocus : node.BackColor), rect);
+                    C_DrawString(g, node, rect, node.ForeColor == Color.Empty ? ColorSelectForeNoFocus : node.ForeColor);
                     g.DrawRectangle(new Pen(ColorSelectLineNoFocus), rect);
                 }
-            }
-            else
-            {
-                g.FillRectangle(new SolidBrush(BackColor), rect);
-                C_DrawString(g, node, rect, ForeColor);
             }
         }
 
@@ -771,7 +763,6 @@ namespace Paway.Forms
                 {
                     var indent = (rect.Height - add.Height) / 2;
                     var plusRect = new Rectangle(rect.X - add.Width - interval, rect.Top + indent, add.Width, add.Height);
-                    Console.WriteLine(DateTime.Now + " Add");
                     g.DrawImage(add, plusRect);
                 }
                 else
@@ -779,7 +770,6 @@ namespace Paway.Forms
                     var indent = (rect.Height - less.Height) / 2;
                     var lessRect = new Rectangle(rect.X - less.Width - interval, rect.Top + indent, less.Width, less.Height);
                     g.DrawImage(less, lessRect);
-                    Console.WriteLine(DateTime.Now + " Less");
                 }
             }
             if (this.CheckBoxes)
@@ -847,7 +837,9 @@ namespace Paway.Forms
                 Invalidate(rect);
             }
             var g = CreateGraphics();
-            C_DrawNode(g, ColorHotFore, ColorHot, node, 1);
+            Color foreColor = (node == null || node.ForeColor == Color.Empty) ? ColorHotFore : node.ForeColor;
+            Color backColor = (node == null || node.BackColor == Color.Empty) ? ColorHot : node.BackColor;
+            C_DrawNode(g, foreColor, backColor, node, 1);
             lastnode = node;
             g.Dispose();
         }

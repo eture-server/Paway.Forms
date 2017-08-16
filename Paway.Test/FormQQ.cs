@@ -111,6 +111,8 @@ namespace Paway.Test
             TreeData info = new TreeData() { Id = list[list.Count - 1].Id + 1 };
             info.Name = DateTime.Now.Second.ToString();
             info.ParentId = node == null ? 0 : node["Id"].ToInt();
+            info.Custom = "C_C" + info.Name;
+            info.Value = "C_V" + info.Name;
             list.Add(info);
             treeView1.UpdateNode(info.Id);
         }

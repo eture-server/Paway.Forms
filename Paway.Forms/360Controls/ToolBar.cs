@@ -2045,7 +2045,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     选中项
+        ///     单击项
         /// </summary>
         public void TClickItem(string text)
         {
@@ -2054,22 +2054,28 @@ namespace Paway.Forms
                 if (Items[i].First == text)
                 {
                     TClickItem(i);
+                    return;
+                }
+            }
+            for (var i = 0; i < Items.Count; i++)
+            {
+                if (Items[i].Tag.ToString2() == text)
+                {
+                    TClickItem(i);
                     break;
                 }
             }
         }
-
         /// <summary>
-        ///     选中项
+        ///     单击项
         /// </summary>
         public void TClickItem(ToolItem item)
         {
             var index = Items.GetIndexOfRange(item);
             TClickItem(index);
         }
-
         /// <summary>
-        ///     选中第index项
+        ///     单击项
         /// </summary>
         public void TClickItem(int index)
         {
