@@ -661,7 +661,7 @@ namespace Paway.Forms
         /// </summary>
         private void BaseText_GotFocus(object sender, EventArgs e)
         {
-            Set();
+            Reset();
         }
 
         /// <summary>
@@ -674,7 +674,7 @@ namespace Paway.Forms
             string result = null;
             if (BaseText.TextLength < RLength)
             {
-                Set(string.Format("请输入不少于{0}位字符", RLength));
+                Reset(string.Format("请输入不少于{0}位字符", RLength));
                 return;
             }
             if (string.IsNullOrEmpty(BaseText.Text)) return;
@@ -693,18 +693,18 @@ namespace Paway.Forms
             }
             if (!string.IsNullOrEmpty(result))
             {
-                Set(string.Format("不可以输入字符:{0}", result));
+                Reset(string.Format("不可以输入字符:{0}", result));
             }
             else
             {
-                Set();
+                Reset();
             }
         }
 
         /// <summary>
         ///     清除错误描述
         /// </summary>
-        public void Set()
+        public void Reset()
         {
             error.SetError(this, null);
         }
@@ -712,7 +712,7 @@ namespace Paway.Forms
         /// <summary>
         ///     设置错误描述
         /// </summary>
-        public void Set(string er)
+        public void Reset(string er)
         {
             error.SetError(this, er);
         }

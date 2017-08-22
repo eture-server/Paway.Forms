@@ -224,6 +224,7 @@ namespace Paway.Forms
                 if (base.Text != value)
                 {
                     base.Text = value;
+                    this._textShow = value;
                     Invalidate(TitleBarRect);
                 }
             }
