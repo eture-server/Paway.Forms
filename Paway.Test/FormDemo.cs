@@ -172,19 +172,19 @@ namespace Paway.Test
 
         void btSearch_Click(object sender, EventArgs e)
         {
-            Bitmap searchFor = BitmapHelper.GetBitmapFormFile(@"d:\for.png");
-            Bitmap searchOn = BitmapHelper.GetBitmapFormFile(@"d:\on.jpg");
-            Mobot.Imaging.SearchResult[] results = Mobot.Imaging.ImageRecognitionHelper.SearchBitmap_Test(searchFor, searchOn);
-            for (int i = 0; i < results.Length; i++)
-            {
-                using (Graphics graphics = Graphics.FromImage(searchOn))
-                {
-                    graphics.DrawRectangle(new Pen(Color.Red), results[i].Rect);
-                }
-            }
-            ImageForm iform = new ImageForm(searchOn);
-            iform.BackColor = Color.Black;
-            iform.ShowDialog(this);
+            //Bitmap searchFor = BitmapHelper.GetBitmapFormFile(@"d:\for.png");
+            //Bitmap searchOn = BitmapHelper.GetBitmapFormFile(@"d:\on.jpg");
+            //Mobot.Imaging.SearchResult[] results = Mobot.Imaging.ImageRecognitionHelper.SearchBitmap_Test(searchFor, searchOn);
+            //for (int i = 0; i < results.Length; i++)
+            //{
+            //    using (Graphics graphics = Graphics.FromImage(searchOn))
+            //    {
+            //        graphics.DrawRectangle(new Pen(Color.Red), results[i].Rect);
+            //    }
+            //}
+            //ImageForm iform = new ImageForm(searchOn);
+            //iform.BackColor = Color.Black;
+            //iform.ShowDialog(this);
         }
 
         void qqTextBox1_TextChanged(object sender, EventArgs e)

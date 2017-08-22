@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form3));
             this.tControl1 = new Paway.Forms.TControl();
             this.toolBar1 = new Paway.Forms.ToolBar();
             this.btChange = new Paway.Forms.QQButton();
@@ -56,6 +57,7 @@
             this.toolBar1.Name = "toolBar1";
             this.toolBar1.Size = new System.Drawing.Size(191, 251);
             this.toolBar1.TabIndex = 1;
+            this.toolBar1.TranLaterImage = ((System.Drawing.Image)(resources.GetObject("toolBar1.TranLaterImage")));
             // 
             // btChange
             // 
@@ -75,7 +77,7 @@
             this.Name = "Form3";
             this.TBrush.ColorNormal = System.Drawing.Color.CornflowerBlue;
             this.TBrush.ColorSpace = System.Drawing.Color.Ivory;
-            this.Text = "Form3";
+            this.Text = "你好";
             this.TextShow = "你好";
             this.Trans = 155;
             this.tControl1.ResumeLayout(false);

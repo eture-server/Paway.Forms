@@ -218,10 +218,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mobot.Imaging\Mobot.Imaging.csproj">
-      <Project>{87eb4f5c-8e3a-4e7b-95df-824c172101b9}</Project>
-      <Name>Mobot.Imaging</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Paway.Helper\Paway.Helper.csproj">
       <Project>{01826a18-9c4d-4a13-99a1-db29b0d49de9}</Project>
       <Name>Paway.Helper</Name>

@@ -233,7 +233,7 @@ namespace Paway.Forms
         /// <summary>
         ///     窗体显示的标题文字
         /// </summary>
-        [Description("窗体显示的标题文字")]
+        [Browsable(false), Description("窗体显示的标题文字")]
         public string TextShow
         {
             get { return _textShow; }
