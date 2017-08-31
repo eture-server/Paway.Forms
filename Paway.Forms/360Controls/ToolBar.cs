@@ -1060,16 +1060,20 @@ namespace Paway.Forms
             if (_iAutoWidth)
             {
                 Graphics g = this.CreateGraphics();
+                SizeF size1 = SizeF.Empty;
+                int width = 0;
                 if (_iText || item.IText)
                 {
-                    SizeF size1 = g.MeasureString(item.Text, TextFirst.FontNormal, item.Rectangle.Size);
-                    item.Rectangle = new Rectangle(item.Rectangle.X, item.Rectangle.Y, size1.Width.ToInt() + 1 + _textPading.Left + _textPading.Right, item.Rectangle.Height);
+                    size1 = g.MeasureString(item.Text, TextFirst.FontNormal, item.Rectangle.Size);
+                    width = size1.Width.ToInt() + 1 + _textPading.Left + _textPading.Right;
                 }
                 else
                 {
-                    SizeF size1 = TextRenderer.MeasureText(item.Text, TextFirst.FontNormal, item.Rectangle.Size);
-                    item.Rectangle = new Rectangle(item.Rectangle.X, item.Rectangle.Y, size1.Width.ToInt() + _textPading.Left + _textPading.Right, item.Rectangle.Height);
+                    size1 = TextRenderer.MeasureText(item.Text, TextFirst.FontNormal, item.Rectangle.Size);
+                    width = size1.Width.ToInt() + _textPading.Left + _textPading.Right;
                 }
+                if (width > _itemSize.Width) width = _itemSize.Width;
+                item.Rectangle = new Rectangle(item.Rectangle.X, item.Rectangle.Y, width, item.Rectangle.Height);
             }
             var size = TextRenderer.MeasureText("你", Font);
             switch (_tDirection)
@@ -2438,14 +2442,7 @@ namespace Paway.Forms
         {
             get
             {
-                switch (TDirection)
-                {
-                    case TDirection.Level:
-                        return _vScroll.Visible;
-                    case TDirection.Vertical:
-                        return _hScroll.Visible;
-                }
-                return false;
+                return iScrollHide & _iScroll;
             }
         }
 
@@ -2586,7 +2583,7 @@ namespace Paway.Forms
         /// </summary>
         private void UpdateScroll(bool toLast = false, bool toValid = false)
         {
-            var valid = _vScroll.Visible || _hScroll.Visible;
+            var valid = iScrollHide && _iScroll;
             _vScroll.Visible = false;
             _hScroll.Visible = false;
             _vScroll2.Visible = false;
