@@ -137,9 +137,8 @@ namespace Paway.Forms
         {
             base.OnPaint(e);
             var g = e.Graphics;
-            g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.SmoothingMode = SmoothingMode.HighQuality;
             g.InterpolationMode = InterpolationMode.HighQualityBilinear;
-            g.TextRenderingHint = TextRenderingHint.AntiAlias;
 
             DrawBackground(g);
             DrawTabPages(g);

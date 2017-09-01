@@ -328,8 +328,7 @@ namespace Paway.Forms
         protected override void OnPaint(PaintEventArgs pevent)
         {
             var g = pevent.Graphics;
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.TextRenderingHint = TextRenderingHint.AntiAlias;
+            g.SmoothingMode = SmoothingMode.HighQuality;
             //g.DrawImage(AssemblyHelper.GetAssemblyImage("Button.all_btn_White-side.png"), this.AllRect);
             if (Enabled)
             {

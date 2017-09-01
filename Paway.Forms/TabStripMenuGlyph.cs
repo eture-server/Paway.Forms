@@ -27,7 +27,6 @@ namespace Paway.Forms
 
                 g.DrawRectangle(SystemPens.Highlight, borderRect);
             }
-            var bak = g.SmoothingMode;
 
             using (var pen = new Pen(Color.Black))
             {
@@ -42,7 +41,6 @@ namespace Paway.Forms
                 new Point(_bounds.Right - _bounds.Width/3, _bounds.Height/2 + 2),
                 new Point(_bounds.Left + _bounds.Width/2 - 1, _bounds.Bottom - 4)
             });
-            g.SmoothingMode = bak;
         }
 
         #endregion

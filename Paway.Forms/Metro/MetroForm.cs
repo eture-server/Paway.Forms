@@ -280,7 +280,7 @@ namespace Paway.Forms.Metro
             if (!DesignMode)
             {
                 var g = e.Graphics;
-                g.SmoothingMode = SmoothingMode.AntiAlias;
+                g.SmoothingMode = SmoothingMode.HighQuality;
 
                 if (Items.Count > 0)
                 {

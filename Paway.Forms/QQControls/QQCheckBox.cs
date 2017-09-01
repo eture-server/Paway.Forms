@@ -139,8 +139,7 @@ namespace Paway.Forms
         protected override void OnPaint(PaintEventArgs e)
         {
             var g = e.Graphics;
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.TextRenderingHint = TextRenderingHint.AntiAlias;
+            g.SmoothingMode = SmoothingMode.HighQuality;
 
             var flags = TextFormatFlags.Left |
                         TextFormatFlags.SingleLine |

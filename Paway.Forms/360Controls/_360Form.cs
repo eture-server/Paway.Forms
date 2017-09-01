@@ -291,7 +291,7 @@ namespace Paway.Forms
         {
             base.OnPaint(e);
             var g = e.Graphics;
-            g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.SmoothingMode = SmoothingMode.HighQuality;
 
             var rect = ClientRectangle;
             if (ControlBox)

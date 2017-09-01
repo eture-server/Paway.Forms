@@ -143,6 +143,7 @@
             this.btQQ = new Paway.Forms.QQButton();
             this.bt360 = new Paway.Forms.QQButton();
             this.numEditTestBox2 = new Paway.Forms.TNumTestBox();
+            this.qqCheckBox1 = new Paway.Forms.QQCheckBox();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -954,10 +955,22 @@
             this.numEditTestBox2.Size = new System.Drawing.Size(92, 24);
             this.numEditTestBox2.TabIndex = 5;
             // 
+            // qqCheckBox1
+            // 
+            this.qqCheckBox1.AutoSize = true;
+            this.qqCheckBox1.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.qqCheckBox1.Location = new System.Drawing.Point(118, 121);
+            this.qqCheckBox1.Name = "qqCheckBox1";
+            this.qqCheckBox1.Size = new System.Drawing.Size(107, 25);
+            this.qqCheckBox1.TabIndex = 66;
+            this.qqCheckBox1.Text = "你好World";
+            this.qqCheckBox1.UseVisualStyleBackColor = false;
+            // 
             // FormDemo
             // 
             this.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.ClientSize = new System.Drawing.Size(560, 289);
+            this.Controls.Add(this.qqCheckBox1);
             this.Controls.Add(this.qqTextBox1);
             this.Controls.Add(this.btDemo360);
             this.Controls.Add(this.btQQDemo);
@@ -1085,6 +1098,6 @@
         private Forms.QQButton btQQDemo;
         private Forms.QQButton btDemo360;
         private Forms.QQTextBox qqTextBox1;
-
+        private Forms.QQCheckBox qqCheckBox1;
     }
 }

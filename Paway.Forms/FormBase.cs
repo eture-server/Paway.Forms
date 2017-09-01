@@ -641,8 +641,7 @@ namespace Paway.Forms
         {
             base.OnPaint(e);
             var g = e.Graphics;
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.TextRenderingHint = TextRenderingHint.AntiAlias;
+            g.SmoothingMode = SmoothingMode.HighQuality;
 
             //绘画图标
             if (ShowIcon)
@@ -658,8 +657,7 @@ namespace Paway.Forms
         {
             base.OnPaintBackground(e);
             var g = e.Graphics;
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.TextRenderingHint = TextRenderingHint.AntiAlias;
+            g.SmoothingMode = SmoothingMode.HighQuality;
 
             //绘制背景
             if (TBrush.ColorSpace != Color.Empty && TBrush.ColorNormal != Color.Empty)

@@ -956,7 +956,7 @@ namespace Paway.Forms
             base.OnPaint(e);
             var g = e.Graphics;
             g.TranslateTransform(Offset.X, Offset.Y);
-            g.PixelOffsetMode = PixelOffsetMode.Half; //与AntiAlias作用相反
+            g.PixelOffsetMode = PixelOffsetMode.HighQuality; //与AntiAlias作用相反
             var temp = g.VisibleClipBounds;
             //修理毛边
             temp = new RectangleF(temp.X - 1, temp.Y - 1, temp.Width + 2, temp.Height + 2);

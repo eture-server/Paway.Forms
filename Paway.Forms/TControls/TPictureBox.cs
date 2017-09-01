@@ -129,7 +129,6 @@ namespace Paway.Forms.TControls
                 g.InterpolationMode = InterpolationMode.NearestNeighbor;
                 g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 g.DrawImage(screen, rect, new Rectangle(Point.Empty, screen.Size), GraphicsUnit.Pixel);
-                g.PixelOffsetMode = PixelOffsetMode.Default;
             }
             base.OnPaint(pe);
         }

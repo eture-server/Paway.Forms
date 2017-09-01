@@ -353,7 +353,6 @@ namespace Paway.Helper
                 }
                 g.DrawImage(image, rect, new Rectangle(Point.Empty, image.Size),
                     GraphicsUnit.Pixel);
-                g.PixelOffsetMode = PixelOffsetMode.Default;
             }
             return temp;
         }
