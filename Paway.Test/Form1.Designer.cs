@@ -291,10 +291,10 @@
             this.Controls.Add(this.pictureBox1);
             this.ForeColor = System.Drawing.Color.White;
             this.IDrawBorder = true;
-            this.IResize = false;
             this.Name = "Form1";
             this.Padding = new System.Windows.Forms.Padding(0, 26, 3, 3);
             this.Text = "Form1";
+            this.TextShow = "Form1";
             this.contextMenuStrip2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();

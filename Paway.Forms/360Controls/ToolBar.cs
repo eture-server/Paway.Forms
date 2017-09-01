@@ -1173,7 +1173,7 @@ namespace Paway.Forms
             if (!item.Enable)
             {
                 item.MouseState = TMouseState.Normal;
-                item.IMouseState = TMouseState.Normal;
+                item.TMouseState = TMouseState.Normal;
             }
             switch (item.MouseState)
             {
@@ -1193,7 +1193,7 @@ namespace Paway.Forms
             if (!item.Enable)
             {
                 item.MouseState = TMouseState.Normal;
-                item.IMouseState = TMouseState.Normal;
+                item.TMouseState = TMouseState.Normal;
             }
             switch (item.MouseState)
             {
@@ -1379,7 +1379,7 @@ namespace Paway.Forms
                 }
                 if (!string.IsNullOrEmpty(item.Desc))
                 {
-                    var size = TextRenderer.MeasureText(item.Desc, GetFont(item.IMouseState, TDesc));
+                    var size = TextRenderer.MeasureText(item.Desc, GetFont(item.TMouseState, TDesc));
                     textRect.Width -= size.Width;
                 }
                 if (_iText || item.IText)
@@ -1466,10 +1466,10 @@ namespace Paway.Forms
         private void DrawDesc(Graphics g, ToolItem item, Rectangle rect)
         {
             if (string.IsNullOrEmpty(item.Desc)) return;
-            var size = TextRenderer.MeasureText(item.Desc, GetFont(item.IMouseState, TDesc));
+            var size = TextRenderer.MeasureText(item.Desc, GetFont(item.TMouseState, TDesc));
             item.RectDesc = new Rectangle(rect.X + rect.Width + (item.ContextMenuStrip == null ? 0 : 4),
                 rect.Y + (rect.Height - size.Height) / 2, size.Width, size.Height);
-            DrawOtherDesc(g, item, TDesc, item.Desc, item.RectDesc, item.IMouseState);
+            DrawOtherDesc(g, item, TDesc, item.Desc, item.RectDesc, item.TMouseState);
         }
 
         /// <summary>
@@ -1626,9 +1626,9 @@ namespace Paway.Forms
         /// <param name="state"></param>
         private void InvaRectDesc(ToolItem item, TMouseState state)
         {
-            if (item.IMouseState != state)
+            if (item.TMouseState != state)
             {
-                item.IMouseState = state;
+                item.TMouseState = state;
                 Invalidate(new Rectangle(item.Rectangle.X + Offset.X, item.Rectangle.Y + Offset.Y, item.Rectangle.Width,
                     item.Rectangle.Height));
             }
@@ -1678,7 +1678,7 @@ namespace Paway.Forms
                     MoveItem = item;
                     if (item.RectDesc.Contains(point) || _btnArrowRect.Contains(point))
                     {
-                        if (item.IMouseState != TMouseState.Down)
+                        if (item.TMouseState != TMouseState.Down)
                         {
                             InvaRectDesc(item, TMouseState.Move);
                         }
@@ -1914,8 +1914,11 @@ namespace Paway.Forms
         /// <param name="e"></param>
         private void _items_ListChanged(object sender, ListChangedEventArgs e)
         {
+            if (e.ListChangedType == ListChangedType.ItemAdded)
+            {
+                Items[e.NewIndex].Owner = this;
+            }
             if (!ILoad) return;
-
             if (Items.Count > 1 && e.ListChangedType == ListChangedType.ItemAdded && e.NewIndex == Items.Count - 1)
             {
                 var last = 0;
@@ -2600,6 +2603,7 @@ namespace Paway.Forms
                         panelScroll.Width = _tScrollHeight;
                         panelScroll.Dock = DockStyle.Right;
                         panelScroll.Visible = _iScroll;
+                        panelScroll.Visible = DesignMode;
                         _vScroll.Size = new Size(panelScroll.Width, panelScroll.Height + 17 * 2 + 1);
                         _vScroll.Location = new Point(0, -17);
                     }
@@ -2618,6 +2622,7 @@ namespace Paway.Forms
                         panelScroll.Height = _tScrollHeight;
                         panelScroll.Dock = DockStyle.Bottom;
                         panelScroll.Visible = _iScroll;
+                        panelScroll.Visible = DesignMode;
                         _hScroll.Size = new Size(panelScroll.Width + 17 * 2 + 1, panelScroll.Height);
                         _hScroll.Location = new Point(-17, 0);
                     }
@@ -2671,7 +2676,6 @@ namespace Paway.Forms
                         break;
                 }
             }
-            panelScroll.Visible = DesignMode;
         }
 
         /// <summary>

@@ -12,18 +12,26 @@ namespace Paway.Forms
     public class ToolItem : IDisposable
     {
         #region 属性
-
         /// <summary>
         ///     拥有者
         /// </summary>
         [Browsable(false), Description("拥有者"), DefaultValue(typeof(ToolBar), "Tinn")]
         public ToolBar Owner { get; internal set; }
 
+        private Image _image;
         /// <summary>
         ///     Item 显示的图片
         /// </summary>
         [Description("Item 显示的图片"), DefaultValue(typeof(Image), "null")]
-        public Image Image { get; set; }
+        public Image Image
+        {
+            get { return _image; }
+            set
+            {
+                _image = value;
+                TRefresh();
+            }
+        }
 
         /// <summary>
         ///     当前 Item 图片显示的 Rectangle
@@ -51,13 +59,10 @@ namespace Paway.Forms
         public string Sencond { get; private set; }
 
         private string _text = string.Empty;
-
         /// <summary>
         ///     Item 上显示的文字信息
         /// </summary>
-        [Editor(
-            "System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
-            typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
         [DefaultValue(typeof(string), "")]
         public string Text
         {
@@ -81,36 +86,66 @@ namespace Paway.Forms
                 {
                     Sencond = Sencond.TrimEnd('\r', '\n');
                 }
+                TRefresh();
             }
         }
 
+        private string _desc;
         /// <summary>
         ///     Item 上显示的描述信息
         /// </summary>
         [Description("Item 上显示的描述信息"), DefaultValue(null)]
-        public string Desc { get; set; }
+        public string Desc
+        {
+            get { return _desc; }
+            set
+            {
+                _desc = value;
+                TRefresh();
+            }
+        }
         /// <summary>
         ///     Item 上显示的描述信息边框
         /// </summary>
         [Browsable(false)]
         public Rectangle RectDesc { get; internal set; }
 
+        private string _headDesc;
         /// <summary>
         ///     Item 上显示的头部描述信息
         /// </summary>
         [Description("Item 上显示的头部描述信息"), DefaultValue(null)]
-        public string HeadDesc { get; set; }
+        public string HeadDesc
+        {
+            get { return _headDesc; }
+            set
+            {
+                _headDesc = value;
+                TRefresh();
+            }
+        }
+
         /// <summary>
         ///     Item 上显示的头部描述信息边框
         /// </summary>
         [Browsable(false)]
         public Rectangle RectHeadDesc { get; internal set; }
 
+        private string _endDesc;
         /// <summary>
         ///     Item 上显示的尾部描述信息
         /// </summary>
         [Description("Item 上显示的尾部描述信息"), DefaultValue(null)]
-        public string EndDesc { get; set; }
+        public string EndDesc
+        {
+            get { return _endDesc; }
+            set
+            {
+                _endDesc = value;
+                TRefresh();
+            }
+        }
+
         /// <summary>
         ///     Item 上显示的尾部描述信息边框
         /// </summary>
@@ -135,7 +170,10 @@ namespace Paway.Forms
             get
             {
                 if (_color == null)
+                {
                     _color = new TProperties();
+                    _color.ValueChange += delegate { TRefresh(); };
+                }
                 return _color;
             }
         }
@@ -149,13 +187,13 @@ namespace Paway.Forms
         /// <summary>
         ///     描述信息的鼠标状态
         /// </summary>
-        internal TMouseState IMouseState { get; set; }
+        internal TMouseState TMouseState { get; set; }
 
         /// <summary>
         ///     Item 当前的鼠标状态
         /// </summary>
         [Browsable(false), Description("Item 当前的鼠标状态"), DefaultValue(typeof(TMouseState), "Normal")]
-        public TMouseState MouseState { get; set; }
+        internal TMouseState MouseState { get; set; }
 
         /// <summary>
         ///     Item 上的右键菜单
@@ -171,7 +209,11 @@ namespace Paway.Forms
         public bool Enable
         {
             get { return _enable; }
-            set { _enable = value; }
+            set
+            {
+                _enable = value;
+                TRefresh();
+            }
         }
 
         /// <summary>
@@ -181,32 +223,72 @@ namespace Paway.Forms
         public bool Selete
         {
             get { return MouseState == TMouseState.Down; }
-            set { MouseState = value ? TMouseState.Down : TMouseState.Normal; }
+            set
+            {
+                MouseState = value ? TMouseState.Down : TMouseState.Normal;
+                TRefresh();
+            }
         }
 
+        private bool _iText;
         /// <summary>
         ///     文本内容
         /// </summary>
         [Description("文本内容"), DefaultValue(false)]
-        public bool IText { get; set; }
+        public bool IText
+        {
+            get { return _iText; }
+            set
+            {
+                _iText = value;
+                TRefresh();
+            }
+        }
 
+        private int _tRadiu;
         /// <summary>
         ///     圆角大小
         /// </summary>
         [Description("圆角大小"), DefaultValue(0)]
-        public int TRadiu { get; set; }
+        public int TRadiu
+        {
+            get { return _tRadiu; }
+            set
+            {
+                _tRadiu = value;
+                TRefresh();
+            }
+        }
 
+        private bool _iHeard;
         /// <summary>
         ///     头文字
         /// </summary>
         [Description("头文字"), DefaultValue(false)]
-        public bool IHeard { get; set; }
+        public bool IHeard
+        {
+            get { return _iHeard; }
+            set
+            {
+                _iHeard = value;
+                TRefresh();
+            }
+        }
 
+        private bool _iChange;
         /// <summary>
         ///     变色项
         /// </summary>
         [Description("变色项"), DefaultValue(false)]
-        public bool IChange { get; set; }
+        public bool IChange
+        {
+            get { return _iChange; }
+            set
+            {
+                _iChange = value;
+                TRefresh();
+            }
+        }
 
         #region 构造
 
@@ -234,7 +316,16 @@ namespace Paway.Forms
         public ToolItem(string text, Image image)
         {
             Text = text;
-            Image = image;
+            _image = image;
+        }
+
+        /// <summary>
+        /// 刷新项
+        /// </summary>
+        private void TRefresh()
+        {
+            if (this.Owner != null)
+                this.Owner.TRefresh(this);
         }
 
         #endregion

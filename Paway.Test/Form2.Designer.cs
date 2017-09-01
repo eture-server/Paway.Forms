@@ -170,6 +170,7 @@
             this.toolBar2.Controls.Add(this.toolUp);
             this.toolBar2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolBar2.Font = new System.Drawing.Font("Tahoma", 15F);
+            this.toolBar2.ICheckEvent = true;
             this.toolBar2.IImageShow = true;
             this.toolBar2.ImageSize = new System.Drawing.Size(32, 32);
             toolItem22.Image = global::Paway.Test.Properties.Resources.online;
@@ -323,6 +324,7 @@
             this.TBrush.ColorNormal = System.Drawing.Color.CornflowerBlue;
             this.TBrush.ColorSpace = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.Text = "Form2";
+            this.TextShow = "Form2";
             this.Controls.SetChildIndex(this.panel1, 0);
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);

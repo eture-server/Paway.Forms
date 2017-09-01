@@ -48,6 +48,11 @@ namespace Paway.Test
 
         void btName_Click(object sender, EventArgs e)
         {
+            //toolBar.Items.Add(new ToolItem(DateTime.Now.Second.ToString()));
+            //toolBar.Items.RemoveAt(toolBar.Items.Count - 1);
+            //toolBar.Items[toolBar.Items.Count - 1].Text = DateTime.Now.Second.ToString();
+            toolBar.Items[toolBar.Items.Count - 1].TColor.ColorNormal = Color.Red;
+            return;
             if (tbRsa2.IError) return;
             toolBar.TStart();
             string ip = HardWareHandler.GetIpAddress();

@@ -61,7 +61,6 @@ namespace Paway.Test
         {
             ToolItem item = sender as ToolItem;
             item.Text = DateTime.Now.Second.ToString();
-            toolBar2.TRefresh(item);
         }
 
         void toolBar1_ItemClick(object sender, EventArgs e)
