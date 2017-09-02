@@ -56,6 +56,16 @@ namespace Paway.Forms
         }
 
         /// <summary>
+        ///     重载AutoSize属性
+        /// </summary>
+        [DefaultValue(true)]
+        public override bool AutoSize
+        {
+            get { return base.AutoSize; }
+            set { base.AutoSize = value; }
+        }
+
+        /// <summary>
         /// </summary>
         [Description("鼠标状态"), DefaultValue(typeof(TMouseState), "Normal")]
         internal TMouseState MouseState

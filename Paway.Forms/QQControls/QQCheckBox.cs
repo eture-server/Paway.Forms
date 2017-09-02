@@ -89,6 +89,16 @@ namespace Paway.Forms
         }
 
         /// <summary>
+        ///     重载AutoSize属性
+        /// </summary>
+        [DefaultValue(true)]
+        public override bool AutoSize
+        {
+            get { return base.AutoSize; }
+            set { base.AutoSize = value; }
+        }
+
+        /// <summary>
         ///     获取或设置控件的背景色
         /// </summary>
         [Description("获取或设置控件的背景色"), DefaultValue(typeof(Color), "Transparent")]

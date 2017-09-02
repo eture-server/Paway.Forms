@@ -1096,9 +1096,7 @@ namespace Paway.Forms
         private void control_PaintDP(object sender, PaintEventArgs e)
         {
             var control = sender as Control;
-            var g = control.CreateGraphics();
-            DrawHelper.CreateBelowPath(g, control.ClientRectangle, BackColor);
-            g.Dispose();
+            DrawHelper.CreateBelowPath(e.Graphics, control.ClientRectangle, BackColor);
         }
 
         #endregion
@@ -1118,7 +1116,7 @@ namespace Paway.Forms
         private void control_PaintDB(object sender, PaintEventArgs e)
         {
             var control = sender as Control;
-            var g = control.CreateGraphics();
+            var g = e.Graphics;
 
             if (WindowState == FormWindowState.Maximized)
             {

@@ -29,20 +29,19 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            Paway.Forms.ToolItem toolItem15 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem16 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem17 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem18 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem19 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem20 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem21 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem22 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem23 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem24 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem25 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem26 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem27 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem28 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem5 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem6 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem7 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem8 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem9 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem10 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem11 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem12 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem13 = new Paway.Forms.ToolItem();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.toolDelete = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,15 +50,10 @@
             this.toolBar = new Paway.Forms.ToolBar();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.tbRsa2 = new Paway.Forms.QQTextBox();
-            this.tControl1 = new Paway.Forms.TControl();
-            this.toolBar1 = new Paway.Forms.ToolBar();
-            this.tComboBox1 = new Paway.Forms.TComboBox();
-            this.qqTextBox1 = new Paway.Forms.QQTextBox();
             this.tbName = new Paway.Forms.QQTextBox();
             this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            this.tControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStrip2
@@ -106,43 +100,43 @@
             // 
             this.toolBar.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolBar.ImageSize = new System.Drawing.Size(32, 32);
-            toolItem15.Desc = "";
-            toolItem15.IHeard = true;
-            toolItem15.TColor.StringVertical = System.Drawing.StringAlignment.Center;
-            toolItem15.Text = "白酒123";
-            toolItem16.Desc = "aaaaa";
-            toolItem16.EndDesc = "";
-            toolItem16.HeadDesc = "呵呵";
-            toolItem16.IChange = true;
-            toolItem16.Text = "头部";
-            toolItem17.IHeard = true;
-            toolItem17.Text = "1";
-            toolItem18.Desc = "";
-            toolItem18.Text = "2\r\n1\r\n你好";
-            toolItem19.Desc = "完全好";
-            toolItem19.Text = "3";
-            toolItem20.Text = "x1";
-            toolItem21.Text = "x2";
-            toolItem22.IHeard = true;
-            toolItem22.Text = "Y";
-            toolItem23.Text = "y1";
-            toolItem24.Text = "y2";
-            toolItem26.IHeard = true;
-            toolItem26.Text = "Z";
-            toolItem27.Text = "zz1";
-            this.toolBar.Items.Add(toolItem15);
-            this.toolBar.Items.Add(toolItem16);
-            this.toolBar.Items.Add(toolItem17);
-            this.toolBar.Items.Add(toolItem18);
-            this.toolBar.Items.Add(toolItem19);
-            this.toolBar.Items.Add(toolItem20);
-            this.toolBar.Items.Add(toolItem21);
-            this.toolBar.Items.Add(toolItem22);
-            this.toolBar.Items.Add(toolItem23);
-            this.toolBar.Items.Add(toolItem24);
-            this.toolBar.Items.Add(toolItem25);
-            this.toolBar.Items.Add(toolItem26);
-            this.toolBar.Items.Add(toolItem27);
+            toolItem1.Desc = "";
+            toolItem1.IHeard = true;
+            toolItem1.TColor.StringVertical = System.Drawing.StringAlignment.Center;
+            toolItem1.Text = "白酒123";
+            toolItem2.Desc = "aaaaa";
+            toolItem2.EndDesc = "";
+            toolItem2.HeadDesc = "呵呵";
+            toolItem2.IChange = true;
+            toolItem2.Text = "头部";
+            toolItem3.IHeard = true;
+            toolItem3.Text = "1";
+            toolItem4.Desc = "";
+            toolItem4.Text = "2\r\n1\r\n你好";
+            toolItem5.Desc = "完全好";
+            toolItem5.Text = "3";
+            toolItem6.Text = "x1";
+            toolItem7.Text = "x2";
+            toolItem8.IHeard = true;
+            toolItem8.Text = "Y";
+            toolItem9.Text = "y1";
+            toolItem10.Text = "y2";
+            toolItem12.IHeard = true;
+            toolItem12.Text = "Z";
+            toolItem13.Text = "zz1";
+            this.toolBar.Items.Add(toolItem1);
+            this.toolBar.Items.Add(toolItem2);
+            this.toolBar.Items.Add(toolItem3);
+            this.toolBar.Items.Add(toolItem4);
+            this.toolBar.Items.Add(toolItem5);
+            this.toolBar.Items.Add(toolItem6);
+            this.toolBar.Items.Add(toolItem7);
+            this.toolBar.Items.Add(toolItem8);
+            this.toolBar.Items.Add(toolItem9);
+            this.toolBar.Items.Add(toolItem10);
+            this.toolBar.Items.Add(toolItem11);
+            this.toolBar.Items.Add(toolItem12);
+            this.toolBar.Items.Add(toolItem13);
             this.toolBar.ItemSize = new System.Drawing.Size(60, 60);
             this.toolBar.ItemSpace = 5;
             this.toolBar.IText = true;
@@ -195,66 +189,6 @@
             this.tbRsa2.TabIndex = 60;
             this.tbRsa2.WaterText = "请输入Rsa值";
             // 
-            // tControl1
-            // 
-            this.tControl1.BackColor = System.Drawing.Color.Pink;
-            this.tControl1.Controls.Add(this.toolBar1);
-            this.tControl1.Controls.Add(this.tComboBox1);
-            this.tControl1.Controls.Add(this.qqTextBox1);
-            this.tControl1.Location = new System.Drawing.Point(321, 29);
-            this.tControl1.MDirection = Paway.Forms.TMDirection.Center;
-            this.tControl1.Name = "tControl1";
-            this.tControl1.Size = new System.Drawing.Size(225, 215);
-            this.tControl1.TabIndex = 61;
-            // 
-            // toolBar1
-            // 
-            toolItem28.Desc = "Desc1";
-            toolItem28.EndDesc = "EndDesc";
-            toolItem28.HeadDesc = "HeadDesc";
-            toolItem28.Text = "你好Hello\r\n厉害World";
-            this.toolBar1.Items.Add(toolItem28);
-            this.toolBar1.ItemSize = new System.Drawing.Size(181, 127);
-            this.toolBar1.Location = new System.Drawing.Point(3, 3);
-            this.toolBar1.Name = "toolBar1";
-            this.toolBar1.Size = new System.Drawing.Size(181, 127);
-            this.toolBar1.TabIndex = 67;
-            // 
-            // tComboBox1
-            // 
-            // 
-            // 
-            // 
-            this.tComboBox1.Edit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.tComboBox1.Edit.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.tComboBox1.Edit.ForeColor = System.Drawing.Color.Black;
-            this.tComboBox1.Edit.Items.AddRange(new object[] {
-            "11",
-            "22",
-            "33"});
-            this.tComboBox1.Edit.Location = new System.Drawing.Point(1, 1);
-            this.tComboBox1.Edit.Name = "tComboBox1";
-            this.tComboBox1.Edit.TabIndex = 0;
-            this.tComboBox1.Location = new System.Drawing.Point(85, 180);
-            this.tComboBox1.Name = "tComboBox1";
-            this.tComboBox1.Size = new System.Drawing.Size(123, 25);
-            this.tComboBox1.TabIndex = 66;
-            // 
-            // qqTextBox1
-            // 
-            this.qqTextBox1.BackColor = System.Drawing.Color.White;
-            this.qqTextBox1.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.qqTextBox1.IBorder = false;
-            this.qqTextBox1.Icon = null;
-            this.qqTextBox1.IsPasswordChat = '\0';
-            this.qqTextBox1.Lines = new string[] {
-        "qqTextBox1"};
-            this.qqTextBox1.Location = new System.Drawing.Point(85, 136);
-            this.qqTextBox1.Name = "qqTextBox1";
-            this.qqTextBox1.SelectedText = "";
-            this.qqTextBox1.Size = new System.Drawing.Size(123, 25);
-            this.qqTextBox1.TabIndex = 65;
-            // 
             // tbName
             // 
             this.tbName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -282,7 +216,6 @@
             this.BackColor = System.Drawing.Color.Gainsboro;
             this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(611, 328);
-            this.Controls.Add(this.tControl1);
             this.Controls.Add(this.tbRsa2);
             this.Controls.Add(this.tbName);
             this.Controls.Add(this.pictureBox2);
@@ -298,7 +231,6 @@
             this.contextMenuStrip2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            this.tControl1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -313,10 +245,6 @@
         private Forms.ToolBar toolBar;
         private System.Windows.Forms.PictureBox pictureBox2;
         private Forms.QQTextBox tbRsa2;
-        private Forms.TControl tControl1;
-        private Forms.TComboBox tComboBox1;
-        private Forms.QQTextBox qqTextBox1;
         private Forms.QQTextBox tbName;
-        private Forms.ToolBar toolBar1;
     }
 }

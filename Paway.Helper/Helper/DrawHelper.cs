@@ -19,6 +19,17 @@ namespace Paway.Helper
         }
 
         #region 一些默认参数
+        /// <summary>
+        ///     计算格式
+        /// </summary>
+        public static StringFormat StringCalc
+        {
+            get
+            {
+                var format = new StringFormat { FormatFlags = StringFormatFlags.NoWrap };
+                return format;
+            }
+        }
 
         /// <summary>
         ///     字符垂直对齐

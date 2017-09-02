@@ -176,6 +176,10 @@ namespace Paway.Forms
         #endregion
 
         #region 私有变量
+        /// <summary>
+        /// 上一项是否IHeard
+        /// </summary>
+        private bool iLastHeard;
 
         /// <summary>
         ///     鼠标弹按下
@@ -990,13 +994,12 @@ namespace Paway.Forms
         {
             var xPos = Padding.Left;
             var yPos = Padding.Top;
-            TCountColumn = 1;
-            TCountLine = 1;
+            TCountColumn = 0;
+            TCountLine = 0;
             THeardLength = 0;
-            isLastNew = true;
             for (var i = 0; i < Items.Count; i++)
             {
-                Calctem(Items[i], ref xPos, ref yPos, i == Items.Count - 1);
+                Calctem(Items[i], ref xPos, ref yPos, i == 0);
             }
         }
 
@@ -1005,7 +1008,7 @@ namespace Paway.Forms
             var count = Items.Count - 1;
             var xPos = Items[count].Rectangle.X;
             var yPos = Items[count].Rectangle.Y;
-            Calctem(Items[count], ref xPos, ref yPos, false);
+            Calctem(Items[count], ref xPos, ref yPos, false, true);
             count = 0;
             //多行/列补充Item
             if (TCountColumn > 1 && TCountLine > 1)
@@ -1014,22 +1017,16 @@ namespace Paway.Forms
                 if (Items.Count % count == 0) count = 0;
                 else count = count - Items.Count % count;
             }
-            if (_iAdd)
+            //填充空Item
+            for (var i = 0; i < count; i++)
             {
-                //填充空Item
-                for (var i = 0; i < count; i++)
-                {
-                    var temp = new ToolItem();
-                    Calctem(temp, ref xPos, ref yPos, i == count - 1);
-                    DrawItem(g, temp);
-                }
+                var temp = new ToolItem();
+                Calctem(temp, ref xPos, ref yPos);
+                DrawItem(g, temp);
             }
         }
 
         #region 绘制方法
-
-        private bool isLastNew;
-
         private void DrawHeard(Graphics g, ToolItem item)
         {
             if (!string.IsNullOrEmpty(item.Text))
@@ -1045,102 +1042,99 @@ namespace Paway.Forms
                         case TDirection.Vertical:
                             var color = item.TColor.ColorNormal;
                             if (color == Color.Empty) color = Color.Black;
-                            g.DrawString(item.Text, item.TColor.FontNormal, new SolidBrush(color), temp,
-                            item.TColor.StringFormat);
+                            g.DrawString(item.Text, item.TColor.FontNormal, new SolidBrush(color), temp, item.TColor.StringFormat);
                             break;
                     }
                 }
             }
         }
 
-        private void Calctem(ToolItem item, ref int xPos, ref int yPos, bool iLast)
+        private void Calctem(ToolItem item, ref int xPos, ref int yPos, bool iFirst = false, bool iCalc = false)
         {
             // 当前 Item 所在的矩型区域
             item.Rectangle = new Rectangle(xPos, yPos, _itemSize.Width, _itemSize.Height);
+            SizeF size = TextRenderer.MeasureText(item.Text, TextFirst.FontNormal, item.Rectangle.Size);
+            int width = size.Width.ToInt() + _textPading.Left + _textPading.Right;
+            int height = 0;
             if (_iAutoWidth)
             {
-                Graphics g = this.CreateGraphics();
-                SizeF size1 = SizeF.Empty;
-                int width = 0;
-                if (_iText || item.IText)
-                {
-                    size1 = g.MeasureString(item.Text, TextFirst.FontNormal, item.Rectangle.Size);
-                    width = size1.Width.ToInt() + 1 + _textPading.Left + _textPading.Right;
-                }
-                else
-                {
-                    size1 = TextRenderer.MeasureText(item.Text, TextFirst.FontNormal, item.Rectangle.Size);
-                    width = size1.Width.ToInt() + _textPading.Left + _textPading.Right;
-                }
                 if (width > _itemSize.Width) width = _itemSize.Width;
                 item.Rectangle = new Rectangle(item.Rectangle.X, item.Rectangle.Y, width, item.Rectangle.Height);
             }
-            var size = TextRenderer.MeasureText("你", Font);
+            width = size.Width.ToInt();
+            height = size.Height.ToInt();
             switch (_tDirection)
             {
                 case TDirection.Level:
-                    var isNew = xPos + item.Rectangle.Width + _itemSize.Width + _itemSpace + Padding.Right > Width;
+                    var isNew = xPos + item.Rectangle.Width + Padding.Right > Width;
                     if (item.IHeard || isNew)
                     {
                         xPos = Padding.Left;
-                        if (!iLast)
+                        if (item.IHeard)
                         {
-                            if (item.IHeard)
+                            if (!iFirst && !iLastHeard)
                             {
-                                if (!isLastNew)
-                                {
-                                    yPos += _itemSize.Height + _itemSpace;
-                                    TCountLine++;
-                                }
-                                item.Rectangle = new Rectangle(xPos, yPos, Width, size.Height);
-                                THeardLength += size.Height + _itemSpace * 2;
+                                yPos += _itemSize.Height + _itemSpace;
                             }
-                            else
+                            item.Rectangle = new Rectangle(xPos, yPos, Width, height);
+                            if (!iCalc)
                             {
-                                TCountLine++;
+                                THeardLength += height + _itemSpace;
                             }
                             yPos += item.Rectangle.Height + _itemSpace;
                         }
-                    }
-                    else
-                    {
-                        xPos += item.Rectangle.Width + _itemSpace;
-                        if (TCountLine == 1 && !iLast) TCountColumn++;
-                    }
-                    isLastNew = isNew;
-                    break;
-                case TDirection.Vertical:
-                    isNew = yPos + item.Rectangle.Height * 2 + _itemSpace + Padding.Bottom > Height;
-                    if (item.IHeard || isNew)
-                    {
-                        yPos = Padding.Top;
-                        if (!iLast)
+                        else
                         {
-                            if (item.IHeard)
-                            {
-                                if (!isLastNew)
-                                {
-                                    xPos += _itemSize.Width + _itemSpace;
-                                    TCountColumn++;
-                                }
-                                item.Rectangle = new Rectangle(xPos, yPos, size.Width, Height);
-                                THeardLength += size.Width + _itemSpace * 2;
-                            }
-                            else
-                            {
-                                TCountColumn++;
-                            }
+                            TCountLine++;
+                            yPos += _itemSize.Height + _itemSpace;
+                            item.Rectangle = new Rectangle(xPos, yPos, item.Rectangle.Width, item.Rectangle.Height);
                             xPos += item.Rectangle.Width + _itemSpace;
                         }
                     }
                     else
                     {
-                        yPos += item.Rectangle.Height + _itemSpace;
-                        if (TCountColumn == 1 && !iLast) TCountLine++;
+                        if (!iCalc && xPos == Padding.Left) TCountLine++;
+                        if (TCountLine == 1) TCountColumn++;
+                        item.Rectangle = new Rectangle(xPos, yPos, item.Rectangle.Width, item.Rectangle.Height);
+                        xPos += item.Rectangle.Width + _itemSpace;
                     }
-                    isLastNew = isNew;
+                    break;
+                case TDirection.Vertical:
+                    isNew = yPos + item.Rectangle.Height + Padding.Bottom > Height;
+                    if (item.IHeard || isNew)
+                    {
+                        yPos = Padding.Top;
+                        if (item.IHeard)
+                        {
+                            if (!iFirst && !iLastHeard)
+                            {
+                                xPos += _itemSize.Width + _itemSpace;
+                            }
+                            item.Rectangle = new Rectangle(xPos, yPos, width, Height);
+                            if (!iCalc)
+                            {
+                                THeardLength += width + _itemSpace;
+                            }
+                            xPos += item.Rectangle.Width + _itemSpace;
+                        }
+                        else
+                        {
+                            TCountColumn++;
+                            xPos += _itemSize.Width + _itemSpace;
+                            item.Rectangle = new Rectangle(xPos, yPos, item.Rectangle.Width, item.Rectangle.Height);
+                            yPos += item.Rectangle.Height + _itemSpace;
+                        }
+                    }
+                    else
+                    {
+                        if (!iCalc && yPos == Padding.Top) TCountColumn++;
+                        if (TCountColumn == 1) TCountLine++;
+                        item.Rectangle = new Rectangle(xPos, yPos, item.Rectangle.Width, item.Rectangle.Height);
+                        yPos += item.Rectangle.Height + _itemSpace;
+                    }
                     break;
             }
+            iLastHeard = item.IHeard;
         }
 
         private void DrawItem(Graphics g, ToolItem item)
@@ -1931,24 +1925,24 @@ namespace Paway.Forms
                         last = TCountColumn;
                         break;
                 }
-                var count = Items.Count - 2;
-                var xPos = Items[count].Rectangle.X;
-                var yPos = Items[count].Rectangle.Y;
-                Calctem(Items[count], ref xPos, ref yPos, false);
-                Calctem(Items[count + 1], ref xPos, ref yPos, true);
+                var index = Items.Count - 2;
+                var xPos = Items[index].Rectangle.X;
+                var yPos = Items[index].Rectangle.Y;
+                Calctem(Items[index], ref xPos, ref yPos, true, true);
+                Calctem(Items[index + 1], ref xPos, ref yPos, false);
 
-                var valid = false;
+                var valid = Items[index + 1].IHeard;
                 switch (TDirection)
                 {
                     case TDirection.Level:
-                        valid = last != TCountLine;
+                        valid |= last != TCountLine;
                         break;
                     case TDirection.Vertical:
-                        valid = last != TCountColumn;
+                        valid |= last != TCountColumn;
                         break;
                 }
                 UpdateScroll(true, valid);
-                InvalidateItem(Items[count + 1]);
+                InvalidateItem(Items[index + 1]);
             }
             else
             {
@@ -2602,8 +2596,8 @@ namespace Paway.Forms
                         _vScroll.Visible = _iScroll;
                         panelScroll.Width = _tScrollHeight;
                         panelScroll.Dock = DockStyle.Right;
-                        panelScroll.Visible = _iScroll;
-                        panelScroll.Visible = DesignMode;
+                        panelScroll.Visible = ILoad & _iScroll;
+                        panelScroll.Visible = ILoad & DesignMode;
                         _vScroll.Size = new Size(panelScroll.Width, panelScroll.Height + 17 * 2 + 1);
                         _vScroll.Location = new Point(0, -17);
                     }
@@ -2621,8 +2615,8 @@ namespace Paway.Forms
                         _vScroll2.Visible = _iScroll;
                         panelScroll.Height = _tScrollHeight;
                         panelScroll.Dock = DockStyle.Bottom;
-                        panelScroll.Visible = _iScroll;
-                        panelScroll.Visible = DesignMode;
+                        panelScroll.Visible = ILoad & _iScroll;
+                        panelScroll.Visible = ILoad & DesignMode;
                         _hScroll.Size = new Size(panelScroll.Width + 17 * 2 + 1, panelScroll.Height);
                         _hScroll.Location = new Point(-17, 0);
                     }
