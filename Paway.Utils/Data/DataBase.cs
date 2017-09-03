@@ -41,8 +41,7 @@ namespace Paway.Utils.Data
         /// <param name="paramType">参数</param>
         protected DataBase(Type connType, Type cmdType, Type paramType)
         {
-            if (!Licence.Checking()) return;
-
+            Licence.Checking(MethodBase.GetCurrentMethod().DeclaringType);
             this.connType = connType;
             this.cmdType = cmdType;
             this.paramType = paramType;

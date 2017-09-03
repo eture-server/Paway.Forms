@@ -166,8 +166,6 @@ namespace Paway.Forms
         /// </summary>
         public static MControl ReLoad(Control parent, Type type, EventArgs e, TMDirection direction, Delegate method = null, int intervel = -1)
         {
-            if (!Licence.Checking()) return null;
-
             MControl control = null;
             try
             {

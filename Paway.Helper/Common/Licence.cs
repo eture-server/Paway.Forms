@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Configuration;
 using System.IO;
 using System.Reflection;
@@ -48,16 +49,15 @@ namespace Paway.Helper
         /// <summary>
         ///     检查文件创建日期，过期无效
         /// </summary>
-        public static bool Checking()
+        public static void Checking(Type type)
         {
-            return Checking(30);
+            Checking(type, 30);
         }
 
         /// <summary>
         ///     检查文件创建日期，过期无效
         /// </summary>
-        /// <param name="days"></param>
-        public static bool Checking(int days)
+        public static void Checking(Type type, int days)
         {
             EncryptHelper.EncryptMD5(days.ToString());
             var file = new FileInfo(Assembly.GetExecutingAssembly().Location);
@@ -65,9 +65,9 @@ namespace Paway.Helper
             //全球时间24小时以内
             if (ts < new TimeSpan(0, -24, 0, 0) || ts > new TimeSpan(days, 0, 0, 0))
             {
-                return true;
+                return;
             }
-            return true;
+            //throw new LicenseException(type);
         }
     }
 }

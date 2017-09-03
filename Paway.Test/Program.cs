@@ -54,15 +54,18 @@ namespace Paway.Test
             catch (Exception ex)
             {
                 log.ErrorFormat("软件出现未处理的异常，即将退出。\r\n{0}", ex);
+                MessageBox.Show(ex.Message);
             }
         }
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
             log.ErrorFormat("软件出现未处理的线程异常。\r\n{0}", e.Exception);
+            MessageBox.Show(e.Exception.Message);
         }
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             log.ErrorFormat("软件出现未处理的异常。\r\n{0}", e.ExceptionObject);
+            MessageBox.Show(((Exception)e.ExceptionObject).Message);
         }
     }
 }

@@ -40,8 +40,6 @@ namespace Paway.Resource
         /// <returns></returns>
         public static Image GetImage(string name)
         {
-            if (!Licence.Checking()) return null;
-
             if (!string.IsNullOrEmpty(name))
             {
                 var sb = new StringBuilder();

@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using Paway.Helper;
 using Paway.Resource;
 using Paway.Win32;
+using System.Reflection;
 
 namespace Paway.Forms
 {
@@ -22,6 +23,7 @@ namespace Paway.Forms
         /// </summary>
         public TControl()
         {
+            Licence.Checking(MethodBase.GetCurrentMethod().DeclaringType);
             IFixedBackground = false;
             IMouseMove = false;
             SetStyle(

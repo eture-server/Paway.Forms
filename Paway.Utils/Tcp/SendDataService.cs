@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Net;
 using System.Threading;
 using Paway.Helper;
+using System.Reflection;
 
 namespace Paway.Utils.Tcp
 {
@@ -36,8 +37,7 @@ namespace Paway.Utils.Tcp
         /// </summary>
         public SendDataService(SocketBase socket)
         {
-            if (!Licence.Checking()) return;
-
+            Licence.Checking(MethodBase.GetCurrentMethod().DeclaringType);
             if (socket == null) return;
             Socket = socket;
             Socket.IPPoint = socket.Socket.RemoteEndPoint as IPEndPoint;
