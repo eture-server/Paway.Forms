@@ -103,7 +103,7 @@ namespace Paway.Forms
             set
             {
                 _normalImage = value;
-                Invalidate(ClientRectangle);
+                Invalidate();
             }
         }
 
@@ -123,7 +123,7 @@ namespace Paway.Forms
             set
             {
                 _downImage = value;
-                Invalidate(ClientRectangle);
+                Invalidate();
             }
         }
 
@@ -143,7 +143,7 @@ namespace Paway.Forms
             set
             {
                 _moveImage = value;
-                Invalidate(ClientRectangle);
+                Invalidate();
             }
         }
 
@@ -166,7 +166,7 @@ namespace Paway.Forms
             set
             {
                 _selectImage = value;
-                Invalidate(ClientRectangle);
+                Invalidate();
             }
         }
 
@@ -232,7 +232,7 @@ namespace Paway.Forms
             set
             {
                 _tRadiu = value;
-                Invalidate(ClientRectangle);
+                Invalidate();
             }
         }
 
@@ -323,7 +323,7 @@ namespace Paway.Forms
             set
             {
                 _iText = value;
-                Invalidate(ClientRectangle);
+                Invalidate();
             }
         }
 
@@ -343,7 +343,7 @@ namespace Paway.Forms
             set
             {
                 _iItemLine = value;
-                Invalidate(ClientRectangle);
+                Invalidate();
             }
         }
 
@@ -361,7 +361,7 @@ namespace Paway.Forms
             set
             {
                 _iAdd = value;
-                Invalidate(ClientRectangle);
+                Invalidate();
             }
         }
 
@@ -387,7 +387,7 @@ namespace Paway.Forms
             {
                 _iImageShow = value;
                 UpdateImageSize();
-                Invalidate(ClientRectangle);
+                Invalidate();
             }
         }
 
@@ -405,7 +405,7 @@ namespace Paway.Forms
             set
             {
                 _iMultiple = value;
-                Invalidate(ClientRectangle);
+                Invalidate();
             }
         }
 
@@ -499,7 +499,7 @@ namespace Paway.Forms
             set
             {
                 _tLocation = value;
-                Invalidate(ClientRectangle);
+                Invalidate();
             }
         }
 
@@ -552,7 +552,7 @@ namespace Paway.Forms
                 TPaint();
                 UpdateImageSize();
                 UpdateScroll();
-                Invalidate(ClientRectangle);
+                Invalidate();
             }
         }
 
@@ -596,7 +596,7 @@ namespace Paway.Forms
             {
                 _imageSize = value;
                 UpdateImageSize();
-                Invalidate(ClientRectangle);
+                Invalidate();
             }
         }
 
@@ -653,7 +653,7 @@ namespace Paway.Forms
                 if (_change == null)
                 {
                     _change = new TProperties();
-                    _change.ValueChange += delegate { Invalidate(ClientRectangle); };
+                    _change.ValueChange += delegate { Invalidate(); };
                 }
                 return _change;
             }
@@ -674,7 +674,7 @@ namespace Paway.Forms
                 if (_text == null)
                 {
                     _text = new TProperties();
-                    _text.ValueChange += delegate { Invalidate(ClientRectangle); };
+                    _text.ValueChange += delegate { Invalidate(); };
                 }
                 return _text;
             }
@@ -695,7 +695,7 @@ namespace Paway.Forms
                 if (_textSencond == null)
                 {
                     _textSencond = new TProperties();
-                    _textSencond.ValueChange += delegate { Invalidate(ClientRectangle); };
+                    _textSencond.ValueChange += delegate { Invalidate(); };
                 }
                 return _textSencond;
             }
@@ -716,7 +716,7 @@ namespace Paway.Forms
                 if (_desc == null)
                 {
                     _desc = new TProperties();
-                    _desc.ValueChange += delegate { Invalidate(ClientRectangle); };
+                    _desc.ValueChange += delegate { Invalidate(); };
                 }
                 return _desc;
             }
@@ -737,7 +737,7 @@ namespace Paway.Forms
                 if (_headDesc == null)
                 {
                     _headDesc = new TProperties();
-                    _headDesc.ValueChange += delegate { Invalidate(ClientRectangle); };
+                    _headDesc.ValueChange += delegate { Invalidate(); };
                 }
                 return _headDesc;
             }
@@ -758,7 +758,7 @@ namespace Paway.Forms
                 if (_endDesc == null)
                 {
                     _endDesc = new TProperties();
-                    _endDesc.ValueChange += delegate { Invalidate(ClientRectangle); };
+                    _endDesc.ValueChange += delegate { Invalidate(); };
                 }
                 return _endDesc;
             }
@@ -779,7 +779,7 @@ namespace Paway.Forms
                 if (_backGround == null)
                 {
                     _backGround = new TProperties();
-                    _backGround.ValueChange += delegate { Invalidate(ClientRectangle); };
+                    _backGround.ValueChange += delegate { Invalidate(); };
                 }
                 return _backGround;
             }
@@ -1067,7 +1067,7 @@ namespace Paway.Forms
             {
                 case TDirection.Level:
                     var isNew = xPos + item.Rectangle.Width + Padding.Right > Width;
-                    if (item.IHeard || isNew)
+                    if (item.IHeard || (isNew && xPos != Padding.Left))
                     {
                         xPos = Padding.Left;
                         if (item.IHeard)
@@ -1101,7 +1101,7 @@ namespace Paway.Forms
                     break;
                 case TDirection.Vertical:
                     isNew = yPos + item.Rectangle.Height + Padding.Bottom > Height;
-                    if (item.IHeard || isNew)
+                    if (item.IHeard || (isNew && yPos != Padding.Top))
                     {
                         yPos = Padding.Top;
                         if (item.IHeard)
@@ -1608,7 +1608,7 @@ namespace Paway.Forms
                 }
                 InvaRectDesc(item, TMouseState.Normal);
             }
-            InvalidateItem(item);
+            Invalidate(item);
         }
 
         #endregion
@@ -1623,8 +1623,7 @@ namespace Paway.Forms
             if (item.TMouseState != state)
             {
                 item.TMouseState = state;
-                Invalidate(new Rectangle(item.Rectangle.X + Offset.X, item.Rectangle.Y + Offset.Y, item.Rectangle.Width,
-                    item.Rectangle.Height));
+                Invalidate(item);
             }
         }
 
@@ -1636,8 +1635,7 @@ namespace Paway.Forms
             if (item.MouseState != state)
             {
                 item.MouseState = state;
-                Invalidate(new Rectangle(item.Rectangle.X + Offset.X, item.Rectangle.Y + Offset.Y, item.Rectangle.Width,
-                    item.Rectangle.Height));
+                Invalidate(item);
             }
         }
 
@@ -1645,10 +1643,10 @@ namespace Paway.Forms
         ///     重绘Item
         /// </summary>
         /// <param name="item"></param>
-        private void InvalidateItem(ToolItem item)
+        private void Invalidate(ToolItem item)
         {
-            Invalidate(new Rectangle(item.Rectangle.X + Offset.X, item.Rectangle.Y + Offset.Y, item.Rectangle.Width,
-                item.Rectangle.Height));
+            var rect = new Rectangle(item.Rectangle.X + Offset.X, item.Rectangle.Y + Offset.Y, item.Rectangle.Width, item.Rectangle.Height);
+            Invalidate(rect);
         }
 
         /// <summary>
@@ -1784,7 +1782,7 @@ namespace Paway.Forms
                     if (!ifocus && item.ContextMenuStrip != null)
                     {
                         _iFocus = true;
-                        InvalidateItem(item);
+                        Invalidate(item);
                     }
                 }
                 else
@@ -1865,7 +1863,7 @@ namespace Paway.Forms
                     if (!ifocus && item.ContextMenuStrip != null)
                     {
                         _iFocus = true;
-                        InvalidateItem(item);
+                        Invalidate(item);
                     }
                 }
                 else
@@ -1931,18 +1929,9 @@ namespace Paway.Forms
                 Calctem(Items[index], ref xPos, ref yPos, true, true);
                 Calctem(Items[index + 1], ref xPos, ref yPos, false);
 
-                var valid = Items[index + 1].IHeard;
-                switch (TDirection)
-                {
-                    case TDirection.Level:
-                        valid |= last != TCountLine;
-                        break;
-                    case TDirection.Vertical:
-                        valid |= last != TCountColumn;
-                        break;
-                }
-                UpdateScroll(true, valid);
-                InvalidateItem(Items[index + 1]);
+                UpdateScroll();
+                TEnd();
+                Invalidate(Items[index + 1]);
             }
             else
             {
@@ -2120,6 +2109,21 @@ namespace Paway.Forms
             FixScroll(IHaveScroll ? value : 0);
         }
         /// <summary>
+        /// 当前滚动条是否在最底部
+        /// </summary>
+        public bool IEnd()
+        {
+            if (!IHaveScroll) return true;
+            switch (TDirection)
+            {
+                case TDirection.Level:
+                    return _vScroll.Value == _vScroll.Maximum - _vScroll.SmallChange;
+                case TDirection.Vertical:
+                    return _vScroll2.Value == _vScroll2.Maximum - _vScroll2.SmallChange;
+            }
+            return true;
+        }
+        /// <summary>
         ///     刷新控件到尾部
         /// </summary>
         public void TEnd()
@@ -2179,7 +2183,7 @@ namespace Paway.Forms
         public void TRefresh(int index)
         {
             if (index < 0 || index > Items.Count - 1) return;
-            InvalidateItem(Items[index]);
+            Invalidate(Items[index]);
         }
 
         /// <summary>
@@ -2193,7 +2197,7 @@ namespace Paway.Forms
             panelScroll.Visible = false;
             TPaint();
             UpdateScroll();
-            Invalidate(ClientRectangle);
+            Invalidate();
         }
         private void AutoMouseStatu()
         {
@@ -2295,7 +2299,7 @@ namespace Paway.Forms
 
         private void tDynamic_Tick(object sender, EventArgs e)
         {
-            InvalidateItem(_items[progressItemIndex]);
+            Invalidate(_items[progressItemIndex]);
         }
 
         private void InitializeComponent()
@@ -2360,7 +2364,6 @@ namespace Paway.Forms
                 if (Items[i].IChange)
                 {
                     result = true;
-                    var color = Items[i].TColor.ColorNormal;
                     switch (index % 3)
                     {
                         case 0:
@@ -2373,9 +2376,8 @@ namespace Paway.Forms
                             Items[i].TColor.ColorNormal = TChange.ColorDown;
                             break;
                     }
-                    InvalidateItem(Items[i]);
-                    Application.DoEvents();
-                    Items[i].TColor.ColorNormal = color;
+                    //已自动更新项
+                    //Application.DoEvents();
                 }
             }
             index++;
@@ -2542,6 +2544,7 @@ namespace Paway.Forms
                     var max = _vScroll.Maximum - _vScroll.SmallChange;
                     if (value < 0) value = 0;
                     if (value > max) value = max;
+                    valid &= _vScroll.Value != value;
                     _vScroll.Value = value;
                     Offset.Y = -value;
                     break;
@@ -2550,6 +2553,7 @@ namespace Paway.Forms
                     if (value < 0) value = 0;
                     if (value > max) value = max;
                     _hScroll.Value = value;
+                    valid &= _vScroll2.Value != value;
                     _vScroll2.Value = value;
                     Offset.X = -value;
                     break;
@@ -2578,9 +2582,8 @@ namespace Paway.Forms
         /// <summary>
         ///     更新滚动条状态
         /// </summary>
-        private void UpdateScroll(bool toLast = false, bool toValid = false)
+        private void UpdateScroll()
         {
-            var valid = iScrollHide && _iScroll;
             _vScroll.Visible = false;
             _hScroll.Visible = false;
             _vScroll2.Visible = false;
@@ -2628,10 +2631,6 @@ namespace Paway.Forms
             }
             if (iScrollHide && _iScroll)
             {
-                if (!toLast)
-                {
-                    TPaint();
-                }
                 switch (TDirection)
                 {
                     case TDirection.Level:
@@ -2644,10 +2643,6 @@ namespace Paway.Forms
                         _vScroll.LargeChange = Height / 2;
                         _vScroll.SmallChange = _vScroll.LargeChange;
                         _vScroll.Maximum = max + _vScroll.LargeChange;
-
-                        valid = !valid | toLast & toValid;
-                        if (toLast)
-                            FixScroll(_vScroll.Maximum, valid);
                         break;
                     case TDirection.Vertical:
                         max = GetWidth() - Width;
@@ -2664,9 +2659,6 @@ namespace Paway.Forms
                             _hScroll.SmallChange = _vScroll2.SmallChange;
                             _hScroll.Maximum = _vScroll2.Maximum;
                         }
-                        valid = !valid | toLast & toValid;
-                        if (toLast)
-                            FixScroll(_vScroll2.Maximum, valid);
                         break;
                 }
             }
@@ -2689,7 +2681,7 @@ namespace Paway.Forms
             _vScroll2.Value = _hScroll.Value;
             if (diff != 0 || e.NewValue == 0)
             {
-                Invalidate(ClientRectangle);
+                Invalidate();
             }
         }
 
@@ -2709,7 +2701,7 @@ namespace Paway.Forms
             Offset.Offset(0, -diff);
             if (diff != 0 || e.NewValue == 0)
             {
-                Invalidate(ClientRectangle);
+                Invalidate();
             }
         }
 
