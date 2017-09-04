@@ -48,11 +48,8 @@ namespace Paway.Forms
             {
                 assembly = Assembly.GetAssembly(Owner.GetType());
             }
-            var attrTitle =
-                Attribute.GetCustomAttribute(assembly, typeof(AssemblyTitleAttribute)) as AssemblyTitleAttribute;
-            var attrCopyright =
-                Attribute.GetCustomAttribute(Assembly.GetExecutingAssembly(), typeof(AssemblyCopyrightAttribute)) as
-                    AssemblyCopyrightAttribute;
+            var attrTitle = Attribute.GetCustomAttribute(assembly, typeof(AssemblyTitleAttribute)) as AssemblyTitleAttribute;
+            var attrCopyright = Attribute.GetCustomAttribute(assembly, typeof(AssemblyCopyrightAttribute)) as AssemblyCopyrightAttribute;
             var plat = assembly.GetName().ProcessorArchitecture;
             lbVersion.Text = string.Format("{0}\r\nv{1}({2})<{3}>", attrTitle.Title, assembly.GetName().Version,
                 plat == ProcessorArchitecture.MSIL ? "Any" : plat.ToString(), Environment.MachineName);

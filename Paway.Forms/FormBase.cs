@@ -21,7 +21,7 @@ namespace Paway.Forms
         /// <summary>
         /// 关于
         /// </summary>
-        public event EventHandler AboutEvent;
+        public static event EventHandler AboutEvent;
 
         #endregion
         #region 构造函数
@@ -837,7 +837,8 @@ namespace Paway.Forms
                 case MenuType.About:
                     if (AboutEvent == null)
                     {
-                        new AboutForm().ShowDialog(this);
+                        if (this.GetType() != typeof(AboutForm))
+                            new AboutForm().ShowDialog(this);
                     }
                     else
                     {
