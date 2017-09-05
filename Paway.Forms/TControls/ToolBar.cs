@@ -2520,11 +2520,11 @@ namespace Paway.Forms
             switch (TDirection)
             {
                 case TDirection.Level:
-                    var value = _vScroll.Value - e.Delta * ItemSize.Height / 120;
+                    var value = _vScroll.Value - e.Delta * (ItemSize.Height + ItemSpace) / 120;
                     FixScroll(value);
                     break;
                 case TDirection.Vertical:
-                    value = _vScroll2.Value - e.Delta * ItemSize.Width / 120;
+                    value = _vScroll2.Value - e.Delta * (ItemSize.Width + ItemSpace) / 120;
                     FixScroll(value);
                     break;
             }
