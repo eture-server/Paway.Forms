@@ -11,7 +11,6 @@ namespace Paway.Forms
 {
     /// <summary>
     /// </summary>
-    [DefaultEvent("CheckedChanged")]
     [ToolboxBitmap(typeof(RadioButton))]
     public class QQRadioButton : RadioButton
     {
@@ -39,6 +38,7 @@ namespace Paway.Forms
             SetStyle(ControlStyles.Opaque, false);
             UpdateStyles();
             TConfig.Init(this);
+            this.AutoSize = true;
         }
 
         #endregion
@@ -48,7 +48,7 @@ namespace Paway.Forms
         /// <summary>
         ///     重写CheckBox的Text属性
         /// </summary>
-        [DefaultValue("QQCheckBox")]
+        [DefaultValue("QQRadioButton")]
         public override string Text
         {
             get { return base.Text; }

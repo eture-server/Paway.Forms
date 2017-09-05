@@ -223,7 +223,6 @@
             // 
             // qqRadioButton2
             // 
-            this.qqRadioButton2.AutoSize = true;
             this.qqRadioButton2.BackColor = System.Drawing.Color.White;
             this.qqRadioButton2.Location = new System.Drawing.Point(37, 125);
             this.qqRadioButton2.Name = "qqRadioButton2";
@@ -235,7 +234,6 @@
             // 
             // qqRadioButton1
             // 
-            this.qqRadioButton1.AutoSize = true;
             this.qqRadioButton1.BackColor = System.Drawing.Color.White;
             this.qqRadioButton1.Location = new System.Drawing.Point(37, 102);
             this.qqRadioButton1.Name = "qqRadioButton1";
@@ -247,7 +245,6 @@
             // 
             // qqCheckBox1
             // 
-            this.qqCheckBox1.AutoSize = true;
             this.qqCheckBox1.BackColor = System.Drawing.Color.White;
             this.qqCheckBox1.Location = new System.Drawing.Point(162, 125);
             this.qqCheckBox1.Name = "qqCheckBox1";

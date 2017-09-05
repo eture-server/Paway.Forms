@@ -12,7 +12,6 @@ namespace Paway.Forms
     /// <summary>
     ///     CheckBox
     /// </summary>
-    [DefaultEvent("CheckedChanged")]
     [DefaultProperty("Checked")]
     [ToolboxBitmap(typeof(CheckBox))]
     public class QQCheckBox : CheckBox
@@ -42,6 +41,7 @@ namespace Paway.Forms
             SetStyle(ControlStyles.Opaque, false);
             UpdateStyles();
             TConfig.Init(this);
+            this.AutoSize = true;
         }
 
         #endregion

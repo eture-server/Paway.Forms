@@ -957,7 +957,6 @@
             // 
             // qqCheckBox1
             // 
-            this.qqCheckBox1.AutoSize = true;
             this.qqCheckBox1.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.qqCheckBox1.Location = new System.Drawing.Point(118, 121);
             this.qqCheckBox1.Name = "qqCheckBox1";
