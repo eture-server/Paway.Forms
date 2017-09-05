@@ -105,12 +105,6 @@
     <Compile Include="FormSql.Designer.cs">
       <DependentUpon>FormSql.cs</DependentUpon>
     </Compile>
-    <Compile Include="MetroDemo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MetroDemo.Designer.cs">
-      <DependentUpon>MetroDemo.cs</DependentUpon>
-    </Compile>
     <Compile Include="Form360.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -174,10 +168,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormSql.resx">
       <DependentUpon>FormSql.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MetroDemo.resx">
-      <DependentUpon>MetroDemo.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Form360.resx">
       <DependentUpon>Form360.cs</DependentUpon>

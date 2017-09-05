@@ -104,9 +104,6 @@
     <EmbeddedResource Include="QQ\TextBox\normal.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Icons\start.png" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="_360\SysButton\sys_button_close.png" />
     <EmbeddedResource Include="_360\SysButton\sys_button_max.png" />
     <EmbeddedResource Include="_360\SysButton\sys_button_min.png" />

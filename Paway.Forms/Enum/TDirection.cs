@@ -3,35 +3,9 @@
 namespace Paway.Forms
 {
     /// <summary>
-    ///     位置
-    /// </summary>
-    public enum TLocation
-    {
-        /// <summary>
-        ///     向上
-        /// </summary>
-        Up,
-
-        /// <summary>
-        ///     向下
-        /// </summary>
-        Down,
-
-        /// <summary>
-        ///     向左
-        /// </summary>
-        Left,
-
-        /// <summary>
-        ///     向右
-        /// </summary>
-        Right
-    }
-
-    /// <summary>
     ///     图片位置
     /// </summary>
-    public enum TILocation
+    public enum TLocation
     {
         /// <summary>
         ///     上面

@@ -61,7 +61,7 @@ namespace Paway.Forms
                 _imageSizeShow = _imageSize;
                 switch (_tLocation)
                 {
-                    case TILocation.Up:
+                    case TLocation.Up:
                         var width = (_itemSize.Width - _imageSize.Width - _textPading.Left - _textPading.Right) / 2;
                         if (width < 0)
                         {
@@ -70,7 +70,7 @@ namespace Paway.Forms
                                 (_imageSizeShow.Width * _imageSize.Height * 1.0 / _imageSize.Width).ToInt();
                         }
                         break;
-                    case TILocation.Left:
+                    case TLocation.Left:
                         var height = (_itemSize.Height - _imageSize.Height - _textPading.Top - _textPading.Bottom) / 2;
                         if (height < 0)
                         {
@@ -487,13 +487,13 @@ namespace Paway.Forms
         /// <summary>
         ///     图片显示位置
         /// </summary>
-        private TILocation _tLocation = TILocation.Up;
+        private TLocation _tLocation = TLocation.Up;
 
         /// <summary>
         ///     图片显示位置
         /// </summary>
-        [Description("图片显示位置"), DefaultValue(typeof(TILocation), "Up")]
-        public TILocation TLocation
+        [Description("图片显示位置"), DefaultValue(typeof(TLocation), "Up")]
+        public TLocation TLocation
         {
             get { return _tLocation; }
             set
@@ -1291,12 +1291,12 @@ namespace Paway.Forms
                 var imageRect = Rectangle.Empty;
                 switch (_tLocation)
                 {
-                    case TILocation.Up:
+                    case TLocation.Up:
                         var width = (_itemSize.Width - _imageSizeShow.Width - _textPading.Left - _textPading.Right) / 2;
                         imageRect.X = item.Rectangle.X + _textPading.Left + width;
                         imageRect.Y = item.Rectangle.Y + _textPading.Top;
                         break;
-                    case TILocation.Left:
+                    case TLocation.Left:
                         var height = (_itemSize.Height - _imageSizeShow.Height - _textPading.Top - _textPading.Bottom) / 2;
                         imageRect.X = item.Rectangle.X + _textPading.Left;
                         imageRect.Y = item.Rectangle.Y + _textPading.Top + height;
@@ -1327,12 +1327,12 @@ namespace Paway.Forms
                 {
                     switch (_tLocation)
                     {
-                        case TILocation.Up:
+                        case TLocation.Up:
                             textRect.Y += _imageSizeShow.Height + _textPading.Top;
                             textRect.Height = item.Rectangle.Height - _imageSizeShow.Height - _textPading.Top * 2 -
                                               _textPading.Bottom;
                             break;
-                        case TILocation.Left:
+                        case TLocation.Left:
                             textRect.X += _imageSizeShow.Width + _textPading.Left;
                             textRect.Width = item.Rectangle.Width - _imageSizeShow.Width - _textPading.Left * 2 -
                                              _textPading.Right;
