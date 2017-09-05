@@ -107,11 +107,6 @@ namespace Paway.Forms
         /// </summary>
         protected bool _showIcon = true;
 
-        /// <summary>
-        ///     窗体标题文字
-        /// </summary>
-        private string _textShow;
-
         private Color _tranColor;
 
         /// <summary>
@@ -224,16 +219,16 @@ namespace Paway.Forms
                 if (base.Text != value)
                 {
                     base.Text = value;
-                    this._textShow = value;
                     Invalidate(TitleBarRect);
                 }
             }
         }
 
+        private string _textShow;
         /// <summary>
         ///     窗体显示的标题文字
         /// </summary>
-        [Browsable(false), Description("窗体显示的标题文字")]
+        [Browsable(false), Description("窗体显示的标题文字"), DefaultValue(null)]
         public string TextShow
         {
             get { return _textShow; }
@@ -689,9 +684,11 @@ namespace Paway.Forms
         /// </summary>
         protected void DrawText(Graphics g)
         {
-            if (!string.IsNullOrEmpty(_textShow))
+            string text = _textShow;
+            if (text == null) text = this.Text;
+            if (text != null)
             {
-                TextRenderer.DrawText(g, _textShow, Font, TextRect, ForeColor, TextFormatFlags.VerticalCenter);
+                TextRenderer.DrawText(g, text, Font, TextRect, ForeColor, TextFormatFlags.VerticalCenter);
             }
         }
 

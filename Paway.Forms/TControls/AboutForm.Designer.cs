@@ -99,7 +99,6 @@
             this.ShowInTaskbar = false;
             this.SysButton = Paway.Forms.TSysButton.Close;
             this.Text = "关于我们";
-            this.TextShow = "";
             this.ResumeLayout(false);
             this.PerformLayout();
 

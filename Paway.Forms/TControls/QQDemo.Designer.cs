@@ -53,7 +53,6 @@ namespace Paway.Forms
             this.Padding = new System.Windows.Forms.Padding(1, 26, 1, 2);
             this.ShowIcon = false;
             this.Text = "QQDemo";
-            this.TextShow = "QQDemo";
             this.ResumeLayout(false);
 
         }

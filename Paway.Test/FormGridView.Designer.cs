@@ -346,8 +346,7 @@
             this.ClientSize = new System.Drawing.Size(467, 574);
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "FormGridView";
-            this.Text = "DemoGridView";
-            this.TextShow = "hello,world";
+            this.Text = "hello,world";
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tDataGridView2)).EndInit();

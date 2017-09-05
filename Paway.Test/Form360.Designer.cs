@@ -204,7 +204,6 @@
             this.Padding = new System.Windows.Forms.Padding(0, 26, 0, 0);
             this.ShowIcon = false;
             this.Text = "360安全卫士 8.7";
-            this.TextShow = "360安全卫士 8.7";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tDataGridViewPager1.Edit)).EndInit();

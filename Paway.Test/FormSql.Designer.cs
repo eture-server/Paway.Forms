@@ -131,7 +131,6 @@
             this.ClientSize = new System.Drawing.Size(407, 324);
             this.Name = "FormSql";
             this.Text = "Sql测试";
-            this.TextShow = "Form1";
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

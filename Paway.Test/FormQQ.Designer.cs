@@ -294,7 +294,6 @@
             this.Padding = new System.Windows.Forms.Padding(0, 120, 1, 80);
             this.SysButton = Paway.Forms.TSysButton.Close;
             this.Text = "Form2";
-            this.TextShow = "Form2";
             this.contextMenuStrip1.ResumeLayout(false);
             this.qqTabPage2.ResumeLayout(false);
             this.qqTabPage1.ResumeLayout(false);

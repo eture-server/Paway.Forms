@@ -23,6 +23,7 @@ namespace Paway.Forms
             //输出软件名称和版本号
             var assembly = Assembly.GetExecutingAssembly();
             lbDesc.Text = "Welcome";
+            this.TextShow = string.Empty;
         }
 
         /// <summary>

@@ -324,7 +324,6 @@
             this.TBrush.ColorNormal = System.Drawing.Color.CornflowerBlue;
             this.TBrush.ColorSpace = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.Text = "Form2";
-            this.TextShow = "Form2";
             this.Controls.SetChildIndex(this.panel1, 0);
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);

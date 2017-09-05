@@ -100,7 +100,6 @@
             // 
             this.toolBar.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolBar.ImageSize = new System.Drawing.Size(32, 32);
-            toolItem1.Desc = "";
             toolItem1.IHeard = true;
             toolItem1.TColor.StringVertical = System.Drawing.StringAlignment.Center;
             toolItem1.Text = "白酒123";
@@ -111,7 +110,6 @@
             toolItem2.Text = "头部";
             toolItem3.IHeard = true;
             toolItem3.Text = "1";
-            toolItem4.Desc = "";
             toolItem4.Text = "2\r\n1\r\n你好";
             toolItem5.Desc = "完全好";
             toolItem5.Text = "3";
@@ -227,7 +225,6 @@
             this.Name = "Form1";
             this.Padding = new System.Windows.Forms.Padding(0, 26, 3, 3);
             this.Text = "Form1";
-            this.TextShow = "Form1";
             this.contextMenuStrip2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();

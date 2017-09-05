@@ -78,7 +78,6 @@
             this.TBrush.ColorNormal = System.Drawing.Color.CornflowerBlue;
             this.TBrush.ColorSpace = System.Drawing.Color.Ivory;
             this.Text = "你好";
-            this.TextShow = "你好";
             this.Trans = 155;
             this.tControl1.ResumeLayout(false);
             this.ResumeLayout(false);

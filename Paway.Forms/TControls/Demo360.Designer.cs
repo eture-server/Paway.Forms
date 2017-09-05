@@ -90,7 +90,6 @@ namespace Paway.Forms
             this.Padding = new System.Windows.Forms.Padding(0, 26, 0, 0);
             this.ShowIcon = false;
             this.Text = "Demo360";
-            this.TextShow = "Demo360";
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
