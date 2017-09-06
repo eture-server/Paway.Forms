@@ -1059,6 +1059,7 @@ namespace Paway.Forms
             if (_iAutoWidth)
             {
                 if (width > _itemSize.Width) width = _itemSize.Width;
+                if (width < _itemSize.Width / 2) width = _itemSize.Width / 2;
                 item.Rectangle = new Rectangle(item.Rectangle.X, item.Rectangle.Y, width, item.Rectangle.Height);
             }
             width = size.Width.ToInt();
