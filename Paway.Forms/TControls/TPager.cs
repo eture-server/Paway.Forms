@@ -252,9 +252,22 @@ namespace Paway.Forms
         /// <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing)
             {
-                components.Dispose();
+                if (toolFirst != null)
+                    toolFirst.Dispose();
+                if (toolLast != null)
+                    toolLast.Dispose();
+                if (toolNext != null)
+                    toolNext.Dispose();
+                if (toolPrevious != null)
+                    toolPrevious.Dispose();
+                if (lblPageInfo != null)
+                    lblPageInfo.Dispose();
+                if (txtCurrentPage != null)
+                    txtCurrentPage.Dispose();
+                if (components != null)
+                    components.Dispose();
             }
             base.Dispose(disposing);
         }

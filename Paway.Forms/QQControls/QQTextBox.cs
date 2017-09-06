@@ -16,12 +16,12 @@ namespace Paway.Forms
         #region 变量
 
         private readonly Image _borderImage = AssemblyHelper.GetImage("QQ.TextBox.normal.png");
-        private readonly Image moveImage = AssemblyHelper.GetImage("QQ.TextBox.move.png");
+        private readonly Image _moveImage = AssemblyHelper.GetImage("QQ.TextBox.move.png");
         private Cursor _cursor = Cursors.IBeam;
         private TMouseState _mouseState = TMouseState.Normal;
         private TMouseState _iconMouseState = TMouseState.Normal;
         private bool _iconIsButton;
-        private ErrorProvider error;
+        private ErrorProvider _error;
         private Image _icon;
 
         #endregion
@@ -302,7 +302,7 @@ namespace Paway.Forms
             get
             {
                 BaseText_LostFocus(this, EventArgs.Empty);
-                bool result = !string.IsNullOrEmpty(error.GetError(this));
+                bool result = !string.IsNullOrEmpty(_error.GetError(this));
                 if (result) this.Focus();
                 return result;
             }
@@ -494,16 +494,16 @@ namespace Paway.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QQTextBox));
-            this.error = new System.Windows.Forms.ErrorProvider(this.components);
+            this._error = new System.Windows.Forms.ErrorProvider(this.components);
             this.BaseText = new Paway.Forms.QQTextBoxBase();
-            ((System.ComponentModel.ISupportInitialize)(this.error)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._error)).BeginInit();
             this.SuspendLayout();
             // 
             // error
             // 
-            this.error.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
-            this.error.ContainerControl = this;
-            this.error.Icon = ((System.Drawing.Icon)(resources.GetObject("error.Icon")));
+            this._error.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this._error.ContainerControl = this;
+            this._error.Icon = ((System.Drawing.Icon)(resources.GetObject("error.Icon")));
             // 
             // BaseText
             // 
@@ -523,7 +523,7 @@ namespace Paway.Forms
             this.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.Name = "QQTextBox";
             this.Size = new System.Drawing.Size(166, 24);
-            ((System.ComponentModel.ISupportInitialize)(this.error)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._error)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -706,7 +706,7 @@ namespace Paway.Forms
         /// </summary>
         public void Reset()
         {
-            error.SetError(this, null);
+            _error.SetError(this, null);
         }
 
         /// <summary>
@@ -714,7 +714,7 @@ namespace Paway.Forms
         /// </summary>
         public void Reset(string er)
         {
-            error.SetError(this, er);
+            _error.SetError(this, er);
         }
 
         /// <summary>
@@ -778,7 +778,7 @@ namespace Paway.Forms
                 case TMouseState.Move:
                     if (!_isTrans)
                     {
-                        DrawHelper.RendererBackground(g, ClientRectangle, moveImage, true);
+                        DrawHelper.RendererBackground(g, ClientRectangle, _moveImage, true);
                     }
                     break;
                 default:
@@ -853,6 +853,30 @@ namespace Paway.Forms
             base.OnMouseLeave(e);
             MouseState = TMouseState.Leave;
             Cursor = Cursors.Default;
+        }
+
+        #endregion
+
+        #region Dispose
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_borderImage != null)
+                    _borderImage.Dispose();
+                if (_moveImage != null)
+                    _moveImage.Dispose();
+                if (_error != null)
+                    _error.Dispose();
+                if (_icon != null)
+                    _icon.Dispose();
+                if (BaseText != null)
+                    BaseText.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
         #endregion

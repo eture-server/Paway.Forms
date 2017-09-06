@@ -1009,6 +1009,32 @@ namespace Paway.Forms
         }
 
         #endregion
+
+        #region Dispose
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (add != null)
+                    add.Dispose();
+                if (less != null)
+                    less.Dispose();
+                if (check_normal != null)
+                    check_normal.Dispose();
+                if (check_tick != null)
+                    check_tick.Dispose();
+                if (check_hight != null)
+                    check_hight.Dispose();
+                if (check_hight != null)
+                    check_hight.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #endregion
     }
     /// <summary>
     ///     提供树事件数据

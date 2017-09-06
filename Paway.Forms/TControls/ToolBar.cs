@@ -18,7 +18,6 @@ namespace Paway.Forms
     public class ToolBar : TControl
     {
         #region 构造函数
-
         /// <summary>
         ///     初始化 Paway.Forms.ToolBar 新的实例。
         /// </summary>
@@ -28,7 +27,7 @@ namespace Paway.Forms
             Progress();
             InitChange();
             CustomScroll();
-            toolTop = new ToolTip();
+            _toolTop = new ToolTip();
             this.MouseEnter += ToolBar_MouseEnter;
             _vScroll.MouseEnter += ToolBar_MouseEnter;
             _hScroll.MouseEnter += ToolBar_MouseEnter;
@@ -86,7 +85,6 @@ namespace Paway.Forms
         #endregion
 
         #region 资源图片
-
         /// <summary>
         ///     默认时的按钮图片
         /// </summary>
@@ -170,8 +168,8 @@ namespace Paway.Forms
             }
         }
 
-        private readonly Image main_tabbtn_downImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_down.png");
-        private readonly Image main_tabbtn_highlightImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_highlight.png");
+        private readonly Image _main_tabbtn_downImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_down.png");
+        private readonly Image _main_tabbtn_highlightImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_highlight.png");
 
         #endregion
 
@@ -204,7 +202,7 @@ namespace Paway.Forms
         /// <summary>
         ///     悬停窗口
         /// </summary>
-        private readonly ToolTip toolTop;
+        private readonly ToolTip _toolTop;
 
         /// <summary>
         ///     按下抬起项是否相同中用的过度项
@@ -214,14 +212,11 @@ namespace Paway.Forms
         #endregion
 
         #region 公共属性
-
         #region Int
-
         /// <summary>
         ///     圆角大小
         /// </summary>
         private int _tRadiu;
-
         /// <summary>
         ///     圆角大小
         /// </summary>
@@ -240,7 +235,6 @@ namespace Paway.Forms
         ///     滚动条宽度
         /// </summary>
         private int _tScrollHeight = 5;
-
         /// <summary>
         ///     滚动条宽度
         /// </summary>
@@ -255,12 +249,12 @@ namespace Paway.Forms
                 if (_hScroll != null)
                 {
                     _hScroll.Height = value;
-                    panelScroll.Height = value;
+                    _panelScroll.Height = value;
                 }
                 if (_vScroll != null)
                 {
                     _vScroll.Width = value;
-                    panelScroll.Width = value;
+                    _panelScroll.Width = value;
                 }
             }
         }
@@ -275,7 +269,6 @@ namespace Paway.Forms
         ///     项文本间的间隔
         /// </summary>
         private int _textSpace = 6;
-
         /// <summary>
         ///     项文本间的间隔
         /// </summary>
@@ -332,6 +325,7 @@ namespace Paway.Forms
         /// </summary>
         [Description("普通项，不响应鼠标绘制"), DefaultValue(false)]
         public bool INormal { get; set; }
+
         private bool _iItemLine;
         /// <summary>
         ///     绘制边框线开关
@@ -430,12 +424,10 @@ namespace Paway.Forms
         #endregion
 
         #region 其它
-
         /// <summary>
         ///     获取或设置项内的空白
         /// </summary>
         private Padding _textPading = new Padding(2);
-
         /// <summary>
         ///     获取或设置项内的空白
         /// </summary>
@@ -454,7 +446,6 @@ namespace Paway.Forms
         ///     事件触发点
         /// </summary>
         private TEvent _tEvent = TEvent.Up;
-
         /// <summary>
         ///     事件触发点
         /// </summary>
@@ -469,7 +460,6 @@ namespace Paway.Forms
         ///     Item项显示方向
         /// </summary>
         private TDirection _tDirection = TDirection.Level;
-
         /// <summary>
         ///     Item项显示方向
         /// </summary>
@@ -488,7 +478,6 @@ namespace Paway.Forms
         ///     图片显示位置
         /// </summary>
         private TLocation _tLocation = TLocation.Up;
-
         /// <summary>
         ///     图片显示位置
         /// </summary>
@@ -506,12 +495,10 @@ namespace Paway.Forms
         #endregion
 
         #region 数据项
-
         /// <summary>
         ///     工具栏中的项列表
         /// </summary>
         private ToolItemCollection _items;
-
         /// <summary>
         ///     工具栏中的项列表
         /// </summary>
@@ -534,7 +521,6 @@ namespace Paway.Forms
         ///     项的大小
         /// </summary>
         private Size _itemSize = new Size(78, 82);
-
         /// <summary>
         ///     项的大小
         /// </summary>
@@ -548,7 +534,7 @@ namespace Paway.Forms
                 _vScroll.Visible = false;
                 _hScroll.Visible = false;
                 _vScroll2.Visible = false;
-                panelScroll.Visible = false;
+                _panelScroll.Visible = false;
                 TPaint();
                 UpdateImageSize();
                 UpdateScroll();
@@ -560,7 +546,6 @@ namespace Paway.Forms
         ///     项与项之间的间隔
         /// </summary>
         private int _itemSpace = 1;
-
         /// <summary>
         ///     项与项之间的间隔
         /// </summary>
@@ -579,12 +564,10 @@ namespace Paway.Forms
         ///     项图片的大小
         /// </summary>
         private Size _imageSize = new Size(48, 48);
-
         /// <summary>
         ///     项图片显示区域大小
         /// </summary>
         private Size _imageSizeShow = Size.Empty;
-
         /// <summary>
         ///     项图片的大小
         /// </summary>
@@ -604,7 +587,6 @@ namespace Paway.Forms
         ///     当前选中项
         /// </summary>
         private ToolItem _selectedItem;
-
         /// <summary>
         ///     当前选中项
         /// </summary>
@@ -624,7 +606,6 @@ namespace Paway.Forms
         ///     选中项的索引
         /// </summary>
         private int _selectedIndex;
-
         /// <summary>
         ///     选中项的索引
         /// </summary>
@@ -637,9 +618,7 @@ namespace Paway.Forms
         #endregion
 
         #region 字体、颜色属性
-
         private TProperties _change;
-
         /// <summary>
         ///     变色项颜色
         /// </summary>
@@ -660,7 +639,6 @@ namespace Paway.Forms
         }
 
         private TProperties _text;
-
         /// <summary>
         ///     文字
         /// </summary>
@@ -681,7 +659,6 @@ namespace Paway.Forms
         }
 
         private TProperties _textSencond;
-
         /// <summary>
         ///     文字
         /// </summary>
@@ -702,7 +679,6 @@ namespace Paway.Forms
         }
 
         private TProperties _desc;
-
         /// <summary>
         ///     正文描述
         /// </summary>
@@ -723,7 +699,6 @@ namespace Paway.Forms
         }
 
         private TProperties _headDesc;
-
         /// <summary>
         ///     头部描述
         /// </summary>
@@ -744,7 +719,6 @@ namespace Paway.Forms
         }
 
         private TProperties _endDesc;
-
         /// <summary>
         ///     尾部描述
         /// </summary>
@@ -765,7 +739,6 @@ namespace Paway.Forms
         }
 
         private TProperties _backGround;
-
         /// <summary>
         ///     背景
         /// </summary>
@@ -1561,11 +1534,11 @@ namespace Paway.Forms
                 {
                     if (_iDown && (_btnArrowRect.Contains(point) || item.RectDesc.Contains(point)))
                     {
-                        btnArrowImage = main_tabbtn_downImage;
+                        btnArrowImage = _main_tabbtn_downImage;
                     }
                     else
                     {
-                        btnArrowImage = main_tabbtn_highlightImage;
+                        btnArrowImage = _main_tabbtn_highlightImage;
                     }
                     if (_iFocus && (_btnArrowRect.Contains(point) || item.RectDesc.Contains(point)))
                     {
@@ -2195,14 +2168,14 @@ namespace Paway.Forms
             _vScroll.Visible = false;
             _hScroll.Visible = false;
             _vScroll2.Visible = false;
-            panelScroll.Visible = false;
+            _panelScroll.Visible = false;
             TPaint();
             UpdateScroll();
             Invalidate();
         }
         private void AutoMouseStatu()
         {
-            if (panelScroll.Visible == iScrollHide & _iScroll & iMouseStatu) return;
+            if (_panelScroll.Visible == iScrollHide & _iScroll & iMouseStatu) return;
             new Action(AutoMouseStatu2).BeginInvoke(null, null);
         }
         private void AutoMouseStatu2()
@@ -2213,19 +2186,19 @@ namespace Paway.Forms
         }
         private void AutoMouseStatu3()
         {
-            panelScroll.Visible = iScrollHide & _iScroll & iMouseStatu;
+            _panelScroll.Visible = iScrollHide & _iScroll & iMouseStatu;
         }
 
         #endregion
 
         #region 动态显示项的图片
-        private Timer tDynamic = new Timer();
-        private PictureBox pictureBox1;
+        private Timer _tDynamic = new Timer();
+        private PictureBox _pictureBox1;
 
         /// <summary>
         ///     动态项原图片
         /// </summary>
-        private Image image;
+        private Image _image;
 
         /// <summary>
         ///     动态项
@@ -2238,8 +2211,8 @@ namespace Paway.Forms
         [Description("项的动态图片"), DefaultValue(null)]
         public Image TProgressImage
         {
-            get { return pictureBox1.Image; }
-            set { pictureBox1.Image = value; }
+            get { return _pictureBox1.Image; }
+            set { _pictureBox1.Image = value; }
         }
 
         /// <summary>
@@ -2247,8 +2220,8 @@ namespace Paway.Forms
         /// </summary>
         private void Progress()
         {
-            tDynamic.Interval = 30;
-            tDynamic.Tick += tDynamic_Tick;
+            _tDynamic.Interval = 30;
+            _tDynamic.Tick += tDynamic_Tick;
         }
 
         /// <summary>
@@ -2277,12 +2250,12 @@ namespace Paway.Forms
         {
             progressItemIndex = index;
             if (!string.IsNullOrEmpty(newText)) _items[progressItemIndex].Text = newText;
-            image = _items[progressItemIndex].Image;
-            if (pictureBox1.Image != null)
+            _image = _items[progressItemIndex].Image;
+            if (_pictureBox1.Image != null)
             {
-                _items[progressItemIndex].Image = pictureBox1.Image;
+                _items[progressItemIndex].Image = _pictureBox1.Image;
             }
-            tDynamic.Enabled = true;
+            _tDynamic.Enabled = true;
         }
 
         /// <summary>
@@ -2292,9 +2265,9 @@ namespace Paway.Forms
         /// <param name="text">项文本</param>
         public void TProgressStop(Image image = null, string text = null)
         {
-            tDynamic.Enabled = false;
+            _tDynamic.Enabled = false;
             if (!string.IsNullOrEmpty(text)) _items[progressItemIndex].Text = text;
-            _items[progressItemIndex].Image = image ?? this.image;
+            _items[progressItemIndex].Image = image ?? this._image;
             tDynamic_Tick(this, EventArgs.Empty);
         }
 
@@ -2305,30 +2278,30 @@ namespace Paway.Forms
 
         private void InitializeComponent()
         {
-            pictureBox1 = new PictureBox();
-            ((ISupportInitialize)pictureBox1).BeginInit();
+            _pictureBox1 = new PictureBox();
+            ((ISupportInitialize)_pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(0, 0);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(1, 1);
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
+            _pictureBox1.Location = new Point(0, 0);
+            _pictureBox1.Name = "pictureBox1";
+            _pictureBox1.Size = new Size(1, 1);
+            _pictureBox1.TabIndex = 0;
+            _pictureBox1.TabStop = false;
             // 
             // ToolBar
             // 
-            Controls.Add(pictureBox1);
+            Controls.Add(_pictureBox1);
             Name = "ToolBar";
-            ((ISupportInitialize)pictureBox1).EndInit();
+            ((ISupportInitialize)_pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         #region 变色项
-        private Timer tChange = new Timer();
+        private Timer _tChange = new Timer();
 
         /// <summary>
         ///     动态项
@@ -2337,8 +2310,8 @@ namespace Paway.Forms
 
         private void InitChange()
         {
-            tChange.Interval = 600;
-            tChange.Tick += tChange_Tick;
+            _tChange.Interval = 600;
+            _tChange.Tick += tChange_Tick;
         }
 
         /// <summary>
@@ -2346,7 +2319,7 @@ namespace Paway.Forms
         /// </summary>
         public void TChangeStart()
         {
-            tChange.Enabled = true;
+            _tChange.Enabled = true;
         }
 
         /// <summary>
@@ -2354,7 +2327,7 @@ namespace Paway.Forms
         /// </summary>
         public void TChangeStop()
         {
-            tChange.Enabled = false;
+            _tChange.Enabled = false;
         }
 
         private void tChange_Tick(object sender, EventArgs e)
@@ -2391,7 +2364,7 @@ namespace Paway.Forms
         /// <summary>
         /// 滚动条外框
         /// </summary>
-        private TControl panelScroll;
+        private TControl _panelScroll;
         /// <summary>
         ///     垂直滚动条
         /// </summary>
@@ -2475,14 +2448,14 @@ namespace Paway.Forms
         /// </summary>
         private void CustomScroll()
         {
-            panelScroll = new TControl();
-            Controls.Add(panelScroll);
+            _panelScroll = new TControl();
+            Controls.Add(_panelScroll);
 
             _hScroll = new HScrollBar();
             _hScroll.Scroll += _hScroll_Scroll;
             //_hScroll.Dock = DockStyle.Bottom;
             //_hScroll.Height = _tScrollHeight;
-            panelScroll.Controls.Add(_hScroll);
+            _panelScroll.Controls.Add(_hScroll);
             {
                 _vScroll2 = new VScrollBar();
                 //_vScroll2.Scroll += _hScroll_Scroll;
@@ -2495,12 +2468,12 @@ namespace Paway.Forms
             _vScroll.Scroll += _vScroll_Scroll;
             //_vScroll.Dock = DockStyle.Right;
             //_vScroll.Width = _tScrollHeight;
-            panelScroll.Controls.Add(_vScroll);
+            _panelScroll.Controls.Add(_vScroll);
 
             _vScroll.Visible = false;
             _hScroll.Visible = false;
             _vScroll2.Visible = false;
-            panelScroll.Visible = false;
+            _panelScroll.Visible = false;
         }
 
         /// <summary>
@@ -2575,7 +2548,7 @@ namespace Paway.Forms
             _vScroll.Visible = false;
             _hScroll.Visible = false;
             _vScroll2.Visible = false;
-            panelScroll.Visible = false;
+            _panelScroll.Visible = false;
             TPaint();
             UpdateScroll();
         }
@@ -2588,7 +2561,7 @@ namespace Paway.Forms
             _vScroll.Visible = false;
             _hScroll.Visible = false;
             _vScroll2.Visible = false;
-            panelScroll.Visible = false;
+            _panelScroll.Visible = false;
             iScrollHide = false;
             switch (TDirection)
             {
@@ -2598,11 +2571,11 @@ namespace Paway.Forms
                     {
                         iScrollHide = true;
                         _vScroll.Visible = _iScroll;
-                        panelScroll.Width = _tScrollHeight;
-                        panelScroll.Dock = DockStyle.Right;
-                        panelScroll.Visible = ILoad & _iScroll;
-                        panelScroll.Visible = ILoad & DesignMode;
-                        _vScroll.Size = new Size(panelScroll.Width, panelScroll.Height + 17 * 2 + 1);
+                        _panelScroll.Width = _tScrollHeight;
+                        _panelScroll.Dock = DockStyle.Right;
+                        _panelScroll.Visible = ILoad & _iScroll;
+                        _panelScroll.Visible = ILoad & DesignMode;
+                        _vScroll.Size = new Size(_panelScroll.Width, _panelScroll.Height + 17 * 2 + 1);
                         _vScroll.Location = new Point(0, -17);
                     }
                     else if (_vScroll.Value >= 0)
@@ -2617,11 +2590,11 @@ namespace Paway.Forms
                         iScrollHide = true;
                         _hScroll.Visible = _iScroll;
                         _vScroll2.Visible = _iScroll;
-                        panelScroll.Height = _tScrollHeight;
-                        panelScroll.Dock = DockStyle.Bottom;
-                        panelScroll.Visible = ILoad & _iScroll;
-                        panelScroll.Visible = ILoad & DesignMode;
-                        _hScroll.Size = new Size(panelScroll.Width + 17 * 2 + 1, panelScroll.Height);
+                        _panelScroll.Height = _tScrollHeight;
+                        _panelScroll.Dock = DockStyle.Bottom;
+                        _panelScroll.Visible = ILoad & _iScroll;
+                        _panelScroll.Visible = ILoad & DesignMode;
+                        _hScroll.Size = new Size(_panelScroll.Width + 17 * 2 + 1, _panelScroll.Height);
                         _hScroll.Location = new Point(-17, 0);
                     }
                     else if (_vScroll2.Value >= 0)
@@ -2740,8 +2713,8 @@ namespace Paway.Forms
         /// </summary>
         protected void ShowTooTip(string toolTipText)
         {
-            toolTop.Active = true;
-            toolTop.SetToolTip(this, toolTipText);
+            _toolTop.Active = true;
+            _toolTop.SetToolTip(this, toolTipText);
         }
 
         /// <summary>
@@ -2749,9 +2722,9 @@ namespace Paway.Forms
         /// </summary>
         protected void HideToolTip()
         {
-            if (toolTop.Active)
+            if (_toolTop.Active)
             {
-                toolTop.Active = false;
+                _toolTop.Active = false;
             }
         }
 
@@ -2765,49 +2738,74 @@ namespace Paway.Forms
         {
             if (disposing)
             {
+                if (_backGround != null)
+                    _backGround.Dispose();
                 if (_change != null)
                     _change.Dispose();
+                if (_desc != null)
+                    _desc.Dispose();
+                if (_downImage != null)
+                    _downImage.Dispose();
+                if (_downImage2 != null)
+                    _downImage2.Dispose();
+                if (_endDesc != null)
+                    _endDesc.Dispose();
+                if (_headDesc != null)
+                    _headDesc.Dispose();
+                if (_hScroll != null)
+                    _hScroll.Dispose();
+                if (_main_tabbtn_downImage != null)
+                    _main_tabbtn_downImage.Dispose();
+                if (_main_tabbtn_highlightImage != null)
+                    _main_tabbtn_highlightImage.Dispose();
+                if (_moveImage != null)
+                    _moveImage.Dispose();
+                if (_moveImage2 != null)
+                    _moveImage2.Dispose();
+                if (_normalImage != null)
+                    _normalImage.Dispose();
+                if (_normalImage2 != null)
+                    _normalImage2.Dispose();
+                if (_selectedItem != null)
+                    _selectedItem.Dispose();
+                if (_selectImage != null)
+                    _selectImage.Dispose();
+                if (_selectImage2 != null)
+                    _selectImage2.Dispose();
+                if (_tempItem != null)
+                    _tempItem.Dispose();
                 if (_text != null)
                     _text.Dispose();
                 if (_textSencond != null)
                     _textSencond.Dispose();
-                if (_desc != null)
-                    _desc.Dispose();
-                if (_headDesc != null)
-                    _headDesc.Dispose();
-                if (_endDesc != null)
-                    _endDesc.Dispose();
-                if (_backGround != null)
-                    _backGround.Dispose();
-                _normalImage = null;
-                _normalImage2.Dispose();
-                _downImage = null;
-                _moveImage = null;
-                _selectImage = null;
-                if (toolTop != null)
-                    toolTop.Dispose();
-                if (_tempItem != null)
-                    _tempItem.Dispose();
-                if (_selectedItem != null)
-                    _selectedItem.Dispose();
-                if (MoveItem != null)
-                    MoveItem.Dispose();
+                if (_toolTop != null)
+                    _toolTop.Dispose();
                 if (_vScroll != null)
                     _vScroll.Dispose();
-                if (_hScroll != null)
-                    _hScroll.Dispose();
                 if (_vScroll2 != null)
                     _vScroll2.Dispose();
+
+                if (_image != null)
+                    _image.Dispose();
+                _tDynamic.Stop();
+                _tDynamic = null;
+                if (_pictureBox1 != null)
+                {
+                    if (_pictureBox1.Image != null)
+                        _pictureBox1.Image = null;
+                    _pictureBox1.Dispose();
+                }
+                if (_tChange != null)
+                {
+                    _tChange.Stop();
+                    _tChange.Dispose();
+                }
+                if (_panelScroll != null)
+                    _panelScroll.Dispose();
+                if (MoveItem != null)
+                    MoveItem.Dispose();
                 if (_items != null)
                     _items.Dispose();
-                tChange.Stop();
-                tChange = null;
-                tDynamic.Stop();
-                tDynamic = null;
-                image = null;
-                pictureBox1.Image = null;
-                pictureBox1.Dispose();
-                pictureBox1 = null;
             }
             base.Dispose(disposing);
         }

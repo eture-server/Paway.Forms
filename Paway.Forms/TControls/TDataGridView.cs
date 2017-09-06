@@ -1064,5 +1064,32 @@ namespace Paway.Forms
         }
 
         #endregion
+
+        #region Dispose
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_headerCheckBox != null)
+                    _headerCheckBox.Dispose();
+                if (timer != null)
+                {
+                    timer.Stop();
+                    timer.Dispose();
+                }
+                if (pictureBox1 != null)
+                {
+                    if (pictureBox1.Image != null)
+                        pictureBox1.Image.Dispose();
+                    pictureBox1.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #endregion
     }
 }

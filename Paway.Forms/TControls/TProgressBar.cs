@@ -195,5 +195,21 @@ namespace Paway.Forms.TControls
         }
 
         #endregion
+
+        #region Dispose
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (tFont != null)
+                    tFont.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #endregion
     }
 }

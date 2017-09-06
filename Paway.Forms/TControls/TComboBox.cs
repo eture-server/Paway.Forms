@@ -172,5 +172,25 @@ namespace Paway.Forms
         }
 
         #endregion
+
+        #region Dispose
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (moveImage != null)
+                    moveImage.Dispose();
+                if (tComboBox1 != null)
+                    tComboBox1.Dispose();
+                if (_borderImage != null)
+                    _borderImage.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #endregion
     }
 }

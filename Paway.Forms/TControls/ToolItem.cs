@@ -159,7 +159,6 @@ namespace Paway.Forms
         public string Hit { get; set; }
 
         private TProperties _color;
-
         /// <summary>
         ///     优先应用于项的背景色
         /// </summary>
@@ -345,8 +344,11 @@ namespace Paway.Forms
                     // TODO: 释放托管状态(托管对象)。
                     if (_color != null)
                         _color.Dispose();
+                    if (_image != null)
+                        _image.Dispose();
+                    if (ContextMenuStrip != null)
+                        ContextMenuStrip.Dispose();
                     Tag = null;
-                    ContextMenuStrip = null;
                     Owner = null;
                 }
 

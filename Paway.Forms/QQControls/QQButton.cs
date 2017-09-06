@@ -137,9 +137,9 @@ namespace Paway.Forms
             }
         }
 
-        private readonly Image lightImage = AssemblyHelper.GetImage("QQ.Button.Light.png");
-        private readonly Image focusImage = AssemblyHelper.GetImage("QQ.Button.focus.png");
-        private readonly Image grayImage = AssemblyHelper.GetImage("QQ.Button.gray.png");
+        private readonly Image _lightImage = AssemblyHelper.GetImage("QQ.Button.Light.png");
+        private readonly Image _focusImage = AssemblyHelper.GetImage("QQ.Button.focus.png");
+        private readonly Image _grayImage = AssemblyHelper.GetImage("QQ.Button.gray.png");
 
 
         /// <summary>
@@ -336,7 +336,7 @@ namespace Paway.Forms
                 {
                     if (Focused) //得到焦点的时候，绘制边框
                     {
-                        DrawHelper.RendererBackground(g, AllRect, lightImage, true);
+                        DrawHelper.RendererBackground(g, AllRect, _lightImage, true);
                     }
                 }
                 switch (MouseState)
@@ -347,7 +347,7 @@ namespace Paway.Forms
                         {
                             if (IsShowBorder)
                             {
-                                DrawHelper.RendererBackground(g, TextRect, focusImage, true);
+                                DrawHelper.RendererBackground(g, TextRect, _focusImage, true);
                             }
                             else
                             {
@@ -371,7 +371,7 @@ namespace Paway.Forms
             }
             else
             {
-                DrawHelper.RendererBackground(g, TextRect, grayImage, true);
+                DrawHelper.RendererBackground(g, TextRect, _grayImage, true);
                 TextRenderer.DrawText(g, Text, Font, TextRect, Color.Gray, _textAlign);
             }
         }
@@ -414,6 +414,32 @@ namespace Paway.Forms
         {
             base.OnMouseUp(mevent);
             MouseState = TMouseState.Up;
+        }
+
+        #endregion
+
+        #region Dispose
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_downImage != null)
+                    _downImage.Dispose();
+                if (_focusImage != null)
+                    _focusImage.Dispose();
+                if (_grayImage != null)
+                    _grayImage.Dispose();
+                if (_lightImage != null)
+                    _lightImage.Dispose();
+                if (_moveImage != null)
+                    _moveImage.Dispose();
+                if (_normalImage != null)
+                    _normalImage.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
         #endregion
