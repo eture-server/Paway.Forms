@@ -46,7 +46,6 @@
             // 
             // btnReset
             // 
-            this.btnReset.Image = null;
             this.btnReset.Location = new System.Drawing.Point(186, 29);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(73, 28);

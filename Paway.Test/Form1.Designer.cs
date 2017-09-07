@@ -88,7 +88,6 @@
             // 
             this.btName.BackColor = System.Drawing.Color.Gainsboro;
             this.btName.ForeColor = System.Drawing.Color.White;
-            this.btName.Image = null;
             this.btName.Location = new System.Drawing.Point(35, 274);
             this.btName.Name = "btName";
             this.btName.Size = new System.Drawing.Size(64, 32);
@@ -103,9 +102,9 @@
             toolItem1.IHeard = true;
             toolItem1.TColor.StringVertical = System.Drawing.StringAlignment.Center;
             toolItem1.Text = "白酒123";
-            toolItem2.Desc = "aaaaa";
-            toolItem2.EndDesc = "";
-            toolItem2.HeadDesc = "呵呵";
+            toolItem2.Desc = "";
+            toolItem2.EndDesc = "World";
+            toolItem2.HeadDesc = "你好";
             toolItem2.IChange = true;
             toolItem2.Text = "头部";
             toolItem3.IHeard = true;
@@ -135,7 +134,7 @@
             this.toolBar.Items.Add(toolItem11);
             this.toolBar.Items.Add(toolItem12);
             this.toolBar.Items.Add(toolItem13);
-            this.toolBar.ItemSize = new System.Drawing.Size(60, 60);
+            this.toolBar.ItemSize = new System.Drawing.Size(80, 80);
             this.toolBar.ItemSpace = 5;
             this.toolBar.IText = true;
             this.toolBar.Location = new System.Drawing.Point(35, 29);
@@ -171,8 +170,6 @@
             // 
             this.tbRsa2.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.tbRsa2.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.tbRsa2.Icon = null;
-            this.tbRsa2.IsPasswordChat = '\0';
             this.tbRsa2.Lines = new string[0];
             this.tbRsa2.Location = new System.Drawing.Point(137, 277);
             this.tbRsa2.Margin = new System.Windows.Forms.Padding(4);
@@ -182,7 +179,6 @@
             this.tbRsa2.Regex = "[0-9]+(\\.[0-9]+)?";
             this.tbRsa2.RegexType = Paway.Helper.RegexType.Custom;
             this.tbRsa2.RLength = 1;
-            this.tbRsa2.SelectedText = "";
             this.tbRsa2.Size = new System.Drawing.Size(94, 29);
             this.tbRsa2.TabIndex = 60;
             this.tbRsa2.WaterText = "请输入Rsa值";
@@ -194,7 +190,6 @@
             this.tbName.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tbName.Icon = global::Paway.Test.Properties.Resources.serrch;
             this.tbName.IconIsButton = true;
-            this.tbName.IsPasswordChat = '\0';
             this.tbName.Lines = new string[0];
             this.tbName.Location = new System.Drawing.Point(271, 277);
             this.tbName.Margin = new System.Windows.Forms.Padding(4);
@@ -203,7 +198,6 @@
             this.tbName.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
             this.tbName.Regex = "";
             this.tbName.RegexType = Paway.Helper.RegexType.Normal;
-            this.tbName.SelectedText = "";
             this.tbName.Size = new System.Drawing.Size(172, 29);
             this.tbName.TabIndex = 64;
             // 

@@ -344,8 +344,7 @@ namespace Paway.Forms
                     // TODO: 释放托管状态(托管对象)。
                     if (_color != null)
                         _color.Dispose();
-                    if (_image != null)
-                        _image.Dispose();
+                    _image = null;
                     if (ContextMenuStrip != null)
                         ContextMenuStrip.Dispose();
                     Tag = null;

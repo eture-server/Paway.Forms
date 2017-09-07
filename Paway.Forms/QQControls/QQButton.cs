@@ -68,6 +68,7 @@ namespace Paway.Forms
         ///     默认时的按钮图片
         /// </summary>
         private Image _normalImage;
+        private Image _normalImage2 = AssemblyHelper.GetImage("QQ.Button.normal.png");
         /// <summary>
         ///     默认图片
         /// </summary>
@@ -78,7 +79,7 @@ namespace Paway.Forms
             get
             {
                 if (_normalImage == null)
-                    _normalImage = AssemblyHelper.GetImage("QQ.Button.normal.png");
+                    _normalImage = _normalImage2;
                 return _normalImage;
             }
             set
@@ -92,6 +93,7 @@ namespace Paway.Forms
         ///     鼠标按下时的图片
         /// </summary>
         private Image _downImage;
+        private Image _downImage2 = AssemblyHelper.GetImage("QQ.Button.down.png");
         /// <summary>
         ///     鼠标按下时的图片
         /// </summary>
@@ -102,7 +104,7 @@ namespace Paway.Forms
             get
             {
                 if (_downImage == null)
-                    _downImage = AssemblyHelper.GetImage("QQ.Button.down.png");
+                    _downImage = _downImage2;
                 return _downImage;
             }
             set
@@ -116,6 +118,7 @@ namespace Paway.Forms
         ///     鼠标划过时的图片
         /// </summary>
         private Image _moveImage;
+        private Image _moveImage2 = AssemblyHelper.GetImage("QQ.Button.highlight.png");
         /// <summary>
         ///     鼠标划过时的图片
         /// </summary>
@@ -126,7 +129,7 @@ namespace Paway.Forms
             get
             {
                 if (_moveImage == null)
-                    _moveImage = AssemblyHelper.GetImage("QQ.Button.highlight.png");
+                    _moveImage = _moveImage2;
                 return _moveImage;
             }
             set
@@ -176,7 +179,7 @@ namespace Paway.Forms
         /// <summary>
         ///     按钮上显示的图片
         /// </summary>
-        [Description("按钮上显示的图片")]
+        [Description("按钮上显示的图片"), DefaultValue(null)]
         public new virtual Image Image
         {
             get { return base.Image; }
@@ -426,18 +429,21 @@ namespace Paway.Forms
         {
             if (disposing)
             {
-                if (_downImage != null)
-                    _downImage.Dispose();
+                _downImage = null;
+                _moveImage = null;
+                _normalImage = null;
+                if (_downImage2 != null)
+                    _downImage2.Dispose();
+                if (_moveImage2 != null)
+                    _moveImage2.Dispose();
+                if (_normalImage2 != null)
+                    _normalImage2.Dispose();
                 if (_focusImage != null)
                     _focusImage.Dispose();
                 if (_grayImage != null)
                     _grayImage.Dispose();
                 if (_lightImage != null)
                     _lightImage.Dispose();
-                if (_moveImage != null)
-                    _moveImage.Dispose();
-                if (_normalImage != null)
-                    _normalImage.Dispose();
             }
             base.Dispose(disposing);
         }

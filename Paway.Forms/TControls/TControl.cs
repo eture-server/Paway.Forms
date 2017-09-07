@@ -802,10 +802,9 @@ namespace Paway.Forms
         {
             if (disposing)
             {
-                if (TranImage != null)
-                    TranImage.Dispose();
-                if (TranLaterImage != null)
-                    TranLaterImage.Dispose();
+                image = null;
+                TranImage = null;
+                TranLaterImage = null;
                 if (_tBrush != null)
                     _tBrush.Dispose();
                 if (sTimer != null)
@@ -815,8 +814,6 @@ namespace Paway.Forms
                 }
                 if (alpha != null)
                     alpha.Dispose();
-                if (image != null)
-                    image.Dispose();
             }
             base.Dispose(disposing);
         }

@@ -52,7 +52,6 @@
             // 
             // btInsert
             // 
-            this.btInsert.Image = null;
             this.btInsert.Location = new System.Drawing.Point(25, 143);
             this.btInsert.Name = "btInsert";
             this.btInsert.Size = new System.Drawing.Size(59, 28);
@@ -72,7 +71,6 @@
             // 
             // btUpdate
             // 
-            this.btUpdate.Image = null;
             this.btUpdate.Location = new System.Drawing.Point(102, 143);
             this.btUpdate.Name = "btUpdate";
             this.btUpdate.Size = new System.Drawing.Size(59, 28);
@@ -83,7 +81,6 @@
             // 
             // btUpOrIn
             // 
-            this.btUpOrIn.Image = null;
             this.btUpOrIn.Location = new System.Drawing.Point(183, 143);
             this.btUpOrIn.Name = "btUpOrIn";
             this.btUpOrIn.Size = new System.Drawing.Size(59, 28);
@@ -94,7 +91,6 @@
             // 
             // btDelete
             // 
-            this.btDelete.Image = null;
             this.btDelete.Location = new System.Drawing.Point(265, 143);
             this.btDelete.Name = "btDelete";
             this.btDelete.Size = new System.Drawing.Size(59, 28);
@@ -105,7 +101,6 @@
             // 
             // btSelect
             // 
-            this.btSelect.Image = null;
             this.btSelect.Location = new System.Drawing.Point(25, 201);
             this.btSelect.Name = "btSelect";
             this.btSelect.Size = new System.Drawing.Size(59, 28);
@@ -116,7 +111,6 @@
             // 
             // btnReplace
             // 
-            this.btnReplace.Image = null;
             this.btnReplace.Location = new System.Drawing.Point(102, 201);
             this.btnReplace.Name = "btnReplace";
             this.btnReplace.Size = new System.Drawing.Size(59, 28);
@@ -127,8 +121,8 @@
             // 
             // FormSql
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.ClientSize = new System.Drawing.Size(407, 324);
+            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "FormSql";
             this.Text = "Sql测试";
             this.panel1.ResumeLayout(false);

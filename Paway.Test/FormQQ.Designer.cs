@@ -211,12 +211,9 @@
             // 
             // qqTextBoxEx1
             // 
-            this.qqTextBoxEx1.Icon = null;
-            this.qqTextBoxEx1.IsPasswordChat = '\0';
             this.qqTextBoxEx1.Lines = new string[0];
             this.qqTextBoxEx1.Location = new System.Drawing.Point(85, 55);
             this.qqTextBoxEx1.Name = "qqTextBoxEx1";
-            this.qqTextBoxEx1.SelectedText = "";
             this.qqTextBoxEx1.Size = new System.Drawing.Size(178, 25);
             this.qqTextBoxEx1.TabIndex = 9;
             this.qqTextBoxEx1.WaterText = "请输入密码";
@@ -255,7 +252,6 @@
             // 
             // qqButton1
             // 
-            this.qqButton1.Image = null;
             this.qqButton1.Location = new System.Drawing.Point(85, 178);
             this.qqButton1.Name = "qqButton1";
             this.qqButton1.Size = new System.Drawing.Size(125, 35);

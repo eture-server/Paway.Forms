@@ -2744,8 +2744,7 @@ namespace Paway.Forms
                     _change.Dispose();
                 if (_desc != null)
                     _desc.Dispose();
-                if (_downImage != null)
-                    _downImage.Dispose();
+                _downImage = null;
                 if (_downImage2 != null)
                     _downImage2.Dispose();
                 if (_endDesc != null)
@@ -2758,18 +2757,15 @@ namespace Paway.Forms
                     _main_tabbtn_downImage.Dispose();
                 if (_main_tabbtn_highlightImage != null)
                     _main_tabbtn_highlightImage.Dispose();
-                if (_moveImage != null)
-                    _moveImage.Dispose();
+                _moveImage = null;
                 if (_moveImage2 != null)
                     _moveImage2.Dispose();
-                if (_normalImage != null)
-                    _normalImage.Dispose();
+                _normalImage = null;
                 if (_normalImage2 != null)
                     _normalImage2.Dispose();
                 if (_selectedItem != null)
                     _selectedItem.Dispose();
-                if (_selectImage != null)
-                    _selectImage.Dispose();
+                _selectImage = null;
                 if (_selectImage2 != null)
                     _selectImage2.Dispose();
                 if (_tempItem != null)
@@ -2785,14 +2781,12 @@ namespace Paway.Forms
                 if (_vScroll2 != null)
                     _vScroll2.Dispose();
 
-                if (_image != null)
-                    _image.Dispose();
+                _image = null;
                 _tDynamic.Stop();
                 _tDynamic = null;
                 if (_pictureBox1 != null)
                 {
-                    if (_pictureBox1.Image != null)
-                        _pictureBox1.Image = null;
+                    _pictureBox1.Image = null;
                     _pictureBox1.Dispose();
                 }
                 if (_tChange != null)

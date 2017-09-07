@@ -61,7 +61,6 @@
             // 
             // btChange
             // 
-            this.btChange.Image = null;
             this.btChange.Location = new System.Drawing.Point(280, 113);
             this.btChange.Name = "btChange";
             this.btChange.Size = new System.Drawing.Size(75, 28);

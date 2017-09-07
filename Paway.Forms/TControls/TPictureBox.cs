@@ -291,8 +291,7 @@ namespace Paway.Forms.TControls
         {
             if (disposing)
             {
-                if (screen != null)
-                    screen.Dispose();
+                screen = null;
             }
             base.Dispose(disposing);
         }

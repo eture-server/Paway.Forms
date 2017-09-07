@@ -65,7 +65,7 @@ namespace Paway.Forms
         /// <summary>
         ///     TNum.获取或设置一个值，该值指示控件中当前选定的文本
         /// </summary>
-        [Description("获取或设置一个值，该值指示控件中当前选定的文本")]
+        [Browsable(false), Description("获取或设置一个值，该值指示控件中当前选定的文本"), DefaultValue("")]
         public string SelectedText
         {
             get { return BaseText.SelectedText; }
@@ -104,7 +104,7 @@ namespace Paway.Forms
         /// <summary>
         ///     指示将为单行编辑控件的密码输入显示的字符
         /// </summary>
-        [Description("指示将为单行编辑控件的密码输入显示的字符。"), Category("行为"), DefaultValue(false)]
+        [Description("指示将为单行编辑控件的密码输入显示的字符。"), Category("行为"), DefaultValue('\0')]
         public char IsPasswordChat
         {
             get { return BaseText.PasswordChar; }
@@ -391,7 +391,7 @@ namespace Paway.Forms
         /// <summary>
         ///     文本框的图标
         /// </summary>
-        [Description("文本框的图标"), Category("自定义属性")]
+        [Description("文本框的图标"), Category("自定义属性"), DefaultValue(null)]
         public virtual Image Icon
         {
             get { return _icon; }
@@ -871,8 +871,7 @@ namespace Paway.Forms
                     _moveImage.Dispose();
                 if (_error != null)
                     _error.Dispose();
-                if (_icon != null)
-                    _icon.Dispose();
+                _icon = null;
                 if (BaseText != null)
                     BaseText.Dispose();
             }

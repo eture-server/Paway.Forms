@@ -307,15 +307,12 @@ namespace Paway.Forms
             // txtCurrentPage
             // 
             this.txtCurrentPage.ForeColor = System.Drawing.Color.Black;
-            this.txtCurrentPage.Icon = null;
-            this.txtCurrentPage.IsPasswordChat = '\0';
             this.txtCurrentPage.ITrans = true;
             this.txtCurrentPage.Lines = new string[] {
         "1"};
             this.txtCurrentPage.Location = new System.Drawing.Point(80, 4);
             this.txtCurrentPage.MaxLength = 10;
             this.txtCurrentPage.Name = "txtCurrentPage";
-            this.txtCurrentPage.SelectedText = "";
             this.txtCurrentPage.Size = new System.Drawing.Size(43, 25);
             this.txtCurrentPage.TabIndex = 13;
             this.txtCurrentPage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;

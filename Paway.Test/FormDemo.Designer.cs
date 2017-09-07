@@ -663,20 +663,16 @@
             // 
             // qqTextBox1
             // 
-            this.qqTextBox1.Icon = null;
-            this.qqTextBox1.IsPasswordChat = '\0';
             this.qqTextBox1.Lines = new string[] {
         "qqTextBox1"};
             this.qqTextBox1.Location = new System.Drawing.Point(118, 150);
             this.qqTextBox1.Name = "qqTextBox1";
             this.qqTextBox1.RegexType = Paway.Helper.RegexType.Password;
-            this.qqTextBox1.SelectedText = "";
             this.qqTextBox1.Size = new System.Drawing.Size(109, 25);
             this.qqTextBox1.TabIndex = 47;
             // 
             // btDemo360
             // 
-            this.btDemo360.Image = null;
             this.btDemo360.Location = new System.Drawing.Point(233, 119);
             this.btDemo360.Name = "btDemo360";
             this.btDemo360.Size = new System.Drawing.Size(109, 28);
@@ -686,7 +682,6 @@
             // 
             // btQQDemo
             // 
-            this.btQQDemo.Image = null;
             this.btQQDemo.Location = new System.Drawing.Point(233, 150);
             this.btQQDemo.Name = "btQQDemo";
             this.btQQDemo.Size = new System.Drawing.Size(109, 28);
@@ -756,7 +751,6 @@
             // btTTsRead
             // 
             this.btTTsRead.Font = new System.Drawing.Font("Tahoma", 12F);
-            this.btTTsRead.Image = null;
             this.btTTsRead.Location = new System.Drawing.Point(283, 210);
             this.btTTsRead.Name = "btTTsRead";
             this.btTTsRead.Size = new System.Drawing.Size(59, 28);
@@ -768,8 +762,6 @@
             // 
             this.tNumTestBox1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tNumTestBox1.ForeColor = System.Drawing.Color.Black;
-            this.tNumTestBox1.Icon = null;
-            this.tNumTestBox1.IsPasswordChat = '\0';
             this.tNumTestBox1.Lines = new string[] {
         "2"};
             this.tNumTestBox1.Location = new System.Drawing.Point(118, 180);
@@ -777,7 +769,6 @@
             this.tNumTestBox1.MaxLength = 10;
             this.tNumTestBox1.Name = "tNumTestBox1";
             this.tNumTestBox1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            this.tNumTestBox1.SelectedText = "";
             this.tNumTestBox1.Size = new System.Drawing.Size(109, 24);
             this.tNumTestBox1.TabIndex = 37;
             // 
@@ -787,8 +778,6 @@
             this.tbPrompt.Enabled = false;
             this.tbPrompt.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tbPrompt.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.tbPrompt.Icon = null;
-            this.tbPrompt.IsPasswordChat = '\0';
             this.tbPrompt.Lines = new string[] {
         "请输入类目关键字"};
             this.tbPrompt.Location = new System.Drawing.Point(16, 210);
@@ -797,7 +786,6 @@
             this.tbPrompt.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.tbPrompt.ReadOnly = true;
             this.tbPrompt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.tbPrompt.SelectedText = "";
             this.tbPrompt.Size = new System.Drawing.Size(261, 24);
             this.tbPrompt.TabIndex = 35;
             // 
@@ -823,7 +811,6 @@
             // 
             // btAbout
             // 
-            this.btAbout.Image = null;
             this.btAbout.Location = new System.Drawing.Point(285, 241);
             this.btAbout.Name = "btAbout";
             this.btAbout.Size = new System.Drawing.Size(57, 28);
@@ -833,7 +820,6 @@
             // 
             // btGridView
             // 
-            this.btGridView.Image = null;
             this.btGridView.Location = new System.Drawing.Point(233, 180);
             this.btGridView.Name = "btGridView";
             this.btGridView.Size = new System.Drawing.Size(109, 28);
@@ -843,7 +829,6 @@
             // 
             // btSearch
             // 
-            this.btSearch.Image = null;
             this.btSearch.Location = new System.Drawing.Point(220, 241);
             this.btSearch.Name = "btSearch";
             this.btSearch.Size = new System.Drawing.Size(59, 28);
@@ -853,7 +838,6 @@
             // 
             // btImage
             // 
-            this.btImage.Image = null;
             this.btImage.Location = new System.Drawing.Point(155, 241);
             this.btImage.Name = "btImage";
             this.btImage.Size = new System.Drawing.Size(59, 28);
@@ -919,7 +903,6 @@
             // 
             // btQQ
             // 
-            this.btQQ.Image = null;
             this.btQQ.Location = new System.Drawing.Point(81, 241);
             this.btQQ.Name = "btQQ";
             this.btQQ.Size = new System.Drawing.Size(59, 28);
@@ -929,7 +912,6 @@
             // 
             // bt360
             // 
-            this.bt360.Image = null;
             this.bt360.Location = new System.Drawing.Point(16, 241);
             this.bt360.Name = "bt360";
             this.bt360.Size = new System.Drawing.Size(59, 28);
@@ -941,8 +923,6 @@
             // 
             this.numEditTestBox2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.numEditTestBox2.ForeColor = System.Drawing.Color.Black;
-            this.numEditTestBox2.Icon = null;
-            this.numEditTestBox2.IsPasswordChat = '\0';
             this.numEditTestBox2.ITrans = true;
             this.numEditTestBox2.Lines = new string[] {
         "0"};
@@ -951,7 +931,6 @@
             this.numEditTestBox2.MaxLength = 10;
             this.numEditTestBox2.Name = "numEditTestBox2";
             this.numEditTestBox2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            this.numEditTestBox2.SelectedText = "";
             this.numEditTestBox2.Size = new System.Drawing.Size(92, 24);
             this.numEditTestBox2.TabIndex = 5;
             // 

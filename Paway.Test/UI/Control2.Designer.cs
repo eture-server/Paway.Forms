@@ -49,20 +49,16 @@
             // qqTextBox1
             // 
             this.qqTextBox1.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.qqTextBox1.Icon = null;
-            this.qqTextBox1.IsPasswordChat = '\0';
             this.qqTextBox1.Lines = new string[] {
         "qqTextBox1"};
             this.qqTextBox1.Location = new System.Drawing.Point(340, 72);
             this.qqTextBox1.Name = "qqTextBox1";
-            this.qqTextBox1.SelectedText = "";
             this.qqTextBox1.Size = new System.Drawing.Size(109, 25);
             this.qqTextBox1.TabIndex = 52;
             // 
             // btQQDemo
             // 
             this.btQQDemo.BackColor = System.Drawing.Color.Wheat;
-            this.btQQDemo.Image = null;
             this.btQQDemo.Location = new System.Drawing.Point(340, 126);
             this.btQQDemo.Name = "btQQDemo";
             this.btQQDemo.Size = new System.Drawing.Size(109, 28);
@@ -75,8 +71,6 @@
             this.tbPrompt.BackColor = System.Drawing.Color.White;
             this.tbPrompt.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tbPrompt.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.tbPrompt.Icon = null;
-            this.tbPrompt.IsPasswordChat = '\0';
             this.tbPrompt.Lines = new string[] {
         "请输入类目关键字"};
             this.tbPrompt.Location = new System.Drawing.Point(29, 229);
@@ -85,7 +79,6 @@
             this.tbPrompt.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.tbPrompt.ReadOnly = true;
             this.tbPrompt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.tbPrompt.SelectedText = "";
             this.tbPrompt.Size = new System.Drawing.Size(420, 24);
             this.tbPrompt.TabIndex = 49;
             // 

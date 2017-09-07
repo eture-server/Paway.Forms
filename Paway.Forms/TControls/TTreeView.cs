@@ -1028,8 +1028,6 @@ namespace Paway.Forms
                     check_tick.Dispose();
                 if (check_hight != null)
                     check_hight.Dispose();
-                if (check_hight != null)
-                    check_hight.Dispose();
             }
             base.Dispose(disposing);
         }

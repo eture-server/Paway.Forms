@@ -1082,8 +1082,7 @@ namespace Paway.Forms
                 }
                 if (pictureBox1 != null)
                 {
-                    if (pictureBox1.Image != null)
-                        pictureBox1.Image.Dispose();
+                    pictureBox1.Image = null;
                     pictureBox1.Dispose();
                 }
             }
