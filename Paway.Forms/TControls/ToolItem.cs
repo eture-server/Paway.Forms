@@ -194,12 +194,6 @@ namespace Paway.Forms
         [Browsable(false), Description("Item 当前的鼠标状态"), DefaultValue(typeof(TMouseState), "Normal")]
         internal TMouseState MouseState { get; set; }
 
-        /// <summary>
-        ///     Item 上的右键菜单
-        /// </summary>
-        [Description("Item 上的右键菜单"), DefaultValue(typeof(ContextMenuStrip), null)]
-        public ContextMenuStrip ContextMenuStrip { get; set; }
-
         private bool _enable = true;
         /// <summary>
         ///     Item 当前启用状态
@@ -345,8 +339,6 @@ namespace Paway.Forms
                     if (_color != null)
                         _color.Dispose();
                     _image = null;
-                    if (ContextMenuStrip != null)
-                        ContextMenuStrip.Dispose();
                     Tag = null;
                     Owner = null;
                 }

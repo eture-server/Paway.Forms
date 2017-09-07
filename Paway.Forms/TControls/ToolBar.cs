@@ -168,9 +168,6 @@ namespace Paway.Forms
             }
         }
 
-        private readonly Image _main_tabbtn_downImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_down.png");
-        private readonly Image _main_tabbtn_highlightImage = AssemblyHelper.GetImage("QQ.TabControl.main_tabbtn_highlight.png");
-
         #endregion
 
         #region 私有变量
@@ -183,21 +180,6 @@ namespace Paway.Forms
         ///     鼠标弹按下
         /// </summary>
         private bool _iDown;
-
-        /// <summary>
-        ///     右键弹出
-        /// </summary>
-        private bool _iFocus;
-
-        /// <summary>
-        ///     选项卡箭头区域
-        /// </summary>
-        private Rectangle _btnArrowRect = Rectangle.Empty;
-
-        /// <summary>
-        ///     类于右键菜单长度
-        /// </summary>
-        private readonly int _rightLen = 19;
 
         /// <summary>
         ///     悬停窗口
@@ -803,11 +785,6 @@ namespace Paway.Forms
         /// </summary>
         private static readonly object EventEditClick = new object();
 
-        /// <summary>
-        ///     当项菜单弹出时事件
-        /// </summary>
-        private static readonly object EventOpening = new object();
-
         #endregion
 
         #region 激发事件的方法
@@ -865,24 +842,6 @@ namespace Paway.Forms
             return false;
         }
 
-        /// <summary>
-        ///     当项菜单弹出时事件发生。
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="e">包含事件数据的 System.EventArgs。</param>
-        public virtual bool OnEventOpening(ToolItem item, EventArgs e)
-        {
-            if (!item.Enable) return false;
-            var handler = Events[EventOpening] as EventHandler;
-            if (handler != null)
-            {
-                item.Owner = this;
-                handler(item, e);
-                return true;
-            }
-            return false;
-        }
-
         #endregion
 
         /// <summary>
@@ -910,15 +869,6 @@ namespace Paway.Forms
         {
             add { Events.AddHandler(EventEditClick, value); }
             remove { Events.RemoveHandler(EventEditClick, value); }
-        }
-
-        /// <summary>
-        ///     当编辑项时事件发生
-        /// </summary>
-        public event EventHandler MenuOpening
-        {
-            add { Events.AddHandler(EventOpening, value); }
-            remove { Events.RemoveHandler(EventOpening, value); }
         }
 
         #endregion
@@ -1143,14 +1093,6 @@ namespace Paway.Forms
                 item.MouseState = TMouseState.Normal;
                 item.TMouseState = TMouseState.Normal;
             }
-            switch (item.MouseState)
-            {
-                case TMouseState.Move:
-                case TMouseState.Up:
-                case TMouseState.Down:
-                    IsContextMenu(g, item);
-                    break;
-            }
         }
 
         /// <summary>
@@ -1313,14 +1255,9 @@ namespace Paway.Forms
                             break;
                     }
                 }
-                if (item.ContextMenuStrip != null)
-                {
-                    textRect.Width -= _rightLen;
-                }
-                var headHeight = 0;
                 if (!string.IsNullOrEmpty(item.HeadDesc))
                 {
-                    headHeight = HeightFont(item.MouseState, THeadDesc);
+                    var headHeight = HeightFont(item.MouseState, THeadDesc);
                     var rect = new Rectangle
                     {
                         X = textRect.X,
@@ -1331,10 +1268,9 @@ namespace Paway.Forms
                     item.RectHeadDesc = rect;
                     DrawOtherDesc(g, item, THeadDesc, item.HeadDesc, rect);
                 }
-                var endHeight = 0;
                 if (!string.IsNullOrEmpty(item.EndDesc))
                 {
-                    endHeight = HeightFont(item.MouseState, TEndDesc);
+                    var endHeight = HeightFont(item.MouseState, TEndDesc);
                     var rect = new Rectangle
                     {
                         X = textRect.X,
@@ -1352,8 +1288,7 @@ namespace Paway.Forms
                 }
                 if (_iText || item.IText)
                 {
-                    var rect = new Rectangle(textRect.X, textRect.Y + headHeight, textRect.Width,
-                        textRect.Height - headHeight - endHeight);
+                    var rect = new Rectangle(textRect.X, textRect.Y, textRect.Width, textRect.Height);
                     DrawOtherDesc(g, item, TextFirst, item.Text, rect);
                 }
                 else
@@ -1435,8 +1370,7 @@ namespace Paway.Forms
         {
             if (string.IsNullOrEmpty(item.Desc)) return;
             var size = TextRenderer.MeasureText(item.Desc, GetFont(item.TMouseState, TDesc));
-            item.RectDesc = new Rectangle(rect.X + rect.Width + (item.ContextMenuStrip == null ? 0 : 4),
-                rect.Y + (rect.Height - size.Height) / 2, size.Width, size.Height);
+            item.RectDesc = new Rectangle(rect.X + rect.Width, rect.Y + (rect.Height - size.Height) / 2, size.Width, size.Height);
             DrawOtherDesc(g, item, TDesc, item.Desc, item.RectDesc, item.TMouseState);
         }
 
@@ -1451,8 +1385,7 @@ namespace Paway.Forms
         /// <summary>
         ///     绘制其它描述
         /// </summary>
-        private void DrawOtherDesc(Graphics g, ToolItem item, TProperties desc, string text, Rectangle rect,
-            TMouseState state)
+        private void DrawOtherDesc(Graphics g, ToolItem item, TProperties desc, string text, Rectangle rect, TMouseState state)
         {
             if (string.IsNullOrEmpty(text)) return;
 
@@ -1499,90 +1432,6 @@ namespace Paway.Forms
                 var temp = new Rectangle(rect.X + Offset.X, rect.Y + Offset.Y, rect.Width, rect.Height);
                 TextRenderer.DrawText(g, text, font, temp, color, desc.TextFormat);
             }
-        }
-
-        /// <summary>
-        ///     判断右键菜单
-        /// </summary>
-        /// <returns>返回是否有焦点 true时不触发down事件</returns>
-        private void IsContextMenu(Graphics g, ToolItem item)
-        {
-            var point = PointToClient(MousePosition);
-            point.X -= Offset.X;
-            point.Y -= Offset.Y;
-            Image btnArrowImage = null;
-            var x = _btnArrowRect.Left;
-            if (item.RectDesc.Width != 0)
-            {
-                x = item.RectDesc.Left;
-            }
-            var contextMenuLocation =
-                PointToScreen(new Point(x + Offset.X, _btnArrowRect.Top + Offset.Y + _btnArrowRect.Height + 2));
-            var contextMenuStrip = item.ContextMenuStrip;
-            if (contextMenuStrip != null)
-            {
-                contextMenuStrip.Tag = item;
-                contextMenuStrip.Opening -= contextMenuStrip_Opening;
-                contextMenuStrip.Opening += contextMenuStrip_Opening;
-                contextMenuStrip.Closed -= contextMenuStrip_Closed;
-                contextMenuStrip.Closed += contextMenuStrip_Closed;
-                if (contextMenuLocation.X + contextMenuStrip.Width > Screen.PrimaryScreen.WorkingArea.Width - 20)
-                {
-                    contextMenuLocation.X = Screen.PrimaryScreen.WorkingArea.Width - contextMenuStrip.Width - 50;
-                }
-                if (item.Rectangle.Contains(point))
-                {
-                    if (_iDown && (_btnArrowRect.Contains(point) || item.RectDesc.Contains(point)))
-                    {
-                        btnArrowImage = _main_tabbtn_downImage;
-                    }
-                    else
-                    {
-                        btnArrowImage = _main_tabbtn_highlightImage;
-                    }
-                    if (_iFocus && (_btnArrowRect.Contains(point) || item.RectDesc.Contains(point)))
-                    {
-                        contextMenuStrip.Tag = item;
-                        contextMenuStrip.Show(contextMenuLocation);
-                    }
-                    _btnArrowRect = new Rectangle(item.Rectangle.X + item.Rectangle.Width - btnArrowImage.Width,
-                        item.Rectangle.Y + (item.Rectangle.Height - btnArrowImage.Height) / 2, btnArrowImage.Width,
-                        btnArrowImage.Height);
-                }
-            }
-            if (btnArrowImage != null)
-            {
-                //当鼠标进入当前选中的的选项卡时，显示下拉按钮
-                g.DrawImage(btnArrowImage, _btnArrowRect);
-            }
-        }
-
-        /// <summary>
-        ///     当项菜单弹出时事件发生
-        /// </summary>
-        private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
-        {
-            var item = (sender as ContextMenuStrip).Tag as ToolItem;
-            OnEventOpening(item, e);
-        }
-
-        /// <summary>
-        ///     右键菜单关闭刷新项
-        /// </summary>
-        private void contextMenuStrip_Closed(object sender, ToolStripDropDownClosedEventArgs e)
-        {
-            _iFocus = false;
-            var item = (sender as ContextMenuStrip).Tag as ToolItem;
-            var cursorPoint = PointToClient(MousePosition);
-            if (!ClientRectangle.Contains(cursorPoint))
-            {
-                if (item.MouseState != TMouseState.Down)
-                {
-                    InvalidateItem(item, TMouseState.Normal);
-                }
-                InvaRectDesc(item, TMouseState.Normal);
-            }
-            Invalidate(item);
         }
 
         #endregion
@@ -1642,7 +1491,7 @@ namespace Paway.Forms
                 if (item.Rectangle.Contains(point))
                 {
                     MoveItem = item;
-                    if (item.RectDesc.Contains(point) || _btnArrowRect.Contains(point))
+                    if (item.RectDesc.Contains(point))
                     {
                         if (item.TMouseState != TMouseState.Down)
                         {
@@ -1684,7 +1533,7 @@ namespace Paway.Forms
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            if (_iFocus || INormal || DesignMode) return;
+            if (INormal || DesignMode) return;
 
             _iDown = false;
             MoveItem = null;
@@ -1705,7 +1554,7 @@ namespace Paway.Forms
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-            if (e.Button != MouseButtons.Left || _iFocus) return;
+            if (e.Button != MouseButtons.Left) return;
             if (DesignMode) return;
 
             var point = e.Location;
@@ -1746,16 +1595,15 @@ namespace Paway.Forms
             //事件
             if (_tEvent == TEvent.Down)
             {
-                if (item.RectDesc.Contains(point) || _btnArrowRect.Contains(point))
+                if (item.RectDesc.Contains(point))
                 {
                     var ifocus = false;
                     if (item.RectDesc.Contains(point))
                     {
                         ifocus = OnEditClick(item, e);
                     }
-                    if (!ifocus && item.ContextMenuStrip != null)
+                    if (!ifocus)
                     {
-                        _iFocus = true;
                         Invalidate(item);
                     }
                 }
@@ -1765,7 +1613,7 @@ namespace Paway.Forms
                 }
             }
             if (INormal) return;
-            if (item.RectDesc.Contains(point) || _btnArrowRect.Contains(point))
+            if (item.RectDesc.Contains(point))
             {
                 _iDown = true;
                 InvaRectDesc(item, TMouseState.Down);
@@ -1827,16 +1675,15 @@ namespace Paway.Forms
                     _selectedIndex = Items.GetIndexOfRange(item);
                     OnSelectedItemChanged(item, e);
                 }
-                if (item.RectDesc.Contains(point) || _btnArrowRect.Contains(point))
+                if (item.RectDesc.Contains(point))
                 {
                     var ifocus = false;
                     if (item.RectDesc.Contains(point))
                     {
                         ifocus = OnEditClick(item, e);
                     }
-                    if (!ifocus && item.ContextMenuStrip != null)
+                    if (!ifocus)
                     {
-                        _iFocus = true;
                         Invalidate(item);
                     }
                 }
@@ -1846,7 +1693,7 @@ namespace Paway.Forms
                 }
             }
             if (INormal) return;
-            if (item.RectDesc.Contains(point) || _btnArrowRect.Contains(point))
+            if (item.RectDesc.Contains(point))
             {
                 InvaRectDesc(item, TMouseState.Move);
             }
@@ -2753,10 +2600,6 @@ namespace Paway.Forms
                     _headDesc.Dispose();
                 if (_hScroll != null)
                     _hScroll.Dispose();
-                if (_main_tabbtn_downImage != null)
-                    _main_tabbtn_downImage.Dispose();
-                if (_main_tabbtn_highlightImage != null)
-                    _main_tabbtn_highlightImage.Dispose();
                 _moveImage = null;
                 if (_moveImage2 != null)
                     _moveImage2.Dispose();

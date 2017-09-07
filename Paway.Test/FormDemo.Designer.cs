@@ -729,10 +729,8 @@
             this.toolBar2.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.toolBar2.ICheckEvent = true;
             this.toolBar2.ImageSize = new System.Drawing.Size(16, 16);
-            toolItem12.ContextMenuStrip = this.contextMenuStrip1;
             toolItem12.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
             toolItem12.Text = "创建宝贝";
-            toolItem13.ContextMenuStrip = this.contextMenuStrip1;
             toolItem13.Text = "上传宝贝";
             this.toolBar2.Items.Add(toolItem12);
             this.toolBar2.Items.Add(toolItem13);

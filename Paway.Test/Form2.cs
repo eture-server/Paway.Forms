@@ -50,7 +50,6 @@ namespace Paway.Test
                 item.EndDesc = "x1";
                 item.HeadDesc = "16.00";
                 item.Desc = "+";
-                item.ContextMenuStrip = contextMenuStrip1;
                 toolBar2.Items.Add(item);
             }
             toolBar2.TChangeStart();
