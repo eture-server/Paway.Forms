@@ -28,25 +28,20 @@ namespace Paway.Forms
             InitChange();
             CustomScroll();
             _toolTop = new ToolTip();
-            this.MouseEnter += ToolBar_MouseEnter;
-            _vScroll.MouseEnter += ToolBar_MouseEnter;
-            _hScroll.MouseEnter += ToolBar_MouseEnter;
-            this.MouseDown += ToolBar_MouseEnter;
-            _vScroll.MouseDown += ToolBar_MouseEnter;
-            _hScroll.MouseDown += ToolBar_MouseEnter;
-            this.MouseLeave += ToolBar_MouseLeave;
-            _vScroll.MouseLeave += ToolBar_MouseLeave;
-            _hScroll.MouseLeave += ToolBar_MouseLeave;
+            //this.MouseEnter += ToolBar_MouseEnter;
+            //_vScroll.MouseEnter += ToolBar_MouseEnter;
+            //_hScroll.MouseEnter += ToolBar_MouseEnter;
+            //this.MouseLeave += ToolBar_MouseLeave;
+            //_vScroll.MouseLeave += ToolBar_MouseLeave;
+            //_hScroll.MouseLeave += ToolBar_MouseLeave;
         }
         private void ToolBar_MouseLeave(object sender, EventArgs e)
         {
-            iMouseStatu = false;
-            AutoMouseStatu();
+            AutoMouseStatu(false);
         }
         private void ToolBar_MouseEnter(object sender, EventArgs e)
         {
-            iMouseStatu = true;
-            AutoMouseStatu();
+            AutoMouseStatu(true);
         }
 
         #endregion
@@ -180,11 +175,6 @@ namespace Paway.Forms
         private bool iLastHeard;
 
         /// <summary>
-        ///     鼠标弹按下
-        /// </summary>
-        private bool _iDown;
-
-        /// <summary>
         ///     悬停窗口
         /// </summary>
         private readonly ToolTip _toolTop;
@@ -219,11 +209,11 @@ namespace Paway.Forms
         /// <summary>
         ///     滚动条宽度
         /// </summary>
-        private int _tScrollHeight = 5;
+        private int _tScrollHeight = 3;
         /// <summary>
         ///     滚动条宽度
         /// </summary>
-        [Description("滚动条宽度"), DefaultValue(5)]
+        [Description("滚动条宽度"), DefaultValue(3)]
         public int TScrollHeight
         {
             get { return _tScrollHeight; }
@@ -1538,7 +1528,6 @@ namespace Paway.Forms
             base.OnMouseLeave(e);
             if (INormal || DesignMode) return;
 
-            _iDown = false;
             MoveItem = null;
             foreach (var item in Items)
             {
@@ -1618,7 +1607,6 @@ namespace Paway.Forms
             if (INormal) return;
             if (item.RectDesc.Contains(point))
             {
-                _iDown = true;
                 InvaRectDesc(item, TMouseState.Down);
             }
             else
@@ -1668,7 +1656,6 @@ namespace Paway.Forms
 
         private void OnMouseUp(Point point, ToolItem item, EventArgs e)
         {
-            _iDown = false;
             //事件
             if (_tEvent == TEvent.Up && item == _tempItem)
             {
@@ -2023,14 +2010,22 @@ namespace Paway.Forms
             UpdateScroll();
             Invalidate();
         }
-        private void AutoMouseStatu()
+        private void AutoMouseStatu(bool iMouseStatu)
         {
-            if (_panelScroll.Visible == iScrollHide & _iScroll & iMouseStatu) return;
-            new Action(AutoMouseStatu2).BeginInvoke(null, null);
+            this.iMouseStatu = iMouseStatu;
+            if (_panelScroll.Visible == iScrollHide & _iScroll & this.iMouseStatu) return;
+            if (iMouseStatu)
+            {
+                _panelScroll.Visible = iScrollHide & _iScroll & iMouseStatu;
+            }
+            else
+            {
+                new Action<int>(AutoMouseStatu2).BeginInvoke(125, null, null);
+            }
         }
-        private void AutoMouseStatu2()
+        private void AutoMouseStatu2(int delay)
         {
-            System.Threading.Thread.Sleep(50);
+            System.Threading.Thread.Sleep(delay);
             if (DesignMode) return;
             this.Invoke(new Action(AutoMouseStatu3));
         }
@@ -2424,7 +2419,7 @@ namespace Paway.Forms
                         _panelScroll.Width = _tScrollHeight;
                         _panelScroll.Dock = DockStyle.Right;
                         _panelScroll.Visible = ILoad & _iScroll;
-                        _panelScroll.Visible = ILoad & DesignMode;
+                        //_panelScroll.Visible = ILoad & DesignMode;
                         _vScroll.Size = new Size(_panelScroll.Width, _panelScroll.Height + 17 * 2 + 1);
                         _vScroll.Location = new Point(0, -17);
                     }
@@ -2443,7 +2438,7 @@ namespace Paway.Forms
                         _panelScroll.Height = _tScrollHeight;
                         _panelScroll.Dock = DockStyle.Bottom;
                         _panelScroll.Visible = ILoad & _iScroll;
-                        _panelScroll.Visible = ILoad & DesignMode;
+                        //_panelScroll.Visible = ILoad & DesignMode;
                         _hScroll.Size = new Size(_panelScroll.Width + 17 * 2 + 1, _panelScroll.Height);
                         _hScroll.Location = new Point(-17, 0);
                     }

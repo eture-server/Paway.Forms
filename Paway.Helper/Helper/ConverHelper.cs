@@ -210,6 +210,14 @@ namespace Paway.Helper
             else return chart;
         }
 
+        /// <summary>
+        /// 消除算术计算误差(double转decimal)
+        /// </summary>
+        public static double ClearError(this double value)
+        {
+            return (double)(new Decimal(value));
+        }
+
         #endregion
 
         #region IList 与　DataTable 互转
