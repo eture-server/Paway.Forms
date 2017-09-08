@@ -9,15 +9,15 @@ namespace Paway.Helper
 
     /// <summary>
     ///     比较方法
+    ///     用法：new List(T).Distinct(new Compare((x, y) => x.Value == y.Value))
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class Compare<T> : IEqualityComparer<T>
     {
-        //用法：new List(T).Distinct(new Compare<T>((x, y) => x.Value == y.Value))
-
         private readonly EqualsComparer<T> _equalsComparer;
 
         /// <summary>
+        /// 构造：传递委托方法
         /// </summary>
         public Compare(EqualsComparer<T> equalsComparer)
         {

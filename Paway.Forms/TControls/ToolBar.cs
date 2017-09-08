@@ -31,6 +31,9 @@ namespace Paway.Forms
             this.MouseEnter += ToolBar_MouseEnter;
             _vScroll.MouseEnter += ToolBar_MouseEnter;
             _hScroll.MouseEnter += ToolBar_MouseEnter;
+            this.MouseDown += ToolBar_MouseEnter;
+            _vScroll.MouseDown += ToolBar_MouseEnter;
+            _hScroll.MouseDown += ToolBar_MouseEnter;
             this.MouseLeave += ToolBar_MouseLeave;
             _vScroll.MouseLeave += ToolBar_MouseLeave;
             _hScroll.MouseLeave += ToolBar_MouseLeave;

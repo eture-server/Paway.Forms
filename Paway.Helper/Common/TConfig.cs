@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace Paway.Helper
@@ -69,8 +70,7 @@ namespace Paway.Helper
             {
                 control.ForeColor = ForeColor ?? Color.Empty;
             }
-            if (Font.Name != "宋体" || Font.Size != 9f || Font.Style != FontStyle.Regular ||
-                Font.Unit != GraphicsUnit.Point || Font.GdiCharSet != 1)
+            if (Font.Name != "宋体" || Font.Size != 9f || Font.Style != FontStyle.Regular || Font.Unit != GraphicsUnit.Point || Font.GdiCharSet != 1)
             {
                 control.Font = Font;
             }
@@ -92,6 +92,22 @@ namespace Paway.Helper
             if (IMouseMove != null)
             {
                 control.IMouseMove = IMouseMove ?? false;
+            }
+        }
+
+        #endregion
+
+        #region 其它一些常量
+        private static string dot;
+        /// <summary>
+        /// 不同语言区域下的小数点
+        /// </summary>
+        public static string Dot
+        {
+            get
+            {
+                if (dot == null) dot = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
+                return dot;
             }
         }
 

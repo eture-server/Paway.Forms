@@ -59,7 +59,7 @@ namespace Paway.Helper
             double result;
             if (double.TryParse(obj.ToString(), out result))
             {
-                result = Math.Round(result);
+                result = Math.Round(result, MidpointRounding.AwayFromZero);
                 if (int.TryParse(result.ToString(), out data))
                 {
                     return data;
