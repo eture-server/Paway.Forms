@@ -158,17 +158,26 @@ namespace Paway.Forms
         #endregion
 
         #region 接口 属性
+        private TMDirection _mDirection;
         /// <summary>
         ///     移动特效方向
         /// </summary>
         [Description("移动特效方向"), DefaultValue(typeof(TMDirection), "None")]
-        public TMDirection MDirection { get; set; }
+        public TMDirection MDirection
+        {
+            get { return _mDirection; }
+            set
+            {
+                MStop();
+                _mDirection = value;
+            }
+        }
 
         /// <summary>
         ///     透明过度(旋转前)图片
         /// </summary>
         [Browsable(false)]
-        [Description("透明过度(旋转前)图片"), DefaultValue(typeof(Image), "null")]
+        [Description("透明过渡(旋转前)图片"), DefaultValue(typeof(Image), "null")]
         public Image TranImage { get; set; }
 
         /// <summary>
@@ -417,6 +426,13 @@ namespace Paway.Forms
         }
 
         /// <summary>
+        /// 大小变动前停止
+        /// </summary>
+        private void Parent_SizeChanged(object sender, EventArgs e)
+        {
+            MStop();
+        }
+        /// <summary>
         ///     停止特效，并还原
         /// </summary>
         public void MStop()
@@ -463,6 +479,11 @@ namespace Paway.Forms
         {
             MStop();
             if (MDirection == TMDirection.None) return;
+            if (this.Parent != null)
+            {
+                this.Parent.SizeChanged -= Parent_SizeChanged;
+                this.Parent.SizeChanged += Parent_SizeChanged;
+            }
             iReader = true;
             if (interval > 0)
             {
@@ -544,7 +565,10 @@ namespace Paway.Forms
                         intervel = 255 * 2 / (3 * MInterval);
 
                         if (TranImage == null)
-                            alpha.BackColor = Color.FromArgb(255, alpha.BackColor);
+                        {
+                            //alpha.BackColor = Color.FromArgb(255, TopColor(this));
+                            TranImage = TranLaterImage;
+                        }
                         Controls.Add(alpha);
                         Controls.SetChildIndex(alpha, 0);
                         alpha.Dock = DockStyle.Fill;
@@ -554,6 +578,15 @@ namespace Paway.Forms
                     break;
             }
             sTimer.Start();
+        }
+        private Color TopColor(Control c)
+        {
+            if (c == null) return Color.Transparent;
+            if (c.BackColor.A == 0)
+            {
+                return TopColor(c.Parent);
+            }
+            return c.BackColor;
         }
 
         private void AlphaImage()
