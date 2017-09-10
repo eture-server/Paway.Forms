@@ -372,10 +372,8 @@ namespace Paway.Forms
         private int color = 255;
         private bool i3d;
         private Image image;
-        /// <summary>
-        ///     是否使用过特效
-        /// </summary>
-        private bool iReader;
+        private volatile bool iStop = true;
+        private object mdLock = new object();
 
         private void InitShow()
         {
@@ -426,22 +424,39 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        /// 大小变动前停止
+        /// 停止全部物资
         /// </summary>
-        private void Parent_SizeChanged(object sender, EventArgs e)
+        public static void MStop(Control.ControlCollection controls)
         {
-            MStop();
+            for (var i = 0; i < controls.Count; i++)
+            {
+                var item = controls[i];
+                if (item is TControl)
+                {
+                    (item as TControl).MStop();
+                }
+                if (item.Controls.Count > 0)
+                    MStop(item.Controls);
+            }
         }
         /// <summary>
         ///     停止特效，并还原
         /// </summary>
         public void MStop()
         {
+            lock (mdLock)
+            {
+                iStop = true;
+                MStop2();
+            }
+        }
+        private void MStop2()
+        {
             if (sTimer.Enabled)
             {
                 sTimer.Stop();
             }
-            if (!iReader) return;
+            else return;
             Size = size;
             Dock = dock;
             switch (MDirection)
@@ -479,17 +494,18 @@ namespace Paway.Forms
         {
             MStop();
             if (MDirection == TMDirection.None) return;
-            if (this.Parent != null)
+            lock (mdLock)
             {
-                this.Parent.SizeChanged -= Parent_SizeChanged;
-                this.Parent.SizeChanged += Parent_SizeChanged;
+                iStop = false;
+                MStart2(interval);
             }
-            iReader = true;
+        }
+        private void MStart2(int interval)
+        {
             if (interval > 0)
             {
                 sTimer.Interval = interval;
             }
-
             point = Location;
             dock = Dock;
             if (Parent != null && dock == DockStyle.Fill)
@@ -623,6 +639,14 @@ namespace Paway.Forms
         }
 
         private void sTimer_Tick(object sender, EventArgs e)
+        {
+            lock (mdLock)
+            {
+                if (iStop) return;
+                sTimer_Tick();
+            }
+        }
+        private void sTimer_Tick()
         {
             if (IsDisposed) return;
             if (point == new Point(-1, -1))

@@ -426,7 +426,7 @@ namespace Paway.Forms
             set
             {
                 _iDrawRound = value;
-                OnSizeChanged(EventArgs.Empty);
+                DrawRound();
             }
         }
 
@@ -751,7 +751,15 @@ namespace Paway.Forms
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
         protected override void OnResize(EventArgs e)
         {
+            TControl.MStop(this.Controls);
             base.OnResize(e);
+            DrawRound();
+        }
+        /// <summary>
+        /// 将窗体剪成圆角
+        /// </summary>
+        protected void DrawRound()
+        {
             //调用API，将窗体剪成圆角
             var ellipse = _iDrawRound && WindowState != FormWindowState.Maximized ? TRadius : 0;
             var rgn = NativeMethods.CreateRoundRectRgn(0, 0, Width + 1, Height + 1, ellipse, ellipse);
@@ -768,7 +776,6 @@ namespace Paway.Forms
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            OnSizeChanged(e);
             ShowSysMenu();
             if (!DesignMode)
             {
