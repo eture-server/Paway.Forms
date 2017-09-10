@@ -308,8 +308,6 @@ namespace Paway.Forms
             // 
             this.txtCurrentPage.ForeColor = System.Drawing.Color.Black;
             this.txtCurrentPage.ITrans = true;
-            this.txtCurrentPage.Lines = new string[] {
-        "1"};
             this.txtCurrentPage.Location = new System.Drawing.Point(80, 4);
             this.txtCurrentPage.MaxLength = 10;
             this.txtCurrentPage.Name = "txtCurrentPage";
@@ -320,7 +318,6 @@ namespace Paway.Forms
             // toolLast
             // 
             this.toolLast.ICheckEvent = true;
-            this.toolLast.ImageSize = new System.Drawing.Size(0, 0);
             toolItem1.Hit = "End";
             toolItem1.Text = ">|";
             this.toolLast.Items.Add(toolItem1);
@@ -346,7 +343,6 @@ namespace Paway.Forms
             // toolNext
             // 
             this.toolNext.ICheckEvent = true;
-            this.toolNext.ImageSize = new System.Drawing.Size(0, 0);
             toolItem2.Hit = "Next";
             toolItem2.Text = ">";
             this.toolNext.Items.Add(toolItem2);
@@ -372,7 +368,6 @@ namespace Paway.Forms
             // toolPrevious
             // 
             this.toolPrevious.ICheckEvent = true;
-            this.toolPrevious.ImageSize = new System.Drawing.Size(0, 0);
             toolItem3.Hit = "Last";
             toolItem3.Text = "<";
             this.toolPrevious.Items.Add(toolItem3);
@@ -398,7 +393,6 @@ namespace Paway.Forms
             // toolFirst
             // 
             this.toolFirst.ICheckEvent = true;
-            this.toolFirst.ImageSize = new System.Drawing.Size(0, 0);
             toolItem4.Hit = "First";
             toolItem4.Text = "|<";
             this.toolFirst.Items.Add(toolItem4);

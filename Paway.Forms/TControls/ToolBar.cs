@@ -452,11 +452,11 @@ namespace Paway.Forms
         /// <summary>
         ///     图片显示位置
         /// </summary>
-        private TLocation _tLocation = TLocation.Up;
+        private TLocation _tLocation = TLocation.Left;
         /// <summary>
         ///     图片显示位置
         /// </summary>
-        [Description("图片显示位置"), DefaultValue(typeof(TLocation), "Up")]
+        [Description("图片显示位置"), DefaultValue(typeof(TLocation), "Left")]
         public TLocation TLocation
         {
             get { return _tLocation; }
@@ -538,7 +538,7 @@ namespace Paway.Forms
         /// <summary>
         ///     项图片的大小
         /// </summary>
-        private Size _imageSize = new Size(48, 48);
+        private Size _imageSize = new Size(24, 24);
         /// <summary>
         ///     项图片显示区域大小
         /// </summary>
@@ -546,7 +546,7 @@ namespace Paway.Forms
         /// <summary>
         ///     项图片的大小
         /// </summary>
-        [Description("项图片的大小"), DefaultValue(typeof(Size), "48,48")]
+        [Description("项图片的大小"), DefaultValue(typeof(Size), "24,24")]
         public Size ImageSize
         {
             get { return _imageSize; }

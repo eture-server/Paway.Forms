@@ -53,7 +53,6 @@
             this.toolbar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolbar.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolbar.ICheckEvent = true;
-            this.toolbar.ImageSize = new System.Drawing.Size(0, 0);
             toolItem1.Tag = "登陆";
             toolItem1.Text = "登陆";
             toolItem2.Tag = "更新密码";

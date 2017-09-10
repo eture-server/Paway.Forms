@@ -145,7 +145,6 @@
             this.toolUp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolUp.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolUp.ICheckEvent = true;
-            this.toolUp.ImageSize = new System.Drawing.Size(0, 0);
             toolItem21.Text = "清明上河图";
             this.toolUp.Items.Add(toolItem21);
             this.toolUp.ItemSize = new System.Drawing.Size(90, 90);
@@ -248,7 +247,6 @@
             // 
             this.toolbar.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.toolbar.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolbar.ImageSize = new System.Drawing.Size(0, 0);
             this.toolbar.IMultiple = true;
             this.toolbar.IScroll = false;
             toolItem17.Tag = "注册";

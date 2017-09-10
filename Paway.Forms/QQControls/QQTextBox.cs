@@ -75,7 +75,7 @@ namespace Paway.Forms
         /// <summary>
         ///     获取控件中文本的长度
         /// </summary>
-        [Description("获取控件中文本的长度")]
+        [Browsable(false), Description("获取控件中文本的长度")]
         public int TextLength
         {
             get { return BaseText.TextLength; }
@@ -139,16 +139,6 @@ namespace Paway.Forms
         {
             get { return BaseText.WordWrap; }
             set { BaseText.WordWrap = value; }
-        }
-
-        /// <summary>
-        ///     多行编辑中的文本行，作为字符串值的数组
-        /// </summary>
-        [Description("多行编辑中的文本行，作为字符串值的数组。"), Category("外观")]
-        public virtual string[] Lines
-        {
-            get { return BaseText.Lines; }
-            set { BaseText.Lines = value; }
         }
 
         /// <summary>

@@ -663,8 +663,6 @@
             // 
             // qqTextBox1
             // 
-            this.qqTextBox1.Lines = new string[] {
-        "qqTextBox1"};
             this.qqTextBox1.Location = new System.Drawing.Point(118, 150);
             this.qqTextBox1.Name = "qqTextBox1";
             this.qqTextBox1.RegexType = Paway.Helper.RegexType.Password;
@@ -692,7 +690,6 @@
             // toolBar3
             // 
             this.toolBar3.ICheckEvent = true;
-            this.toolBar3.ImageSize = new System.Drawing.Size(16, 16);
             toolItem1.Text = "光暗";
             toolItem2.Text = "反色";
             toolItem3.Text = "浮雕";
@@ -722,13 +719,11 @@
             this.toolBar3.Size = new System.Drawing.Size(50, 261);
             this.toolBar3.TabIndex = 44;
             this.toolBar3.TDirection = Paway.Forms.TDirection.Vertical;
-            this.toolBar3.TLocation = Paway.Forms.TLocation.Left;
             // 
             // toolBar2
             // 
             this.toolBar2.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.toolBar2.ICheckEvent = true;
-            this.toolBar2.ImageSize = new System.Drawing.Size(16, 16);
             toolItem12.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
             toolItem12.Text = "创建宝贝";
             toolItem13.Text = "上传宝贝";
@@ -744,7 +739,6 @@
             this.toolBar2.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.toolBar2.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.toolBar2.TDirection = Paway.Forms.TDirection.Vertical;
-            this.toolBar2.TLocation = Paway.Forms.TLocation.Left;
             // 
             // btTTsRead
             // 
@@ -760,8 +754,6 @@
             // 
             this.tNumTestBox1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tNumTestBox1.ForeColor = System.Drawing.Color.Black;
-            this.tNumTestBox1.Lines = new string[] {
-        "2"};
             this.tNumTestBox1.Location = new System.Drawing.Point(118, 180);
             this.tNumTestBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tNumTestBox1.MaxLength = 10;
@@ -776,8 +768,6 @@
             this.tbPrompt.Enabled = false;
             this.tbPrompt.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tbPrompt.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.tbPrompt.Lines = new string[] {
-        "请输入类目关键字"};
             this.tbPrompt.Location = new System.Drawing.Point(16, 210);
             this.tbPrompt.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbPrompt.Name = "tbPrompt";
@@ -922,8 +912,6 @@
             this.numEditTestBox2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.numEditTestBox2.ForeColor = System.Drawing.Color.Black;
             this.numEditTestBox2.ITrans = true;
-            this.numEditTestBox2.Lines = new string[] {
-        "0"};
             this.numEditTestBox2.Location = new System.Drawing.Point(16, 155);
             this.numEditTestBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numEditTestBox2.MaxLength = 10;

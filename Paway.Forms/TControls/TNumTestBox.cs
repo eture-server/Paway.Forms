@@ -84,7 +84,6 @@ namespace Paway.Forms
             // TNumTestBox
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
-            Lines = new string[0];
             Margin = new Padding(3, 4, 3, 4);
             Name = "TNumTestBox";
             Padding = new Padding(0, 0, 0, 4);

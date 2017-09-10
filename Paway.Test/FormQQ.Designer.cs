@@ -211,7 +211,6 @@
             // 
             // qqTextBoxEx1
             // 
-            this.qqTextBoxEx1.Lines = new string[0];
             this.qqTextBoxEx1.Location = new System.Drawing.Point(85, 55);
             this.qqTextBoxEx1.Name = "qqTextBoxEx1";
             this.qqTextBoxEx1.Size = new System.Drawing.Size(178, 25);

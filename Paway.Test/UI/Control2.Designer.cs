@@ -49,8 +49,6 @@
             // qqTextBox1
             // 
             this.qqTextBox1.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.qqTextBox1.Lines = new string[] {
-        "qqTextBox1"};
             this.qqTextBox1.Location = new System.Drawing.Point(340, 72);
             this.qqTextBox1.Name = "qqTextBox1";
             this.qqTextBox1.Size = new System.Drawing.Size(109, 25);
@@ -71,8 +69,6 @@
             this.tbPrompt.BackColor = System.Drawing.Color.White;
             this.tbPrompt.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tbPrompt.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.tbPrompt.Lines = new string[] {
-        "请输入类目关键字"};
             this.tbPrompt.Location = new System.Drawing.Point(29, 229);
             this.tbPrompt.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbPrompt.Name = "tbPrompt";
@@ -97,7 +93,6 @@
             this.toolRight.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.toolRight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolRight.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolRight.ImageSize = new System.Drawing.Size(0, 0);
             toolItem1.Text = "右";
             this.toolRight.Items.Add(toolItem1);
             this.toolRight.ItemSize = new System.Drawing.Size(90, 40);
@@ -119,7 +114,6 @@
             this.toolDown.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.toolDown.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolDown.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolDown.ImageSize = new System.Drawing.Size(0, 0);
             toolItem2.Text = "下";
             this.toolDown.Items.Add(toolItem2);
             this.toolDown.ItemSize = new System.Drawing.Size(90, 40);
@@ -141,7 +135,6 @@
             this.toolUp.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.toolUp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolUp.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolUp.ImageSize = new System.Drawing.Size(0, 0);
             toolItem3.Text = "上";
             this.toolUp.Items.Add(toolItem3);
             this.toolUp.ItemSize = new System.Drawing.Size(90, 40);
@@ -163,7 +156,6 @@
             this.toolTran.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.toolTran.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolTran.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolTran.ImageSize = new System.Drawing.Size(0, 0);
             toolItem4.Text = "色";
             this.toolTran.Items.Add(toolItem4);
             this.toolTran.ItemSize = new System.Drawing.Size(90, 40);
@@ -185,7 +177,6 @@
             this.toolLeft.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.toolLeft.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolLeft.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolLeft.ImageSize = new System.Drawing.Size(0, 0);
             toolItem5.Text = "左";
             this.toolLeft.Items.Add(toolItem5);
             this.toolLeft.ItemSize = new System.Drawing.Size(90, 40);
@@ -207,7 +198,6 @@
             this.toolCenter.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.toolCenter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolCenter.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolCenter.ImageSize = new System.Drawing.Size(0, 0);
             toolItem6.Text = "中";
             this.toolCenter.Items.Add(toolItem6);
             this.toolCenter.ItemSize = new System.Drawing.Size(90, 40);

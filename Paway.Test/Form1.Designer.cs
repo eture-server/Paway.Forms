@@ -98,7 +98,6 @@
             // toolBar
             // 
             this.toolBar.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolBar.ImageSize = new System.Drawing.Size(32, 32);
             toolItem1.IHeard = true;
             toolItem1.TColor.StringVertical = System.Drawing.StringAlignment.Center;
             toolItem1.Text = "白酒123";
@@ -170,7 +169,6 @@
             // 
             this.tbRsa2.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.tbRsa2.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.tbRsa2.Lines = new string[0];
             this.tbRsa2.Location = new System.Drawing.Point(137, 277);
             this.tbRsa2.Margin = new System.Windows.Forms.Padding(4);
             this.tbRsa2.MaxLength = 128;
@@ -190,13 +188,11 @@
             this.tbName.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tbName.Icon = global::Paway.Test.Properties.Resources.serrch;
             this.tbName.IconIsButton = true;
-            this.tbName.Lines = new string[0];
             this.tbName.Location = new System.Drawing.Point(271, 277);
             this.tbName.Margin = new System.Windows.Forms.Padding(4);
             this.tbName.MaxLength = 10;
             this.tbName.Name = "tbName";
             this.tbName.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
-            this.tbName.Regex = "";
             this.tbName.RegexType = Paway.Helper.RegexType.Normal;
             this.tbName.Size = new System.Drawing.Size(172, 29);
             this.tbName.TabIndex = 64;
