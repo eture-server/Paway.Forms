@@ -60,10 +60,34 @@ namespace Paway.Forms
         /// <summary>
         ///     分页信息
         /// </summary>
-        [Category("Properties")]
+        [Browsable(false)]
         public PagerInfo PagerInfo
         {
             get { return TPager.PagerInfo; }
+        }
+        /// <summary>
+        ///     分页信息
+        /// </summary>
+        [Category("分页")]
+        [Description("显示分页"), DefaultValue(true)]
+        public bool IPagerInfo
+        {
+            get { return TPager.Visible; }
+            set
+            {
+                TPager.Visible = value;
+                TPager.PagerInfo.PageSize = value ? 20 : int.MaxValue;
+            }
+        }
+        /// <summary>
+        ///     获取或设置每页显示的记录
+        /// </summary>
+        [Category("分页")]
+        [Description("获取或设置每页显示的记录"), DefaultValue(20)]
+        public int PageSize
+        {
+            get { return TPager.PagerInfo.PageSize; }
+            set { TPager.PagerInfo.PageSize = value; }
         }
 
         private object dataSource; //数据源

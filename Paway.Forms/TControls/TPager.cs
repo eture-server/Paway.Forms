@@ -65,7 +65,7 @@ namespace Paway.Forms
         ///     默认构造函数，设置分页初始信息
         /// </summary>
         public TPager()
-            : this(0, 50)
+            : this(0, 20)
         {
         }
 
