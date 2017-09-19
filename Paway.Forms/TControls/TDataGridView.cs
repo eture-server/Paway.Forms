@@ -497,7 +497,7 @@ namespace Paway.Forms
                 Columns[i].Visible = true;
                 if (itemList != null && itemList.Length != 0)
                 {
-                    if (!itemList[0].Show)
+                    if (!itemList[0].IShow)
                     {
                         Columns[i].Visible = false;
                         continue;

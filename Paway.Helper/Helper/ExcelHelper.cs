@@ -53,9 +53,10 @@ namespace Paway.Helper
             var properties = type.GetProperties();
             for (var i = 0; i < properties.Length; i++)
             {
-                if (properties[i].IExcel())
+                var name = properties[i].Name;
+                if (properties[i].ITable(ref name))
                 {
-                    dt.Columns[index++].ColumnName = properties[i].Name;
+                    dt.Columns[index++].ColumnName = name;
                 }
             }
         }

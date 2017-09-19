@@ -270,37 +270,6 @@ namespace Paway.Helper
         }
         /// <summary>
         ///     IList转为 DataTable
-        /// </summary>
-        public static DataTable ToExcelTable<T>(this List<T> list)
-        {
-            return typeof(T).ToExcelTable(list);
-        }
-        /// <summary>
-        ///     IList转为 DataTable
-        /// </summary>
-        public static DataTable ToExcelTable(this Type type, IList list)
-        {
-            var table = type.CreateTable();
-            var properties = TypeDescriptor.GetProperties(type);
-            for (int i = 0; i < list.Count; i++)
-            {
-                table.Rows.Add(table.NewRow());
-            }
-            Parallel.For(0, properties.Count, (i) =>
-            {
-                if (properties[i].PropertyType.IsGenericType) return;
-                if (!type.GetProperty(properties[i].Name).IExcel()) return;
-                for (int j = 0; j < table.Rows.Count; j++)
-                {
-                    var value = properties[i].GetValue(list[j]);
-                    lock (table)
-                        table.Rows[j][properties[i].Name] = value;
-                }
-            });
-            return table;
-        }
-        /// <summary>
-        ///     IList转为 DataTable
         ///     指定列名的值
         /// </summary>
         public static DataTable ToDataTable(this Type type, IList list, object name, object value)
@@ -521,7 +490,7 @@ namespace Paway.Helper
             for (var i = 0; i < properties.Length; i++)
             {
                 var column = properties[i].Name;
-                if (properties[i].IsSelect(ref column))
+                if (properties[i].ISelect(ref column))
                 {
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
@@ -588,7 +557,7 @@ namespace Paway.Helper
             for (var i = 0; i < properties.Count; i++)
             {
                 var column = properties[i].Name;
-                if (type.GetProperty(properties[i].Name).IsSelect(ref column))
+                if (type.GetProperty(properties[i].Name).ISelect(ref column))
                 {
                     if (column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -625,7 +594,7 @@ namespace Paway.Helper
             for (var i = 0; i < properties.Length; i++)
             {
                 var column = properties[i].Name;
-                if (properties[i].IsSelect(ref column))
+                if (properties[i].ISelect(ref column))
                 {
                     if (column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -697,7 +666,7 @@ namespace Paway.Helper
                 if (t.IsNull(properties[i])) continue;
 
                 var column = properties[i].Name;
-                if (type.GetProperty(properties[i].Name).IsSelect(ref column))
+                if (type.GetProperty(properties[i].Name).ISelect(ref column))
                 {
                     if (!replace && column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -717,7 +686,7 @@ namespace Paway.Helper
                 if (row.IsNull(properties[i])) continue;
 
                 var column = properties[i].Name;
-                if (properties[i].IsSelect(ref column))
+                if (properties[i].ISelect(ref column))
                 {
                     if (!replace && column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -744,7 +713,7 @@ namespace Paway.Helper
             for (var i = 0; i < properties.Count; i++)
             {
                 var column = properties[i].Name;
-                if (type.GetProperty(properties[i].Name).IsSelect(ref column))
+                if (type.GetProperty(properties[i].Name).ISelect(ref column))
                 {
                     if (column != key) continue;
 
@@ -775,7 +744,7 @@ namespace Paway.Helper
             for (var i = 0; i < properties.Length; i++)
             {
                 var column = properties[i].Name;
-                if (properties[i].IsSelect(ref column))
+                if (properties[i].ISelect(ref column))
                 {
                     if (column != key) continue;
 
@@ -838,7 +807,7 @@ namespace Paway.Helper
             for (var i = 0; i < properties.Count; i++)
             {
                 var column = properties[i].Name;
-                if (type.GetProperty(properties[i].Name).IsSelect(ref column))
+                if (type.GetProperty(properties[i].Name).ISelect(ref column))
                 {
                     if (column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -882,7 +851,7 @@ namespace Paway.Helper
             for (var i = 0; i < properties.Length; i++)
             {
                 var column = properties[i].Name;
-                if (properties[i].IsSelect(ref column))
+                if (properties[i].ISelect(ref column))
                 {
                     if (column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -942,7 +911,7 @@ namespace Paway.Helper
                 if (!t.IsValue(properties[i], ref value)) continue;
 
                 var column = properties[i].Name;
-                if (type.GetProperty(properties[i].Name).IsSelect(ref column))
+                if (type.GetProperty(properties[i].Name).ISelect(ref column))
                 {
                     //Key必须要
                     if (key != column && args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -973,7 +942,7 @@ namespace Paway.Helper
                 if (!row.IsValue(properties[i], ref value)) continue;
 
                 var column = properties[i].Name;
-                if (properties[i].IsSelect(ref column))
+                if (properties[i].ISelect(ref column))
                 {
                     //Key必须要
                     if (key != column && args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -1055,14 +1024,14 @@ namespace Paway.Helper
             return true;
         }
 
-        private static bool IsSelect(this PropertyInfo pro, ref string column)
+        private static bool ISelect(this PropertyInfo pro, ref string column)
         {
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             if (list.Length == 1 && list[0].Column != null)
             {
                 column = list[0].Column;
             }
-            return list.Length == 0 || list[0].Select;
+            return list.Length == 0 || list[0].ISelect;
         }
         /// <summary>
         /// </summary>
@@ -1073,33 +1042,26 @@ namespace Paway.Helper
             {
                 column = list[0].Column;
             }
-            return list.Length == 0 || list[0].Select;
-        }
-        /// <summary>
-        /// </summary>
-        public static bool IExcel(this PropertyInfo pro)
-        {
-            var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            return list.Length == 0 || list[0].Excel;
+            return list.Length == 0 || list[0].ITable;
         }
         /// <summary>
         /// </summary>
         public static bool IShow(this PropertyInfo pro)
         {
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            return list.Length == 0 || list[0].Show;
+            return list.Length == 0 || list[0].IShow;
         }
         /// <summary>
         /// </summary>
         public static bool ISort(this PropertyInfo pro)
         {
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            return list.Length == 1 && list[0].Sort;
+            return list.Length == 1 && list[0].ISort;
         }
-        private static bool IsClone(this PropertyInfo pro)
+        private static bool IClone(this PropertyInfo pro)
         {
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            return list.Length == 0 || list[0].Clone;
+            return list.Length == 0 || list[0].IClone;
         }
 
         #endregion
@@ -1200,7 +1162,7 @@ namespace Paway.Helper
             var properties = TypeDescriptor.GetProperties(parent);
             for (var i = 0; i < properties.Count; i++)
             {
-                if (!parent.GetProperty(properties[i].Name).IsClone()) continue;
+                if (!parent.GetProperty(properties[i].Name).IClone()) continue;
 
                 var value = properties[i].GetValue(t);
                 properties[i].SetValue(copy, value);
@@ -1245,7 +1207,7 @@ namespace Paway.Helper
             var properties = type.GetProperties();
             for (var i = 0; i < properties.Length; i++)
             {
-                if (aysc && !properties[i].IsClone()) continue;
+                if (aysc && !properties[i].IClone()) continue;
                 copy[properties[i].Name] = row[properties[i].Name];
             }
         }

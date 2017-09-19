@@ -94,59 +94,59 @@ namespace Paway.Helper
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
     public sealed class PropertyAttribute : Attribute
     {
-        private bool _clone = true;
-        private bool _excel = true;
-        private bool _select = true;
-        private bool _show = true;
-        private bool _sort = false;
+        private bool _iClone = true;
+        private bool _iTable = true;
+        private bool _iSelect = true;
+        private bool _iShow = true;
+        private bool _iSort = false;
 
         /// <summary>
         ///     是否自定义排序数字字符列,
         /// </summary>
-        public bool Sort
+        public bool ISort
         {
-            get { return _sort; }
-            set { _sort = value; }
+            get { return _iSort; }
+            set { _iSort = value; }
         }
 
         /// <summary>
         ///     是否生成列,
         ///     默认生成，在Db中
         /// </summary>
-        public bool Select
+        public bool ISelect
         {
-            get { return _select; }
-            set { _select = value; }
+            get { return _iSelect; }
+            set { _iSelect = value; }
         }
 
         /// <summary>
         ///     是否复制列
         ///     默认复制
         /// </summary>
-        public bool Clone
+        public bool IClone
         {
-            get { return _clone; }
-            set { _clone = value; }
+            get { return _iClone; }
+            set { _iClone = value; }
         }
 
         /// <summary>
         ///     是否导入列
         ///     默认导入
         /// </summary>
-        public bool Excel
+        public bool ITable
         {
-            get { return _excel; }
-            set { _excel = value; }
+            get { return _iTable; }
+            set { _iTable = value; }
         }
 
         /// <summary>
         ///     是否显示列
         ///     默认显示，在GridView中
         /// </summary>
-        public bool Show
+        public bool IShow
         {
-            get { return _show; }
-            set { _show = value; }
+            get { return _iShow; }
+            set { _iShow = value; }
         }
 
         /// <summary>

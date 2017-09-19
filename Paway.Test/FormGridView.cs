@@ -151,7 +151,7 @@ namespace Paway.Test
     {
         public string A { get; set; }
 
-        [Property(Show = false, Select = false)]
+        [Property(IShow = false, ISelect = false)]
         public string B { get; set; }
 
     }
@@ -183,10 +183,10 @@ namespace Paway.Test
 
         public Image Image { get; set; }
 
-        [Property(Show = false)]
+        [Property(IShow = false)]
         public string ActionTime { get; set; }
 
-        [Property(Show = false)]
+        [Property(IShow = false)]
         public Guid ComponentId { get; set; }
     }
     public class CheckBoxData

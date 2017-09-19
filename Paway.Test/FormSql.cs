@@ -165,13 +165,13 @@ namespace Paway.Test
     [Property(Table = "Users", Key = "Id")]
     public class UserInfo
     {
-        [Property(Show = false)]
+        [Property(IShow = false)]
         public long Id { get; set; }
 
         [Property(Text = "用户名")]
         public string Name { get; set; }
 
-        [Property(Show = false)]
+        [Property(IShow = false)]
         public DateTime CreateDate { get; set; }
 
         public UserInfo()
@@ -187,7 +187,7 @@ namespace Paway.Test
         public long T2 { get; set; }
         [Property(Column = "Name")]
         public string N2 { get; set; }
-        [Property(Select = false)]
+        [Property(ISelect = false)]
         public string Tag { get; set; }
         [Property(Column = "Value")]
         public string V2 { get; set; }
