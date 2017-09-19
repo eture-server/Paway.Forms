@@ -26,7 +26,7 @@ namespace Paway.Helper
         {
             var conString =
                 string.Format(
-                    "Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Extended Properties='Excel 8.0;HDR={1}'", fileName,
+                    "Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties='Excel 8.0;HDR={1}'", fileName,
                     hdd ? "yes" : "no");
             var sql = string.Format("select * from [{0}$]", sheet);
             using (var con = new OleDbConnection(conString))
@@ -64,15 +64,13 @@ namespace Paway.Helper
         ///     将DataTable导出到Excel
         ///     HDR=yes 第一行写入列标题
         /// </summary>
-        /// <param name="dt">数据源</param>
+        /// <param name="table">数据源</param>
         /// <param name="fileName">excel2003文件名</param>
         /// <param name="sheet">工作薄名称</param> 
         /// <param name="title">文件描述,在F1=0</param>
-        public static void ExportExcel(DataTable dt, string fileName, string sheet, string title = null)
+        public static void ExportExcel(DataTable table, string fileName, string sheet, string title = null)
         {
-            var conString =
-                string.Format(
-                    "Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Extended Properties='Excel 8.0;HDR=no'", fileName);
+            var conString = string.Format("Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties='Excel 8.0;HDR=no'", fileName);
             OleDbCommand cmd = null;
             try
             {
@@ -84,34 +82,38 @@ namespace Paway.Helper
                 cmd.Transaction = trans;
 
                 string insert = null;
-                for (var i = 0; i < dt.Columns.Count; i++)
+                string values = null;
+                for (var i = 0; i < table.Columns.Count; i++)
                 {
                     insert = string.Format("{0}F{1},", insert, i + 1);
+                    values = string.Format("{0}@F{1},", values, i + 1);
                 }
                 insert = insert.TrimEnd(',');
+                values = values.TrimEnd(',');
                 //写入标题
                 if (!string.IsNullOrEmpty(title))
                 {
-                    string update = string.Format("update [{0}$] set F2 = '{1}' where F1 = 0", sheet, title);
+                    string update = string.Format("update [{0}$] set F1 = '{1}' where F1 = (select top 1 F1 from [{0}$])", sheet, title);
                     cmd.CommandText = update;
                     cmd.ExecuteNonQuery();
                 }
-                string sql = null;
                 //写入数据
-                for (var i = 0; i < dt.Rows.Count; i++)
+                for (var i = 0; i < table.Rows.Count; i++)
                 {
-                    var dr = dt.Rows[i];
-                    sql = null;
-                    for (var j = 0; j < dt.Columns.Count; j++)
+                    var dr = table.Rows[i];
+                    var pList = new OleDbParameter[table.Columns.Count];
+                    for (var j = 0; j < table.Columns.Count; j++)
                     {
-                        if (dr[j] == DBNull.Value)
-                            sql = string.Format("{0}null,", sql);
-                        else
-                            sql = string.Format("{0}'{1}',", sql, dr[j].ToString().Replace("'", "''"));
+                        Type type = dr[j].GetType();
+                        var param = new OleDbParameter();
+                        param.ParameterName = string.Format("@F{0}", j + 1);
+                        param.Value = dr[j];
+                        pList[j] = param;
                     }
-                    sql = sql.TrimEnd(',');
-                    sql = string.Format("insert into [{0}$]({1}) values({2})", sheet, insert, sql);
+                    string sql = string.Format("insert into [{0}$]({1}) values({2})", sheet, insert, values);
                     cmd.CommandText = sql;
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.AddRange(pList);
                     cmd.ExecuteNonQuery();
                 }
                 trans.Commit();

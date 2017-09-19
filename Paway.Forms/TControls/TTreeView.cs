@@ -668,7 +668,7 @@ namespace Paway.Forms
         private void C_DrawNode(Graphics g, TreeNode node)
         {
             var rect = node.Bounds;
-            rect = new Rectangle(rect.Location, new Size(Width - 4 - rect.X - 2, rect.Height - 1));
+            rect = new Rectangle(rect.Location, new Size(Width - rect.X, rect.Height - 1));
             if (node.IsSelected)
             {
                 if (Focused)
@@ -696,8 +696,8 @@ namespace Paway.Forms
             }
 
             var rect = node.Bounds;
-            rect = new Rectangle(rect.Location, new Size(Width - 4 - rect.X - 2, rect.Height - 1));
-            g.FillRectangle(new SolidBrush(backColor), rect);
+            rect = new Rectangle(rect.Location, new Size(Width - rect.X, rect.Height - 1));
+            g.FillRectangle(new SolidBrush(backColor), new RectangleF(rect.X, rect.Y, rect.Width, rect.Height + 1));
             C_DrawString(g, node, rect, foreColor);
         }
 
@@ -714,7 +714,6 @@ namespace Paway.Forms
             }
             else
             {
-                var x = Indent + 3;
                 var left = 0;
                 var format = TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis;
                 for (var i = 0; i < _items.Count; i++)
@@ -723,7 +722,7 @@ namespace Paway.Forms
                         continue;
                     var irect = new Rectangle(
                         rect.X + left, rect.Y,
-                        _items[i].Width + (_items[i].IAlign ? x - rect.X : 0), rect.Height);
+                        _items[i].Width - (_items[i].IAlign ? Indent * (node.Level + 1) : 0), rect.Height);
                     left += irect.Width;
                     if (_items[i].Type == TreeItemType.Text)
                     {
@@ -754,7 +753,7 @@ namespace Paway.Forms
         private void C_DrawAdd(Graphics g, TreeNode node)
         {
             var rect = node.Bounds;
-            rect = new Rectangle(rect.Location, new Size(Width - 4 - rect.X - 2, rect.Height - 1));
+            rect = new Rectangle(rect.Location, new Size(Width - rect.X, rect.Height - 1));
             int interval = 6;
             if (this.CheckBoxes) interval += 13;
             if (node.Nodes.Count > 0)

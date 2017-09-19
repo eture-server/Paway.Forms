@@ -270,6 +270,37 @@ namespace Paway.Helper
         }
         /// <summary>
         ///     IList转为 DataTable
+        /// </summary>
+        public static DataTable ToExcelTable<T>(this List<T> list)
+        {
+            return typeof(T).ToExcelTable(list);
+        }
+        /// <summary>
+        ///     IList转为 DataTable
+        /// </summary>
+        public static DataTable ToExcelTable(this Type type, IList list)
+        {
+            var table = type.CreateTable();
+            var properties = TypeDescriptor.GetProperties(type);
+            for (int i = 0; i < list.Count; i++)
+            {
+                table.Rows.Add(table.NewRow());
+            }
+            Parallel.For(0, properties.Count, (i) =>
+            {
+                if (properties[i].PropertyType.IsGenericType) return;
+                if (!type.GetProperty(properties[i].Name).IExcel()) return;
+                for (int j = 0; j < table.Rows.Count; j++)
+                {
+                    var value = properties[i].GetValue(list[j]);
+                    lock (table)
+                        table.Rows[j][properties[i].Name] = value;
+                }
+            });
+            return table;
+        }
+        /// <summary>
+        ///     IList转为 DataTable
         ///     指定列名的值
         /// </summary>
         public static DataTable ToDataTable(this Type type, IList list, object name, object value)
@@ -1042,7 +1073,7 @@ namespace Paway.Helper
             {
                 column = list[0].Column;
             }
-            return list.Length == 0 || list[0].Select || list[0].Excel;
+            return list.Length == 0 || list[0].Select;
         }
         /// <summary>
         /// </summary>
