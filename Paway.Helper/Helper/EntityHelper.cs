@@ -91,7 +91,7 @@ namespace Paway.Helper
     ///     特性.自动生成Sql语句
     /// </summary>
     [Serializable]
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
     public sealed class PropertyAttribute : Attribute
     {
         private bool _iClone = true;
