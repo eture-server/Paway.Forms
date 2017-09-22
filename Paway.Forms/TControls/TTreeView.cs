@@ -602,10 +602,10 @@ namespace Paway.Forms
             if (type == null || type == typeof(string) || type.IsValueType) return;
             if (Items.Count == 0)
             {
-                var properties = type.GetProperties();
-                for (var i = 0; i < properties.Length; i++)
+                var propertys = type.GetProperties();
+                for (var i = 0; i < propertys.Length; i++)
                 {
-                    if (properties[i].IShow())
+                    if (propertys[i].IShow())
                     {
                         Items.Add(new TreeItem());
                     }

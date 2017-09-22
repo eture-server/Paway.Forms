@@ -43,25 +43,6 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     更新表列名
-        ///     实体类中列名与表名一一对应，无则Excel=false
-        /// </summary>
-        public static void UpdateColumn<T>(DataTable dt)
-        {
-            var type = typeof(T);
-            var index = 0;
-            var properties = type.GetProperties();
-            for (var i = 0; i < properties.Length; i++)
-            {
-                var name = properties[i].Name;
-                if (properties[i].ITable(ref name))
-                {
-                    dt.Columns[index++].ColumnName = name;
-                }
-            }
-        }
-
-        /// <summary>
         ///     将DataTable导出到Excel
         ///     HDR=yes 第一行写入列标题
         /// </summary>

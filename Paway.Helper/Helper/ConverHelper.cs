@@ -237,6 +237,64 @@ namespace Paway.Helper
             return table;
         }
         /// <summary>
+        ///     更新表列名
+        ///     实体类中列名与表名一一对应，无则Excel=false
+        /// </summary>
+        public static void UpdateColumn<T>(DataTable dt)
+        {
+            var type = typeof(T);
+            var index = 0;
+            var propertys = type.GetProperties();
+            for (var i = 0; i < propertys.Length; i++)
+            {
+                var name = propertys[i].Name;
+                if (propertys[i].ITable(ref name))
+                {
+                    dt.Columns[index++].ColumnName = name;
+                }
+            }
+        }
+        /// <summary>
+        ///     IList转为 Excel标记的DataTable
+        /// </summary>
+        public static DataTable ToExcelTable<T>(this List<T> list)
+        {
+            return typeof(T).ToExcelTable(list);
+        }
+        /// <summary>
+        ///     IList转为 Excel标记的DataTable
+        /// </summary>
+        public static DataTable ToExcelTable(this Type type, IList list)
+        {
+            var table = new DataTable(type.Name);
+            var propertys = type.GetProperties();
+            for (var i = 0; i < propertys.Length; i++)
+            {
+                if (propertys[i].PropertyType.IsGenericType) continue;
+                var name = propertys[i].Name;
+                if (!propertys[i].IExcel(ref name)) continue;
+                table.Columns.Add(name, propertys[i].PropertyType);
+            }
+            var properties = TypeDescriptor.GetProperties(type);
+            for (int i = 0; i < list.Count; i++)
+            {
+                table.Rows.Add(table.NewRow());
+            }
+            Parallel.For(0, properties.Count, (i) =>
+            {
+                if (properties[i].PropertyType.IsGenericType) return;
+                var name = properties[i].Name;
+                if (!propertys[i].IExcel(ref name)) return;
+                for (int j = 0; j < table.Rows.Count; j++)
+                {
+                    var value = properties[i].GetValue(list[j]);
+                    lock (table)
+                        table.Rows[j][name] = value;
+                }
+            });
+            return table;
+        }
+        /// <summary>
         ///     IList转为 DataTable
         /// </summary>
         public static DataTable ToDataTable<T>(this List<T> list)
@@ -312,13 +370,13 @@ namespace Paway.Helper
         public static DataTable CreateTable(this Type type)
         {
             var table = new DataTable(type.Name);
-            var properties = type.GetProperties();
-            for (var i = 0; i < properties.Length; i++)
+            var propertys = type.GetProperties();
+            for (var i = 0; i < propertys.Length; i++)
             {
-                if (properties[i].PropertyType.IsGenericType) continue;
-                var name = properties[i].Name;
-                if (!properties[i].ITable(ref name)) continue;
-                table.Columns.Add(name, properties[i].PropertyType);
+                if (propertys[i].PropertyType.IsGenericType) continue;
+                var name = propertys[i].Name;
+                if (!propertys[i].ITable(ref name)) continue;
+                table.Columns.Add(name, propertys[i].PropertyType);
             }
             return table;
         }
@@ -486,11 +544,11 @@ namespace Paway.Helper
             {
                 sql = string.Format("{0} Top {1}", sql, count);
             }
-            var properties = type.GetProperties();
-            for (var i = 0; i < properties.Length; i++)
+            var propertys = type.GetProperties();
+            for (var i = 0; i < propertys.Length; i++)
             {
-                var column = properties[i].Name;
-                if (properties[i].ISelect(ref column))
+                var column = propertys[i].Name;
+                if (propertys[i].ISelect(ref column))
                 {
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
@@ -590,16 +648,16 @@ namespace Paway.Helper
             var attr = type.Table();
             var sql = "update [{0}] set";
             sql = string.Format(sql, attr.Table);
-            var properties = type.GetProperties();
-            for (var i = 0; i < properties.Length; i++)
+            var propertys = type.GetProperties();
+            for (var i = 0; i < propertys.Length; i++)
             {
-                var column = properties[i].Name;
-                if (properties[i].ISelect(ref column))
+                var column = propertys[i].Name;
+                if (propertys[i].ISelect(ref column))
                 {
                     if (column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
-                    if (row.IsNull(properties[i]))
+                    if (row.IsNull(propertys[i]))
                     {
                         sql = string.Format("{0} [{1}]=NULL,", sql, column);
                     }
@@ -680,13 +738,13 @@ namespace Paway.Helper
         }
         private static void Insert<T>(this DataRow row, PropertyAttribute attr, Type type, bool replace, ref string insert, ref string value, params string[] args)
         {
-            var properties = type.GetProperties();
-            for (var i = 0; i < properties.Length; i++)
+            var propertys = type.GetProperties();
+            for (var i = 0; i < propertys.Length; i++)
             {
-                if (row.IsNull(properties[i])) continue;
+                if (row.IsNull(propertys[i])) continue;
 
-                var column = properties[i].Name;
-                if (properties[i].ISelect(ref column))
+                var column = propertys[i].Name;
+                if (propertys[i].ISelect(ref column))
                 {
                     if (!replace && column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -740,15 +798,15 @@ namespace Paway.Helper
 
             var type = typeof(T);
             string key = type.TableKey();
-            var properties = type.GetProperties();
-            for (var i = 0; i < properties.Length; i++)
+            var propertys = type.GetProperties();
+            for (var i = 0; i < propertys.Length; i++)
             {
-                var column = properties[i].Name;
-                if (properties[i].ISelect(ref column))
+                var column = propertys[i].Name;
+                if (propertys[i].ISelect(ref column))
                 {
                     if (column != key) continue;
 
-                    row[properties[i].Name] = value;
+                    row[propertys[i].Name] = value;
                     return true;
                 }
             }
@@ -847,16 +905,16 @@ namespace Paway.Helper
             string update = null;
             string insert = null;
             string values = null;
-            var properties = type.GetProperties();
-            for (var i = 0; i < properties.Length; i++)
+            var propertys = type.GetProperties();
+            for (var i = 0; i < propertys.Length; i++)
             {
-                var column = properties[i].Name;
-                if (properties[i].ISelect(ref column))
+                var column = propertys[i].Name;
+                if (propertys[i].ISelect(ref column))
                 {
                     if (column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
-                    if (row.IsNull(properties[i]))
+                    if (row.IsNull(propertys[i]))
                     {
                         update = string.Format("{0}[{1}]=NULL,", update, column);
                     }
@@ -935,14 +993,14 @@ namespace Paway.Helper
             var pList = new List<DbParameter>();
 
             var key = type.TableKey();
-            var properties = type.GetProperties();
-            for (var i = 0; i < properties.Length; i++)
+            var propertys = type.GetProperties();
+            for (var i = 0; i < propertys.Length; i++)
             {
                 object value = null;
-                if (!row.IsValue(properties[i], ref value)) continue;
+                if (!row.IsValue(propertys[i], ref value)) continue;
 
-                var column = properties[i].Name;
-                if (properties[i].ISelect(ref column))
+                var column = propertys[i].Name;
+                if (propertys[i].ISelect(ref column))
                 {
                     //Key必须要
                     if (key != column && args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -1043,6 +1101,17 @@ namespace Paway.Helper
                 column = list[0].Column;
             }
             return list.Length == 0 || list[0].ITable;
+        }
+        /// <summary>
+        /// </summary>
+        public static bool IExcel(this PropertyInfo pro, ref string column)
+        {
+            var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+            if (list.Length == 1 && list[0].Column != null)
+            {
+                column = list[0].Column;
+            }
+            return list.Length == 1 && list[0].IExcel;
         }
         /// <summary>
         /// </summary>
@@ -1204,11 +1273,11 @@ namespace Paway.Helper
         public static void Clone<T>(this DataRow row, DataRow copy, bool aysc = true)
         {
             var type = typeof(T);
-            var properties = type.GetProperties();
-            for (var i = 0; i < properties.Length; i++)
+            var propertys = type.GetProperties();
+            for (var i = 0; i < propertys.Length; i++)
             {
-                if (aysc && !properties[i].IClone()) continue;
-                copy[properties[i].Name] = row[properties[i].Name];
+                if (aysc && !propertys[i].IClone()) continue;
+                copy[propertys[i].Name] = row[propertys[i].Name];
             }
         }
 

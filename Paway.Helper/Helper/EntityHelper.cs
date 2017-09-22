@@ -96,12 +96,14 @@ namespace Paway.Helper
     {
         private bool _iClone = true;
         private bool _iTable = true;
+        private bool _iExcel = false;
         private bool _iSelect = true;
         private bool _iShow = true;
         private bool _iSort = false;
 
         /// <summary>
-        ///     是否自定义排序数字字符列,
+        ///     是否自定义排序列
+        ///     默认false
         /// </summary>
         public bool ISort
         {
@@ -110,8 +112,8 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     是否生成列,
-        ///     默认生成，在Db中
+        ///     是否生成数据列,
+        ///     默认true
         /// </summary>
         public bool ISelect
         {
@@ -121,7 +123,7 @@ namespace Paway.Helper
 
         /// <summary>
         ///     是否复制列
-        ///     默认复制
+        ///     默认true
         /// </summary>
         public bool IClone
         {
@@ -130,8 +132,8 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     是否导入列
-        ///     默认导入
+        ///     是否生成Table
+        ///     默认true
         /// </summary>
         public bool ITable
         {
@@ -140,8 +142,18 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     是否显示列
-        ///     默认显示，在GridView中
+        ///     是否生成到ExcelTable
+        ///     默认false
+        /// </summary>
+        public bool IExcel
+        {
+            get { return _iExcel; }
+            set { _iExcel = value; }
+        }
+
+        /// <summary>
+        ///     是否显示列(GridView)
+        ///     默认默认true
         /// </summary>
         public bool IShow
         {
