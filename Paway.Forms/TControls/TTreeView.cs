@@ -447,6 +447,7 @@ namespace Paway.Forms
             nodes.Add(node);
             if (node.Parent != null)
                 node.Parent.Expand();
+            this.SelectedNode = node;
         }
         private ItemNode CreateNode(DataRow dr)
         {
@@ -515,6 +516,7 @@ namespace Paway.Forms
                     item.DataRow = dr;
                     item.Text = CreateText(dr);
                     item.Name = dr[TId.ToString()].ToString();
+                    this.SelectedNode = item;
                     return true;
                 }
                 if (UpdateNode(nodes[i].Nodes, dr, name)) return true;
