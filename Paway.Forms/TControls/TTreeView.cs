@@ -446,7 +446,18 @@ namespace Paway.Forms
             var node = CreateNode(dr);
             nodes.Add(node);
             if (node.Parent != null)
+            {
                 node.Parent.Expand();
+                try
+                {
+                    Checking = true;
+                    ParentNodeCheck(node.Parent, true);
+                }
+                finally
+                {
+                    Checking = false;
+                }
+            }
             this.SelectedNode = node;
         }
         private ItemNode CreateNode(DataRow dr)
@@ -539,7 +550,17 @@ namespace Paway.Forms
             {
                 if (nodes[i].Name == name)
                 {
+                    var parent = nodes[i].Parent;
                     nodes[i].Remove();
+                    try
+                    {
+                        Checking = true;
+                        ParentNodeCheck(parent, true);
+                    }
+                    finally
+                    {
+                        Checking = false;
+                    }
                     return true;
                 }
                 if (DeleteNode(nodes[i].Nodes, name)) return true;
@@ -909,37 +930,50 @@ namespace Paway.Forms
         /// <summary>
         ///     父节点
         /// </summary>
-        /// <param name="node"></param>
-        private void ParentNodeCheck(TreeNode node)
+        private void ParentNodeCheck(TreeNode node, bool iInvalidate = false)
         {
             if (node == null) return;
             bool icheck = true, hight = false;
             for (var i = 0; i < node.Nodes.Count; i++)
             {
                 var item = (ItemNode)node.Nodes[i];
-                if (!item.Checked && !item.CheckHight)
+                if (!item.Checked)
                 {
                     icheck = false;
                 }
-                else
+                if (item.Checked || item.CheckHight)
                 {
                     hight = true;
                 }
             }
-            node.Checked = icheck;
-            (node as ItemNode).CheckHight = hight;
-            ParentNodeCheck(node.Parent);
+            if (node.Nodes.Count > 0)
+            {
+                node.Checked = icheck;
+                (node as ItemNode).CheckHight = hight;
+            }
+            if (iInvalidate)
+            {
+                var rect = node.Bounds;
+                rect = new Rectangle(1, rect.Top, Width, rect.Height);
+                Invalidate(rect);
+            }
+            ParentNodeCheck(node.Parent, iInvalidate);
         }
         /// <summary>
         ///     子节点
         /// </summary>
-        /// <param name="node"></param>
-        private void ChildNodeCheck(TreeNode node)
+        private void ChildNodeCheck(TreeNode node, bool iInvalidate = false)
         {
             for (var i = 0; i < node.Nodes.Count; i++)
             {
                 node.Nodes[i].Checked = node.Checked;
-                ChildNodeCheck(node.Nodes[i]);
+                if (iInvalidate)
+                {
+                    var rect = node.Nodes[i].Bounds;
+                    rect = new Rectangle(1, rect.Top, Width, rect.Height);
+                    Invalidate(rect);
+                }
+                ChildNodeCheck(node.Nodes[i], iInvalidate);
             }
         }
 
