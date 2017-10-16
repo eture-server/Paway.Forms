@@ -15,7 +15,7 @@ namespace Paway.Utils.Data
         ///     Data Source={0};Persist Security Info=True;Database={1};User ID={2};Password={3};
         /// </summary>
         protected const string DbConnect =
-            @"Data Source={0};Persist Security Info=True;Database={1};User ID={2};Password={3};";
+            @"Data Source={0};Database={1};User Id={2};Password={3};Persist Security Info=True;pooling=false;CharSet=utf8;port={4}";
 
         #region 重载
 
@@ -25,7 +25,7 @@ namespace Paway.Utils.Data
         protected override void OnCommandText(DbCommand cmd)
         {
             if (cmd.CommandText != null)
-                cmd.CommandText = cmd.CommandText.Replace("[", "").Replace("]", "");
+                cmd.CommandText = cmd.CommandText.Replace("[", "`").Replace("]", "`");
         }
 
         #endregion
@@ -54,9 +54,9 @@ namespace Paway.Utils.Data
         /// <summary>
         ///     传入连接字符
         /// </summary>
-        protected void InitConnect(string server, string database, string user, string pad)
+        protected void InitConnect(string host, string database, string user, string pad, int port = 3306)
         {
-            ConnString = string.Format(DbConnect, server, database, user, pad);
+            ConnString = string.Format(DbConnect, host, database, user, pad, port);
         }
 
         #endregion
