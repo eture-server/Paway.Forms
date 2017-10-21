@@ -96,7 +96,7 @@ namespace Paway.Helper
     {
         private bool _iClone = true;
         private bool _iTable = true;
-        private bool _iExcel = false;
+        private bool _iExcel = true;
         private bool _iSelect = true;
         private bool _iShow = true;
         private bool _iSort = false;
@@ -143,7 +143,7 @@ namespace Paway.Helper
 
         /// <summary>
         ///     是否生成到ExcelTable
-        ///     默认false
+        ///     默认true
         /// </summary>
         public bool IExcel
         {

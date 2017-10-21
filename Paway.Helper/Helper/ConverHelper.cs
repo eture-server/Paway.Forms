@@ -1111,7 +1111,7 @@ namespace Paway.Helper
             {
                 column = list[0].Column;
             }
-            return list.Length == 1 && list[0].IExcel;
+            return list.Length == 0 || list[0].IExcel;
         }
         /// <summary>
         /// </summary>
