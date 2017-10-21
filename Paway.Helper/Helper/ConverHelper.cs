@@ -237,6 +237,23 @@ namespace Paway.Helper
             return table;
         }
         /// <summary>
+        ///     将指定类型转为DataTable
+        /// </summary>
+        /// <returns></returns>
+        public static DataTable CreateTable(this Type type)
+        {
+            var table = new DataTable(type.Name);
+            var propertys = type.GetProperties();
+            for (var i = 0; i < propertys.Length; i++)
+            {
+                if (propertys[i].PropertyType.IsGenericType) continue;
+                var name = propertys[i].Name;
+                if (!propertys[i].ITable(ref name)) continue;
+                table.Columns.Add(name, propertys[i].PropertyType);
+            }
+            return table;
+        }
+        /// <summary>
         ///     更新表列名
         ///     实体类中列名与表名一一对应，无则Excel=false
         /// </summary>
@@ -266,15 +283,8 @@ namespace Paway.Helper
         /// </summary>
         public static DataTable ToExcelTable(this Type type, IList list)
         {
-            var table = new DataTable(type.Name);
+            var table = type.CreateExcelTable();
             var propertys = type.GetProperties();
-            for (var i = 0; i < propertys.Length; i++)
-            {
-                if (propertys[i].PropertyType.IsGenericType) continue;
-                var name = propertys[i].Name;
-                if (!propertys[i].IExcel(ref name)) continue;
-                table.Columns.Add(name, propertys[i].PropertyType);
-            }
             var properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < list.Count; i++)
             {
@@ -295,6 +305,23 @@ namespace Paway.Helper
             return table;
         }
         /// <summary>
+        ///     将指定类型转为DataTable
+        /// </summary>
+        /// <returns></returns>
+        public static DataTable CreateExcelTable(this Type type)
+        {
+            var table = new DataTable(type.Name);
+            var propertys = type.GetProperties();
+            for (var i = 0; i < propertys.Length; i++)
+            {
+                if (propertys[i].PropertyType.IsGenericType) continue;
+                var name = propertys[i].Name;
+                if (!propertys[i].IExcel(ref name)) continue;
+                table.Columns.Add(name, propertys[i].PropertyType);
+            }
+            return table;
+        }
+        /// <summary>
         ///     IList转为 DataTable
         /// </summary>
         public static DataTable ToDataTable<T>(this List<T> list)
@@ -307,6 +334,7 @@ namespace Paway.Helper
         public static DataTable ToDataTable(this Type type, IList list)
         {
             var table = type.CreateTable();
+            var propertys = type.GetProperties();
             var properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < list.Count; i++)
             {
@@ -316,7 +344,7 @@ namespace Paway.Helper
             {
                 if (properties[i].PropertyType.IsGenericType) return;
                 var name = properties[i].Name;
-                if (!type.GetProperty(properties[i].Name).ITable(ref name)) return;
+                if (!propertys[i].ITable(ref name)) return;
                 for (int j = 0; j < table.Rows.Count; j++)
                 {
                     var value = properties[i].GetValue(list[j]);
@@ -361,24 +389,6 @@ namespace Paway.Helper
                 row[name] = properties[i].GetValue(t);
             }
             return row;
-        }
-
-        /// <summary>
-        ///     将指定类型转为DataTable
-        /// </summary>
-        /// <returns></returns>
-        public static DataTable CreateTable(this Type type)
-        {
-            var table = new DataTable(type.Name);
-            var propertys = type.GetProperties();
-            for (var i = 0; i < propertys.Length; i++)
-            {
-                if (propertys[i].PropertyType.IsGenericType) continue;
-                var name = propertys[i].Name;
-                if (!propertys[i].ITable(ref name)) continue;
-                table.Columns.Add(name, propertys[i].PropertyType);
-            }
-            return table;
         }
 
         /// <summary>
