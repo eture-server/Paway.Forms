@@ -496,6 +496,20 @@ namespace Paway.Helper
             {
                 pro.SetValue(obj, value.ToString2());
             }
+            else if (pro.PropertyType.IsEnum)
+            {
+                Type type = pro.PropertyType.GetEnumUnderlyingType();
+                if (type == typeof(byte) || type == typeof(sbyte) ||
+                    type == typeof(short) || type == typeof(ushort) ||
+                    type == typeof(int) || type == typeof(uint))
+                {
+                    pro.SetValue(obj, value.ToInt());
+                }
+                else if (type == typeof(long) || type == typeof(ulong))
+                {
+                    pro.SetValue(obj, value.ToLong());
+                }
+            }
             else
             {
                 pro.SetValue(obj, value);
