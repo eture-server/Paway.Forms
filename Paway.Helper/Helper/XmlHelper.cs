@@ -38,8 +38,8 @@ namespace Paway.Helper
                     string desc = Description(list[i]);
                     if (!desc.IsNullOrEmpty())
                     {
-                        var element = doc.CreateComment(desc);
-                        root.AppendChild(element);
+                        var comment = doc.CreateComment(desc);
+                        root.AppendChild(comment);
                     }
                     var properties = TypeDescriptor.GetProperties(list[i]);
                     foreach (PropertyDescriptor item in properties)
@@ -47,6 +47,11 @@ namespace Paway.Helper
                         if (!list[i].GetProperty(item.Name).IShow()) continue;
 
                         XmlElement element = doc.CreateElement(item.Name);
+                        if (!item.Description.IsNullOrEmpty())
+                        {
+                            var comment = doc.CreateComment(item.Description);
+                            root.AppendChild(comment);
+                        }
                         element.InnerText = item.GetValue(info).ToString2();
                         root.AppendChild(element);
                     }
