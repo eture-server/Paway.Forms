@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Paway.Helper;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -107,6 +108,13 @@ namespace Paway.Forms
             set
             {
                 _cNormal = value;
+                if (value != Color.Empty)
+                {
+                    if (_cMove == Color.Empty)
+                        _cMove = BitmapHelper.RGBAddLight(value, 30);
+                    if (_cDown == Color.Empty)
+                        _cDown = BitmapHelper.RGBAddLight(value, -30);
+                }
                 OnValueChange(value);
             }
         }
