@@ -57,6 +57,7 @@
             this.toolBar1.Name = "toolBar1";
             this.toolBar1.Size = new System.Drawing.Size(191, 251);
             this.toolBar1.TabIndex = 1;
+            this.toolBar1.TranImage = ((System.Drawing.Image)(resources.GetObject("toolBar1.TranImage")));
             this.toolBar1.TranLaterImage = ((System.Drawing.Image)(resources.GetObject("toolBar1.TranLaterImage")));
             // 
             // btChange

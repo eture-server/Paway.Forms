@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Paway.Helper;
 using Paway.Resource;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Paway.Forms
 {
@@ -606,7 +607,7 @@ namespace Paway.Forms
             {
                 if (_change == null)
                 {
-                    _change = new TProperties();
+                    _change = new TProperties(MethodBase.GetCurrentMethod());
                     _change.ValueChange += delegate { Invalidate(); };
                 }
                 return _change;
@@ -626,7 +627,7 @@ namespace Paway.Forms
             {
                 if (_text == null)
                 {
-                    _text = new TProperties();
+                    _text = new TProperties(MethodBase.GetCurrentMethod());
                     _text.ValueChange += delegate { Invalidate(); };
                 }
                 return _text;
@@ -646,7 +647,7 @@ namespace Paway.Forms
             {
                 if (_textSencond == null)
                 {
-                    _textSencond = new TProperties();
+                    _textSencond = new TProperties(MethodBase.GetCurrentMethod());
                     _textSencond.ValueChange += delegate { Invalidate(); };
                 }
                 return _textSencond;
@@ -666,7 +667,7 @@ namespace Paway.Forms
             {
                 if (_desc == null)
                 {
-                    _desc = new TProperties();
+                    _desc = new TProperties(MethodBase.GetCurrentMethod());
                     _desc.ValueChange += delegate { Invalidate(); };
                 }
                 return _desc;
@@ -686,7 +687,7 @@ namespace Paway.Forms
             {
                 if (_headDesc == null)
                 {
-                    _headDesc = new TProperties();
+                    _headDesc = new TProperties(MethodBase.GetCurrentMethod());
                     _headDesc.ValueChange += delegate { Invalidate(); };
                 }
                 return _headDesc;
@@ -706,7 +707,7 @@ namespace Paway.Forms
             {
                 if (_endDesc == null)
                 {
-                    _endDesc = new TProperties();
+                    _endDesc = new TProperties(MethodBase.GetCurrentMethod());
                     _endDesc.ValueChange += delegate { Invalidate(); };
                 }
                 return _endDesc;
@@ -726,7 +727,7 @@ namespace Paway.Forms
             {
                 if (_backGround == null)
                 {
-                    _backGround = new TProperties();
+                    _backGround = new TProperties(MethodBase.GetCurrentMethod());
                     _backGround.ValueChange += delegate { Invalidate(); };
                 }
                 return _backGround;

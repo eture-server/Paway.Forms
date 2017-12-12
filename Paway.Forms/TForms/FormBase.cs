@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Paway.Helper;
 using Paway.Resource;
 using Paway.Win32;
+using System.Reflection;
 
 namespace Paway.Forms
 {
@@ -445,7 +446,7 @@ namespace Paway.Forms
             {
                 if (_tBrush == null)
                 {
-                    _tBrush = new TProperties();
+                    _tBrush = new TProperties(MethodBase.GetCurrentMethod());
                     _tBrush.ValueChange += delegate { Invalidate(ClientRectangle); };
                 }
                 return _tBrush;

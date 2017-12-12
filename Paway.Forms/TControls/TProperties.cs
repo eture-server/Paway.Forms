@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace Paway.Forms
@@ -30,13 +31,15 @@ namespace Paway.Forms
         private StringAlignment _stringHorizontal = StringAlignment.Near;
 
         private StringAlignment _stringVertical = StringAlignment.Near;
+        private MethodBase parent;
 
         /// <summary>
         ///     构造
         ///     初始化
         /// </summary>
-        public TProperties()
+        public TProperties(MethodBase parent)
         {
+            this.parent = parent;
             HeightNormal = InitHeight(FontNormal);
             HeightMove = InitHeight(FontMove);
             HeightDown = InitHeight(FontDown);
@@ -108,7 +111,7 @@ namespace Paway.Forms
             set
             {
                 _cNormal = value;
-                if (value != Color.Empty)
+                if (value != Color.Empty && (this.parent.Name.Contains("TBackGround") || this.parent.Name.Contains("TColor")))
                 {
                     if (_cMove == Color.Empty)
                         _cMove = BitmapHelper.RGBAddLight(value, 30);

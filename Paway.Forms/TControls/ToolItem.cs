@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace Paway.Forms
@@ -170,7 +171,7 @@ namespace Paway.Forms
             {
                 if (_color == null)
                 {
-                    _color = new TProperties();
+                    _color = new TProperties(MethodBase.GetCurrentMethod());
                     _color.ValueChange += delegate { TRefresh(); };
                 }
                 return _color;
