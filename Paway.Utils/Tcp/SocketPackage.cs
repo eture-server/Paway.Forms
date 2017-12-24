@@ -34,13 +34,13 @@ namespace Paway.Utils.Tcp
         /// <summary>
         ///     重写实例 socket异常事件
         /// </summary>
-        protected override void OnSocketException(string msg)
+        protected override void OnDisConnectEvent(SocketError type)
         {
             var socketList =
                 SocketConfig.ClientList.Where(
                     c => (c.IUNRegisted || !c.IConnected) && !c.Disposed && c.IPPoint == IPPoint).ToArray();
             ClearClientSocket(socketList);
-            base.OnSocketException(msg);
+            base.OnDisConnectEvent(type);
         }
 
         /// <summary>

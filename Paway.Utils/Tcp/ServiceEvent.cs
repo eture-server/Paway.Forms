@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Sockets;
 
 namespace Paway.Utils.Tcp
 {
@@ -34,6 +35,11 @@ namespace Paway.Utils.Tcp
         ///     消息
         /// </summary>
         public string Message { get; set; }
+
+        /// <summary>
+        /// Socket连接错误
+        /// </summary>
+        public SocketError Error { get; set; }
 
         /// <summary>
         ///     消息类型

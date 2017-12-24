@@ -219,11 +219,11 @@ namespace Paway.Utils.Tcp
         /// <summary>
         ///     触发socker异常事件
         /// </summary>
-        protected void OnSocketException(SocketError socketError)
+        protected void OnSocketException(SocketError type)
         {
             if (Disposed) return;
             IConnected = false;
-            OnSocketException(socketError.ToString());
+            OnDisConnectEvent(type);
         }
 
         /// <summary>
@@ -247,16 +247,16 @@ namespace Paway.Utils.Tcp
             {
             }
         }
-
         /// <summary>
         ///     触发socker异常事件->断开
         /// </summary>
-        protected virtual void OnSocketException(string message)
+        protected virtual void OnDisConnectEvent(SocketError type)
         {
             try
             {
                 var msg = new ServiceEventArgs(ServiceType.DisConnect);
-                msg.Message = message;
+                msg.Error = type;
+                msg.Message = type.ToString();
                 msg.Ip = IPPoint.Address.ToString();
                 msg.Port = IPPoint.Port;
                 if (ClientEvent != null)

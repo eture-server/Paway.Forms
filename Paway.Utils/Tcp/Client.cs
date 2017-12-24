@@ -12,26 +12,6 @@ namespace Paway.Utils.Tcp
         /// </summary>
         /// <param name="IpAddress"></param>
         /// <param name="port"></param>
-        public Client(string IpAddress, int port)
-            : base(IpAddress, port)
-        {
-        }
-
-        /// <summary>
-        ///     连接完成
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnConnectEvent(SocketAsyncEventArgs e)
-        {
-            base.OnConnectEvent(e);
-        }
-
-        /// <summary>
-        ///     连接错误
-        /// </summary>
-        protected override void OnSocketException(string msg)
-        {
-            base.OnSocketException(msg);
-        }
+        public Client(string IpAddress, int port) : base(IpAddress, port) { }
     }
 }
