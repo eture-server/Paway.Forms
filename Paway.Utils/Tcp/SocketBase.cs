@@ -255,7 +255,7 @@ namespace Paway.Utils.Tcp
             try
             {
                 var msg = new ServiceEventArgs(ServiceType.DisConnect);
-                msg.Error = type;
+                msg.SocketError = type;
                 msg.Message = type.ToString();
                 msg.Ip = IPPoint.Address.ToString();
                 msg.Port = IPPoint.Port;

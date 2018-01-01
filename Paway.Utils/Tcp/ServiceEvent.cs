@@ -39,7 +39,7 @@ namespace Paway.Utils.Tcp
         /// <summary>
         /// Socket连接错误
         /// </summary>
-        public SocketError Error { get; set; }
+        public SocketError SocketError { get; set; }
 
         /// <summary>
         ///     消息类型
