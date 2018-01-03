@@ -86,7 +86,7 @@ namespace Paway.Helper
             while (element != null)
             {
                 PropertyDescriptor item = properties.Find(element.Name, false);
-                if (item != null && !element.InnerText.IsNullOrEmpty())
+                if (item != null && element.InnerText != null)
                 {
                     obj.SetValue(item, element.InnerText);
                 }
