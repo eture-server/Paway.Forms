@@ -28,10 +28,13 @@ namespace Paway.Utils.Data
         protected string ConnString { get; set; }
 
         /// <summary>
-        /// MySql长连接
+        /// 长连接对象
         /// </summary>
         protected DbConnection Connection;
-        private bool IMySql;
+        /// <summary>
+        /// 长连接开关
+        /// </summary>
+        protected bool ILongConnect;
 
         #region 构造.加载数据类型
 
@@ -51,7 +54,7 @@ namespace Paway.Utils.Data
             this.connType = connType;
             this.cmdType = cmdType;
             this.paramType = paramType;
-            this.IMySql = connType == typeof(MySql.Data.MySqlClient.MySqlConnection);
+            this.ILongConnect = connType == typeof(MySql.Data.MySqlClient.MySqlConnection);
         }
 
         /// <summary>
@@ -216,9 +219,12 @@ namespace Paway.Utils.Data
             {
                 if (cmd != null)
                 {
-                    if (!IMySql && cmd.Connection != null && cmd.Connection.State == ConnectionState.Open)
+                    if (!ILongConnect && cmd.Connection != null)
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State == ConnectionState.Open)
+                        {
+                            cmd.Connection.Close();
+                        }
                         cmd.Connection.Dispose();
                     }
                     cmd.Dispose();
@@ -296,7 +302,7 @@ namespace Paway.Utils.Data
 
         private DbConnection GetCon()
         {
-            if (IMySql)
+            if (ILongConnect)
             {
                 if (this.Connection == null)
                 {
@@ -1121,9 +1127,12 @@ namespace Paway.Utils.Data
             {
                 if (disposing)
                 {
-                    if (this.Connection != null && this.Connection.State == ConnectionState.Open)
+                    if (this.Connection != null)
                     {
-                        this.Connection.Close();
+                        if (this.Connection.State == ConnectionState.Open)
+                        {
+                            this.Connection.Close();
+                        }
                         this.Connection.Dispose();
                     }
                 }
