@@ -39,7 +39,8 @@ namespace Paway.Utils.Data
         public MySqlHelper()
             : base(typeof(MySqlConnection), typeof(MySqlCommand), typeof(MySqlParameter))
         {
-            GetId = "SELECT LAST_INSERT_ID() Id";
+            base.GetId = "SELECT LAST_INSERT_ID() Id";
+            base.ILongConnect = true;
         }
 
         /// <summary>

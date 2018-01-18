@@ -54,7 +54,6 @@ namespace Paway.Utils.Data
             this.connType = connType;
             this.cmdType = cmdType;
             this.paramType = paramType;
-            this.ILongConnect = connType == typeof(MySql.Data.MySqlClient.MySqlConnection);
         }
 
         /// <summary>
