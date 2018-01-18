@@ -12,7 +12,7 @@ namespace Paway.Utils.Data
     {
         /// <summary>
         ///     连接字符模板
-        ///     Data Source={0};Persist Security Info=True;Database={1};User ID={2};Password={3};
+        ///     Data Source={0};Database={1};User Id={2};Password={3};Persist Security Info=True;pooling=false;CharSet=utf8;port={4}
         /// </summary>
         protected const string DbConnect =
             @"Data Source={0};Database={1};User Id={2};Password={3};Persist Security Info=True;pooling=false;CharSet=utf8;port={4}";

@@ -916,7 +916,7 @@ namespace Paway.Forms
             THeardLength = 0;
             for (var i = 0; i < Items.Count; i++)
             {
-                Calctem(Items[i], ref xPos, ref yPos, i == 0);
+                CalcItem(Items[i], ref xPos, ref yPos, i == 0);
             }
         }
 
@@ -925,7 +925,7 @@ namespace Paway.Forms
             var count = Items.Count - 1;
             var xPos = Items[count].Rectangle.X;
             var yPos = Items[count].Rectangle.Y;
-            Calctem(Items[count], ref xPos, ref yPos, false, true);
+            CalcItem(Items[count], ref xPos, ref yPos, false, true);
             count = 0;
             //多行/列补充Item
             if (TCountColumn > 1 && TCountLine > 1)
@@ -938,7 +938,7 @@ namespace Paway.Forms
             for (var i = 0; i < count; i++)
             {
                 var temp = new ToolItem();
-                Calctem(temp, ref xPos, ref yPos);
+                CalcItem(temp, ref xPos, ref yPos);
                 DrawItem(g, temp);
             }
         }
@@ -966,7 +966,7 @@ namespace Paway.Forms
             }
         }
 
-        private void Calctem(ToolItem item, ref int xPos, ref int yPos, bool iFirst = false, bool iCalc = false)
+        private void CalcItem(ToolItem item, ref int xPos, ref int yPos, bool iFirst = false, bool iCalc = false)
         {
             // 当前 Item 所在的矩型区域
             item.Rectangle = new Rectangle(xPos, yPos, _itemSize.Width, _itemSize.Height);
@@ -1738,8 +1738,8 @@ namespace Paway.Forms
                 var index = Items.Count - 2;
                 var xPos = Items[index].Rectangle.X;
                 var yPos = Items[index].Rectangle.Y;
-                Calctem(Items[index], ref xPos, ref yPos, true, true);
-                Calctem(Items[index + 1], ref xPos, ref yPos, false);
+                CalcItem(Items[index], ref xPos, ref yPos, true, true);
+                CalcItem(Items[index + 1], ref xPos, ref yPos, false);
 
                 UpdateScroll();
                 TEnd();

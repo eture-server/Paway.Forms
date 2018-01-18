@@ -19,8 +19,7 @@ namespace Paway.Test
 {
     public partial class FormSql : QQDemo
     {
-        SqlDataService service = new SqlDataService();
-        SerDataService service2 = new SerDataService();
+        SqlService service = new SqlService();
         List<TestData> list = new List<TestData>();
 
         public FormSql()
@@ -31,6 +30,10 @@ namespace Paway.Test
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
+            var time = Environment.TickCount;
+            var a = service.Find<UserInfo>();
+            var b = Environment.TickCount - time;
+            Console.WriteLine(b);
             for (int i = 0; i < 10; i++)
             {
                 TestData data = new TestData
@@ -129,10 +132,10 @@ namespace Paway.Test
             }
         }
     }
-    public class SqlDataService : SqlHelper //MySqlHelper//SqlHelper//SQLiteHelper
+    public class SqlService : MySqlHelper //MySqlHelper//SqlHelper//SQLiteHelper
     {
         public const string dbName = "paway.db";
-        public SqlDataService()
+        public SqlService()
         {
             //string path = AppDomain.CurrentDomain.BaseDirectory;
             //string file = Path.Combine(path, dbName);
@@ -148,16 +151,10 @@ namespace Paway.Test
             //}
 
             //base.InitConnect("127.0.0.1", "Test", "root", "mobot");//MySqlHelper
-            base.InitConnect("(local)", "Test", "mobot", "mobot");//SqlHelper
+            //base.InitConnect("(local)", "Test", "mobot", "mobot");//SqlHelper
             //base.InitConnect("ConnectionString");//SqlHelper
-        }
-    }
-    public class SerDataService : SqlHelper
-    {
-        private object syncLock = new object();
-        public SerDataService()
-        {
-            base.InitConnect(@"(local)\SQLEXPRESS", "DiningLC", "mobot", "mobot");
+            //base.InitConnect(@"(local)\SQLEXPRESS", "DiningLC", "mobot", "mobot");
+            base.InitConnect("192.168.30.218", "sapera", "root", "mobot");
         }
     }
 

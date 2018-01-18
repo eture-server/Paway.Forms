@@ -27,6 +27,12 @@ namespace Paway.Utils.Data
         /// </summary>
         protected string ConnString { get; set; }
 
+        /// <summary>
+        /// MySql长连接
+        /// </summary>
+        protected DbConnection Connection;
+        private bool IMySql;
+
         #region 构造.加载数据类型
 
         private readonly Type connType;
@@ -45,6 +51,7 @@ namespace Paway.Utils.Data
             this.connType = connType;
             this.cmdType = cmdType;
             this.paramType = paramType;
+            this.IMySql = connType == typeof(MySql.Data.MySqlClient.MySqlConnection);
         }
 
         /// <summary>
@@ -209,7 +216,7 @@ namespace Paway.Utils.Data
             {
                 if (cmd != null)
                 {
-                    if (cmd.Connection != null && cmd.Connection.State == ConnectionState.Open)
+                    if (!IMySql && cmd.Connection != null && cmd.Connection.State == ConnectionState.Open)
                     {
                         cmd.Connection.Close();
                         cmd.Connection.Dispose();
@@ -288,6 +295,18 @@ namespace Paway.Utils.Data
         }
 
         private DbConnection GetCon()
+        {
+            if (IMySql)
+            {
+                if (this.Connection == null)
+                {
+                    this.Connection = InitCon();
+                }
+                return this.Connection;
+            }
+            return InitCon();
+        }
+        private DbConnection InitCon()
         {
             var asmb = Assembly.GetAssembly(connType);
             var con = asmb.CreateInstance(connType.FullName) as DbConnection;
@@ -1102,6 +1121,11 @@ namespace Paway.Utils.Data
             {
                 if (disposing)
                 {
+                    if (this.Connection != null && this.Connection.State == ConnectionState.Open)
+                    {
+                        this.Connection.Close();
+                        this.Connection.Dispose();
+                    }
                 }
             }
             disposed = true;
