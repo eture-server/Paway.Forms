@@ -1108,11 +1108,26 @@ namespace Paway.Utils.Data
         #endregion
 
         #region Dispose
+        /// <summary>
+        /// 关闭连接
+        /// </summary>
+        public void Close()
+        {
+            if (this.Connection != null)
+            {
+                if (this.Connection.State == ConnectionState.Open)
+                {
+                    this.Connection.Close();
+                }
+                this.Connection.Dispose();
+            }
+        }
 
         private bool disposed;
 
         /// <summary>
         ///     释放
+        ///     不能在这里关闭连接
         /// </summary>
         public void Dispose()
         {
@@ -1126,14 +1141,6 @@ namespace Paway.Utils.Data
             {
                 if (disposing)
                 {
-                    if (this.Connection != null)
-                    {
-                        if (this.Connection.State == ConnectionState.Open)
-                        {
-                            this.Connection.Close();
-                        }
-                        this.Connection.Dispose();
-                    }
                 }
             }
             disposed = true;
