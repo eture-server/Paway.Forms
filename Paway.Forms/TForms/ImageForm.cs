@@ -130,6 +130,7 @@ namespace Paway.Forms
         /// <param name="steps">鼠标滚轮步进数</param>
         private void Reset(int steps)
         {
+            if (screen == null) return;
             if (size.Width / screen.Width > 16 && steps > 0) return;
             if (screen.Width / size.Width > 20 && steps < 0) return;
             Invalidate(rect);
@@ -243,12 +244,14 @@ namespace Paway.Forms
             var bitmap = new Bitmap(Width, Height);
             using (var g = Graphics.FromImage(bitmap))
             {
+                // 设置画布的描绘质量 - 最临近插值法(显示像素点)
                 g.InterpolationMode = InterpolationMode.NearestNeighbor;
                 g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 g.FillRectangle(new SolidBrush(Color.FromArgb(150, 0, 0, 0)), new Rectangle(Point.Empty, bitmap.Size));
                 g.DrawImage(screen, rect, new Rectangle(Point.Empty, screen.Size), GraphicsUnit.Pixel);
                 DrawText(g);
                 DrawButton(g, CloseState, CloseRect, "close");
+                DrawButton(g, MaxState, MaxRect, "max");
             }
             SetBitmap(bitmap, 255);
         }
@@ -345,6 +348,7 @@ namespace Paway.Forms
         {
             base.OnSizeChanged(e);
             Padding = new Padding(0);
+            this.Reset(0);
         }
 
         /// <summary>

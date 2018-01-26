@@ -327,7 +327,7 @@ namespace Paway.Test
             Image image = Image.FromFile(sSrcFilePath);
             Graphics g = Graphics.FromImage(image);
             g.SmoothingMode = SmoothingMode.HighQuality;
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            g.InterpolationMode = InterpolationMode.HighQualityBilinear;
             g.CompositingQuality = CompositingQuality.HighQuality;
             Rectangle rect = new Rectangle(0, 0, image.Width, image.Height);
             GraphicsPath rectPath = CreateRoundRectanglePath(rect, 5, "TopLeft"); //构建圆角外部路径

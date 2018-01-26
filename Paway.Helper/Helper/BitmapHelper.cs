@@ -319,9 +319,9 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     高质量缩放图像，显示像素点
+        ///     高质量缩放图像，默认线性收缩
         /// </summary>
-        public static Image HighImage(Image image, InterpolationMode mode = InterpolationMode.NearestNeighbor)
+        public static Image HighImage(Image image, InterpolationMode mode = InterpolationMode.HighQualityBilinear)
         {
             if (image == null) return null;
             int width = image.Width;
@@ -330,9 +330,9 @@ namespace Paway.Helper
             return HighImage(image, new Size(width, width), mode);
         }
         /// <summary>
-        ///     高质量缩放图像，显示像素点
+        ///     高质量缩放图像，默认线性收缩
         /// </summary>
-        public static Image HighImage(Image image, Size size, InterpolationMode mode = InterpolationMode.NearestNeighbor)
+        public static Image HighImage(Image image, Size size, InterpolationMode mode = InterpolationMode.HighQualityBilinear)
         {
             if (image == null) return null;
             Image temp = new Bitmap(size.Width, size.Height);

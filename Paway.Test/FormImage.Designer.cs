@@ -77,7 +77,7 @@
             // 
             // tPictureBox1
             // 
-            this.tPictureBox1.BackColor = System.Drawing.Color.White;
+            this.tPictureBox1.BackColor = System.Drawing.Color.Black;
             this.tPictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tPictureBox1.Image = null;
             this.tPictureBox1.Location = new System.Drawing.Point(0, 0);
@@ -175,7 +175,6 @@
             // 
             // FormImage
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(153)))), ((int)(((byte)(188)))));
             this.ClientSize = new System.Drawing.Size(554, 371);
             this.Controls.Add(this.splitContainer1);
