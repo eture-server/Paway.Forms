@@ -220,7 +220,7 @@ namespace Paway.Utils.Data
                 {
                     if (!ILongConnect && cmd.Connection != null)
                     {
-                        if (cmd.Connection.State == ConnectionState.Open)
+                        if (cmd.Connection.State == ConnectionState.Open || cmd.Connection.State == ConnectionState.Broken)
                         {
                             cmd.Connection.Close();
                         }
@@ -306,6 +306,11 @@ namespace Paway.Utils.Data
                 if (this.Connection == null)
                 {
                     this.Connection = InitCon();
+                }
+                if (this.Connection.State == ConnectionState.Broken)
+                {
+                    this.Connection.Close();
+                    this.Connection.Open();
                 }
                 return this.Connection;
             }
@@ -1115,7 +1120,7 @@ namespace Paway.Utils.Data
         {
             if (this.Connection != null)
             {
-                if (this.Connection.State == ConnectionState.Open)
+                if (this.Connection.State == ConnectionState.Open || this.Connection.State == ConnectionState.Broken)
                 {
                     this.Connection.Close();
                 }

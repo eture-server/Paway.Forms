@@ -44,6 +44,7 @@ namespace Paway.Test
                     I2 = pictureBox1.Image,
                 };
                 list.Add(data);
+                var a1 = service.Find<UserInfo>();
             }
         }
         private void btInsert_Click(object sender, EventArgs e)
@@ -154,7 +155,7 @@ namespace Paway.Test
             //base.InitConnect("(local)", "Test", "mobot", "mobot");//SqlHelper
             //base.InitConnect("ConnectionString");//SqlHelper
             //base.InitConnect(@"(local)\SQLEXPRESS", "DiningLC", "mobot", "mobot");
-            base.InitConnect("192.168.30.218", "sapera", "root", "mobot");
+            base.InitConnect("127.0.0.1", "sapera", "root", "mobot");
         }
     }
 
