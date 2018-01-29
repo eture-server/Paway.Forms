@@ -65,9 +65,8 @@ namespace Paway.Helper
             //全球时间24小时以内
             if (ts < new TimeSpan(0, -24, 0, 0) || ts > new TimeSpan(days, 0, 0, 0))
             {
-                return;
+                //throw new LicenseException(type);
             }
-            //throw new LicenseException(type);
         }
     }
 }

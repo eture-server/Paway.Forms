@@ -142,6 +142,16 @@ namespace Paway.Forms
         }
 
         /// <summary>
+        ///     多行编辑中的文本行，作为字符串值的数组
+        /// </summary>
+        [Browsable(false), Description("多行编辑中的文本行，作为字符串值的数组。"), Category("外观")]
+        public virtual string[] Lines
+        {
+            get { return BaseText.Lines; }
+            set { BaseText.Lines = value; }
+        }
+
+        /// <summary>
         ///     指示对于多行编辑控件，将为此控件显示哪些滚动条
         /// </summary>
         [Description("指示对于多行编辑控件，将为此控件显示哪些滚动条。"), Category("外观")]
