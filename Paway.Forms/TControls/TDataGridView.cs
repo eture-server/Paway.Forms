@@ -492,6 +492,20 @@ namespace Paway.Forms
                     _tColumnIndex = i;
                 }
                 var pro = type.GetProperty(Columns[i].Name);
+                if (pro == null)
+                {
+                    var propertys = type.GetProperties();
+                    for (var j = 0; j < propertys.Length; j++)
+                    {
+                        var column = propertys[j].Name;
+                        propertys[j].ITable(ref column);
+                        if (column == Columns[i].Name)
+                        {
+                            pro = propertys[j];
+                            break;
+                        }
+                    }
+                }
                 if (pro == null) continue;
                 var itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
                 Columns[i].Visible = true;
