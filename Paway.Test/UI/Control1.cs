@@ -29,6 +29,10 @@ namespace Paway.Test.UI
             base.ReLoad();
             toolbar.MStart();
         }
+        public override bool UnLoad()
+        {
+            return base.UnLoad();
+        }
         protected void WaitDrawDataGridView()
         {
             BindingList<WaitDrawDataGridViewData> list = new BindingList<WaitDrawDataGridViewData>();

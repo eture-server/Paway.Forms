@@ -174,11 +174,6 @@ namespace Paway.Forms
                 {
                     if (Current.GetType() == type && Current.Parent == parent) return null;
                 }
-                //拒绝移除
-                if (Current != null && !Current.UnLoad())
-                {
-                    return null;
-                }
                 //加载控件
                 if (_list.ContainsKey(type.FullName))
                 {
