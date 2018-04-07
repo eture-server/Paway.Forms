@@ -37,6 +37,158 @@ namespace Paway.Helper
 
         #endregion
 
+        #region 中文转拼音
+        /// <summary>
+        /// 在指定的字符串列表cnStr中检索符合拼音索引字符串
+        /// </summary>
+        /// <param name="cnStr">汉字字符串</param>
+        /// <param name="args">换行字符</param>
+        /// <returns>相对应的汉语拼音首字母串</returns>
+        public static string ToSpellCode(this string cnStr, params string[] args)
+        {
+            if (cnStr.IsNullOrEmpty()) return null;
+            string strTemp = null;
+            bool last = true;
+            for (int i = 0; i < cnStr.Length; i++)
+            {
+                string v = null;
+                bool c = GetCharSpellCode(cnStr.Substring(i, 1), ref v);
+                if ((c || last) && !args.Contains(v))
+                {
+                    strTemp += v;
+                }
+                last = c | args.Contains(v);
+            }
+            return strTemp;
+        }
+        /// <summary>
+        /// 得到一个汉字的拼音第一个字母，如果是一个英文字母则直接返回小写字母
+        /// </summary>
+        /// <param name="cnChar">单个汉字</param>
+        /// <param name="result">单个小写字母</param>
+        /// <returns>如果是字母，返回false</returns>
+        private static bool GetCharSpellCode(string cnChar, ref string result)
+        {
+            long lenCnChar;
+            byte[] zw = Encoding.Default.GetBytes(cnChar);
+            //如果是字母，则直接返回
+            if (zw.Length == 1)
+            {
+                result = cnChar.ToLower();
+                return false;
+            }
+            else
+            {
+                // get the array of byte from the single char
+                int i1 = zw[0];
+                int i2 = (zw[1]);
+                lenCnChar = i1 * 256 + i2;
+            }
+            // iCnChar match the constant
+            if (lenCnChar >= 45217 && lenCnChar <= 55289)
+            {
+                if (lenCnChar <= 45252)
+                {
+                    result = "a";
+                }
+                else if (lenCnChar <= 45760)
+                {
+                    result = "b";
+                }
+                else if (lenCnChar <= 46317)
+                {
+                    result = "c";
+                }
+                else if (lenCnChar <= 46825)
+                {
+                    result = "d";
+                }
+                else if (lenCnChar <= 47009)
+                {
+                    result = "e";
+                }
+                else if (lenCnChar <= 47296)
+                {
+                    result = "f";
+                }
+                else if (lenCnChar <= 47613)
+                {
+                    result = "g";
+                }
+                else if (lenCnChar <= 48118)
+                {
+                    result = "h";
+                }
+                else if (lenCnChar <= 49061)
+                {
+                    result = "j";
+                }
+                else if (lenCnChar <= 49323)
+                {
+                    result = "k";
+                }
+                else if (lenCnChar <= 49895)
+                {
+                    result = "l";
+                }
+                else if (lenCnChar <= 50370)
+                {
+                    result = "m";
+                }
+                else if (lenCnChar <= 50613)
+                {
+                    result = "n";
+                }
+                else if (lenCnChar <= 50621)
+                {
+                    result = "o";
+                }
+                else if (lenCnChar <= 50905)
+                {
+                    result = "p";
+                }
+                else if (lenCnChar <= 51386)
+                {
+                    result = "q";
+                }
+                else if (lenCnChar <= 51445)
+                {
+                    result = "r";
+                }
+                else if (lenCnChar <= 52217)
+                {
+                    result = "s";
+                }
+                else if (lenCnChar <= 52697)
+                {
+                    result = "t";
+                }
+                else if (lenCnChar <= 52979)
+                {
+                    result = "w";
+                }
+                else if (lenCnChar <= 53640)
+                {
+                    result = "x";
+                }
+                else if (lenCnChar <= 54480)
+                {
+                    result = "y";
+                }
+                else if (lenCnChar >= 54481)
+                {
+                    result = "z";
+                }
+            }
+            else
+            {
+                result = ("?");
+            }
+            return true;
+        }
+
+        #endregion
+
         #region 数据转换
         /// <summary>
         ///     Int32转换

@@ -312,7 +312,7 @@ namespace Paway.Utils.Data
                 {
                     this.Connection = InitCon();
                 }
-                if (this.Connection.State == ConnectionState.Broken)
+                if (this.Connection.State == ConnectionState.Closed || this.Connection.State == ConnectionState.Broken)
                 {
                     this.Connection.Close();
                     this.Connection.Open();
