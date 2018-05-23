@@ -136,7 +136,7 @@ namespace Paway.Forms
         /// <summary>
         ///     加载标记
         /// </summary>
-        protected bool ILoad;
+        public bool ILoad;
 
         private Color _tranColor;
         /// <summary>
