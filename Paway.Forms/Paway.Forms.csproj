@@ -192,6 +192,9 @@
     <EmbeddedResource Include="TControls\TPager.resx">
       <DependentUpon>TPager.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TControls\TPictureBox.resx">
+      <DependentUpon>TPictureBox.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tPictureBox1 = new Paway.Forms.TControls.TPictureBox();
             this.btLess = new System.Windows.Forms.Button();
@@ -40,11 +41,17 @@
             this.btClear = new System.Windows.Forms.Button();
             this.lbColor = new System.Windows.Forms.Label();
             this.btColor = new System.Windows.Forms.Button();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolAuto = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolReset = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tPictureBox1)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -173,6 +180,39 @@
             this.btColor.Text = "取色";
             this.btColor.UseVisualStyleBackColor = true;
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolAuto,
+            this.toolReset,
+            this.toolStripSeparator1,
+            this.toolSave});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 98);
+            // 
+            // toolAuto
+            // 
+            this.toolAuto.Name = "toolAuto";
+            this.toolAuto.Size = new System.Drawing.Size(152, 22);
+            this.toolAuto.Text = "自动";
+            // 
+            // toolReset
+            // 
+            this.toolReset.Name = "toolReset";
+            this.toolReset.Size = new System.Drawing.Size(152, 22);
+            this.toolReset.Text = "重置";
+            // 
+            // toolSave
+            // 
+            this.toolSave.Name = "toolSave";
+            this.toolSave.Size = new System.Drawing.Size(152, 22);
+            this.toolSave.Text = "保存";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            // 
             // FormImage
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(153)))), ((int)(((byte)(188)))));
@@ -187,6 +227,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tPictureBox1)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -205,6 +246,10 @@
         private System.Windows.Forms.Label lbColor;
         private System.Windows.Forms.Button btColor;
         private System.Windows.Forms.Button btnBrush;
-
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolAuto;
+        private System.Windows.Forms.ToolStripMenuItem toolReset;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem toolSave;
     }
 }

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using Paway.Helper;
+using System.Drawing.Imaging;
 
 namespace Paway.Forms.TControls
 {
@@ -12,7 +13,6 @@ namespace Paway.Forms.TControls
     public class TPictureBox : PictureBox
     {
         #region public
-
         /// <summary>
         ///     获取原图坐标点
         /// </summary>
@@ -32,7 +32,6 @@ namespace Paway.Forms.TControls
         #endregion
 
         #region 属性
-
         /// <summary>
         ///     用于展示的图片
         /// </summary>
@@ -91,19 +90,23 @@ namespace Paway.Forms.TControls
                 {
                     rect = Rectangle.Empty;
                 }
-                else if (rect == Rectangle.Empty)
+                else
                 {
-                    ratio = screen.Width * 1.0 / screen.Height;
+                    ratio = value.Width * 1.0 / value.Height;
                     size = value.Size;
-                    if (size.Width > Width)
                     {
-                        size.Width = Width;
-                        size.Height = (size.Width / ratio).ToInt();
-                    }
-                    if (size.Height > Height)
-                    {
-                        size.Height = Height;
-                        size.Width = (ratio * size.Height).ToInt();
+                        var w = Width * 1.0 / size.Width;
+                        var h = Height * 1.0 / size.Height;
+                        if (w > h)
+                        {
+                            size.Height = Height;
+                            size.Width = (h * size.Width).ToInt();
+                        }
+                        else
+                        {
+                            size.Width = Width;
+                            size.Height = (w * size.Height).ToInt();
+                        }
                     }
                     rect = new Rectangle((Width - size.Width) / 2, (Height - size.Height) / 2, size.Width, size.Height);
                 }
@@ -113,7 +116,54 @@ namespace Paway.Forms.TControls
 
         #endregion
 
+        #region 构造
+        /// <summary>
+        /// 构造
+        /// </summary>
+        public TPictureBox()
+        {
+            InitializeComponent();
+            this.toolReset.Click += ToolReset_Click;
+            this.toolSave.Click += ToolSave_Click;
+        }
+        private void ToolSave_Click(object sender, EventArgs e)
+        {
+            if (this.Image == null) return;
+            SaveFileDialog sfd = new SaveFileDialog()
+            {
+                Filter = "Jpeg|*.jpg;*.jpeg|Png|*.png|Bmp|*.bmp",
+                Title = "Image Save"
+            };
+            if (DialogResult.OK == sfd.ShowDialog())
+            {
+                switch (sfd.FilterIndex)
+                {
+                    case 1:
+                        this.Image.Save(sfd.FileName, ImageFormat.Jpeg);
+                        break;
+                    case 2:
+                        this.Image.Save(sfd.FileName, ImageFormat.Png);
+                        break;
+                    case 3:
+                        this.Image.Save(sfd.FileName, ImageFormat.Bmp);
+                        break;
+                }
+            }
+        }
+        private void ToolReset_Click(object sender, EventArgs e)
+        {
+            this.Image = Image;
+        }
+        #endregion
+
         #region override
+        /// <summary>
+        /// </summary>
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+            ToolReset_Click(this, e);
+        }
 
         /// <summary>
         ///     重绘绘制方法
@@ -280,6 +330,60 @@ namespace Paway.Forms.TControls
             rect = new Rectangle(x, y, rect.Width, rect.Height);
             Invalidate(rect);
         }
+
+        #region 右键
+        private System.ComponentModel.IContainer components;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem toolReset;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem toolSave;
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolReset = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolReset,
+            this.toolStripSeparator1,
+            this.toolSave});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 98);
+            // 
+            // toolReset
+            // 
+            this.toolReset.Name = "toolReset";
+            this.toolReset.Size = new System.Drawing.Size(152, 22);
+            this.toolReset.Text = "重置";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            // 
+            // toolSave
+            // 
+            this.toolSave.Name = "toolSave";
+            this.toolSave.Size = new System.Drawing.Size(152, 22);
+            this.toolSave.Text = "保存";
+            // 
+            // TPictureBox
+            // 
+            this.ContextMenuStrip = this.contextMenuStrip1;
+            this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
 
         #endregion
 
