@@ -23,8 +23,23 @@ namespace Paway.Forms.TControls
             {
                 temp.X = (point.X - rect.X) * screen.Width / size.Width;
                 temp.Y = (point.Y - rect.Y) * screen.Width / size.Width;
+                if (temp.X < 0) temp.X = 0;
                 if (temp.X > screen.Width - 1) temp.X = screen.Width - 1;
+                if (temp.Y < 0) temp.Y = 0;
                 if (temp.Y > screen.Height - 1) temp.Y = screen.Height - 1;
+            }
+            return temp;
+        }
+        /// <summary>
+        ///     获取当前坐标点(原图)
+        /// </summary>
+        public Point ParsePoint(Point point)
+        {
+            var temp = Point.Empty;
+            if (screen != null)
+            {
+                temp.X = point.X * size.Width / screen.Width + rect.X;
+                temp.Y = point.Y * size.Width / screen.Width + rect.Y;
             }
             return temp;
         }
@@ -90,7 +105,7 @@ namespace Paway.Forms.TControls
                 {
                     rect = Rectangle.Empty;
                 }
-                else
+                else if (rect == Rectangle.Empty)
                 {
                     ratio = value.Width * 1.0 / value.Height;
                     size = value.Size;
@@ -123,8 +138,24 @@ namespace Paway.Forms.TControls
         public TPictureBox()
         {
             InitializeComponent();
-            this.toolReset.Click += ToolReset_Click;
+            this.toolNormal.Click += ToolNormal_Click;
+            this.toolAuto.Click += ToolAuto_Click;
             this.toolSave.Click += ToolSave_Click;
+        }
+        private void ToolNormal_Click(object sender, EventArgs e)
+        {
+            if (this.Image == null) return;
+            {
+                size = screen.Size;
+                isExceed = size.Width > Width || size.Height > Height;
+                rect = new Rectangle((Width - size.Width) / 2, (Height - size.Height) / 2, size.Width, size.Height);
+            }
+            Refresh();
+        }
+        private void ToolAuto_Click(object sender, EventArgs e)
+        {
+            this.rect = Rectangle.Empty;
+            this.Image = Image;
         }
         private void ToolSave_Click(object sender, EventArgs e)
         {
@@ -150,10 +181,6 @@ namespace Paway.Forms.TControls
                 }
             }
         }
-        private void ToolReset_Click(object sender, EventArgs e)
-        {
-            this.Image = Image;
-        }
         #endregion
 
         #region override
@@ -162,7 +189,7 @@ namespace Paway.Forms.TControls
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);
-            ToolReset_Click(this, e);
+            ToolAuto_Click(this, e);
         }
 
         /// <summary>
@@ -334,16 +361,18 @@ namespace Paway.Forms.TControls
         #region 右键
         private System.ComponentModel.IContainer components;
         private ContextMenuStrip contextMenuStrip1;
-        private ToolStripMenuItem toolReset;
+        private ToolStripMenuItem toolAuto;
+        private ToolStripMenuItem toolNormal;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem toolSave;
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolReset = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolAuto = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolNormal = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
@@ -351,28 +380,35 @@ namespace Paway.Forms.TControls
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolReset,
+            this.toolAuto,
+            this.toolNormal,
             this.toolStripSeparator1,
             this.toolSave});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 98);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(101, 76);
             // 
             // toolReset
             // 
-            this.toolReset.Name = "toolReset";
-            this.toolReset.Size = new System.Drawing.Size(152, 22);
-            this.toolReset.Text = "重置";
+            this.toolAuto.Name = "toolReset";
+            this.toolAuto.Size = new System.Drawing.Size(100, 22);
+            this.toolAuto.Text = "自动";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(97, 6);
             // 
             // toolSave
             // 
             this.toolSave.Name = "toolSave";
-            this.toolSave.Size = new System.Drawing.Size(152, 22);
+            this.toolSave.Size = new System.Drawing.Size(100, 22);
             this.toolSave.Text = "保存";
+            // 
+            // toolNormal
+            // 
+            this.toolNormal.Name = "toolNormal";
+            this.toolNormal.Size = new System.Drawing.Size(100, 22);
+            this.toolNormal.Text = "原始";
             // 
             // TPictureBox
             // 

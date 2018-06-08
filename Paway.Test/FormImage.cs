@@ -495,9 +495,8 @@ namespace Paway.Test
         }
         void tPictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (tPictureBox1.Image == null) return;
             Point point = tPictureBox1.GetPoint(e.Location);
-            this.Text = point.ToString();
+            this.Text = point.ToString() + "<->" + tPictureBox1.ParsePoint(point);
         }
 
         #endregion
