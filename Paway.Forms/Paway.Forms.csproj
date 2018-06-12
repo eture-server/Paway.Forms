@@ -57,6 +57,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enum\TDirection.cs" />
+    <Compile Include="Progress\Progress.cs" />
+    <Compile Include="Progress\ProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Progress\ProgressForm.Designer.cs">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Progress\ProgressState.cs" />
+    <Compile Include="Progress\ProgressStates.cs" />
     <Compile Include="QQControls\CmdKeyEventArgs.cs" />
     <Compile Include="TControls\ToolBar.cs">
       <SubType>UserControl</SubType>
@@ -186,6 +195,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Progress\ProgressForm.resx">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="QQControls\QQTextBox.resx">
       <DependentUpon>QQTextBox.cs</DependentUpon>
     </EmbeddedResource>
