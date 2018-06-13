@@ -87,7 +87,7 @@ namespace Paway.Forms
                                 //成功获取父窗体区域
                                 if (result)
                                 {
-                                    Win32Helper.ShowWindow(base.Handle, WindowShowStyle.Maximize);
+                                    Win32Helper.ShowWindow(base.Handle);
                                     this.Location = new Point(
                                         rect.Left + (rect.Right - rect.Left) / 2 - this.Width / 2,
                                         rect.Top + (rect.Bottom - rect.Top) / 2 - this.Height / 2);
@@ -95,7 +95,7 @@ namespace Paway.Forms
                             }
                             else if (this._opacitySpeed < 0)
                             {
-                                Win32Helper.ShowWindow(base.Handle, WindowShowStyle.Maximize);
+                                Win32Helper.ShowWindow(base.Handle);
                             }
                             else THide();
                         }
@@ -108,7 +108,7 @@ namespace Paway.Forms
                         {
                             if (Win32Helper.GetWindowRect(current, ref rect))
                             {
-                                Win32Helper.ShowWindow(base.Handle, WindowShowStyle.Maximize);
+                                Win32Helper.ShowWindow(base.Handle);
                             }
                         }
                     }

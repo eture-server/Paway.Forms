@@ -46,6 +46,7 @@ namespace Paway.Test
                 //Color temp = Paway.Helper.BitmapHelper.HSLToRGB(list[0], list[1], list[2] + 20);
                 //temp = Paway.Helper.BitmapHelper.HSLToRGB(list[0], list[1], list[2] - 20);
 
+                Progress.Initialize();
                 Application.ThreadException += Application_ThreadException;
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
                 Application.Run(new FormImage());
@@ -54,6 +55,10 @@ namespace Paway.Test
             {
                 log.ErrorFormat("软件出现未处理的异常，即将退出。\r\n{0}", ex);
                 MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Progress.Abort();
             }
         }
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)

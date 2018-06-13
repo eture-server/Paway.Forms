@@ -122,9 +122,9 @@ namespace Paway.Win32
         /// <summary>
         /// 显示窗体
         /// </summary>
-        public static void ShowWindow(IntPtr handle, WindowShowStyle style)
+        public static void ShowWindow(IntPtr handle)
         {
-            NativeMethods.ShowWindow(handle, style);
+            NativeMethods.ShowWindow(handle, WindowShowStyle.ShowNormalNoActivate);
         }
         /// <summary>
         /// 获取一个前台窗口的句柄
