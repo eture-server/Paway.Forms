@@ -121,6 +121,12 @@ namespace Paway.Win32
         internal static extern bool ShowWindow(IntPtr hWnd, WindowShowStyle nCmdShow);
 
         /// <summary>
+        /// 获取一个前台窗口的句柄
+        /// </summary>
+        [DllImport("user32.dll")]
+        internal static extern IntPtr GetForegroundWindow();
+
+        /// <summary>
         ///     该函数枚举所有屏幕上的顶层窗口，并将窗口句柄传送给应用程序定义的回调函数。
         /// </summary>
         /// <param name="lpEnumFunc"></param>

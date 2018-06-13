@@ -101,6 +101,14 @@ namespace Paway.Win32
             NativeMethods.GetWindowRect(hWnd, ref rc);
             return rc;
         }
+        /// <summary>
+        ///     该函数返回指定窗口的边框矩形的尺寸
+        /// </summary>
+        /// <returns></returns>
+        public static bool GetWindowRect(IntPtr hwnd, ref RECT rect)
+        {
+            return NativeMethods.GetWindowRect(hwnd, ref rect);
+        }
 
         /// <summary>
         ///     隐藏任务栏
@@ -109,6 +117,21 @@ namespace Paway.Win32
         {
             var hWnd = NativeMethods.FindWindow("Shell_TrayWnd", null);
             NativeMethods.ShowWindow(hWnd, WindowShowStyle.Hide);
+        }
+
+        /// <summary>
+        /// 显示窗体
+        /// </summary>
+        public static void ShowWindow(IntPtr handle, WindowShowStyle style)
+        {
+            NativeMethods.ShowWindow(handle, style);
+        }
+        /// <summary>
+        /// 获取一个前台窗口的句柄
+        /// </summary>
+        public static IntPtr GetForegroundWindow()
+        {
+            return NativeMethods.GetForegroundWindow();
         }
 
         /// <summary>

@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Paway.Forms;
+using Paway.Win32;
 
 namespace Paway.Forms
 {
@@ -43,7 +44,7 @@ namespace Paway.Forms
                 lock (this.states)
                 {
                     IntPtr handle = this.WindowToWatch;
-                    IntPtr current = GetForegroundWindow();
+                    IntPtr current = Win32Helper.GetForegroundWindow();
                     if (handle == ProgressStates.False && Control.FromHandle(current) == null)
                     {
                         this.Fade(0.0, 0.2);
@@ -70,23 +71,23 @@ namespace Paway.Forms
                         {
                             if (this._opacitySpeed > 0)
                             {
-                                Rect rect = new Rect();
-                                int result = 0;
+                                RECT rect = new RECT();
+                                bool result = false;
                                 if (handle == ProgressStates.False)
                                 {
                                     if (Control.FromHandle(current) != null)
                                     {
-                                        result = GetWindowRect(current, out rect);
+                                        result = Win32Helper.GetWindowRect(current, ref rect);
                                     }
                                 }
                                 else
                                 {
-                                    result = GetWindowRect(handle, out rect);
+                                    result = Win32Helper.GetWindowRect(handle, ref rect);
                                 }
                                 //成功获取父窗体区域
-                                if (result != 0)
+                                if (result)
                                 {
-                                    ShowWindow(base.Handle, 4);
+                                    Win32Helper.ShowWindow(base.Handle, WindowShowStyle.Maximize);
                                     this.Location = new Point(
                                         rect.Left + (rect.Right - rect.Left) / 2 - this.Width / 2,
                                         rect.Top + (rect.Bottom - rect.Top) / 2 - this.Height / 2);
@@ -94,7 +95,7 @@ namespace Paway.Forms
                             }
                             else if (this._opacitySpeed < 0)
                             {
-                                ShowWindow(base.Handle, 4);
+                                Win32Helper.ShowWindow(base.Handle, WindowShowStyle.Maximize);
                             }
                             else THide();
                         }
@@ -102,12 +103,12 @@ namespace Paway.Forms
                     }
                     else if (handle == ProgressStates.False)
                     {
-                        Rect rect;
+                        RECT rect = new RECT();
                         if (Control.FromHandle(current) != null)
                         {
-                            if (GetWindowRect(current, out rect) != 0)
+                            if (Win32Helper.GetWindowRect(current, ref rect))
                             {
-                                ShowWindow(base.Handle, 4);
+                                Win32Helper.ShowWindow(base.Handle, WindowShowStyle.Maximize);
                             }
                         }
                     }
@@ -169,23 +170,6 @@ namespace Paway.Forms
             }
             base.Dispose(disposing);
         }
-
-        #endregion
-
-        #region user32.dll
-        internal struct Rect
-        {
-            public int Left;
-            public int Top;
-            public int Right;
-            public int Bottom;
-        }
-        [DllImport("user32.dll")]
-        internal static extern IntPtr GetForegroundWindow();
-        [DllImport("user32.dll")]
-        internal static extern int ShowWindow(IntPtr hwnd, int nCmdShow);
-        [DllImport("user32.dll")]
-        internal static extern int GetWindowRect(IntPtr hwnd, out Rect lpRect);
 
         #endregion
     }

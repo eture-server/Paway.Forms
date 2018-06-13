@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace Paway.Helper
@@ -18,6 +19,12 @@ namespace Paway.Helper
         protected static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static string text;
         private static Form form;
+        /// <summary>
+        /// 获取一个前台窗口的句柄
+        /// </summary>
+        [DllImport("user32.dll")]
+        internal static extern IntPtr GetForegroundWindow();
+
         /// <summary>
         /// 初始化
         /// </summary>
@@ -103,12 +110,14 @@ namespace Paway.Helper
                     if (obj.Parent == null) break;
                     obj = obj.Parent;
                 }
-                if (obj == null || !obj.Visible || obj.IsDisposed)
+                if (obj == null || !obj.Visible || obj.IsDisposed || !(obj is Form))
                 {
-                    obj = form;
-                }
-                if (obj is Control && !(obj is Form))
-                {
+                    if (form == null)
+                    {
+                        IntPtr handle = GetForegroundWindow();
+                        form = Control.FromChildHandle(handle) as Form;
+                        text = form.Text;
+                    }
                     obj = form;
                 }
                 if (sync)
