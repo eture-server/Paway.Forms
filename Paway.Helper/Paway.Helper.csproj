@@ -43,6 +43,10 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Root\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -57,8 +61,11 @@
     <Compile Include="Common\RowComparer.cs" />
     <Compile Include="Common\Compare.cs" />
     <Compile Include="Common\Licence.cs" />
+    <Compile Include="Common\TMethod.cs" />
     <Compile Include="Common\TConfig.cs" />
+    <Compile Include="Enum\LeveType.cs" />
     <Compile Include="Enum\MenuType.cs" />
+    <Compile Include="Helper\ExceptionHelper.cs" />
     <Compile Include="Helper\ExcelHelper.cs" />
     <Compile Include="Helper\WebHelper.cs" />
     <Compile Include="Helper\Base64Helper.cs" />

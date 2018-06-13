@@ -150,7 +150,7 @@ namespace Paway.Forms
         public static void CloseForm()
         {
             Form form = LoadHelper.form as Form;
-            if (form is LoadForm)
+            if (form != null && !form.IsDisposed)
                 form.BeginInvoke(new Action<Form>(CloseForm), form);
         }
         private static void CloseForm(Form form)
