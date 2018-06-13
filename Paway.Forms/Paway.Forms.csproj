@@ -66,6 +66,11 @@
     </Compile>
     <Compile Include="Progress\ProgressState.cs" />
     <Compile Include="Progress\ProgressStates.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="QQControls\CmdKeyEventArgs.cs" />
     <Compile Include="TControls\ToolBar.cs">
       <SubType>UserControl</SubType>
@@ -158,6 +163,12 @@
     <Compile Include="TForms\ImageForm.Designer.cs">
       <DependentUpon>ImageForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TForms\LoadForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TForms\LoadForm.designer.cs">
+      <DependentUpon>LoadForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TForms\NotifyForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -198,6 +209,10 @@
     <EmbeddedResource Include="Progress\ProgressForm.resx">
       <DependentUpon>ProgressForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="QQControls\QQTextBox.resx">
       <DependentUpon>QQTextBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -207,8 +222,16 @@
     <EmbeddedResource Include="TControls\TPictureBox.resx">
       <DependentUpon>TPictureBox.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TForms\LoadForm.resx">
+      <DependentUpon>LoadForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\load.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\load.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -72,6 +72,7 @@
     <Compile Include="Helper\SctructHelper.cs" />
     <Compile Include="Helper\StringHelper.cs" />
     <Compile Include="Helper\XmlHelper.cs" />
+    <Compile Include="Interface\ILoadForm.cs" />
     <Compile Include="Interface\IControl.cs" />
     <Compile Include="IPC\IPCClient.cs" />
     <Compile Include="IPC\IPCServer.cs" />
