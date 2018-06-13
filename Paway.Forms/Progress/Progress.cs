@@ -86,7 +86,7 @@ namespace Paway.Forms
         /// 设置标题
         /// </summary>
         /// <param name="caption">标题</param>
-        public void Step(string caption)
+        public void Step(string caption = "Loading..")
         {
             this._state.Caption = caption;
         }
@@ -97,6 +97,13 @@ namespace Paway.Forms
         public void Step(int value)
         {
             this._state.Value = value;
+        }
+        /// <summary>
+        /// 重置
+        /// </summary>
+        public void Reset()
+        {
+            this._state.Max = 0;
         }
     }
 }
