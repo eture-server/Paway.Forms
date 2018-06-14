@@ -30,10 +30,13 @@ namespace Paway.Forms
 
         #endregion
 
+        #region 事件
         /// <summary>
         ///     页面切换的时候触发
         /// </summary>
         public event EventHandler PageChanged;
+
+        #endregion
 
         #region 属性
         /// <summary>
@@ -360,6 +363,21 @@ namespace Paway.Forms
         public void ToLastPage()
         {
             PagerInfo.CurrentPageIndex = PagerInfo.PageCount;
+        }
+
+        #endregion
+
+        #region 公共方法
+        /// <summary>
+        /// 自动选中焦点
+        /// </summary>
+        public void AutoCell()
+        {
+            int index = 0;
+            if (this.Edit.CurrentCell != null)
+                index = this.Edit.CurrentCell.RowIndex;
+            this.RefreshData();
+            this.Edit.AutoCell(index);
         }
 
         #endregion

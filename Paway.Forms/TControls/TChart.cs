@@ -58,6 +58,7 @@ namespace Paway.Forms
             this.toolSave.Click += ToolSave_Click;
             this.toolReset.Click += delegate { Reset(); };
         }
+        #region 公开方法
         private void Reset(bool iReset = true)
         {
             if (this.ChartAreas.Count == 0) return;
@@ -151,6 +152,9 @@ namespace Paway.Forms
             else this.Series[0].Label = null;
         }
 
+        #endregion
+
+        #region 缩放与移动
         private void TChart_AxisViewChanged(object sender, ViewEventArgs e)
         {
             if (this.ChartAreas.Count > 0)
@@ -412,6 +416,57 @@ namespace Paway.Forms
             this.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
             UpdateShow();
         }
+
+        #endregion
+
+        #region 公共方法
+        /// <summary>
+        /// 自动纵坐标
+        /// </summary>
+        /// <param name="name">新加点曲线名称</param>
+        /// <param name="value">新加点值</param>
+        /// <param name="_max">最大预测值</param>
+        /// <param name="_min">最小预测值</param>
+        /// <param name="_interval">最小间隔</param>
+        public void AutoAxis(string name = null, double value = 0, double _max = 100, double _min = -5, double _interval = 5)
+        {
+            double min = _max, max = _min;
+            for (int i = 0; i < this.Series.Count; i++)
+            {
+                var series = this.Series[i];
+                if (series.Name == name && value != 0)
+                {
+                    if (min > value) min = value;
+                    if (max < value) max = value;
+                }
+                for (int j = 0; j < series.Points.Count; j++)
+                {
+                    var temp = series.Points[j].YValues[0];
+                    if (temp == 0) continue;
+                    if (min > temp) min = temp;
+                    if (max < temp) max = temp;
+                }
+            }
+            if (max < min)
+            {
+                max = _max;
+                min = _min;
+            }
+            if (_interval > 0)
+            {
+                var interval = max - min;
+                if (interval < _interval)
+                {
+                    interval = _interval - interval;
+                    max += interval / 2;
+                    min -= interval / 2;
+                }
+            }
+            this.ChartAreas[0].AxisY.Minimum = TMethod.Round(min) - 0.1;
+            this.ChartAreas[0].AxisY.Maximum = TMethod.Round(max) + 0.1;
+        }
+
+        #endregion
 
         private void InitializeComponent()
         {

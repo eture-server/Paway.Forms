@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Paway.Helper
@@ -10,6 +13,67 @@ namespace Paway.Helper
     /// </summary>
     public abstract class TMethod
     {
+        #region 行列转化
+        /// <summary>
+        /// 行列转化
+        /// </summary>
+        /// <typeparam name="T">转化类型</typeparam>
+        /// <typeparam name="I">数据类型</typeparam>
+        /// <param name="list">数据列表</param>
+        /// <returns>转化实例</returns>
+        public static T Conversion<T, I>(List<I> list) where I : IInfo
+        {
+            T obj = Activator.CreateInstance<T>();
+            var properties = TypeDescriptor.GetProperties(typeof(T));
+            foreach (IInfo info in list)
+            {
+                for (int i = 0; i < properties.Count; i++)
+                {
+                    if (properties[i].Name == info.Name)
+                    {
+                        obj.SetValue(properties[i], info.Value);
+                        break;
+                    }
+                }
+            }
+            return obj;
+        }
+
+        #endregion
+
+        #region 自定义配置
+        /// <summary>
+        /// 初始化(加载)配置文件
+        /// </summary>
+        /// <typeparam name="T">配置类型</typeparam>
+        /// <returns>实例</returns>
+        public static T Load<T>()
+        {
+            var obj = Activator.CreateInstance<T>();
+            string xml = AppDomain.CurrentDomain.FriendlyName.Replace("exe", "xml");
+            if (File.Exists(xml))
+            {
+                obj = XmlHelper.Find<T>(xml);
+            }
+            else
+            {
+                XmlHelper.Save(xml, obj);
+            }
+            return obj;
+        }
+        /// <summary>
+        /// 保存配置实例到文件
+        /// </summary>
+        /// <typeparam name="T">配置类型</typeparam>
+        /// <param name="obj">例到</param>
+        public static void Save<T>(T obj)
+        {
+            string xml = AppDomain.CurrentDomain.FriendlyName.Replace("exe", "xml");
+            XmlHelper.Save(xml, obj);
+        }
+
+        #endregion
+
         #region 关于四舍五入
         /// <summary>
         /// 中国式四舍五入,取两位

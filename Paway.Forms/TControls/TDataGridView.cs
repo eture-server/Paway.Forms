@@ -1079,6 +1079,55 @@ namespace Paway.Forms
 
         #endregion
 
+        #region 公共方法
+        /// <summary>
+        /// 获取指定名称列
+        /// </summary>
+        public DataGridViewColumn GetColumn(string name)
+        {
+            for (int i = 0; i < this.Columns.Count; i++)
+            {
+                if (this.Columns[i].Name == name)
+                {
+                    return this.Columns[i];
+                }
+            }
+            return new DataGridViewColumn();
+        }
+        /// <summary>
+        /// 自动选中焦点
+        /// </summary>
+        public void AutoCell()
+        {
+            int index = 0;
+            if (this.CurrentCell != null)
+                index = this.CurrentCell.RowIndex;
+            this.RefreshData();
+            AutoCell(index);
+        }
+        /// <summary>
+        /// 自动选中焦点
+        /// </summary>
+        public void AutoCell(int index)
+        {
+            if (index < 0) index = 0;
+            if (this.Rows.Count == 0) return;
+            if (index > this.RowCount - 1)
+            {
+                index = this.RowCount - 1;
+            }
+            for (int i = 0; i < this.Columns.Count; i++)
+            {
+                if (this.Columns[i].Visible)
+                {
+                    this.CurrentCell = this[i, index];
+                    break;
+                }
+            }
+        }
+
+        #endregion
+
         #region Dispose
         /// <summary>
         /// 释放资源
