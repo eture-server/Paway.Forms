@@ -351,8 +351,7 @@ namespace Paway.Helper
                     int height = image.Height * size.Width / image.Width;
                     rect = new Rectangle(0, (size.Height - height) / 2, size.Width, height);
                 }
-                g.DrawImage(image, rect, new Rectangle(Point.Empty, image.Size),
-                    GraphicsUnit.Pixel);
+                g.DrawImage(image, rect, new Rectangle(Point.Empty, image.Size), GraphicsUnit.Pixel);
             }
             return temp;
         }
