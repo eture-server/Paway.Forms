@@ -112,11 +112,15 @@ namespace Paway.Helper
                 }
                 if (obj == null || !obj.Visible || obj.IsDisposed || !(obj is Form))
                 {
+                    obj = LoadHelper.Form;
+                }
+                if (obj == null || !obj.Visible || obj.IsDisposed || !(obj is Form))
+                {
                     if (form == null)
                     {
                         IntPtr handle = GetForegroundWindow();
                         form = Control.FromChildHandle(handle) as Form;
-                        text = form.Text;
+                        if (form != null) text = form.Text;
                     }
                     obj = form;
                 }

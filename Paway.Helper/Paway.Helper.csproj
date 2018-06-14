@@ -65,6 +65,7 @@
     <Compile Include="Common\TConfig.cs" />
     <Compile Include="Enum\LeveType.cs" />
     <Compile Include="Enum\MenuType.cs" />
+    <Compile Include="Helper\LoadHelper.cs" />
     <Compile Include="Helper\ExceptionHelper.cs" />
     <Compile Include="Helper\ExcelHelper.cs" />
     <Compile Include="Helper\WebHelper.cs" />
