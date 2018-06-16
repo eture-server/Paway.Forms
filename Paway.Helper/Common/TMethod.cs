@@ -21,7 +21,7 @@ namespace Paway.Helper
         /// <returns>HH:mm:ss</returns>
         public static string Times(int time)
         {
-            var day = time / 24 / 2600;
+            var day = time / 24 / 3600;
             var hour = time / 3600 % 24;
             var minutes = time / 60 % 60;
             var seconds = time % 60;
