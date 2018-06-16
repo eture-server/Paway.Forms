@@ -137,10 +137,10 @@ namespace Paway.Forms
         public TComboBox()
         {
             InitializeComponent();
-            Edit.SizeChanged += tComboBox1_SizeChanged;
+            Edit.SizeChanged += TComboBox1_SizeChanged;
         }
 
-        private void tComboBox1_SizeChanged(object sender, EventArgs e)
+        private void TComboBox1_SizeChanged(object sender, EventArgs e)
         {
             Height = Edit.Height + 2;
             Edit.Width = Width - 2;

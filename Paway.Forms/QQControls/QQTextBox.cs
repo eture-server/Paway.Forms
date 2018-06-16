@@ -545,8 +545,7 @@ namespace Paway.Forms
         /// </summary>
         private void OnIconClick()
         {
-            if (IconClick != null)
-                IconClick(this, EventArgs.Empty);
+            IconClick?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -556,10 +555,7 @@ namespace Paway.Forms
 
         private void OnTextChang()
         {
-            if (TextChanged != null)
-            {
-                TextChanged(this, EventArgs.Empty);
-            }
+            TextChanged?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -650,10 +646,7 @@ namespace Paway.Forms
         /// <param name="e"></param>
         private void BaseText_TextChanged(object sender, EventArgs e)
         {
-            if (TextChanged != null)
-            {
-                TextChanged(sender, e);
-            }
+            TextChanged?.Invoke(sender, e);
         }
 
         /// <summary>

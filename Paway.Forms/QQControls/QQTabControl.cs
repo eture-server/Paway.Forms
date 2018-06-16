@@ -262,8 +262,8 @@ namespace Paway.Forms
                         var contextMenuStrip = (TabPages[i] as QQTabPage).ContextMenuShow;
                         if (contextMenuStrip != null)
                         {
-                            contextMenuStrip.Closed -= contextMenuStrip_Closed;
-                            contextMenuStrip.Closed += contextMenuStrip_Closed;
+                            contextMenuStrip.Closed -= ContextMenuStrip_Closed;
+                            contextMenuStrip.Closed += ContextMenuStrip_Closed;
                             if (contextMenuLocation.X + contextMenuStrip.Width >
                                 Screen.PrimaryScreen.WorkingArea.Width - 20)
                             {
@@ -316,7 +316,7 @@ namespace Paway.Forms
             }
         }
 
-        private void contextMenuStrip_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+        private void ContextMenuStrip_Closed(object sender, ToolStripDropDownClosedEventArgs e)
         {
             _isFocus = false;
             Invalidate(_btnArrowRect);

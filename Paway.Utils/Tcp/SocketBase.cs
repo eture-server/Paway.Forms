@@ -39,10 +39,7 @@ namespace Paway.Utils.Tcp
         {
             try
             {
-                if (ChangeEvent != null)
-                {
-                    ChangeEvent(sender, EventArgs.Empty);
-                }
+                ChangeEvent?.Invoke(sender, EventArgs.Empty);
             }
             catch
             {
@@ -183,10 +180,7 @@ namespace Paway.Utils.Tcp
                 {
                     message = buffer;
                 }
-                if (MessageEvent != null)
-                {
-                    MessageEvent(message, EventArgs.Empty);
-                }
+                MessageEvent?.Invoke(message, EventArgs.Empty);
             }
             catch (Exception ex)
             {
@@ -234,14 +228,13 @@ namespace Paway.Utils.Tcp
         {
             try
             {
-                var msg = new ServiceEventArgs(ServiceType.Client);
-                msg.Ip = IPPoint.ToString();
-                msg.Port = IPPoint.Port;
-                msg.Message = message;
-                if (ClientEvent != null)
+                var msg = new ServiceEventArgs(ServiceType.Client)
                 {
-                    ClientEvent(this, msg);
-                }
+                    Ip = IPPoint.ToString(),
+                    Port = IPPoint.Port,
+                    Message = message
+                };
+                ClientEvent?.Invoke(this, msg);
             }
             catch
             {
@@ -254,15 +247,14 @@ namespace Paway.Utils.Tcp
         {
             try
             {
-                var msg = new ServiceEventArgs(ServiceType.DisConnect);
-                msg.SocketError = type;
-                msg.Message = type.ToString();
-                msg.Ip = IPPoint.Address.ToString();
-                msg.Port = IPPoint.Port;
-                if (ClientEvent != null)
+                var msg = new ServiceEventArgs(ServiceType.DisConnect)
                 {
-                    ClientEvent(this, msg);
-                }
+                    SocketError = type,
+                    Message = type.ToString(),
+                    Ip = IPPoint.Address.ToString(),
+                    Port = IPPoint.Port
+                };
+                ClientEvent?.Invoke(this, msg);
             }
             catch
             {

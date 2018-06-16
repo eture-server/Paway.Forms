@@ -791,8 +791,7 @@ namespace Paway.Forms
         public virtual void OnSelectedItemChanged(ToolItem item, EventArgs e)
         {
             if (!item.Enable) return;
-            var handler = Events[EventSelectedItemChanged] as EventHandler;
-            if (handler != null)
+            if (Events[EventSelectedItemChanged] is EventHandler handler)
             {
                 item.Owner = this;
                 handler(item, e);
@@ -809,8 +808,7 @@ namespace Paway.Forms
             if (!item.Enable) return;
             if (ICheckEvent)
             {
-                var handler = Events[EventItemClick] as EventHandler;
-                if (handler != null)
+                if (Events[EventItemClick] is EventHandler handler)
                 {
                     item.Owner = this;
                     handler(item, e);
@@ -826,8 +824,7 @@ namespace Paway.Forms
         public virtual bool OnEditClick(ToolItem item, EventArgs e)
         {
             if (!item.Enable) return false;
-            var handler = Events[EventEditClick] as EventHandler;
-            if (handler != null)
+            if (Events[EventEditClick] is EventHandler handler)
             {
                 item.Owner = this;
                 handler(item, e);
@@ -2067,7 +2064,7 @@ namespace Paway.Forms
         private void Progress()
         {
             _tDynamic.Interval = 30;
-            _tDynamic.Tick += tDynamic_Tick;
+            _tDynamic.Tick += TDynamic_Tick;
         }
 
         /// <summary>
@@ -2114,10 +2111,10 @@ namespace Paway.Forms
             _tDynamic.Enabled = false;
             if (!string.IsNullOrEmpty(text)) _items[progressItemIndex].Text = text;
             _items[progressItemIndex].Image = image ?? this._image;
-            tDynamic_Tick(this, EventArgs.Empty);
+            TDynamic_Tick(this, EventArgs.Empty);
         }
 
-        private void tDynamic_Tick(object sender, EventArgs e)
+        private void TDynamic_Tick(object sender, EventArgs e)
         {
             Invalidate(_items[progressItemIndex]);
         }
@@ -2157,7 +2154,7 @@ namespace Paway.Forms
         private void InitChange()
         {
             _tChange.Interval = 600;
-            _tChange.Tick += tChange_Tick;
+            _tChange.Tick += TChange_Tick;
         }
 
         /// <summary>
@@ -2176,7 +2173,7 @@ namespace Paway.Forms
             _tChange.Enabled = false;
         }
 
-        private void tChange_Tick(object sender, EventArgs e)
+        private void TChange_Tick(object sender, EventArgs e)
         {
             var result = false;
             for (var i = 0; i < Items.Count; i++)
@@ -2303,10 +2300,12 @@ namespace Paway.Forms
             //_hScroll.Height = _tScrollHeight;
             _panelScroll.Controls.Add(_hScroll);
             {
-                _vScroll2 = new VScrollBar();
-                //_vScroll2.Scroll += _hScroll_Scroll;
-                _vScroll2.Dock = DockStyle.Right;
-                _vScroll2.Width = 0;
+                _vScroll2 = new VScrollBar()
+                {
+                    //_vScroll2.Scroll += _hScroll_Scroll;
+                    Dock = DockStyle.Right,
+                    Width = 0
+                };
                 Controls.Add(_vScroll2);
             }
 

@@ -203,10 +203,7 @@ namespace Paway.Forms
 
         private void OnValueChange(object value)
         {
-            if (ValueChange != null)
-            {
-                ValueChange(value, EventArgs.Empty);
-            }
+            ValueChange?.Invoke(value, EventArgs.Empty);
         }
 
         /// <summary>

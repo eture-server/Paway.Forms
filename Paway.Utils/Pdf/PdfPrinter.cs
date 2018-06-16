@@ -243,8 +243,10 @@ namespace Paway.Utils.Pdf
         /// <param name="align">文字对齐 0左、1中、2右</param>
         public void PrintString(string text, int align)
         {
-            var ps = new Paragraph(text, DefaultFont);
-            ps.Alignment = align;
+            var ps = new Paragraph(text, DefaultFont)
+            {
+                Alignment = align
+            };
             Doc.Add(ps);
         }
 
@@ -257,9 +259,11 @@ namespace Paway.Utils.Pdf
         {
             if (pCells == null || pCells.Length <= 0)
                 throw new ArgumentNullException("can not found any cell.");
-            var pt = new PdfPTable(pCells.Length);
-            pt.WidthPercentage = 100f;
-            pt.SkipFirstHeader = false;
+            var pt = new PdfPTable(pCells.Length)
+            {
+                WidthPercentage = 100f,
+                SkipFirstHeader = false
+            };
             var pRow = new PdfPRow(pCells);
             pt.Rows.Add(pRow);
             if (cWidth != null && cWidth.Length == pCells.Length)
@@ -277,9 +281,11 @@ namespace Paway.Utils.Pdf
         {
             if (table == null || table.Columns == null || table.Columns.Count <= 0)
                 throw new ArgumentNullException("can not found any column from table.");
-            var pt = new PdfPTable(table.Columns.Count);
-            pt.WidthPercentage = 100f;
-            pt.SkipFirstHeader = false;
+            var pt = new PdfPTable(table.Columns.Count)
+            {
+                WidthPercentage = 100f,
+                SkipFirstHeader = false
+            };
             var pCells = new PdfPCell[table.Columns.Count];
             PdfPRow pRow = null;
             //内容

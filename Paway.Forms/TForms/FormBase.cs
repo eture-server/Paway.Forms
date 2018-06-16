@@ -601,11 +601,13 @@ namespace Paway.Forms
                 var size = new SIZE(bitmap.Width, bitmap.Height);
                 var pointSource = new POINT(0, 0);
                 var topPos = new POINT(Left, Top);
-                var blend = new BLENDFUNCTION();
-                blend.BlendOp = Consts.AC_SRC_OVER;
-                blend.BlendFlags = 0;
-                blend.SourceConstantAlpha = opacity;
-                blend.AlphaFormat = Consts.AC_SRC_ALPHA;
+                var blend = new BLENDFUNCTION()
+                {
+                    BlendOp = Consts.AC_SRC_OVER,
+                    BlendFlags = 0,
+                    SourceConstantAlpha = opacity,
+                    AlphaFormat = Consts.AC_SRC_ALPHA
+                };
                 if (!IsDisposed)
                 {
                     NativeMethods.UpdateLayeredWindow(Handle, screenDc, ref topPos, ref size, memDc, ref pointSource, 0,
@@ -664,9 +666,11 @@ namespace Paway.Forms
                 var space = TranColor;
                 using (var brush = new LinearGradientBrush(ClientRectangle, normal, space, _tBrushMode))
                 {
-                    var blend = new Blend();
-                    blend.Factors = new[] { 1f, 0.5f, 0f };
-                    blend.Positions = new[] { 0f, 0.5f, 1f };
+                    var blend = new Blend()
+                    {
+                        Factors = new[] { 1f, 0.5f, 0f },
+                        Positions = new[] { 0f, 0.5f, 1f }
+                    };
                     var temp = ClientRectangle;
                     //修理毛边
                     temp = new Rectangle(temp.X - 1, temp.Y - 1, temp.Width + 2, temp.Height + 2);
@@ -1097,10 +1101,10 @@ namespace Paway.Forms
         protected void TDrawBelowPath(Control control)
         {
             if (control == null) return;
-            control.Paint += control_PaintDP;
+            control.Paint += Control_PaintDP;
         }
 
-        private void control_PaintDP(object sender, PaintEventArgs e)
+        private void Control_PaintDP(object sender, PaintEventArgs e)
         {
             var control = sender as Control;
             DrawHelper.CreateBelowPath(e.Graphics, control.ClientRectangle, BackColor);
@@ -1117,10 +1121,10 @@ namespace Paway.Forms
         protected void TDrawBelowBorder(Control control)
         {
             if (!_iDrawBorder || control == null || _borderImage == null) return;
-            control.Paint += control_PaintDB;
+            control.Paint += Control_PaintDB;
         }
 
-        private void control_PaintDB(object sender, PaintEventArgs e)
+        private void Control_PaintDB(object sender, PaintEventArgs e)
         {
             var control = sender as Control;
             var g = e.Graphics;
@@ -1174,11 +1178,11 @@ namespace Paway.Forms
         {
             if (control == null) return;
             this.raw = raw;
-            control.SizeChanged += control_SizeChanged;
-            control_SizeChanged(control, EventArgs.Empty);
+            control.SizeChanged += Control_SizeChanged;
+            Control_SizeChanged(control, EventArgs.Empty);
         }
 
-        private void control_SizeChanged(object sender, EventArgs e)
+        private void Control_SizeChanged(object sender, EventArgs e)
         {
             var control = sender as Control;
             var rgn = NativeMethods.CreateRoundRectRgn(control.ClientRectangle.X, control.ClientRectangle.Y,

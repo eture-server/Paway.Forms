@@ -274,12 +274,13 @@ namespace Paway.Forms
                     var psize = new SIZE(Width, Height);
                     var pointSource = new POINT(0, 0);
                     var topPos = new POINT(Left, Top);
-                    var blend = new BLENDFUNCTION();
-                    blend.BlendOp = Consts.AC_SRC_OVER;
-                    blend.BlendFlags = 0;
-                    blend.SourceConstantAlpha = byte.Parse("255");
-                    blend.AlphaFormat = Consts.AC_SRC_ALPHA;
-
+                    var blend = new BLENDFUNCTION()
+                    {
+                        BlendOp = Consts.AC_SRC_OVER,
+                        BlendFlags = 0,
+                        SourceConstantAlpha = byte.Parse("255"),
+                        AlphaFormat = Consts.AC_SRC_ALPHA
+                    };
                     if (!IsDisposed)
                     {
                         NativeMethods.UpdateLayeredWindow(Handle, screenDc, ref topPos, ref psize, memDc,

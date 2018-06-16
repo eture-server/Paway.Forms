@@ -63,10 +63,7 @@ namespace Paway.Utils.Tcp
                 {
                     ConnectTime = DateTime.Now;
                 }
-                if (ConnectFinished != null)
-                {
-                    ConnectFinished(IPPoint, e);
-                }
+                ConnectFinished?.Invoke(IPPoint, e);
             }
             catch
             {

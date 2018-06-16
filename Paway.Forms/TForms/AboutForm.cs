@@ -64,7 +64,7 @@ namespace Paway.Forms
             base.OnShown(e);
 
             timer = new Timer();
-            timer.Tick += timer_Tick;
+            timer.Tick += Timer_Tick;
             Opacity = 0.0;
             Activate();
             Refresh();
@@ -106,7 +106,7 @@ namespace Paway.Forms
         }
 
         #region 动态效果
-        private void timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
             if (m_showing)
             {

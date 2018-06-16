@@ -99,10 +99,7 @@ namespace Paway.Forms
             {
                 Invoke(method, sender, e);
             }
-            if (ChangeEvent != null)
-            {
-                ChangeEvent(sender, e);
-            }
+            ChangeEvent?.Invoke(sender, e);
         }
 
         #endregion

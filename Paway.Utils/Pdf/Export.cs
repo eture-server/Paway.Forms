@@ -35,13 +35,17 @@ namespace Paway.Utils.Pdf
                 var font = pdf.DefaultFont;
 
                 //标题居中
-                var p1 = new Paragraph("Title", font);
-                p1.Alignment = Element.ALIGN_CENTER;
+                var p1 = new Paragraph("Title", font)
+                {
+                    Alignment = Element.ALIGN_CENTER
+                };
                 document.Add(p1);
 
                 //添加一个表格
-                var table = new PdfPTable(6);
-                table.TotalWidth = document.Right - document.Left;
+                var table = new PdfPTable(6)
+                {
+                    TotalWidth = document.Right - document.Left
+                };
                 float[] widths = { 100f, 420f };
                 table.SetWidths(widths);
                 //应用

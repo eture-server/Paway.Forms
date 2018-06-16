@@ -36,7 +36,7 @@ namespace Paway.Win32
         /// <summary>
         ///     当抬起键盘按键时发生
         /// </summary>
-        public event KeyEventHandler keyUpEvent;
+        public event KeyEventHandler KeyUpEvent;
 
         #endregion
 
@@ -49,10 +49,7 @@ namespace Paway.Win32
         /// <param name="e">包含事件数据的 System.Windows.Forms.KeyEventArgs</param>
         public void OnKeyDownEvent(object sender, KeyEventArgs e)
         {
-            if (KeyDownEvent != null)
-            {
-                KeyDownEvent(sender, e);
-            }
+            KeyDownEvent?.Invoke(sender, e);
         }
 
         /// <summary>
@@ -62,10 +59,7 @@ namespace Paway.Win32
         /// <param name="e">包含事件数据的 System.Windows.Forms.KeyEventArgs</param>
         public void OnKeyUpEvent(object sender, KeyEventArgs e)
         {
-            if (keyUpEvent != null)
-            {
-                keyUpEvent(sender, e);
-            }
+            KeyUpEvent?.Invoke(sender, e);
         }
 
         #endregion

@@ -59,10 +59,11 @@ namespace Paway.Helper
                 var con = new OleDbConnection(conString);
                 con.Open();
                 var trans = con.BeginTransaction();
-                cmd = new OleDbCommand();
-                cmd.Connection = con;
-                cmd.Transaction = trans;
-
+                cmd = new OleDbCommand()
+                {
+                    Connection = con,
+                    Transaction = trans
+                };
                 string insert = null;
                 string values = null;
                 for (var i = 0; i < table.Columns.Count; i++)
@@ -87,9 +88,11 @@ namespace Paway.Helper
                     for (var j = 0; j < table.Columns.Count; j++)
                     {
                         Type type = dr[j].GetType();
-                        var param = new OleDbParameter();
-                        param.ParameterName = string.Format("@F{0}", j + 1);
-                        param.Value = dr[j];
+                        var param = new OleDbParameter()
+                        {
+                            ParameterName = string.Format("@F{0}", j + 1),
+                            Value = dr[j]
+                        };
                         pList[j] = param;
                     }
                     string sql = string.Format("insert into [{0}$]({1}) values({2})", sheet, insert, values);

@@ -96,9 +96,11 @@ namespace Paway.Forms
                 var space = TranColor;
                 using (var brush = new LinearGradientBrush(ClientRectangle, normal, space, _tBrushMode))
                 {
-                    var blend = new Blend();
-                    blend.Factors = new[] { 1f, 0.5f, 0f };
-                    blend.Positions = new[] { 0f, 0.5f, 1f };
+                    var blend = new Blend()
+                    {
+                        Factors = new[] { 1f, 0.5f, 0f },
+                        Positions = new[] { 0f, 0.5f, 1f }
+                    };
                     g.FillRectangle(brush, ClientRectangle);
                 }
             }
@@ -377,9 +379,11 @@ namespace Paway.Forms
 
         private void InitShow()
         {
-            sTimer = new Timer();
-            sTimer.Interval = 45;
-            sTimer.Tick += sTimer_Tick;
+            sTimer = new Timer()
+            {
+                Interval = 45
+            };
+            sTimer.Tick += STimer_Tick;
         }
 
         /// <summary>
@@ -638,15 +642,15 @@ namespace Paway.Forms
             alpha.BackgroundImage = temp;
         }
 
-        private void sTimer_Tick(object sender, EventArgs e)
+        private void STimer_Tick(object sender, EventArgs e)
         {
             lock (mdLock)
             {
                 if (iStop) return;
-                sTimer_Tick();
+                STimer_Tick();
             }
         }
-        private void sTimer_Tick()
+        private void STimer_Tick()
         {
             if (IsDisposed) return;
             if (point == new Point(-1, -1))
@@ -843,10 +847,7 @@ namespace Paway.Forms
                     BackgroundImage = image;
                     break;
             }
-            if (MoveFinished != null)
-            {
-                MoveFinished(this, EventArgs.Empty);
-            }
+            MoveFinished?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion

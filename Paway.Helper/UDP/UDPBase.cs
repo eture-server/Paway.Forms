@@ -41,8 +41,7 @@ namespace Paway.Helper
         /// </summary>
         protected void OnError(string msg, IPEndPoint ipAddress)
         {
-            if (MessageEvent != null)
-                MessageEvent(null, new UDPEventArgs(false, msg, ipAddress));
+            MessageEvent?.Invoke(null, new UDPEventArgs(false, msg, ipAddress));
         }
 
         /// <summary>
@@ -52,8 +51,7 @@ namespace Paway.Helper
         {
             try
             {
-                if (MessageEvent != null)
-                    MessageEvent(null, new UDPEventArgs(true, msg, ipAddress));
+                MessageEvent?.Invoke(null, new UDPEventArgs(true, msg, ipAddress));
             }
             catch
             {

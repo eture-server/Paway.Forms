@@ -32,7 +32,7 @@ namespace Paway.Forms
             BorderStyle = BorderStyle.None;
             InitializeComponent();
             timer.Interval = 30;
-            timer.Tick += timer_Tick;
+            timer.Tick += Timer_Tick;
 
             AllowUserToAddRows = false;
             AllowUserToDeleteRows = false;
@@ -65,8 +65,7 @@ namespace Paway.Forms
             if (e.Value == null || e.Value.ToString().Trim() == string.Empty || e.Value.ToString().IndexOf("&&") == -1)
                 return;
 
-            var cell = Columns[e.ColumnIndex] as DataGridViewTextBoxColumn;
-            if (cell != null && cell.Visible && cell.ReadOnly)
+            if (Columns[e.ColumnIndex] is DataGridViewTextBoxColumn cell && cell.Visible && cell.ReadOnly)
             {
                 var graphics = e.Graphics;
                 var colorFore = e.CellStyle.ForeColor;
@@ -202,8 +201,10 @@ namespace Paway.Forms
                 _iCheckBox = value;
                 if (_headerCheckBox == null)
                 {
-                    _headerCheckBox = new CheckBox();
-                    _headerCheckBox.Size = new Size(15, 15);
+                    _headerCheckBox = new CheckBox()
+                    {
+                        Size = new Size(15, 15)
+                    };
                     Controls.Add(_headerCheckBox);
 
                     _headerCheckBox.KeyUp += HeaderCheckBox_KeyUp;
@@ -618,9 +619,11 @@ namespace Paway.Forms
             if (e.ColumnIndex == _iCheckBoxIndex)
             {
                 var oRectangle = GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
-                var oPoint = new Point();
-                oPoint.X = oRectangle.Location.X + (oRectangle.Width - _headerCheckBox.Width) / 2 + 1;
-                oPoint.Y = oRectangle.Location.Y + (oRectangle.Height - _headerCheckBox.Height) / 2 + 1;
+                var oPoint = new Point()
+                {
+                    X = oRectangle.Location.X + (oRectangle.Width - _headerCheckBox.Width) / 2 + 1,
+                    Y = oRectangle.Location.Y + (oRectangle.Height - _headerCheckBox.Height) / 2 + 1
+                };
                 _headerCheckBox.Location = oPoint;
             }
         }
@@ -644,8 +647,7 @@ namespace Paway.Forms
             var DownRows = 0;
             //总行数
             var count = 0;
-            var cell = Columns[e.ColumnIndex] as DataGridViewTextBoxColumn;
-            if (cell != null && cell.Visible && cell.ReadOnly)
+            if (Columns[e.ColumnIndex] is DataGridViewTextBoxColumn cell && cell.Visible && cell.ReadOnly)
             {
                 cellwidth = e.CellBounds.Width;
                 var gridLinePen = new Pen(gridBrush);
@@ -778,7 +780,7 @@ namespace Paway.Forms
         private void PaintingFont(DataGridViewCellPaintingEventArgs e, int cellwidth, int UpRows, int DownRows, int count)
         {
             var fontBrush = new SolidBrush(e.CellStyle.ForeColor);
-            var value = e.Value == null ? null : e.Value.ToString();
+            var value = e.Value?.ToString();
             var fontheight = (int)e.Graphics.MeasureString(value, e.CellStyle.Font).Height;
             var fontwidth = (int)e.Graphics.MeasureString(value, e.CellStyle.Font).Width;
             var cellheight = e.CellBounds.Height;
@@ -864,7 +866,7 @@ namespace Paway.Forms
                 }
 
                 //画字符串
-                e.Graphics.DrawString(e.Value == null ? null : e.Value.ToString(), e.CellStyle.Font, foreBrush,
+                e.Graphics.DrawString(e.Value?.ToString(), e.CellStyle.Font, foreBrush,
                     new Rectangle(e.CellBounds.Left + (bitmap == null ? 0 : bitmap.Width) + 10, e.CellBounds.Top,
                         e.CellBounds.Width, e.CellBounds.Height), DrawHelper.StringVertical);
 
@@ -928,7 +930,7 @@ namespace Paway.Forms
             }
         }
 
-        private void timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
             if (pIndex == -1 || pIndex >= Rows.Count) return;
             var image = Rows[pIndex].Cells[TColumnImage];

@@ -225,14 +225,13 @@ namespace Paway.Forms
         {
             if (control == null) return;
             if (control is IControl && !(control is TForm) && (control as IControl).IMouseMove) return;
-            control.MouseDown += control_MouseDown;
+            control.MouseDown += Control_MouseDown;
         }
 
-        private void control_MouseDown(object sender, MouseEventArgs e)
+        private void Control_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
-            var icontrol = sender as IControl;
-            if (icontrol != null)
+            if (sender is IControl icontrol)
             {
                 if (icontrol.Contain(e.Location)) return;
             }

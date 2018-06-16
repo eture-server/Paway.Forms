@@ -125,8 +125,7 @@ namespace Paway.Utils.Tcp
             }
             finally
             {
-                string name;
-                SocketConfig.ThreadList.TryRemove(Thread.CurrentThread.ManagedThreadId, out name);
+                SocketConfig.ThreadList.TryRemove(Thread.CurrentThread.ManagedThreadId, out string name);
             }
         }
 
@@ -151,8 +150,7 @@ namespace Paway.Utils.Tcp
             }
             finally
             {
-                string name;
-                SocketConfig.ThreadList.TryRemove(Thread.CurrentThread.ManagedThreadId, out name);
+                SocketConfig.ThreadList.TryRemove(Thread.CurrentThread.ManagedThreadId, out string name);
             }
         }
 
@@ -178,7 +176,7 @@ namespace Paway.Utils.Tcp
                 var client = new SocketPackage(this, socket);
                 OnClientConnect(client);
                 SocketConfig.ClientList.Add(client);
-                client.ClientEvent += client_ClientEvent;
+                client.ClientEvent += Client_ClientEvent;
                 client.ConnectTime = DateTime.Now;
                 ClientFinished(client.IPPoint);
 
@@ -210,8 +208,10 @@ namespace Paway.Utils.Tcp
         /// </summary>
         private void OnSystemEvent(ServiceType type, string message)
         {
-            var msg = new ServiceEventArgs(type);
-            msg.Message = message;
+            var msg = new ServiceEventArgs(type)
+            {
+                Message = message
+            };
             OnSystemEvent(msg);
         }
 
@@ -227,10 +227,7 @@ namespace Paway.Utils.Tcp
                     if (msg.Type == ServiceType.Error) log.Error(msg.Message);
                     else log.Warn(msg.Message);
                 }
-                if (SystemEvent != null)
-                {
-                    SystemEvent(this, msg);
-                }
+                SystemEvent?.Invoke(this, msg);
             }
             catch
             {
@@ -242,9 +239,11 @@ namespace Paway.Utils.Tcp
         /// </summary>
         protected virtual void ClientFinished(IPEndPoint point)
         {
-            var msg = new ServiceEventArgs(ServiceType.Connect);
-            msg.Ip = point.Address.ToString();
-            msg.Port = point.Port;
+            var msg = new ServiceEventArgs(ServiceType.Connect)
+            {
+                Ip = point.Address.ToString(),
+                Port = point.Port
+            };
             OnSystemEvent(msg);
         }
 
@@ -260,7 +259,7 @@ namespace Paway.Utils.Tcp
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void client_ClientEvent(object sender, ServiceEventArgs e)
+        private void Client_ClientEvent(object sender, ServiceEventArgs e)
         {
             OnSystemEvent(e);
         }

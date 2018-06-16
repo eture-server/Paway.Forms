@@ -70,11 +70,13 @@ namespace Paway.Utils.Data
         /// <returns></returns>
         protected string GetConnString(string fileName)
         {
-            var sb = new SQLiteConnectionStringBuilder();
-            sb.DataSource = fileName;
-            sb.SyncMode = SynchronizationModes.Off;
-            sb.PageSize = 4096;
-            sb.CacheSize = 70 * 1024;
+            var sb = new SQLiteConnectionStringBuilder()
+            {
+                DataSource = fileName,
+                SyncMode = SynchronizationModes.Off,
+                PageSize = 4096,
+                CacheSize = 70 * 1024
+            };
             return sb.ConnectionString;
         }
 

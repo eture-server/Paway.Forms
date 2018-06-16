@@ -23,9 +23,9 @@ namespace Paway.Forms
         public TDataGridViewPager()
         {
             InitializeComponent();
-            TPager.PageChanged += pager1_PageChanged;
-            this.Edit.CellClick += gridview1_CellClick;
-            this.Edit.ColumnHeaderMouseClick += gridview1_ColumnHeaderMouseClick;
+            TPager.PageChanged += Pager1_PageChanged;
+            this.Edit.CellClick += Gridview1_CellClick;
+            this.Edit.ColumnHeaderMouseClick += Gridview1_ColumnHeaderMouseClick;
         }
 
         #endregion
@@ -161,7 +161,7 @@ namespace Paway.Forms
         #endregion
 
         #region 全文排序
-        private void gridview1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void Gridview1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0)
             {
@@ -169,7 +169,7 @@ namespace Paway.Forms
                 return;
             }
         }
-        private void gridview1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void Gridview1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (this.DataSource == null) return;
             if (this.Edit.CurrentCell == null) return;
@@ -247,10 +247,14 @@ namespace Paway.Forms
         }
         private DataTable SortColumn(DataTable dt, int index, SortOrder sort)
         {
-            Dictionary<int, SortOrder> sortColumns = new Dictionary<int, SortOrder>();
-            sortColumns.Add(index, sort);
-            RowComparer comp = new RowComparer();
-            comp.SortColumns = sortColumns;
+            Dictionary<int, SortOrder> sortColumns = new Dictionary<int, SortOrder>
+            {
+                { index, sort }
+            };
+            RowComparer comp = new RowComparer()
+            {
+                SortColumns = sortColumns
+            };
             var query = dt.AsEnumerable().OrderBy(q => q, comp);
             return query.AsDataView().ToTable();
         }
@@ -258,7 +262,7 @@ namespace Paway.Forms
         #endregion
 
         #region 分页
-        private void pager1_PageChanged(object sender, EventArgs e)
+        private void Pager1_PageChanged(object sender, EventArgs e)
         {
             if (PageChanged != null)
             {

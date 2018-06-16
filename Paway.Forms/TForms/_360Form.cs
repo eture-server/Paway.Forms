@@ -342,15 +342,12 @@ namespace Paway.Forms
             if (TitleBarMenuRect.Contains(e.Location) && TitleBarMenuState == TMouseState.Down)
             {
                 TitleBarMenuState = TMouseState.Up;
-                if (MenuClick != null)
-                {
-                    MenuClick(this, EventArgs.Empty);
-                }
+                MenuClick?.Invoke(this, EventArgs.Empty);
                 var contextMenuStrip = MenuLabel.ContextMenuStrip;
                 if (contextMenuStrip != null)
                 {
-                    contextMenuStrip.Closed -= contextMenuStrip_Closed;
-                    contextMenuStrip.Closed += contextMenuStrip_Closed;
+                    contextMenuStrip.Closed -= ContextMenuStrip_Closed;
+                    contextMenuStrip.Closed += ContextMenuStrip_Closed;
                     var point = PointToScreen(new Point(TitleBarMenuRect.Left + TitleBarMenuRect.Width / 2 - 3,
                         TitleBarMenuRect.Top + TitleBarMenuRect.Height));
                     contextMenuStrip.Show(point);
@@ -358,7 +355,7 @@ namespace Paway.Forms
             }
         }
 
-        private void contextMenuStrip_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+        private void ContextMenuStrip_Closed(object sender, ToolStripDropDownClosedEventArgs e)
         {
             Invalidate(TitleBarMenuRect);
         }

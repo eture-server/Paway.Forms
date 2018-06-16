@@ -59,8 +59,7 @@ namespace Paway.Forms
             get { return base.Text; }
             set
             {
-                decimal val;
-                if (decimal.TryParse(value, out val))
+                if (decimal.TryParse(value, out decimal val))
                 {
                     base.Text = val.ToString(m_valueFormatStr);
                 }
@@ -172,8 +171,7 @@ namespace Paway.Forms
         {
             get
             {
-                decimal val;
-                if (decimal.TryParse(base.Text, out val))
+                if (decimal.TryParse(base.Text, out decimal val))
                 {
                     return val;
                 }

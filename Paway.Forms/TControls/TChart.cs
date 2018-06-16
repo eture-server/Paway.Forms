@@ -264,9 +264,8 @@ namespace Paway.Forms
                     if (this.ChartAreas[0].AxisX.CustomLabels.Count > 0)
                     {
                         var v = this.ChartAreas[0].AxisX.CustomLabels[0];
-                        if (v.Tag is KeyValuePair<Series, int>)
+                        if (v.Tag is KeyValuePair<Series, int> d)
                         {
-                            var d = (KeyValuePair<Series, int>)v.Tag;
                             SelectEvent(d.Value);
                         }
                     }
@@ -326,11 +325,13 @@ namespace Paway.Forms
             CustomLabel x = null;
             if (this.ChartAreas[0].AxisX.CustomLabels.Count == 0)
             {
-                x = new CustomLabel();
-                x.ForeColor = Color.Red;
-                x.GridTicks = GridTickTypes.Gridline;
-                x.RowIndex = 1;
-                x.LabelMark = LabelMarkStyle.None;
+                x = new CustomLabel()
+                {
+                    ForeColor = Color.Red,
+                    GridTicks = GridTickTypes.Gridline,
+                    RowIndex = 1,
+                    LabelMark = LabelMarkStyle.None
+                };
                 this.ChartAreas[0].AxisX.CustomLabels.Add(x);
             }
             else x = this.ChartAreas[0].AxisX.CustomLabels[0];
@@ -354,11 +355,13 @@ namespace Paway.Forms
             list2.Sort((c1, c2) => c1.YValues[0].TCompare(c2.YValues[0]));
             for (int i = 0; i < list2.Count; i++)
             {
-                CustomLabel y = new CustomLabel();
-                y.ForeColor = Color.Red;
-                y.GridTicks = GridTickTypes.Gridline;
-                y.RowIndex = 1;
-                y.LabelMark = LabelMarkStyle.None;
+                CustomLabel y = new CustomLabel()
+                {
+                    ForeColor = Color.Red,
+                    GridTicks = GridTickTypes.Gridline,
+                    RowIndex = 1,
+                    LabelMark = LabelMarkStyle.None
+                };
                 this.ChartAreas[0].AxisY.CustomLabels.Add(y);
 
                 y.FromPosition = list2[i].YValues[0] - length;

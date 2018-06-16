@@ -23,10 +23,12 @@ namespace Paway.Forms
         public static void Initialize()
         {
             IStop = false;
-            thread = new Thread(ThreadProc);
-            thread.Name = "progress thread";
-            thread.Priority = ThreadPriority.Highest;
-            thread.IsBackground = true;
+            thread = new Thread(ThreadProc)
+            {
+                Name = "progress thread",
+                Priority = ThreadPriority.Highest,
+                IsBackground = true
+            };
             thread.Start();
         }
         private static void ThreadProc()

@@ -335,9 +335,11 @@ namespace Paway.Forms
             if (_notifyText != string.Empty)
             {
                 var g = e.Graphics;
-                var sf = new StringFormat();
-                sf.FormatFlags = StringFormatFlags.LineLimit;
-                sf.Trimming = StringTrimming.EllipsisCharacter;
+                var sf = new StringFormat()
+                {
+                    FormatFlags = StringFormatFlags.LineLimit,
+                    Trimming = StringTrimming.EllipsisCharacter
+                };
                 using (Brush brush = new SolidBrush(NotifyForeColor))
                 {
                     g.DrawString(NotifyText, NotifyFont, brush, NotifyTextRect, sf);

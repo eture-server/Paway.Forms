@@ -41,14 +41,14 @@ namespace Paway.Forms
                 if (pagerInfo == null)
                 {
                     pagerInfo = new PagerInfo();
-                    pagerInfo.PageInfoChanged += pagerInfo_PageInfoChanged;
+                    pagerInfo.PageInfoChanged += PagerInfo_PageInfoChanged;
                     PagerInfo.CountChanged += PagerInfo_CountChanged;
                 }
                 return pagerInfo;
             }
         }
 
-        private void pagerInfo_PageInfoChanged(PagerInfo info)
+        private void PagerInfo_PageInfoChanged(PagerInfo info)
         {
             InitPageInfo(info.RecordCount, info.PageSize);
         }
@@ -82,22 +82,22 @@ namespace Paway.Forms
             PagerInfo.RecordCount = recordCount;
             PagerInfo.CurrentPageIndex = 1; //默认为第一页
             InitPageInfo();
-            toolFirst.ItemClick += toolFirst_ItemClick;
-            toolPrevious.ItemClick += toolPrevious_ItemClick;
-            txtCurrentPage.Edit.GotFocus += txtCurrentPage_GotFocus;
-            txtCurrentPage.Edit.LostFocus += txtCurrentPage_LostFocus;
-            txtCurrentPage.KeyDown += txtCurrentPage_KeyDown;
+            toolFirst.ItemClick += ToolFirst_ItemClick;
+            toolPrevious.ItemClick += ToolPrevious_ItemClick;
+            txtCurrentPage.Edit.GotFocus += TxtCurrentPage_GotFocus;
+            txtCurrentPage.Edit.LostFocus += TxtCurrentPage_LostFocus;
+            txtCurrentPage.KeyDown += TxtCurrentPage_KeyDown;
 
-            toolNext.ItemClick += toolNext_ItemClick;
-            toolLast.ItemClick += toolLast_ItemClick;
+            toolNext.ItemClick += ToolNext_ItemClick;
+            toolLast.ItemClick += ToolLast_ItemClick;
         }
 
-        private void txtCurrentPage_LostFocus(object sender, EventArgs e)
+        private void TxtCurrentPage_LostFocus(object sender, EventArgs e)
         {
             txtCurrentPage.ITrans = true;
         }
 
-        private void txtCurrentPage_GotFocus(object sender, EventArgs e)
+        private void TxtCurrentPage_GotFocus(object sender, EventArgs e)
         {
             txtCurrentPage.ITrans = false;
         }
@@ -112,10 +112,7 @@ namespace Paway.Forms
         /// <param name="e"></param>
         protected virtual void OnPageChanged(EventArgs e)
         {
-            if (PageChanged != null)
-            {
-                PageChanged(this, e);
-            }
+            PageChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -175,12 +172,12 @@ namespace Paway.Forms
             PagerInfo.CurrentPageIndex = page;
         }
 
-        private void toolFirst_ItemClick(object sender, EventArgs e)
+        private void ToolFirst_ItemClick(object sender, EventArgs e)
         {
             RefreshData(1);
         }
 
-        private void toolPrevious_ItemClick(object sender, EventArgs e)
+        private void ToolPrevious_ItemClick(object sender, EventArgs e)
         {
             if (PagerInfo.CurrentPageIndex > 1)
             {
@@ -192,7 +189,7 @@ namespace Paway.Forms
             }
         }
 
-        private void toolNext_ItemClick(object sender, EventArgs e)
+        private void ToolNext_ItemClick(object sender, EventArgs e)
         {
             if (PagerInfo.CurrentPageIndex < PagerInfo.PageCount)
             {
@@ -208,7 +205,7 @@ namespace Paway.Forms
             }
         }
 
-        private void toolLast_ItemClick(object sender, EventArgs e)
+        private void ToolLast_ItemClick(object sender, EventArgs e)
         {
             if (PagerInfo.PageCount > 0)
             {
@@ -220,7 +217,7 @@ namespace Paway.Forms
             }
         }
 
-        private void txtCurrentPage_KeyDown(object sender, KeyEventArgs e)
+        private void TxtCurrentPage_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -475,10 +472,7 @@ namespace Paway.Forms
                 if (currentPageIndex != value)
                 {
                     currentPageIndex = value;
-                    if (PageInfoChanged != null)
-                    {
-                        PageInfoChanged(this);
-                    }
+                    PageInfoChanged?.Invoke(this);
                 }
             }
         }
@@ -497,10 +491,7 @@ namespace Paway.Forms
                 if (pageSize != value)
                 {
                     pageSize = value;
-                    if (PageInfoChanged != null)
-                    {
-                        PageInfoChanged(this);
-                    }
+                    PageInfoChanged?.Invoke(this);
                 }
             }
         }
@@ -519,10 +510,7 @@ namespace Paway.Forms
                 if (recordCount != value)
                 {
                     recordCount = value;
-                    if (CountChanged != null)
-                    {
-                        CountChanged(this);
-                    }
+                    CountChanged?.Invoke(this);
                 }
             }
         }

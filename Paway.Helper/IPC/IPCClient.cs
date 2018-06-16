@@ -17,7 +17,7 @@ namespace Paway.Helper
         /// <summary>
         ///     接口实例
         /// </summary>
-        public T obj { get; private set; }
+        public T Object { get; private set; }
 
         /// <summary>
         ///     连接状态
@@ -34,13 +34,15 @@ namespace Paway.Helper
                 var serverProvider = new BinaryServerFormatterSinkProvider();
                 var clientProvider = new BinaryClientFormatterSinkProvider();
                 serverProvider.TypeFilterLevel = TypeFilterLevel.Full;
-                IDictionary props = new Hashtable();
-                props["name"] = string.Format("ServerChannel.{0}", name);
-                props["portName"] = string.Format("ServerChannel-Client.{0}", name);
+                IDictionary props = new Hashtable
+                {
+                    ["name"] = string.Format("ServerChannel.{0}", name),
+                    ["portName"] = string.Format("ServerChannel-Client.{0}", name)
+                };
                 channel = new IpcChannel(props, clientProvider, serverProvider);
                 ChannelServices.RegisterChannel(channel, true);
-                obj = Activator.GetObject(typeof(T), string.Format("ipc://ServerChannel-Server.{0}/IPCObject", name)) as T;
-                if (obj != null)
+                Object = Activator.GetObject(typeof(T), string.Format("ipc://ServerChannel-Server.{0}/IPCObject", name)) as T;
+                if (Object != null)
                     IConnected = true;
             }
             catch (Exception)
@@ -60,7 +62,7 @@ namespace Paway.Helper
                 channel.StopListening(null);
             }
             channel = null;
-            obj = null;
+            Object = null;
             IConnected = false;
         }
 

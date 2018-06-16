@@ -376,8 +376,10 @@ namespace Paway.Forms
             }
             else if (type == typeof(string) || type.IsValueType)
             {
-                var node = new TreeNode();
-                node.Text = _dataSource.ToString();
+                var node = new TreeNode()
+                {
+                    Text = _dataSource.ToString()
+                };
                 Nodes.Add(node);
             }
             UpdateColumns(type);
@@ -808,8 +810,7 @@ namespace Paway.Forms
         {
             if (obj != DBNull.Value)
             {
-                var bitmap = obj as Bitmap;
-                if (bitmap != null)
+                if (obj is Bitmap bitmap)
                 {
                     double w1 = irect.Width * 1.0 / bitmap.Width;
                     double h1 = irect.Height * 1.0 / bitmap.Height;
@@ -1008,8 +1009,7 @@ namespace Paway.Forms
             if (toNode != null && fromNode != toNode)
             {
                 TreeEventArgs te = new TreeEventArgs(fromNode, toNode);
-                if (DropMoveEvent != null)
-                    DropMoveEvent(this, te);
+                DropMoveEvent?.Invoke(this, te);
                 if (te.Cancel)
                 {
                     e.Effect = DragDropEffects.None;
@@ -1034,8 +1034,7 @@ namespace Paway.Forms
             if (toNode != null && fromNode != toNode)
             {
                 var lastParent = fromNode.Parent;
-                if (DropCompleteEvent != null)
-                    DropCompleteEvent(this, new TreeEventArgs(fromNode, toNode));
+                DropCompleteEvent?.Invoke(this, new TreeEventArgs(fromNode, toNode));
                 if (lastParent != null && lastParent.Nodes.Count == 0)
                     this.UpdateNode(lastParent);
                 if (fromNode.Parent != null && fromNode.Parent.Nodes.Count == 1)

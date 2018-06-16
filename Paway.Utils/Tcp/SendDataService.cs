@@ -64,8 +64,7 @@ namespace Paway.Utils.Tcp
             {
                 if (!MessageQueue.IsEmpty)
                 {
-                    byte[] byteData;
-                    if (!MessageQueue.TryDequeue(out byteData)) continue;
+                    if (!MessageQueue.TryDequeue(out byte[] byteData)) continue;
                     if (SendStop) return;
                     Socket.SendData(byteData);
                     Thread.Sleep(interval);
@@ -75,8 +74,7 @@ namespace Paway.Utils.Tcp
                     Thread.Sleep(100);
                 }
             }
-            string name;
-            SocketConfig.ThreadList.TryRemove(Thread.CurrentThread.ManagedThreadId, out name);
+            SocketConfig.ThreadList.TryRemove(Thread.CurrentThread.ManagedThreadId, out string name);
         }
 
         #region Dispose
