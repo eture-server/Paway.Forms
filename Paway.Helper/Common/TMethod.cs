@@ -13,6 +13,69 @@ namespace Paway.Helper
     /// </summary>
     public abstract class TMethod
     {
+        #region 时间格式化
+        /// <summary>
+        /// 时间转化
+        /// </summary>
+        /// <param name="time">秒</param>
+        /// <returns>HH:mm:ss</returns>
+        public static string Times(int time)
+        {
+            var day = time / 24 / 2600;
+            var hour = time / 3600 % 24;
+            var minutes = time / 60 % 60;
+            var seconds = time % 60;
+            return Times(new TimeSpan(day, hour, minutes, seconds));
+        }
+        /// <summary>
+        /// 时间转化
+        /// </summary>
+        /// <param name="time">TimeSpan</param>
+        /// <returns>HH:mm:ss</returns>
+        public static string Times(TimeSpan time)
+        {
+            if (time.TotalSeconds < 60)
+            {
+                return string.Format("{0:D2}", time.Seconds);
+            }
+            if (time.TotalMinutes < 60)
+            {
+                return string.Format("{0:D2}:{1:D2}", time.Minutes, time.Seconds);
+            }
+            if (time.TotalHours < 24)
+            {
+                return string.Format("{0:D2}:{1:D2}:{2:D2}", time.Hours, time.Minutes, time.Seconds);
+            }
+            return string.Format("{0}.{1:D2}:{2:D2}:{3:D2}", time.Days, time.Hours, time.Minutes, time.Seconds);
+        }
+        /// <summary>
+        /// Sqlite日期查询格式
+        /// </summary>
+        public static string SqlTime(DateTime dt)
+        {
+            return dt.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+        /// <summary>
+        /// 系统格式日期
+        /// </summary>
+        public static string AllTime(DateTime dt)
+        {
+            return dt.ToString("g");
+        }
+        /// <summary>
+        /// 自动显示日期长度
+        /// </summary>
+        public static string AutoTime(DateTime dt)
+        {
+            if (dt.Year != DateTime.Now.Year || dt.Month != DateTime.Now.Month || dt.Day != DateTime.Now.Day)
+            {
+                return dt.ToString("g");
+            }
+            return dt.ToString("t");
+        }
+
+        #endregion
+
         #region 行列转化
         /// <summary>
         /// 行列转化

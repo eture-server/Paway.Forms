@@ -43,9 +43,9 @@ namespace Paway.Helper
         /// <summary>
         /// 弹出
         /// </summary>
-        public static void Show(object ex, LeveType type, bool sync = true)
+        public static void Show(string msg, LeveType type, bool sync = true)
         {
-            Show(null, null, ex, type, sync);
+            Show(null, null, msg, type, sync);
         }
         /// <summary>
         /// 弹出
@@ -71,9 +71,9 @@ namespace Paway.Helper
         /// <summary>
         /// 弹出
         /// </summary>
-        public static void Show(Control obj, object ex, LeveType type, bool sync = true)
+        public static void Show(Control obj, string msg, LeveType type, bool sync = true)
         {
-            Show(obj, null, ex, type, sync);
+            Show(obj, null, msg, type, sync);
         }
         /// <summary>
         /// 弹出
