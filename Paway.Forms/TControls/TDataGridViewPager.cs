@@ -380,6 +380,13 @@ namespace Paway.Forms
             int index = 0;
             if (this.Edit.CurrentCell != null)
                 index = this.Edit.CurrentCell.RowIndex;
+            AutoCell(index);
+        }
+        /// <summary>
+        /// 自动选中焦点
+        /// </summary>
+        public void AutoCell(int index)
+        {
             this.RefreshData();
             this.Edit.AutoCell(index);
         }

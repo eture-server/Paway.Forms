@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Reflection;
 
 namespace Paway.Helper
@@ -47,9 +48,10 @@ namespace Paway.Helper
             {
                 var attrs = members[0].GetCustomAttributes(typeof(EnumTextValueAttribute), false);
                 if (attrs.Length == 1)
-                {
-                    ret = ((EnumTextValueAttribute)attrs[0]).Text;
-                }
+                    return ((EnumTextValueAttribute)attrs[0]).Text;
+                attrs = members[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+                if (attrs.Length > 0)
+                    return ((DescriptionAttribute)attrs[0]).Description;
             }
             return ret;
         }
@@ -79,10 +81,13 @@ namespace Paway.Helper
         /// </summary>
         public static string GetText(FieldInfo field)
         {
-            EnumTextValueAttribute[] attribs = field.GetCustomAttributes(typeof(EnumTextValueAttribute), false) as EnumTextValueAttribute[];
             string name = field.Name;
+            var attribs = field.GetCustomAttributes(typeof(EnumTextValueAttribute), false);
             if (attribs.Length > 0)
-                name = ((EnumTextValueAttribute)attribs[0]).Text;
+                return ((EnumTextValueAttribute)attribs[0]).Text;
+            attribs = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            if (attribs.Length > 0)
+                return ((DescriptionAttribute)attribs[0]).Description;
             return name;
         }
     }
