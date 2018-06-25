@@ -373,6 +373,15 @@ namespace Paway.Forms
 
         #region 公共方法
         /// <summary>
+        /// 自动选中最后焦点
+        /// </summary>
+        public void AutoLast()
+        {
+            ToLastPage();
+            int index = this.Edit.RowCount - 1;
+            AutoCell(index);
+        }
+        /// <summary>
         /// 自动选中焦点
         /// </summary>
         public void AutoCell()
@@ -389,6 +398,13 @@ namespace Paway.Forms
         {
             this.RefreshData();
             this.Edit.AutoCell(index);
+        }
+        /// <summary>
+        /// 获取指定名称列
+        /// </summary>
+        public DataGridViewColumn GetColumn(string name)
+        {
+            return this.Edit.GetColumn(name);
         }
 
         #endregion
