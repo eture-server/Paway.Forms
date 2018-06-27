@@ -46,7 +46,7 @@ namespace Paway.Forms
                 lock (this.states)
                 {
                     IntPtr handle = this.WindowToWatch;
-                    IntPtr current = Win32Helper.GetForegroundWindow();
+                    IntPtr current = NativeMethods.GetForegroundWindow();
                     if (handle == ProgressStates.False && Control.FromHandle(current) == null)
                     {
                         this.Fade(0.0, 0.2);
@@ -79,12 +79,12 @@ namespace Paway.Forms
                                 {
                                     if (Control.FromHandle(current) != null)
                                     {
-                                        result = Win32Helper.GetWindowRect(current, ref rect);
+                                        result = NativeMethods.GetWindowRect(current, ref rect);
                                     }
                                 }
                                 else
                                 {
-                                    result = Win32Helper.GetWindowRect(handle, ref rect);
+                                    result = NativeMethods.GetWindowRect(handle, ref rect);
                                 }
                                 //成功获取父窗体区域
                                 if (result)
@@ -108,7 +108,7 @@ namespace Paway.Forms
                         RECT rect = new RECT();
                         if (Control.FromHandle(current) != null)
                         {
-                            if (Win32Helper.GetWindowRect(current, ref rect))
+                            if (NativeMethods.GetWindowRect(current, ref rect))
                             {
                                 Win32Helper.ShowWindow(base.Handle);
                             }

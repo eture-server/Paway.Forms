@@ -124,7 +124,7 @@ namespace Paway.Win32
         /// 获取一个前台窗口的句柄
         /// </summary>
         [DllImport("user32.dll")]
-        internal static extern IntPtr GetForegroundWindow();
+        public static extern IntPtr GetForegroundWindow();
 
         /// <summary>
         ///     该函数枚举所有屏幕上的顶层窗口，并将窗口句柄传送给应用程序定义的回调函数。
@@ -214,7 +214,7 @@ namespace Paway.Win32
         /// <param name="hWnd">想获得范围矩形的那个窗口的句柄</param>
         /// <param name="lpRect">屏幕坐标中随同窗口装载的矩形</param>
         [DllImport("user32.dll")]
-        internal static extern bool GetWindowRect(IntPtr hWnd, ref RECT lpRect);
+        public static extern bool GetWindowRect(IntPtr hWnd, ref RECT lpRect);
 
         /// <summary>
         ///     释放设备上下文环境（DC）供其他应用程序使用。函数的效果与设备上下文环境类型有关。它只释放公用的和设备上下文环境，对于类或私有的则无效。
@@ -418,6 +418,20 @@ namespace Paway.Win32
         {
             return value >> 16;
         }
+
+        /// <summary>
+        /// 获取线程执行的周期个数。
+        /// </summary>
+        [DllImport("kernel32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool QueryThreadCycleTime(IntPtr threadHandle, ref ulong cycleTime);
+
+        /// <summary>
+        /// 获取当前线程的一个伪句柄
+        /// </summary>
+        /// <returns></returns>
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr GetCurrentThread();
 
         #endregion
     }

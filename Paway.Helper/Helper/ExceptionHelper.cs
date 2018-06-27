@@ -1,4 +1,5 @@
 ﻿using log4net;
+using Paway.Win32;
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -19,11 +20,6 @@ namespace Paway.Helper
         protected static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static string text;
         private static Form form;
-        /// <summary>
-        /// 获取一个前台窗口的句柄
-        /// </summary>
-        [DllImport("user32.dll")]
-        internal static extern IntPtr GetForegroundWindow();
 
         /// <summary>
         /// 初始化
@@ -118,7 +114,7 @@ namespace Paway.Helper
                 {
                     if (form == null)
                     {
-                        IntPtr handle = GetForegroundWindow();
+                        IntPtr handle = NativeMethods.GetForegroundWindow();
                         form = Control.FromChildHandle(handle) as Form;
                         if (form != null) text = form.Text;
                     }

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using Paway.Helper;
 
 namespace Paway.Win32
 {
@@ -27,46 +26,6 @@ namespace Paway.Win32
         {
             get { return (IntPtr)0; }
         }
-
-        #region WindowsShell
-
-        /// <summary>
-        ///     关闭进程
-        ///     Execute("taskkill.exe", " /F /FI \"IMAGENAME eq adb.exe\" /T");
-        /// </summary>
-        /// <param name="exe"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public static bool Execute(string exe, string args)
-        {
-            Process process = null;
-            try
-            {
-                process = new Process
-                {
-                    StartInfo =
-                    {
-                        FileName = exe,
-                        Arguments = args,
-                        RedirectStandardOutput = false,
-                        RedirectStandardInput = false,
-                        RedirectStandardError = false,
-                        CreateNoWindow = true,
-                        UseShellExecute = false
-                    }
-                };
-                return process.Start();
-            }
-            finally
-            {
-                if (process != null)
-                {
-                    process.Dispose();
-                }
-            }
-        }
-
-        #endregion
 
         #region 全屏置顶窗体
 
@@ -101,14 +60,6 @@ namespace Paway.Win32
             NativeMethods.GetWindowRect(hWnd, ref rc);
             return rc;
         }
-        /// <summary>
-        ///     该函数返回指定窗口的边框矩形的尺寸
-        /// </summary>
-        /// <returns></returns>
-        public static bool GetWindowRect(IntPtr hwnd, ref RECT rect)
-        {
-            return NativeMethods.GetWindowRect(hwnd, ref rect);
-        }
 
         /// <summary>
         ///     隐藏任务栏
@@ -125,13 +76,6 @@ namespace Paway.Win32
         public static void ShowWindow(IntPtr handle)
         {
             NativeMethods.ShowWindow(handle, WindowShowStyle.ShowNormalNoActivate);
-        }
-        /// <summary>
-        /// 获取一个前台窗口的句柄
-        /// </summary>
-        public static IntPtr GetForegroundWindow()
-        {
-            return NativeMethods.GetForegroundWindow();
         }
 
         /// <summary>
@@ -159,7 +103,7 @@ namespace Paway.Win32
                 UserDataStruct cds;
                 cds.vData = IntPtr.Zero;
                 cds.lData = Marshal.SizeOf(typeof(T));
-                cds.uData = SctructHelper.StructureToByte(msg);
+                cds.uData = StructureToByte(msg);
                 NativeMethods.SendMessage(hWnd, (int)WindowsMessage.WM_COPYDATA, type, ref cds);
                 return hWnd;
             }
@@ -181,7 +125,7 @@ namespace Paway.Win32
                     UserDataStruct cds;
                     cds.vData = IntPtr.Zero;
                     cds.lData = Marshal.SizeOf(typeof(T));
-                    cds.uData = SctructHelper.StructureToByte(msg);
+                    cds.uData = StructureToByte(msg);
                     NativeMethods.SendMessage(hWnd, (int)WindowsMessage.WM_COPYDATA, type, ref cds);
                 }
             }
@@ -196,7 +140,7 @@ namespace Paway.Win32
         public static T GetUserStruct<T>(Message m)
         {
             var mystr = (UserDataStruct)m.GetLParam(typeof(UserDataStruct));
-            var msg = SctructHelper.ByteToStructure<T>(mystr.uData);
+            var msg = ByteToStructure<T>(mystr.uData);
             return msg;
         }
 
@@ -455,6 +399,51 @@ namespace Paway.Win32
                 var count = NativeMethods.ShowCursor(0);
                 if (count < 0) break;
             }
+        }
+
+        #endregion
+
+        #region 结构体-内存
+        /// <summary>
+        ///     由结构体分配到内存，返回句柄
+        ///     需指定大小
+        ///     [MarshalAs(UnmanagedType.LPStr, SizeConst = 1024)]
+        /// </summary>
+        public static IntPtr StructureToByte<T>(T structure)
+        {
+            var size = Marshal.SizeOf(typeof(T));
+            var buffer = new byte[size];
+            var bufferIntPtr = Marshal.AllocHGlobal(size);
+            try
+            {
+                Marshal.StructureToPtr(structure, bufferIntPtr, true);
+                //Marshal.Copy(bufferIntPtr, buffer, 0, size);
+            }
+            finally
+            {
+                //Marshal.FreeHGlobal(bufferIntPtr);
+            }
+            return bufferIntPtr;
+        }
+
+        /// <summary>
+        ///     由句柄转换为结构体
+        /// </summary>
+        public static T ByteToStructure<T>(IntPtr allocIntPtr)
+        {
+            object structure = null;
+            var size = Marshal.SizeOf(typeof(T));
+            //IntPtr allocIntPtr = Marshal.AllocHGlobal(size);
+            try
+            {
+                //Marshal.Copy(dataBuffer, 0, allocIntPtr, size);
+                structure = Marshal.PtrToStructure(allocIntPtr, typeof(T));
+            }
+            finally
+            {
+                //Marshal.FreeHGlobal(allocIntPtr);
+            }
+            return (T)structure;
         }
 
         #endregion

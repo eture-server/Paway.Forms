@@ -361,7 +361,14 @@ namespace Paway.Helper
         /// </summary>
         public static double ClearError(this double value)
         {
-            return (double)(new Decimal(value));
+            try
+            {
+                return Decimal.ToDouble(new Decimal(value));
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         #endregion

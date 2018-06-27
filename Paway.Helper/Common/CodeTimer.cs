@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Paway.Win32;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -72,18 +73,14 @@ namespace Paway.Helper
             Console.WriteLine();
         }
 
+        /// <summary>
+        /// 获取线程执行的周期个数。
+        /// </summary>
         private static ulong GetCycleCount()
         {
             ulong cycleCount = 0;
-            QueryThreadCycleTime(GetCurrentThread(), ref cycleCount);
+            NativeMethods.QueryThreadCycleTime(NativeMethods.GetCurrentThread(), ref cycleCount);
             return cycleCount;
         }
-
-        [DllImport("kernel32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool QueryThreadCycleTime(IntPtr threadHandle, ref ulong cycleTime);
-
-        [DllImport("kernel32.dll")]
-        private static extern IntPtr GetCurrentThread();
     }
 }

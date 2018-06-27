@@ -96,6 +96,12 @@
     <Compile Include="UDP\UDPClient.cs" />
     <Compile Include="UDP\UDPServer.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Paway.Win32\Paway.Win32.csproj">
+      <Project>{6DCAE3D1-F084-49F4-B21F-25D906E02567}</Project>
+      <Name>Paway.Win32</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
