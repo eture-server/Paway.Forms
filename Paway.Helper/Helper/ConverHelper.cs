@@ -367,7 +367,7 @@ namespace Paway.Helper
             }
             catch
             {
-                return 0;
+                return value;
             }
         }
 

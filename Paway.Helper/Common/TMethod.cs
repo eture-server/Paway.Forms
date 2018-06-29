@@ -143,7 +143,14 @@ namespace Paway.Helper
         /// </summary>
         public static double Round(double value)
         {
-            return Decimal.ToDouble(Math.Round(new Decimal(value.ClearError()), 2, MidpointRounding.AwayFromZero));
+            try
+            {
+                return Decimal.ToDouble(Math.Round(new Decimal(value.ClearError()), 2, MidpointRounding.AwayFromZero));
+            }
+            catch
+            {
+                return value;
+            }
         }
 
         #endregion
