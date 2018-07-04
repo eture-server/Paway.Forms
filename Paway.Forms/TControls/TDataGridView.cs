@@ -1101,6 +1101,11 @@ namespace Paway.Forms
         /// </summary>
         public void AutoCell()
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(AutoCell));
+                return;
+            }
             int index = 0;
             if (this.CurrentCell != null)
                 index = this.CurrentCell.RowIndex;
@@ -1112,6 +1117,11 @@ namespace Paway.Forms
         /// </summary>
         public void AutoCell(int index)
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<int>(AutoCell), index);
+                return;
+            }
             if (index < 0) index = 0;
             if (this.Rows.Count == 0) return;
             if (index > this.RowCount - 1)

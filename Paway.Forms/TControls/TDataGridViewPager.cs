@@ -377,6 +377,11 @@ namespace Paway.Forms
         /// </summary>
         public void AutoLast()
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(AutoLast));
+                return;
+            }
             ToLastPage();
             int index = this.Edit.RowCount - 1;
             AutoCell(index);
@@ -386,6 +391,11 @@ namespace Paway.Forms
         /// </summary>
         public void AutoCell()
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(AutoCell));
+                return;
+            }
             int index = 0;
             if (this.Edit.CurrentCell != null)
                 index = this.Edit.CurrentCell.RowIndex;
@@ -396,6 +406,11 @@ namespace Paway.Forms
         /// </summary>
         public void AutoCell(int index)
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<int>(AutoCell), index);
+                return;
+            }
             this.RefreshData();
             this.Edit.AutoCell(index);
         }
