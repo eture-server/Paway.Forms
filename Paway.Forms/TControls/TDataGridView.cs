@@ -441,6 +441,11 @@ namespace Paway.Forms
         /// </summary>
         public void RefreshData()
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(RefreshData));
+                return;
+            }
             DataSource = source;
         }
 
@@ -1101,11 +1106,6 @@ namespace Paway.Forms
         /// </summary>
         public void AutoCell()
         {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action(AutoCell));
-                return;
-            }
             int index = 0;
             if (this.CurrentCell != null)
                 index = this.CurrentCell.RowIndex;

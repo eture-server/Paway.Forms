@@ -279,6 +279,11 @@ namespace Paway.Forms
         /// </summary>
         public virtual void RefreshData()
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(RefreshData));
+                return;
+            }
             if (dataSource == null) return;
             if (dataSource is DataTable)
             {
@@ -391,11 +396,6 @@ namespace Paway.Forms
         /// </summary>
         public void AutoCell()
         {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action(AutoCell));
-                return;
-            }
             int index = 0;
             if (this.Edit.CurrentCell != null)
                 index = this.Edit.CurrentCell.RowIndex;
@@ -406,11 +406,6 @@ namespace Paway.Forms
         /// </summary>
         public void AutoCell(int index)
         {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action<int>(AutoCell), index);
-                return;
-            }
             this.RefreshData();
             this.Edit.AutoCell(index);
         }
