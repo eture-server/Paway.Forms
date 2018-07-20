@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Net;
 using System.Windows.Forms;
 
 namespace Paway.Helper
@@ -13,6 +14,23 @@ namespace Paway.Helper
     /// </summary>
     public abstract class TMethod
     {
+        /// <summary>
+        /// 获取本机IP地址
+        /// </summary>
+        public static string GetIpAddress()
+        {
+            IPAddress[] ips = Dns.GetHostAddresses(Dns.GetHostName());
+            if (ips != null && ips.Length > 0)
+            {
+                foreach (IPAddress ip in ips)
+                {
+                    if (ip.AddressFamily.ToString().Equals("InterNetwork"))
+                        return ip.ToString();
+                }
+            }
+            return string.Empty;
+        }
+
         #region 时间格式化
         /// <summary>
         /// 时间转化
