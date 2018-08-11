@@ -45,7 +45,7 @@ namespace Paway.Forms
             RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             RowHeadersVisible = false;
             RowHeadersWidth = 21;
-            ScrollBars = ScrollBars.Vertical;
+            ScrollBars = ScrollBars.Both;
             SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             GridColor = Color.LightBlue;
             ReadOnly = true;
@@ -388,7 +388,7 @@ namespace Paway.Forms
         ///     获取或设置要在 DataGridView 控件中显示的滚动条的类型。
         /// </summary>
         [Description("获取或设置要在 DataGridView 控件中显示的滚动条的类型")]
-        [DefaultValue(typeof(ScrollBars), "Vertical")]
+        [DefaultValue(typeof(ScrollBars), "Both")]
         public new ScrollBars ScrollBars
         {
             get { return base.ScrollBars; }
