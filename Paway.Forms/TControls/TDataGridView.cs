@@ -538,9 +538,14 @@ namespace Paway.Forms
         /// </summary>
         private void TDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.ColumnIndex == 0)
+            for (int i = 0; i < this.Columns.Count; i++)
             {
-                Rows[e.RowIndex].HeaderCell.Value = (e.RowIndex + 1).ToString();
+                if (this.Columns[i].Visible)
+                {
+                    if (e.ColumnIndex == i)
+                        Rows[e.RowIndex].HeaderCell.Value = (e.RowIndex + 1).ToString();
+                    break;
+                }
             }
         }
 
