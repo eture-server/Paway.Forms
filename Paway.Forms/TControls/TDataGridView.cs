@@ -538,6 +538,7 @@ namespace Paway.Forms
         /// </summary>
         private void TDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
+            if (!this.RowHeadersVisible) return;
             for (int i = 0; i < this.Columns.Count; i++)
             {
                 if (this.Columns[i].Visible)
