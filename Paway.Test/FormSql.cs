@@ -31,26 +31,31 @@ namespace Paway.Test
         {
             base.OnShown(e);
             var time = Environment.TickCount;
-            var a = service.Find<UserInfo>();
             var b = Environment.TickCount - time;
             Console.WriteLine(b);
             for (int i = 0; i < 10; i++)
             {
                 TestData data = new TestData
                 {
-                    T2 = i,
+                    Id = i,
                     N2 = "Name" + i,
                     Tag = "Tag" + i,
-                    I2 = pictureBox1.Image,
+                    Image = pictureBox1.Image,
                 };
                 list.Add(data);
-                var a1 = service.Find<UserInfo>();
             }
         }
         private void btInsert_Click(object sender, EventArgs e)
         {
             try
             {
+                list.Clear();
+                TestData data = new TestData
+                {
+                    Image = pictureBox1.Image,
+                };
+                list.Add(data);
+
                 service.Insert<TestData>(list);
             }
             catch (Exception ex)
@@ -96,7 +101,7 @@ namespace Paway.Test
             {
                 if (list.Count == 0) return;
                 object result = service.ExecuteScalar("select count(0) from Hello");
-                service.Delete<TestData>(list[0].T2);
+                service.Delete<TestData>(list[0].Id);
                 list.RemoveAt(0);
             }
             catch (Exception ex)
@@ -112,7 +117,7 @@ namespace Paway.Test
                 if (list.Count == 0) return;
                 service.Insert(list[0]);
                 list[0].N2 = "V3";
-                list[0].T2 = 17;
+                list[0].Id = 17;
                 service.Replace(list[0]);
             }
             catch (Exception ex)
@@ -125,7 +130,7 @@ namespace Paway.Test
         {
             try
             {
-                list = service.Find<TestData>() as List<TestData>;
+                list = service.Find<TestData>("id=" + 12948) as List<TestData>;
             }
             catch (Exception ex)
             {
@@ -133,7 +138,7 @@ namespace Paway.Test
             }
         }
     }
-    public class SqlService : MySqlHelper //MySqlHelper//SqlHelper//SQLiteHelper
+    public class SqlService : SqlHelper //MySqlHelper//SqlHelper//SQLiteHelper
     {
         public const string dbName = "paway.db";
         public SqlService()
@@ -154,8 +159,8 @@ namespace Paway.Test
             //base.InitConnect("127.0.0.1", "Test", "root", "mobot");//MySqlHelper
             //base.InitConnect("(local)", "Test", "mobot", "mobot");//SqlHelper
             //base.InitConnect("ConnectionString");//SqlHelper
-            //base.InitConnect(@"(local)\SQLEXPRESS", "DiningLC", "mobot", "mobot");
-            base.InitConnect("127.0.0.1", "sapera", "root", "mobot");
+            base.InitConnect(@"(local)\SQLEXPRESS", "DiningLC", "mobot", "mobot");
+            //base.InitConnect("127.0.0.1", "test", "root", "mobotaA*");
         }
     }
 
@@ -177,21 +182,26 @@ namespace Paway.Test
             this.CreateDate = DateTime.Now;
         }
     }
-    [Serializable, Property(Table = "Hello", Key = "Tid")]
+
+    [Serializable, Property(Table = "Cashs", Key = "Id")]
     public class TestData
     {
         //public int Id { get; set; }
-        [Property(Column = "Tid")]
-        public long T2 { get; set; }
-        [Property(Column = "Name")]
+        public long Id { get; set; }
+
+        [Property(ISelect = false, Column = "Name")]
         public string N2 { get; set; }
+
         [Property(ISelect = false)]
         public string Tag { get; set; }
-        [Property(Column = "Value")]
-        public string V2 { get; set; }
-        [Property(Column = "Image")]
-        public Image I2 { get; set; }
 
+        [Property(ISelect = false, Column = "Value")]
+        public string V2 { get; set; }
+
+        [Property(Column = "Image")]
+        public Image Image { get; set; }
+
+        [Property(ISelect = false)]
         public DateTime Date { get; set; }
 
         public TestData() : this(1) { }

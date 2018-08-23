@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
@@ -37,6 +39,30 @@ namespace Paway.Helper
             {
                 formatter.Serialize(stream, data);
                 return stream.ToArray();
+            }
+        }
+        /// <summary>
+        /// byte[]转图片(无编码)
+        /// </summary>
+        public static Image BytesToImage(byte[] buffer)
+        {
+            MemoryStream ms = new MemoryStream(buffer);
+            Image image = Image.FromStream(ms);
+            return image;
+        }
+        /// <summary>
+        /// 图片转byte[](无编码)
+        /// </summary>
+        public static byte[] ImageToBytes(Image image)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                image.Save(ms, image.RawFormat);
+                byte[] buffer = new byte[ms.Length];
+                //Image.Save()会改变MemoryStream的Position，需要重新Seek到Begin
+                ms.Seek(0, SeekOrigin.Begin);
+                ms.Read(buffer, 0, buffer.Length);
+                return buffer;
             }
         }
     }

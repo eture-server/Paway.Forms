@@ -87,7 +87,7 @@ namespace Paway.Utils.Data
             }
             catch (Exception ex)
             {
-                log.Error(string.Format("ExecuteNonQuery.Error[{0}]\r\n{1}", sql, ex));
+                log.ErrorFormat("ExecuteNonQuery.Error[{0}]\r\n{1}", sql, ex);
                 throw;
             }
             finally
@@ -112,7 +112,7 @@ namespace Paway.Utils.Data
             }
             catch (Exception ex)
             {
-                log.Error(string.Format("ExecuteScalar.Error[{0}]\r\n{1}", sql, ex));
+                log.ErrorFormat("ExecuteScalar.Error[{0}]\r\n{1}", sql, ex);
                 throw;
             }
             finally
@@ -142,7 +142,7 @@ namespace Paway.Utils.Data
             }
             catch (Exception ex)
             {
-                log.Error(string.Format("ExecuteDataTable.Error[{0}]\r\n{1}", sql, ex));
+                log.ErrorFormat("ExecuteDataTable.Error[{0}]\r\n{1}", sql, ex);
                 throw;
             }
             finally
@@ -211,7 +211,7 @@ namespace Paway.Utils.Data
             }
             catch (Exception ex)
             {
-                log.Error(string.Format("StartCommand.Error[{0}]\r\n{1}", sql, ex));
+                log.ErrorFormat("StartCommand.Error[{0}]\r\n{1}", sql, ex);
                 throw;
             }
         }
@@ -239,7 +239,7 @@ namespace Paway.Utils.Data
             }
             catch (Exception ex)
             {
-                log.Error(string.Format("EndCommand.Error[{0}]\r\n{1}", cmd.CommandText, ex));
+                log.ErrorFormat("EndCommand.Error[{0}]\r\n{1}", cmd.CommandText, ex);
                 throw;
             }
         }
@@ -264,7 +264,7 @@ namespace Paway.Utils.Data
             }
             catch (Exception ex)
             {
-                log.Error(string.Format("TransStartCommand.Error\r\n{0}", ex));
+                log.ErrorFormat("TransStartCommand.Error\r\n{0}", ex);
                 throw;
             }
         }
@@ -298,11 +298,11 @@ namespace Paway.Utils.Data
             try
             {
                 cmd.Transaction.Rollback();
-                log.Error(string.Format("TransCommand.Execute.Error[{0}]\r\n{1}", cmd.CommandText, e));
+                log.ErrorFormat("TransCommand.Execute.Error[{0}]", cmd.CommandText);
             }
             catch (Exception ex)
             {
-                log.Error(string.Format("TransError.Error{0}\r\n{1}", cmd.CommandText, ex));
+                log.ErrorFormat("TransError.Error{0}\r\n{1}", cmd.CommandText, ex);
                 throw;
             }
         }
@@ -383,7 +383,7 @@ namespace Paway.Utils.Data
             }
             catch (Exception ex)
             {
-                log.Error(string.Format("Find.Error[{0}]\r\n{1}", sql, ex));
+                log.ErrorFormat("Find.Error[{0}]\r\n{1}", sql, ex);
                 throw;
             }
             finally
@@ -496,7 +496,7 @@ namespace Paway.Utils.Data
             }
             catch (Exception ex)
             {
-                log.Error(string.Format("Find.Error[{0}]\r\n{1}", sql, ex));
+                log.ErrorFormat("Find.Error[{0}]\r\n{1}", sql, ex);
                 throw;
             }
             finally
@@ -545,7 +545,7 @@ namespace Paway.Utils.Data
             }
             catch (Exception ex)
             {
-                log.Error(string.Format("Find.Error[{0}]\r\n{1}", sql, ex));
+                log.ErrorFormat("Find.Error[{0}]\r\n{1}", sql, ex);
                 throw;
             }
             finally
@@ -872,7 +872,7 @@ namespace Paway.Utils.Data
             }
             catch (Exception ex)
             {
-                log.Error(string.Format("Delete.Error[{0}]\r\n{1}", sql, ex));
+                log.ErrorFormat("Delete.Error[{0}]\r\n{1}", sql, ex);
                 throw;
             }
             finally
@@ -899,7 +899,7 @@ namespace Paway.Utils.Data
             }
             catch (Exception ex)
             {
-                log.Error(string.Format("Delete.Error[{0}]\r\n{1}", sql, ex));
+                log.ErrorFormat("Delete.Error[{0}]\r\n{1}", sql, ex);
                 throw;
             }
             finally
@@ -1737,7 +1737,7 @@ namespace Paway.Utils.Data
 
             if (prop.PropertyType == typeof(Image) && value is Image)
             {
-                value = SctructHelper.GetByteFromObject(value);
+                value = SctructHelper.ImageToBytes((Image)value);
             }
             else if (prop.PropertyType == typeof(DateTime) && value is DateTime)
             {
@@ -1759,7 +1759,7 @@ namespace Paway.Utils.Data
 
             if (prop.PropertyType == typeof(Image) && value is Image)
             {
-                value = SctructHelper.GetByteFromObject(value);
+                value = SctructHelper.ImageToBytes((Image)value);
             }
             else if (prop.PropertyType == typeof(DateTime) && value is DateTime)
             {
