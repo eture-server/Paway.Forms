@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
 using log4net;
+using System.Text;
 
 namespace Paway.Utils.Tcp
 {
@@ -115,7 +116,7 @@ namespace Paway.Utils.Tcp
                 SocketConfig.ThreadList.TryAdd(Thread.CurrentThread.ManagedThreadId, "Server Heart Listener");
                 while (!ForceStop)
                 {
-                    InsertSendData("hello,world", false);
+                    InsertSendData(Encoding.GetEncoding("utf-8").GetBytes("hello,world"), false);
                     Thread.Sleep(heartTime * 1000);
                 }
             }
