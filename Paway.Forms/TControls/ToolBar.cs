@@ -2168,6 +2168,21 @@ namespace Paway.Forms
         /// <summary>
         ///     停止变色
         /// </summary>
+        public void TChangeStop(ToolItem item)
+        {
+            item.IChange = false;
+            for (var i = 0; i < Items.Count; i++)
+            {
+                if (Items[i].IChange)
+                {
+                    return;
+                }
+            }
+            _tChange.Enabled = false;
+        }
+        /// <summary>
+        ///     停止变色
+        /// </summary>
         public void TChangeStop()
         {
             _tChange.Enabled = false;
