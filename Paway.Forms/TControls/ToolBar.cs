@@ -2166,7 +2166,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     停止变色
+        ///     停止单项变色
         /// </summary>
         public void TChangeStop(ToolItem item)
         {

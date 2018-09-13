@@ -14,6 +14,7 @@ using System.Data.SqlClient;
 using Paway.Utils.Data;
 using System.IO;
 using Paway.Test.Properties;
+using Paway.Win32;
 
 namespace Paway.Test
 {
@@ -44,6 +45,7 @@ namespace Paway.Test
                 };
                 list.Add(data);
             }
+            Win32Helper.ActiveForm(this.Handle);
         }
         private void btInsert_Click(object sender, EventArgs e)
         {

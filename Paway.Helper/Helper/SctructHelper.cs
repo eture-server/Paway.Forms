@@ -57,8 +57,9 @@ namespace Paway.Helper
         {
             using (MemoryStream ms = new MemoryStream())
             {
-                if (image.RawFormat.Equals(ImageFormat.MemoryBmp)) return null;
-                image.Save(ms, image.RawFormat);
+                ImageFormat format = image.RawFormat;
+                if (image.RawFormat.Equals(ImageFormat.MemoryBmp)) format = ImageFormat.Png;
+                image.Save(ms, format);
                 byte[] buffer = new byte[ms.Length];
                 //Image.Save()会改变MemoryStream的Position，需要重新Seek到Begin
                 ms.Seek(0, SeekOrigin.Begin);
