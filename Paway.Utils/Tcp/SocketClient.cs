@@ -95,15 +95,6 @@ namespace Paway.Utils.Tcp
             }
         }
 
-        /// <summary>
-        ///     注销连接
-        /// </summary>
-        public void StopConnect()
-        {
-            Disconnect();
-            Dispose();
-        }
-
         #endregion
     }
 }
