@@ -28,7 +28,7 @@ namespace Paway.Utils.Tcp
         /// <summary>
         ///     连接完成
         /// </summary>
-        public event EventHandler<SocketAsyncEventArgs> ConnectFinished;
+        public event Action<IPEndPoint, SocketAsyncEventArgs> ConnectFinished;
 
         #endregion
 

@@ -34,14 +34,14 @@ namespace Paway.Helper
         /// <summary>
         ///     接收到的消息
         /// </summary>
-        public event EventHandler<UDPEventArgs> MessageEvent;
+        public event Action<UDPEventArgs> MessageEvent;
 
         /// <summary>
         ///     抛出异常
         /// </summary>
         protected void OnError(string msg, IPEndPoint ipAddress)
         {
-            MessageEvent?.Invoke(null, new UDPEventArgs(false, msg, ipAddress));
+            MessageEvent?.Invoke(new UDPEventArgs(false, msg, ipAddress));
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Paway.Helper
         {
             try
             {
-                MessageEvent?.Invoke(null, new UDPEventArgs(true, msg, ipAddress));
+                MessageEvent?.Invoke(new UDPEventArgs(true, msg, ipAddress));
             }
             catch
             {

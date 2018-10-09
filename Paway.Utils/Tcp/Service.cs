@@ -47,7 +47,7 @@ namespace Paway.Utils.Tcp
         /// <summary>
         ///     服务端事件
         /// </summary>
-        public event EventHandler<ServiceEventArgs> SystemEvent;
+        public event Action<ServiceEventArgs> SystemEvent;
 
         /// <summary>
         ///     开始监听
@@ -228,7 +228,7 @@ namespace Paway.Utils.Tcp
                     if (msg.Type == ServiceType.Error) log.Error(msg.Message);
                     else log.Warn(msg.Message);
                 }
-                SystemEvent?.Invoke(this, msg);
+                SystemEvent?.Invoke(msg);
             }
             catch
             {
@@ -260,7 +260,7 @@ namespace Paway.Utils.Tcp
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Client_ClientEvent(object sender, ServiceEventArgs e)
+        private void Client_ClientEvent(ServiceEventArgs e)
         {
             OnSystemEvent(e);
         }

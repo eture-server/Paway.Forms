@@ -30,7 +30,7 @@ namespace Paway.Utils.Tcp
         /// <summary>
         ///     外部事件
         /// </summary>
-        public event EventHandler ChangeEvent;
+        public event Action ChangeEvent;
 
         /// <summary>
         ///     引发外部事件方法
@@ -39,7 +39,7 @@ namespace Paway.Utils.Tcp
         {
             try
             {
-                ChangeEvent?.Invoke(sender, EventArgs.Empty);
+                ChangeEvent?.Invoke();
             }
             catch
             {
@@ -93,12 +93,12 @@ namespace Paway.Utils.Tcp
         /// <summary>
         ///     客户端事件
         /// </summary>
-        public event EventHandler<ServiceEventArgs> ClientEvent;
+        public event Action<ServiceEventArgs> ClientEvent;
 
         /// <summary>
         ///     接收到的消息
         /// </summary>
-        public event EventHandler MessageEvent;
+        public event Action<object> MessageEvent;
 
         #endregion
 
@@ -180,7 +180,7 @@ namespace Paway.Utils.Tcp
                 {
                     message = buffer;
                 }
-                MessageEvent?.Invoke(message, EventArgs.Empty);
+                MessageEvent?.Invoke(message);
             }
             catch (Exception ex)
             {
@@ -234,7 +234,7 @@ namespace Paway.Utils.Tcp
                     Port = IPPoint.Port,
                     Message = message
                 };
-                ClientEvent?.Invoke(this, msg);
+                ClientEvent?.Invoke(msg);
             }
             catch
             {
@@ -254,7 +254,7 @@ namespace Paway.Utils.Tcp
                     Ip = IPPoint.Address.ToString(),
                     Port = IPPoint.Port
                 };
-                ClientEvent?.Invoke(this, msg);
+                ClientEvent?.Invoke(msg);
             }
             catch
             {
