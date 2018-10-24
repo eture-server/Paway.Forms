@@ -97,7 +97,7 @@
             this.Name = "AboutForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.SysButton = Paway.Forms.TSysButton.Close;
+            this.SysButton = Paway.Helper.TSysButton.Close;
             this.Text = "关于我们";
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -52,7 +52,7 @@
             this.toolBar1.Items.Add(toolItem1);
             this.toolBar1.ItemSize = new System.Drawing.Size(191, 251);
             this.toolBar1.Location = new System.Drawing.Point(0, 0);
-            this.toolBar1.MDirection = Paway.Forms.TMDirection.T3DLeftToRight;
+            this.toolBar1.MDirection = Paway.Helper.TMDirection.T3DLeftToRight;
             this.toolBar1.MInterval = 5;
             this.toolBar1.Name = "toolBar1";
             this.toolBar1.Size = new System.Drawing.Size(191, 251);

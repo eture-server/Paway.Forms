@@ -20,6 +20,34 @@ namespace Paway.Utils.Data
         /// </summary>
         protected static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        #region 事件
+        /// <summary>
+        /// 更新事件
+        /// </summary>
+        public event Action<Type, SqlType> UpdateEvent;
+        /// <summary>
+        /// 抛出事件
+        /// </summary>
+        protected virtual void OnUpdate<T>(DbCommand cmd, SqlType type)
+        {
+            UpdateEvent?.Invoke(typeof(T), type);
+        }
+        /// <summary>
+        /// 抛出事件
+        /// </summary>
+        protected virtual void OnUpdate<T>(DbCommand cmd, List<T> list, SqlType type)
+        {
+            OnUpdate<T>(cmd, type);
+        }
+        /// <summary>
+        /// 抛出事件
+        /// </summary>
+        protected virtual void OnDelete<T>(DbCommand cmd, long id)
+        {
+            OnUpdate<T>(cmd, SqlType.Delete);
+        }
+        #endregion
+
         /// <summary>
         ///     返回最新插入列主键Id
         /// </summary>
@@ -578,6 +606,7 @@ namespace Paway.Utils.Data
 
                 InsertChild<T>(row, cmd, Identity);
 
+                OnUpdate<T>(cmd, SqlType.Insert);
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
@@ -604,6 +633,7 @@ namespace Paway.Utils.Data
                 {
                     InsertChild<T>(table.Rows[i], cmd, Identity);
                 }
+                OnUpdate<T>(cmd, SqlType.Insert);
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
@@ -669,6 +699,7 @@ namespace Paway.Utils.Data
                             }
                         }
                 }
+                OnUpdate<T>(cmd, list, SqlType.Insert);
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
@@ -705,6 +736,7 @@ namespace Paway.Utils.Data
                 lock (onlyLock)
                     cmd.ExecuteNonQuery();
 
+                OnUpdate<T>(cmd, SqlType.Update);
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
@@ -747,6 +779,7 @@ namespace Paway.Utils.Data
 
                 UpdateChild<T>(row, cmd, args);
 
+                OnUpdate<T>(cmd, SqlType.Update);
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
@@ -773,6 +806,7 @@ namespace Paway.Utils.Data
                 {
                     UpdateChild<T>(table.Rows[i], cmd, args);
                 }
+                OnUpdate<T>(cmd, SqlType.Update);
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
@@ -825,6 +859,7 @@ namespace Paway.Utils.Data
                     lock (onlyLock)
                         cmd.ExecuteNonQuery();
                 }
+                OnUpdate<T>(cmd, list, SqlType.Update);
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
@@ -867,8 +902,12 @@ namespace Paway.Utils.Data
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add(parame);
+                bool result = false;
                 lock (onlyLock)
-                    return cmd.ExecuteNonQuery() == 1;
+                    result = cmd.ExecuteNonQuery() == 1;
+
+                OnDelete<T>(cmd, id);
+                return result;
             }
             catch (Exception ex)
             {
@@ -894,8 +933,12 @@ namespace Paway.Utils.Data
                 sql = DataBaseHelper.Delete<T>(find);
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
+                bool result = false;
                 lock (onlyLock)
-                    return cmd.ExecuteNonQuery() == 1;
+                    result = cmd.ExecuteNonQuery() == 1;
+
+                OnUpdate<T>(cmd, SqlType.Delete);
+                return result;
             }
             catch (Exception ex)
             {
@@ -937,6 +980,7 @@ namespace Paway.Utils.Data
                     lock (onlyLock)
                         cmd.ExecuteNonQuery();
                 }
+                OnUpdate<T>(cmd, SqlType.Delete);
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
@@ -971,6 +1015,7 @@ namespace Paway.Utils.Data
                     lock (onlyLock)
                         cmd.ExecuteNonQuery();
                 }
+                OnUpdate<T>(cmd, list, SqlType.Delete);
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
@@ -1065,6 +1110,7 @@ namespace Paway.Utils.Data
                             }
                         }
                 }
+                OnUpdate<T>(cmd, list, SqlType.Replace);
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
@@ -1116,6 +1162,7 @@ namespace Paway.Utils.Data
                             }
                         }
                 }
+                OnUpdate<T>(cmd, SqlType.Replace);
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }

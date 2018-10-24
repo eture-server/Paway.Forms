@@ -176,7 +176,7 @@
             this.treeView1.CheckBoxes = true;
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             treeItem1.Name = "Statu";
-            treeItem1.Type = Paway.Forms.TreeItemType.Image;
+            treeItem1.Type = Paway.Helper.TreeItemType.Image;
             treeItem1.Width = 16;
             treeItem2.IAlign = true;
             treeItem2.Name = "Name";
@@ -284,7 +284,7 @@
             this.IDrawBorder = true;
             this.Name = "FormQQ";
             this.Padding = new System.Windows.Forms.Padding(0, 120, 1, 80);
-            this.SysButton = Paway.Forms.TSysButton.Close;
+            this.SysButton = Paway.Helper.TSysButton.Close;
             this.Text = "Form2";
             this.contextMenuStrip1.ResumeLayout(false);
             this.qqTabPage2.ResumeLayout(false);

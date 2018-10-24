@@ -1,4 +1,4 @@
-﻿namespace Paway.Forms
+﻿namespace Paway.Helper
 {
     /// <summary>
     ///     鼠标状态

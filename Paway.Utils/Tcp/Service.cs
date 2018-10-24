@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading;
 using log4net;
 using System.Text;
+using Paway.Helper;
 
 namespace Paway.Utils.Tcp
 {

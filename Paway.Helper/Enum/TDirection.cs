@@ -1,6 +1,6 @@
 ﻿using Paway.Helper;
 
-namespace Paway.Forms
+namespace Paway.Helper
 {
     /// <summary>
     ///     图片位置

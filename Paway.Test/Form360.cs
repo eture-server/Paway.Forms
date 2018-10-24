@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Paway.Forms;
 using System.Reflection;
 using Paway.Test.UI;
+using Paway.Helper;
 
 namespace Paway.Test
 {

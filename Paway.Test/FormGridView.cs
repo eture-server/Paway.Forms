@@ -33,7 +33,7 @@ namespace Paway.Test
         int index = -1;
         Bitmap bitmap;
         Bitmap last;
-        void comBoxGridView1_CurrentCellChanged(object sender, EventArgs e)
+        private void comBoxGridView1_CurrentCellChanged(object sender, EventArgs e)
         {
             if (this.tDataGridView1.CurrentCell == null) return;
             if (this.tDataGridView1.CurrentCell.RowIndex == index) return;
@@ -155,7 +155,7 @@ namespace Paway.Test
         public string B { get; set; }
 
     }
-    public class WaitDrawDataGridViewData : Data2
+    class WaitDrawDataGridViewData : Data2
     {
         public int Statu { get; set; }
 
@@ -197,7 +197,7 @@ namespace Paway.Test
 
         public long Price { get; set; }
     }
-    public enum DeviceType
+    enum DeviceType
     {
         None,
         Carte,

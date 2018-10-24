@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 using Paway.Resource;
+using Paway.Helper;
 
 namespace Paway.Forms
 {

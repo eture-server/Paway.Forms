@@ -63,8 +63,16 @@
     <Compile Include="Common\Licence.cs" />
     <Compile Include="Common\TMethod.cs" />
     <Compile Include="Common\TConfig.cs" />
+    <Compile Include="Enum\SqlType.cs" />
+    <Compile Include="Enum\RegexType.cs" />
+    <Compile Include="Enum\TreeItemType.cs" />
+    <Compile Include="Enum\TConvertType.cs" />
+    <Compile Include="Enum\ServiceType.cs" />
     <Compile Include="Enum\LeveType.cs" />
     <Compile Include="Enum\MenuType.cs" />
+    <Compile Include="Enum\TDirection.cs" />
+    <Compile Include="Enum\TMouseState.cs" />
+    <Compile Include="Enum\TSysButton.cs" />
     <Compile Include="Helper\LoadHelper.cs" />
     <Compile Include="Helper\ExceptionHelper.cs" />
     <Compile Include="Helper\ExcelHelper.cs" />

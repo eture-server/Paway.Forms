@@ -40,7 +40,7 @@
             this.Name = "ImageForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.SysButton = Paway.Forms.TSysButton.Close;
+            this.SysButton = Paway.Helper.TSysButton.Close;
             this.TextShow = "1.0";
             this.ResumeLayout(false);
 

@@ -71,7 +71,7 @@
             this.toolbar.ItemSize = new System.Drawing.Size(94, 46);
             this.toolbar.ItemSpace = 15;
             this.toolbar.Location = new System.Drawing.Point(0, 0);
-            this.toolbar.MDirection = Paway.Forms.TMDirection.Up;
+            this.toolbar.MDirection = Paway.Helper.TMDirection.Up;
             this.toolbar.Name = "toolbar";
             this.toolbar.Size = new System.Drawing.Size(533, 49);
             this.toolbar.TabIndex = 88;

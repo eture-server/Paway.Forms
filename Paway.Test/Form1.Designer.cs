@@ -137,7 +137,7 @@
             this.toolBar.ItemSpace = 5;
             this.toolBar.IText = true;
             this.toolBar.Location = new System.Drawing.Point(35, 29);
-            this.toolBar.MDirection = Paway.Forms.TMDirection.Center;
+            this.toolBar.MDirection = Paway.Helper.TMDirection.Center;
             this.toolBar.Name = "toolBar";
             this.toolBar.Size = new System.Drawing.Size(260, 215);
             this.toolBar.TabIndex = 31;

@@ -235,7 +235,7 @@
             this.toolBar2.TChange.ColorMove = System.Drawing.Color.Red;
             this.toolBar2.TChange.ColorNormal = System.Drawing.Color.Yellow;
             this.toolBar2.TDesc.ColorDown = System.Drawing.Color.White;
-            this.toolBar2.TDirection = Paway.Forms.TDirection.Vertical;
+            this.toolBar2.TDirection = Paway.Helper.TDirection.Vertical;
             this.toolBar2.TextFirst.ColorDown = System.Drawing.Color.Black;
             this.toolBar2.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolBar2.TextFirst.ColorNormal = System.Drawing.Color.Black;
