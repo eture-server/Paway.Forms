@@ -248,7 +248,7 @@ namespace Paway.Utils.Data
         ///     关闭DbCommand实例的连接，并释放
         /// </summary>
         /// <param name="cmd"></param>
-        protected void CommandEnd(DbCommand cmd)
+        protected virtual void CommandEnd(DbCommand cmd)
         {
             try
             {
