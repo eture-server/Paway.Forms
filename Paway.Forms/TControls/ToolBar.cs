@@ -806,7 +806,6 @@ namespace Paway.Forms
         public virtual void OnItemClick(ToolItem item, EventArgs e)
         {
             if (!item.Enable) return;
-            if (ICheckEvent)
             {
                 if (Events[EventItemClick] is EventHandler handler)
                 {
@@ -1896,7 +1895,6 @@ namespace Paway.Forms
                     InvalidateItem(_selectedItem, TMouseState.Down);
                     OnSelectedItemChanged(_items[index], EventArgs.Empty);
                 }
-                else
                 {
                     OnItemClick(_items[index], EventArgs.Empty);
                 }
