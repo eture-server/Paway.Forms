@@ -643,6 +643,18 @@ namespace Paway.Forms
 
         #region 合并单元格
         /// <summary>
+        /// 合并单元格的列
+        /// </summary>
+        private readonly List<int> SpanColumns = new List<int>();
+        /// <summary>
+        /// 合并单元格的列
+        /// </summary>
+        /// <param name="param"></param>
+        public void AddSpanColumns(params int[] param)
+        {
+            SpanColumns.AddRange(param);
+        }
+        /// <summary>
         ///     合并单元格
         /// </summary>
         private void DrawCell(DataGridViewCellPaintingEventArgs e)
@@ -658,13 +670,14 @@ namespace Paway.Forms
             var DownRows = 0;
             //总行数
             var count = 0;
-            if (Columns[e.ColumnIndex] is DataGridViewTextBoxColumn cell && cell.Visible && cell.ReadOnly)
+            if (SpanColumns.Contains(e.ColumnIndex) && Columns[e.ColumnIndex] is DataGridViewTextBoxColumn cell
+                && cell.Visible && cell.ReadOnly)
             {
+                var curValue = e.Value == null ? "" : e.Value.ToString().Trim();
+                if (string.IsNullOrEmpty(curValue)) return;
                 cellwidth = e.CellBounds.Width;
                 var gridLinePen = new Pen(gridBrush);
-                var curValue = e.Value == null ? "" : e.Value.ToString().Trim();
                 var select = false;
-                if (!string.IsNullOrEmpty(curValue))
                 {
                     #region 获取下面的行数
 
@@ -1039,19 +1052,17 @@ namespace Paway.Forms
                         break;
                 }
 
-                var backBrush = new SolidBrush(Color.Red);
                 var fontBrush = new SolidBrush(e.CellStyle.ForeColor);
                 Console.WriteLine(e.State);
                 if (e.State == DataGridViewElementStates.Selected)
                 {
-                    backBrush.Color = e.CellStyle.BackColor;
                     fontBrush.Color = e.CellStyle.SelectionForeColor;
                 }
                 //画上半部分底色
-                //g.FillRectangle(new SolidBrush(e.CellStyle.SelectionBackColor), left, top, right - left, (bottom - top) / 2);
+                g.FillRectangle(new SolidBrush(Color.White), left - 2, top - 1, right - left + 3, (bottom - top) / 2 + 1);
 
                 //画中线
-                g.DrawLine(new Pen(GridColor), left, (top + bottom) / 2, right, (top + bottom) / 2);
+                g.DrawLine(new Pen(GridColor), left - 2, (top + bottom) / 2, right, (top + bottom) / 2);
 
                 //写小标题
                 g.DrawString(string.Format("{0}", e.Value), e.CellStyle.Font, fontBrush,

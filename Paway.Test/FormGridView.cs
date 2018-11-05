@@ -110,7 +110,7 @@ namespace Paway.Test
             }
             tDataGridView1.DataSource = list;
 
-            this.tDataGridView1.AddSpanHeader(1, 2, "XXXX2");
+            this.tDataGridView1.AddSpanHeader(2, 2, "Hello");
         }
         protected void CheckBox()
         {
@@ -134,6 +134,7 @@ namespace Paway.Test
                 });
             }
             tDataGridView2.DataSource = list;
+            tDataGridView2.AddSpanColumns(0, 1);
 
             BindingList<Data2> list2 = new BindingList<Data2>();
             for (int i = 0; i < 6; i++)
