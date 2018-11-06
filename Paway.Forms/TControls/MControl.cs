@@ -37,7 +37,7 @@ namespace Paway.Forms
         ///     控件数据
         /// </summary>
         [Description("控件数据"), DefaultValue(null)]
-        public new virtual object Tag { get; set; }
+        public new virtual EventArgs Args { get; set; }
 
         /// <summary>
         ///     从其它控件切换过来时重新激活
@@ -191,7 +191,7 @@ namespace Paway.Forms
                 }
                 if (e != null)
                 {
-                    control.Tag = e;
+                    control.Args = e;
                 }
                 if (method != null)
                 {
