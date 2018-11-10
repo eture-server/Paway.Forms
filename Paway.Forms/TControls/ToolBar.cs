@@ -968,6 +968,7 @@ namespace Paway.Forms
             item.Rectangle = new Rectangle(xPos, yPos, _itemSize.Width, _itemSize.Height);
             SizeF size = TextRenderer.MeasureText(item.Text, TextFirst.FontNormal, item.Rectangle.Size);
             int width = size.Width.ToInt() + _textPading.Left + _textPading.Right;
+            if (IImageShow && item.Image != null) width += ImageSize.Width + _textPading.Left + _textPading.Right;
             int height = 0;
             if (_iAutoWidth)
             {
