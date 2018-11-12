@@ -107,6 +107,7 @@
             this.tDataGridView2.Location = new System.Drawing.Point(3, 3);
             this.tDataGridView2.MultiSelect = true;
             this.tDataGridView2.Name = "tDataGridView2";
+            this.tDataGridView2.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.tDataGridView2.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
             this.tDataGridView2.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Peru;
             this.tDataGridView2.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
@@ -266,6 +267,7 @@
             this.tDataGridView1.RowHeadersWidth = 41;
             dataGridViewCellStyle11.BackColor = System.Drawing.Color.White;
             this.tDataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle11;
+            this.tDataGridView1.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.tDataGridView1.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Red;
             this.tDataGridView1.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Thistle;
             this.tDataGridView1.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Lime;

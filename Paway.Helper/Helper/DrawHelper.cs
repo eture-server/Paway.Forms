@@ -66,8 +66,7 @@ namespace Paway.Helper
         {
             get
             {
-                return TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.VerticalCenter |
-                       TextFormatFlags.EndEllipsis;
+                return TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis;
             }
         }
 
@@ -76,7 +75,7 @@ namespace Paway.Helper
         /// </summary>
         public static TextFormatFlags TextLeft
         {
-            get { return TextFormatFlags.VerticalCenter | TextFormatFlags.PathEllipsis | TextFormatFlags.Left; }
+            get { return TextFormatFlags.VerticalCenter | TextFormatFlags.Left | TextFormatFlags.EndEllipsis; }
         }
 
         /// <summary>
@@ -84,7 +83,7 @@ namespace Paway.Helper
         /// </summary>
         public static TextFormatFlags TextRight
         {
-            get { return TextFormatFlags.VerticalCenter | TextFormatFlags.PathEllipsis | TextFormatFlags.Right; }
+            get { return TextFormatFlags.VerticalCenter | TextFormatFlags.Right | TextFormatFlags.EndEllipsis; }
         }
 
         /// <summary>
@@ -94,7 +93,7 @@ namespace Paway.Helper
         {
             get
             {
-                return TextFormatFlags.VerticalCenter | TextFormatFlags.PathEllipsis | TextFormatFlags.HorizontalCenter;
+                return TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter | TextFormatFlags.EndEllipsis;
             }
         }
 

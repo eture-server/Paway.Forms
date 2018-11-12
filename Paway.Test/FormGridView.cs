@@ -119,7 +119,7 @@ namespace Paway.Test
             {
                 list.Add(new CheckBoxData
                 {
-                    ProColor = "红色",
+                    ProColor = "红色ABC123456789CBFWEFJKGRNFKEFNLWDF",
                     ProSize = 35 + (i < 2 ? 0 : 1),
                     Price = i,
                 });

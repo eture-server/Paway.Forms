@@ -90,9 +90,14 @@ namespace Paway.Forms
                 intHeight = intHeight / 2;
 
                 colorFore = Color.Black;
-                //the first line
+                //the first line 
+                TextFormatFlags format = DrawHelper.TextEnd;
+                if (e.CellStyle.Alignment == DataGridViewContentAlignment.MiddleCenter)
+                {
+                    format = DrawHelper.TextCenter;
+                }
                 TextRenderer.DrawText(graphics, strFirst, fontFore, new Rectangle(intX, intY, intWidth, intHeight),
-                    colorFore, DrawHelper.TextEnd);
+                    colorFore, format);
 
                 fontFore = e.CellStyle.Font;
                 intY = intY + intHeight;
@@ -100,7 +105,7 @@ namespace Paway.Forms
                 colorFore = Color.SteelBlue;
                 //the seconde line
                 TextRenderer.DrawText(graphics, strSecond, fontFore, new Rectangle(intX, intY, intWidth, intHeight),
-                    colorFore, DrawHelper.TextEnd);
+                    colorFore, format);
 
                 e.Handled = true;
             }
@@ -641,13 +646,13 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 合并单元格
+        #region 合并行
         /// <summary>
         /// 合并单元格的列
         /// </summary>
         private readonly List<int> SpanColumns = new List<int>();
         /// <summary>
-        /// 合并单元格的列
+        /// 合并行
         /// </summary>
         /// <param name="param"></param>
         public void AddSpanColumns(params int[] param)
@@ -808,57 +813,14 @@ namespace Paway.Forms
             var fontheight = (int)e.Graphics.MeasureString(value, e.CellStyle.Font).Height;
             var fontwidth = (int)e.Graphics.MeasureString(value, e.CellStyle.Font).Width;
             var cellheight = e.CellBounds.Height;
-
-            if (e.CellStyle.Alignment == DataGridViewContentAlignment.BottomCenter)
+            TextFormatFlags format = DrawHelper.TextEnd;
+            if (e.CellStyle.Alignment == DataGridViewContentAlignment.MiddleCenter)
             {
-                e.Graphics.DrawString(value, e.CellStyle.Font, fontBrush, e.CellBounds.X + (cellwidth - fontwidth) / 2,
-                    e.CellBounds.Y + cellheight * DownRows - fontheight);
+                format = DrawHelper.TextCenter;
             }
-            else if (e.CellStyle.Alignment == DataGridViewContentAlignment.BottomLeft)
-            {
-                e.Graphics.DrawString(value, e.CellStyle.Font, fontBrush, e.CellBounds.X,
-                    e.CellBounds.Y + cellheight * DownRows - fontheight);
-            }
-            else if (e.CellStyle.Alignment == DataGridViewContentAlignment.BottomRight)
-            {
-                e.Graphics.DrawString(value, e.CellStyle.Font, fontBrush, e.CellBounds.X + cellwidth - fontwidth,
-                    e.CellBounds.Y + cellheight * DownRows - fontheight);
-            }
-            else if (e.CellStyle.Alignment == DataGridViewContentAlignment.MiddleCenter)
-            {
-                e.Graphics.DrawString(value, e.CellStyle.Font, fontBrush, e.CellBounds.X + (cellwidth - fontwidth) / 2,
-                    e.CellBounds.Y - cellheight * (UpRows - 1) + (cellheight * count - fontheight) / 2);
-            }
-            else if (e.CellStyle.Alignment == DataGridViewContentAlignment.MiddleLeft)
-            {
-                e.Graphics.DrawString(value, e.CellStyle.Font, fontBrush, e.CellBounds.X,
-                    e.CellBounds.Y - cellheight * (UpRows - 1) + (cellheight * count - fontheight) / 2);
-            }
-            else if (e.CellStyle.Alignment == DataGridViewContentAlignment.MiddleRight)
-            {
-                e.Graphics.DrawString(value, e.CellStyle.Font, fontBrush, e.CellBounds.X + cellwidth - fontwidth,
-                    e.CellBounds.Y - cellheight * (UpRows - 1) + (cellheight * count - fontheight) / 2);
-            }
-            else if (e.CellStyle.Alignment == DataGridViewContentAlignment.TopCenter)
-            {
-                e.Graphics.DrawString(value, e.CellStyle.Font, fontBrush, e.CellBounds.X + (cellwidth - fontwidth) / 2,
-                    e.CellBounds.Y - cellheight * (UpRows - 1));
-            }
-            else if (e.CellStyle.Alignment == DataGridViewContentAlignment.TopLeft)
-            {
-                e.Graphics.DrawString(value, e.CellStyle.Font, fontBrush, e.CellBounds.X,
-                    e.CellBounds.Y - cellheight * (UpRows - 1));
-            }
-            else if (e.CellStyle.Alignment == DataGridViewContentAlignment.TopRight)
-            {
-                e.Graphics.DrawString(value, e.CellStyle.Font, fontBrush, e.CellBounds.X + cellwidth - fontwidth,
-                    e.CellBounds.Y - cellheight * (UpRows - 1));
-            }
-            else
-            {
-                e.Graphics.DrawString(value, e.CellStyle.Font, fontBrush, e.CellBounds.X + (cellwidth - fontwidth) / 2,
-                    e.CellBounds.Y - cellheight * (UpRows - 1) + (cellheight * count - fontheight) / 2);
-            }
+            TextRenderer.DrawText(e.Graphics, value, e.CellStyle.Font,
+                new Rectangle(e.CellBounds.X, e.CellBounds.Y - cellheight * (UpRows - 1), e.CellBounds.Width, cellheight * count),
+                e.CellStyle.ForeColor, format);
         }
 
         #endregion
