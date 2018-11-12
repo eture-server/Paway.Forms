@@ -1,4 +1,5 @@
 ﻿using Paway.Forms;
+using Paway.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,6 +26,12 @@ namespace Paway.Test
         void btnReset_Click(object sender, EventArgs e)
         {
             this.tProgressBar1.Value = 0;
+            new Action(Hello).BeginInvoke(null, null);
+        }
+        private void Hello()
+        {
+            System.Threading.Thread.Sleep(2000);
+            ExceptionHelper.Show("Hello");
         }
         void timer_Tick(object sender, EventArgs e)
         {

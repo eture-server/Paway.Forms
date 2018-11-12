@@ -101,6 +101,7 @@ namespace Paway.Helper
             }
             try
             {
+                title = text;
                 while (obj is Control && !(obj is Form))
                 {
                     if (obj.Parent == null) break;
@@ -112,25 +113,36 @@ namespace Paway.Helper
                 }
                 if (obj == null || !obj.Visible || obj.IsDisposed || !(obj is Form))
                 {
-                    if (form == null)
+                    obj = form;
+                    if (obj == null)
                     {
                         IntPtr handle = NativeMethods.GetForegroundWindow();
-                        form = Control.FromChildHandle(handle) as Form;
-                        if (form != null) text = form.Text;
+                        obj = Control.FromChildHandle(handle);
                     }
-                    obj = form;
+                    if (obj == null)
+                    {
+                        foreach (Form item in Application.OpenForms)
+                        {
+                            if (item.GetType().Name != "SkinForm")
+                            {
+                                obj = item;
+                                break;
+                            }
+                        }
+                    }
                 }
+                if (title.IsNullOrEmpty() && obj != null && !obj.IsDisposed) title = obj.Text;
                 if (sync)
-                    new Action<Control, string, LeveType>(Show).BeginInvoke(obj, msg, type, null, null);
+                    new Action<Control, string, string, LeveType>(Show).BeginInvoke(obj, title, msg, type, null, null);
                 else
-                    Show(obj, msg, type);
+                    Show(obj, title, msg, type);
             }
             finally
             {
                 Application.DoEvents();
             }
         }
-        private static void Show(Control obj, string msg, LeveType type)
+        private static void Show(Control obj, string title, string msg, LeveType type)
         {
             MessageBoxIcon icon = MessageBoxIcon.Information;
             switch (type)
@@ -140,19 +152,22 @@ namespace Paway.Helper
             }
             if (obj == null || !obj.Visible || obj.IsDisposed)
             {
-                Show(null, msg, icon);
+                Show(null, title, msg, icon);
             }
             else
             {
-                obj.Invoke(new Action<Control, string, MessageBoxIcon>(Show), new object[] { obj, msg, icon });
+                obj.Invoke(new Action<Control, string, string, MessageBoxIcon>(Show), new object[] { obj, title, msg, icon });
             }
         }
-        private static void Show(Control obj, string msg, MessageBoxIcon icon)
+        private static void Show(Control obj, string title, string msg, MessageBoxIcon icon)
         {
             if (obj == null || !obj.Visible || obj.IsDisposed)
-                MessageBox.Show(msg, text, MessageBoxButtons.OK, icon);
+                MessageBox.Show(msg, title, MessageBoxButtons.OK, icon);
             else
-                MessageBox.Show(obj, msg, text, MessageBoxButtons.OK, icon);
+            {
+                Win32Helper.ActiveForm(obj.Handle);
+                MessageBox.Show(obj, msg, title, MessageBoxButtons.OK, icon);
+            }
         }
     }
 }
