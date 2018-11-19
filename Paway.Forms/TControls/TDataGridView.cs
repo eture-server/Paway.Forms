@@ -508,8 +508,7 @@ namespace Paway.Forms
                     var propertys = type.GetProperties();
                     for (var j = 0; j < propertys.Length; j++)
                     {
-                        var column = propertys[j].Name;
-                        propertys[j].ITable(ref column);
+                        var column = propertys[j].Column();
                         if (column == Columns[i].Name)
                         {
                             pro = propertys[j];

@@ -277,11 +277,11 @@ namespace Paway.Forms
                 if (disposing)
                 {
                     // TODO: 释放托管状态(托管对象)。
-                    _fDown.Dispose();
+                    if (_fDown != null) _fDown.Dispose();
                     _fDown = null;
-                    _fMove.Dispose();
+                    if (_fMove != null) _fMove.Dispose();
                     _fMove = null;
-                    _fNormal.Dispose();
+                    if (_fNormal != null) _fNormal.Dispose();
                     _fNormal = null;
                     StringFormat.Dispose();
                     StringFormat = null;

@@ -22,8 +22,8 @@ namespace Paway.Helper
         {
             Type type = typeof(T);
             XmlDocument doc = new XmlDocument();
-            XmlDeclaration decl = doc.CreateXmlDeclaration("1.0", "utf-8", null);
-            doc.AppendChild(decl);
+            XmlDeclaration xml = doc.CreateXmlDeclaration("1.0", "utf-8", null);
+            doc.AppendChild(xml);
             XmlElement root = doc.CreateElement(info.GetType().Name);
             {
                 doc.AppendChild(root);
@@ -35,7 +35,7 @@ namespace Paway.Helper
                 list.Insert(0, type);
                 for (int i = 0; i < list.Count; i++)
                 {
-                    string desc = Description(list[i]);
+                    string desc = list[i].Description();
                     if (!desc.IsNullOrEmpty())
                     {
                         var comment = doc.CreateComment(desc);
@@ -58,15 +58,6 @@ namespace Paway.Helper
                 }
             }
             doc.Save(file);
-        }
-        /// <summary>
-        ///     获取描述
-        /// </summary>
-        private static string Description(Type type)
-        {
-            var list = type.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
-            if (list.Length == 1) return list[0].Description;
-            return null;
         }
 
         /// <summary>

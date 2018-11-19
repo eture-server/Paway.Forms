@@ -708,6 +708,19 @@ namespace Paway.Helper
             return attrList[0];
         }
         /// <summary>
+        ///     获取描述
+        /// </summary>
+        public static string Description(this Type type)
+        {
+            var list = type.GetCustomAttributes(typeof(EnumTextValueAttribute), false);
+            if (list.Length > 0)
+                return ((EnumTextValueAttribute)list[0]).Text;
+            list = type.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            if (list.Length > 0)
+                return ((DescriptionAttribute)list[0]).Description;
+            return null;
+        }
+        /// <summary>
         /// 生成数据列标记
         /// </summary>
         public static bool ISelect(this PropertyInfo pro, ref string column)
@@ -742,6 +755,18 @@ namespace Paway.Helper
                 column = list[0].Column;
             }
             return list.Length == 0 || list[0].IExcel;
+        }
+        /// <summary>
+        /// 获取列名
+        /// </summary>
+        public static string Column(this PropertyInfo pro)
+        {
+            var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+            if (list.Length == 1 && list[0].Column != null)
+            {
+                return list[0].Column;
+            }
+            return pro.Name;
         }
         /// <summary>
         /// 显示列标记
