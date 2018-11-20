@@ -10,10 +10,10 @@ namespace Paway.Utils.Data
     {
         /// <summary>
         ///     连接字符模板
-        ///     Data Source={0};Initial Catalog={1};Persist Security Info=True;User ID={2};Password={3};
+        ///     Data Source={0};Initial Catalog={1};Persist Security Info=True;User ID={2};Password={3};Pooling=true;Max Pool Size=3000;Min Pool Size=0;
         /// </summary>
         protected const string DbConnect =
-            @"Data Source={0};Initial Catalog={1};Persist Security Info=True;User ID={2};Password={3};";
+            @"Data Source={0};Initial Catalog={1};Persist Security Info=True;User ID={2};Password={3};Pooling=true;Max Pool Size=3000;Min Pool Size=0;";
 
         #region 初始化
 

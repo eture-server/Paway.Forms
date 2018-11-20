@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading;
 using Paway.Helper;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace Paway.Utils.Tcp
 {
@@ -68,6 +69,7 @@ namespace Paway.Utils.Tcp
                     if (SendStop) return;
                     Socket.SendData(byteData);
                     Thread.Sleep(interval);
+                    Debug.WriteLine(MessageQueue.Count);
                 }
                 else
                 {

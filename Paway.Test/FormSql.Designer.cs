@@ -35,12 +35,16 @@
             this.btDelete = new Paway.Forms.QQButton();
             this.btSelect = new Paway.Forms.QQButton();
             this.btnReplace = new Paway.Forms.QQButton();
+            this.btnStart = new Paway.Forms.QQButton();
+            this.tbStart = new Paway.Forms.TNumTestBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.tbStart);
+            this.panel1.Controls.Add(this.btnStart);
             this.panel1.Controls.Add(this.btSelect);
             this.panel1.Controls.Add(this.btnReplace);
             this.panel1.Controls.Add(this.btDelete);
@@ -119,6 +123,30 @@
             this.btnReplace.UseVisualStyleBackColor = false;
             this.btnReplace.Click += new System.EventHandler(this.btnReplace_Click);
             // 
+            // btnStart
+            // 
+            this.btnStart.Location = new System.Drawing.Point(102, 245);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(59, 28);
+            this.btnStart.TabIndex = 17;
+            this.btnStart.Text = "Start";
+            this.btnStart.UseVisualStyleBackColor = false;
+            this.btnStart.Click += new System.EventHandler(this.btSelect_Click);
+            // 
+            // tbStart
+            // 
+            this.tbStart.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tbStart.ForeColor = System.Drawing.Color.Black;
+            this.tbStart.Lines = new string[] {
+        "1000"};
+            this.tbStart.Location = new System.Drawing.Point(25, 247);
+            this.tbStart.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tbStart.MaxLength = 10;
+            this.tbStart.Name = "tbStart";
+            this.tbStart.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.tbStart.Size = new System.Drawing.Size(71, 24);
+            this.tbStart.TabIndex = 38;
+            // 
             // FormSql
             // 
             this.ClientSize = new System.Drawing.Size(407, 324);
@@ -140,9 +168,7 @@
         private Forms.QQButton btDelete;
         private Forms.QQButton btSelect;
         private Forms.QQButton btnReplace;
-
-
-
-
+        private Forms.QQButton btnStart;
+        private Forms.TNumTestBox tbStart;
     }
 }

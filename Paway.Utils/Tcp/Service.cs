@@ -45,6 +45,12 @@ namespace Paway.Utils.Tcp
         /// </summary>
         public IPEndPoint IpPort { get; private set; }
 
+        private int _heartTime = 3000;
+        /// <summary>
+        /// 心跳检测间隔
+        /// </summary>
+        public int HeartTime { get { return _heartTime; } set { _heartTime = value; } }
+
         /// <summary>
         ///     服务端事件
         /// </summary>
@@ -118,7 +124,7 @@ namespace Paway.Utils.Tcp
                 while (!ForceStop)
                 {
                     InsertSendData(Encoding.GetEncoding("utf-8").GetBytes("hello,world"), false);
-                    Thread.Sleep(heartTime * 1000);
+                    Thread.Sleep(heartTime * _heartTime);
                 }
             }
             catch (Exception ex)
@@ -259,7 +265,6 @@ namespace Paway.Utils.Tcp
         /// <summary>
         ///     客户端事件与断开连接事件
         /// </summary>
-        /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Client_ClientEvent(ServiceEventArgs e)
         {

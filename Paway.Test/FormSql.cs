@@ -15,6 +15,7 @@ using Paway.Utils.Data;
 using System.IO;
 using Paway.Test.Properties;
 using Paway.Win32;
+using System.Diagnostics;
 
 namespace Paway.Test
 {
@@ -26,8 +27,18 @@ namespace Paway.Test
         public FormSql()
         {
             InitializeComponent();
+            btnStart.Click += BtnStart_Click;
         }
-
+        private void BtnStart_Click(object sender, EventArgs e)
+        {
+            int maxCount = tbStart.Text.ToInt();
+            for (int i = 0; i < maxCount; i++)
+            {
+                SqlService server = new SqlService();
+                server.Connect();
+                Trace.WriteLine(string.Format("成功创建连接对象{0}", i + 1));
+            }
+        }
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
@@ -163,6 +174,10 @@ namespace Paway.Test
             //base.InitConnect("ConnectionString");//SqlHelper
             base.InitConnect(@"(local)\SQLEXPRESS", "DiningLC", "mobot", "mobot");
             //base.InitConnect("127.0.0.1", "test", "root", "mobotaA*");
+        }
+        public void Connect()
+        {
+            TransStart();
         }
     }
 

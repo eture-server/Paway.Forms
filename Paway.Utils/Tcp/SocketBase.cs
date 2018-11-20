@@ -306,6 +306,10 @@ namespace Paway.Utils.Tcp
                 var byteData = message is byte[] ? message as byte[] : SctructHelper.GetByteFromObject(message);
                 SendDataService.SendData(byteData);
             }
+            else if (!Socket.Connected)
+            {
+                throw new ArgumentException("DisConnected");
+            }
             else if (ithrow)
             {
                 if (SendDataService == null)
