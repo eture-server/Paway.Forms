@@ -50,6 +50,7 @@ namespace Paway.Test
             this.tComboBox21.Edit.SelectedIndex = 0;
 
             pictureBox1.Click += pictureBox1_Click;
+            pictureBox2.Click += pictureBox2_Click;
             this.toolBar3.SelectedItemChanged += toolBar3_SelectedItemChanged;
         }
 
@@ -79,6 +80,25 @@ namespace Paway.Test
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 pictureBox1.Image = BitmapHelper.GetBitmapFormFile(ofd.FileName);
+            }
+        }
+
+        void pictureBox2_Click(object sender, EventArgs e)
+        {
+            if (pictureBox2.Image == null) return;
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new EventHandler(pictureBox2_Click), sender, e);
+                return;
+            }
+            SaveFileDialog sfd = new SaveFileDialog()
+            {
+                Title = "Save Image",
+                Filter = "Image Files|*.gif;*.bmp;*.jpg;*.jpeg;*.png;*.tga;*.tif;*.tiff|GIF file format|*.gif|BMP file format|*.bmp|JPEG file format|*.jpg;*.jpeg|PNG file format|*.png|TGA file format|*.tga|TIFF file format|*.tif;*.tiff",
+            };
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                pictureBox2.Image.Save(sfd.FileName);
             }
         }
 

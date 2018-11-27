@@ -31,12 +31,12 @@ namespace Paway.Win32
         /// <summary>
         ///     当按下键盘按键时发生
         /// </summary>
-        public event KeyEventHandler KeyDownEvent;
+        public event Action<char> KeyDownEvent;
 
         /// <summary>
         ///     当抬起键盘按键时发生
         /// </summary>
-        public event KeyEventHandler KeyUpEvent;
+        public event Action<char> KeyUpEvent;
 
         #endregion
 
@@ -45,21 +45,17 @@ namespace Paway.Win32
         /// <summary>
         ///     激发KeyDownEvent事件
         /// </summary>
-        /// <param name="sender">事件源</param>
-        /// <param name="e">包含事件数据的 System.Windows.Forms.KeyEventArgs</param>
-        public void OnKeyDownEvent(object sender, KeyEventArgs e)
+        public void OnKeyDownEvent(char chr)
         {
-            KeyDownEvent?.Invoke(sender, e);
+            KeyDownEvent?.Invoke(chr);
         }
 
         /// <summary>
         ///     激发KeyUpEvent事件
         /// </summary>
-        /// <param name="sender">事件源</param>
-        /// <param name="e">包含事件数据的 System.Windows.Forms.KeyEventArgs</param>
-        public void OnKeyUpEvent(object sender, KeyEventArgs e)
+        public void OnKeyUpEvent(char chr)
         {
-            KeyUpEvent?.Invoke(sender, e);
+            KeyUpEvent?.Invoke(chr);
         }
 
         #endregion
@@ -69,7 +65,7 @@ namespace Paway.Win32
         /// <summary>
         ///     安装键盘钩子
         /// </summary>
-        public void Install_Hook()
+        public void Start()
         {
             if (hHook == 0)
             {
@@ -81,15 +77,14 @@ namespace Paway.Win32
                     0);
 
                 //如果设置钩子失败
-                if (hHook == 0)
-                    Uninstall_Hook();
+                if (hHook == 0) Stop();
             }
         }
 
         /// <summary>
         ///     卸载键盘钩子
         /// </summary>
-        public void Uninstall_Hook()
+        public void Stop()
         {
             if (hHook != 0)
             {
@@ -108,20 +103,27 @@ namespace Paway.Win32
             if (nCode >= 0)
             {
                 var kbh = (KeyBoardHookStruct)Marshal.PtrToStructure(lParam, typeof(KeyBoardHookStruct));
+                var vkCode = kbh.vkCode & 0xff;//虚拟吗
+                var scanCode = kbh.scanCode & 0xff;//扫描码
+                byte[] kbArray = new byte[256];
+                NativeMethods.GetKeyboardState(kbArray);
+                uint uKey = 0;
+                char chr = (char)0;
+                if (NativeMethods.ToAscii(vkCode, scanCode, kbArray, ref uKey, 0))
+                {
+                    chr = Convert.ToChar(uKey);
+                }
                 var key = (Keys)Enum.Parse(typeof(Keys), kbh.vkCode.ToString());
                 if (kbh.flags == 0)
                 {
                     //这里写按下后做什么
-                    var e = new KeyEventArgs(key);
-                    OnKeyDownEvent(this, e);
+                    OnKeyDownEvent(chr);
                 }
                 else if (kbh.flags == 128)
                 {
                     //放开后做什么
-                    var e = new KeyEventArgs(key);
-                    OnKeyUpEvent(this, e);
+                    OnKeyUpEvent(chr);
                 }
-                return 1;
             }
             return NativeMethods.CallNextHookEx(hHook, nCode, wParam, lParam);
         }

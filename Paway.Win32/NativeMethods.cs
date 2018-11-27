@@ -358,6 +358,21 @@ namespace Paway.Win32
         [DllImport("user32.dll")]
         internal static extern int CallNextHookEx(int idHook, int nCode, int wParam, IntPtr lParam);
 
+        /// <summary>
+        /// 该函数将指定的虚拟键码和键盘状态翻译为相应的字符或字符串。
+        /// 该函数使用由给定的键盘布局句柄标识的物理键盘布局和输入语言来翻译代码。
+        /// </summary>
+        [DllImport("user32", EntryPoint = "ToAscii")]
+        internal static extern bool ToAscii(int VirtualKey, int ScanCode, byte[] lpKeySate, ref uint lpChar, int uFlags);
+        /// <summary>
+        /// pbKeyState：指向一个256字节的数组，数组用于接收每个虚拟键的状态。
+        /// 返回值：若函数调用成功，则返回非0值。若函数调用不成功，则返回值为0。若要获得更多的错误信息，可以调用GetLastError函数。
+        /// </summary>
+        /// <param name="pbKeyState"></param>
+        /// <returns></returns>
+        [DllImport("user32", EntryPoint = "GetKeyboardState")]
+        internal static extern int GetKeyboardState(byte[] pbKeyState);
+
         #endregion
 
         #endregion
