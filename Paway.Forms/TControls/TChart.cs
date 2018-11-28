@@ -103,13 +103,15 @@ namespace Paway.Forms
             if (this.Series.Count == 0) return;
             this.Series[0].Points.Clear();
             Reset();
-            double last = -1;
+            double min1x = int.MaxValue, max1x = 0, last = -1;
             for (int i = 0; i < list.Count; i++)
             {
                 var item = list.ElementAt(i);
                 DataPoint point = new DataPoint(item.Key, item.Value);
                 this.Series[0].Points.Add(point);
 
+                if (min1x > item.Key) min1x = item.Key;
+                if (max1x < item.Key) max1x = item.Key;
                 if (i > 0 && Math.Abs(item.Key - last) < minInterval)
                 {
                     minInterval = Math.Abs(item.Key - last);
@@ -118,6 +120,9 @@ namespace Paway.Forms
             }
 
             ChartArea area1 = this.ChartAreas[0];
+            if (max1x == min1x) max1x = min1x + 10;
+            area1.AxisX.Minimum = min1x - 1;
+            area1.AxisX.Maximum = max1x + 1;
             area1.AxisX.LabelStyle.Format = "{0:F0}";
             UpdateInterval();
 
