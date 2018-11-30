@@ -766,7 +766,7 @@ namespace Paway.Forms
         protected void DrawRound()
         {
             //调用API，将窗体剪成圆角
-            var ellipse = _iDrawRound && WindowState != FormWindowState.Maximized ? TRadius : 0;
+            var ellipse = _iDrawRound ? TRadius : 0;
             var rgn = NativeMethods.CreateRoundRectRgn(0, 0, Width + 1, Height + 1, ellipse, ellipse);
             if (!IsDisposed)
             {

@@ -26,11 +26,6 @@ namespace Paway.Test
             btName.Click += btName_Click;
             tip = new ToolTip();
             this.Opacity = 0.8;
-            this.MouseMove += Form1_MouseMove;
-        }
-
-        void Form1_MouseMove(object sender, MouseEventArgs e)
-        {
         }
 
         private ToolTip tip;

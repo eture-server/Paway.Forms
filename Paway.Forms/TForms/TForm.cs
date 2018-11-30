@@ -85,16 +85,17 @@ namespace Paway.Forms
         [Category("TForm"), Description("设置或获取窗体的圆角的大小"), DefaultValue(4)]
         public int TRadius
         {
-            get { return _tRadius; }
+            get
+            {
+                if (WindowState == FormWindowState.Maximized) return 0;
+                return _tRadius;
+            }
             set
             {
                 if (_tRadius != value)
                 {
-                    _tRadius = value < 1 ? 1 : value;
-                    if (skin != null)
-                    {
-                        skin.SetBits();
-                    }
+                    _tRadius = value;
+                    if (skin != null) skin.SetBits();
                     OnResize(EventArgs.Empty);
                     //base.Invalidate();
                 }
@@ -290,8 +291,10 @@ namespace Paway.Forms
         #endregion
 
         #region 阴影部分
-
-        private SkinForm skin;
+        /// <summary>
+        /// 阴影窗体
+        /// </summary>
+        protected SkinForm skin;
 
         /// <summary>
         ///     显示阴影
