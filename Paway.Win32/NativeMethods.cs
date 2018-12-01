@@ -372,6 +372,11 @@ namespace Paway.Win32
         /// <returns></returns>
         [DllImport("user32", EntryPoint = "GetKeyboardState")]
         internal static extern int GetKeyboardState(byte[] pbKeyState);
+        /// <summary>
+        /// 欲测试的虚拟键键码。对字母、数字字符（A-Z、a-z、0-9），用它们实际的ASCII值
+        /// </summary>
+        [DllImport("user32.dll", EntryPoint = "GetKeyState")]
+        internal static extern int GetKeyState(int nVirtKey);
 
         #endregion
 

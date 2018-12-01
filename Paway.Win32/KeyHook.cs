@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Paway.Win32
@@ -16,6 +19,7 @@ namespace Paway.Win32
 
     /// <summary>
     ///     键盘钩子
+    ///     GetKeyboardState获取的并不是实时的，需要先用GetKeyState刷新状态。 
     /// </summary>
     public class KeyHook
     {
@@ -106,23 +110,23 @@ namespace Paway.Win32
                 var vkCode = kbh.vkCode & 0xff;//虚拟吗
                 var scanCode = kbh.scanCode & 0xff;//扫描码
                 byte[] kbArray = new byte[256];
+                NativeMethods.GetKeyState(0);
                 NativeMethods.GetKeyboardState(kbArray);
                 uint uKey = 0;
                 char chr = (char)0;
                 if (NativeMethods.ToAscii(vkCode, scanCode, kbArray, ref uKey, 0))
                 {
                     chr = Convert.ToChar(uKey);
-                }
-                var key = (Keys)Enum.Parse(typeof(Keys), kbh.vkCode.ToString());
-                if (kbh.flags == 0)
-                {
-                    //这里写按下后做什么
-                    OnKeyDownEvent(chr);
-                }
-                else if (kbh.flags == 128)
-                {
-                    //放开后做什么
-                    OnKeyUpEvent(chr);
+                    if (kbh.flags == 0)
+                    {
+                        //这里写按下后做什么
+                        OnKeyDownEvent(chr);
+                    }
+                    else if (kbh.flags == 128)
+                    {
+                        //放开后做什么
+                        OnKeyUpEvent(chr);
+                    }
                 }
             }
             return NativeMethods.CallNextHookEx(hHook, nCode, wParam, lParam);
