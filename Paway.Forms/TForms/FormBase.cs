@@ -781,7 +781,7 @@ namespace Paway.Forms
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            base.OnResize(e);
+            this.OnResize(e);
             ShowSysMenu();
             if (!DesignMode)
             {

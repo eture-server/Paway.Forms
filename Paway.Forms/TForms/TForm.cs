@@ -116,10 +116,7 @@ namespace Paway.Forms
                 if (_tShadowColor != value)
                 {
                     _tShadowColor = value;
-                    if (skin != null)
-                    {
-                        skin.SetBits();
-                    }
+                    if (skin != null) skin.SetBits();
                 }
             }
         }
@@ -309,7 +306,7 @@ namespace Paway.Forms
                     NativeMethods.AnimateWindow(Handle, 300, 0xa0000);
                     Update();
                 }
-                if (!IsDisposed && !DesignMode && _iShadow && skin == null)
+                if (!IsDisposed && !DesignMode && _iShadow)
                 {
                     skin = new SkinForm(this);
                     skin.Show(this);

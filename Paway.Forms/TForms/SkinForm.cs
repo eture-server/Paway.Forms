@@ -74,7 +74,7 @@ namespace Paway.Forms
 
         private void DrawCorners(Graphics g, Size corSize)
         {
-            Action<int> action = delegate(int n)
+            Action<int> action = delegate (int n)
             {
                 using (var path = new GraphicsPath())
                 {
@@ -248,7 +248,7 @@ namespace Paway.Forms
 
         private void Main_VisibleChanged(object sender, EventArgs e)
         {
-            Visible = Main.Visible;
+            if (!IsDisposed) Visible = Main.Visible;
         }
 
         /// <summary>
@@ -305,6 +305,7 @@ namespace Paway.Forms
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
         {
             Close();
+            Dispose();
         }
 
         /// <summary>
