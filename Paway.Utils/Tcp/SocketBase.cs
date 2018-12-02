@@ -351,7 +351,6 @@ namespace Paway.Utils.Tcp
             {
                 Socket.Disconnect(false);
             }
-            OnSocketException(SocketError.SocketError);
         }
 
         #endregion
