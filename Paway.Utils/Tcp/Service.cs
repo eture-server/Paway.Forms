@@ -86,28 +86,16 @@ namespace Paway.Utils.Tcp
         /// <summary>
         ///     发送到所有连接对象
         /// </summary>
-        public void InsertSendData(object msg)
-        {
-            InsertSendData(msg, true);
-        }
-
-        /// <summary>
-        ///     发送到所有连接对象
-        /// </summary>
         /// <param name="msg">消息体</param>
-        /// <param name="ithrow">失败时中止标记</param>
-        public void InsertSendData(object msg, bool ithrow)
+        private void SendAll(object msg)
         {
             foreach (var socket in SocketConfig.ClientList)
             {
                 try
                 {
-                    socket.InsertSendData(msg, ithrow);
+                    socket.InternalSend(msg, false);
                 }
-                catch
-                {
-                    if (ithrow) throw;
-                }
+                catch { }
             }
         }
 
@@ -123,7 +111,7 @@ namespace Paway.Utils.Tcp
                 SocketConfig.ThreadList.TryAdd(Thread.CurrentThread.ManagedThreadId, "Server Heart Listener");
                 while (!ForceStop)
                 {
-                    InsertSendData(Encoding.GetEncoding("utf-8").GetBytes("hello,world"), false);
+                    SendAll(Encoding.GetEncoding("utf-8").GetBytes("hello,world"));
                     Thread.Sleep(heartTime * _heartTime);
                 }
             }

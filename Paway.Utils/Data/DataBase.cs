@@ -66,7 +66,6 @@ namespace Paway.Utils.Data
         /// 长连接开关
         /// </summary>
         protected bool ILongConnect;
-        private object onlyLock = new object();
 
         #region 构造.加载数据类型
 
@@ -110,8 +109,7 @@ namespace Paway.Utils.Data
                 if (iTrans) cmd = CommandStart();
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
-                lock (onlyLock)
-                    return cmd.ExecuteNonQuery();
+                return cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
@@ -135,8 +133,7 @@ namespace Paway.Utils.Data
                 if (iTrans) cmd = CommandStart();
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
-                lock (onlyLock)
-                    return cmd.ExecuteScalar();
+                return cmd.ExecuteScalar();
             }
             catch (Exception ex)
             {
@@ -160,13 +157,12 @@ namespace Paway.Utils.Data
                 if (iTrans) cmd = CommandStart();
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
-                lock (onlyLock)
-                    using (var dr = cmd.ExecuteReader())
-                    {
-                        var table = new DataTable();
-                        table.Load(dr);
-                        return table;
-                    }
+                using (var dr = cmd.ExecuteReader())
+                {
+                    var table = new DataTable();
+                    table.Load(dr);
+                    return table;
+                }
             }
             catch (Exception ex)
             {
@@ -192,8 +188,7 @@ namespace Paway.Utils.Data
                 {
                     cmd.CommandText = sqlList[i];
                     OnCommandText(cmd);
-                    lock (onlyLock)
-                        cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
                 }
                 if (iTrans) return TransCommit(cmd);
                 else return true;
@@ -399,15 +394,13 @@ namespace Paway.Utils.Data
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add(parame);
-
-                lock (onlyLock)
-                    using (var dr = cmd.ExecuteReader())
-                    {
-                        DataTable table = new DataTable();
-                        table.Load(dr);
-                        var list = table.ToList<T>(1);
-                        return list.Count == 1 ? list[0] : default(T);
-                    }
+                using (var dr = cmd.ExecuteReader())
+                {
+                    DataTable table = new DataTable();
+                    table.Load(dr);
+                    var list = table.ToList<T>(1);
+                    return list.Count == 1 ? list[0] : default(T);
+                }
             }
             catch (Exception ex)
             {
@@ -514,13 +507,12 @@ namespace Paway.Utils.Data
                 }
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
-                lock (onlyLock)
-                    using (var dr = cmd.ExecuteReader())
-                    {
-                        DataTable table = new DataTable();
-                        table.Load(dr);
-                        return table.ToList<T>();
-                    }
+                using (var dr = cmd.ExecuteReader())
+                {
+                    DataTable table = new DataTable();
+                    table.Load(dr);
+                    return table.ToList<T>();
+                }
             }
             catch (Exception ex)
             {
@@ -561,15 +553,14 @@ namespace Paway.Utils.Data
                 }
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
-                lock (onlyLock)
-                    using (var dr = cmd.ExecuteReader())
-                    {
-                        var table = type.CreateTable();
-                        table.Load(dr);
-                        table.PrimaryKey = new DataColumn[] { table.Columns[type.TableKey()] };
-                        table.PrimaryKey = null;
-                        return table;
-                    }
+                using (var dr = cmd.ExecuteReader())
+                {
+                    var table = type.CreateTable();
+                    table.Load(dr);
+                    table.PrimaryKey = new DataColumn[] { table.Columns[type.TableKey()] };
+                    table.PrimaryKey = null;
+                    return table;
+                }
             }
             catch (Exception ex)
             {
@@ -655,18 +646,17 @@ namespace Paway.Utils.Data
             var pList = row.AddParameters<T>(paramType).ToArray();
             cmd.Parameters.Clear();
             cmd.Parameters.AddRange(pList);
-            lock (onlyLock)
-                using (var dr = cmd.ExecuteReader())
+            using (var dr = cmd.ExecuteReader())
+            {
+                if (dr.Read())
                 {
-                    if (dr.Read())
-                    {
-                        row.SetMark<T>(dr[0]);
-                    }
-                    else
-                    {
-                        throw new Exception("插入失败：无法读取Id");
-                    }
+                    row.SetMark<T>(dr[0]);
                 }
+                else
+                {
+                    throw new Exception("插入失败：无法读取Id");
+                }
+            }
         }
 
         /// <summary>
@@ -686,18 +676,17 @@ namespace Paway.Utils.Data
                     var pList = list[i].AddParameters(paramType).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
-                    lock (onlyLock)
-                        using (var dr = cmd.ExecuteReader())
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
                         {
-                            if (dr.Read())
-                            {
-                                list[i].SetMark(dr[0]);
-                            }
-                            else
-                            {
-                                throw new Exception("插入失败：无法读取Id");
-                            }
+                            list[i].SetMark(dr[0]);
                         }
+                        else
+                        {
+                            throw new Exception("插入失败：无法读取Id");
+                        }
+                    }
                 }
                 OnUpdate<T>(cmd, list, SqlType.Insert);
                 if (iTrans) return TransCommit(cmd);
@@ -733,8 +722,7 @@ namespace Paway.Utils.Data
                 var pList = value.AddParameters(paramType, args).ToArray();
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddRange(pList);
-                lock (onlyLock)
-                    cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
 
                 OnUpdate<T>(cmd, SqlType.Update);
                 if (iTrans) return TransCommit(cmd);
@@ -828,8 +816,7 @@ namespace Paway.Utils.Data
             var pList = row.AddParameters<T>(paramType, args).ToArray();
             cmd.Parameters.Clear();
             cmd.Parameters.AddRange(pList);
-            lock (onlyLock)
-                cmd.ExecuteNonQuery();
+            cmd.ExecuteNonQuery();
         }
 
         /// <summary>
@@ -856,8 +843,7 @@ namespace Paway.Utils.Data
                     var pList = list[i].AddParameters(paramType, args).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
-                    lock (onlyLock)
-                        cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
                 }
                 OnUpdate<T>(cmd, list, SqlType.Update);
                 if (iTrans) return TransCommit(cmd);
@@ -903,8 +889,7 @@ namespace Paway.Utils.Data
                 cmd.Parameters.Clear();
                 cmd.Parameters.Add(parame);
                 bool result = false;
-                lock (onlyLock)
-                    result = cmd.ExecuteNonQuery() == 1;
+                result = cmd.ExecuteNonQuery() == 1;
 
                 OnDelete<T>(cmd, id);
                 return result;
@@ -934,8 +919,7 @@ namespace Paway.Utils.Data
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
                 bool result = false;
-                lock (onlyLock)
-                    result = cmd.ExecuteNonQuery() == 1;
+                result = cmd.ExecuteNonQuery() == 1;
 
                 OnUpdate<T>(cmd, SqlType.Delete);
                 return result;
@@ -977,8 +961,7 @@ namespace Paway.Utils.Data
                     var pList = table.Rows[i].AddParameters<T>(paramType).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
-                    lock (onlyLock)
-                        cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
                 }
                 OnUpdate<T>(cmd, SqlType.Delete);
                 if (iTrans) return TransCommit(cmd);
@@ -1012,8 +995,7 @@ namespace Paway.Utils.Data
                     var pList = list[i].AddParameters(paramType).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
-                    lock (onlyLock)
-                        cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
                 }
                 OnUpdate<T>(cmd, list, SqlType.Delete);
                 if (iTrans) return TransCommit(cmd);
@@ -1097,18 +1079,17 @@ namespace Paway.Utils.Data
                     var pList = list[i].AddParameters(paramType, args).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
-                    lock (onlyLock)
-                        using (var dr = cmd.ExecuteReader())
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
                         {
-                            if (dr.Read())
-                            {
-                                list[i].SetMark(dr[0]);
-                            }
-                            else
-                            {
-                                throw new Exception("Replace失败：无法读取Id");
-                            }
+                            list[i].SetMark(dr[0]);
                         }
+                        else
+                        {
+                            throw new Exception("Replace失败：无法读取Id");
+                        }
+                    }
                 }
                 OnUpdate<T>(cmd, list, SqlType.Replace);
                 if (iTrans) return TransCommit(cmd);
@@ -1149,18 +1130,17 @@ namespace Paway.Utils.Data
                     var pList = table.Rows[i].AddParameters<T>(paramType, args).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
-                    lock (onlyLock)
-                        using (var dr = cmd.ExecuteReader())
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
                         {
-                            if (dr.Read())
-                            {
-                                table.Rows[i].SetMark<T>(dr[0]);
-                            }
-                            else
-                            {
-                                throw new Exception("Replace失败：无法读取Id");
-                            }
+                            table.Rows[i].SetMark<T>(dr[0]);
                         }
+                        else
+                        {
+                            throw new Exception("Replace失败：无法读取Id");
+                        }
+                    }
                 }
                 OnUpdate<T>(cmd, SqlType.Replace);
                 if (iTrans) return TransCommit(cmd);

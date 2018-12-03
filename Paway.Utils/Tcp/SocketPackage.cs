@@ -79,13 +79,5 @@ namespace Paway.Utils.Tcp
                 }
             }
         }
-
-        /// <summary>
-        ///     缓冲发送外部数据的接口
-        /// </summary>
-        public void SendOutSideData(object msg, bool ithrow = true)
-        {
-            Host.InsertSendData(msg, ithrow);
-        }
     }
 }

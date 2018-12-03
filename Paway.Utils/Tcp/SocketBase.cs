@@ -289,9 +289,9 @@ namespace Paway.Utils.Tcp
         ///     缓冲发送内部数据的接口
         /// </summary>
         /// <param name="message"></param>
-        public void InsertSendData(object message)
+        public void InternalSend(object message)
         {
-            InsertSendData(message, true);
+            InternalSend(message, true);
         }
 
         /// <summary>
@@ -299,7 +299,7 @@ namespace Paway.Utils.Tcp
         /// </summary>
         /// <param name="message"></param>
         /// <param name="ithrow">失败是否抛出异常</param>
-        public void InsertSendData(object message, bool ithrow)
+        public void InternalSend(object message, bool ithrow)
         {
             if (SendDataService != null && message != null)
             {
@@ -308,7 +308,7 @@ namespace Paway.Utils.Tcp
             }
             else if (Socket == null || !Socket.Connected)
             {
-                throw new ArgumentException("Is DisConnected");
+                throw new ArgumentException("DisConnected");
             }
             else if (ithrow)
             {
