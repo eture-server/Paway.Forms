@@ -143,6 +143,7 @@ namespace Paway.Test
         {
             try
             {
+                new MySqlService().Connect();
                 list = service.Find<TestData>("id=" + 12948) as List<TestData>;
             }
             catch (Exception ex)
@@ -151,33 +152,47 @@ namespace Paway.Test
             }
         }
     }
-    public class SqlService : SqlHelper //MySqlHelper//SqlHelper//SQLiteHelper
+    public class MySqlService : MySqlHelper
+    {
+        public MySqlService()
+        {
+            base.InitConnect("47.254.135.116", "DiningRe", "root", "mobotaA*");
+        }
+        public void Connect()
+        {
+            var sql = "select Id from Cashs";
+            var list = ExecuteDataTable(sql);
+        }
+    }
+    public class SQLiteService : SQLiteHelper
+    {
+        public const string dbName = "paway.db";
+        public SQLiteService()
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+            string file = Path.Combine(path, dbName);
+            base.InitConnect(file);
+            if (base.InitCreate(Resources.script))
+            {
+                UserInfo info = new UserInfo();
+                info.Name = "admin0";
+                Insert(info);
+                info.Id = 19;
+                info.Name = "admin001";
+                Replace(info);
+            }
+        }
+    }
+    public class SqlService : SqlHelper
     {
         public const string dbName = "paway.db";
         public SqlService()
         {
-            //string path = AppDomain.CurrentDomain.BaseDirectory;
-            //string file = Path.Combine(path, dbName);
-            //base.InitConnect(file);
-            //if (base.InitCreate(Resources.script))
-            //{
-            //    UserInfo info = new UserInfo();
-            //    info.Name = "admin0";
-            //    Insert(info);
-            //    info.Id = 19;
-            //    info.Name = "admin001";
-            //    Replace(info);
-            //}
-
-            //base.InitConnect("127.0.0.1", "Test", "root", "mobot");//MySqlHelper
-            //base.InitConnect("(local)", "Test", "mobot", "mobot");//SqlHelper
-            //base.InitConnect("ConnectionString");//SqlHelper
             base.InitConnect(@"(local)\SQLEXPRESS", "DiningLC", "mobot", "mobot");
-            //base.InitConnect("127.0.0.1", "test", "root", "mobotaA*");
         }
         public void Connect()
         {
-            TransStart();
+            base.CommandStart();
         }
     }
 

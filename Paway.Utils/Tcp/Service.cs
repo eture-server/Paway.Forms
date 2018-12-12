@@ -93,7 +93,7 @@ namespace Paway.Utils.Tcp
             {
                 try
                 {
-                    socket.InternalSend(msg, false);
+                    socket.Send(msg, false);
                 }
                 catch { }
             }

@@ -30,20 +30,18 @@ namespace Paway.Utils.Tcp
         /// <summary>
         ///     外部事件
         /// </summary>
-        public event Action ChangeEvent;
+        public event Action<EventArgs> ChangeEvent;
 
         /// <summary>
         ///     引发外部事件方法
         /// </summary>
-        public void OnChange(object sender, EventArgs e)
+        public void OnChange(EventArgs e)
         {
             try
             {
-                ChangeEvent?.Invoke();
+                ChangeEvent?.Invoke(e);
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         #endregion
@@ -268,7 +266,7 @@ namespace Paway.Utils.Tcp
         /// <summary>
         ///     等待客户端发送过来的数据
         /// </summary>
-        public void WaitForData(AsynSocketArg state)
+        internal void WaitForData(AsynSocketArg state)
         {
             try
             {
@@ -289,9 +287,9 @@ namespace Paway.Utils.Tcp
         ///     缓冲发送内部数据的接口
         /// </summary>
         /// <param name="message"></param>
-        public void InternalSend(object message)
+        public void Send(object message)
         {
-            InternalSend(message, true);
+            Send(message, true);
         }
 
         /// <summary>
@@ -299,7 +297,7 @@ namespace Paway.Utils.Tcp
         /// </summary>
         /// <param name="message"></param>
         /// <param name="ithrow">失败是否抛出异常</param>
-        public void InternalSend(object message, bool ithrow)
+        public void Send(object message, bool ithrow)
         {
             if (SendDataService != null && message != null)
             {
@@ -322,7 +320,7 @@ namespace Paway.Utils.Tcp
         /// <summary>
         ///     直接发送消息对象
         /// </summary>
-        public void SendData(byte[] msgBuffer)
+        internal void SendData(byte[] msgBuffer)
         {
             try
             {
