@@ -37,7 +37,7 @@ namespace Paway.Forms
         ///     控件数据
         /// </summary>
         [Description("控件数据"), DefaultValue(null)]
-        public new virtual EventArgs Args { get; set; }
+        public virtual EventArgs Args { get; set; }
 
         /// <summary>
         ///     从其它控件切换过来时重新激活
@@ -174,16 +174,33 @@ namespace Paway.Forms
                 //加载控件
                 if (_list.ContainsKey(type.FullName))
                 {
-                    control = _list[type.FullName];
-                    if (control.ILoad) return control;
+                    if (_list[type.FullName].ILoad) return control = _list[type.FullName];
+                }
+                //移除旧控件
+                var temp = parent;
+                if (parent.Controls.Count == 1)
+                {
+                    if (parent.Controls[0] is MControl)
+                    {
+                        temp = parent.Controls[0];
+                        //拒绝移除
+                        if (!(temp as MControl).UnLoad())
+                        {
+                            return null;
+                        }
+                    }
                 }
 
+                //加载控件
+                if (_list.ContainsKey(type.FullName))
+                {
+                    control = _list[type.FullName];
+                }
                 parent.SuspendLayout();
                 //加载控件
                 if (control == null)
                 {
-                    var asmb = Assembly.GetAssembly(type);
-                    control = asmb.CreateInstance(type.FullName) as MControl;
+                    control = Assembly.GetAssembly(type).CreateInstance(type.FullName) as MControl;
                 }
                 if (control == null)
                 {
@@ -202,20 +219,6 @@ namespace Paway.Forms
                     direction = control.MDirection;
                 }
 
-                //移除旧控件
-                var temp = parent;
-                if (parent.Controls.Count == 1)
-                {
-                    if (parent.Controls[0] is MControl)
-                    {
-                        temp = parent.Controls[0];
-                        //拒绝移除
-                        if (!(temp as MControl).UnLoad())
-                        {
-                            return null;
-                        }
-                    }
-                }
                 //特效显示
                 switch (direction)
                 {
