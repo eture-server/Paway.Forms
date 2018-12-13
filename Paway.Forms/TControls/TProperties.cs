@@ -111,7 +111,7 @@ namespace Paway.Forms
             set
             {
                 _cNormal = value;
-                if (value != Color.Empty && (this.parent.Name.Contains("TBackGround") || this.parent.Name.Contains("TColor")))
+                if (value != Color.Empty)
                 {
                     if (_cMove == Color.Empty)
                         _cMove = BitmapHelper.RGBAddLight(value, 30);
@@ -120,6 +120,16 @@ namespace Paway.Forms
                 }
                 OnValueChange(value);
             }
+        }
+        /// <summary>
+        /// 重置颜色
+        /// </summary>
+        public void Reset(Color color, int value = 30)
+        {
+            _cNormal = color;
+            _cMove = BitmapHelper.RGBAddLight(color, value);
+            _cDown = BitmapHelper.RGBAddLight(color, -value);
+            OnValueChange(value);
         }
 
         /// <summary>

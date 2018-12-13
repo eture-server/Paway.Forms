@@ -26,8 +26,6 @@ namespace Paway.Utils.Tcp
             Host = host;
             Socket = socket;
             IConnected = true;
-            IRegisted = false;
-            IUNRegisted = false;
             SendDataService = new SendDataService(this);
         }
 
@@ -38,7 +36,7 @@ namespace Paway.Utils.Tcp
         {
             var socketList =
                 SocketConfig.ClientList.Where(
-                    c => (c.IUNRegisted || !c.IConnected) && !c.Disposed && c.IPPoint == IPPoint).ToArray();
+                    c => !c.IConnected && !c.Disposed && c.IPPoint == IPPoint).ToArray();
             ClearClientSocket(socketList);
             base.OnDisConnectEvent(type);
         }

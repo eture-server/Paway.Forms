@@ -23,11 +23,6 @@ namespace Paway.Utils.Tcp
         public object Tag { get; set; }
 
         /// <summary>
-        ///     自定义标记
-        /// </summary>
-        public volatile bool IFlag;
-
-        /// <summary>
         ///     外部事件
         /// </summary>
         public event Action<EventArgs> ChangeEvent;
@@ -66,7 +61,7 @@ namespace Paway.Utils.Tcp
         /// <summary>
         ///     线程通知，停止运行。
         /// </summary>
-        public volatile bool SendStop;
+        internal volatile bool SendStop;
 
         /// <summary>
         ///     连接时间
@@ -77,16 +72,6 @@ namespace Paway.Utils.Tcp
         ///     是否连接客户端
         /// </summary>
         public bool IConnected { get; internal set; }
-
-        /// <summary>
-        ///     是否注册客户端
-        /// </summary>
-        public bool IRegisted { get; internal set; }
-
-        /// <summary>
-        ///     是否注销客户端
-        /// </summary>
-        public bool IUNRegisted { get; internal set; }
 
         /// <summary>
         ///     客户端事件
@@ -108,7 +93,7 @@ namespace Paway.Utils.Tcp
         private void ReceiveCallback(IAsyncResult arg)
         {
             if (SendStop) return;
-            if (IUNRegisted || !IConnected || !Socket.Connected)
+            if (!IConnected || !Socket.Connected)
             {
                 if (IConnected && !Socket.Connected)
                 {
@@ -358,7 +343,7 @@ namespace Paway.Utils.Tcp
         /// <summary>
         ///     Disposes the instance of SocketClient.
         /// </summary>
-        public bool Disposed;
+        internal bool Disposed;
 
         /// <summary>
         ///     释放

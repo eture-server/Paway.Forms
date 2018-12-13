@@ -39,8 +39,8 @@ namespace Paway.Helper
         /// </summary>
         public static string GetValue(Enum e)
         {
-            var ret = string.Empty;
-            if (e == null) return ret;
+            var value = string.Empty;
+            if (e == null) return value;
 
             var t = e.GetType();
             var members = t.GetMember(e.ToString());
@@ -53,7 +53,7 @@ namespace Paway.Helper
                 if (attrs.Length > 0)
                     return ((DescriptionAttribute)attrs[0]).Description;
             }
-            return ret;
+            return e.ToString();
         }
         /// <summary>
         /// 将枚举常数的名称或数字值的字符串表示转换成等效的枚举对象
