@@ -42,18 +42,13 @@ namespace Paway.Helper
             var value = string.Empty;
             if (e == null) return value;
 
-            var t = e.GetType();
-            var members = t.GetMember(e.ToString());
+            value = e.ToString();
+            var members = e.GetType().GetMember(value);
             if (members != null && members.Length == 1)
             {
-                var attrs = members[0].GetCustomAttributes(typeof(EnumTextValueAttribute), false);
-                if (attrs.Length == 1)
-                    return ((EnumTextValueAttribute)attrs[0]).Text;
-                attrs = members[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
-                if (attrs.Length > 0)
-                    return ((DescriptionAttribute)attrs[0]).Description;
+                return members[0].Description() ?? value;
             }
-            return e.ToString();
+            return value;
         }
         /// <summary>
         /// 将枚举常数的名称或数字值的字符串表示转换成等效的枚举对象
@@ -81,14 +76,7 @@ namespace Paway.Helper
         /// </summary>
         public static string GetText(FieldInfo field)
         {
-            string name = field.Name;
-            var attribs = field.GetCustomAttributes(typeof(EnumTextValueAttribute), false);
-            if (attribs.Length > 0)
-                return ((EnumTextValueAttribute)attribs[0]).Text;
-            attribs = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
-            if (attribs.Length > 0)
-                return ((DescriptionAttribute)attribs[0]).Description;
-            return name;
+            return field.Description() ?? field.Name;
         }
     }
 

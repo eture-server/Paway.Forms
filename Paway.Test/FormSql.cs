@@ -16,11 +16,15 @@ using System.IO;
 using Paway.Test.Properties;
 using Paway.Win32;
 using System.Diagnostics;
+using System.Data.Common;
+using System.Threading;
 
 namespace Paway.Test
 {
     public partial class FormSql : QQDemo
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         SqlService service = new SqlService();
         List<TestData> list = new List<TestData>();
 
@@ -28,6 +32,7 @@ namespace Paway.Test
         {
             InitializeComponent();
             btnStart.Click += BtnStart_Click;
+            btnTest.Click += BtnTest_Click;
         }
         private void BtnStart_Click(object sender, EventArgs e)
         {
@@ -36,7 +41,7 @@ namespace Paway.Test
             {
                 SqlService server = new SqlService();
                 server.Connect();
-                Trace.WriteLine(string.Format("成功创建连接对象{0}", i + 1));
+                log.Debug(string.Format("成功创建连接对象{0}", i + 1));
             }
         }
         protected override void OnShown(EventArgs e)
@@ -73,7 +78,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, string.Format("{0}", ex), "SQL错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHelper.Show(ex);
             }
         }
 
@@ -88,7 +93,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, string.Format("{0}", ex), "SQL错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHelper.Show(ex);
             }
         }
 
@@ -104,7 +109,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, string.Format("{0}", ex), "SQL错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHelper.Show(ex);
             }
         }
 
@@ -119,7 +124,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, string.Format("{0}", ex), "SQL错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHelper.Show(ex);
             }
         }
 
@@ -135,7 +140,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, string.Format("{0}", ex), "SQL错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHelper.Show(ex);
             }
         }
 
@@ -143,20 +148,33 @@ namespace Paway.Test
         {
             try
             {
-                new MySqlService().Connect();
+                new SqlService().Connect();
                 list = service.Find<TestData>("id=" + 12948) as List<TestData>;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, string.Format("{0}", ex), "SQL错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHelper.Show(ex);
             }
         }
+
+        private void BtnTest_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                new SqlService().Test();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHelper.Show(ex);
+            }
+        }
+
     }
     public class MySqlService : MySqlHelper
     {
         public MySqlService()
         {
-            base.InitConnect("47.254.135.116", "DiningRe", "root", "mobotaA*");
+            base.InitConnect("127.0.0.1", "DiningRe", "root", "mobotaA*");
         }
         public void Connect()
         {
@@ -185,7 +203,6 @@ namespace Paway.Test
     }
     public class SqlService : SqlHelper
     {
-        public const string dbName = "paway.db";
         public SqlService()
         {
             base.InitConnect(@"(local)\SQLEXPRESS", "DiningLC", "mobot", "mobot");
@@ -193,6 +210,47 @@ namespace Paway.Test
         public void Connect()
         {
             base.CommandStart();
+        }
+        public void Test()
+        {
+            new Action(Test1).BeginInvoke(null, null);
+            new Action(Test1).BeginInvoke(null, null);
+            new Action(Test1).BeginInvoke(null, null);
+            new Action(Test1).BeginInvoke(null, null);
+        }
+        private void Test1()
+        {
+            Thread.Sleep(100);
+            log.Debug("ThreadId:" + Thread.CurrentThread.ManagedThreadId);
+            DbCommand cmd = null;
+            try
+            {
+                cmd = TransStart();
+
+                var sql = "update Users set Money =1 where Id= 3";
+                ExecuteNonQuery(sql, cmd);
+                var dt = ExecuteDataTable("select * from Users", cmd);
+                for (int i = 0; i < 30; i++)
+                {
+                    Thread.Sleep(100);
+                }
+                sql = "update Users set Money =0 where Id= 3";
+                ExecuteNonQuery(sql, cmd);
+
+                TransCommit(cmd);
+                log.Debug("ThreadId完成:" + Thread.CurrentThread.ManagedThreadId);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                TransError(cmd, ex);
+                log.Debug("ThreadId异常:" + Thread.CurrentThread.ManagedThreadId);
+                throw;
+            }
+            finally
+            {
+                CommandEnd(cmd);
+            }
         }
     }
 

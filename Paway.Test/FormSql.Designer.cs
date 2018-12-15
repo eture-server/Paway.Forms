@@ -37,6 +37,7 @@
             this.btnReplace = new Paway.Forms.QQButton();
             this.btnStart = new Paway.Forms.QQButton();
             this.tbStart = new Paway.Forms.TNumTestBox();
+            this.btnTest = new Paway.Forms.QQButton();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -45,6 +46,7 @@
             // 
             this.panel1.Controls.Add(this.tbStart);
             this.panel1.Controls.Add(this.btnStart);
+            this.panel1.Controls.Add(this.btnTest);
             this.panel1.Controls.Add(this.btSelect);
             this.panel1.Controls.Add(this.btnReplace);
             this.panel1.Controls.Add(this.btDelete);
@@ -147,6 +149,15 @@
             this.tbStart.Size = new System.Drawing.Size(71, 24);
             this.tbStart.TabIndex = 38;
             // 
+            // btnTest
+            // 
+            this.btnTest.Location = new System.Drawing.Point(183, 201);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(59, 28);
+            this.btnTest.TabIndex = 17;
+            this.btnTest.Text = "Test";
+            this.btnTest.UseVisualStyleBackColor = false;
+            // 
             // FormSql
             // 
             this.ClientSize = new System.Drawing.Size(407, 324);
@@ -170,5 +181,6 @@
         private Forms.QQButton btnReplace;
         private Forms.QQButton btnStart;
         private Forms.TNumTestBox tbStart;
+        private Forms.QQButton btnTest;
     }
 }

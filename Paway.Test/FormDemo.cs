@@ -107,7 +107,7 @@ namespace Paway.Test
             Bitmap image = null;
             if (pictureBox1.Image == null)
             {
-                MessageBox.Show(this, "请选择原图");
+                ExceptionHelper.Show("请选择原图");
                 return;
             }
             switch (toolBar3.SelectedItem.Text)

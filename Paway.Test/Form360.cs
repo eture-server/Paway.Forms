@@ -43,7 +43,6 @@ namespace Paway.Test
         private void toolBar1_SelectedItemChanged(object sender, EventArgs e)
         {
             MControl.ReLoad(panel1, typeof(Control1), e, TMDirection.None, new MethodDelegate(Method));
-            //MessageBox.Show("项发生改变了，当前项为：" + this.toolBar1.SelectedItem);
         }
         public void Method(object sender, EventArgs e)
         {

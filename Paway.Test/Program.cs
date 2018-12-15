@@ -51,10 +51,9 @@ namespace Paway.Test
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
                 Application.Run(new FormSql());
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                log.ErrorFormat("软件出现未处理的异常，即将退出。\r\n{0}", ex);
-                MessageBox.Show(ex.Message);
+                ExceptionHelper.Show("软件出现未处理的异常，即将退出。", e, false);
             }
             finally
             {
@@ -63,13 +62,11 @@ namespace Paway.Test
         }
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
-            log.ErrorFormat("软件出现未处理的线程异常。\r\n{0}", e.Exception);
-            MessageBox.Show(e.Exception.Message);
+            ExceptionHelper.Show("软件出现未被捕获的线程异常。", e.Exception, false);
         }
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            log.ErrorFormat("软件出现未处理的异常。\r\n{0}", e.ExceptionObject);
-            MessageBox.Show(((Exception)e.ExceptionObject).Message);
+            ExceptionHelper.Show("软件出现未被捕获的异常，即将退出。", e.ExceptionObject, false);
         }
     }
 }

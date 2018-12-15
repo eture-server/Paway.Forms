@@ -154,11 +154,21 @@ namespace Paway.Forms
         [Browsable(false)]
         public Rectangle RectEndDesc { get; internal set; }
 
+        private string _hit;
         /// <summary>
         ///     Item 上鼠标悬停显示信息
         /// </summary>
         [Description("Item 上显示的尾部描述信息"), DefaultValue(null)]
-        public string Hit { get; set; }
+        public string Hit
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_hit))
+                    return Sencond ?? First;
+                return _hit;
+            }
+            set { _hit = value; }
+        }
 
         private TProperties _color;
         /// <summary>

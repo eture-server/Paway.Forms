@@ -710,7 +710,7 @@ namespace Paway.Helper
         /// <summary>
         ///     获取描述
         /// </summary>
-        public static string Description(this Type type)
+        public static string Description(this MemberInfo type)
         {
             var list = type.GetCustomAttributes(typeof(EnumTextValueAttribute), false);
             if (list.Length > 0)
@@ -723,7 +723,7 @@ namespace Paway.Helper
         /// <summary>
         /// 生成数据列标记
         /// </summary>
-        public static bool ISelect(this PropertyInfo pro, ref string column)
+        public static bool ISelect(this MemberInfo pro, ref string column)
         {
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             if (list.Length == 1 && list[0].Column != null)
@@ -735,7 +735,7 @@ namespace Paway.Helper
         /// <summary>
         /// 生成Table标记
         /// </summary>
-        public static bool ITable(this PropertyInfo pro, ref string column)
+        public static bool ITable(this MemberInfo pro, ref string column)
         {
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             if (list.Length == 1 && list[0].Column != null)
@@ -747,7 +747,7 @@ namespace Paway.Helper
         /// <summary>
         /// 生成到ExcelTable标记
         /// </summary>
-        public static bool IExcel(this PropertyInfo pro, ref string column)
+        public static bool IExcel(this MemberInfo pro, ref string column)
         {
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             if (list.Length == 1 && list[0].Column != null)
@@ -759,7 +759,7 @@ namespace Paway.Helper
         /// <summary>
         /// 获取列名
         /// </summary>
-        public static string Column(this PropertyInfo pro)
+        public static string Column(this MemberInfo pro)
         {
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             if (list.Length == 1 && list[0].Column != null)
@@ -771,7 +771,7 @@ namespace Paway.Helper
         /// <summary>
         /// 显示列标记
         /// </summary>
-        public static bool IShow(this PropertyInfo pro)
+        public static bool IShow(this MemberInfo pro)
         {
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             return list.Length == 0 || list[0].IShow;
@@ -779,12 +779,12 @@ namespace Paway.Helper
         /// <summary>
         /// 自定义排序列标记
         /// </summary>
-        public static bool ISort(this PropertyInfo pro)
+        public static bool ISort(this MemberInfo pro)
         {
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             return list.Length == 1 && list[0].ISort;
         }
-        private static bool IClone(this PropertyInfo pro)
+        private static bool IClone(this MemberInfo pro)
         {
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             return list.Length == 0 || list[0].IClone;
