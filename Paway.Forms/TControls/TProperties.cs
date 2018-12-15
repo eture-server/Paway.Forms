@@ -122,13 +122,28 @@ namespace Paway.Forms
             }
         }
         /// <summary>
+        /// 清空颜色
+        /// </summary>
+        public void Clear()
+        {
+            Reset(Color.Empty);
+        }
+        /// <summary>
         /// 重置颜色
         /// </summary>
         public void Reset(Color color, int value = 30)
         {
             _cNormal = color;
-            _cMove = BitmapHelper.RGBAddLight(color, value);
-            _cDown = BitmapHelper.RGBAddLight(color, -value);
+            if (color == Color.Empty)
+            {
+                _cMove = Color.Empty;
+                _cDown = Color.Empty;
+            }
+            else
+            {
+                _cMove = BitmapHelper.RGBAddLight(color, value);
+                _cDown = BitmapHelper.RGBAddLight(color, -value);
+            }
             OnValueChange(value);
         }
 
