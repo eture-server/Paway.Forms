@@ -64,7 +64,7 @@
             this.btInsert.TabIndex = 12;
             this.btInsert.Text = "Insert";
             this.btInsert.UseVisualStyleBackColor = false;
-            this.btInsert.Click += new System.EventHandler(this.btInsert_Click);
+            this.btInsert.Click += new System.EventHandler(this.BtInsert_Click);
             // 
             // pictureBox1
             // 
@@ -83,7 +83,7 @@
             this.btUpdate.TabIndex = 14;
             this.btUpdate.Text = "Update";
             this.btUpdate.UseVisualStyleBackColor = false;
-            this.btUpdate.Click += new System.EventHandler(this.btUpdate_Click);
+            this.btUpdate.Click += new System.EventHandler(this.BtUpdate_Click);
             // 
             // btUpOrIn
             // 
@@ -93,7 +93,7 @@
             this.btUpOrIn.TabIndex = 15;
             this.btUpOrIn.Text = "UpOrIn";
             this.btUpOrIn.UseVisualStyleBackColor = false;
-            this.btUpOrIn.Click += new System.EventHandler(this.btUpOrIn_Click);
+            this.btUpOrIn.Click += new System.EventHandler(this.BtUpOrIn_Click);
             // 
             // btDelete
             // 
@@ -103,7 +103,7 @@
             this.btDelete.TabIndex = 16;
             this.btDelete.Text = "Delete";
             this.btDelete.UseVisualStyleBackColor = false;
-            this.btDelete.Click += new System.EventHandler(this.btDelete_Click);
+            this.btDelete.Click += new System.EventHandler(this.BtDelete_Click);
             // 
             // btSelect
             // 
@@ -113,7 +113,7 @@
             this.btSelect.TabIndex = 17;
             this.btSelect.Text = "Select";
             this.btSelect.UseVisualStyleBackColor = false;
-            this.btSelect.Click += new System.EventHandler(this.btSelect_Click);
+            this.btSelect.Click += new System.EventHandler(this.BtSelect_Click);
             // 
             // btnReplace
             // 
@@ -123,7 +123,7 @@
             this.btnReplace.TabIndex = 16;
             this.btnReplace.Text = "Replace";
             this.btnReplace.UseVisualStyleBackColor = false;
-            this.btnReplace.Click += new System.EventHandler(this.btnReplace_Click);
+            this.btnReplace.Click += new System.EventHandler(this.BtnReplace_Click);
             // 
             // btnStart
             // 
@@ -133,7 +133,7 @@
             this.btnStart.TabIndex = 17;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = false;
-            this.btnStart.Click += new System.EventHandler(this.btSelect_Click);
+            this.btnStart.Click += new System.EventHandler(this.BtSelect_Click);
             // 
             // tbStart
             // 

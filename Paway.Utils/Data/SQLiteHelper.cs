@@ -5,7 +5,7 @@ using System.Data.Common;
 using System.Data.SQLite;
 using System.IO;
 
-namespace Paway.Utils.Data
+namespace Paway.Utils
 {
     /// <summary>
     ///     SqLite操作基类

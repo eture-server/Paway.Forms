@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace Paway.Utils.Tcp
+namespace Paway.Utils
 {
     /// <summary>
     ///     Tcp通讯：Socket通讯公共数据

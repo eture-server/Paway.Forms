@@ -5,7 +5,7 @@ using System.Threading;
 using Paway.Helper;
 using System.Reflection;
 
-namespace Paway.Utils.Tcp
+namespace Paway.Utils
 {
     /// <summary>
     ///     数据发送类

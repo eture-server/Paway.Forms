@@ -11,7 +11,6 @@ using System.Text;
 using System.Windows.Forms;
 using Paway.Utils;
 using System.Data.SqlClient;
-using Paway.Utils.Data;
 using System.IO;
 using Paway.Test.Properties;
 using Paway.Win32;
@@ -63,7 +62,7 @@ namespace Paway.Test
             }
             Win32Helper.ActiveForm(this.Handle);
         }
-        private void btInsert_Click(object sender, EventArgs e)
+        private void BtInsert_Click(object sender, EventArgs e)
         {
             try
             {
@@ -82,7 +81,7 @@ namespace Paway.Test
             }
         }
 
-        private void btUpdate_Click(object sender, EventArgs e)
+        private void BtUpdate_Click(object sender, EventArgs e)
         {
             try
             {
@@ -97,7 +96,7 @@ namespace Paway.Test
             }
         }
 
-        private void btUpOrIn_Click(object sender, EventArgs e)
+        private void BtUpOrIn_Click(object sender, EventArgs e)
         {
             try
             {
@@ -113,7 +112,7 @@ namespace Paway.Test
             }
         }
 
-        private void btDelete_Click(object sender, EventArgs e)
+        private void BtDelete_Click(object sender, EventArgs e)
         {
             try
             {
@@ -128,7 +127,7 @@ namespace Paway.Test
             }
         }
 
-        private void btnReplace_Click(object sender, EventArgs e)
+        private void BtnReplace_Click(object sender, EventArgs e)
         {
             try
             {
@@ -144,7 +143,7 @@ namespace Paway.Test
             }
         }
 
-        private void btSelect_Click(object sender, EventArgs e)
+        private void BtSelect_Click(object sender, EventArgs e)
         {
             try
             {
@@ -192,8 +191,10 @@ namespace Paway.Test
             base.InitConnect(file);
             if (base.InitCreate(Resources.script))
             {
-                UserInfo info = new UserInfo();
-                info.Name = "admin0";
+                UserInfo info = new UserInfo()
+                {
+                    Name = "admin0"
+                };
                 Insert(info);
                 info.Id = 19;
                 info.Name = "admin001";

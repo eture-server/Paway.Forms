@@ -8,7 +8,6 @@ using System.Text;
 using System.Windows.Forms;
 using Paway.Forms;
 using System.Reflection;
-using Paway.Test.UI;
 using Paway.Helper;
 
 namespace Paway.Test
@@ -42,11 +41,8 @@ namespace Paway.Test
 
         private void toolBar1_SelectedItemChanged(object sender, EventArgs e)
         {
-            MControl.ReLoad(panel1, typeof(Control1), e, TMDirection.None, new MethodDelegate(Method));
+            MControl.ReLoad(panel1, typeof(Control1), e, TMDirection.None, new Action<object, EventArgs>(Method));
         }
-        public void Method(object sender, EventArgs e)
-        {
-
-        }
+        public void Method(object sender, EventArgs e) { }
     }
 }

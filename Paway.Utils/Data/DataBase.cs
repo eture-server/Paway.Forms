@@ -9,7 +9,7 @@ using System.Drawing;
 using System.ComponentModel;
 using System.Linq;
 
-namespace Paway.Utils.Data
+namespace Paway.Utils
 {
     /// <summary>
     ///     数据服务基类，不可创建实例

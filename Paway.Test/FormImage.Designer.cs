@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.tPictureBox1 = new Paway.Forms.TControls.TPictureBox();
+            this.tPictureBox1 = new Paway.Forms.TPictureBox();
             this.btLess = new System.Windows.Forms.Button();
             this.btAdd = new System.Windows.Forms.Button();
             this.btChange = new System.Windows.Forms.Button();
@@ -235,7 +235,7 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private Forms.TControls.TPictureBox tPictureBox1;
+        private Forms.TPictureBox tPictureBox1;
         private System.Windows.Forms.Button btLess;
         private System.Windows.Forms.Button btAdd;
         private System.Windows.Forms.Button btChange;

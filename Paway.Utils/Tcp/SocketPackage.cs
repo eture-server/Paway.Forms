@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Net.Sockets;
 
-namespace Paway.Utils.Tcp
+namespace Paway.Utils
 {
     /// <summary>
     ///     为每个连接到服务端的Socket连接创建实例

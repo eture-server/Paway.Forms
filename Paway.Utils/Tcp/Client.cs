@@ -1,6 +1,6 @@
 ﻿using System.Net.Sockets;
 
-namespace Paway.Utils.Tcp
+namespace Paway.Utils
 {
     /// <summary>
     ///     封装Socket通讯客户端

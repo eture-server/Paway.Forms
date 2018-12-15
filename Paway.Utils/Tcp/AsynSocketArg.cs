@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Net.Sockets;
 
-namespace Paway.Utils.Tcp
+namespace Paway.Utils
 {
     /// <summary>
     ///     数据接收方法

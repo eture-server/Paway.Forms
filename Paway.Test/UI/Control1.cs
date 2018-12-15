@@ -10,7 +10,7 @@ using Paway.Forms;
 using System.IO;
 using Paway.Helper;
 
-namespace Paway.Test.UI
+namespace Paway.Test
 {
     public partial class Control1 : MControl
     {

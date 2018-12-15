@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using Paway.Forms;
 using Paway.Helper;
 
-namespace Paway.Test.UI
+namespace Paway.Test
 {
     public partial class Control2 : MControl
     {

@@ -10,13 +10,6 @@ using Paway.Helper;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     事件委托方法(OnChanged)
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    public delegate void MethodDelegate(object sender, EventArgs e);
-
-    /// <summary>
     ///     多控件切换方法
     /// </summary>
     public class MControl : TControl

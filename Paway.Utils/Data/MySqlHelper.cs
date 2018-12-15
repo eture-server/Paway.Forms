@@ -3,7 +3,7 @@ using System.Data.Common;
 using MySql.Data.MySqlClient;
 using System.Data;
 
-namespace Paway.Utils.Data
+namespace Paway.Utils
 {
     /// <summary>
     ///     MySql操作基类

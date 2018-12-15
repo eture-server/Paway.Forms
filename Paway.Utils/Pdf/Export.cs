@@ -5,7 +5,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using log4net;
 
-namespace Paway.Utils.Pdf
+namespace Paway.Utils
 {
     /// <summary>
     ///     导出类示例

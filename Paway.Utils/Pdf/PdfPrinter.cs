@@ -4,7 +4,7 @@ using System.IO;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 
-namespace Paway.Utils.Pdf
+namespace Paway.Utils
 {
     /// <summary>
     ///     PDF打印功能实现类

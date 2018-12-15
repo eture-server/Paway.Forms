@@ -305,7 +305,6 @@ namespace Paway.Forms
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
         {
             Close();
-            Dispose();
         }
 
         /// <summary>

@@ -1,7 +1,7 @@
 ﻿using System.Configuration;
 using System.Data.SqlClient;
 
-namespace Paway.Utils.Data
+namespace Paway.Utils
 {
     /// <summary>
     ///     SQL操作基类

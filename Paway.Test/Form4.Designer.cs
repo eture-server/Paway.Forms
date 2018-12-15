@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tProgressBar1 = new Paway.Forms.TControls.TProgressBar();
+            this.tProgressBar1 = new Paway.Forms.TProgressBar();
             this.btnReset = new Paway.Forms.QQButton();
             this.SuspendLayout();
             // 
@@ -68,7 +68,7 @@
 
         #endregion
 
-        private Forms.TControls.TProgressBar tProgressBar1;
+        private Forms.TProgressBar tProgressBar1;
         private Forms.QQButton btnReset;
     }
 }

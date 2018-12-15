@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using Paway.Helper;
 using System.Drawing.Imaging;
 
-namespace Paway.Forms.TControls
+namespace Paway.Forms
 {
     /// <summary>
     ///     自定PictureBox，添加缩放
@@ -432,6 +432,7 @@ namespace Paway.Forms.TControls
             if (disposing)
             {
                 screen = null;
+                if (components != null) components.Dispose();
             }
             base.Dispose(disposing);
         }

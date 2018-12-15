@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using Paway.Helper;
 
-namespace Paway.Utils.Tcp
+namespace Paway.Utils
 {
     /// <summary>
     ///     Tcp通讯：Socket通讯基础类

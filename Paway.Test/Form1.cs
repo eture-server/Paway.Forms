@@ -1,7 +1,7 @@
 ﻿using Paway.Forms;
 using Paway.Helper;
 using Paway.Test.Properties;
-using Paway.Utils.Tcp;
+using Paway.Utils;
 using Paway.Win32;
 using System;
 using System.Collections.Generic;
@@ -21,9 +21,9 @@ namespace Paway.Test
         public Form1()
         {
             InitializeComponent();
-            toolBar.ItemClick += toolClose_ItemClick;
-            toolBar.EditClick += toolClose_EditClick;
-            btName.Click += btName_Click;
+            toolBar.ItemClick += ToolClose_ItemClick;
+            toolBar.EditClick += ToolClose_EditClick;
+            btName.Click += BtName_Click;
             tip = new ToolTip();
             this.Opacity = 0.8;
         }
@@ -36,12 +36,12 @@ namespace Paway.Test
             //toolBar.Items[1].Text = string.Format("{0}&{1}", "你好", null);
         }
 
-        void toolClose_EditClick(object sender, EventArgs e)
+        void ToolClose_EditClick(object sender, EventArgs e)
         {
             //new QQDemo().ShowDialog(this);
         }
 
-        void btName_Click(object sender, EventArgs e)
+        void BtName_Click(object sender, EventArgs e)
         {
             //toolBar.Items.Add(new ToolItem(DateTime.Now.Second.ToString()) { IHeard = true });
             toolBar.Items.Add(new ToolItem(DateTime.Now.Second.ToString() + "A"));
@@ -74,7 +74,7 @@ namespace Paway.Test
             //timer.Enabled = true;
         }
 
-        void toolClose_ItemClick(object sender, EventArgs e)
+        void ToolClose_ItemClick(object sender, EventArgs e)
         {
             ToolItem item = sender as ToolItem;
             item.IChange = false;

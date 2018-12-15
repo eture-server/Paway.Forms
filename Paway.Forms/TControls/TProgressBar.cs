@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
-namespace Paway.Forms.TControls
+namespace Paway.Forms
 {
     /// <summary>
     ///     自定义圆形进度条

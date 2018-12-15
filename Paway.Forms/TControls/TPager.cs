@@ -8,12 +8,6 @@ using Paway.Helper;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     在分页属性变动委托
-    /// </summary>
-    /// <param name="info"></param>
-    public delegate void PageInfoChanged(PagerInfo info);
-
-    /// <summary>
     ///     分页工具栏
     /// </summary>
     public class TPager : TControl
@@ -451,11 +445,11 @@ namespace Paway.Forms
         /// <summary>
         ///     在分页属性变动时发生
         /// </summary>
-        public event PageInfoChanged PageInfoChanged;
+        public event Action<PagerInfo> PageInfoChanged;
         /// <summary>
         ///     在分页属性变动时发生
         /// </summary>
-        public event PageInfoChanged CountChanged;
+        public event Action<PagerInfo> CountChanged;
 
         #region 属性变量
 

@@ -2,7 +2,7 @@
 using System;
 using System.Net.Sockets;
 
-namespace Paway.Utils.Tcp
+namespace Paway.Utils
 {
     /// <summary>
     ///     系统消息

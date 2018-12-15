@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 
-namespace Paway.Utils.Pdf
+namespace Paway.Utils
 {
     /// <summary>
     ///     PDF打印页眉内容集合类

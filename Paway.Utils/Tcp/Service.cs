@@ -8,7 +8,7 @@ using log4net;
 using System.Text;
 using Paway.Helper;
 
-namespace Paway.Utils.Tcp
+namespace Paway.Utils
 {
     /// <summary>
     ///     封装Socket通讯服务端

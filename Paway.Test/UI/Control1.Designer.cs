@@ -1,4 +1,4 @@
-﻿namespace Paway.Test.UI
+﻿namespace Paway.Test
 {
     partial class Control1
     {
