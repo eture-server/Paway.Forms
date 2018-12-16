@@ -1497,7 +1497,9 @@ namespace Paway.Forms
                             InvalidateItem(item, TMouseState.Move);
                             if (_iShowTop)
                             {
-                                ShowTooTip(item.Hit);
+                                var hit = item.Hit;
+                                if (hit.IsNullOrEmpty()) hit = item.Sencond ?? item.First;
+                                ShowTooTip(hit);
                             }
                         }
                     }

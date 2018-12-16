@@ -65,7 +65,7 @@ namespace Paway.Forms
         ///     Item 上显示的文字信息
         /// </summary>
         [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
-        [DefaultValue(typeof(string), "")]
+        [DefaultValue(null)]
         public string Text
         {
             get { return _text; }
@@ -154,21 +154,11 @@ namespace Paway.Forms
         [Browsable(false)]
         public Rectangle RectEndDesc { get; internal set; }
 
-        private string _hit;
         /// <summary>
         ///     Item 上鼠标悬停显示信息
         /// </summary>
         [Description("Item 上显示的尾部描述信息"), DefaultValue(null)]
-        public string Hit
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_hit))
-                    return Sencond ?? First;
-                return _hit;
-            }
-            set { _hit = value; }
-        }
+        public string Hit { get; set; }
 
         private TProperties _color;
         /// <summary>
