@@ -134,7 +134,7 @@ namespace Paway.Helper
             string xml = AppDomain.CurrentDomain.FriendlyName.Replace("exe", "xml");
             if (File.Exists(xml))
             {
-                obj = XmlHelper.Find<T>(xml);
+                obj = XmlHelper.Load<T>(xml);
             }
             else
             {

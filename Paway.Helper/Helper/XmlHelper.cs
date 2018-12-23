@@ -1,5 +1,5 @@
-﻿using Paway.Helper;
-using System;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -63,7 +63,7 @@ namespace Paway.Helper
         /// <summary>
         ///     返回对应的实体
         /// </summary>
-        public static T Find<T>(string file)
+        public static T Load<T>(string file)
         {
             Type type = typeof(T);
             XmlDocument doc = new XmlDocument();
@@ -84,6 +84,64 @@ namespace Paway.Helper
                 element = element.NextSibling;
             }
             return obj;
+        }
+
+        /// <summary>
+        ///     生成XML文件
+        /// </summary>
+        public static void Save<T>(string file, T info, string ns = null, Dictionary<string, string> args = null)
+        {
+            Type type = typeof(T);
+            XmlDocument doc = new XmlDocument();
+            XmlDeclaration xml = doc.CreateXmlDeclaration("1.0", "utf-8", null);
+            doc.AppendChild(xml);
+            string desc = type.Description() ?? type.Name;
+            XmlElement root = ns == null ? doc.CreateElement(desc) : doc.CreateElement(ns, desc, "n:s");
+            if (args != null)
+            {
+                foreach (var item in args)
+                {
+                    root.SetAttribute(item.Key, item.Value);
+                }
+            }
+            doc.AppendChild(root);
+            Add(doc, root, info, type);
+            doc.Save(file);
+        }
+        private static void Add<T>(XmlDocument doc, XmlElement root, T info, Type type)
+        {
+            var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
+            foreach (FieldInfo item in fields)
+            {
+                if (!item.IBrowsable()) continue;
+                XmlElement element = doc.CreateElement(item.Name);
+                root.AppendChild(element);
+                object obj = item.GetValue(info);
+                if (obj is IList)
+                {
+                    var list = obj as IList;
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        if (i > 0)
+                        {
+                            element = doc.CreateElement(item.Name);
+                            root.AppendChild(element);
+                        }
+                        Add(doc, element, list[i], list.GenericType());
+                    }
+                }
+                else if (item.FieldType.IsClass && item.FieldType != typeof(string))
+                {
+                    Add(doc, element, obj, item.FieldType);
+                    continue;
+                }
+                else
+                {
+                    var value = obj.ToString2();
+                    if (!value.IsNullOrEmpty()) element.InnerText = value;
+                    else root.RemoveChild(element);
+                }
+            }
         }
     }
 }

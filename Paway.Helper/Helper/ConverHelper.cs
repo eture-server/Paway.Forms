@@ -777,6 +777,14 @@ namespace Paway.Helper
             return list.Length == 0 || list[0].IShow;
         }
         /// <summary>
+        /// 显示属性
+        /// </summary>
+        public static bool IBrowsable(this MemberInfo pro)
+        {
+            var list = pro.GetCustomAttributes(typeof(BrowsableAttribute), false) as BrowsableAttribute[];
+            return list.Length == 0 || list[0].Browsable;
+        }
+        /// <summary>
         /// 自定义排序列标记
         /// </summary>
         public static bool ISort(this MemberInfo pro)
