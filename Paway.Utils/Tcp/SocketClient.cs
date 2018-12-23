@@ -13,11 +13,11 @@ namespace Paway.Utils
 
         /// <summary>
         /// </summary>
-        /// <param name="ipAddress"></param>
+        /// <param name="host"></param>
         /// <param name="port"></param>
-        public SocketClient(string ipAddress, int port)
+        public SocketClient(string host, int port)
         {
-            IPPoint = new IPEndPoint(IPAddress.Parse(ipAddress), port);
+            IPPoint = new IPEndPoint(IPAddress.Parse(host), port);
             Socket = new Socket(IPPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
         }
 
@@ -38,7 +38,6 @@ namespace Paway.Utils
         {
             if (e != null && e.SocketError == SocketError.Success)
             {
-                IConnected = true;
                 //启动发送数据线程
                 SendDataService = new SendDataService(this);
 

@@ -71,7 +71,7 @@ namespace Paway.Utils
         /// <summary>
         ///     是否连接客户端
         /// </summary>
-        public bool IConnected { get; internal set; }
+        public bool IConnected { get { return Socket != null && Socket.Connected; } }
 
         /// <summary>
         ///     客户端事件
@@ -93,13 +93,10 @@ namespace Paway.Utils
         private void ReceiveCallback(IAsyncResult arg)
         {
             if (SendStop) return;
-            if (!IConnected || !Socket.Connected)
+            if (!IConnected)
             {
-                if (IConnected && !Socket.Connected)
-                {
-                    //用于异常情况下的触发通知
-                    OnSocketException(SocketError.NotConnected);
-                }
+                //用于异常情况下的触发通知
+                OnSocketException(SocketError.NotConnected);
                 return;
             }
 
@@ -199,7 +196,6 @@ namespace Paway.Utils
         protected void OnSocketException(SocketError type)
         {
             if (Disposed) return;
-            IConnected = false;
             OnDisConnectEvent(type);
         }
 
@@ -258,8 +254,7 @@ namespace Paway.Utils
                 if (state != null && state.WorkSocket.Connected)
                 {
                     state.InitializeState();
-                    state.WorkSocket.BeginReceive(state.GetBuffer(), 0, state.AutoBufferSize, 0,
-                        ReceiveCallback, state);
+                    state.WorkSocket.BeginReceive(state.GetBuffer(), 0, state.AutoBufferSize, 0, ReceiveCallback, state);
                 }
             }
             catch (SocketException e)
@@ -284,14 +279,14 @@ namespace Paway.Utils
         /// <param name="ithrow">失败是否抛出异常</param>
         public void Send(object message, bool ithrow)
         {
+            if (!IConnected)
+            {
+                throw new ArgumentException("DisConnected");
+            }
             if (SendDataService != null && message != null)
             {
                 var byteData = message is byte[] ? message as byte[] : SctructHelper.GetByteFromObject(message);
                 SendDataService.SendData(byteData);
-            }
-            else if (Socket == null || !Socket.Connected)
-            {
-                throw new ArgumentException("DisConnected");
             }
             else if (ithrow)
             {
@@ -310,7 +305,7 @@ namespace Paway.Utils
             try
             {
                 //检查连接作相应处理
-                if (Socket != null && Socket.Connected)
+                if (IConnected)
                 {
                     SendMessage(msgBuffer);
                 }
@@ -330,7 +325,7 @@ namespace Paway.Utils
         /// </summary>
         public void Disconnect()
         {
-            if (Socket != null && Socket.Connected)
+            if (IConnected)
             {
                 Socket.Disconnect(false);
             }
@@ -361,7 +356,7 @@ namespace Paway.Utils
                 Disposed = true;
                 if (disposing)
                 {
-                    if (Socket != null && Socket.Connected)
+                    if (IConnected)
                     {
                         Socket.Close();
                     }

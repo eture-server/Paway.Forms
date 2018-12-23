@@ -55,6 +55,10 @@ namespace Paway.Utils
         ///     服务端事件
         /// </summary>
         public event Action<ServiceEventArgs> SystemEvent;
+        /// <summary>
+        /// 客户端连接事件
+        /// </summary>
+        public event Action<SocketPackage> ClientEvent;
 
         /// <summary>
         ///     开始监听
@@ -248,6 +252,7 @@ namespace Paway.Utils
         /// </summary>
         protected virtual void OnClientConnect(SocketPackage client)
         {
+            ClientEvent?.Invoke(client);
         }
 
         /// <summary>

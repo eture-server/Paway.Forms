@@ -25,7 +25,6 @@ namespace Paway.Utils
         {
             Host = host;
             Socket = socket;
-            IConnected = true;
             SendDataService = new SendDataService(this);
         }
 
@@ -34,9 +33,7 @@ namespace Paway.Utils
         /// </summary>
         protected override void OnDisConnectEvent(SocketError type)
         {
-            var socketList =
-                SocketConfig.ClientList.Where(
-                    c => !c.IConnected && !c.Disposed && c.IPPoint == IPPoint).ToArray();
+            var socketList = SocketConfig.ClientList.Where(c => !c.IConnected && !c.Disposed && c.IPPoint == IPPoint).ToArray();
             ClearClientSocket(socketList);
             base.OnDisConnectEvent(type);
         }
