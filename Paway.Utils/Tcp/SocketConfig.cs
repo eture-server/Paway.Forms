@@ -9,10 +9,6 @@ namespace Paway.Utils
     {
         private static int _current = 100;
 
-        private static ConcurrentDictionary<int, string> threadList;
-
-        private static BlockingCollection<SocketBase> _clientList;
-
         /// <summary>
         ///     10分钟内的限制连接数
         ///     默认100
@@ -36,6 +32,7 @@ namespace Paway.Utils
             get { return ClientList.Count; }
         }
 
+        private static ConcurrentDictionary<int, string> threadList;
         /// <summary>
         ///     线程列表
         /// </summary>
@@ -48,6 +45,7 @@ namespace Paway.Utils
             }
         }
 
+        private static BlockingCollection<SocketBase> _clientList;
         /// <summary>
         ///     客户端列表
         /// </summary>

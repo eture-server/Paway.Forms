@@ -47,6 +47,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Root\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="NPOI">
+      <HintPath>..\Root\NPOI.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -83,7 +86,6 @@
     <Compile Include="Helper\DrawHelper.cs" />
     <Compile Include="Helper\EncryptHelper.cs" />
     <Compile Include="Helper\EntityHelper.cs" />
-    <Compile Include="Helper\FileHelper.cs" />
     <Compile Include="Helper\HardWareHelper.cs" />
     <Compile Include="Helper\SctructHelper.cs" />
     <Compile Include="Helper\StringHelper.cs" />

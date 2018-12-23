@@ -8,9 +8,6 @@ namespace Paway.Helper
     public abstract class ThreadHelper
     {
         private static ConcurrentDictionary<int, string> _dictlist;
-
-        private static ConcurrentQueue<string> _queueList;
-
         /// <summary>
         ///     表示可由多个线程同时访问的键值对的线程安全集合
         /// </summary>
@@ -23,6 +20,7 @@ namespace Paway.Helper
             }
         }
 
+        private static ConcurrentQueue<string> _queueList;
         /// <summary>
         ///     表示线程安全的先进先出 (FIFO) 集合。
         /// </summary>

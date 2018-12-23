@@ -1,4 +1,7 @@
-﻿using System;
+﻿using NPOI.SS.UserModel;
+using NPOI.HSSF.Util;
+using NPOI.HSSF.UserModel;
+using System;
 using System.ComponentModel;
 using System.Data;
 using System.Data.OleDb;
@@ -123,6 +126,196 @@ namespace Paway.Helper
                     cmd.Dispose();
                 }
             }
+        }
+
+
+        /// <summary>
+        /// 创建单元格并且赋值
+        /// </summary>
+        /// <param name="wb">IWorkbook实例</param>
+        /// <param name="row">行对象</param>
+        /// <param name="index">单元格索引</param>
+        /// <param name="style">样式</param>
+        /// <param name="value">单元格值</param>
+        /// <returns></returns>
+        public static ICell CreateCell(IWorkbook wb, IRow row, int index, ICellStyle style, string value)
+        {
+            ICell cell = row.CreateCell(index);
+            cell.CellStyle = style;
+            cell.SetCellValue(value);
+            return cell;
+        }
+
+        /// <summary>
+        /// 创建默认单元格并且赋值
+        /// </summary>
+        /// <param name="wb">IWorkbook实例</param>
+        /// <param name="row">行对象</param>
+        /// <param name="index">单元格索引</param>
+        /// <param name="value">单元格值</param>
+        /// <returns></returns>
+        public static ICell CreateCellHeader(IWorkbook wb, IRow row, int index, string value)
+        {
+            ICellStyle style = Getcellstyle(wb, CellStyle.Header, HorizontalAlignment.Center);
+            return CreateCell(wb, row, index, style, value);
+        }
+
+        /// <summary>
+        /// 创建默认单元格并且赋值
+        /// </summary>
+        /// <param name="wb">IWorkbook实例</param>
+        /// <param name="row">行对象</param>
+        /// <param name="index">单元格索引</param>
+        /// <param name="value">单元格值</param>
+        /// <returns></returns>
+        public static ICell CreateCellDefalut(IWorkbook wb, IRow row, int index, string value)
+        {
+            ICellStyle style = Getcellstyle(wb, CellStyle.Default, HorizontalAlignment.Left);
+            return CreateCell(wb, row, index, style, value);
+        }
+
+        /// <summary>
+        /// 创建数字单元格并且赋值
+        /// </summary>
+        /// <param name="wb">IWorkbook实例</param>
+        /// <param name="row">行对象</param>
+        /// <param name="index">单元格索引</param>
+        /// <param name="value">单元格值</param>
+        /// <returns></returns>
+        public static ICell CreateCellNumber(IWorkbook wb, IRow row, int index, double value)
+        {
+            ICell cell = row.CreateCell(index);
+            cell.CellStyle = Getcellstyle(wb, CellStyle.Number, HorizontalAlignment.Left);
+            cell.SetCellValue(value);
+            return cell;
+        }
+
+        /// <summary>
+        /// 创建日期单元格并且赋值
+        /// </summary>
+        /// <param name="wb">IWorkbook实例</param>
+        /// <param name="row">行对象</param>
+        /// <param name="index">单元格索引</param>
+        /// <param name="value">单元格值</param>
+        /// <returns></returns>
+        public static ICell CreateCellDate(IWorkbook wb, IRow row, int index, DateTime value)
+        {
+            ICell cell = row.CreateCell(index);
+            cell.CellStyle = Getcellstyle(wb, CellStyle.DateTime, HorizontalAlignment.Left);
+            cell.SetCellValue(value);
+            return cell;
+        }
+
+        /// <summary>
+        /// 单元格格式
+        /// </summary>
+        /// <param name="wb">IWorkbook实例</param>
+        /// <param name="tyle">单元格类型</param>
+        /// <param name="_HorizontalAlignment"></param>
+        /// <returns></returns>
+        public static ICellStyle Getcellstyle(IWorkbook wb, CellStyle tyle, HorizontalAlignment _HorizontalAlignment)
+        {
+            ICellStyle style = wb.CreateCellStyle();
+            //定义几种字体  
+            //也可以一种字体，写一些公共属性，然后在下面需要时加特殊的  
+            IFont font = wb.CreateFont();
+            font.FontName = "微软雅黑";
+
+            //边框
+            //style.BorderBottom = BorderStyle.Thin;
+            //style.BorderLeft = BorderStyle.Thin;
+            //style.BorderRight = BorderStyle.Thin;
+            //style.BorderTop = BorderStyle.Thin;
+
+            //边框颜色
+            //style.BottomBorderColor = HSSFColor.Black.Index;
+            //style.TopBorderColor = HSSFColor.Black.Index;
+
+            //背景图形，我没有用到过。感觉很丑  
+            //style.FillForegroundColor = HSSFColor.White.Index;
+            //style.FillBackgroundColor = HSSFColor.Black.Index;
+
+            //水平对齐  
+            style.Alignment = _HorizontalAlignment;
+
+            //垂直对齐  
+            style.VerticalAlignment = VerticalAlignment.Center;
+
+            //自动换行  
+            //style.WrapText = true;
+
+            //缩进;当设置为1时，前面留的空白太大了。希旺官网改进。或者是我设置的不对  
+            style.Indention = 0;
+
+            //上面基本都是设共公的设置，下面列出了常用的字段类型  
+            switch (tyle)
+            {
+                case CellStyle.Default:
+                    style.SetFont(font);
+                    break;
+                case CellStyle.Header:
+                    IFont header = wb.CreateFont();
+                    header.FontName = "微软雅黑";
+                    header.FontHeightInPoints = 12;//字体大小
+                    style.SetFont(header);
+                    break;
+                case CellStyle.Number:
+                    style.DataFormat = HSSFDataFormat.GetBuiltinFormat("0.##");
+                    style.SetFont(font);
+                    break;
+                case CellStyle.DateTime:
+                    IDataFormat datastyle = wb.CreateDataFormat();
+                    style.DataFormat = datastyle.GetFormat("yyyy/MM/dd");
+                    style.SetFont(font);
+                    break;
+                case CellStyle.Url:
+                    IFont url = wb.CreateFont();
+                    url.FontName = "微软雅黑";
+                    url.Color = HSSFColor.Blue.Index;
+                    url.IsItalic = true;//下划线  
+                    url.Underline = FontUnderlineType.Single;
+                    style.SetFont(url);
+                    break;
+                case CellStyle.Science:
+                    style.DataFormat = HSSFDataFormat.GetBuiltinFormat("0.00E+00");
+                    style.SetFont(font);
+                    break;
+            }
+            return style;
+        }
+
+        /// <summary>
+        /// 单元格
+        /// </summary>
+        public enum CellStyle
+        {
+            /// <summary>
+            /// </summary>
+            None,
+            /// <summary>
+            /// 微软雅黑
+            /// </summary>
+            Default,
+            /// <summary>
+            /// 微软雅黑,12
+            /// </summary>
+            Header,
+            /// <summary>
+            /// 0.##
+            /// </summary>
+            Number,
+            /// <summary>
+            /// yyyy/MM/dd
+            /// </summary>
+            DateTime,
+            /// <summary>
+            /// Url
+            /// </summary>
+            Url,
+            /// <summary>
+            /// 0.00E+00
+            /// </summary>
+            Science,
         }
     }
 }
