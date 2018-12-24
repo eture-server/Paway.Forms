@@ -279,7 +279,7 @@ namespace Paway.Utils
         /// <param name="ithrow">失败是否抛出异常</param>
         public void Send(object message, bool ithrow)
         {
-            if (!IConnected)
+            if (ithrow && !IConnected)
             {
                 throw new ArgumentException("DisConnected");
             }

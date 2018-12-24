@@ -152,20 +152,6 @@ namespace Paway.Forms
         ///     多选状态下选中时附加的图片
         /// </summary>
         private readonly Image _selectImage2 = AssemblyHelper.GetImage("Controls.accept_16.png");
-        /// <summary>
-        ///     多选状态下选中时附加的图片
-        /// </summary>
-        [DefaultValue(null)]
-        [Description("多选状态下选中时附加的图片")]
-        public virtual Image SelectImage
-        {
-            get { return _selectImage; }
-            set
-            {
-                _selectImage = value;
-                Invalidate();
-            }
-        }
 
         #endregion
 
