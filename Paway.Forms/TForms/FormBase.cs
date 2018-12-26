@@ -627,6 +627,49 @@ namespace Paway.Forms
             }
         }
 
+        /// <summary>
+        /// 获取下一个控件
+        /// </summary>
+        protected Control NextControl(Point current, Control parent)
+        {
+            Control result = null;
+            Point next = new Point(this.Width, this.Height);
+            foreach (Control item in parent.Controls)
+            {
+                if (item.Location.Y < next.Y || (item.Location.Y == next.Y && item.Location.X < next.X))
+                    if (item.Location.Y > current.Y || (item.Location.Y == current.Y && item.Location.X > current.X))
+                    {
+                        if (item.Visible && item.Enabled &&
+                            ((item is QQTextBox && (item as QQTextBox).Edit.Enabled && !(item as QQTextBox).Edit.ReadOnly) ||
+                            item is DateTimePicker ||
+                            (item is NumericUpDown && !(item as NumericUpDown).ReadOnly)))
+                        {
+                            next = item.Location;
+                            result = item;
+                        }
+                    }
+            }
+            return result;
+        }
+        /// <summary>
+        /// 当前焦点控件
+        /// </summary>
+        protected Control CurrentPoint(Control parent)
+        {
+            foreach (Control item in parent.Controls)
+            {
+                if (item.ContainsFocus)
+                {
+                    if (item.GetType() == typeof(TControl))
+                    {
+                        return CurrentPoint(item);
+                    }
+                    return item;
+                }
+            }
+            return this;
+        }
+
         #endregion
 
         #region Override Methods

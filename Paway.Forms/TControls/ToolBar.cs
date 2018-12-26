@@ -818,6 +818,27 @@ namespace Paway.Forms
             return false;
         }
 
+        /// <summary>
+        /// 双击事件
+        /// </summary>
+        protected override void OnDoubleClick(EventArgs e)
+        {
+            base.OnDoubleClick(e);
+            if (ItemDoubleClick != null)
+            {
+                MouseEventArgs me = (MouseEventArgs)e;
+                var point = Replace(me.Location);
+                for (int i = 0; i < Items.Count; i++)
+                {
+                    if (Items[i].Rectangle.Contains(point))
+                    {
+                        ItemDoubleClick.Invoke(Items[i]);
+                        return;
+                    }
+                }
+            }
+        }
+
         #endregion
 
         /// <summary>
@@ -846,6 +867,11 @@ namespace Paway.Forms
             add { Events.AddHandler(EventEditClick, value); }
             remove { Events.RemoveHandler(EventEditClick, value); }
         }
+
+        /// <summary>
+        /// 双击事件
+        /// </summary>
+        public event Action<ToolItem> ItemDoubleClick;
 
         #endregion
 

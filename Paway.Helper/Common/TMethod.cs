@@ -14,6 +14,7 @@ namespace Paway.Helper
     /// </summary>
     public abstract class TMethod
     {
+        #region 硬件
         /// <summary>
         /// 获取本机IP地址
         /// </summary>
@@ -30,6 +31,8 @@ namespace Paway.Helper
             }
             return string.Empty;
         }
+
+        #endregion
 
         #region 时间格式化
         /// <summary>
