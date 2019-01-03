@@ -173,6 +173,8 @@
             this.toolBar2.IImageShow = true;
             this.toolBar2.ImageSize = new System.Drawing.Size(32, 32);
             toolItem22.Image = global::Paway.Test.Properties.Resources.online;
+            toolItem22.TColor.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            toolItem22.TColor.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             toolItem22.TColor.ColorNormal = System.Drawing.Color.Red;
             toolItem22.TColor.StringVertical = System.Drawing.StringAlignment.Center;
             toolItem22.Text = "白酒";
@@ -230,6 +232,8 @@
             this.toolBar2.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
             this.toolBar2.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(127)))), ((int)(((byte)(104)))));
             this.toolBar2.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(72)))), ((int)(((byte)(38)))));
+            this.toolBar2.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(110)))), ((int)(((byte)(230)))));
+            this.toolBar2.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(244)))));
             this.toolBar2.TBrush.ColorNormal = System.Drawing.Color.CornflowerBlue;
             this.toolBar2.TChange.ColorDown = System.Drawing.Color.Blue;
             this.toolBar2.TChange.ColorMove = System.Drawing.Color.Red;
@@ -275,6 +279,7 @@
             this.toolbar.Size = new System.Drawing.Size(203, 52);
             this.toolbar.TabIndex = 88;
             this.toolbar.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(105)))), ((int)(((byte)(203)))));
+            this.toolbar.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(169)))), ((int)(((byte)(243)))));
             this.toolbar.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(135)))), ((int)(((byte)(239)))));
             this.toolbar.TBackGround.ColorSpace = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(170)))), ((int)(((byte)(243)))));
             this.toolbar.TextFirst.ColorDown = System.Drawing.Color.White;
@@ -319,6 +324,8 @@
             this.IDrawBorder = true;
             this.Name = "Form2";
             this.Padding = new System.Windows.Forms.Padding(1, 26, 1, 1);
+            this.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(110)))), ((int)(((byte)(230)))));
+            this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(244)))));
             this.TBrush.ColorNormal = System.Drawing.Color.CornflowerBlue;
             this.TBrush.ColorSpace = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.Text = "Form2";

@@ -50,7 +50,6 @@
             Paway.Forms.ToolItem toolItem10 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem11 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem12 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem13 = new Paway.Forms.ToolItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.在线ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.离开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -726,20 +725,23 @@
             this.toolBar2.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.toolBar2.ICheckEvent = true;
             toolItem12.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
-            toolItem12.Text = "创建宝贝";
-            toolItem13.Text = "上传宝贝";
+            toolItem12.Text = "0\r\n创建宝贝";
             this.toolBar2.Items.Add(toolItem12);
-            this.toolBar2.Items.Add(toolItem13);
-            this.toolBar2.ItemSize = new System.Drawing.Size(116, 34);
+            this.toolBar2.ItemSize = new System.Drawing.Size(110, 90);
             this.toolBar2.ItemSpace = 0;
-            this.toolBar2.Location = new System.Drawing.Point(242, 20);
+            this.toolBar2.Location = new System.Drawing.Point(233, 23);
             this.toolBar2.Name = "toolBar2";
-            this.toolBar2.Size = new System.Drawing.Size(116, 93);
+            this.toolBar2.Size = new System.Drawing.Size(110, 90);
             this.toolBar2.TabIndex = 43;
             this.toolBar2.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.toolBar2.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.toolBar2.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.toolBar2.TDirection = Paway.Helper.TDirection.Vertical;
+            this.toolBar2.TextFirst.FontDown = new System.Drawing.Font("微软雅黑", 24F);
+            this.toolBar2.TextFirst.FontMove = new System.Drawing.Font("微软雅黑", 24F);
+            this.toolBar2.TextFirst.FontNormal = new System.Drawing.Font("微软雅黑", 24F);
+            this.toolBar2.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolBar2.TextSencond.StringVertical = System.Drawing.StringAlignment.Center;
             // 
             // btTTsRead
             // 

@@ -1318,7 +1318,7 @@ namespace Paway.Forms
                         {
                             rect = new Rectangle
                             {
-                                X = textRect.X + (fHight - sHight) / 2,
+                                X = textRect.X,
                                 Y = textRect.Y + height + fHight + _textSpace * i + sHight * (i - 1),
                                 Width = textRect.Width,
                                 Height = sHight
@@ -1337,7 +1337,7 @@ namespace Paway.Forms
             {
                 case TMouseState.Normal:
                 case TMouseState.Leave:
-                    return pro.HeightDown;
+                    return pro.HeightNormal;
                 case TMouseState.Move:
                 case TMouseState.Up:
                     return pro.HeightMove;
