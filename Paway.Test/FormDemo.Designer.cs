@@ -49,7 +49,6 @@
             Paway.Forms.ToolItem toolItem9 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem10 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem11 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem12 = new Paway.Forms.ToolItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.在线ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.离开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -125,7 +124,6 @@
             this.btDemo360 = new Paway.Forms.QQButton();
             this.btQQDemo = new Paway.Forms.QQButton();
             this.toolBar3 = new Paway.Forms.ToolBar();
-            this.toolBar2 = new Paway.Forms.ToolBar();
             this.btTTsRead = new Paway.Forms.QQButton();
             this.tNumTestBox1 = new Paway.Forms.TNumTestBox();
             this.tbPrompt = new Paway.Forms.QQTextBox();
@@ -720,29 +718,6 @@
             this.toolBar3.TabIndex = 44;
             this.toolBar3.TDirection = Paway.Helper.TDirection.Vertical;
             // 
-            // toolBar2
-            // 
-            this.toolBar2.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.toolBar2.ICheckEvent = true;
-            toolItem12.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
-            toolItem12.Text = "0\r\n创建宝贝";
-            this.toolBar2.Items.Add(toolItem12);
-            this.toolBar2.ItemSize = new System.Drawing.Size(110, 90);
-            this.toolBar2.ItemSpace = 0;
-            this.toolBar2.Location = new System.Drawing.Point(233, 23);
-            this.toolBar2.Name = "toolBar2";
-            this.toolBar2.Size = new System.Drawing.Size(110, 90);
-            this.toolBar2.TabIndex = 43;
-            this.toolBar2.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.toolBar2.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.toolBar2.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.toolBar2.TDirection = Paway.Helper.TDirection.Vertical;
-            this.toolBar2.TextFirst.FontDown = new System.Drawing.Font("微软雅黑", 24F);
-            this.toolBar2.TextFirst.FontMove = new System.Drawing.Font("微软雅黑", 24F);
-            this.toolBar2.TextFirst.FontNormal = new System.Drawing.Font("微软雅黑", 24F);
-            this.toolBar2.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
-            this.toolBar2.TextSencond.StringVertical = System.Drawing.StringAlignment.Center;
-            // 
             // btTTsRead
             // 
             this.btTTsRead.Font = new System.Drawing.Font("Tahoma", 12F);
@@ -947,7 +922,6 @@
             this.Controls.Add(this.btDemo360);
             this.Controls.Add(this.btQQDemo);
             this.Controls.Add(this.toolBar3);
-            this.Controls.Add(this.toolBar2);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btTTsRead);
@@ -1065,7 +1039,6 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private Forms.QQTabPage qqTabPage3;
         private Forms.QQTabPage qqTabPage4;
-        private Forms.ToolBar toolBar2;
         private Forms.ToolBar toolBar3;
         private Forms.QQButton btQQDemo;
         private Forms.QQButton btDemo360;

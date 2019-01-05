@@ -159,7 +159,6 @@ namespace Paway.Test
             this.btDemo360.Click += delegate { new Demo360().Show(); };
             this.btQQDemo.Click += delegate { new QQDemo().ShowDialog(this); };
             this.btImage.Click += btImage_Click;
-            toolBar2.ItemClick += toolBar2_ItemClick;
             this.btSearch.Click += btSearch_Click;
             this.tbCat.MouseEnter += tbCat_MouseEnter;
             this.tbCat.MouseLeave += tbCat_MouseLeave;
@@ -223,19 +222,6 @@ namespace Paway.Test
                 ImageForm iform = new ImageForm(image);
                 iform.BackColor = Color.Black;
                 iform.ShowDialog(this);
-            }
-        }
-
-        void toolBar2_ItemClick(object sender, EventArgs e)
-        {
-            switch (toolBar2.SelectedItem.Text)
-            {
-                case "创建宝贝":
-                    new FormSql().ShowDialog();
-                    break;
-                case "上传宝贝":
-                    new Demo360().Show();
-                    break;
             }
         }
 

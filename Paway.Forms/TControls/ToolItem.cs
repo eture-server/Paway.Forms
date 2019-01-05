@@ -225,21 +225,6 @@ namespace Paway.Forms
             }
         }
 
-        private bool _iText;
-        /// <summary>
-        ///     文本内容
-        /// </summary>
-        [Description("文本内容"), DefaultValue(false)]
-        public bool IText
-        {
-            get { return _iText; }
-            set
-            {
-                _iText = value;
-                TRefresh();
-            }
-        }
-
         private int _tRadiu;
         /// <summary>
         ///     圆角大小

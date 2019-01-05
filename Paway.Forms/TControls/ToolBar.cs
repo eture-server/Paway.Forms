@@ -230,11 +230,11 @@ namespace Paway.Forms
         /// <summary>
         ///     项文本间的间隔
         /// </summary>
-        private int _textSpace = 6;
+        private int _textSpace = 0;
         /// <summary>
         ///     项文本间的间隔
         /// </summary>
-        [Description("项文本间的间隔"), DefaultValue(6)]
+        [Description("项文本间的间隔"), DefaultValue(0)]
         public int TextSpace
         {
             get { return _textSpace; }
@@ -266,21 +266,6 @@ namespace Paway.Forms
         /// </summary>
         [Description("显示简短说明"), DefaultValue(true)]
         public bool IShowTop { get { return _iShowTop; } set { _iShowTop = value; } }
-
-        private bool _iText;
-        /// <summary>
-        ///     显示为文本内容
-        /// </summary>
-        [Description("显示为文本内容"), DefaultValue(false)]
-        public bool IText
-        {
-            get { return _iText; }
-            set
-            {
-                _iText = value;
-                Invalidate();
-            }
-        }
 
         /// <summary>
         ///     普通项，不响应鼠标绘制
@@ -1289,12 +1274,6 @@ namespace Paway.Forms
                     var size = TextRenderer.MeasureText(item.Desc, GetFont(item.TMouseState, TDesc));
                     textRect.Width -= size.Width;
                 }
-                if (_iText || item.IText)
-                {
-                    var rect = new Rectangle(textRect.X, textRect.Y, textRect.Width, textRect.Height);
-                    DrawOtherDesc(g, item, TextFirst, item.Text, rect);
-                }
-                else
                 {
                     var text = item.Text.Split(new[] { "\r\n", "&&" }, StringSplitOptions.RemoveEmptyEntries);
                     if (text.Length > 0)
@@ -1397,11 +1376,6 @@ namespace Paway.Forms
 
             if (!item.Enable)
             {
-                if (_iText || item.IText)
-                {
-                    g.DrawString(text, font, new SolidBrush(color), rect, desc.StringFormat);
-                }
-                else
                 {
                     var temp = new Rectangle(rect.X + Offset.X, rect.Y + Offset.Y, rect.Width, rect.Height);
                     TextRenderer.DrawText(g, text, font, temp, color, desc.TextFormat);
@@ -1426,11 +1400,6 @@ namespace Paway.Forms
                     break;
             }
             if (color == Color.Empty) color = ForeColor;
-            if (_iText || item.IText)
-            {
-                g.DrawString(text, font, new SolidBrush(color), rect, desc.StringFormat);
-            }
-            else
             {
                 var temp = new Rectangle(rect.X + Offset.X, rect.Y + Offset.Y, rect.Width, rect.Height);
                 TextRenderer.DrawText(g, text, font, temp, color, desc.TextFormat);
