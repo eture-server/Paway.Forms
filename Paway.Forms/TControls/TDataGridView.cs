@@ -62,7 +62,7 @@ namespace Paway.Forms
         /// <param name="e"></param>
         private void DrawMultiText(DataGridViewCellPaintingEventArgs e)
         {
-            if (e.Value == null || e.Value.ToString().Trim() == string.Empty || e.Value.ToString().IndexOf("&&") == -1)
+            if (e.Value == null || e.Value.ToString().Trim() == string.Empty || !e.Value.ToString().Contains("&&"))
                 return;
 
             if (Columns[e.ColumnIndex] is DataGridViewTextBoxColumn cell && cell.Visible && cell.ReadOnly)

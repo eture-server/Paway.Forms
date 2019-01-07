@@ -686,7 +686,7 @@ namespace Paway.Forms
             }
             if (!string.IsNullOrEmpty(result))
             {
-                Reset(string.Format("不可以输入字符:{0}", result));
+                Reset(result);
             }
             else
             {
@@ -695,19 +695,11 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     清除错误描述
-        /// </summary>
-        public void Reset()
-        {
-            _error.SetError(this, null);
-        }
-
-        /// <summary>
         ///     设置错误描述
         /// </summary>
-        public void Reset(string er)
+        public void Reset(string error = null)
         {
-            _error.SetError(this, er);
+            _error.SetError(this, error);
         }
 
         /// <summary>

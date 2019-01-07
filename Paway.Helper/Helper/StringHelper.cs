@@ -101,11 +101,11 @@ namespace Paway.Helper
         public static string RegexChecked(string str, string pattern)
         {
             if (pattern == null) return null;
-            var regex = new Regex(pattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            var regex = new Regex(pattern, RegexOptions.Singleline);
             var match = regex.Match(str);
             if (!match.Success)
             {
-                return "请重新输入";
+                return "检查错误,请重新输入";
             }
             if (match.Groups[0].Value != str)
             {
@@ -113,7 +113,7 @@ namespace Paway.Helper
                 {
                     return str.Substring(0, match.Groups[0].Index);
                 }
-                return str.Remove(match.Groups[0].Index, match.Groups[0].Length);
+                return "不可以输入字符:" + str.Remove(match.Groups[0].Index, match.Groups[0].Length);
             }
             return null;
         }
