@@ -171,10 +171,8 @@
             this.tbRsa2.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tbRsa2.Lines = new string[0];
             this.tbRsa2.Location = new System.Drawing.Point(137, 277);
-            this.tbRsa2.Margin = new System.Windows.Forms.Padding(4);
             this.tbRsa2.MaxLength = 128;
             this.tbRsa2.Name = "tbRsa2";
-            this.tbRsa2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
             this.tbRsa2.Regex = "[0-9]+(\\.[0-9]+)?";
             this.tbRsa2.RegexType = Paway.Helper.RegexType.Custom;
             this.tbRsa2.RLength = 1;
@@ -191,10 +189,8 @@
             this.tbName.IconIsButton = true;
             this.tbName.Lines = new string[0];
             this.tbName.Location = new System.Drawing.Point(271, 277);
-            this.tbName.Margin = new System.Windows.Forms.Padding(4);
             this.tbName.MaxLength = 10;
             this.tbName.Name = "tbName";
-            this.tbName.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
             this.tbName.RegexType = Paway.Helper.RegexType.Normal;
             this.tbName.Size = new System.Drawing.Size(172, 29);
             this.tbName.TabIndex = 64;

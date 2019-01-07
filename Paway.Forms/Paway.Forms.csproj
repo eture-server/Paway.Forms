@@ -217,6 +217,9 @@
     <EmbeddedResource Include="QQControls\QQTextBox.resx">
       <DependentUpon>QQTextBox.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TControls\TNumTestBox.resx">
+      <DependentUpon>TNumTestBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TControls\TPager.resx">
       <DependentUpon>TPager.cs</DependentUpon>
     </EmbeddedResource>

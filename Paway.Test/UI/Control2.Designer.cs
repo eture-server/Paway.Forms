@@ -70,9 +70,7 @@
             this.tbPrompt.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tbPrompt.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tbPrompt.Location = new System.Drawing.Point(29, 229);
-            this.tbPrompt.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbPrompt.Name = "tbPrompt";
-            this.tbPrompt.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.tbPrompt.ReadOnly = true;
             this.tbPrompt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbPrompt.Size = new System.Drawing.Size(420, 24);

@@ -74,21 +74,20 @@ namespace Paway.Forms
 
         private void InitializeComponent()
         {
-            SuspendLayout();
+            this.SuspendLayout();
             // 
             // BaseText
             // 
-            BaseText.BackColor = Color.White;
+            this.BaseText.BackColor = System.Drawing.Color.White;
             // 
             // TNumTestBox
             // 
-            AutoScaleDimensions = new SizeF(7F, 17F);
-            Margin = new Padding(3, 4, 3, 4);
-            Name = "TNumTestBox";
-            Padding = new Padding(0, 0, 0, 4);
-            Size = new Size(166, 34);
-            ResumeLayout(false);
-            PerformLayout();
+            this.Lines = new string[0];
+            this.Name = "TNumTestBox";
+            this.Size = new System.Drawing.Size(166, 34);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #region  member fields

@@ -142,10 +142,8 @@
             this.tbStart.Lines = new string[] {
         "1000"};
             this.tbStart.Location = new System.Drawing.Point(25, 247);
-            this.tbStart.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbStart.MaxLength = 10;
             this.tbStart.Name = "tbStart";
-            this.tbStart.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.tbStart.Size = new System.Drawing.Size(71, 24);
             this.tbStart.TabIndex = 38;
             // 

@@ -735,10 +735,8 @@
             this.tNumTestBox1.Lines = new string[] {
         "9"};
             this.tNumTestBox1.Location = new System.Drawing.Point(118, 180);
-            this.tNumTestBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tNumTestBox1.MaxLength = 10;
             this.tNumTestBox1.Name = "tNumTestBox1";
-            this.tNumTestBox1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.tNumTestBox1.Size = new System.Drawing.Size(109, 24);
             this.tNumTestBox1.TabIndex = 37;
             // 
@@ -750,9 +748,7 @@
             this.tbPrompt.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tbPrompt.Lines = new string[0];
             this.tbPrompt.Location = new System.Drawing.Point(16, 210);
-            this.tbPrompt.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbPrompt.Name = "tbPrompt";
-            this.tbPrompt.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.tbPrompt.ReadOnly = true;
             this.tbPrompt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbPrompt.Size = new System.Drawing.Size(261, 24);
@@ -896,10 +892,8 @@
             this.numEditTestBox2.Lines = new string[] {
         "0"};
             this.numEditTestBox2.Location = new System.Drawing.Point(16, 155);
-            this.numEditTestBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numEditTestBox2.MaxLength = 10;
             this.numEditTestBox2.Name = "numEditTestBox2";
-            this.numEditTestBox2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.numEditTestBox2.Size = new System.Drawing.Size(92, 24);
             this.numEditTestBox2.TabIndex = 5;
             // 
