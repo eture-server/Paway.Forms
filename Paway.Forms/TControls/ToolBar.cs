@@ -1153,7 +1153,8 @@ namespace Paway.Forms
                 g.FillPath(new SolidBrush(color), path);
                 if (_iItemLine)
                 {
-                    g.DrawPath(new Pen(Color.FromArgb(Trans, 100, 100, 100)), path);
+                    var temp = BitmapHelper.RGBAddLight(color, -10);
+                    g.DrawPath(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B)), path);
                 }
             }
             else
@@ -1163,7 +1164,8 @@ namespace Paway.Forms
                 {
                     var rect = item.Rectangle;
                     rect = new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1);
-                    g.DrawRectangle(new Pen(Color.FromArgb(Trans, 100, 100, 100)), rect);
+                    var temp = BitmapHelper.RGBAddLight(color, -10);
+                    g.DrawRectangle(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B)), rect);
                 }
             }
         }
