@@ -32,9 +32,13 @@ namespace Paway.Forms
 
         #region 事件
         /// <summary>
-        ///     页面切换的时候触发
+        ///     页面切换前触发
         /// </summary>
-        public event EventHandler PageChanged;
+        public event Func<bool> PageChanging;
+        /// <summary>
+        ///     数据刷新后触发
+        /// </summary>
+        public event Action RefreshChanged;
 
         #endregion
 
@@ -264,14 +268,11 @@ namespace Paway.Forms
         #region 分页
         private void Pager1_PageChanged(object sender, EventArgs e)
         {
-            if (PageChanged != null)
+            if (PageChanging != null)
             {
-                PageChanged(sender, e);
+                if (PageChanging()) return;
             }
-            else
-            {
-                RefreshData();
-            }
+            RefreshData();
         }
 
         /// <summary>
@@ -322,6 +323,7 @@ namespace Paway.Forms
                 Edit.DataSource = dataSource;
             }
             UpdateColumnsSortMode();
+            RefreshChanged?.Invoke();
         }
         /// <summary>
         /// IEnumerable
