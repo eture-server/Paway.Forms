@@ -255,6 +255,7 @@ namespace Paway.Forms
         /// <summary>
         ///     设置数据源时设置图片列
         /// </summary>
+        [Browsable(false)]
         [Description("设置数据源时设置图片列")]
         [AttributeProvider(typeof(IListSource))]
         [RefreshProperties(RefreshProperties.Repaint), DefaultValue(null)]

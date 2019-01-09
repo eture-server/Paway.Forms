@@ -102,6 +102,7 @@ namespace Paway.Forms
         /// <summary>
         ///     获取或设置数据源
         /// </summary>
+        [Browsable(false)]
         [Category("Properties"), DefaultValue(null)]
         public object DataSource
         {
