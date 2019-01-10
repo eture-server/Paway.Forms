@@ -76,6 +76,15 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="QQControls\CmdKeyEventArgs.cs" />
+    <Compile Include="TExpand\IBaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TExpand\IBaseForm.Designer.cs">
+      <DependentUpon>IBaseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TExpand\TBaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TExpand\TDataControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -195,12 +204,6 @@
     <Compile Include="TForms\NotifyForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TExpand\TBaseForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TExpand\TBaseForm.Designer.cs">
-      <DependentUpon>TBaseForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="TForms\QQForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -239,14 +242,17 @@
     <EmbeddedResource Include="QQControls\QQTextBox.resx">
       <DependentUpon>QQTextBox.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TExpand\IBaseForm.resx">
+      <DependentUpon>IBaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TExpand\TBaseForm.resx">
+      <DependentUpon>TBaseForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TExpand\TDataControl.resx">
       <DependentUpon>TDataControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TExpand\TBaseControl.resx">
       <DependentUpon>TBaseControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TExpand\TBaseForm.resx">
-      <DependentUpon>TBaseForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TExpand\TQuery.resx">
       <DependentUpon>TQuery.cs</DependentUpon>
