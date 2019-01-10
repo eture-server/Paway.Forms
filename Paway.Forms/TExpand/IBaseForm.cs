@@ -33,6 +33,7 @@ namespace Paway.Forms
             this.TextShow = string.Empty;
             this.TMouseMove(this.lbTitle);
             lbTitle.TextChanged += LbTitle_TextChanged;
+            lbTitle.Paint += LbTitle_Paint;
         }
 
         #region 其它
@@ -62,6 +63,11 @@ namespace Paway.Forms
         private void LbTitle_TextChanged(object sender, EventArgs e)
         {
             this.OnResize(EventArgs.Empty);
+        }
+        private void LbTitle_Paint(object sender, PaintEventArgs e)
+        {
+            if (lbTitle.Visible)
+                e.Graphics.DrawLine(new Pen(BitmapHelper.RGBAddLight(lbTitle.BackColor, -40)), 0, lbTitle.Height - 1, lbTitle.Width, lbTitle.Height - 1);
         }
 
         #endregion
