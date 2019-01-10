@@ -7,23 +7,35 @@ namespace Paway.Helper
     /// <summary>
     ///     普通数据接口
     /// </summary>
-    public interface IInfo
+    public interface IInfo : IName, ITime
     {
-        /// <summary>
-        /// Id
-        /// </summary>
-        long Id { get; set; }
-        /// <summary>
-        /// Name
-        /// </summary>
-        string Name { get; set; }
         /// <summary>
         /// Value
         /// </summary>
         string Value { get; set; }
+    }
+    /// <summary>
+    /// </summary>
+    public interface ITime
+    {
         /// <summary>
-        /// DateTime
         /// </summary>
         DateTime DateTime { get; set; }
+    }
+    /// <summary>
+    /// </summary>
+    public interface IName : IId
+    {
+        /// <summary>
+        /// </summary>
+        string Name { get; set; }
+    }
+    /// <summary>
+    /// </summary>
+    public interface IId
+    {
+        /// <summary>
+        /// </summary>
+        long Id { get; set; }
     }
 }

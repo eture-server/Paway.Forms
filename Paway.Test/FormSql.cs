@@ -20,7 +20,7 @@ using System.Threading;
 
 namespace Paway.Test
 {
-    public partial class FormSql : QQDemo
+    public partial class FormSql : TBaseForm
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 

@@ -14,7 +14,7 @@ namespace Paway.Utils
     /// <summary>
     ///     数据服务基类，不可创建实例
     /// </summary>
-    public abstract class DataBase : IDisposable
+    public abstract class DataBase : IDisposable, IDataService
     {
         /// <summary>
         /// </summary>

@@ -46,6 +46,10 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Root\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -72,6 +76,24 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="QQControls\CmdKeyEventArgs.cs" />
+    <Compile Include="TExpand\TDataControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TExpand\TDataControl.designer.cs">
+      <DependentUpon>TDataControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TExpand\TBaseControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TExpand\TBaseControl.designer.cs">
+      <DependentUpon>TBaseControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TExpand\TQuery.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TExpand\TQuery.designer.cs">
+      <DependentUpon>TQuery.cs</DependentUpon>
+    </Compile>
     <Compile Include="TControls\TChart.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -173,11 +195,11 @@
     <Compile Include="TForms\NotifyForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TForms\QQDemo.cs">
+    <Compile Include="TExpand\TBaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TForms\QQDemo.Designer.cs">
-      <DependentUpon>QQDemo.cs</DependentUpon>
+    <Compile Include="TExpand\TBaseForm.Designer.cs">
+      <DependentUpon>TBaseForm.cs</DependentUpon>
     </Compile>
     <Compile Include="TForms\QQForm.cs">
       <SubType>Form</SubType>
@@ -217,6 +239,18 @@
     <EmbeddedResource Include="QQControls\QQTextBox.resx">
       <DependentUpon>QQTextBox.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TExpand\TDataControl.resx">
+      <DependentUpon>TDataControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TExpand\TBaseControl.resx">
+      <DependentUpon>TBaseControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TExpand\TBaseForm.resx">
+      <DependentUpon>TBaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TExpand\TQuery.resx">
+      <DependentUpon>TQuery.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TControls\TNumTestBox.resx">
       <DependentUpon>TNumTestBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -235,6 +269,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\load.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

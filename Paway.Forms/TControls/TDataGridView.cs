@@ -14,6 +14,11 @@ namespace Paway.Forms
     /// </summary>
     public class TDataGridView : DataGridView
     {
+        /// <summary>
+        ///     数据刷新后触发
+        /// </summary>
+        public event Action RefreshChanged;
+
         #region 构造函数
         /// <summary>
         ///     构造
@@ -533,6 +538,7 @@ namespace Paway.Forms
                     }
                 }
             }
+            RefreshChanged?.Invoke();
         }
 
         #endregion

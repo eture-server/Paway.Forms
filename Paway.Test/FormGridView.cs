@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace Paway.Test
 {
-    public partial class FormGridView : QQDemo
+    public partial class FormGridView : TBaseForm
     {
         public FormGridView()
         {
