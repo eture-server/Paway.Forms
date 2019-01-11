@@ -35,7 +35,6 @@
             // toolBar2
             // 
             this.toolBar2.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.toolBar2.ForeColor = System.Drawing.SystemColors.ControlText;
             this.toolBar2.ICheckEvent = true;
             toolItem1.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
             toolItem1.Text = "0\r\n创建宝贝";

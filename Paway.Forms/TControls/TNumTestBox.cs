@@ -115,7 +115,7 @@ namespace Paway.Forms
         /// <summary>
         ///     控件前景色默认:WindowText
         /// </summary>
-        [DefaultValue(typeof(Color), "WindowText")]
+        [DefaultValue(typeof(Color), "Block")]
         public new Color ForeColor
         {
             get { return base.ForeColor; }

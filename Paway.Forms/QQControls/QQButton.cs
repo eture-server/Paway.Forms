@@ -40,7 +40,8 @@ namespace Paway.Forms
                 ControlStyles.SupportsTransparentBackColor, true);
             SetStyle(ControlStyles.Opaque, false);
             UpdateStyles();
-            TConfig.Init(this);
+            ForeColor = Color.Black;
+            BackColor = Color.Transparent;
             Validated += QQButton_LostFocus;
         }
 
@@ -76,12 +77,7 @@ namespace Paway.Forms
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual Image NormalImage
         {
-            get
-            {
-                if (_normalImage == null)
-                    _normalImage = _normalImage2;
-                return _normalImage;
-            }
+            get { return _normalImage; }
             set
             {
                 _normalImage = value;
@@ -101,12 +97,7 @@ namespace Paway.Forms
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual Image DownImage
         {
-            get
-            {
-                if (_downImage == null)
-                    _downImage = _downImage2;
-                return _downImage;
-            }
+            get { return _downImage; }
             set
             {
                 _downImage = value;
@@ -126,16 +117,10 @@ namespace Paway.Forms
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual Image MoveImage
         {
-            get
-            {
-                if (_moveImage == null)
-                    _moveImage = _moveImage2;
-                return _moveImage;
-            }
+            get { return _moveImage; }
             set
             {
                 _moveImage = value;
-
                 Invalidate();
             }
         }
@@ -354,20 +339,20 @@ namespace Paway.Forms
                             }
                             else
                             {
-                                DrawHelper.RendererBackground(g, TextRect, NormalImage, true);
+                                DrawHelper.RendererBackground(g, TextRect, _normalImage ?? _normalImage2, true);
                             }
                         }
                         else
                         {
-                            DrawHelper.RendererBackground(g, TextRect, NormalImage, true);
+                            DrawHelper.RendererBackground(g, TextRect, _normalImage ?? _normalImage2, true);
                         }
                         break;
                     case TMouseState.Up:
                     case TMouseState.Move:
-                        DrawHelper.RendererBackground(g, TextRect, MoveImage, true);
+                        DrawHelper.RendererBackground(g, TextRect, _moveImage ?? _moveImage2, true);
                         break;
                     case TMouseState.Down:
-                        DrawHelper.RendererBackground(g, TextRect, DownImage, true);
+                        DrawHelper.RendererBackground(g, TextRect, _downImage ?? _downImage2, true);
                         break;
                 }
                 TextRenderer.DrawText(g, Text, Font, TextRect, ForeColor, _textAlign);

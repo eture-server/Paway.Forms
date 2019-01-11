@@ -52,6 +52,7 @@ namespace Paway.Test
             pictureBox1.Click += pictureBox1_Click;
             pictureBox2.Click += pictureBox2_Click;
             this.toolBar3.SelectedItemChanged += toolBar3_SelectedItemChanged;
+            this.Activate();
         }
 
         private void InitEnum()

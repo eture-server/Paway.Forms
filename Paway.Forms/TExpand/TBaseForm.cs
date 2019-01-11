@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Paway.Forms
 {
@@ -23,16 +24,19 @@ namespace Paway.Forms
             InitializeComponent();
             this.TMouseMove(this.panel1);
             lbTitle.Paint -= LbTitle_Paint;
+            lbTitle.TextChanged += delegate { this.OnSizeChanged(EventArgs.Empty); };
+            lbTitle.Text = "aaaaaaaa";
         }
         /// <summary>
         /// 调整Title位置
         /// </summary>
-        protected override void OnResize(EventArgs e)
+        protected override void OnSizeChanged(EventArgs e)
         {
-            base.OnResize(e);
+            base.OnSizeChanged(e);
             if (lbTitle != null)
             {
-                this.lbTitle.Location = new Point((this.Width - lbTitle.Width) / 2, 32);
+                var size = TextRenderer.MeasureText(lbTitle.Text, lbTitle.Font);
+                this.lbTitle.Location = new Point((this.Width - size.Width) / 2, (this.Padding.Top - size.Height * 2 / 3) / 2);
             }
         }
 

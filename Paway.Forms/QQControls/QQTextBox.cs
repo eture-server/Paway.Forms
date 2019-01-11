@@ -484,7 +484,8 @@ namespace Paway.Forms
             InitializeComponent();
             InitEvents();
             Padding = new Padding(0, 0, 0, 3);
-            TConfig.Init(this);
+            ForeColor = Color.Black;
+            BackColor = Color.Transparent;
         }
 
         /// <summary>

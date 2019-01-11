@@ -949,7 +949,7 @@ namespace Paway.Forms
             // TDataGridView
             // 
             Controls.Add(pictureBox1);
-            RowTemplate.Height = 23;
+            RowTemplate.Height = 22;
             ((ISupportInitialize)pictureBox1).EndInit();
             ((ISupportInitialize)this).EndInit();
             ResumeLayout(false);

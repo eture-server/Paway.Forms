@@ -32,7 +32,6 @@ namespace Paway.Forms
             InitializeComponent();
             this.TextShow = string.Empty;
             this.TMouseMove(this.lbTitle);
-            lbTitle.TextChanged += LbTitle_TextChanged;
             lbTitle.Paint += LbTitle_Paint;
         }
 
@@ -45,10 +44,6 @@ namespace Paway.Forms
             base.OnShown(e);
             this.Activate();
         }
-        private void LbTitle_TextChanged(object sender, EventArgs e)
-        {
-            this.OnResize(EventArgs.Empty);
-        }
         internal void LbTitle_Paint(object sender, PaintEventArgs e)
         {
             if (lbTitle.Visible)
@@ -57,7 +52,6 @@ namespace Paway.Forms
         /// <summary>
         ///     关闭时激发父窗体
         /// </summary>
-        /// <param name="e"></param>
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             if (Owner != null)

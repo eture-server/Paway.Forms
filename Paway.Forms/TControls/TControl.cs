@@ -37,6 +37,8 @@ namespace Paway.Forms
             UpdateStyles();
             InitShow();
 
+            ForeColor = Color.Black;
+            BackColor = Color.Transparent;
             AutoScaleMode = AutoScaleMode.None;
             BackgroundImageLayout = ImageLayout.Stretch;
         }
