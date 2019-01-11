@@ -25,7 +25,6 @@ namespace Paway.Forms
             this.TMouseMove(this.panel1);
             lbTitle.Paint -= LbTitle_Paint;
             lbTitle.TextChanged += delegate { this.OnSizeChanged(EventArgs.Empty); };
-            lbTitle.Text = "aaaaaaaa";
         }
         /// <summary>
         /// 调整Title位置
