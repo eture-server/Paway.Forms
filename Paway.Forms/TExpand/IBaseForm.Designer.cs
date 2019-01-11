@@ -37,6 +37,7 @@ namespace Paway.Forms
             this.lbTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(84)))), ((int)(((byte)(74)))));
             this.lbTitle.Dock = System.Windows.Forms.DockStyle.Top;
             this.lbTitle.Font = new System.Drawing.Font("微软雅黑", 15F);
+            this.lbTitle.ForeColor = System.Drawing.Color.White;
             this.lbTitle.Location = new System.Drawing.Point(0, 0);
             this.lbTitle.Name = "lbTitle";
             this.lbTitle.Size = new System.Drawing.Size(443, 46);
@@ -49,7 +50,8 @@ namespace Paway.Forms
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(443, 299);
             this.Controls.Add(this.lbTitle);
-            this.ForeColor = System.Drawing.Color.White;
+            this.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.IResize = false;
             this.Name = "IBaseForm";
             this.Padding = new System.Windows.Forms.Padding(0);

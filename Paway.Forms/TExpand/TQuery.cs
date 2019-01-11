@@ -41,6 +41,7 @@ namespace Paway.Forms
         public TQuery()
         {
             InitializeComponent();
+            this.Size = new Size(205, 32);
         }
 
         #region 数据加载
@@ -97,12 +98,14 @@ namespace Paway.Forms
             this.Height = this.gridview1.RowTemplate.Height * count + (count == 0 ? 0 : 3);
         }
         /// <summary>
+        /// OnLoad
         /// </summary>
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
             gridview1.DoubleClick += Gridview1_DoubleClick;
             this.Validated += I_Language_Validated;
+            InitData(list.AsParallel());
         }
         private void I_Language_Validated(object sender, EventArgs e)
         {
@@ -148,6 +151,7 @@ namespace Paway.Forms
             }
         }
         /// <summary>
+        /// 按键
         /// </summary>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {

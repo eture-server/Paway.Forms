@@ -47,7 +47,7 @@
             this.gridview1.RowTemplate.Height = 32;
             this.gridview1.RowTemplate.ReadOnly = true;
             this.gridview1.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridview1.Size = new System.Drawing.Size(205, 106);
+            this.gridview1.Size = new System.Drawing.Size(205, 32);
             this.gridview1.TabIndex = 34;
             // 
             // Id
@@ -57,12 +57,12 @@
             this.Id.Name = "Id";
             this.Id.ReadOnly = true;
             // 
-            // I_QueryGood
+            // TQuery
             // 
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.gridview1);
-            this.Name = "I_QueryGood";
-            this.Size = new System.Drawing.Size(205, 106);
+            this.Name = "TQuery";
+            this.Size = new System.Drawing.Size(205, 32);
             ((System.ComponentModel.ISupportInitialize)(this.gridview1)).EndInit();
             this.ResumeLayout(false);
 

@@ -54,9 +54,7 @@ namespace Paway.Forms
                 ExceptionHelper.Show(ex);
             }
         }
-        /// <summary>
-        /// </summary>
-        protected void Changed(object sender, EventArgs e)
+        private void Changed(object sender, EventArgs e)
         {
             try
             {

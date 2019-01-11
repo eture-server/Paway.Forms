@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -21,6 +22,18 @@ namespace Paway.Forms
         {
             InitializeComponent();
             this.TMouseMove(this.panel1);
+            lbTitle.Paint -= LbTitle_Paint;
+        }
+        /// <summary>
+        /// 调整Title位置
+        /// </summary>
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            if (lbTitle != null)
+            {
+                this.lbTitle.Location = new Point((this.Width - lbTitle.Width) / 2, 32);
+            }
         }
 
         private void InitializeComponent()
@@ -33,7 +46,7 @@ namespace Paway.Forms
             this.lbTitle.AutoSize = true;
             this.lbTitle.BackColor = System.Drawing.Color.Transparent;
             this.lbTitle.Dock = System.Windows.Forms.DockStyle.None;
-            this.lbTitle.Location = new System.Drawing.Point(197, 32);
+            this.lbTitle.Location = new System.Drawing.Point(200, 32);
             this.lbTitle.Size = new System.Drawing.Size(51, 27);
             // 
             // panel1
@@ -45,13 +58,13 @@ namespace Paway.Forms
             this.panel1.Size = new System.Drawing.Size(441, 218);
             this.panel1.TabIndex = 5;
             // 
-            // TBaseForm2
+            // TBaseForm
             // 
             this.BackColor = System.Drawing.Color.Transparent;
             this.ClientSize = new System.Drawing.Size(443, 299);
             this.Controls.Add(this.panel1);
             this.Location = new System.Drawing.Point(0, 0);
-            this.Name = "TBaseForm2";
+            this.Name = "TBaseForm";
             this.Padding = new System.Windows.Forms.Padding(1, 80, 1, 1);
             this.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(57)))), ((int)(((byte)(50)))));
             this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(112)))), ((int)(((byte)(99)))));

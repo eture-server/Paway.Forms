@@ -43,12 +43,14 @@ namespace Paway.Forms
         private IDataService server;
 
         /// <summary>
+        /// 构造
         /// </summary>
         public TDataControl()
         {
             InitializeComponent();
         }
         /// <summary>
+        /// ReLoad
         /// </summary>
         public override void ReLoad()
         {
@@ -56,6 +58,7 @@ namespace Paway.Forms
             toolBar1.MStart();
         }
         /// <summary>
+        /// OnLoad
         /// </summary>
         protected override void OnLoad(EventArgs e)
         {
@@ -81,34 +84,39 @@ namespace Paway.Forms
             RefreshItem();
         }
         /// <summary>
+        /// 添加新按钮
         /// </summary>
-        public void NewItem(string name, string tag = null, Image image = null)
+        protected void NewItem(string name, string tag = null, Image image = null)
         {
             toolBar1.Items.Add(new ToolItem(name, image) { Tag = tag ?? name });
         }
         /// <summary>
+        /// 添加刷新按钮(默认)
         /// </summary>
-        public void RefreshItem()
+        protected void RefreshItem()
         {
-            toolBar1.Items.Add(new ToolItem("刷新(F5)", Resources.refresh) { Tag = "刷新" });
+            NewItem("刷新(F5)", "刷新", Resources.refresh);
         }
         /// <summary>
+        /// 添加添加按钮
         /// </summary>
-        public void AddItem()
+        protected void AddItem()
         {
-            toolBar1.Items.Add(new ToolItem("添加(A)", Resources.add) { Tag = "添加" });
+            NewItem("添加(A)", "添加", Resources.add);
         }
         /// <summary>
+        /// 添加编辑按钮
         /// </summary>
-        public void AddEdit()
+        protected void AddEdit()
         {
-            toolBar1.Items.Add(new ToolItem("编辑(E)", Resources.edit) { Tag = "编辑" });
+            NewItem("编辑(E)", "编辑", Resources.edit);
         }
         /// <summary>
+        /// 添加删除按钮
         /// </summary>
-        public void AddDelete()
+        protected void AddDelete()
         {
-            toolBar1.Items.Add(new ToolItem("删除(D)", Resources.close) { Tag = "删除" });
+            NewItem("删除(D)", "删除", Resources.close);
         }
 
         #endregion
@@ -349,6 +357,7 @@ namespace Paway.Forms
 
         #region 按键
         /// <summary>
+        /// 按键
         /// </summary>
         protected virtual bool OnKeyDown(Keys key)
         {
@@ -379,8 +388,8 @@ namespace Paway.Forms
             return false;
         }
         /// <summary>
+        /// 按键
         /// </summary>
-        /// <returns></returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (OnKeyDown(keyData)) return true;

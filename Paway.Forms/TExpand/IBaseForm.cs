@@ -49,22 +49,11 @@ namespace Paway.Forms
             }
             base.OnFormClosing(e);
         }
-        /// <summary>
-        /// 调整Title位置
-        /// </summary>
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-            if (lbTitle != null)
-            {
-                this.lbTitle.Location = new Point((this.Width - lbTitle.Width) / 2, 32);
-            }
-        }
         private void LbTitle_TextChanged(object sender, EventArgs e)
         {
             this.OnResize(EventArgs.Empty);
         }
-        private void LbTitle_Paint(object sender, PaintEventArgs e)
+        internal void LbTitle_Paint(object sender, PaintEventArgs e)
         {
             if (lbTitle.Visible)
                 e.Graphics.DrawLine(new Pen(BitmapHelper.RGBAddLight(lbTitle.BackColor, -40)), 0, lbTitle.Height - 1, lbTitle.Width, lbTitle.Height - 1);
