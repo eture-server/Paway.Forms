@@ -35,7 +35,6 @@ namespace Paway.Forms
                 ControlStyles.SupportsTransparentBackColor, true);
             SetStyle(ControlStyles.Opaque, false);
             UpdateStyles();
-            TConfig.Init(this);
             InitShow();
 
             AutoScaleMode = AutoScaleMode.None;
@@ -394,6 +393,7 @@ namespace Paway.Forms
             ILoad = true;
             base.OnLoad(e);
             MChild();
+            TConfig.Init(this);
         }
 
         /// <summary>

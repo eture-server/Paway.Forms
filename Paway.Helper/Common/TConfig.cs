@@ -30,17 +30,6 @@ namespace Paway.Helper
         /// </summary>
         public static Color? ForeColor { get; set; }
 
-        private static Font _font = new Font("宋体", 9f, FontStyle.Regular, GraphicsUnit.Point, 1);
-
-        /// <summary>
-        ///     获取或设置控件显示的文字的字体
-        /// </summary>
-        public static Font Font
-        {
-            get { return _font; }
-            set { _font = value; }
-        }
-
         /// <summary>
         ///     颜色透明度且颜色不透明时应用此值
         /// </summary>
@@ -60,8 +49,6 @@ namespace Paway.Helper
         /// </summary>
         public static void Init(Control control)
         {
-            control.BackColor = Color.Transparent;
-            control.ForeColor = Color.Black;
             if (BackColor != null)
             {
                 control.BackColor = BackColor ?? Color.Empty;
@@ -69,10 +56,6 @@ namespace Paway.Helper
             if (ForeColor != null)
             {
                 control.ForeColor = ForeColor ?? Color.Empty;
-            }
-            if (Font.Name != "宋体" || Font.Size != 9f || Font.Style != FontStyle.Regular || Font.Unit != GraphicsUnit.Point || Font.GdiCharSet != 1)
-            {
-                control.Font = Font;
             }
             if (control is IControl)
             {

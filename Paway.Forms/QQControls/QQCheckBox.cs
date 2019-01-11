@@ -107,7 +107,7 @@ namespace Paway.Forms
             get { return base.BackColor; }
             set
             {
-                if (value == Color.Empty)
+                if (value == Color.Empty || value == SystemColors.Control)
                 {
                     value = Color.Transparent;
                 }

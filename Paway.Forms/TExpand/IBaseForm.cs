@@ -38,6 +38,23 @@ namespace Paway.Forms
 
         #region 其它
         /// <summary>
+        /// 激活窗体
+        /// </summary>
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            this.Activate();
+        }
+        private void LbTitle_TextChanged(object sender, EventArgs e)
+        {
+            this.OnResize(EventArgs.Empty);
+        }
+        internal void LbTitle_Paint(object sender, PaintEventArgs e)
+        {
+            if (lbTitle.Visible)
+                e.Graphics.DrawLine(new Pen(BitmapHelper.RGBAddLight(lbTitle.BackColor, -40)), 0, lbTitle.Height - 1, lbTitle.Width, lbTitle.Height - 1);
+        }
+        /// <summary>
         ///     关闭时激发父窗体
         /// </summary>
         /// <param name="e"></param>
@@ -48,15 +65,6 @@ namespace Paway.Forms
                 Owner.Activate();
             }
             base.OnFormClosing(e);
-        }
-        private void LbTitle_TextChanged(object sender, EventArgs e)
-        {
-            this.OnResize(EventArgs.Empty);
-        }
-        internal void LbTitle_Paint(object sender, PaintEventArgs e)
-        {
-            if (lbTitle.Visible)
-                e.Graphics.DrawLine(new Pen(BitmapHelper.RGBAddLight(lbTitle.BackColor, -40)), 0, lbTitle.Height - 1, lbTitle.Width, lbTitle.Height - 1);
         }
 
         #endregion

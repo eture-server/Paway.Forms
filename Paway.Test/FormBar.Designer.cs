@@ -35,6 +35,7 @@
             // toolBar2
             // 
             this.toolBar2.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.toolBar2.ForeColor = System.Drawing.SystemColors.ControlText;
             this.toolBar2.ICheckEvent = true;
             toolItem1.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
             toolItem1.Text = "0\r\n创建宝贝";
@@ -45,8 +46,8 @@
             this.toolBar2.Name = "toolBar2";
             this.toolBar2.Size = new System.Drawing.Size(110, 90);
             this.toolBar2.TabIndex = 44;
-            this.toolBar2.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.toolBar2.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.toolBar2.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(160)))), ((int)(((byte)(64)))));
+            this.toolBar2.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.toolBar2.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.toolBar2.TDirection = Paway.Helper.TDirection.Vertical;
             this.toolBar2.TextFirst.FontDown = new System.Drawing.Font("微软雅黑", 24F);
@@ -62,6 +63,7 @@
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.toolBar2);
             this.Name = "FormBar";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ToolBarForm";
             this.ResumeLayout(false);
 

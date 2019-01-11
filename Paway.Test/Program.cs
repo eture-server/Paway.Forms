@@ -1,4 +1,5 @@
-﻿using Paway.Forms;
+﻿using log4net;
+using Paway.Forms;
 using Paway.Helper;
 using Paway.Utils;
 using System;
@@ -13,27 +14,28 @@ namespace Paway.Test
 {
     static class Program
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
         static void Main()
         {
-            //log4net.Config.XmlConfigurator.Configure();
-            log4net.Config.XmlConfigurator.Configure(new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "alog.xml")));
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            TConfig.IMouseMove = true;
-            //TConfig.BackColor = Color.Green;
-            //TConfig.ForeColor = Color.Red;
-            //TConfig.Font = new Font("微软雅黑", 16f);
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             try
             {
+                //log4net.Config.XmlConfigurator.Configure();
+                log4net.Config.XmlConfigurator.Configure(new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "alog.xml")));
+
                 Assembly assembly = Assembly.GetExecutingAssembly();
                 AssemblyTitleAttribute attrTitle = Attribute.GetCustomAttribute(assembly, typeof(AssemblyTitleAttribute)) as AssemblyTitleAttribute;
                 log.InfoFormat("{0} v{1} ({2})", attrTitle.Title, assembly.GetName().Version, Environment.MachineName);
+
+                TConfig.IMouseMove = true;
+                //TConfig.BackColor = Color.Red;
+                //TConfig.ForeColor = Color.Red;
+                //TConfig.Trans = 100;
 
                 ////被识别的主图
                 //Bitmap on = Paway.Helper.BitmapHelper.GetBitmapFormFile(@"d:\0.png");
@@ -49,7 +51,7 @@ namespace Paway.Test
                 Progress.Initialize();
                 Application.ThreadException += Application_ThreadException;
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-                Application.Run(new TBaseForm());
+                Application.Run(new FormBar());
             }
             catch (Exception e)
             {
@@ -60,11 +62,11 @@ namespace Paway.Test
                 Progress.Abort();
             }
         }
-        static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
             ExceptionHelper.Show("软件出现未被捕获的线程异常。", e.Exception, false);
         }
-        static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             ExceptionHelper.Show("软件出现未被捕获的异常，即将退出。", e.ExceptionObject, false);
         }

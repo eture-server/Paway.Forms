@@ -39,8 +39,15 @@ namespace Paway.Forms
                 ControlStyles.SupportsTransparentBackColor, true);
             SetStyle(ControlStyles.Opaque, false);
             UpdateStyles();
-            TConfig.Init(this);
             toolTop = new ToolTip();
+        }
+        /// <summary>
+        /// 应用配置
+        /// </summary>
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            TConfig.Init(this);
         }
 
         #endregion
