@@ -322,6 +322,7 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(149)))), ((int)(((byte)(237)))));
             this.ClientSize = new System.Drawing.Size(900, 540);
             this.IDrawBorder = true;
+            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "Form2";
             this.Padding = new System.Windows.Forms.Padding(1, 26, 1, 1);
             this.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(110)))), ((int)(((byte)(230)))));

@@ -315,6 +315,11 @@ namespace Paway.Forms
                 }
                 if (!IsDisposed && !DesignMode && _iShadow)
                 {
+                    if (skin != null)
+                    {
+                        skin.Close();
+                        skin.Dispose();
+                    }
                     skin = new SkinForm(this);
                     skin.Show(this);
                 }

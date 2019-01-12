@@ -38,7 +38,6 @@ namespace Paway.Forms
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.toolBar1);
             this.panel1.Controls.Add(this.panel2);
@@ -78,17 +77,17 @@ namespace Paway.Forms
             // 
             // Demo360
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.BackColor = System.Drawing.Color.CornflowerBlue;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(900, 540);
             this.Controls.Add(this.panel1);
-            this.ForeColor = System.Drawing.Color.White;
             this.ISpecial = true;
-            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "Demo360";
             this.Padding = new System.Windows.Forms.Padding(0, 26, 0, 0);
             this.ShowIcon = false;
+            this.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(110)))), ((int)(((byte)(230)))));
+            this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(244)))));
+            this.TBrush.ColorNormal = System.Drawing.Color.CornflowerBlue;
+            this.TBrush.ColorSpace = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.Text = "Demo360";
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
