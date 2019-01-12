@@ -143,12 +143,6 @@
     <EmbeddedResource Include="Controls\accept_16.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Paway.Helper\Paway.Helper.csproj">
-      <Project>{01826a18-9c4d-4a13-99a1-db29b0d49de9}</Project>
-      <Name>Paway.Helper</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Controls\t.png" />
   </ItemGroup>
   <ItemGroup>

@@ -195,7 +195,7 @@ namespace Paway.Helper
         /// </summary>
         public static int ToInt(this object obj)
         {
-            if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
+            if (obj == null || obj == DBNull.Value)
                 return 0;
 
             if (obj.ToString().ToUpper() == "TRUE")
@@ -222,7 +222,7 @@ namespace Paway.Helper
         /// </summary>
         public static long ToLong(this object obj)
         {
-            if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
+            if (obj == null || obj == DBNull.Value)
                 return 0;
 
             if (long.TryParse(obj.ToString(), out long value))
@@ -234,7 +234,7 @@ namespace Paway.Helper
         /// </summary>
         public static double ToDouble(this object obj)
         {
-            if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
+            if (obj == null || obj == DBNull.Value)
                 return 0;
 
             if (double.TryParse(obj.ToString(), out double value))
@@ -246,7 +246,7 @@ namespace Paway.Helper
         /// </summary>
         public static float ToFloat(this object obj)
         {
-            if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
+            if (obj == null || obj == DBNull.Value)
                 return 0;
 
             if (float.TryParse(obj.ToString(), out float value))
@@ -258,7 +258,7 @@ namespace Paway.Helper
         /// </summary>
         public static bool ToBool(this object obj)
         {
-            if (obj == null || obj == DBNull.Value || string.IsNullOrEmpty(obj.ToString()))
+            if (obj == null || obj == DBNull.Value)
                 return false;
 
             if (obj.ToString() == "1")
@@ -643,7 +643,12 @@ namespace Paway.Helper
             }
             else if (pro.PropertyType == typeof(DateTime) || pro.PropertyType == typeof(DateTime?))
             {
-                pro.SetValue(obj, value.ToDateTime());
+                var time = value.ToDateTime();
+                if (TConfig.IUtcTime && time.Kind != DateTimeKind.Local)
+                {
+                    time = TimeZoneInfo.ConvertTimeFromUtc(time, TimeZoneInfo.Local);
+                }
+                pro.SetValue(obj, time);
             }
             else if (pro.PropertyType == typeof(string))
             {

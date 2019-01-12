@@ -110,7 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Paway.Win32\Paway.Win32.csproj">
-      <Project>{6DCAE3D1-F084-49F4-B21F-25D906E02567}</Project>
+      <Project>{6dcae3d1-f084-49f4-b21f-25d906e02567}</Project>
       <Name>Paway.Win32</Name>
     </ProjectReference>
   </ItemGroup>

@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Reflection;
 using System.Text;
-using Paway.Helper;
 
 namespace Paway.Resource
 {

@@ -30,8 +30,6 @@ namespace Paway.Helper
         /// <summary>
         ///     坐标点是否包含在项中
         /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
         bool Contain(Point p);
     }
 }

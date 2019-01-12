@@ -160,7 +160,9 @@ namespace Paway.Test
         {
             try
             {
-                new SqlService().Test();
+                //new SQLiteService().Insert(new UserInfo());
+                var list = new SQLiteService().Find<UserInfo>();
+                //new SqlService().Test();
             }
             catch (Exception ex)
             {

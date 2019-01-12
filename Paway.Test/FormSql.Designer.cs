@@ -54,13 +54,17 @@
             this.panel1.Controls.Add(this.btUpdate);
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this.btInsert);
-            this.panel1.Size = new System.Drawing.Size(405, 296);
+            this.panel1.Size = new System.Drawing.Size(405, 291);
+            // 
+            // lbTitle
+            // 
+            this.lbTitle.Location = new System.Drawing.Point(178, 31);
             // 
             // btInsert
             // 
-            this.btInsert.Location = new System.Drawing.Point(25, 143);
+            this.btInsert.Location = new System.Drawing.Point(25, 104);
             this.btInsert.Name = "btInsert";
-            this.btInsert.Size = new System.Drawing.Size(59, 28);
+            this.btInsert.Size = new System.Drawing.Size(75, 28);
             this.btInsert.TabIndex = 12;
             this.btInsert.Text = "Insert";
             this.btInsert.UseVisualStyleBackColor = false;
@@ -69,7 +73,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::Paway.Test.Properties.Resources.offline;
-            this.pictureBox1.Location = new System.Drawing.Point(25, 47);
+            this.pictureBox1.Location = new System.Drawing.Point(25, 22);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(80, 56);
             this.pictureBox1.TabIndex = 13;
@@ -77,9 +81,9 @@
             // 
             // btUpdate
             // 
-            this.btUpdate.Location = new System.Drawing.Point(102, 143);
+            this.btUpdate.Location = new System.Drawing.Point(102, 104);
             this.btUpdate.Name = "btUpdate";
-            this.btUpdate.Size = new System.Drawing.Size(59, 28);
+            this.btUpdate.Size = new System.Drawing.Size(75, 28);
             this.btUpdate.TabIndex = 14;
             this.btUpdate.Text = "Update";
             this.btUpdate.UseVisualStyleBackColor = false;
@@ -87,9 +91,9 @@
             // 
             // btUpOrIn
             // 
-            this.btUpOrIn.Location = new System.Drawing.Point(183, 143);
+            this.btUpOrIn.Location = new System.Drawing.Point(183, 104);
             this.btUpOrIn.Name = "btUpOrIn";
-            this.btUpOrIn.Size = new System.Drawing.Size(59, 28);
+            this.btUpOrIn.Size = new System.Drawing.Size(75, 28);
             this.btUpOrIn.TabIndex = 15;
             this.btUpOrIn.Text = "UpOrIn";
             this.btUpOrIn.UseVisualStyleBackColor = false;
@@ -97,9 +101,9 @@
             // 
             // btDelete
             // 
-            this.btDelete.Location = new System.Drawing.Point(265, 143);
+            this.btDelete.Location = new System.Drawing.Point(265, 104);
             this.btDelete.Name = "btDelete";
-            this.btDelete.Size = new System.Drawing.Size(59, 28);
+            this.btDelete.Size = new System.Drawing.Size(75, 28);
             this.btDelete.TabIndex = 16;
             this.btDelete.Text = "Delete";
             this.btDelete.UseVisualStyleBackColor = false;
@@ -107,9 +111,9 @@
             // 
             // btSelect
             // 
-            this.btSelect.Location = new System.Drawing.Point(25, 201);
+            this.btSelect.Location = new System.Drawing.Point(25, 162);
             this.btSelect.Name = "btSelect";
-            this.btSelect.Size = new System.Drawing.Size(59, 28);
+            this.btSelect.Size = new System.Drawing.Size(75, 28);
             this.btSelect.TabIndex = 17;
             this.btSelect.Text = "Select";
             this.btSelect.UseVisualStyleBackColor = false;
@@ -117,9 +121,9 @@
             // 
             // btnReplace
             // 
-            this.btnReplace.Location = new System.Drawing.Point(102, 201);
+            this.btnReplace.Location = new System.Drawing.Point(102, 162);
             this.btnReplace.Name = "btnReplace";
-            this.btnReplace.Size = new System.Drawing.Size(59, 28);
+            this.btnReplace.Size = new System.Drawing.Size(75, 28);
             this.btnReplace.TabIndex = 16;
             this.btnReplace.Text = "Replace";
             this.btnReplace.UseVisualStyleBackColor = false;
@@ -127,9 +131,9 @@
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(102, 245);
+            this.btnStart.Location = new System.Drawing.Point(102, 206);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(59, 28);
+            this.btnStart.Size = new System.Drawing.Size(75, 28);
             this.btnStart.TabIndex = 17;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = false;
@@ -141,30 +145,35 @@
             this.tbStart.ForeColor = System.Drawing.Color.Black;
             this.tbStart.Lines = new string[] {
         "1000"};
-            this.tbStart.Location = new System.Drawing.Point(25, 247);
+            this.tbStart.Location = new System.Drawing.Point(25, 208);
             this.tbStart.MaxLength = 10;
             this.tbStart.Name = "tbStart";
-            this.tbStart.Size = new System.Drawing.Size(71, 24);
+            this.tbStart.Size = new System.Drawing.Size(75, 24);
             this.tbStart.TabIndex = 38;
             // 
             // btnTest
             // 
-            this.btnTest.Location = new System.Drawing.Point(183, 201);
+            this.btnTest.Location = new System.Drawing.Point(183, 162);
             this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(59, 28);
+            this.btnTest.Size = new System.Drawing.Size(75, 28);
             this.btnTest.TabIndex = 17;
             this.btnTest.Text = "Test";
             this.btnTest.UseVisualStyleBackColor = false;
             // 
             // FormSql
             // 
-            this.ClientSize = new System.Drawing.Size(407, 324);
-            this.Location = new System.Drawing.Point(0, 0);
+            this.ClientSize = new System.Drawing.Size(407, 372);
             this.Name = "FormSql";
+            this.ShowInTaskbar = true;
+            this.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(57)))), ((int)(((byte)(50)))));
+            this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(112)))), ((int)(((byte)(99)))));
+            this.TBrush.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(84)))), ((int)(((byte)(74)))));
+            this.TBrush.ColorSpace = System.Drawing.Color.Ivory;
             this.Text = "Sql测试";
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

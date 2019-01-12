@@ -1662,9 +1662,24 @@ namespace Paway.Utils
         public static DbParameter AddParameter<T>(this Type ptype, object value)
         {
             var asmb = Assembly.GetAssembly(ptype);
+            return AddParameter(asmb, ptype, typeof(T).TableKey(), value);
+        }
+        private static DbParameter AddParameter(Assembly asmb, Type ptype, string column, object value)
+        {
             var param = asmb.CreateInstance(ptype.FullName) as DbParameter;
-            param.ParameterName = string.Format("@{0}", typeof(T).TableKey());
-            param.Value = value;
+            param.ParameterName = string.Format("@{0}", column);
+            if (value is DateTime time)
+            {
+                if (TConfig.IUtcTime && time.Kind != DateTimeKind.Utc)
+                {
+                    time = TimeZoneInfo.ConvertTimeToUtc(time, TimeZoneInfo.Local);
+                }
+                param.Value = time;
+            }
+            else
+            {
+                param.Value = value;
+            }
             return param;
         }
         /// <summary>
@@ -1690,9 +1705,7 @@ namespace Paway.Utils
                     //Key必须要
                     if (key != column && args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
-                    var param = asmb.CreateInstance(ptype.FullName) as DbParameter;
-                    param.ParameterName = string.Format("@{0}", column);
-                    param.Value = value;
+                    var param = AddParameter(asmb, ptype, column, value);
                     pList.Add(param);
                 }
             }
@@ -1721,9 +1734,7 @@ namespace Paway.Utils
                     //Key必须要
                     if (key != column && args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
-                    var param = asmb.CreateInstance(ptype.FullName) as DbParameter;
-                    param.ParameterName = string.Format("@{0}", column);
-                    param.Value = value;
+                    var param = AddParameter(asmb, ptype, column, value);
                     pList.Add(param);
                 }
             }

@@ -93,6 +93,10 @@ namespace Paway.Helper
                 return dot;
             }
         }
+        /// <summary>
+        /// 使用Utc时间
+        /// </summary>
+        public static bool IUtcTime { get; set; }
 
         #endregion
     }
