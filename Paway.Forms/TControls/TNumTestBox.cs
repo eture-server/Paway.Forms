@@ -113,19 +113,10 @@ namespace Paway.Forms
         #region  disabled public properties
 
         /// <summary>
-        ///     控件前景色默认:WindowText
-        /// </summary>
-        [DefaultValue(typeof(Color), "Block")]
-        public new Color ForeColor
-        {
-            get { return base.ForeColor; }
-            set { base.ForeColor = value; }
-        }
-
-        /// <summary>
         ///     关闭多行编辑
         /// </summary>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(false)]
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
+        [DefaultValue(false)]
         public override bool Multiline
         {
             get { return base.Multiline; }
@@ -165,7 +156,8 @@ namespace Paway.Forms
         /// <summary>
         /// </summary>
         [Category("Custom")]
-        [Description("Get decimal value of textbox."), DefaultValue(0)]
+        [Description("Get decimal value of textbox.")]
+        [DefaultValue(0)]
         public decimal Value
         {
             get

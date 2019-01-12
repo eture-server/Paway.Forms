@@ -45,7 +45,8 @@ namespace Paway.Forms
         /// <summary>
         ///     TNum.获取或设置文本框中选定的文本起始点
         /// </summary>
-        [Description("获取或设置文本框中选定的文本起始点"), DefaultValue(0)]
+        [Description("获取或设置文本框中选定的文本起始点")]
+        [DefaultValue(0)]
         public int SelectionStart
         {
             get { return BaseText.SelectionStart; }
@@ -55,7 +56,8 @@ namespace Paway.Forms
         /// <summary>
         ///     TNum.获取或设置文本框中选定的字符数
         /// </summary>
-        [Description("获取或设置文本框中选定的字符数"), DefaultValue(0)]
+        [Description("获取或设置文本框中选定的字符数")]
+        [DefaultValue(0)]
         public int SelectionLength
         {
             get { return BaseText.SelectionLength; }
@@ -65,7 +67,8 @@ namespace Paway.Forms
         /// <summary>
         ///     TNum.获取或设置一个值，该值指示控件中当前选定的文本
         /// </summary>
-        [Browsable(false), Description("获取或设置一个值，该值指示控件中当前选定的文本"), DefaultValue("")]
+        [Browsable(false), Description("获取或设置一个值，该值指示控件中当前选定的文本")]
+        [DefaultValue("")]
         public string SelectedText
         {
             get { return BaseText.SelectedText; }
@@ -84,7 +87,8 @@ namespace Paway.Forms
         /// <summary>
         ///     指定可以在编辑控件中输入的最大字符数
         /// </summary>
-        [Description("指定可以在编辑控件中输入的最大字符数。"), Category("行为"), DefaultValue(32767)]
+        [Description("指定可以在编辑控件中输入的最大字符数。"), Category("行为")]
+        [DefaultValue(32767)]
         public virtual int MaxLength
         {
             get { return BaseText.MaxLength; }
@@ -94,7 +98,8 @@ namespace Paway.Forms
         /// <summary>
         ///     控件编辑控件的文本是否能够跨越多行
         /// </summary>
-        [Description("控件编辑控件的文本是否能够跨越多行。"), Category("行为"), DefaultValue(false)]
+        [Description("控件编辑控件的文本是否能够跨越多行。"), Category("行为")]
+        [DefaultValue(false)]
         public virtual bool Multiline
         {
             get { return BaseText.Multiline; }
@@ -104,7 +109,8 @@ namespace Paway.Forms
         /// <summary>
         ///     指示将为单行编辑控件的密码输入显示的字符
         /// </summary>
-        [Description("指示将为单行编辑控件的密码输入显示的字符。"), Category("行为"), DefaultValue('\0')]
+        [Description("指示将为单行编辑控件的密码输入显示的字符。"), Category("行为")]
+        [DefaultValue('\0')]
         public char IsPasswordChat
         {
             get { return BaseText.PasswordChar; }
@@ -114,7 +120,8 @@ namespace Paway.Forms
         /// <summary>
         ///     控制能否更改编辑控件中的文本
         /// </summary>
-        [Description("控制能否更改编辑控件中的文本。"), Category("行为"), DefaultValue(false)]
+        [Description("控制能否更改编辑控件中的文本。"), Category("行为")]
+        [DefaultValue(false)]
         public virtual bool ReadOnly
         {
             get { return BaseText.ReadOnly; }
@@ -124,7 +131,8 @@ namespace Paway.Forms
         /// <summary>
         ///     指示编辑控件中的文本是否以默认的密码字符显示
         /// </summary>
-        [Description("指示编辑控件中的文本是否以默认的密码字符显示。"), Category("行为"), DefaultValue(false)]
+        [Description("指示编辑控件中的文本是否以默认的密码字符显示。"), Category("行为")]
+        [DefaultValue(false)]
         public virtual bool IsSystemPasswordChar
         {
             get { return BaseText.UseSystemPasswordChar; }
@@ -134,7 +142,8 @@ namespace Paway.Forms
         /// <summary>
         ///     指示多行编辑控件是否自动换行
         /// </summary>
-        [Description("指示多行编辑控件是否自动换行。"), Category("行为"), DefaultValue(true)]
+        [Description("指示多行编辑控件是否自动换行。"), Category("行为")]
+        [DefaultValue(true)]
         public virtual bool WordWrap
         {
             get { return BaseText.WordWrap; }
@@ -155,7 +164,7 @@ namespace Paway.Forms
         ///     指示对于多行编辑控件，将为此控件显示哪些滚动条
         /// </summary>
         [Description("指示对于多行编辑控件，将为此控件显示哪些滚动条。"), Category("外观")]
-        [DefaultValue(typeof(ScrollBars), "None")]
+        [DefaultValue(ScrollBars.None)]
         public virtual ScrollBars ScrollBars
         {
             get { return BaseText.ScrollBars; }
@@ -166,7 +175,7 @@ namespace Paway.Forms
         ///     指示应该如何对齐编辑控件的文本
         /// </summary>
         [Description("指示应该如何对齐编辑控件的文本。"), Category("外观")]
-        [DefaultValue(typeof(HorizontalAlignment), "Left")]
+        [DefaultValue(HorizontalAlignment.Left)]
         public virtual HorizontalAlignment TextAlign
         {
             get { return BaseText.TextAlign; }
@@ -204,7 +213,8 @@ namespace Paway.Forms
         /// <summary>
         ///     获取或设置控件显示的文字的字体
         /// </summary>
-        [Description("获取或设置控件显示的文字的字体"), DefaultValue(typeof(Font), "微软雅黑, 9pt")]
+        [Description("获取或设置控件显示的文字的字体")]
+        [DefaultValue(typeof(Font), "微软雅黑, 9pt")]
         public override Font Font
         {
             get { return base.Font; }
@@ -237,7 +247,8 @@ namespace Paway.Forms
         /// <summary>
         ///     此组件的前景色，用于显示文本
         /// </summary>
-        [Description("此组件的前景色，用于显示文本。"), Category("外观"), DefaultValue(typeof(Color), "Black")]
+        [Description("此组件的前景色，用于显示文本。"), Category("外观")]
+        [DefaultValue(typeof(Color), "Black")]
         public override Color ForeColor
         {
             get { return BaseText.ForeColor; }
@@ -259,7 +270,8 @@ namespace Paway.Forms
         /// <summary>
         ///     获取或设置控件的高度和宽度
         /// </summary>
-        [Description("获取或设置控件的高度和宽度"), DefaultValue(typeof(Size), "166,24")]
+        [Description("获取或设置控件的高度和宽度")]
+        [DefaultValue(typeof(Size), "166,24")]
         public new Size Size
         {
             get { return base.Size; }
@@ -282,7 +294,8 @@ namespace Paway.Forms
         /// <summary>
         ///     获取或设置控件内的空白。
         /// </summary>
-        [Description("获取或设置控件内的空白"), DefaultValue(typeof(Padding), "0,0,0,3")]
+        [Description("获取或设置控件内的空白")]
+        [DefaultValue(typeof(Padding), "0,0,0,3")]
         public new Padding Padding
         {
             get { return base.Padding; }
@@ -313,7 +326,8 @@ namespace Paway.Forms
         /// <summary>
         ///     自定义正则表达式
         /// </summary>
-        [Browsable(true), Description("自定义正则表达式"), DefaultValue(null)]
+        [Browsable(true), Description("自定义正则表达式")]
+        [DefaultValue(null)]
         public virtual string Regex
         {
             get { return _regex; }
@@ -326,7 +340,8 @@ namespace Paway.Forms
         /// <summary>
         ///     在控件失去焦点时使用正则表达示验证字符
         /// </summary>
-        [Description("在控件失去焦点时使用正则表达示验证字符"), DefaultValue(typeof(RegexType), "None")]
+        [Description("在控件失去焦点时使用正则表达示验证字符")]
+        [DefaultValue(RegexType.None)]
         public virtual RegexType RegexType
         {
             get { return _regexType; }
@@ -352,14 +367,16 @@ namespace Paway.Forms
         /// <summary>
         ///     最小输入字符数
         /// </summary>
-        [Description("最小输入字符数"), DefaultValue(0)]
+        [Description("最小输入字符数")]
+        [DefaultValue(0)]
         public int RLength { get; set; }
 
         private bool _isBorder = true;
         /// <summary>
         ///     是否显示边框
         /// </summary>
-        [Description("是否显示边框"), DefaultValue(true)]
+        [Description("是否显示边框")]
+        [DefaultValue(true)]
         public bool IBorder
         {
             get { return _isBorder; }
@@ -374,7 +391,8 @@ namespace Paway.Forms
         /// <summary>
         ///     背景是否透明
         /// </summary>
-        [Description("背景是否透明"), DefaultValue(false)]
+        [Description("背景是否透明")]
+        [DefaultValue(false)]
         public bool ITrans
         {
             get { return _isTrans; }
@@ -391,7 +409,8 @@ namespace Paway.Forms
         /// <summary>
         ///     文本框的图标
         /// </summary>
-        [Description("文本框的图标"), Category("自定义属性"), DefaultValue(null)]
+        [Description("文本框的图标"), Category("自定义属性")]
+        [DefaultValue(null)]
         public virtual Image Icon
         {
             get { return _icon; }
@@ -406,7 +425,8 @@ namespace Paway.Forms
         /// <summary>
         ///     文本框的图标是否是按钮
         /// </summary>
-        [Description("文本框的图标是否是按钮"), Category("自定义属性"), DefaultValue(false)]
+        [Description("文本框的图标是否是按钮"), Category("自定义属性")]
+        [DefaultValue(false)]
         public virtual bool IconIsButton
         {
             get { return _iconIsButton; }
@@ -418,7 +438,8 @@ namespace Paway.Forms
         [Editor(
             "System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
             typeof(UITypeEditor))]
-        [Description("水印文字"), Category("自定义属性"), DefaultValue(null)]
+        [Description("水印文字"), Category("自定义属性")]
+        [DefaultValue(null)]
         public virtual string WaterText
         {
             get { return BaseText.WaterText; }
@@ -427,7 +448,8 @@ namespace Paway.Forms
 
         /// <summary>
         /// </summary>
-        [Description("水印颜色"), Category("自定义属性"), DefaultValue(typeof(Color), "DarkGray")]
+        [Description("水印颜色"), Category("自定义属性")]
+        [DefaultValue(typeof(Color), "DarkGray")]
         public virtual Color WaterColor
         {
             get { return BaseText.WaterColor; }
@@ -436,7 +458,7 @@ namespace Paway.Forms
 
         /// <summary>
         /// </summary>
-        [DefaultValue(typeof(TMouseState), "Normal")]
+        [DefaultValue(TMouseState.Normal)]
         protected virtual TMouseState MouseState
         {
             get { return _mouseState; }
@@ -450,7 +472,7 @@ namespace Paway.Forms
 
         /// <summary>
         /// </summary>
-        [DefaultValue(typeof(TMouseState), "Normal")]
+        [DefaultValue(TMouseState.Normal)]
         protected virtual TMouseState IconMouseState
         {
             get { return _iconMouseState; }

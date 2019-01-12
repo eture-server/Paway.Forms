@@ -29,7 +29,8 @@ namespace Paway.Forms
         /// <summary>
         ///     控件数据
         /// </summary>
-        [Description("控件数据"), DefaultValue(null)]
+        [Description("控件数据")]
+        [DefaultValue(null)]
         public virtual EventArgs Args { get; set; }
 
         /// <summary>

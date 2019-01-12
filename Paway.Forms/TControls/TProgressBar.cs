@@ -32,7 +32,8 @@ namespace Paway.Forms
         /// <summary>
         ///     当前进度值
         /// </summary>
-        [Description("当前进度值"), DefaultValue(0)]
+        [Description("当前进度值")]
+        [DefaultValue(0)]
         public int Value
         {
             get { return value; }
@@ -48,7 +49,8 @@ namespace Paway.Forms
         /// <summary>
         ///     进度条宽度
         /// </summary>
-        [Description("进度条宽度"), DefaultValue(2)]
+        [Description("进度条宽度")]
+        [DefaultValue(2)]
         public int TWidth
         {
             get { return tWidth; }
@@ -64,7 +66,8 @@ namespace Paway.Forms
         /// <summary>
         ///     进度条空颜色
         /// </summary>
-        [Description("进度条空颜色"), DefaultValue(typeof(Color), "LightGray")]
+        [Description("进度条空颜色")]
+        [DefaultValue(typeof(Color), "LightGray")]
         public Color TColorNormal
         {
             get { return tColorNormal; }
@@ -82,7 +85,8 @@ namespace Paway.Forms
         /// <summary>
         ///     进度条颜色
         /// </summary>
-        [Description("进度条颜色"), DefaultValue(typeof(Color), "DeepSkyBlue")]
+        [Description("进度条颜色")]
+        [DefaultValue(typeof(Color), "DeepSkyBlue")]
         public Color TColor
         {
             get { return tColor; }
@@ -100,7 +104,8 @@ namespace Paway.Forms
         /// <summary>
         ///     进度条描述字体
         /// </summary>
-        [Description("进度条描述字体"), DefaultValue(typeof(Font), "微软雅黑, 15pt")]
+        [Description("进度条描述字体")]
+        [DefaultValue(typeof(Font), "微软雅黑, 15pt")]
         public Font TFont
         {
             get { return tFont; }

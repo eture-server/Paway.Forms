@@ -74,7 +74,7 @@ namespace Paway.Forms
         /// <summary>
         ///     绘制
         /// </summary>
-        [DefaultValue(typeof(TMouseState), "Normal")]
+        [DefaultValue(TMouseState.Normal)]
         protected virtual TMouseState MouseState
         {
             get { return _mouseState; }
@@ -91,7 +91,8 @@ namespace Paway.Forms
         /// <summary>
         ///     获取或设置控件显示的文字的字体
         /// </summary>
-        [Description("获取或设置控件显示的文字的字体"), DefaultValue(typeof(Font), "微软雅黑, 9pt")]
+        [Description("获取或设置控件显示的文字的字体")]
+        [DefaultValue(typeof(Font), "微软雅黑, 9pt")]
         public override Font Font
         {
             get { return base.Font; }
@@ -113,7 +114,8 @@ namespace Paway.Forms
         /// <summary>
         ///     此组件的前景色，用于显示文本
         /// </summary>
-        [Description("此组件的前景色，用于显示文本。"), Category("外观"), DefaultValue(typeof(Color), "WindowText")]
+        [Description("此组件的前景色，用于显示文本。"), Category("外观")]
+        [DefaultValue(typeof(Color), "WindowText")]
         public override Color ForeColor
         {
             get { return Edit.ForeColor; }

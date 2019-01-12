@@ -50,7 +50,7 @@ namespace Paway.Forms
         ///     获取或设置在 System.Windows.Forms.ImageLayout 枚举中定义的背景图像布局。
         /// </summary>
         [Description("获取或设置在 System.Windows.Forms.ImageLayout 枚举中定义的背景图像布局")]
-        [DefaultValue(typeof(ImageLayout), "Stretch")]
+        [DefaultValue(ImageLayout.Stretch)]
         public override ImageLayout BackgroundImageLayout
         {
             get { return base.BackgroundImageLayout; }
@@ -61,7 +61,7 @@ namespace Paway.Forms
         ///     获取或设置控件的自动缩放模式。
         /// </summary>
         [Description("获取或设置控件的自动缩放模式")]
-        [DefaultValue(typeof(AutoScaleMode), "None")]
+        [DefaultValue(AutoScaleMode.None)]
         public new AutoScaleMode AutoScaleMode
         {
             get { return base.AutoScaleMode; }
@@ -165,7 +165,8 @@ namespace Paway.Forms
         /// <summary>
         ///     移动特效方向
         /// </summary>
-        [Description("移动特效方向"), DefaultValue(typeof(TMDirection), "None")]
+        [Description("移动特效方向")]
+        [DefaultValue(TMDirection.None)]
         public TMDirection MDirection
         {
             get { return _mDirection; }
@@ -180,21 +181,24 @@ namespace Paway.Forms
         ///     透明过度(旋转前)图片
         /// </summary>
         [Browsable(false)]
-        [Description("透明过渡(旋转前)图片"), DefaultValue(typeof(Image), "null")]
+        [Description("透明过渡(旋转前)图片")]
+        [DefaultValue(typeof(Image), "null")]
         public Image TranImage { get; set; }
 
         /// <summary>
         ///     旋转后图片
         /// </summary>
         [Browsable(false)]
-        [Description("旋转后图片"), DefaultValue(typeof(Image), "null")]
+        [Description("旋转后图片")]
+        [DefaultValue(typeof(Image), "null")]
         public Image TranLaterImage { get; set; }
 
         private int _mInterval = 7;
         /// <summary>
         ///     移动特效间隔
         /// </summary>
-        [Description("移动特效间隔"), DefaultValue(7)]
+        [Description("移动特效间隔")]
+        [DefaultValue(7)]
         public int MInterval
         {
             get { return _mInterval; }
@@ -204,7 +208,8 @@ namespace Paway.Forms
         /// <summary>
         ///     获取或设置控件的背景色
         /// </summary>
-        [Description("获取或设置控件的背景色"), DefaultValue(typeof(Color), "Transparent")]
+        [Description("获取或设置控件的背景色")]
+        [DefaultValue(typeof(Color), "Transparent")]
         public override Color BackColor
         {
             get { return base.BackColor; }
@@ -221,7 +226,8 @@ namespace Paway.Forms
         /// <summary>
         ///     获取或设置控件的前景色。
         /// </summary>
-        [Description("获取或设置控件的前景色"), DefaultValue(typeof(Color), "Black")]
+        [Description("获取或设置控件的前景色")]
+        [DefaultValue(typeof(Color), "Black")]
         public override Color ForeColor
         {
             get { return base.ForeColor; }
@@ -259,7 +265,7 @@ namespace Paway.Forms
         ///     指定线性渐变的方向
         /// </summary>
         [Description("指定线性渐变的方向")]
-        [DefaultValue(typeof(LinearGradientMode), "Vertical")]
+        [DefaultValue(LinearGradientMode.Vertical)]
         public LinearGradientMode TBrushMode
         {
             get { return _tBrushMode; }
@@ -274,7 +280,8 @@ namespace Paway.Forms
         /// <summary>
         ///     控件透明度
         /// </summary>
-        [Description("透明度"), DefaultValue(255)]
+        [Description("透明度")]
+        [DefaultValue(255)]
         public int Trans
         {
             get { return _trans; }
@@ -292,7 +299,8 @@ namespace Paway.Forms
         /// <summary>
         ///     移动控件父窗体
         /// </summary>
-        [Description("移动控件父窗体"), DefaultValue(false)]
+        [Description("移动控件父窗体")]
+        [DefaultValue(false)]
         public bool IMouseMove { get; set; }
 
         /// <summary>
@@ -311,7 +319,8 @@ namespace Paway.Forms
         /// <summary>
         ///     固定窗体背景
         /// </summary>
-        [Category("Appearance"), Description("固定窗体背景"), DefaultValue(false)]
+        [Category("Appearance"), Description("固定窗体背景")]
+        [DefaultValue(false)]
         public bool IFixedBackground { get; set; }
 
         /// <summary>

@@ -76,7 +76,8 @@ namespace Paway.Forms
         ///     分页信息
         /// </summary>
         [Category("分页")]
-        [Description("显示分页"), DefaultValue(true)]
+        [Description("显示分页")]
+        [DefaultValue(true)]
         public bool IPagerInfo
         {
             get { return TPager.Visible; }
@@ -90,7 +91,8 @@ namespace Paway.Forms
         ///     获取或设置每页显示的记录
         /// </summary>
         [Category("分页")]
-        [Description("获取或设置每页显示的记录"), DefaultValue(20)]
+        [Description("获取或设置每页显示的记录")]
+        [DefaultValue(20)]
         public int PageSize
         {
             get { return TPager.PagerInfo.PageSize; }
@@ -103,7 +105,8 @@ namespace Paway.Forms
         ///     获取或设置数据源
         /// </summary>
         [Browsable(false)]
-        [Category("Properties"), DefaultValue(null)]
+        [Category("Properties")]
+        [DefaultValue(null)]
         public object DataSource
         {
             get { return dataSource; }
@@ -156,7 +159,8 @@ namespace Paway.Forms
         /// <summary>
         ///     获取或设置当前页码
         /// </summary>
-        [Browsable(false), Description("获取或设置当前页码"), DefaultValue(1)]
+        [Browsable(false), Description("获取或设置当前页码")]
+        [DefaultValue(1)]
         public int CurrentPageIndex
         {
             get { return PagerInfo.CurrentPageIndex; }

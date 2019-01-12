@@ -101,7 +101,8 @@ namespace Paway.Forms
         /// <summary>
         ///     系统控制按钮与右边框之间的距离
         /// </summary>
-        [Description("系统控制按钮与右边框之间的距离"), DefaultValue(4)]
+        [Description("系统控制按钮与右边框之间的距离")]
+        [DefaultValue(4)]
         public int SysButtonPos
         {
             get { return _sysButtonPos; }
@@ -273,7 +274,8 @@ namespace Paway.Forms
         /// <summary>
         ///     用于展示右键菜单
         /// </summary>
-        [Category("行为"), Description("右键菜单承接按钮。"), DefaultValue(typeof(ContextMenuStrip), null)]
+        [Category("行为"), Description("右键菜单承接按钮。")]
+        [DefaultValue(null)]
         public ContextMenuStrip ContextMenuShow
         {
             get { return MenuLabel.ContextMenuStrip; }

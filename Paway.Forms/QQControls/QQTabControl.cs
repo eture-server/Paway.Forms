@@ -58,6 +58,18 @@ namespace Paway.Forms
         #region 属性
 
         /// <summary>
+        ///     获取或设置调整控件的选项卡大小的方式。
+        /// </summary>
+        [Description("获取或设置调整控件的选项卡大小的方式")]
+        [DefaultValue(TabSizeMode.Fixed)]
+        [RefreshProperties(RefreshProperties.Repaint)]
+        public new TabSizeMode SizeMode
+        {
+            get { return base.SizeMode; }
+            set { base.SizeMode = value; }
+        }
+
+        /// <summary>
         /// </summary>
         [DefaultValue(typeof(Color), "White")]
         [Category("自定义属性")]

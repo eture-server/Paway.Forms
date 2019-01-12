@@ -62,7 +62,8 @@ namespace Paway.Forms
         /// <summary>
         ///     指定窗体窗口如何显示
         /// </summary>
-        [Description("指定窗体窗口如何显示"), DefaultValue(typeof(FormWindowState), "Normal")]
+        [Description("指定窗体窗口如何显示")]
+        [DefaultValue(FormWindowState.Normal)]
         public new virtual FormWindowState WindowState
         {
             get { return _windowState; }
@@ -89,7 +90,8 @@ namespace Paway.Forms
         ///     窗体阴影宽度=value+1
         ///     最佳值=4
         /// </summary>
-        [Category("TForm"), Description("设置或获取窗体的圆角的大小"), DefaultValue(4)]
+        [Category("TForm"), Description("设置或获取窗体的圆角的大小")]
+        [DefaultValue(4)]
         public int TRadius
         {
             get
@@ -114,7 +116,8 @@ namespace Paway.Forms
         /// <summary>
         ///     窗体阴影颜色
         /// </summary>
-        [Category("TForm"), DefaultValue(typeof(Color), "Black"), Description("窗体阴影颜色")]
+        [Category("TForm"), Description("窗体阴影颜色")]
+        [DefaultValue(typeof(Color), "Black")]
         public Color TShadowColor
         {
             get { return _tShadowColor; }
@@ -131,14 +134,16 @@ namespace Paway.Forms
         /// <summary>
         ///     是否启用窗口淡入淡出
         /// </summary>
-        [Category("TForm"), Description("是否启用窗口淡入淡出"), DefaultValue(false)]
+        [Category("TForm"), Description("是否启用窗口淡入淡出")]
+        [DefaultValue(false)]
         public bool ISpecial { get; set; }
 
         private bool _iShadow = true;
         /// <summary>
         ///     是否启用窗体阴影
         /// </summary>
-        [Category("Shadow"), DefaultValue(true), Description("是否启用窗体阴影")]
+        [Category("Shadow"), Description("是否启用窗体阴影")]
+        [DefaultValue(true)]
         public bool IShadow
         {
             get { return _iShadow; }
@@ -153,7 +158,8 @@ namespace Paway.Forms
         /// <summary>
         ///     是否允许改变窗口大小
         /// </summary>
-        [Description("是否允许改变窗口大小"), DefaultValue(true)]
+        [Description("是否允许改变窗口大小")]
+        [DefaultValue(true)]
         public virtual bool IResize
         {
             get { return _iResize; }
@@ -167,7 +173,8 @@ namespace Paway.Forms
         /// <summary>
         ///     固定窗体背景
         /// </summary>
-        [Category("Appearance"), Description("固定窗体背景"), DefaultValue(false)]
+        [Category("Appearance"), Description("固定窗体背景")]
+        [DefaultValue(false)]
         public bool IFixedBackground { get; set; }
 
         /// <summary>
@@ -266,7 +273,8 @@ namespace Paway.Forms
         /// <summary>
         ///     控件透明度
         /// </summary>
-        [Description("透明度"), DefaultValue(255)]
+        [Description("透明度")]
+        [DefaultValue(255)]
         public int Trans
         {
             get { return _trans; }
@@ -285,7 +293,8 @@ namespace Paway.Forms
         /// <summary>
         ///     移动窗体
         /// </summary>
-        [Browsable(false), Description("移动窗体"), DefaultValue(true)]
+        [Browsable(false), Description("移动窗体")]
+        [DefaultValue(true)]
         public bool IMouseMove
         {
             get { return _iMousemove; }

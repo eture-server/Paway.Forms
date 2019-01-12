@@ -89,7 +89,6 @@
             this.Controls.Add(this.lbCopyright);
             this.Controls.Add(this.lbVersion);
             this.Controls.Add(this.lbDesc);
-            this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.IDrawRound = false;
             this.IResize = false;
             this.IShadow = false;

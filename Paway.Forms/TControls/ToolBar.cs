@@ -182,7 +182,8 @@ namespace Paway.Forms
         /// <summary>
         ///     圆角大小
         /// </summary>
-        [Description("圆角大小"), DefaultValue(0)]
+        [Description("圆角大小")]
+        [DefaultValue(0)]
         public int TRadiu
         {
             get { return _tRadiu; }
@@ -200,7 +201,8 @@ namespace Paway.Forms
         /// <summary>
         ///     滚动条宽度
         /// </summary>
-        [Description("滚动条宽度"), DefaultValue(3)]
+        [Description("滚动条宽度")]
+        [DefaultValue(3)]
         public int TScrollHeight
         {
             get { return _tScrollHeight; }
@@ -224,7 +226,8 @@ namespace Paway.Forms
         /// <summary>
         ///     头文字总长度(占用总长度/宽度)
         /// </summary>
-        [Browsable(false), Description("头文字总长度(占用总长度/宽度)"), DefaultValue(0)]
+        [Browsable(false), Description("头文字总长度(占用总长度/宽度)")]
+        [DefaultValue(0)]
         public int THeardLength { get; private set; }
 
         /// <summary>
@@ -234,7 +237,8 @@ namespace Paway.Forms
         /// <summary>
         ///     项文本间的间隔
         /// </summary>
-        [Description("项文本间的间隔"), DefaultValue(0)]
+        [Description("项文本间的间隔")]
+        [DefaultValue(0)]
         public int TextSpace
         {
             get { return _textSpace; }
@@ -248,13 +252,15 @@ namespace Paway.Forms
         /// <summary>
         ///     多行列排列时的行数
         /// </summary>
-        [Browsable(false), Description("多行列排列时的行数"), DefaultValue(1)]
+        [Browsable(false), Description("多行列排列时的行数")]
+        [DefaultValue(1)]
         public int TCountLine { get; private set; }
 
         /// <summary>
         ///     多行列排列时的列数
         /// </summary>
-        [Browsable(false), Description("多行列排列时的列数"), DefaultValue(1)]
+        [Browsable(false), Description("多行列排列时的列数")]
+        [DefaultValue(1)]
         public int TCountColumn { get; private set; }
 
         #endregion
@@ -264,20 +270,23 @@ namespace Paway.Forms
         /// <summary>
         ///     显示简短说明
         /// </summary>
-        [Description("显示简短说明"), DefaultValue(true)]
+        [Description("显示简短说明")]
+        [DefaultValue(true)]
         public bool IShowTop { get { return _iShowTop; } set { _iShowTop = value; } }
 
         /// <summary>
         ///     普通项，不响应鼠标绘制
         /// </summary>
-        [Description("普通项，不响应鼠标绘制"), DefaultValue(false)]
+        [Description("普通项，不响应鼠标绘制")]
+        [DefaultValue(false)]
         public bool INormal { get; set; }
 
         private bool _iItemLine;
         /// <summary>
         ///     绘制边框线开关
         /// </summary>
-        [Description("绘制边框线开关"), DefaultValue(false)]
+        [Description("绘制边框线开关")]
+        [DefaultValue(false)]
         public bool IItemLine
         {
             get { return _iItemLine; }
@@ -295,7 +304,8 @@ namespace Paway.Forms
         /// <summary>
         ///     补充整行\列
         /// </summary>
-        [Description("补充整行\\列"), DefaultValue(false)]
+        [Description("补充整行\\列")]
+        [DefaultValue(false)]
         public bool IAdd
         {
             get { return _iAdd; }
@@ -310,7 +320,8 @@ namespace Paway.Forms
         ///     单击事件开关
         ///     单击松开后取消选中状态，只有鼠标移入状态
         /// </summary>
-        [Description("单击事件开关"), DefaultValue(false)]
+        [Description("单击事件开关")]
+        [DefaultValue(false)]
         public bool ICheckEvent { get; set; }
 
         /// <summary>
@@ -320,7 +331,8 @@ namespace Paway.Forms
         /// <summary>
         ///     图片显示开关
         /// </summary>
-        [Description("图片显示开关"), DefaultValue(false)]
+        [Description("图片显示开关")]
+        [DefaultValue(false)]
         public bool IImageShow
         {
             get { return _iImageShow; }
@@ -339,7 +351,8 @@ namespace Paway.Forms
         /// <summary>
         ///     多选开关
         /// </summary>
-        [Description("多选开关"), DefaultValue(false)]
+        [Description("多选开关")]
+        [DefaultValue(false)]
         public bool IMultiple
         {
             get { return _iMultiple; }
@@ -357,7 +370,8 @@ namespace Paway.Forms
         /// <summary>
         ///     自动项宽度
         /// </summary>
-        [Description("自动项宽度"), DefaultValue(false)]
+        [Description("自动项宽度")]
+        [DefaultValue(false)]
         public bool IAutoWidth
         {
             get { return _iAutoWidth; }
@@ -378,7 +392,8 @@ namespace Paway.Forms
         /// <summary>
         ///     获取或设置项内的空白
         /// </summary>
-        [Description("获取或设置项内的空白"), DefaultValue(typeof(Padding), "2,2,2,2")]
+        [Description("获取或设置项内的空白")]
+        [DefaultValue(typeof(Padding), "2,2,2,2")]
         public Padding TextPading
         {
             get { return _textPading; }
@@ -396,7 +411,8 @@ namespace Paway.Forms
         /// <summary>
         ///     事件触发点
         /// </summary>
-        [Description("事件触发点"), DefaultValue(typeof(TEvent), "Up")]
+        [Description("事件触发点")]
+        [DefaultValue(typeof(TEvent), "Up")]
         public TEvent TEvent
         {
             get { return _tEvent; }
@@ -410,7 +426,8 @@ namespace Paway.Forms
         /// <summary>
         ///     Item项显示方向
         /// </summary>
-        [Description("Item项显示方向"), DefaultValue(typeof(TDirection), "Level")]
+        [Description("Item项显示方向")]
+        [DefaultValue(typeof(TDirection), "Level")]
         public TDirection TDirection
         {
             get { return _tDirection; }
@@ -428,7 +445,8 @@ namespace Paway.Forms
         /// <summary>
         ///     图片显示位置
         /// </summary>
-        [Description("图片显示位置"), DefaultValue(typeof(TLocation), "Left")]
+        [Description("图片显示位置")]
+        [DefaultValue(typeof(TLocation), "Left")]
         public TLocation TLocation
         {
             get { return _tLocation; }
@@ -471,7 +489,8 @@ namespace Paway.Forms
         /// <summary>
         ///     项的大小
         /// </summary>
-        [Description("项的大小"), DefaultValue(typeof(Size), "78,82")]
+        [Description("项的大小")]
+        [DefaultValue(typeof(Size), "78,82")]
         public Size ItemSize
         {
             get { return _itemSize; }
@@ -496,7 +515,8 @@ namespace Paway.Forms
         /// <summary>
         ///     项与项之间的间隔
         /// </summary>
-        [Description("项与项之间的间隔"), DefaultValue(1)]
+        [Description("项与项之间的间隔")]
+        [DefaultValue(1)]
         public int ItemSpace
         {
             get { return _itemSpace; }
@@ -518,7 +538,8 @@ namespace Paway.Forms
         /// <summary>
         ///     项图片的大小
         /// </summary>
-        [Description("项图片的大小"), DefaultValue(typeof(Size), "24,24")]
+        [Description("项图片的大小")]
+        [DefaultValue(typeof(Size), "24,24")]
         public Size ImageSize
         {
             get { return _imageSize; }
@@ -546,7 +567,8 @@ namespace Paway.Forms
         /// <summary>
         ///     当前移入项
         /// </summary>
-        [Browsable(false), Description("当前移入项"), DefaultValue(null)]
+        [Browsable(false), Description("当前移入项")]
+        [DefaultValue(null)]
         public ToolItem MoveItem { get; set; }
 
         /// <summary>
@@ -556,7 +578,8 @@ namespace Paway.Forms
         /// <summary>
         ///     选中项的索引
         /// </summary>
-        [Browsable(false), Description("选中项的索引"), DefaultValue(0)]
+        [Browsable(false), Description("选中项的索引")]
+        [DefaultValue(0)]
         public int SelectedIndex
         {
             get { return _selectedIndex; }
@@ -570,7 +593,6 @@ namespace Paway.Forms
         ///     变色项颜色
         /// </summary>
         [Description("变色项颜色")]
-        [DefaultValue(typeof(TProperties), "Change")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties TChange
         {
@@ -590,7 +612,6 @@ namespace Paway.Forms
         ///     文字
         /// </summary>
         [Description("首行文字属性")]
-        [DefaultValue(typeof(TProperties), "TextFirst")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties TextFirst
         {
@@ -610,7 +631,6 @@ namespace Paway.Forms
         ///     文字
         /// </summary>
         [Description("从行文字属性")]
-        [DefaultValue(typeof(TProperties), "TextSencond")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties TextSencond
         {
@@ -630,7 +650,6 @@ namespace Paway.Forms
         ///     正文描述
         /// </summary>
         [Description("正文描述属性")]
-        [DefaultValue(typeof(TProperties), "Desc")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties TDesc
         {
@@ -650,7 +669,6 @@ namespace Paway.Forms
         ///     头部描述
         /// </summary>
         [Description("头部描述属性")]
-        [DefaultValue(typeof(TProperties), "HeadDesc")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties THeadDesc
         {
@@ -669,8 +687,6 @@ namespace Paway.Forms
         /// <summary>
         ///     尾部描述
         /// </summary>
-        [Description("尾部描述属性")]
-        [DefaultValue(typeof(TProperties), "EndDesc")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties TEndDesc
         {
@@ -690,7 +706,6 @@ namespace Paway.Forms
         ///     背景
         /// </summary>
         [Description("背景颜色属性")]
-        [DefaultValue(typeof(TProperties), "BackGround")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties TBackGround
         {
@@ -718,7 +733,8 @@ namespace Paway.Forms
         /// <summary>
         ///     获取或设置控件内的空白。
         /// </summary>
-        [Description("获取或设置控件内的空白"), DefaultValue(typeof(Padding), "0, 0, 0, 0")]
+        [Description("获取或设置控件内的空白")]
+        [DefaultValue(typeof(Padding), "0, 0, 0, 0")]
         public new Padding Padding
         {
             get { return base.Padding; }
@@ -2035,7 +2051,8 @@ namespace Paway.Forms
         /// <summary>
         ///     项的动态图片
         /// </summary>
-        [Description("项的动态图片"), DefaultValue(null)]
+        [Description("项的动态图片")]
+        [DefaultValue(null)]
         public Image TProgressImage
         {
             get { return _pictureBox1.Image; }
@@ -2234,7 +2251,8 @@ namespace Paway.Forms
         /// <summary>
         ///     是否显示滚动条
         /// </summary>
-        [Description("是否显示滚动条"), DefaultValue(true)]
+        [Description("是否显示滚动条")]
+        [DefaultValue(true)]
         public bool IScroll
         {
             get { return _iScroll; }
@@ -2252,7 +2270,8 @@ namespace Paway.Forms
         /// <summary>
         ///     获取滚动条是否有显示
         /// </summary>
-        [Browsable(false), DefaultValue(false)]
+        [Browsable(false)]
+        [DefaultValue(false)]
         public bool IHaveScroll
         {
             get
@@ -2264,7 +2283,8 @@ namespace Paway.Forms
         /// <summary>
         ///     获取当前滚动条的值
         /// </summary>
-        [Browsable(false), DefaultValue(0)]
+        [Browsable(false)]
+        [DefaultValue(0)]
         public int IScrollValue
         {
             get

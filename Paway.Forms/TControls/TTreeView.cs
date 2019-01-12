@@ -83,7 +83,8 @@ namespace Paway.Forms
         /// <summary>
         /// 正在排序
         /// </summary>
-        [Browsable(false), Description("正在排序"), DefaultValue(false)]
+        [Browsable(false), Description("正在排序")]
+        [DefaultValue(false)]
         public bool Checking { get; set; }
 
         private Color _select = Color.FromArgb(200, 207, 227, 253);
@@ -195,7 +196,8 @@ namespace Paway.Forms
         ///     根节点
         /// </summary>
         [TypeConverter(typeof(StringConverter))]
-        [Browsable(true), Category("控件的数据设置"), Description("根节点"), DefaultValue("0")]
+        [Browsable(true), Category("控件的数据设置"), Description("根节点")]
+        [DefaultValue("0")]
         public object TRoot { get { return _tRoot; } set { _tRoot = value; } }
 
         private object _parentId = "ParentId";
@@ -204,7 +206,8 @@ namespace Paway.Forms
         ///     父节点字段
         /// </summary>
         [TypeConverter(typeof(StringConverter))]
-        [Browsable(true), Category("控件的数据设置"), Description("父节点字段"), DefaultValue("ParentId")]
+        [Browsable(true), Category("控件的数据设置"), Description("父节点字段")]
+        [DefaultValue("ParentId")]
         public object TParentId
         {
             get { return _parentId; }
@@ -217,7 +220,8 @@ namespace Paway.Forms
         ///     子节点字段
         /// </summary>
         [TypeConverter(typeof(StringConverter))]
-        [Browsable(true), Category("控件的数据设置"), Description("子节点字段"), DefaultValue("Id")]
+        [Browsable(true), Category("控件的数据设置"), Description("子节点字段")]
+        [DefaultValue("Id")]
         public object TId
         {
             get { return _id; }
@@ -228,7 +232,8 @@ namespace Paway.Forms
         /// <summary>
         ///     自动调整宽度至整行
         /// </summary>
-        [Browsable(true), Description("自动调整宽度至整行"), DefaultValue(false)]
+        [Browsable(true), Description("自动调整宽度至整行")]
+        [DefaultValue(false)]
         public bool IAutoWidth
         {
             get { return _iAutoWidth; }
@@ -250,7 +255,8 @@ namespace Paway.Forms
         /// <summary>
         ///     数据源
         /// </summary>
-        [Browsable(false), Category("控件的数据设置"), Description("数据源"), DefaultValue(null)]
+        [Browsable(false), Category("控件的数据设置"), Description("数据源")]
+        [DefaultValue(null)]
         public object DataSource
         {
             get { return _dataSource; }
@@ -344,7 +350,7 @@ namespace Paway.Forms
         ///     获取或设置树视图控件的边框样式
         /// </summary>
         [Description("获取或设置树视图控件的边框样式。")]
-        [DefaultValue(typeof(BorderStyle), "None")]
+        [DefaultValue(BorderStyle.None)]
         public new BorderStyle BorderStyle
         {
             get { return base.BorderStyle; }
@@ -1249,7 +1255,8 @@ namespace Paway.Forms
         /// <summary>
         ///     获取或设置包含有关控件的数据的对象。
         /// </summary>
-        [Browsable(false), DefaultValue(null)]
+        [Browsable(false)]
+        [DefaultValue(null)]
         public object Tag { get; set; }
 
         #endregion

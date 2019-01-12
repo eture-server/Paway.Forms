@@ -84,7 +84,8 @@ namespace Paway.Forms
 
         /// <summary>
         /// </summary>
-        [Description("水印文字"), Category("自定义属性"), DefaultValue(null)]
+        [Description("水印文字"), Category("自定义属性")]
+        [DefaultValue(null)]
         public string WaterText
         {
             get { return _waterText; }
@@ -97,7 +98,8 @@ namespace Paway.Forms
 
         /// <summary>
         /// </summary>
-        [Description("水印的颜色"), Category("自定义属性"), DefaultValue(typeof(Color), "DarkGray")]
+        [Description("水印的颜色"), Category("自定义属性")]
+        [DefaultValue(typeof(Color), "DarkGray")]
         public Color WaterColor
         {
             get { return _waterColor; }

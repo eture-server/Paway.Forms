@@ -31,7 +31,8 @@ namespace Paway.Forms
         /// <summary>
         /// 显示格式
         /// </summary>
-        [Browsable(false), DefaultValue("序号：{0}\r\n值：{1}")]
+        [Browsable(false)]
+        [DefaultValue("序号：{0}\r\n值：{1}")]
         public string TipText { get { return _tipText; } set { _tipText = value; } }
         /// <summary>
         /// 当前点击序号

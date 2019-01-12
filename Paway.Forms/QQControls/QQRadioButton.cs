@@ -49,7 +49,6 @@ namespace Paway.Forms
         /// <summary>
         ///     重写CheckBox的Text属性
         /// </summary>
-        [DefaultValue("QQRadioButton")]
         public override string Text
         {
             get { return base.Text; }
@@ -68,7 +67,8 @@ namespace Paway.Forms
 
         /// <summary>
         /// </summary>
-        [Description("鼠标状态"), DefaultValue(typeof(TMouseState), "Normal")]
+        [Description("鼠标状态")]
+        [DefaultValue(TMouseState.Normal)]
         internal TMouseState MouseState
         {
             get { return _mouseState; }
@@ -98,7 +98,8 @@ namespace Paway.Forms
         /// <summary>
         ///     获取或设置控件的背景色
         /// </summary>
-        [Description("获取或设置控件的背景色"), DefaultValue(typeof(Color), "Transparent")]
+        [Description("获取或设置控件的背景色")]
+        [DefaultValue(typeof(Color), "Transparent")]
         public override Color BackColor
         {
             get { return base.BackColor; }
@@ -115,7 +116,8 @@ namespace Paway.Forms
         /// <summary>
         ///     获取或设置控件的前景色。
         /// </summary>
-        [Description("获取或设置控件的前景色"), DefaultValue(typeof(Color), "Black")]
+        [Description("获取或设置控件的前景色")]
+        [DefaultValue(typeof(Color), "Black")]
         public override Color ForeColor
         {
             get { return base.ForeColor; }

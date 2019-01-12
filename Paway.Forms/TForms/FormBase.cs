@@ -40,6 +40,7 @@ namespace Paway.Forms
             }
             StartPosition = FormStartPosition.CenterScreen;
             AutoScaleMode = AutoScaleMode.None;
+            ForeColor = Color.White;
         }
 
         #endregion
@@ -137,7 +138,8 @@ namespace Paway.Forms
         /// <summary>
         ///     指定窗体窗口如何显示
         /// </summary>
-        [Description("指定窗体窗口如何显示"), DefaultValue(typeof(FormWindowState), "Normal")]
+        [Description("指定窗体窗口如何显示")]
+        [DefaultValue(FormWindowState.Normal)]
         public override FormWindowState WindowState
         {
             get { return _windowState; }
@@ -179,13 +181,15 @@ namespace Paway.Forms
         /// <summary>
         ///     是否透明
         /// </summary>
-        [Description("指定窗体是否透明"), DefaultValue(false)]
+        [Description("指定窗体是否透明")]
+        [DefaultValue(false)]
         public bool ITransfer { get; set; }
 
         /// <summary>
         ///     窗体大小的最小值
         /// </summary>
-        [Description("窗体大小的最小值"), DefaultValue(typeof(Size), "140, 40")]
+        [Description("窗体大小的最小值")]
+        [DefaultValue(typeof(Size), "140, 40")]
         public override Size MinimumSize
         {
             get { return base.MinimumSize; }
@@ -195,7 +199,8 @@ namespace Paway.Forms
         /// <summary>
         ///     是否显示图标
         /// </summary>
-        [Description("是否显示图标"), DefaultValue(true)]
+        [Description("是否显示图标")]
+        [DefaultValue(true)]
         public new virtual bool ShowIcon
         {
             get { return _showIcon; }
@@ -229,7 +234,8 @@ namespace Paway.Forms
         /// <summary>
         ///     窗体显示的标题文字
         /// </summary>
-        [Browsable(false), Description("窗体显示的标题文字"), DefaultValue(null)]
+        [Browsable(false), Description("窗体显示的标题文字")]
+        [DefaultValue(null)]
         public string TextShow
         {
             get { return _textShow; }
@@ -246,7 +252,8 @@ namespace Paway.Forms
         /// <summary>
         ///     系统控制按钮
         /// </summary>
-        [Description("系统控制按钮的显示与隐藏"), DefaultValue(typeof(TSysButton), "Normal")]
+        [Description("系统控制按钮的显示与隐藏")]
+        [DefaultValue(TSysButton.Normal)]
         public TSysButton SysButton
         {
             get { return _sysButton; }
@@ -263,7 +270,8 @@ namespace Paway.Forms
         /// <summary>
         ///     系统控制按钮区域
         /// </summary>
-        [Description("系统控制按钮区域"), DefaultValue(typeof(Rectangle), "Empty")]
+        [Description("系统控制按钮区域")]
+        [DefaultValue(typeof(Rectangle), "Empty")]
         protected virtual Rectangle SysBtnRect
         {
             get { return Rectangle.Empty; }
@@ -280,7 +288,8 @@ namespace Paway.Forms
         /// <summary>
         ///     关闭按钮区域
         /// </summary>
-        [Description("关闭按钮区域"), DefaultValue(typeof(Rectangle), "Empty")]
+        [Description("关闭按钮区域")]
+        [DefaultValue(typeof(Rectangle), "Empty")]
         protected virtual Rectangle CloseRect
         {
             get { return Rectangle.Empty; }
@@ -289,7 +298,8 @@ namespace Paway.Forms
         /// <summary>
         ///     最小化按钮区域
         /// </summary>
-        [Description("最小化按钮区域"), DefaultValue(typeof(Rectangle), "Empty")]
+        [Description("最小化按钮区域")]
+        [DefaultValue(typeof(Rectangle), "Empty")]
         protected virtual Rectangle MiniRect
         {
             get { return Rectangle.Empty; }
@@ -298,7 +308,8 @@ namespace Paway.Forms
         /// <summary>
         ///     最大化按钮区域
         /// </summary>
-        [Description("最大化按钮区域"), DefaultValue(typeof(Rectangle), "Empty")]
+        [Description("最大化按钮区域")]
+        [DefaultValue(typeof(Rectangle), "Empty")]
         protected virtual Rectangle MaxRect
         {
             get { return Rectangle.Empty; }
@@ -307,7 +318,8 @@ namespace Paway.Forms
         /// <summary>
         ///     标题栏菜单按钮的矩形区域
         /// </summary>
-        [Description("标题栏菜单按钮的矩形区域"), DefaultValue(typeof(Rectangle), "Empty")]
+        [Description("标题栏菜单按钮的矩形区域")]
+        [DefaultValue(typeof(Rectangle), "Empty")]
         protected virtual Rectangle TitleBarMenuRect
         {
             get { return Rectangle.Empty; }
@@ -316,7 +328,8 @@ namespace Paway.Forms
         /// <summary>
         ///     图标显示区域
         /// </summary>
-        [Description("图标显示区域"), DefaultValue(typeof(Rectangle), "4, 4, 16, 16")]
+        [Description("图标显示区域")]
+        [DefaultValue(typeof(Rectangle), "4, 4, 16, 16")]
         protected virtual Rectangle IconRect
         {
             get { return new Rectangle(4, 4, 16, 16); }
@@ -341,7 +354,8 @@ namespace Paway.Forms
         /// <summary>
         ///     关闭按钮当前的鼠标状态
         /// </summary>
-        [Description("关闭按钮当前的鼠标状态"), DefaultValue(typeof(TSysButton), "Normal")]
+        [Description("关闭按钮当前的鼠标状态")]
+        [DefaultValue(TSysButton.Normal)]
         protected TMouseState CloseState
         {
             get { return _closeState; }
@@ -358,7 +372,8 @@ namespace Paway.Forms
         /// <summary>
         ///     最大化按钮当前的鼠标状态
         /// </summary>
-        [Description("最大化按钮当前的鼠标状态"), DefaultValue(typeof(TSysButton), "Normal")]
+        [Description("最大化按钮当前的鼠标状态")]
+        [DefaultValue(TSysButton.Normal)]
         protected TMouseState MaxState
         {
             get { return _maxState; }
@@ -375,7 +390,8 @@ namespace Paway.Forms
         /// <summary>
         ///     最小化按钮当前的鼠标状态
         /// </summary>
-        [Description("最小化按钮当前的鼠标状态"), DefaultValue(typeof(TSysButton), "Normal")]
+        [Description("最小化按钮当前的鼠标状态")]
+        [DefaultValue(TSysButton.Normal)]
         protected TMouseState MinState
         {
             get { return _minState; }
@@ -392,7 +408,8 @@ namespace Paway.Forms
         /// <summary>
         ///     标题栏菜单按钮的鼠标的状态
         /// </summary>
-        [Description("标题栏菜单按钮的鼠标的状态"), DefaultValue(typeof(TMouseState), "Normal")]
+        [Description("标题栏菜单按钮的鼠标的状态")]
+        [DefaultValue(TMouseState.Normal)]
         protected virtual TMouseState TitleBarMenuState { get; set; }
 
         /// <summary>
@@ -402,7 +419,8 @@ namespace Paway.Forms
         /// <summary>
         ///     是否绘制边框
         /// </summary>
-        [Browsable(true), Description("是否绘制边框"), DefaultValue(false)]
+        [Browsable(true), Description("是否绘制边框")]
+        [DefaultValue(false)]
         public bool IDrawBorder
         {
             get { return _iDrawBorder; }
@@ -420,7 +438,8 @@ namespace Paway.Forms
         /// <summary>
         ///     是否剪成圆角
         /// </summary>
-        [Browsable(true), Description("是否剪成圆角"), DefaultValue(true)]
+        [Browsable(true), Description("是否剪成圆角")]
+        [DefaultValue(true)]
         public bool IDrawRound
         {
             get { return _iDrawRound; }
@@ -461,7 +480,7 @@ namespace Paway.Forms
         /// <summary>
         ///     指定线性渐变的方向
         /// </summary>
-        [DefaultValue(typeof(LinearGradientMode), "Vertical")]
+        [DefaultValue(LinearGradientMode.Vertical)]
         public LinearGradientMode TBrushMode
         {
             get { return _tBrushMode; }
@@ -480,7 +499,7 @@ namespace Paway.Forms
         ///     获取或设置运行时窗体的起始位置。
         /// </summary>
         [Description("获取或设置运行时窗体的起始位置")]
-        [DefaultValue(typeof(FormStartPosition), "CenterScreen")]
+        [DefaultValue(FormStartPosition.CenterScreen)]
         public new FormStartPosition StartPosition
         {
             get { return base.StartPosition; }
@@ -491,11 +510,29 @@ namespace Paway.Forms
         ///     获取或设置控件的自动缩放模式。
         /// </summary>
         [Description("获取或设置控件的自动缩放模式")]
-        [DefaultValue(typeof(FormStartPosition), "None")]
+        [DefaultValue(AutoScaleMode.None)]
         public new AutoScaleMode AutoScaleMode
         {
             get { return base.AutoScaleMode; }
             set { base.AutoScaleMode = value; }
+        }
+
+        /// <summary>
+        ///     获取或设置控件的前景色。
+        /// </summary>
+        [Description("获取或设置控件的前景色")]
+        [DefaultValue(typeof(Color), "White")]
+        public override Color ForeColor
+        {
+            get { return base.ForeColor; }
+            set
+            {
+                if (value == Color.Empty)
+                {
+                    value = Color.White;
+                }
+                base.ForeColor = value;
+            }
         }
 
         #endregion

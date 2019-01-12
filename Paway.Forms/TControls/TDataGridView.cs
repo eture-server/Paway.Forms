@@ -140,19 +140,22 @@ namespace Paway.Forms
         /// <summary>
         ///     文本图片列-文本列
         /// </summary>
-        [Browsable(true), Description("文本图片列-文本列"), DefaultValue(null)]
+        [Browsable(true), Description("文本图片列-文本列")]
+        [DefaultValue(null)]
         public string TColumnText { get; set; }
 
         /// <summary>
         ///     文本图片列-图片列
         /// </summary>
-        [Browsable(true), Description("文本图片列-图片列"), DefaultValue(null)]
+        [Browsable(true), Description("文本图片列-图片列")]
+        [DefaultValue(null)]
         public string TColumnImage { get; set; }
 
         /// <summary>
         ///     是否绘制多行文本
         /// </summary>
-        [Browsable(true), Description("是否绘制多行文本"), DefaultValue(false)]
+        [Browsable(true), Description("是否绘制多行文本")]
+        [DefaultValue(false)]
         public bool IMultiText { get; set; }
 
         /// <summary>
@@ -162,7 +165,8 @@ namespace Paway.Forms
         /// <summary>
         ///     是否合并绘制列
         /// </summary>
-        [Browsable(true), Description("是否合并绘制列"), DefaultValue(false)]
+        [Browsable(true), Description("是否合并绘制列")]
+        [DefaultValue(false)]
         public bool IMerger
         {
             get { return _iMerger; }
@@ -177,7 +181,8 @@ namespace Paway.Forms
         /// <summary>
         ///     是否绘制鼠标移过时的颜色
         /// </summary>
-        [Browsable(true), Description("是否绘制鼠标移过时的颜色"), DefaultValue(true)]
+        [Browsable(true), Description("是否绘制鼠标移过时的颜色")]
+        [DefaultValue(true)]
         public bool IMove
         {
             get { return _iMove; }
@@ -188,7 +193,8 @@ namespace Paway.Forms
         /// <summary>
         ///     鼠标移过的行颜色
         /// </summary>
-        [Browsable(true), Description("鼠标移过的行颜色"), DefaultValue(typeof(Color), "Azure")]
+        [Browsable(true), Description("鼠标移过的行颜色")]
+        [DefaultValue(typeof(Color), "Azure")]
         public Color IMoveColor
         {
             get { return _colorMove; }
@@ -202,7 +208,8 @@ namespace Paway.Forms
         /// <summary>
         ///     是否绘制CheckBox
         /// </summary>
-        [Browsable(true), Description("是否绘制CheckBox"), DefaultValue(false)]
+        [Browsable(true), Description("是否绘制CheckBox")]
+        [DefaultValue(false)]
         public bool ICheckBox
         {
             get { return _iCheckBox; }
@@ -229,7 +236,8 @@ namespace Paway.Forms
         /// <summary>
         ///     绘制列列Name
         /// </summary>
-        [Browsable(true), Description("绘制列列Name"), DefaultValue(null)]
+        [Browsable(true), Description("绘制列列Name")]
+        [DefaultValue(null)]
         public string ICheckBoxName { get; set; }
 
         #endregion
@@ -250,7 +258,7 @@ namespace Paway.Forms
         ///     获取或设置 DataGridView 的边框样式。
         /// </summary>
         [Description("获取或设置 DataGridView 的边框样式")]
-        [DefaultValue(typeof(BorderStyle), "None")]
+        [DefaultValue(BorderStyle.None)]
         public new BorderStyle BorderStyle
         {
             get { return base.BorderStyle; }
@@ -263,7 +271,8 @@ namespace Paway.Forms
         [Browsable(false)]
         [Description("设置数据源时设置图片列")]
         [AttributeProvider(typeof(IListSource))]
-        [RefreshProperties(RefreshProperties.Repaint), DefaultValue(null)]
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [DefaultValue(null)]
         public new object DataSource
         {
             get { return base.DataSource; }
@@ -300,7 +309,7 @@ namespace Paway.Forms
         ///     获取或设置一个值，该值指示如何确定列宽。
         /// </summary>
         [Description("获取或设置一个值，该值指示如何确定列宽")]
-        [DefaultValue(typeof(DataGridViewAutoSizeColumnsMode), "Fill")]
+        [DefaultValue(DataGridViewAutoSizeColumnsMode.Fill)]
         public new DataGridViewAutoSizeColumnsMode AutoSizeColumnsMode
         {
             get { return base.AutoSizeColumnsMode; }
@@ -311,7 +320,7 @@ namespace Paway.Forms
         ///     获取 DataGridView 的单元格边框样式。
         /// </summary>
         [Description("获取 DataGridView 的单元格边框样式")]
-        [DefaultValue(typeof(DataGridViewCellBorderStyle), "SingleHorizontal")]
+        [DefaultValue(DataGridViewCellBorderStyle.SingleHorizontal)]
         public new DataGridViewCellBorderStyle CellBorderStyle
         {
             get { return base.CellBorderStyle; }
@@ -322,7 +331,7 @@ namespace Paway.Forms
         ///     获取应用于列标题的边框样式。
         /// </summary>
         [Description("获取应用于列标题的边框样式")]
-        [DefaultValue(typeof(DataGridViewHeaderBorderStyle), "None")]
+        [DefaultValue(DataGridViewHeaderBorderStyle.None)]
         public new DataGridViewHeaderBorderStyle ColumnHeadersBorderStyle
         {
             get { return base.ColumnHeadersBorderStyle; }
@@ -344,7 +353,7 @@ namespace Paway.Forms
         ///     获取或设置一个值，该值指示是否可以调整列标题的高度，以及它是由用户调整还是根据标题的内容自动调整。
         /// </summary>
         [Description("获取或设置一个值，该值指示是否可以调整列标题的高度，以及它是由用户调整还是根据标题的内容自动调整")]
-        [DefaultValue(typeof(DataGridViewColumnHeadersHeightSizeMode), "DisableResizing")]
+        [DefaultValue(DataGridViewColumnHeadersHeightSizeMode.DisableResizing)]
         public new DataGridViewColumnHeadersHeightSizeMode ColumnHeadersHeightSizeMode
         {
             get { return base.ColumnHeadersHeightSizeMode; }
@@ -366,7 +375,7 @@ namespace Paway.Forms
         ///     获取或设置行标题单元格的边框样式。
         /// </summary>
         [Description("获取或设置行标题单元格的边框样式")]
-        [DefaultValue(typeof(DataGridViewHeaderBorderStyle), "Single")]
+        [DefaultValue(DataGridViewHeaderBorderStyle.Single)]
         public new DataGridViewHeaderBorderStyle RowHeadersBorderStyle
         {
             get { return base.RowHeadersBorderStyle; }
@@ -399,7 +408,7 @@ namespace Paway.Forms
         ///     获取或设置要在 DataGridView 控件中显示的滚动条的类型。
         /// </summary>
         [Description("获取或设置要在 DataGridView 控件中显示的滚动条的类型")]
-        [DefaultValue(typeof(ScrollBars), "Both")]
+        [DefaultValue(ScrollBars.Both)]
         public new ScrollBars ScrollBars
         {
             get { return base.ScrollBars; }
@@ -410,7 +419,7 @@ namespace Paway.Forms
         ///     获取或设置一个值，该值指示如何选择 DataGridView 的单元格。
         /// </summary>
         [Description("获取或设置一个值，该值指示如何选择 DataGridView 的单元格")]
-        [DefaultValue(typeof(DataGridViewSelectionMode), "FullRowSelect")]
+        [DefaultValue(DataGridViewSelectionMode.FullRowSelect)]
         public new DataGridViewSelectionMode SelectionMode
         {
             get { return base.SelectionMode; }
@@ -901,7 +910,8 @@ namespace Paway.Forms
         /// <summary>
         ///     动态文本图片列显示的图片
         /// </summary>
-        [Browsable(true), Description("动态文本图片列显示的图片"), DefaultValue(null)]
+        [Browsable(true), Description("动态文本图片列显示的图片")]
+        [DefaultValue(null)]
         public Image TProgressImage
         {
             get { return pictureBox1.Image; }
@@ -911,7 +921,8 @@ namespace Paway.Forms
         /// <summary>
         ///     动态文本图片列显示行
         /// </summary>
-        [Browsable(true), Description("动态文本图片列显示行"), DefaultValue(-1)]
+        [Browsable(true), Description("动态文本图片列显示行")]
+        [DefaultValue(-1)]
         public int TProgressIndex
         {
             get { return pIndex; }

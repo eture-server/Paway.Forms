@@ -98,6 +98,20 @@ namespace Paway.Forms
 
         #endregion
 
+        #region 属性
+        /// <summary>
+        /// 获取或设置当鼠标指针位于控件上时显示的光标
+        /// </summary>
+        [Description("获取或设置当鼠标指针位于控件上时显示的光标")]
+        [DefaultValue(typeof(Cursor), "Hand")]
+        public override Cursor Cursor
+        {
+            get { return base.Cursor; }
+            set { base.Cursor = value; }
+        }
+
+        #endregion
+
         #region 分页
 
         /// <summary>
@@ -475,7 +489,8 @@ namespace Paway.Forms
         ///     获取或设置每页显示的记录
         /// </summary>
         [DataMember]
-        [Description("获取或设置每页显示的记录"), DefaultValue(20), Category("分页")]
+        [Description("获取或设置每页显示的记录"), Category("分页")]
+        [DefaultValue(20)]
         public int PageSize
         {
             get { return pageSize; }
@@ -494,7 +509,8 @@ namespace Paway.Forms
         ///     获取或设置记录总数
         /// </summary>
         [DataMember]
-        [Description("获取或设置记录总数"), DefaultValue(0), Category("分页")]
+        [Description("获取或设置记录总数"), Category("分页")]
+        [DefaultValue(0)]
         public int RecordCount
         {
             get { return recordCount; }
@@ -513,7 +529,8 @@ namespace Paway.Forms
         ///     获取记录总页数
         /// </summary>
         [DataMember]
-        [Description("获取记录总页数"), DefaultValue(0), Category("分页")]
+        [Description("获取记录总页数"), Category("分页")]
+        [DefaultValue(0)]
         public int PageCount
         {
             get

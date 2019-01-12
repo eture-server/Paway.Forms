@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             this.toolBar2 = new Paway.Forms.ToolBar();
             this.SuspendLayout();
             // 
@@ -39,6 +40,7 @@
             toolItem1.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
             toolItem1.Text = "0\r\n创建宝贝";
             this.toolBar2.Items.Add(toolItem1);
+            this.toolBar2.Items.Add(toolItem2);
             this.toolBar2.ItemSize = new System.Drawing.Size(110, 90);
             this.toolBar2.ItemSpace = 0;
             this.toolBar2.Location = new System.Drawing.Point(87, 85);
@@ -57,9 +59,7 @@
             // 
             // FormBar
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(368, 261);
             this.Controls.Add(this.toolBar2);
             this.Name = "FormBar";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

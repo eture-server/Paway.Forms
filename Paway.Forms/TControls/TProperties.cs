@@ -51,7 +51,8 @@ namespace Paway.Forms
         /// <summary>
         ///     默认字体
         /// </summary>
-        [Description("默认字体"), DefaultValue(typeof(Font), "微软雅黑, 12pt")]
+        [Description("默认字体")]
+        [DefaultValue(typeof(Font), "微软雅黑, 12pt")]
         public Font FontNormal
         {
             get { return _fNormal; }
@@ -76,7 +77,8 @@ namespace Paway.Forms
         /// <summary>
         ///     鼠标移过时的字体
         /// </summary>
-        [Description("鼠标移过时的字体"), DefaultValue(typeof(Font), "微软雅黑, 12pt")]
+        [Description("鼠标移过时的字体")]
+        [DefaultValue(typeof(Font), "微软雅黑, 12pt")]
         public Font FontMove
         {
             get { return _fMove; }
@@ -90,7 +92,8 @@ namespace Paway.Forms
         /// <summary>
         ///     鼠标按下时的字体
         /// </summary>
-        [Description("鼠标按下时的字体"), DefaultValue(typeof(Font), "微软雅黑, 12pt")]
+        [Description("鼠标按下时的字体")]
+        [DefaultValue(typeof(Font), "微软雅黑, 12pt")]
         public Font FontDown
         {
             get { return _fDown; }
@@ -104,7 +107,8 @@ namespace Paway.Forms
         /// <summary>
         ///     默认颜色
         /// </summary>
-        [Description("默认颜色"), DefaultValue(typeof(Color), "")]
+        [Description("默认颜色")]
+        [DefaultValue(typeof(Color), "")]
         public Color ColorNormal
         {
             get { return _cNormal; }
@@ -150,7 +154,8 @@ namespace Paway.Forms
         /// <summary>
         ///     鼠标移过时的颜色
         /// </summary>
-        [Description("鼠标移过时的颜色"), DefaultValue(typeof(Color), "")]
+        [Description("鼠标移过时的颜色")]
+        [DefaultValue(typeof(Color), "")]
         public Color ColorMove
         {
             get { return _cMove; }
@@ -164,7 +169,8 @@ namespace Paway.Forms
         /// <summary>
         ///     鼠标按下时的颜色
         /// </summary>
-        [Description("鼠标按下时的颜色"), DefaultValue(typeof(Color), "")]
+        [Description("鼠标按下时的颜色")]
+        [DefaultValue(typeof(Color), "")]
         public Color ColorDown
         {
             get { return _cDown; }
@@ -178,7 +184,8 @@ namespace Paway.Forms
         /// <summary>
         ///     项间隔的颜色
         /// </summary>
-        [Description("项间隔的颜色"), DefaultValue(typeof(Color), "")]
+        [Description("项间隔的颜色")]
+        [DefaultValue(typeof(Color), "")]
         public Color ColorSpace
         {
             get { return _cSpace; }
@@ -192,7 +199,8 @@ namespace Paway.Forms
         /// <summary>
         ///     文字水平对齐
         /// </summary>
-        [Description("文字水平对齐"), DefaultValue(typeof(StringAlignment), "Near")]
+        [Description("文字水平对齐")]
+        [DefaultValue(StringAlignment.Near)]
         public StringAlignment StringVertical
         {
             get { return _stringVertical; }
@@ -208,7 +216,8 @@ namespace Paway.Forms
         /// <summary>
         ///     文字垂直对齐
         /// </summary>
-        [Description("文字垂直对齐"), DefaultValue(typeof(StringAlignment), "Near")]
+        [Description("文字垂直对齐")]
+        [DefaultValue(StringAlignment.Near)]
         public StringAlignment StringHorizontal
         {
             get { return _stringHorizontal; }

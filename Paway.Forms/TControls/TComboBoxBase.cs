@@ -140,7 +140,8 @@ namespace Paway.Forms
         /// <summary>
         ///     获取或设置 System.Windows.Forms.ComboBox 下拉部分的高度（以像素为单位）。
         /// </summary>
-        [Description("获取或设置 System.Windows.Forms.ComboBox 下拉部分的高度（以像素为单位）"), DefaultValue(200)]
+        [Description("获取或设置 System.Windows.Forms.ComboBox 下拉部分的高度（以像素为单位）")]
+        [DefaultValue(200)]
         public new int DropDownHeight
         {
             get { return base.DropDownHeight; }
@@ -150,7 +151,8 @@ namespace Paway.Forms
         /// <summary>
         ///     获取或设置组合框中的某项的高度
         /// </summary>
-        [Description("获取或设置组合框中的某项的高度"), DefaultValue(17)]
+        [Description("获取或设置组合框中的某项的高度")]
+        [DefaultValue(17)]
         public new int ItemHeight
         {
             get { return base.ItemHeight; }
@@ -161,7 +163,7 @@ namespace Paway.Forms
         ///     获取或设置指定组合框样式的值。
         /// </summary>
         [Description("获取或设置指定组合框样式的值")]
-        [DefaultValue(typeof(ComboBoxStyle), "DropDownList")]
+        [DefaultValue(ComboBoxStyle.DropDownList)]
         public new ComboBoxStyle DropDownStyle
         {
             get { return base.DropDownStyle; }
@@ -172,7 +174,7 @@ namespace Paway.Forms
         ///     获取或设置一个值，该值指示是由您的代码还是由操作系统来处理列表中的元素的绘制。。
         /// </summary>
         [Description("获取或设置一个值，该值指示是由您的代码还是由操作系统来处理列表中的元素的绘制")]
-        [DefaultValue(typeof(DrawMode), "OwnerDrawFixed")]
+        [DefaultValue(DrawMode.OwnerDrawFixed)]
         public new DrawMode DrawMode
         {
             get { return base.DrawMode; }
@@ -195,7 +197,7 @@ namespace Paway.Forms
         ///     获取或设置控件绑定到的容器的边缘并确定控件如何随其父级一起调整大小
         /// </summary>
         [Description("获取或设置控件绑定到的容器的边缘并确定控件如何随其父级一起调整大小")]
-        [DefaultValue(typeof(AnchorStyles), "Top, Bottom, Left, Right")]
+        [DefaultValue(AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right)]
         public override AnchorStyles Anchor
         {
             get { return base.Anchor; }

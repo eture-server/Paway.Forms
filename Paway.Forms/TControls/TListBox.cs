@@ -30,6 +30,41 @@ namespace Paway.Forms
         #endregion
 
         #region 属性
+        /// <summary>
+        /// 获取或设置 System.Windows.Forms.ListBox 中项的高度
+        /// </summary>
+        [Description("获取或设置 System.Windows.Forms.ListBox 中项的高度")]
+        [DefaultValue(30)]
+        [Localizable(true)]
+        [RefreshProperties(RefreshProperties.Repaint)]
+        public override int ItemHeight
+        {
+            get { return base.ItemHeight; }
+            set { base.ItemHeight = value; }
+        }
+
+        /// <summary>
+        /// 获取或设置控件的绘图模式
+        /// </summary>
+        [Description("获取或设置控件的绘图模式")]
+        [DefaultValue(DrawMode.OwnerDrawFixed)]
+        [RefreshProperties(RefreshProperties.Repaint)]
+        public override DrawMode DrawMode
+        {
+            get { return base.DrawMode; }
+            set { base.DrawMode = value; }
+        }
+
+        /// <summary>
+        /// 获取或设置在 System.Windows.Forms.ListBox 四周绘制的边框的类型
+        /// </summary>
+        [DefaultValue(BorderStyle.None)]
+        [Description("获取或设置在 System.Windows.Forms.ListBox 四周绘制的边框的类型")]
+        public new BorderStyle BorderStyle
+        {
+            get { return base.BorderStyle; }
+            set { base.BorderStyle = value; }
+        }
 
         /// <summary>
         ///     项被选中后的背景颜色
@@ -116,7 +151,8 @@ namespace Paway.Forms
         /// <summary>
         ///     获取或设置垂直面上的文本对齐信息。
         /// </summary>
-        [Description("获取或设置垂直面上的文本对齐信息。"), DefaultValue(typeof(StringAlignment), "Center")]
+        [Description("获取或设置垂直面上的文本对齐信息。")]
+        [DefaultValue(StringAlignment.Center)]
         public StringAlignment AlignmentVertical
         {
             get { return _alignment; }
@@ -128,7 +164,8 @@ namespace Paway.Forms
         /// <summary>
         ///     获取或设置水平面上的行对齐信息。
         /// </summary>
-        [Browsable(true), Description("获取或设置水平面上的行对齐信息。"), DefaultValue(typeof(StringAlignment), "Center")]
+        [Browsable(true), Description("获取或设置水平面上的行对齐信息。")]
+        [DefaultValue(StringAlignment.Center)]
         public StringAlignment AlignmentLine
         {
             get { return _lineAlignment; }

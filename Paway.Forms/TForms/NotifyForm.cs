@@ -73,7 +73,8 @@ namespace Paway.Forms
         /// <summary>
         ///     设置窗口大小的最大值
         /// </summary>
-        [Description("设置窗口大小的最大值"), DefaultValue(typeof(Size), "250, 178")]
+        [Description("设置窗口大小的最大值")]
+        [DefaultValue(typeof(Size), "250, 178")]
         public override Size MaximumSize
         {
             get { return SIZE; }
@@ -82,7 +83,8 @@ namespace Paway.Forms
         /// <summary>
         ///     设置窗口大小的最小值
         /// </summary>
-        [Description("设置窗口大小的最小值"), DefaultValue(typeof(Size), "250, 178")]
+        [Description("设置窗口大小的最小值")]
+        [DefaultValue(typeof(Size), "250, 178")]
         public override Size MinimumSize
         {
             get { return SIZE; }
@@ -96,7 +98,8 @@ namespace Paway.Forms
         /// <summary>
         ///     提示文字信息
         /// </summary>
-        [Description("提示文字信息"), DefaultValue(null)]
+        [Description("提示文字信息")]
+        [DefaultValue(null)]
         public string NotifyText
         {
             get { return _notifyText; }
@@ -118,7 +121,8 @@ namespace Paway.Forms
         /// <summary>
         ///     提示信息的文字颜色
         /// </summary>
-        [Description("提示信息的文字颜色"), DefaultValue(typeof(Color), "Black")]
+        [Description("提示信息的文字颜色")]
+        [DefaultValue(typeof(Color), "Black")]
         public Color NotifyForeColor
         {
             get { return _notifyForeColor; }
@@ -140,7 +144,8 @@ namespace Paway.Forms
         /// <summary>
         ///     提示信息的字体
         /// </summary>
-        [Description("提示信息的字体"), DefaultValue(typeof(Font), "微软雅黑, 9pt")]
+        [Description("提示信息的字体")]
+        [DefaultValue(typeof(Font), "微软雅黑, 9pt")]
         public Font NotifyFont
         {
             get { return _notifyFont; }

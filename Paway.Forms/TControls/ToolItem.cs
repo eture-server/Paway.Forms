@@ -17,14 +17,16 @@ namespace Paway.Forms
         /// <summary>
         ///     拥有者
         /// </summary>
-        [Browsable(false), Description("拥有者"), DefaultValue(typeof(ToolBar), "Tinn")]
+        [Browsable(false), Description("拥有者")]
+        [DefaultValue(typeof(ToolBar), "Tinn")]
         public ToolBar Owner { get; internal set; }
 
         private Image _image;
         /// <summary>
         ///     Item 显示的图片
         /// </summary>
-        [Description("Item 显示的图片"), DefaultValue(typeof(Image), "null")]
+        [Description("Item 显示的图片")]
+        [DefaultValue(typeof(Image), "null")]
         public Image Image
         {
             get { return _image; }
@@ -44,20 +46,23 @@ namespace Paway.Forms
         /// <summary>
         ///     获取或设置包含有关控件的数据的对象。
         /// </summary>
-        [Description("获取或设置包含有关控件的数据的对象"), DefaultValue(null)]
+        [Description("获取或设置包含有关控件的数据的对象")]
+        [DefaultValue(null)]
         [TypeConverter(typeof(StringConverter))]
         public object Tag { get; set; }
 
         /// <summary>
         ///     首行文字
         /// </summary>
-        [Browsable(false), Description("首行文字"), DefaultValue(null)]
+        [Browsable(false), Description("首行文字")]
+        [DefaultValue(null)]
         public string First { get; private set; }
 
         /// <summary>
         ///     其它行文字
         /// </summary>
-        [Browsable(false), Description("其它行文字"), DefaultValue(null)]
+        [Browsable(false), Description("其它行文字")]
+        [DefaultValue(null)]
         public string Sencond { get; private set; }
 
         private string _text = string.Empty;
@@ -96,7 +101,8 @@ namespace Paway.Forms
         /// <summary>
         ///     Item 上显示的描述信息
         /// </summary>
-        [Description("Item 上显示的描述信息"), DefaultValue(null)]
+        [Description("Item 上显示的描述信息")]
+        [DefaultValue(null)]
         public string Desc
         {
             get { return _desc; }
@@ -116,7 +122,8 @@ namespace Paway.Forms
         /// <summary>
         ///     Item 上显示的头部描述信息
         /// </summary>
-        [Description("Item 上显示的头部描述信息"), DefaultValue(null)]
+        [Description("Item 上显示的头部描述信息")]
+        [DefaultValue(null)]
         public string HeadDesc
         {
             get { return _headDesc; }
@@ -137,7 +144,8 @@ namespace Paway.Forms
         /// <summary>
         ///     Item 上显示的尾部描述信息
         /// </summary>
-        [Description("Item 上显示的尾部描述信息"), DefaultValue(null)]
+        [Description("Item 上显示的尾部描述信息")]
+        [DefaultValue(null)]
         public string EndDesc
         {
             get { return _endDesc; }
@@ -157,14 +165,14 @@ namespace Paway.Forms
         /// <summary>
         ///     Item 上鼠标悬停显示信息
         /// </summary>
-        [Description("Item 上显示的尾部描述信息"), DefaultValue(null)]
+        [Description("Item 上显示的尾部描述信息")]
+        [DefaultValue(null)]
         public string Hit { get; set; }
 
         private TProperties _color;
         /// <summary>
         ///     优先应用于项的背景色
         /// </summary>
-        [DefaultValue(typeof(TProperties), "TColor")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties TColor
         {
@@ -193,14 +201,16 @@ namespace Paway.Forms
         /// <summary>
         ///     Item 当前的鼠标状态
         /// </summary>
-        [Browsable(false), Description("Item 当前的鼠标状态"), DefaultValue(typeof(TMouseState), "Normal")]
+        [Browsable(false), Description("Item 当前的鼠标状态")]
+        [DefaultValue(TMouseState.Normal)]
         internal TMouseState MouseState { get; set; }
 
         private bool _enable = true;
         /// <summary>
         ///     Item 当前启用状态
         /// </summary>
-        [Description("Item 当前启用状态"), DefaultValue(true)]
+        [Description("Item 当前启用状态")]
+        [DefaultValue(true)]
         public bool Enable
         {
             get { return _enable; }
@@ -214,7 +224,8 @@ namespace Paway.Forms
         /// <summary>
         ///     Item 当前选中状态
         /// </summary>
-        [Browsable(false), Description("Item 当前选中状态"), DefaultValue(false)]
+        [Browsable(false), Description("Item 当前选中状态")]
+        [DefaultValue(false)]
         public bool Selete
         {
             get { return MouseState == TMouseState.Down; }
@@ -229,7 +240,8 @@ namespace Paway.Forms
         /// <summary>
         ///     圆角大小
         /// </summary>
-        [Description("圆角大小"), DefaultValue(0)]
+        [Description("圆角大小")]
+        [DefaultValue(0)]
         public int TRadiu
         {
             get { return _tRadiu; }
@@ -244,7 +256,8 @@ namespace Paway.Forms
         /// <summary>
         ///     头文字
         /// </summary>
-        [Description("头文字"), DefaultValue(false)]
+        [Description("头文字")]
+        [DefaultValue(false)]
         public bool IHeard
         {
             get { return _iHeard; }
@@ -259,7 +272,8 @@ namespace Paway.Forms
         /// <summary>
         ///     变色项
         /// </summary>
-        [Description("变色项"), DefaultValue(false)]
+        [Description("变色项")]
+        [DefaultValue(false)]
         public bool IChange
         {
             get { return _iChange; }

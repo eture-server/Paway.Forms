@@ -59,7 +59,8 @@ namespace Paway.Forms
         /// <summary>
         ///     默认大小
         /// </summary>
-        [Description("默认大小"), DefaultValue(typeof(Size), "75, 28")]
+        [Description("默认大小")]
+        [DefaultValue(typeof(Size), "75, 28")]
         protected override Size DefaultSize
         {
             get { return new Size(75, 28); }
@@ -137,7 +138,8 @@ namespace Paway.Forms
         /// <summary>
         ///     是否显示发光边框
         /// </summary>
-        [Description("是否显示发光边框"), DefaultValue(true)]
+        [Description("是否显示发光边框")]
+        [DefaultValue(true)]
         public virtual bool IsShowBorder
         {
             get { return _isShowBorder; }
@@ -147,7 +149,6 @@ namespace Paway.Forms
         /// <summary>
         ///     与控件相关的文本
         /// </summary>
-        [DefaultValue("QQButton")]
         public override string Text
         {
             get { return base.Text; }
@@ -164,7 +165,8 @@ namespace Paway.Forms
         /// <summary>
         ///     按钮上显示的图片
         /// </summary>
-        [Description("按钮上显示的图片"), DefaultValue(null)]
+        [Description("按钮上显示的图片")]
+        [DefaultValue(null)]
         public new virtual Image Image
         {
             get { return base.Image; }
@@ -261,7 +263,8 @@ namespace Paway.Forms
         /// <summary>
         ///     鼠标状态
         /// </summary>
-        [Description("鼠标状态"), DefaultValue(typeof(TMouseState), "Normal")]
+        [Description("鼠标状态")]
+        [DefaultValue(TMouseState.Normal)]
         internal TMouseState MouseState
         {
             get { return _mouseState; }
@@ -275,7 +278,8 @@ namespace Paway.Forms
         /// <summary>
         ///     获取或设置控件的背景色
         /// </summary>
-        [Description("获取或设置控件的背景色"), DefaultValue(typeof(Color), "Transparent")]
+        [Description("获取或设置控件的背景色")]
+        [DefaultValue(typeof(Color), "Transparent")]
         public override Color BackColor
         {
             get { return base.BackColor; }
@@ -292,7 +296,8 @@ namespace Paway.Forms
         /// <summary>
         ///     获取或设置控件的前景色。
         /// </summary>
-        [Description("获取或设置控件的前景色"), DefaultValue(typeof(Color), "Black")]
+        [Description("获取或设置控件的前景色")]
+        [DefaultValue(typeof(Color), "Black")]
         public override Color ForeColor
         {
             get { return base.ForeColor; }
