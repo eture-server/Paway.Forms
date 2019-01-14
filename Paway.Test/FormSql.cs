@@ -17,12 +17,14 @@ using Paway.Win32;
 using System.Diagnostics;
 using System.Data.Common;
 using System.Threading;
+using System.Reflection;
+using log4net;
 
 namespace Paway.Test
 {
     public partial class FormSql : TBaseForm
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         SqlService service = new SqlService();
         List<TestData> list = new List<TestData>();
@@ -254,25 +256,6 @@ namespace Paway.Test
             {
                 CommandEnd(cmd);
             }
-        }
-    }
-
-    [Serializable]
-    [Property(Table = "Users", Key = "Id")]
-    public class UserInfo
-    {
-        [Property(IShow = false)]
-        public long Id { get; set; }
-
-        [Property(Text = "用户名")]
-        public string Name { get; set; }
-
-        [Property(IShow = false)]
-        public DateTime CreateDate { get; set; }
-
-        public UserInfo()
-        {
-            this.CreateDate = DateTime.Now;
         }
     }
 

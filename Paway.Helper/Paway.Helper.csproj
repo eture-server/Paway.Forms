@@ -90,6 +90,7 @@
     <Compile Include="Helper\SctructHelper.cs" />
     <Compile Include="Helper\StringHelper.cs" />
     <Compile Include="Helper\XmlHelper.cs" />
+    <Compile Include="Info\FindInfo.cs" />
     <Compile Include="Interface\IDataService.cs" />
     <Compile Include="Interface\IFind.cs" />
     <Compile Include="Interface\IInfo.cs" />
@@ -114,6 +115,7 @@
       <Name>Paway.Win32</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

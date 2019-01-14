@@ -81,7 +81,7 @@ namespace Paway.Forms
             string value = this.TextBox.Text.ToLower();
             var tempList = list.AsParallel().Where(Activator.CreateInstance<T>().Find(value));
             InitData(tempList);
-            this.Visible = !value.IsNullOrEmpty() && list.Count() > 0;
+            this.Visible = !value.IsNullOrEmpty() && tempList.Count() > 0;
         }
         private void InitData(ParallelQuery<T> list)
         {

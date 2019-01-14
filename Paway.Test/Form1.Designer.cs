@@ -184,7 +184,7 @@
             this.tbName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tbName.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.tbName.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.tbName.Icon = global::Paway.Test.Properties.Resources.serrch;
+            this.tbName.Icon = global::Paway.Test.Properties.Resources.search;
             this.tbName.IconIsButton = true;
             this.tbName.Lines = new string[0];
             this.tbName.Location = new System.Drawing.Point(271, 277);

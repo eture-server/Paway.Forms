@@ -472,33 +472,11 @@ namespace Paway.Forms
             }
             else
             {
-                string statu = string.Format("数据加载失败：{0}", result);
+                string statu = string.Format("Loading Error：{0}", result);
                 this.gridview1.DataSource = new FindInfo(statu);
             }
         }
 
         #endregion
-
-        /// <summary>
-        /// 正在加载
-        /// </summary>
-        [Serializable]
-        internal class FindInfo
-        {
-            [Property(IShow = false)]
-            public long Id { get; set; }
-
-            [Property(Text = "状态")]
-            public string State { get; set; }
-
-            public FindInfo()
-            {
-                this.State = "正在加载...";
-            }
-            public FindInfo(string name)
-            {
-                this.State = name;
-            }
-        }
     }
 }

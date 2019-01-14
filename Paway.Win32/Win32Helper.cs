@@ -188,11 +188,10 @@ namespace Paway.Win32
         /// <summary>
         ///     发送消息到指定句柄的窗体
         /// </summary>
-        public static IntPtr SendMessage(IntPtr hWnd, int type, string msg)
+        public static void SendMessage(IntPtr hWnd, int type, string msg)
         {
             var cds = GetStruct(msg);
             NativeMethods.SendMessage(hWnd, (int)WindowsMessage.WM_COPYDATA, type, ref cds);
-            return hWnd;
         }
 
         /// <summary>
@@ -229,14 +228,15 @@ namespace Paway.Win32
         /// <summary>
         ///     激活指定标题窗体
         /// </summary>
-        /// <param name="find"></param>
-        public static void ActiveForm(string find)
+        public static IntPtr ActiveForm(string find)
         {
             var hWnd = FindWindow(find);
             if (IntPtr.Zero != hWnd)
             {
-                NativeMethods.SwitchToThisWindow(hWnd, true);
+                ActiveForm(hWnd);
+                return hWnd;
             }
+            return IntPtr.Zero;
         }
 
         /// <summary>

@@ -7,10 +7,9 @@ CREATE TABLE [Users](
 "Id"  integer Primary Key AutoIncrement not null,
 "Name"  nvarchar NULL,
 "Pad"  nvarchar NULL,
-"Status"  bit,
-"IsAdmin"  bit,
-"Money"  double,
-"LastDate"  datetime,
+"Statu"  bit,
+"UserType"  int,
+"DateTime"  datetime,
 "CreateDate"  datetime
 );
 GO
@@ -22,6 +21,6 @@ CREATE TABLE [Admins](
 "Id"  integer Primary Key AutoIncrement not null,
 "Name"  nvarchar,
 "Value"  nvarchar,
-"CreateDate"  datetime
+"DateTime"  datetime
 );
 GO
