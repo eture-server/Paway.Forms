@@ -29,6 +29,7 @@ namespace Paway.Forms
             DrawMode = DrawMode.OwnerDrawFixed;
             FormattingEnabled = true;
             Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            ForeColor = Color.Black;
         }
 
         #region 方法
@@ -131,6 +132,24 @@ namespace Paway.Forms
             {
                 _colorFore = value;
                 Invalidate();
+            }
+        }
+
+        /// <summary>
+        ///     获取或设置控件的前景色。
+        /// </summary>
+        [Description("获取或设置控件的前景色")]
+        [DefaultValue(typeof(Color), "Black")]
+        public override Color ForeColor
+        {
+            get { return base.ForeColor; }
+            set
+            {
+                if (value == Color.Empty)
+                {
+                    value = Color.Black;
+                }
+                base.ForeColor = value;
             }
         }
 

@@ -115,7 +115,7 @@ namespace Paway.Forms
         ///     此组件的前景色，用于显示文本
         /// </summary>
         [Description("此组件的前景色，用于显示文本。"), Category("外观")]
-        [DefaultValue(typeof(Color), "WindowText")]
+        [DefaultValue(typeof(Color), "Black")]
         public override Color ForeColor
         {
             get { return Edit.ForeColor; }
