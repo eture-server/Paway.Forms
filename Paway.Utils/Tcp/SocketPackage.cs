@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using System.Net.Sockets;
 
@@ -33,45 +34,44 @@ namespace Paway.Utils
         /// </summary>
         protected override void OnDisConnectEvent(SocketError type)
         {
-            var socketList = SocketConfig.ClientList.Where(c => !c.IConnected && !c.Disposed && c.IPPoint == IPPoint).ToArray();
-            ClearClientSocket(socketList);
+            ClearClientSocket();
             base.OnDisConnectEvent(type);
         }
 
         /// <summary>
         ///     清除无效客户端连接
         /// </summary>
-        public void ClearClientSocket(SocketBase[] socketList)
+        private void ClearClientSocket()
         {
-            SocketBase socket = null;
-            for (var i = 0; i < socketList.Length; i++)
+            try
             {
-                try
+                ArrayList array = new ArrayList();
+                lock (Lock)
                 {
-                    for (var j = 0; j < SocketConfig.ClientList.Count; j++)
+                    SocketBase socket = null;
+                    while (SocketConfig.ClientList.Count > 0)
                     {
-                        lock (Lock)
+                        if (!SocketConfig.ClientList.TryTake(out socket))
                         {
-                            if (!SocketConfig.ClientList.TryTake(out socket))
-                            {
-                                j--;
-                                continue;
-                            }
-                            if (!socket.IPPoint.Equals(socketList[i].IPPoint))
-                            {
-                                SocketConfig.ClientList.Add(socket);
-                            }
-                            else break;
+                            continue;
+                        }
+                        if (socket.IPPoint == this.IPPoint || !socket.IConnected)
+                        {
+                            socket.Disconnect();
+                            socket.Dispose();
+                        }
+                        else
+                        {
+                            array.Add(socket);
                         }
                     }
-                    if (socket == null) return;
-                    socket.Disconnect();
-                    socket.Dispose();
+                    for (int i = 0; i < array.Count; i++)
+                        SocketConfig.ClientList.TryAdd((SocketBase)array[i]);
                 }
-                catch (Exception ex)
-                {
-                    OnClientEvent(string.Format("清理连接列表异常：{0}", ex));
-                }
+            }
+            catch (Exception ex)
+            {
+                OnClientEvent(string.Format("清理连接列表异常：{0}", ex));
             }
         }
     }

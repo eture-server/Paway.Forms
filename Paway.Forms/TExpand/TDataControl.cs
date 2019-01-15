@@ -456,7 +456,7 @@ namespace Paway.Forms
             else
             {
                 TimeSpan time = DateTime.Now.Subtract(start);
-                string statu = string.Format("Loading...用时：{0:F2}秒", time.TotalSeconds);
+                string statu = string.Format("Loading...Time：{0:F2}s", time.TotalSeconds);
                 this.gridview1.DataSource = new FindInfo(statu);
                 return false;
             }
@@ -472,7 +472,7 @@ namespace Paway.Forms
             }
             else
             {
-                string statu = string.Format("Loading Error：{0}", result);
+                string statu = string.Format("Loading...Error：{0}", result);
                 this.gridview1.DataSource = new FindInfo(statu);
             }
         }

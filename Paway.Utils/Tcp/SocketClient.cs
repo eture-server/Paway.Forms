@@ -64,9 +64,7 @@ namespace Paway.Utils
                 }
                 ConnectFinished?.Invoke(IPPoint, e);
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         #endregion

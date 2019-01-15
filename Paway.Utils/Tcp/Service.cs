@@ -229,9 +229,7 @@ namespace Paway.Utils
                 }
                 SystemEvent?.Invoke(msg);
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         /// <summary>

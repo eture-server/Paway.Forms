@@ -215,9 +215,7 @@ namespace Paway.Utils
                 };
                 ClientEvent?.Invoke(msg);
             }
-            catch
-            {
-            }
+            catch { }
         }
         /// <summary>
         ///     触发socker异常事件->断开
@@ -235,9 +233,7 @@ namespace Paway.Utils
                 };
                 ClientEvent?.Invoke(msg);
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         #endregion
