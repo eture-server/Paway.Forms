@@ -1,4 +1,5 @@
 ﻿using Paway.Helper;
+using System.ComponentModel;
 
 namespace Paway.Helper
 {
@@ -26,13 +27,13 @@ namespace Paway.Helper
         /// <summary>
         ///     水平
         /// </summary>
-        [EnumTextValue("水平")]
+        [Description("水平")]
         Level,
 
         /// <summary>
         ///     垂直
         /// </summary>
-        [EnumTextValue("垂直")]
+        [Description("垂直")]
         Vertical
     }
 

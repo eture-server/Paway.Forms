@@ -633,7 +633,7 @@ namespace Paway.Forms
             if (type == null || type == typeof(string) || type.IsValueType) return;
             if (Items.Count == 0)
             {
-                var propertys = type.GetProperties();
+                var propertys = type.Properties();
                 for (var i = 0; i < propertys.Length; i++)
                 {
                     if (propertys[i].IShow())

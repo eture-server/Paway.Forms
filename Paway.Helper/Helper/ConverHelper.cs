@@ -375,6 +375,24 @@ namespace Paway.Helper
 
         #region IList 与　DataTable 互转
         /// <summary>
+        /// 获取接口所有属性
+        /// </summary>
+        public static PropertyInfo[] Properties(this Type type)
+        {
+            var list = new List<Type>();
+            list.Add(type);
+            if (type.IsInterface)
+            {
+                list.AddRange(type.GetInterfaces());
+            }
+            var pList = new List<PropertyInfo>();
+            for (int i = 0; i < list.Count; i++)
+            {
+                pList.AddRange(list[i].GetProperties());
+            }
+            return pList.ToArray();
+        }
+        /// <summary>
         /// 多行加到新的DataTable
         /// </summary>
         public static DataTable ToDataTable(this DataRow[] rows)
@@ -396,7 +414,7 @@ namespace Paway.Helper
         public static DataTable CreateTable(this Type type)
         {
             var table = new DataTable(type.Name);
-            var propertys = type.GetProperties();
+            var propertys = type.Properties();
             for (var i = 0; i < propertys.Length; i++)
             {
                 if (propertys[i].PropertyType.IsGenericType) continue;
@@ -414,7 +432,7 @@ namespace Paway.Helper
         {
             var type = typeof(T);
             var index = 0;
-            var propertys = type.GetProperties();
+            var propertys = type.Properties();
             for (var i = 0; i < propertys.Length; i++)
             {
                 var name = propertys[i].Name;
@@ -437,7 +455,7 @@ namespace Paway.Helper
         public static DataTable ToExcelTable(this Type type, IList list)
         {
             var table = type.CreateExcelTable();
-            var propertys = type.GetProperties();
+            var propertys = type.Properties();
             var properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < list.Count; i++)
             {
@@ -464,7 +482,7 @@ namespace Paway.Helper
         public static DataTable CreateExcelTable(this Type type)
         {
             var table = new DataTable(type.Name);
-            var propertys = type.GetProperties();
+            var propertys = type.Properties();
             for (var i = 0; i < propertys.Length; i++)
             {
                 if (propertys[i].PropertyType.IsGenericType) continue;
@@ -487,7 +505,7 @@ namespace Paway.Helper
         public static DataTable ToDataTable(this Type type, IList list)
         {
             var table = type.CreateTable();
-            var propertys = type.GetProperties();
+            var propertys = type.Properties();
             var properties = TypeDescriptor.GetProperties(type);
             for (int i = 0; i < list.Count; i++)
             {
@@ -717,10 +735,7 @@ namespace Paway.Helper
         /// </summary>
         public static string Description(this MemberInfo type)
         {
-            var list = type.GetCustomAttributes(typeof(EnumTextValueAttribute), false);
-            if (list.Length > 0)
-                return ((EnumTextValueAttribute)list[0]).Text;
-            list = type.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            var list = type.GetCustomAttributes(typeof(DescriptionAttribute), false);
             if (list.Length > 0)
                 return ((DescriptionAttribute)list[0]).Description;
             return null;
@@ -905,7 +920,7 @@ namespace Paway.Helper
         public static void Clone<T>(this DataRow row, DataRow copy, bool aysc = true)
         {
             var type = typeof(T);
-            var propertys = type.GetProperties();
+            var propertys = type.Properties();
             for (var i = 0; i < propertys.Length; i++)
             {
                 if (aysc && !propertys[i].IClone()) continue;

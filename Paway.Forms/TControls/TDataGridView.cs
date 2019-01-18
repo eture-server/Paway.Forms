@@ -520,7 +520,7 @@ namespace Paway.Forms
                 var pro = type.GetProperty(Columns[i].Name);
                 if (pro == null)
                 {
-                    var propertys = type.GetProperties();
+                    var propertys = type.Properties();
                     for (var j = 0; j < propertys.Length; j++)
                     {
                         var column = propertys[j].Column();

@@ -1260,7 +1260,7 @@ namespace Paway.Utils
             {
                 sql = string.Format("{0} Top {1}", sql, count);
             }
-            var propertys = type.GetProperties();
+            var propertys = type.Properties();
             for (var i = 0; i < propertys.Length; i++)
             {
                 var column = propertys[i].Name;
@@ -1364,7 +1364,7 @@ namespace Paway.Utils
             var attr = type.Table();
             var sql = "update [{0}] set";
             sql = string.Format(sql, attr.Table);
-            var propertys = type.GetProperties();
+            var propertys = type.Properties();
             for (var i = 0; i < propertys.Length; i++)
             {
                 var column = propertys[i].Name;
@@ -1454,7 +1454,7 @@ namespace Paway.Utils
         }
         private static void Insert<T>(this DataRow row, PropertyAttribute attr, Type type, bool replace, ref string insert, ref string value, params string[] args)
         {
-            var propertys = type.GetProperties();
+            var propertys = type.Properties();
             for (var i = 0; i < propertys.Length; i++)
             {
                 if (row.IsNull(propertys[i])) continue;
@@ -1514,7 +1514,7 @@ namespace Paway.Utils
 
             var type = typeof(T);
             string key = type.TableKey();
-            var propertys = type.GetProperties();
+            var propertys = type.Properties();
             for (var i = 0; i < propertys.Length; i++)
             {
                 var column = propertys[i].Name;
@@ -1621,7 +1621,7 @@ namespace Paway.Utils
             string update = null;
             string insert = null;
             string values = null;
-            var propertys = type.GetProperties();
+            var propertys = type.Properties();
             for (var i = 0; i < propertys.Length; i++)
             {
                 var column = propertys[i].Name;
@@ -1722,7 +1722,7 @@ namespace Paway.Utils
             var pList = new List<DbParameter>();
 
             var key = type.TableKey();
-            var propertys = type.GetProperties();
+            var propertys = type.Properties();
             for (var i = 0; i < propertys.Length; i++)
             {
                 object value = null;

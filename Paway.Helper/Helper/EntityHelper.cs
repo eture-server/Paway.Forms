@@ -7,31 +7,6 @@ namespace Paway.Helper
     /// <summary>
     ///     枚举属性设置
     /// </summary>
-    public sealed class EnumTextValueAttribute : Attribute
-    {
-        private readonly string enumTextValue;
-
-        /// <summary>
-        ///     Allows the creation of a friendly text representation of the enumeration.
-        /// </summary>
-        /// <param name="text">The reader friendly text to decorate the enum.</param>
-        public EnumTextValueAttribute(string text)
-        {
-            enumTextValue = text;
-        }
-
-        /// <summary>
-        ///     Returns the text representation of the value
-        /// </summary>
-        public string Text
-        {
-            get { return enumTextValue; }
-        }
-    }
-
-    /// <summary>
-    ///     枚举属性设置
-    /// </summary>
     public abstract class EntityHelper
     {
         /// <summary>
@@ -51,6 +26,13 @@ namespace Paway.Helper
             return value;
         }
         /// <summary>
+        /// 获取指定字段特性值
+        /// </summary>
+        public static string GetValue(FieldInfo field)
+        {
+            return field.Description() ?? field.Name;
+        }
+        /// <summary>
         /// 将枚举常数的名称或数字值的字符串表示转换成等效的枚举对象
         /// </summary>
         /// <returns></returns>
@@ -59,29 +41,19 @@ namespace Paway.Helper
             Type type = typeof(T);
             foreach (FieldInfo field in type.GetFields())
             {
-                string name = GetText(field);
+                string name = field.Name;
                 if (string.Equals(name, value, StringComparison.CurrentCultureIgnoreCase))
                     return (T)field.GetRawConstantValue();
-            }
-            foreach (FieldInfo field in type.GetFields())
-            {
-                string name = field.Name;
+                name = GetValue(field);
                 if (string.Equals(name, value, StringComparison.CurrentCultureIgnoreCase))
                     return (T)field.GetRawConstantValue();
             }
             return default(T);
         }
-        /// <summary>
-        /// 获取指定字段特性值
-        /// </summary>
-        public static string GetText(FieldInfo field)
-        {
-            return field.Description() ?? field.Name;
-        }
     }
 
     /// <summary>
-    ///     特性.自动生成Sql语句
+    ///     特性.类、字段属性设置
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
