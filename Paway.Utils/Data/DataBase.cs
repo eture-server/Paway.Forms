@@ -1263,8 +1263,7 @@ namespace Paway.Utils
             var propertys = type.Properties();
             for (var i = 0; i < propertys.Length; i++)
             {
-                var column = propertys[i].Name;
-                if (propertys[i].ISelect(ref column))
+                if (propertys[i].ISelect(out string column))
                 {
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
@@ -1330,8 +1329,7 @@ namespace Paway.Utils
             var properties = TypeDescriptor.GetProperties(type);
             for (var i = 0; i < properties.Count; i++)
             {
-                var column = properties[i].Name;
-                if (type.GetProperty(properties[i].Name).ISelect(ref column))
+                if (type.GetProperty(properties[i].Name).ISelect(out string column))
                 {
                     if (column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -1367,8 +1365,7 @@ namespace Paway.Utils
             var propertys = type.Properties();
             for (var i = 0; i < propertys.Length; i++)
             {
-                var column = propertys[i].Name;
-                if (propertys[i].ISelect(ref column))
+                if (propertys[i].ISelect(out string column))
                 {
                     if (column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -1402,9 +1399,7 @@ namespace Paway.Utils
         {
             var attr = ConverHelper.AttrTable(typeof(T));
 
-            string insert = null;
-            string value = null;
-            t.Insert(attr, typeof(T), false, ref insert, ref value);
+            t.Insert(attr, typeof(T), false, out string insert, out string value);
             var sql = string.Format("insert into [{0}]({1}) values({2})", attr.Table, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
             if (Identity)
@@ -1420,9 +1415,7 @@ namespace Paway.Utils
         {
             var attr = ConverHelper.AttrTable(typeof(T));
 
-            string insert = null;
-            string value = null;
-            row.Insert<T>(attr, typeof(T), false, ref insert, ref value);
+            row.Insert<T>(attr, typeof(T), false, out string insert, out string value);
             var sql = string.Format("insert into [{0}]({1}) values({2})", attr.Table, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
             if (Identity)
@@ -1432,15 +1425,16 @@ namespace Paway.Utils
             return sql;
         }
 
-        private static void Insert<T>(this T t, PropertyAttribute attr, Type type, bool replace, ref string insert, ref string value, params string[] args)
+        private static void Insert<T>(this T t, PropertyAttribute attr, Type type, bool replace, out string insert, out string value, params string[] args)
         {
+            insert = null;
+            value = null;
             var properties = TypeDescriptor.GetProperties(type);
             for (var i = 0; i < properties.Count; i++)
             {
                 if (t.IsNull(properties[i])) continue;
 
-                var column = properties[i].Name;
-                if (type.GetProperty(properties[i].Name).ISelect(ref column))
+                if (type.GetProperty(properties[i].Name).ISelect(out string column))
                 {
                     if (!replace && column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -1452,15 +1446,16 @@ namespace Paway.Utils
             insert = insert.TrimEnd(',');
             value = value.TrimEnd(',');
         }
-        private static void Insert<T>(this DataRow row, PropertyAttribute attr, Type type, bool replace, ref string insert, ref string value, params string[] args)
+        private static void Insert<T>(this DataRow row, PropertyAttribute attr, Type type, bool replace, out string insert, out string value, params string[] args)
         {
+            insert = null;
+            value = null;
             var propertys = type.Properties();
             for (var i = 0; i < propertys.Length; i++)
             {
                 if (row.IsNull(propertys[i])) continue;
 
-                var column = propertys[i].Name;
-                if (propertys[i].ISelect(ref column))
+                if (propertys[i].ISelect(out string column))
                 {
                     if (!replace && column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -1486,8 +1481,7 @@ namespace Paway.Utils
             var properties = TypeDescriptor.GetProperties(type);
             for (var i = 0; i < properties.Count; i++)
             {
-                var column = properties[i].Name;
-                if (type.GetProperty(properties[i].Name).ISelect(ref column))
+                if (type.GetProperty(properties[i].Name).ISelect(out string column))
                 {
                     if (column != key) continue;
 
@@ -1517,8 +1511,7 @@ namespace Paway.Utils
             var propertys = type.Properties();
             for (var i = 0; i < propertys.Length; i++)
             {
-                var column = propertys[i].Name;
-                if (propertys[i].ISelect(ref column))
+                if (propertys[i].ISelect(out string column))
                 {
                     if (column != key) continue;
 
@@ -1540,9 +1533,7 @@ namespace Paway.Utils
         {
             var attr = ConverHelper.AttrTable(typeof(T));
 
-            string insert = null;
-            string value = null;
-            t.Insert(attr, typeof(T), true, ref insert, ref value, args);
+            t.Insert(attr, typeof(T), true, out string insert, out string value, args);
             var sql = string.Format("replace into [{0}]({1}) values({2})", attr.Table, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
             return sql;
@@ -1555,9 +1546,7 @@ namespace Paway.Utils
         {
             var attr = ConverHelper.AttrTable(typeof(T));
 
-            string insert = null;
-            string value = null;
-            row.Insert<T>(attr, typeof(T), true, ref insert, ref value, args);
+            row.Insert<T>(attr, typeof(T), true, out string insert, out string value, args);
             var sql = string.Format("replace into [{0}]({1}) values({2})", attr.Table, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
             return sql;
@@ -1580,8 +1569,7 @@ namespace Paway.Utils
             var properties = TypeDescriptor.GetProperties(type);
             for (var i = 0; i < properties.Count; i++)
             {
-                var column = properties[i].Name;
-                if (type.GetProperty(properties[i].Name).ISelect(ref column))
+                if (type.GetProperty(properties[i].Name).ISelect(out string column))
                 {
                     if (column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -1624,8 +1612,7 @@ namespace Paway.Utils
             var propertys = type.Properties();
             for (var i = 0; i < propertys.Length; i++)
             {
-                var column = propertys[i].Name;
-                if (propertys[i].ISelect(ref column))
+                if (propertys[i].ISelect(out string column))
                 {
                     if (column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -1696,11 +1683,9 @@ namespace Paway.Utils
             var properties = TypeDescriptor.GetProperties(type);
             for (var i = 0; i < properties.Count; i++)
             {
-                object value = null;
-                if (!t.IsValue(properties[i], ref value)) continue;
+                if (!t.IsValue(properties[i], out object value)) continue;
 
-                var column = properties[i].Name;
-                if (type.GetProperty(properties[i].Name).ISelect(ref column))
+                if (type.GetProperty(properties[i].Name).ISelect(out string column))
                 {
                     //Key必须要
                     if (key != column && args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -1725,11 +1710,9 @@ namespace Paway.Utils
             var propertys = type.Properties();
             for (var i = 0; i < propertys.Length; i++)
             {
-                object value = null;
-                if (!row.IsValue(propertys[i], ref value)) continue;
+                if (!row.IsValue(propertys[i], out object value)) continue;
 
-                var column = propertys[i].Name;
-                if (propertys[i].ISelect(ref column))
+                if (propertys[i].ISelect(out string column))
                 {
                     //Key必须要
                     if (key != column && args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -1768,8 +1751,9 @@ namespace Paway.Utils
             }
             return false;
         }
-        private static bool IsValue<T>(this T t, PropertyDescriptor prop, ref object value)
+        private static bool IsValue<T>(this T t, PropertyDescriptor prop, out object value)
         {
+            value = null;
             value = prop.GetValue(t);
             if (value == null || value == DBNull.Value) return false;
 
@@ -1786,8 +1770,9 @@ namespace Paway.Utils
             }
             return true;
         }
-        private static bool IsValue(this DataRow row, PropertyInfo prop, ref object value)
+        private static bool IsValue(this DataRow row, PropertyInfo prop, out object value)
         {
+            value = null;
             value = row[prop.Name];
             if (value == null || value == DBNull.Value)
             {

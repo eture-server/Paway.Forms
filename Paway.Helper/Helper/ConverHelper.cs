@@ -418,8 +418,7 @@ namespace Paway.Helper
             for (var i = 0; i < propertys.Length; i++)
             {
                 if (propertys[i].PropertyType.IsGenericType) continue;
-                var name = propertys[i].Name;
-                if (!propertys[i].ITable(ref name)) continue;
+                if (!propertys[i].ITable(out string name)) continue;
                 table.Columns.Add(name, propertys[i].PropertyType);
             }
             return table;
@@ -435,8 +434,7 @@ namespace Paway.Helper
             var propertys = type.Properties();
             for (var i = 0; i < propertys.Length; i++)
             {
-                var name = propertys[i].Name;
-                if (propertys[i].ITable(ref name))
+                if (propertys[i].ITable(out string name))
                 {
                     dt.Columns[index++].ColumnName = name;
                 }
@@ -464,8 +462,7 @@ namespace Paway.Helper
             Parallel.For(0, properties.Count, (i) =>
             {
                 if (properties[i].PropertyType.IsGenericType) return;
-                var name = properties[i].Name;
-                if (!propertys[i].IExcel(ref name)) return;
+                if (!propertys[i].IExcel(out string name)) return;
                 for (int j = 0; j < table.Rows.Count; j++)
                 {
                     var value = properties[i].GetValue(list[j]);
@@ -486,8 +483,7 @@ namespace Paway.Helper
             for (var i = 0; i < propertys.Length; i++)
             {
                 if (propertys[i].PropertyType.IsGenericType) continue;
-                var name = propertys[i].Name;
-                if (!propertys[i].IExcel(ref name)) continue;
+                if (!propertys[i].IExcel(out string name)) continue;
                 table.Columns.Add(name, propertys[i].PropertyType);
             }
             return table;
@@ -514,8 +510,7 @@ namespace Paway.Helper
             Parallel.For(0, properties.Count, (i) =>
             {
                 if (properties[i].PropertyType.IsGenericType) return;
-                var name = properties[i].Name;
-                if (!propertys[i].ITable(ref name)) return;
+                if (!propertys[i].ITable(out string name)) return;
                 for (int j = 0; j < table.Rows.Count; j++)
                 {
                     var value = properties[i].GetValue(list[j]);
@@ -555,8 +550,7 @@ namespace Paway.Helper
             for (int i = 0; i < properties.Count; i++)
             {
                 if (properties[i].PropertyType.IsGenericType) continue;
-                var name = properties[i].Name;
-                if (!type.GetProperty(properties[i].Name).ITable(ref name)) continue;
+                if (!type.GetProperty(properties[i].Name).ITable(out string name)) continue;
                 row[name] = properties[i].GetValue(t);
             }
             return row;
@@ -581,9 +575,8 @@ namespace Paway.Helper
             }
             Parallel.For(0, properties.Count, (i) =>
             {
-                var name = properties[i].Name;
                 var pro = properties[i];
-                if (!type.GetProperty(pro.Name).ITable(ref name)) return;
+                if (!type.GetProperty(pro.Name).ITable(out string name)) return;
 
                 foreach (DataColumn column in table.Columns)
                 {
@@ -610,8 +603,7 @@ namespace Paway.Helper
             var properties = TypeDescriptor.GetProperties(type);
             for (var i = 0; i < properties.Count; i++)
             {
-                var name = properties[i].Name;
-                if (!type.GetProperty(properties[i].Name).ITable(ref name)) continue;
+                if (!type.GetProperty(properties[i].Name).ITable(out string name)) continue;
 
                 var pro = properties[i];
                 foreach (DataColumn column in row.Table.Columns)
@@ -743,8 +735,9 @@ namespace Paway.Helper
         /// <summary>
         /// 生成数据列标记
         /// </summary>
-        public static bool ISelect(this MemberInfo pro, ref string column)
+        public static bool ISelect(this MemberInfo pro, out string column)
         {
+            column = pro.Name;
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             if (list.Length == 1 && list[0].Column != null)
             {
@@ -755,8 +748,9 @@ namespace Paway.Helper
         /// <summary>
         /// 生成Table标记
         /// </summary>
-        public static bool ITable(this MemberInfo pro, ref string column)
+        public static bool ITable(this MemberInfo pro, out string column)
         {
+            column = pro.Name;
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             if (list.Length == 1 && list[0].Column != null)
             {
@@ -767,8 +761,9 @@ namespace Paway.Helper
         /// <summary>
         /// 生成到ExcelTable标记
         /// </summary>
-        public static bool IExcel(this MemberInfo pro, ref string column)
+        public static bool IExcel(this MemberInfo pro, out string column)
         {
+            column = pro.Name;
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             if (list.Length == 1 && list[0].Column != null)
             {
