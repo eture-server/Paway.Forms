@@ -84,15 +84,15 @@ namespace Paway.Forms
         }
 
         private int _tRadius = 4;
-
         /// <summary>
         ///     设置或获取窗体的圆角的大小
         ///     窗体阴影宽度=value+1
         ///     最佳值=4
         /// </summary>
+        [Browsable(false)]
         [Category("TForm"), Description("设置或获取窗体的圆角的大小")]
         [DefaultValue(4)]
-        public int TRadius
+        internal int TRadius
         {
             get
             {
