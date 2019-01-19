@@ -410,7 +410,7 @@ namespace Paway.Forms
             {
                 var list = _dataSource as IList;
                 var type = list.GenericType();
-                dt = type.ToDataTable(list, TId, id);
+                dt = type.ToDataTable(list, TId.ToString2(), id);
             }
             if (dt == null) return;
             var dr = dt.Select(string.Format("{0} = '{1}'", TId, id));
@@ -475,15 +475,15 @@ namespace Paway.Forms
             {
                 var list = _dataSource as IList;
                 var type = list.GenericType();
-                var properties = TypeDescriptor.GetProperties(type);
-                for (int i = 0; i < properties.Count; i++)
+                var descriptors = type.Descriptors();
+                foreach (var descriptor in descriptors)
                 {
-                    if (properties[i].Name == TId.ToString())
+                    if (descriptor.Name == TId.ToString())
                     {
                         var value = dr[TId.ToString()].ToString();
                         for (int j = 0; j < list.Count; j++)
                         {
-                            if (value == properties[i].GetValue(list[j]).ToString())
+                            if (value == descriptor.GetValue(list[j]).ToString())
                             {
                                 node.Tag = list[j];
                                 break;
@@ -581,14 +581,14 @@ namespace Paway.Forms
             DataRow[] dr = null;
             if (TRoot == null)
             {
-                var props = TypeDescriptor.GetProperties(type);
-                for (var i = 0; i < props.Count; i++)
+                var properties = type.Properties();
+                foreach (var property in properties)
                 {
-                    if (props[i].Name == TParentId.ToString())
+                    if (property.Name == TParentId.ToString())
                     {
-                        if (!props[i].PropertyType.IsValueType && props[i].PropertyType != typeof(string))
+                        if (!property.PropertyType.IsValueType && property.PropertyType != typeof(string))
                         {
-                            TRoot = Activator.CreateInstance(props[i].PropertyType);
+                            TRoot = Activator.CreateInstance(property.PropertyType);
                         }
                         break;
                     }
@@ -633,10 +633,10 @@ namespace Paway.Forms
             if (type == null || type == typeof(string) || type.IsValueType) return;
             if (Items.Count == 0)
             {
-                var propertys = type.Properties();
-                for (var i = 0; i < propertys.Length; i++)
+                var properties = type.Properties();
+                foreach (var property in properties)
                 {
-                    if (propertys[i].IShow())
+                    if (property.IShow())
                     {
                         Items.Add(new TreeItem());
                     }

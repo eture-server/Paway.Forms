@@ -41,18 +41,20 @@ namespace Paway.Helper
                         var comment = doc.CreateComment(desc);
                         root.AppendChild(comment);
                     }
-                    var properties = TypeDescriptor.GetProperties(list[i]);
-                    foreach (PropertyDescriptor item in properties)
+                    var properties = list[i].Properties();
+                    var descriptors = type.Descriptors();
+                    foreach (PropertyInfo property in properties)
                     {
-                        if (!list[i].GetProperty(item.Name).IShow()) continue;
+                        if (!property.IShow()) continue;
 
-                        XmlElement element = doc.CreateElement(item.Name);
-                        if (!item.Description.IsNullOrEmpty())
+                        var descriptor = descriptors.Find(c => c.Name == property.Name);
+                        XmlElement element = doc.CreateElement(property.Name);
+                        if (!descriptor.Description.IsNullOrEmpty())
                         {
-                            var comment = doc.CreateComment(item.Description);
+                            var comment = doc.CreateComment(descriptor.Description);
                             root.AppendChild(comment);
                         }
-                        element.InnerText = item.GetValue(info).ToString2();
+                        element.InnerText = descriptor.GetValue(info).ToString2();
                         root.AppendChild(element);
                     }
                 }
@@ -73,13 +75,13 @@ namespace Paway.Helper
             XmlNode element = root.FirstChild;
 
             T obj = Activator.CreateInstance<T>();
-            var properties = TypeDescriptor.GetProperties(typeof(T));
+            var descriptors = type.Descriptors();
             while (element != null)
             {
-                PropertyDescriptor item = properties.Find(element.Name, false);
-                if (item != null && element.InnerText != null)
+                var descriptor = descriptors.Find(c => c.Name == element.Name);
+                if (descriptor != null && element.InnerText != null)
                 {
-                    obj.SetValue(item, element.InnerText);
+                    obj.SetValue(descriptor, element.InnerText);
                 }
                 element = element.NextSibling;
             }

@@ -1260,10 +1260,10 @@ namespace Paway.Utils
             {
                 sql = string.Format("{0} Top {1}", sql, count);
             }
-            var propertys = type.Properties();
-            for (var i = 0; i < propertys.Length; i++)
+            var properties = type.Properties();
+            foreach (var property in properties)
             {
-                if (propertys[i].ISelect(out string column))
+                if (property.ISelect(out string column))
                 {
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
@@ -1326,15 +1326,17 @@ namespace Paway.Utils
             var attr = type.Table();
             var sql = "update [{0}] set";
             sql = string.Format(sql, attr.Table);
-            var properties = TypeDescriptor.GetProperties(type);
-            for (var i = 0; i < properties.Count; i++)
+            var properties = type.Properties();
+            var descriptors = type.Descriptors();
+            foreach (var property in properties)
             {
-                if (type.GetProperty(properties[i].Name).ISelect(out string column))
+                if (property.ISelect(out string column))
                 {
                     if (column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
-                    if (t.IsNull(properties[i]))
+                    var descriptor = descriptors.Find(c => c.Name == property.Name);
+                    if (t.IsNull(descriptor))
                     {
                         sql = string.Format("{0} [{1}]=NULL,", sql, column);
                     }
@@ -1362,15 +1364,15 @@ namespace Paway.Utils
             var attr = type.Table();
             var sql = "update [{0}] set";
             sql = string.Format(sql, attr.Table);
-            var propertys = type.Properties();
-            for (var i = 0; i < propertys.Length; i++)
+            var properties = type.Properties();
+            foreach (var property in properties)
             {
-                if (propertys[i].ISelect(out string column))
+                if (property.ISelect(out string column))
                 {
                     if (column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
-                    if (row.IsNull(propertys[i]))
+                    if (row.IsNull(property))
                     {
                         sql = string.Format("{0} [{1}]=NULL,", sql, column);
                     }
@@ -1429,12 +1431,14 @@ namespace Paway.Utils
         {
             insert = null;
             value = null;
-            var properties = TypeDescriptor.GetProperties(type);
-            for (var i = 0; i < properties.Count; i++)
+            var properties = type.Properties();
+            var descriptors = type.Descriptors();
+            foreach (var descriptor in descriptors)
             {
-                if (t.IsNull(properties[i])) continue;
+                if (t.IsNull(descriptor)) continue;
 
-                if (type.GetProperty(properties[i].Name).ISelect(out string column))
+                var propertie = properties.Find(c => c.Name == descriptor.Name);
+                if (propertie.ISelect(out string column))
                 {
                     if (!replace && column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -1450,12 +1454,12 @@ namespace Paway.Utils
         {
             insert = null;
             value = null;
-            var propertys = type.Properties();
-            for (var i = 0; i < propertys.Length; i++)
+            var properties = type.Properties();
+            foreach (var property in properties)
             {
-                if (row.IsNull(propertys[i])) continue;
+                if (row.IsNull(property)) continue;
 
-                if (propertys[i].ISelect(out string column))
+                if (property.ISelect(out string column))
                 {
                     if (!replace && column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -1478,20 +1482,22 @@ namespace Paway.Utils
 
             var type = typeof(T);
             string key = type.TableKey();
-            var properties = TypeDescriptor.GetProperties(type);
-            for (var i = 0; i < properties.Count; i++)
+            var properties = type.Properties();
+            var descriptors = type.Descriptors();
+            foreach (var property in properties)
             {
-                if (type.GetProperty(properties[i].Name).ISelect(out string column))
+                if (property.ISelect(out string column))
                 {
                     if (column != key) continue;
 
-                    if (properties[i].PropertyType == typeof(int))
+                    var descriptor = descriptors.Find(c => c.Name == property.Name);
+                    if (descriptor.PropertyType == typeof(int))
                     {
-                        properties[i].SetValue(t, value.ToInt());
+                        descriptor.SetValue(t, value.ToInt());
                     }
-                    if (properties[i].PropertyType == typeof(long))
+                    if (descriptor.PropertyType == typeof(long))
                     {
-                        properties[i].SetValue(t, value.ToLong());
+                        descriptor.SetValue(t, value.ToLong());
                     }
                     return true;
                 }
@@ -1508,14 +1514,14 @@ namespace Paway.Utils
 
             var type = typeof(T);
             string key = type.TableKey();
-            var propertys = type.Properties();
-            for (var i = 0; i < propertys.Length; i++)
+            var properties = type.Properties();
+            foreach (var property in properties)
             {
-                if (propertys[i].ISelect(out string column))
+                if (property.ISelect(out string column))
                 {
                     if (column != key) continue;
 
-                    row[propertys[i].Name] = value;
+                    row[property.Name] = value;
                     return true;
                 }
             }
@@ -1566,15 +1572,17 @@ namespace Paway.Utils
             string update = null;
             string insert = null;
             string values = null;
-            var properties = TypeDescriptor.GetProperties(type);
-            for (var i = 0; i < properties.Count; i++)
+            var properties = type.Properties();
+            var descriptors = type.Descriptors();
+            foreach (var property in properties)
             {
-                if (type.GetProperty(properties[i].Name).ISelect(out string column))
+                if (property.ISelect(out string column))
                 {
                     if (column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
-                    if (t.IsNull(properties[i]))
+                    var descriptor = descriptors.Find(c => c.Name == property.Name);
+                    if (t.IsNull(descriptor))
                     {
                         update = string.Format("{0}[{1}]=NULL,", update, column);
                     }
@@ -1609,15 +1617,15 @@ namespace Paway.Utils
             string update = null;
             string insert = null;
             string values = null;
-            var propertys = type.Properties();
-            for (var i = 0; i < propertys.Length; i++)
+            var properties = type.Properties();
+            foreach (var property in properties)
             {
-                if (propertys[i].ISelect(out string column))
+                if (property.ISelect(out string column))
                 {
                     if (column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
-                    if (row.IsNull(propertys[i]))
+                    if (row.IsNull(property))
                     {
                         update = string.Format("{0}[{1}]=NULL,", update, column);
                     }
@@ -1680,12 +1688,14 @@ namespace Paway.Utils
             var pList = new List<DbParameter>();
 
             var key = type.TableKey();
-            var properties = TypeDescriptor.GetProperties(type);
-            for (var i = 0; i < properties.Count; i++)
+            var properties = type.Properties();
+            var descriptors = type.Descriptors();
+            foreach (var descriptor in descriptors)
             {
-                if (!t.IsValue(properties[i], out object value)) continue;
+                if (!t.IsValue(descriptor, out object value)) continue;
 
-                if (type.GetProperty(properties[i].Name).ISelect(out string column))
+                var property = properties.Find(c => c.Name == descriptor.Name);
+                if (property.ISelect(out string column))
                 {
                     //Key必须要
                     if (key != column && args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -1707,12 +1717,12 @@ namespace Paway.Utils
             var pList = new List<DbParameter>();
 
             var key = type.TableKey();
-            var propertys = type.Properties();
-            for (var i = 0; i < propertys.Length; i++)
+            var properties = type.Properties();
+            foreach (var property in properties)
             {
-                if (!row.IsValue(propertys[i], out object value)) continue;
+                if (!row.IsValue(property, out object value)) continue;
 
-                if (propertys[i].ISelect(out string column))
+                if (property.ISelect(out string column))
                 {
                     //Key必须要
                     if (key != column && args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
@@ -1753,7 +1763,6 @@ namespace Paway.Utils
         }
         private static bool IsValue<T>(this T t, PropertyDescriptor prop, out object value)
         {
-            value = null;
             value = prop.GetValue(t);
             if (value == null || value == DBNull.Value) return false;
 

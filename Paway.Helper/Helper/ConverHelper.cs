@@ -376,8 +376,9 @@ namespace Paway.Helper
         #region IList 与　DataTable 互转
         /// <summary>
         /// 获取接口所有属性
+        /// PropertyInfo.SetValue不能设置只读接口
         /// </summary>
-        public static PropertyInfo[] Properties(this Type type)
+        public static List<PropertyInfo> Properties(this Type type)
         {
             var list = new List<Type>();
             list.Add(type);
@@ -390,8 +391,29 @@ namespace Paway.Helper
             {
                 pList.AddRange(list[i].GetProperties());
             }
-            return pList.ToArray();
+            return pList;
         }
+        /// <summary>
+        /// 获取接口所有属性
+        /// </summary>
+        public static List<PropertyDescriptor> Descriptors(this Type type)
+        {
+            var list = new List<Type>();
+            list.Add(type);
+            if (type.IsInterface)
+            {
+                list.AddRange(type.GetInterfaces());
+            }
+            var pList = new List<PropertyDescriptor>();
+            for (int i = 0; i < list.Count; i++)
+            {
+                foreach (PropertyDescriptor item in TypeDescriptor.GetProperties(list[i]))
+                    pList.Add(item);
+            }
+            return pList;
+        }
+
+
         /// <summary>
         /// 多行加到新的DataTable
         /// </summary>
@@ -414,12 +436,12 @@ namespace Paway.Helper
         public static DataTable CreateTable(this Type type)
         {
             var table = new DataTable(type.Name);
-            var propertys = type.Properties();
-            for (var i = 0; i < propertys.Length; i++)
+            var properties = type.Properties();
+            foreach (var property in properties)
             {
-                if (propertys[i].PropertyType.IsGenericType) continue;
-                if (!propertys[i].ITable(out string name)) continue;
-                table.Columns.Add(name, propertys[i].PropertyType);
+                if (property.PropertyType.IsGenericType) continue;
+                if (!property.ITable(out string name)) continue;
+                table.Columns.Add(name, property.PropertyType);
             }
             return table;
         }
@@ -431,10 +453,10 @@ namespace Paway.Helper
         {
             var type = typeof(T);
             var index = 0;
-            var propertys = type.Properties();
-            for (var i = 0; i < propertys.Length; i++)
+            var properties = type.Properties();
+            foreach (var property in properties)
             {
-                if (propertys[i].ITable(out string name))
+                if (property.ITable(out string name))
                 {
                     dt.Columns[index++].ColumnName = name;
                 }
@@ -453,23 +475,24 @@ namespace Paway.Helper
         public static DataTable ToExcelTable(this Type type, IList list)
         {
             var table = type.CreateExcelTable();
-            var propertys = type.Properties();
-            var properties = TypeDescriptor.GetProperties(type);
+            var properties = type.Properties();
+            var descriptors = type.Descriptors();
             for (int i = 0; i < list.Count; i++)
             {
                 table.Rows.Add(table.NewRow());
             }
-            Parallel.For(0, properties.Count, (i) =>
+            foreach (var property in properties)
             {
-                if (properties[i].PropertyType.IsGenericType) return;
-                if (!propertys[i].IExcel(out string name)) return;
+                if (property.PropertyType.IsGenericType) continue;
+                if (!property.IExcel(out string name)) continue;
+                var descriptor = descriptors.Find(c => c.Name == property.Name);
                 for (int j = 0; j < table.Rows.Count; j++)
                 {
-                    var value = properties[i].GetValue(list[j]);
+                    var value = descriptor.GetValue(list[j]);
                     lock (table)
                         table.Rows[j][name] = value;
                 }
-            });
+            }
             return table;
         }
         /// <summary>
@@ -479,12 +502,12 @@ namespace Paway.Helper
         public static DataTable CreateExcelTable(this Type type)
         {
             var table = new DataTable(type.Name);
-            var propertys = type.Properties();
-            for (var i = 0; i < propertys.Length; i++)
+            var properties = type.Properties();
+            foreach (var property in properties)
             {
-                if (propertys[i].PropertyType.IsGenericType) continue;
-                if (!propertys[i].IExcel(out string name)) continue;
-                table.Columns.Add(name, propertys[i].PropertyType);
+                if (property.PropertyType.IsGenericType) continue;
+                if (!property.IExcel(out string name)) continue;
+                table.Columns.Add(name, property.PropertyType);
             }
             return table;
         }
@@ -501,37 +524,38 @@ namespace Paway.Helper
         public static DataTable ToDataTable(this Type type, IList list)
         {
             var table = type.CreateTable();
-            var propertys = type.Properties();
-            var properties = TypeDescriptor.GetProperties(type);
+            var properties = type.Properties();
+            var descriptors = type.Descriptors();
             for (int i = 0; i < list.Count; i++)
             {
                 table.Rows.Add(table.NewRow());
             }
-            Parallel.For(0, properties.Count, (i) =>
+            foreach (var property in properties)
             {
-                if (properties[i].PropertyType.IsGenericType) return;
-                if (!propertys[i].ITable(out string name)) return;
+                if (property.PropertyType.IsGenericType) continue;
+                if (!property.ITable(out string name)) continue;
+                var descriptor = descriptors.Find(c => c.Name == property.Name);
                 for (int j = 0; j < table.Rows.Count; j++)
                 {
-                    var value = properties[i].GetValue(list[j]);
+                    var value = descriptor.GetValue(list[j]);
                     lock (table)
                         table.Rows[j][name] = value;
                 }
-            });
+            }
             return table;
         }
         /// <summary>
         ///     IList转为 DataTable
         ///     指定列名的值
         /// </summary>
-        public static DataTable ToDataTable(this Type type, IList list, object name, object value)
+        public static DataTable ToDataTable(this Type type, IList list, string name, object value)
         {
             var table = type.CreateTable();
-            var properties = TypeDescriptor.GetProperties(type);
-            PropertyDescriptor item = properties.Find(name.ToString(), false);
+            var descriptors = type.Descriptors();
+            var descriptor = descriptors.Find(c => c.Name == name);
             for (int i = 0; i < list.Count; i++)
             {
-                if (item.GetValue(list[i]).Equals(value))
+                if (descriptor.GetValue(list[i]).Equals(value))
                 {
                     table.Rows.Add(type.CreateItem(list[i], table));
                 }
@@ -546,12 +570,14 @@ namespace Paway.Helper
             if (table == null)
                 table = type.CreateTable();
             DataRow row = table.NewRow();
-            var properties = TypeDescriptor.GetProperties(type);
-            for (int i = 0; i < properties.Count; i++)
+            var properties = type.Properties();
+            var descriptors = type.Descriptors();
+            foreach (var property in properties)
             {
-                if (properties[i].PropertyType.IsGenericType) continue;
-                if (!type.GetProperty(properties[i].Name).ITable(out string name)) continue;
-                row[name] = properties[i].GetValue(t);
+                if (property.PropertyType.IsGenericType) continue;
+                if (!property.ITable(out string name)) continue;
+                var descriptor = descriptors.Find(c => c.Name == property.Name);
+                row[name] = descriptor.GetValue(t);
             }
             return row;
         }
@@ -568,27 +594,28 @@ namespace Paway.Helper
             if (count > table.Rows.Count) count = table.Rows.Count;
             List<T> list = new List<T>();
             var type = typeof(T);
-            var properties = TypeDescriptor.GetProperties(type);
+            var properties = type.Properties();
+            var descriptors = type.Descriptors();
             for (int i = 0; i < count; i++)
             {
                 list.Add(Activator.CreateInstance<T>());
             }
-            Parallel.For(0, properties.Count, (i) =>
+            foreach (var property in properties)
             {
-                var pro = properties[i];
-                if (!type.GetProperty(pro.Name).ITable(out string name)) return;
+                if (!property.ITable(out string name)) continue;
 
+                var descriptor = descriptors.Find(c => c.Name == property.Name);
                 foreach (DataColumn column in table.Columns)
                 {
                     if (name != column.ColumnName) continue;
                     for (var j = 0; j < list.Count; j++)
                     {
                         var value = table.Rows[j][column.ColumnName];
-                        list[j].SetValue(pro, value);
+                        list[j].SetValue(descriptor, value);
                     }
                     break;
                 }
-            });
+            }
             return list;
         }
 
@@ -600,17 +627,18 @@ namespace Paway.Helper
             var type = typeof(T);
             var obj = Activator.CreateInstance<T>(); //string 类型不支持无参的反射
             if (row == null) return obj;
-            var properties = TypeDescriptor.GetProperties(type);
-            for (var i = 0; i < properties.Count; i++)
+            var properties = type.Properties();
+            var descriptors = type.Descriptors();
+            foreach (var property in properties)
             {
-                if (!type.GetProperty(properties[i].Name).ITable(out string name)) continue;
+                if (!property.ITable(out string name)) continue;
 
-                var pro = properties[i];
+                var descriptor = descriptors.Find(c => c.Name == property.Name);
                 foreach (DataColumn column in row.Table.Columns)
                 {
                     if (name != column.ColumnName) continue;
                     var value = row[column.ColumnName];
-                    obj.SetValue(pro, value);
+                    obj.SetValue(descriptor, value);
                     break;
                 }
             }
@@ -772,18 +800,6 @@ namespace Paway.Helper
             return list.Length == 0 || list[0].IExcel;
         }
         /// <summary>
-        /// 获取列名
-        /// </summary>
-        public static string Column(this MemberInfo pro)
-        {
-            var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            if (list.Length == 1 && list[0].Column != null)
-            {
-                return list[0].Column;
-            }
-            return pro.Name;
-        }
-        /// <summary>
         /// 显示列标记
         /// </summary>
         public static bool IShow(this MemberInfo pro)
@@ -870,17 +886,19 @@ namespace Paway.Helper
         /// </summary>
         public static void Clone(this Type parent, ref object copy, object t, bool child)
         {
-            var properties = TypeDescriptor.GetProperties(parent);
-            for (var i = 0; i < properties.Count; i++)
+            var properties = parent.Properties();
+            var descriptors = parent.Descriptors();
+            foreach (var property in properties)
             {
-                if (!parent.GetProperty(properties[i].Name).IClone()) continue;
+                if (!property.IClone()) continue;
 
-                var value = properties[i].GetValue(t);
-                properties[i].SetValue(copy, value);
+                var descriptor = descriptors.Find(c => c.Name == property.Name);
+                var value = descriptor.GetValue(t);
+                descriptor.SetValue(copy, value);
                 if (!child) continue;
                 if (value is IList)
                 {
-                    var clist = properties[i].GetValue(copy) as IList;
+                    var clist = descriptor.GetValue(copy) as IList;
                     var list = value as IList;
                     var type = list.GenericType();
                     var asmb = Assembly.GetAssembly(type);
@@ -915,11 +933,11 @@ namespace Paway.Helper
         public static void Clone<T>(this DataRow row, DataRow copy, bool aysc = true)
         {
             var type = typeof(T);
-            var propertys = type.Properties();
-            for (var i = 0; i < propertys.Length; i++)
+            var properties = type.Properties();
+            foreach (var property in properties)
             {
-                if (aysc && !propertys[i].IClone()) continue;
-                copy[propertys[i].Name] = row[propertys[i].Name];
+                if (aysc && !property.IClone()) continue;
+                copy[property.Name] = row[property.Name];
             }
         }
 

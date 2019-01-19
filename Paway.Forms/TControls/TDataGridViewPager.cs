@@ -207,16 +207,18 @@ namespace Paway.Forms
                 {
                     tempList.Add(list[i]);
                 }
-                var properties = TypeDescriptor.GetProperties(DataType);
-                var pro = properties.Find(name, false);
+                var properties = DataType.Properties();
+                var descriptors = DataType.Descriptors();
+                var propertie = properties.Find(c => c.Name == name);
+                var descriptor = descriptors.Find(c => c.Name == name);
                 string sorts = sort == SortOrder.Descending ? "desc" : "asc";
-                if (DataType.GetProperty(name).ISort())
+                if (propertie.ISort())
                 {
-                    tempList.Sort((x, y) => TCompare(pro.GetValue(x), pro.GetValue(y), sorts));
+                    tempList.Sort((x, y) => TCompare(descriptor.GetValue(x), descriptor.GetValue(y), sorts));
                 }
                 else
                 {
-                    tempList.Sort((x, y) => TCompare(pro, x, y, sorts));
+                    tempList.Sort((x, y) => TCompare(descriptor, x, y, sorts));
                 }
                 this.dataSource = tempList;
                 RefreshData();
@@ -242,8 +244,9 @@ namespace Paway.Forms
         private void SortData(Type type, string name, DataTable dt, int index, SortOrder sort)
         {
             if (type == null) return;
-            var pro = type.GetProperty(name);
-            if (pro.ISort())
+            var properties = type.Properties();
+            var property = properties.Find(c => c.Name == name);
+            if (property.ISort())
             {
                 this.DataSource = SortColumn(dt, index, sort);
             }

@@ -517,22 +517,10 @@ namespace Paway.Forms
                 {
                     _tColumnIndex = i;
                 }
-                var pro = type.GetProperty(Columns[i].Name);
-                if (pro == null)
-                {
-                    var propertys = type.Properties();
-                    for (var j = 0; j < propertys.Length; j++)
-                    {
-                        var column = propertys[j].Column();
-                        if (column == Columns[i].Name)
-                        {
-                            pro = propertys[j];
-                            break;
-                        }
-                    }
-                }
-                if (pro == null) continue;
-                var itemList = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+                var properties = type.Properties();
+                var property = properties.Find(c => c.Name == Columns[i].Name);
+                if (property == null) continue;
+                var itemList = property.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
                 Columns[i].Visible = true;
                 if (itemList != null && itemList.Length != 0)
                 {

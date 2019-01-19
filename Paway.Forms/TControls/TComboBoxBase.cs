@@ -58,16 +58,13 @@ namespace Paway.Forms
             }
             else if (type != typeof(string) && !type.IsValueType)
             {
-                var properties = TypeDescriptor.GetProperties(type);
-                if (properties.Count > 1)
+                var descriptors = type.Descriptors();
+                foreach (var descriptor in descriptors)
                 {
-                    for (var i = 0; i < properties.Count; i++)
+                    if (descriptor.Name == DisplayMember)
                     {
-                        if (properties[i].Name == DisplayMember)
-                        {
-                            str = properties[i].GetValue(obj);
-                            break;
-                        }
+                        str = descriptor.GetValue(obj);
+                        break;
                     }
                 }
             }

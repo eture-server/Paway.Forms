@@ -107,15 +107,16 @@ namespace Paway.Helper
         /// <returns>转化实例</returns>
         public static T Conversion<T, I>(List<I> list) where I : IInfo
         {
+            Type type = typeof(T);
             T obj = Activator.CreateInstance<T>();
-            var properties = TypeDescriptor.GetProperties(typeof(T));
+            var descriptors = type.Descriptors();
             foreach (IInfo info in list)
             {
-                for (int i = 0; i < properties.Count; i++)
+                foreach (var descriptor in descriptors)
                 {
-                    if (properties[i].Name == info.Name)
+                    if (descriptor.Name == info.Name)
                     {
-                        obj.SetValue(properties[i], info.Value);
+                        obj.SetValue(descriptor, info.Value);
                         break;
                     }
                 }
