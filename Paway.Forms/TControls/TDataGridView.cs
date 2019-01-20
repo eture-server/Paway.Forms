@@ -519,6 +519,18 @@ namespace Paway.Forms
                 }
                 var properties = type.Properties();
                 var property = properties.Find(c => c.Name == Columns[i].Name);
+                if (property == null)
+                {
+                    foreach (var temp in properties)
+                    {
+                        var column = temp.Column();
+                        if (column == Columns[i].Name)
+                        {
+                            property = temp;
+                            break;
+                        }
+                    }
+                }
                 if (property == null) continue;
                 var itemList = property.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
                 Columns[i].Visible = true;

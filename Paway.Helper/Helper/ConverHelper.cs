@@ -800,6 +800,18 @@ namespace Paway.Helper
             return list.Length == 0 || list[0].IExcel;
         }
         /// <summary>
+        /// 获取列名
+        /// </summary>
+        public static string Column(this MemberInfo pro)
+        {
+            var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+            if (list.Length == 1 && list[0].Column != null)
+            {
+                return list[0].Column;
+            }
+            return pro.Name;
+        }
+        /// <summary>
         /// 显示列标记
         /// </summary>
         public static bool IShow(this MemberInfo pro)
