@@ -5,6 +5,8 @@ using System;
 using System.ComponentModel;
 using System.Data;
 using System.Data.OleDb;
+using System.IO;
+using System.Collections.Generic;
 
 namespace Paway.Helper
 {
@@ -14,18 +16,10 @@ namespace Paway.Helper
     public abstract class ExcelHelper
     {
         /// <summary>
-        ///     从Excel导入DataTable
-        /// </summary>
-        public static DataTable ImportExcel(string fileName, string sheet)
-        {
-            return ImportExcel(fileName, sheet, true);
-        }
-
-        /// <summary>
-        ///     从Excel导入DataTable
+        ///     使用OLEDB从Excel导入DataTable
         ///     HDR=yes 第一行是列名而不是数据
         /// </summary>
-        public static DataTable ImportExcel(string fileName, string sheet, bool hdd)
+        public static DataTable ImportExcel(string fileName, string sheet, bool hdd = true)
         {
             var conString =
                 string.Format(
@@ -46,7 +40,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     将DataTable导出到Excel
+        ///     使用OLEDB将DataTable导出到Excel
         ///     HDR=yes 第一行写入列标题
         /// </summary>
         /// <param name="table">数据源</param>
@@ -127,7 +121,131 @@ namespace Paway.Helper
                 }
             }
         }
+        /// <summary>
+        /// 使用OLEDB取第一工作薄名称
+        /// </summary>
+        public static string FirstSheet(string file)
+        {
+            string connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + file + ";Extended Properties='Excel 8.0';";
+            using (var con = new OleDbConnection(connString))
+            {
+                con.Open();
+                DataTable dt = con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                if (dt.Rows.Count > 0) return dt.Rows[0]["TABLE_NAME"].ToString();
+                return null;
+            }
+        }
 
+        /// <summary>
+        /// 从Excel中取值到DataTable
+        /// </summary>
+        public static DataTable ToDataTable(string fileName, int sheetIndex = 0)
+        {
+            DataTable dt = new DataTable();
+            FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            try
+            {
+                int index = 0;
+                IWorkbook workbook = new HSSFWorkbook(fs);
+                ISheet sheet = workbook.GetSheetAt(sheetIndex);
+                if (sheet != null)
+                {
+                    IRow firstRow = sheet.GetRow(0);
+                    int cellCount = firstRow.LastCellNum; //一行最后一个cell的编号 即总的列数
+
+                    for (int i = firstRow.FirstCellNum; i < cellCount; ++i)
+                    {
+                        ICell cell = firstRow.GetCell(i);
+                        if (cell != null)
+                        {
+                            string cellValue = cell.StringCellValue;
+                            if (cellValue != null)
+                            {
+                                DataColumn column = new DataColumn(cellValue);
+                                dt.Columns.Add(column);
+                            }
+                        }
+                    }
+                    index = sheet.FirstRowNum + 1;
+
+                    //最后一列的标号
+                    int count = sheet.LastRowNum;
+                    for (int i = index; i <= count; ++i)
+                    {
+                        IRow row = sheet.GetRow(i);
+                        if (row == null) continue; //没有数据的行默认是null　　　　　　　
+
+                        DataRow dataRow = dt.NewRow();
+                        for (int j = row.FirstCellNum; j < cellCount; ++j)
+                        {
+                            if (row.GetCell(j) != null) //同理，没有数据的单元格都默认是null
+                                dataRow[j] = row.GetCell(j).ToString();
+                        }
+                        dt.Rows.Add(dataRow);
+                    }
+                }
+                return dt;
+            }
+            finally
+            {
+                if (fs != null) fs.Close();
+            }
+        }
+        /// <summary>
+        /// 导出到Excel
+        /// </summary>
+        public static void ToExcel<T>(List<T> list, string fileName, Func<string, bool> action = null)
+        {
+            IWorkbook workbook = new HSSFWorkbook();
+            FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            try
+            {
+                Type type = typeof(T);
+                int index = 0, count = 0;
+                ISheet sheet = workbook.CreateSheet("Sheet1");
+                var properties = type.Properties();
+                var descriptors = type.Descriptors();
+                if (true) //写入DataTable的列名
+                {
+                    IRow row = sheet.CreateRow(count++);
+                    row.Height = 20 * 20;
+                    foreach (var property in properties)
+                    {
+                        if (property.PropertyType.IsGenericType) continue;
+                        if (!property.IExcel(out string name)) continue;
+                        if (action != null && action(property.Name)) continue;
+                        property.IShow(out string text);
+                        CreateCellDefalut(workbook, row, index++, text);
+                    }
+                }
+                for (int i = 0; i < list.Count; ++i)
+                {
+                    index = 0;
+                    IRow row = sheet.CreateRow(count++);
+                    foreach (var property in properties)
+                    {
+                        if (property.PropertyType.IsGenericType) continue;
+                        if (!property.IExcel(out string name)) continue;
+                        if (action != null && action(property.Name)) continue;
+                        var descriptor = descriptors.Find(c => c.Name == name);
+                        if (descriptor.PropertyType == typeof(double))
+                        {
+                            CreateCellNumber(workbook, row, index++, (double)descriptor.GetValue(list[i]));
+                        }
+                        else
+                        {
+                            CreateCellDefalut(workbook, row, index++, descriptor.GetValue(list[i]).ToString2());
+                        }
+                    }
+                }
+                sheet.SetColumnWidth(2, 20 * 256);
+                sheet.SetColumnWidth(7, 20 * 256);
+                sheet.SetColumnWidth(8, 20 * 256);
+                workbook.Write(fs); //写入到excel
+            }
+            finally
+            { if (fs != null) fs.Close(); }
+        }
 
         /// <summary>
         /// 创建单元格并且赋值

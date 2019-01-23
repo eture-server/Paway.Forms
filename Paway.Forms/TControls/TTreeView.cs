@@ -636,7 +636,7 @@ namespace Paway.Forms
                 var properties = type.Properties();
                 foreach (var property in properties)
                 {
-                    if (property.IShow())
+                    if (property.IShow(out string text))
                     {
                         Items.Add(new TreeItem());
                     }

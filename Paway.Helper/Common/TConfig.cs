@@ -13,8 +13,13 @@ namespace Paway.Helper
     {
         #region 一些常量
         /// <summary>
+        /// 名称
         /// </summary>
         public const string Name = "Tinn";
+        /// <summary>
+        /// 后辍
+        /// </summary>
+        public const string Suffix = "MobotaA*";
 
         #endregion
 

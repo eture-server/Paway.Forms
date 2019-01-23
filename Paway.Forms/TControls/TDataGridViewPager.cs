@@ -35,10 +35,6 @@ namespace Paway.Forms
         ///     页面切换前触发
         /// </summary>
         public event Func<bool> PageChanging;
-        /// <summary>
-        ///     数据刷新后触发
-        /// </summary>
-        public event Action RefreshChanged;
 
         #endregion
 
@@ -331,7 +327,6 @@ namespace Paway.Forms
                 Edit.DataSource = dataSource;
             }
             UpdateColumnsSortMode();
-            RefreshChanged?.Invoke();
         }
         /// <summary>
         /// IEnumerable

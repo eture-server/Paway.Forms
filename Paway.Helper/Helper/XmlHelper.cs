@@ -45,7 +45,7 @@ namespace Paway.Helper
                     var descriptors = type.Descriptors();
                     foreach (PropertyInfo property in properties)
                     {
-                        if (!property.IShow()) continue;
+                        if (!property.IShow(out string text)) continue;
 
                         var descriptor = descriptors.Find(c => c.Name == property.Name);
                         XmlElement element = doc.CreateElement(property.Name);

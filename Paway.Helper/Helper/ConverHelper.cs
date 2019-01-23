@@ -800,6 +800,19 @@ namespace Paway.Helper
             return list.Length == 0 || list[0].IExcel;
         }
         /// <summary>
+        /// 显示列标记
+        /// </summary>
+        public static bool IShow(this MemberInfo pro, out string text)
+        {
+            text = pro.Name;
+            var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+            if (list.Length == 1 && list[0].Text != null)
+            {
+                text = list[0].Text;
+            }
+            return list.Length == 0 || list[0].IShow;
+        }
+        /// <summary>
         /// 获取列名
         /// </summary>
         public static string Column(this MemberInfo pro)
@@ -810,14 +823,6 @@ namespace Paway.Helper
                 return list[0].Column;
             }
             return pro.Name;
-        }
-        /// <summary>
-        /// 显示列标记
-        /// </summary>
-        public static bool IShow(this MemberInfo pro)
-        {
-            var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            return list.Length == 0 || list[0].IShow;
         }
         /// <summary>
         /// 显示属性

@@ -532,20 +532,8 @@ namespace Paway.Forms
                     }
                 }
                 if (property == null) continue;
-                var itemList = property.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-                Columns[i].Visible = true;
-                if (itemList != null && itemList.Length != 0)
-                {
-                    if (!itemList[0].IShow)
-                    {
-                        Columns[i].Visible = false;
-                        continue;
-                    }
-                    if (itemList[0].Text != null)
-                    {
-                        Columns[i].HeaderText = itemList[0].Text;
-                    }
-                }
+                Columns[i].Visible = property.IShow(out string text);
+                Columns[i].HeaderText = text;
             }
             RefreshChanged?.Invoke();
         }
