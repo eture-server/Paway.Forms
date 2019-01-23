@@ -440,8 +440,7 @@ namespace Paway.Helper
             foreach (var property in properties)
             {
                 if (property.PropertyType.IsGenericType) continue;
-                if (!property.ITable(out string name)) continue;
-                table.Columns.Add(name, property.PropertyType);
+                table.Columns.Add(property.Column(), property.PropertyType);
             }
             return table;
         }
@@ -456,10 +455,7 @@ namespace Paway.Helper
             var properties = type.Properties();
             foreach (var property in properties)
             {
-                if (property.ITable(out string name))
-                {
-                    dt.Columns[index++].ColumnName = name;
-                }
+                dt.Columns[index++].ColumnName = property.Column();
             }
         }
         /// <summary>
@@ -484,13 +480,13 @@ namespace Paway.Helper
             foreach (var property in properties)
             {
                 if (property.PropertyType.IsGenericType) continue;
-                if (!property.IExcel(out string name)) continue;
+                if (!property.IExcel()) continue;
                 var descriptor = descriptors.Find(c => c.Name == property.Name);
                 for (int j = 0; j < table.Rows.Count; j++)
                 {
                     var value = descriptor.GetValue(list[j]);
                     lock (table)
-                        table.Rows[j][name] = value;
+                        table.Rows[j][property.Name] = value;
                 }
             }
             return table;
@@ -499,15 +495,15 @@ namespace Paway.Helper
         ///     将指定类型转为DataTable
         /// </summary>
         /// <returns></returns>
-        public static DataTable CreateExcelTable(this Type type)
+        private static DataTable CreateExcelTable(this Type type)
         {
             var table = new DataTable(type.Name);
             var properties = type.Properties();
             foreach (var property in properties)
             {
                 if (property.PropertyType.IsGenericType) continue;
-                if (!property.IExcel(out string name)) continue;
-                table.Columns.Add(name, property.PropertyType);
+                if (!property.IExcel()) continue;
+                table.Columns.Add(property.Name, property.PropertyType);
             }
             return table;
         }
@@ -533,7 +529,7 @@ namespace Paway.Helper
             foreach (var property in properties)
             {
                 if (property.PropertyType.IsGenericType) continue;
-                if (!property.ITable(out string name)) continue;
+                string name = property.Column();
                 var descriptor = descriptors.Find(c => c.Name == property.Name);
                 for (int j = 0; j < table.Rows.Count; j++)
                 {
@@ -575,7 +571,7 @@ namespace Paway.Helper
             foreach (var property in properties)
             {
                 if (property.PropertyType.IsGenericType) continue;
-                if (!property.ITable(out string name)) continue;
+                string name = property.Column();
                 var descriptor = descriptors.Find(c => c.Name == property.Name);
                 row[name] = descriptor.GetValue(t);
             }
@@ -602,8 +598,7 @@ namespace Paway.Helper
             }
             foreach (var property in properties)
             {
-                if (!property.ITable(out string name)) continue;
-
+                string name = property.Column();
                 var descriptor = descriptors.Find(c => c.Name == property.Name);
                 foreach (DataColumn column in table.Columns)
                 {
@@ -631,8 +626,7 @@ namespace Paway.Helper
             var descriptors = type.Descriptors();
             foreach (var property in properties)
             {
-                if (!property.ITable(out string name)) continue;
-
+                string name = property.Column();
                 var descriptor = descriptors.Find(c => c.Name == property.Name);
                 foreach (DataColumn column in row.Table.Columns)
                 {
@@ -734,7 +728,7 @@ namespace Paway.Helper
         /// <summary>
         ///     返回特性，检查表名及主键或主列
         /// </summary>
-        public static PropertyAttribute Table(this Type type)
+        public static TableAttribute Table(this Type type)
         {
             var attr = AttrTable(type);
             if (attr.Keys == null) throw new ArgumentException("没有指定主键或主列名称");
@@ -743,9 +737,9 @@ namespace Paway.Helper
         /// <summary>
         ///     返回特性，检查表名
         /// </summary>
-        public static PropertyAttribute AttrTable(Type type)
+        public static TableAttribute AttrTable(Type type)
         {
-            var attrList = type.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+            var attrList = type.GetCustomAttributes(typeof(TableAttribute), false) as TableAttribute[];
             if (attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", type));
             if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
             return attrList[0];
@@ -772,32 +766,6 @@ namespace Paway.Helper
                 column = list[0].Column;
             }
             return list.Length == 0 || list[0].ISelect;
-        }
-        /// <summary>
-        /// 生成Table标记
-        /// </summary>
-        public static bool ITable(this MemberInfo pro, out string column)
-        {
-            column = pro.Name;
-            var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            if (list.Length == 1 && list[0].Column != null)
-            {
-                column = list[0].Column;
-            }
-            return list.Length == 0 || list[0].ITable;
-        }
-        /// <summary>
-        /// 生成到ExcelTable标记
-        /// </summary>
-        public static bool IExcel(this MemberInfo pro, out string column)
-        {
-            column = pro.Name;
-            var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            if (list.Length == 1 && list[0].Column != null)
-            {
-                column = list[0].Column;
-            }
-            return list.Length == 0 || list[0].IExcel;
         }
         /// <summary>
         /// 显示列标记
@@ -833,16 +801,24 @@ namespace Paway.Helper
             return list.Length == 0 || list[0].Browsable;
         }
         /// <summary>
+        /// 生成到ExcelTable标记
+        /// </summary>
+        public static bool IExcel(this MemberInfo pro)
+        {
+            var list = pro.GetCustomAttributes(typeof(ExcelAttribute), false) as ExcelAttribute[];
+            return list.Length == 0 || list[0].IExcel;
+        }
+        /// <summary>
         /// 自定义排序列标记
         /// </summary>
         public static bool ISort(this MemberInfo pro)
         {
-            var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+            var list = pro.GetCustomAttributes(typeof(SortAttribute), false) as SortAttribute[];
             return list.Length == 1 && list[0].ISort;
         }
         private static bool IClone(this MemberInfo pro)
         {
-            var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
+            var list = pro.GetCustomAttributes(typeof(CloneAttribute), false) as CloneAttribute[];
             return list.Length == 0 || list[0].IClone;
         }
 

@@ -53,28 +53,14 @@ namespace Paway.Helper
     }
 
     /// <summary>
-    ///     特性.类、字段属性设置
+    ///     特性.字段Sql属性设置
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
     public sealed class PropertyAttribute : Attribute
     {
-        private bool _iClone = true;
-        private bool _iTable = true;
-        private bool _iExcel = true;
         private bool _iSelect = true;
         private bool _iShow = true;
-        private bool _iSort = false;
-
-        /// <summary>
-        ///     是否自定义排序列
-        ///     默认false
-        /// </summary>
-        public bool ISort
-        {
-            get { return _iSort; }
-            set { _iSort = value; }
-        }
 
         /// <summary>
         ///     是否生成数据列,
@@ -84,36 +70,6 @@ namespace Paway.Helper
         {
             get { return _iSelect; }
             set { _iSelect = value; }
-        }
-
-        /// <summary>
-        ///     是否复制列
-        ///     默认true
-        /// </summary>
-        public bool IClone
-        {
-            get { return _iClone; }
-            set { _iClone = value; }
-        }
-
-        /// <summary>
-        ///     是否生成Table
-        ///     默认true
-        /// </summary>
-        public bool ITable
-        {
-            get { return _iTable; }
-            set { _iTable = value; }
-        }
-
-        /// <summary>
-        ///     是否生成到ExcelTable
-        ///     默认true
-        /// </summary>
-        public bool IExcel
-        {
-            get { return _iExcel; }
-            set { _iExcel = value; }
         }
 
         /// <summary>
@@ -127,20 +83,6 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     主键名称，不可更新
-        /// </summary>
-        public string Key { get; set; }
-
-        /// <summary>
-        ///     标识(唯一)列名称，可更新
-        /// </summary>
-        public string Mark { get; set; }
-        /// <summary>
-        /// 标识
-        /// </summary>
-        public string Keys { get { return Mark ?? Key; } }
-
-        /// <summary>
         ///     列名称
         /// </summary>
         public string Column { get; set; }
@@ -149,12 +91,77 @@ namespace Paway.Helper
         ///     文本名称
         /// </summary>
         public string Text { get; set; }
+    }
+    /// <summary>
+    ///     特性.字段Excel设置
+    /// </summary>
+    [Serializable]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
+    public sealed class ExcelAttribute : Attribute
+    {
+        private bool _iExcel = true;
 
         /// <summary>
-        ///     数据
+        ///     是否生成到ExcelTable
+        ///     默认true
         /// </summary>
-        public object Tag { get; set; }
+        public bool IExcel
+        {
+            get { return _iExcel; }
+            set { _iExcel = value; }
+        }
+    }
+    /// <summary>
+    ///     特性.字段Sort设置
+    /// </summary>
+    [Serializable]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
+    public sealed class SortAttribute : Attribute
+    {
+        /// <summary>
+        ///     是否自定义排序列
+        ///     默认false
+        /// </summary>
+        public bool ISort { get; set; }
+    }
+    /// <summary>
+    ///     特性.字段Clone设置
+    /// </summary>
+    [Serializable]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    public sealed class CloneAttribute : Attribute
+    {
+        private bool _iClone = true;
 
+        /// <summary>
+        ///     是否复制列
+        ///     默认true
+        /// </summary>
+        public bool IClone
+        {
+            get { return _iClone; }
+            set { _iClone = value; }
+        }
+    }
+    /// <summary>
+    ///     特性.类Table设置
+    /// </summary>
+    [Serializable]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
+    public sealed class TableAttribute : Attribute
+    {
+        /// <summary>
+        ///     主键名称，不可更新
+        /// </summary>
+        public string Key { get; set; }
+        /// <summary>
+        ///     标识(唯一)列名称，可更新
+        /// </summary>
+        public string Mark { get; set; }
+        /// <summary>
+        /// 标识
+        /// </summary>
+        public string Keys { get { return Mark ?? Key; } }
         /// <summary>
         ///     表名称
         /// </summary>

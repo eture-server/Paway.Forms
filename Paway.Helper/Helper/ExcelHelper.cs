@@ -212,7 +212,7 @@ namespace Paway.Helper
                     foreach (var property in properties)
                     {
                         if (property.PropertyType.IsGenericType) continue;
-                        if (!property.IExcel(out string name)) continue;
+                        if (!property.IExcel()) continue;
                         if (action != null && action(property.Name)) continue;
                         property.IShow(out string text);
                         CreateCellDefalut(workbook, row, index++, text);
@@ -225,9 +225,9 @@ namespace Paway.Helper
                     foreach (var property in properties)
                     {
                         if (property.PropertyType.IsGenericType) continue;
-                        if (!property.IExcel(out string name)) continue;
+                        if (!property.IExcel()) continue;
                         if (action != null && action(property.Name)) continue;
-                        var descriptor = descriptors.Find(c => c.Name == name);
+                        var descriptor = descriptors.Find(c => c.Name == property.Name);
                         if (descriptor.PropertyType == typeof(double))
                         {
                             CreateCellNumber(workbook, row, index++, (double)descriptor.GetValue(list[i]));

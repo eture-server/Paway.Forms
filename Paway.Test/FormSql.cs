@@ -259,7 +259,7 @@ namespace Paway.Test
         }
     }
 
-    [Serializable, Property(Table = "Cashs", Key = "Id")]
+    [Serializable, Table(Table = "Cashs", Key = "Id")]
     public class TestData
     {
         //public int Id { get; set; }

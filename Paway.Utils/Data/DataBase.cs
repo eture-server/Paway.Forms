@@ -1401,7 +1401,7 @@ namespace Paway.Utils
         {
             var attr = ConverHelper.AttrTable(typeof(T));
 
-            t.Insert(attr, typeof(T), false, out string insert, out string value);
+            t.Insert(attr.Key, typeof(T), false, out string insert, out string value);
             var sql = string.Format("insert into [{0}]({1}) values({2})", attr.Table, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
             if (Identity)
@@ -1417,7 +1417,7 @@ namespace Paway.Utils
         {
             var attr = ConverHelper.AttrTable(typeof(T));
 
-            row.Insert<T>(attr, typeof(T), false, out string insert, out string value);
+            row.Insert<T>(attr.Key, typeof(T), false, out string insert, out string value);
             var sql = string.Format("insert into [{0}]({1}) values({2})", attr.Table, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
             if (Identity)
@@ -1427,7 +1427,7 @@ namespace Paway.Utils
             return sql;
         }
 
-        private static void Insert<T>(this T t, PropertyAttribute attr, Type type, bool replace, out string insert, out string value, params string[] args)
+        private static void Insert<T>(this T t, string key, Type type, bool replace, out string insert, out string value, params string[] args)
         {
             insert = null;
             value = null;
@@ -1440,7 +1440,7 @@ namespace Paway.Utils
                 var propertie = properties.Find(c => c.Name == descriptor.Name);
                 if (propertie.ISelect(out string column))
                 {
-                    if (!replace && column == attr.Key) continue;
+                    if (!replace && column == key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
                     insert = string.Format("{0}[{1}],", insert, column);
@@ -1450,7 +1450,7 @@ namespace Paway.Utils
             insert = insert.TrimEnd(',');
             value = value.TrimEnd(',');
         }
-        private static void Insert<T>(this DataRow row, PropertyAttribute attr, Type type, bool replace, out string insert, out string value, params string[] args)
+        private static void Insert<T>(this DataRow row, string key, Type type, bool replace, out string insert, out string value, params string[] args)
         {
             insert = null;
             value = null;
@@ -1461,7 +1461,7 @@ namespace Paway.Utils
 
                 if (property.ISelect(out string column))
                 {
-                    if (!replace && column == attr.Key) continue;
+                    if (!replace && column == key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
                     insert = string.Format("{0}[{1}],", insert, column);
@@ -1539,7 +1539,7 @@ namespace Paway.Utils
         {
             var attr = ConverHelper.AttrTable(typeof(T));
 
-            t.Insert(attr, typeof(T), true, out string insert, out string value, args);
+            t.Insert(attr.Key, typeof(T), true, out string insert, out string value, args);
             var sql = string.Format("replace into [{0}]({1}) values({2})", attr.Table, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
             return sql;
@@ -1552,7 +1552,7 @@ namespace Paway.Utils
         {
             var attr = ConverHelper.AttrTable(typeof(T));
 
-            row.Insert<T>(attr, typeof(T), true, out string insert, out string value, args);
+            row.Insert<T>(attr.Key, typeof(T), true, out string insert, out string value, args);
             var sql = string.Format("replace into [{0}]({1}) values({2})", attr.Table, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
             return sql;
