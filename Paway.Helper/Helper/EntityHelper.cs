@@ -100,15 +100,17 @@ namespace Paway.Helper
     public sealed class ExcelAttribute : Attribute
     {
         private bool _iExcel = true;
-
         /// <summary>
         ///     是否生成到ExcelTable
         ///     默认true
         /// </summary>
-        public bool IExcel
+        public bool IExcel { get { return _iExcel; } }
+
+        /// <summary>
+        /// </summary>
+        public ExcelAttribute(bool excel)
         {
-            get { return _iExcel; }
-            set { _iExcel = value; }
+            _iExcel = excel;
         }
     }
     /// <summary>
@@ -122,7 +124,14 @@ namespace Paway.Helper
         ///     是否自定义排序列
         ///     默认false
         /// </summary>
-        public bool ISort { get; set; }
+        public bool ISort { get; }
+
+        /// <summary>
+        /// </summary>
+        public SortAttribute(bool sort)
+        {
+            ISort = sort;
+        }
     }
     /// <summary>
     ///     特性.字段Clone设置
@@ -132,15 +141,17 @@ namespace Paway.Helper
     public sealed class CloneAttribute : Attribute
     {
         private bool _iClone = true;
-
         /// <summary>
         ///     是否复制列
         ///     默认true
         /// </summary>
-        public bool IClone
+        public bool IClone { get { return _iClone; } }
+
+        /// <summary>
+        /// </summary>
+        public CloneAttribute(bool clone)
         {
-            get { return _iClone; }
-            set { _iClone = value; }
+            _iClone = clone;
         }
     }
     /// <summary>
