@@ -113,23 +113,6 @@ namespace Paway.Utils
             return base.FindTable<T>(find, count, true, cmd, args);
         }
 
-        /// <summary>
-        ///     更新或插入列表
-        ///     需要标记唯一键为唯一索引
-        /// </summary>
-        public override bool Replace<T>(List<T> list, DbCommand cmd = null, params string[] args)
-        {
-            return base.Replace(list, true, cmd, args);
-        }
-        /// <summary>
-        ///     更新或插入列表
-        ///     需要标记唯一键为唯一索引
-        /// </summary>
-        public override bool Replace<T>(DataTable table, DbCommand cmd = null, params string[] args)
-        {
-            return base.Replace<T>(table, true, cmd, args);
-        }
-
         #endregion
     }
 }

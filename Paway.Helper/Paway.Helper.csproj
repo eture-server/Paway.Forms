@@ -66,7 +66,7 @@
     <Compile Include="Common\Licence.cs" />
     <Compile Include="Common\TMethod.cs" />
     <Compile Include="Common\TConfig.cs" />
-    <Compile Include="Enum\SqlType.cs" />
+    <Compile Include="Enum\OperType.cs" />
     <Compile Include="Enum\RegexType.cs" />
     <Compile Include="Enum\TreeItemType.cs" />
     <Compile Include="Enum\TConvertType.cs" />

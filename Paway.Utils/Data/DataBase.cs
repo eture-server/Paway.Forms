@@ -24,27 +24,13 @@ namespace Paway.Utils
         /// <summary>
         /// 更新事件
         /// </summary>
-        public event Action<Type, SqlType> UpdateEvent;
+        public event Action<Type, OperType, object> UpdateEvent;
         /// <summary>
         /// 抛出事件
         /// </summary>
-        protected virtual void OnUpdate<T>(DbCommand cmd, SqlType type)
+        protected virtual void OnUpdate<T>(DbCommand cmd, List<T> list, OperType type)
         {
-            UpdateEvent?.Invoke(typeof(T), type);
-        }
-        /// <summary>
-        /// 抛出事件
-        /// </summary>
-        protected virtual void OnUpdate<T>(DbCommand cmd, List<T> list, SqlType type)
-        {
-            OnUpdate<T>(cmd, type);
-        }
-        /// <summary>
-        /// 抛出事件
-        /// </summary>
-        protected virtual void OnDelete<T>(DbCommand cmd, long id)
-        {
-            OnUpdate<T>(cmd, SqlType.Delete);
+            UpdateEvent?.Invoke(typeof(T), type, list);
         }
         #endregion
 
@@ -586,80 +572,6 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     插入列
-        /// </summary>
-        public bool Insert<T>(DataRow row, DbCommand cmd = null, bool Identity = false)
-        {
-            var iTrans = cmd == null;
-            try
-            {
-                if (iTrans) cmd = TransStart();
-
-                InsertChild<T>(row, cmd, Identity);
-
-                OnUpdate<T>(cmd, SqlType.Insert);
-                if (iTrans) return TransCommit(cmd);
-                else return true;
-            }
-            catch (Exception ex)
-            {
-                if (iTrans) TransError(cmd, ex);
-                throw;
-            }
-            finally
-            {
-                if (iTrans) CommandEnd(cmd);
-            }
-        }
-        /// <summary>
-        ///     插入列表
-        /// </summary>
-        public bool Insert<T>(DataTable table, DbCommand cmd = null, bool Identity = false)
-        {
-            var iTrans = cmd == null;
-            try
-            {
-                if (iTrans) cmd = TransStart();
-                for (var i = 0; i < table.Rows.Count; i++)
-                {
-                    InsertChild<T>(table.Rows[i], cmd, Identity);
-                }
-                OnUpdate<T>(cmd, SqlType.Insert);
-                if (iTrans) return TransCommit(cmd);
-                else return true;
-            }
-            catch (Exception ex)
-            {
-                if (iTrans) TransError(cmd, ex);
-                throw;
-            }
-            finally
-            {
-                if (iTrans) CommandEnd(cmd);
-            }
-        }
-        private void InsertChild<T>(DataRow row, DbCommand cmd = null, bool Identity = false)
-        {
-            var sql = row.Insert<T>(GetId, Identity);
-            cmd.CommandText = sql;
-            OnCommandText(cmd);
-            var pList = row.AddParameters<T>(paramType).ToArray();
-            cmd.Parameters.Clear();
-            cmd.Parameters.AddRange(pList);
-            using (var dr = cmd.ExecuteReader())
-            {
-                if (dr.Read())
-                {
-                    row.SetMark<T>(dr[0]);
-                }
-                else
-                {
-                    throw new Exception("插入失败：无法读取Id");
-                }
-            }
-        }
-
-        /// <summary>
         ///     插入列表
         /// </summary>
         public bool Insert<T>(List<T> list, DbCommand cmd = null, bool Identity = false)
@@ -688,7 +600,7 @@ namespace Paway.Utils
                         }
                     }
                 }
-                OnUpdate<T>(cmd, list, SqlType.Insert);
+                OnUpdate<T>(cmd, list, OperType.Insert);
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
@@ -707,39 +619,6 @@ namespace Paway.Utils
 
         #region Update
         /// <summary>
-        ///     附加(更新)指定列
-        /// </summary>
-        public bool Append<T>(T t, T value, DbCommand cmd = null, params string[] args)
-        {
-            var iTrans = cmd == null;
-            try
-            {
-                if (iTrans) cmd = TransStart();
-
-                var sql = t.Update(true, args);
-                cmd.CommandText = sql;
-                OnCommandText(cmd);
-                var pList = value.AddParameters(paramType, args).ToArray();
-                cmd.Parameters.Clear();
-                cmd.Parameters.AddRange(pList);
-                cmd.ExecuteNonQuery();
-
-                OnUpdate<T>(cmd, SqlType.Update);
-                if (iTrans) return TransCommit(cmd);
-                else return true;
-            }
-            catch (Exception ex)
-            {
-                if (iTrans) TransError(cmd, ex);
-                throw;
-            }
-            finally
-            {
-                if (iTrans) CommandEnd(cmd);
-            }
-        }
-
-        /// <summary>
         ///     更新列
         /// </summary>
         public bool Update<T>(T t, params string[] args)
@@ -753,70 +632,6 @@ namespace Paway.Utils
         {
             var list = new List<T> { t };
             return Update(list, cmd, args);
-        }
-
-        /// <summary>
-        ///     更新列表
-        /// </summary>
-        public bool Update<T>(DataRow row, DbCommand cmd = null, params string[] args)
-        {
-            var iTrans = cmd == null;
-            try
-            {
-                if (iTrans) cmd = TransStart();
-
-                UpdateChild<T>(row, cmd, args);
-
-                OnUpdate<T>(cmd, SqlType.Update);
-                if (iTrans) return TransCommit(cmd);
-                else return true;
-            }
-            catch (Exception ex)
-            {
-                if (iTrans) TransError(cmd, ex);
-                throw;
-            }
-            finally
-            {
-                if (iTrans) CommandEnd(cmd);
-            }
-        }
-        /// <summary>
-        ///     更新列表
-        /// </summary>
-        public bool Update<T>(DataTable table, DbCommand cmd = null, params string[] args)
-        {
-            var iTrans = cmd == null;
-            try
-            {
-                if (iTrans) cmd = TransStart();
-                for (var i = 0; i < table.Rows.Count; i++)
-                {
-                    UpdateChild<T>(table.Rows[i], cmd, args);
-                }
-                OnUpdate<T>(cmd, SqlType.Update);
-                if (iTrans) return TransCommit(cmd);
-                else return true;
-            }
-            catch (Exception ex)
-            {
-                if (iTrans) TransError(cmd, ex);
-                throw;
-            }
-            finally
-            {
-                if (iTrans) CommandEnd(cmd);
-            }
-        }
-        private void UpdateChild<T>(DataRow row, DbCommand cmd = null, params string[] args)
-        {
-            var sql = row.Update<T>(args);
-            cmd.CommandText = sql;
-            OnCommandText(cmd);
-            var pList = row.AddParameters<T>(paramType, args).ToArray();
-            cmd.Parameters.Clear();
-            cmd.Parameters.AddRange(pList);
-            cmd.ExecuteNonQuery();
         }
 
         /// <summary>
@@ -845,7 +660,7 @@ namespace Paway.Utils
                     cmd.Parameters.AddRange(pList);
                     cmd.ExecuteNonQuery();
                 }
-                OnUpdate<T>(cmd, list, SqlType.Update);
+                OnUpdate<T>(cmd, list, OperType.Update);
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
@@ -864,118 +679,12 @@ namespace Paway.Utils
 
         #region Delete
         /// <summary>
-        ///     删除所有行
-        /// </summary>
-        public bool Delete<T>(DbCommand cmd = null)
-        {
-            return Delete<T>("1=1", cmd);
-        }
-
-        /// <summary>
-        ///     删除列
-        /// </summary>
-        public bool Delete<T>(long id, DbCommand cmd = null)
-        {
-            var iTrans = cmd == null;
-            string sql = null;
-            try
-            {
-                if (iTrans) cmd = CommandStart();
-                sql = DataBaseHelper.Delete<T>();
-                var parame = paramType.AddParameter<T>(id);
-                cmd.CommandText = sql;
-                OnCommandText(cmd);
-                cmd.CommandType = CommandType.Text;
-                cmd.Parameters.Clear();
-                cmd.Parameters.Add(parame);
-                bool result = false;
-                result = cmd.ExecuteNonQuery() == 1;
-
-                OnDelete<T>(cmd, id);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                log.ErrorFormat("Delete.Error[{0}]\r\n{1}", sql, ex);
-                throw;
-            }
-            finally
-            {
-                if (iTrans) CommandEnd(cmd);
-            }
-        }
-
-        /// <summary>
-        ///     删除指定条件下的数据
-        /// </summary>
-        public bool Delete<T>(string find, DbCommand cmd = null)
-        {
-            var iTrans = cmd == null;
-            string sql = null;
-            try
-            {
-                if (iTrans) cmd = CommandStart();
-                sql = DataBaseHelper.Delete<T>(find);
-                cmd.CommandText = sql;
-                OnCommandText(cmd);
-                bool result = false;
-                result = cmd.ExecuteNonQuery() == 1;
-
-                OnUpdate<T>(cmd, SqlType.Delete);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                log.ErrorFormat("Delete.Error[{0}]\r\n{1}", sql, ex);
-                throw;
-            }
-            finally
-            {
-                if (iTrans) CommandEnd(cmd);
-            }
-        }
-
-        /// <summary>
         ///     删除列
         /// </summary>
         public bool Delete<T>(T t, DbCommand cmd = null)
         {
             var list = new List<T> { t };
             return Delete<T>(list, cmd);
-        }
-
-        /// <summary>
-        ///     删除列表
-        /// </summary>
-        public bool Delete<T>(DataTable table, DbCommand cmd = null)
-        {
-            var iTrans = cmd == null;
-            var sql = DataBaseHelper.Delete<T>();
-            try
-            {
-                if (iTrans) cmd = TransStart();
-                for (var i = 0; i < table.Rows.Count; i++)
-                {
-                    cmd.CommandText = sql;
-                    OnCommandText(cmd);
-                    var pList = table.Rows[i].AddParameters<T>(paramType).ToArray();
-                    cmd.Parameters.Clear();
-                    cmd.Parameters.AddRange(pList);
-                    cmd.ExecuteNonQuery();
-                }
-                OnUpdate<T>(cmd, SqlType.Delete);
-                if (iTrans) return TransCommit(cmd);
-                else return true;
-            }
-            catch (Exception ex)
-            {
-                if (iTrans) TransError(cmd, ex);
-                throw;
-            }
-            finally
-            {
-                if (iTrans) CommandEnd(cmd);
-            }
         }
 
         /// <summary>
@@ -997,152 +706,7 @@ namespace Paway.Utils
                     cmd.Parameters.AddRange(pList);
                     cmd.ExecuteNonQuery();
                 }
-                OnUpdate<T>(cmd, list, SqlType.Delete);
-                if (iTrans) return TransCommit(cmd);
-                else return true;
-            }
-            catch (Exception ex)
-            {
-                if (iTrans) TransError(cmd, ex);
-                throw;
-            }
-            finally
-            {
-                if (iTrans) CommandEnd(cmd);
-            }
-        }
-
-        #endregion
-
-        #region Replace
-        /// <summary>
-        ///     更新或插入列
-        /// </summary>
-        public bool Replace<T>(T t, params string[] args)
-        {
-            return Replace(t, null, args);
-        }
-        /// <summary>
-        ///     更新或插入列
-        /// </summary>
-        public bool Replace<T>(T t, DbCommand cmd = null, params string[] args)
-        {
-            var list = new List<T> { t };
-            return Replace<T>(list, cmd, args);
-        }
-
-        /// <summary>
-        ///     更新或插入列表
-        /// </summary>
-        public virtual bool Replace<T>(DataTable table, DbCommand cmd = null, params string[] args)
-        {
-            return Replace<T>(table, false, cmd, args);
-        }
-
-        /// <summary>
-        ///     更新或插入列表
-        /// </summary>
-        public virtual bool Replace<T>(List<T> list, params string[] args)
-        {
-            return Replace(list, null, args);
-        }
-        /// <summary>
-        ///     更新或插入列表
-        /// </summary>
-        public virtual bool Replace<T>(List<T> list, DbCommand cmd = null, params string[] args)
-        {
-            return Replace(list, false, cmd, args);
-        }
-
-        /// <summary>
-        ///     更新或插入列表
-        /// </summary>
-        protected bool Replace<T>(List<T> list, bool isSqlite, DbCommand cmd = null, params string[] args)
-        {
-            var iTrans = cmd == null;
-            try
-            {
-                if (iTrans) cmd = TransStart();
-                for (var i = 0; i < list.Count; i++)
-                {
-                    string sql = null;
-                    if (isSqlite)
-                    {
-                        sql = list[i].Replace(GetId, args);
-                    }
-                    else
-                    {
-                        sql = list[i].UpdateOrInsert(GetId, args);
-                    }
-                    cmd.CommandText = sql;
-                    OnCommandText(cmd);
-                    var pList = list[i].AddParameters(paramType, args).ToArray();
-                    cmd.Parameters.Clear();
-                    cmd.Parameters.AddRange(pList);
-                    using (var dr = cmd.ExecuteReader())
-                    {
-                        if (dr.Read())
-                        {
-                            list[i].SetMark(dr[0]);
-                        }
-                        else
-                        {
-                            throw new Exception("Replace失败：无法读取Id");
-                        }
-                    }
-                }
-                OnUpdate<T>(cmd, list, SqlType.Replace);
-                if (iTrans) return TransCommit(cmd);
-                else return true;
-            }
-            catch (Exception ex)
-            {
-                if (iTrans) TransError(cmd, ex);
-                throw;
-            }
-            finally
-            {
-                if (iTrans) CommandEnd(cmd);
-            }
-        }
-        /// <summary>
-        ///     更新或插入列表
-        /// </summary>
-        protected bool Replace<T>(DataTable table, bool isSqlite, DbCommand cmd = null, params string[] args)
-        {
-            var iTrans = cmd == null;
-            try
-            {
-                if (iTrans) cmd = TransStart();
-                for (var i = 0; i < table.Rows.Count; i++)
-                {
-                    string sql = null;
-                    if (isSqlite)
-                    {
-                        sql = table.Rows[i].Replace<T>(GetId, args);
-                    }
-                    else
-                    {
-                        sql = table.Rows[i].UpdateOrInsert<T>(GetId, args);
-                    }
-                    cmd.CommandText = sql;
-                    OnCommandText(cmd);
-                    var pList = table.Rows[i].AddParameters<T>(paramType, args).ToArray();
-                    cmd.Parameters.Clear();
-                    cmd.Parameters.AddRange(pList);
-                    using (var dr = cmd.ExecuteReader())
-                    {
-                        if (dr.Read())
-                        {
-                            table.Rows[i].SetMark<T>(dr[0]);
-                        }
-                        else
-                        {
-                            throw new Exception("Replace失败：无法读取Id");
-                        }
-                    }
-                }
-                OnUpdate<T>(cmd, SqlType.Replace);
+                OnUpdate<T>(cmd, list, OperType.Delete);
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
@@ -1401,7 +965,7 @@ namespace Paway.Utils
         {
             var attr = ConverHelper.AttrTable(typeof(T));
 
-            t.Insert(attr.Key, typeof(T), false, out string insert, out string value);
+            t.Insert(attr.Key, typeof(T), out string insert, out string value);
             var sql = string.Format("insert into [{0}]({1}) values({2})", attr.Table, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
             if (Identity)
@@ -1417,7 +981,7 @@ namespace Paway.Utils
         {
             var attr = ConverHelper.AttrTable(typeof(T));
 
-            row.Insert<T>(attr.Key, typeof(T), false, out string insert, out string value);
+            row.Insert<T>(attr.Key, typeof(T), out string insert, out string value);
             var sql = string.Format("insert into [{0}]({1}) values({2})", attr.Table, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
             if (Identity)
@@ -1427,7 +991,7 @@ namespace Paway.Utils
             return sql;
         }
 
-        private static void Insert<T>(this T t, string key, Type type, bool replace, out string insert, out string value, params string[] args)
+        private static void Insert<T>(this T t, string key, Type type, out string insert, out string value, params string[] args)
         {
             insert = null;
             value = null;
@@ -1440,7 +1004,7 @@ namespace Paway.Utils
                 var propertie = properties.Find(c => c.Name == descriptor.Name);
                 if (propertie.ISelect(out string column))
                 {
-                    if (!replace && column == key) continue;
+                    if (column == key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
                     insert = string.Format("{0}[{1}],", insert, column);
@@ -1450,7 +1014,7 @@ namespace Paway.Utils
             insert = insert.TrimEnd(',');
             value = value.TrimEnd(',');
         }
-        private static void Insert<T>(this DataRow row, string key, Type type, bool replace, out string insert, out string value, params string[] args)
+        private static void Insert<T>(this DataRow row, string key, Type type, out string insert, out string value, params string[] args)
         {
             insert = null;
             value = null;
@@ -1461,7 +1025,7 @@ namespace Paway.Utils
 
                 if (property.ISelect(out string column))
                 {
-                    if (!replace && column == key) continue;
+                    if (column == key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
 
                     insert = string.Format("{0}[{1}],", insert, column);
@@ -1526,125 +1090,6 @@ namespace Paway.Utils
                 }
             }
             return false;
-        }
-
-        #endregion
-
-        #region Replace
-        /// <summary>
-        ///     将指定类型转为Replace语句
-        ///     Sqlite更新、插入方法，需将Key键设为唯一索引
-        /// </summary>
-        public static string Replace<T>(this T t, string getId, params string[] args)
-        {
-            var attr = ConverHelper.AttrTable(typeof(T));
-
-            t.Insert(attr.Key, typeof(T), true, out string insert, out string value, args);
-            var sql = string.Format("replace into [{0}]({1}) values({2})", attr.Table, insert, value);
-            sql = string.Format("{0};{1}", sql, getId);
-            return sql;
-        }
-        /// <summary>
-        ///     将指定类型转为Replace语句
-        ///     Sqlite更新、插入方法，需将Key键设为唯一索引
-        /// </summary>
-        public static string Replace<T>(this DataRow row, string getId, params string[] args)
-        {
-            var attr = ConverHelper.AttrTable(typeof(T));
-
-            row.Insert<T>(attr.Key, typeof(T), true, out string insert, out string value, args);
-            var sql = string.Format("replace into [{0}]({1}) values({2})", attr.Table, insert, value);
-            sql = string.Format("{0};{1}", sql, getId);
-            return sql;
-        }
-
-        /// <summary>
-        ///     将指定类型转为UpdateOrInsert语句
-        /// </summary>
-        public static string UpdateOrInsert<T>(this T t, string getid, params string[] args)
-        {
-            var type = typeof(T);
-            var attr = type.Table();
-
-            var sql = "if exists(select 0 from [{1}] where [{0}]=@{0})";
-            sql = string.Format(sql, attr.Keys, attr.Table);
-
-            string update = null;
-            string insert = null;
-            string values = null;
-            var properties = type.Properties();
-            var descriptors = type.Descriptors();
-            foreach (var property in properties)
-            {
-                if (property.ISelect(out string column))
-                {
-                    if (column == attr.Key) continue;
-                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
-
-                    var descriptor = descriptors.Find(c => c.Name == property.Name);
-                    if (t.IsNull(descriptor))
-                    {
-                        update = string.Format("{0}[{1}]=NULL,", update, column);
-                    }
-                    else
-                    {
-                        update = string.Format("{0}[{1}]=@{1},", update, column);
-                        insert = string.Format("{0}[{1}],", insert, column);
-                        values = string.Format("{0}@{1},", values, column);
-                    }
-                }
-            }
-            update = update.TrimEnd(',');
-            insert = insert.TrimEnd(',');
-            values = values.TrimEnd(',');
-            sql = string.Format("{0} update [{1}] set {2} where {3}=@{3} else insert into [{1}]({4}) values({5})",
-                sql, attr.Table, update, attr.Keys, insert, values);
-
-            sql = string.Format("{0};{1}", sql, getid);
-            return sql;
-        }
-        /// <summary>
-        ///     将指定类型转为UpdateOrInsert语句
-        /// </summary>
-        public static string UpdateOrInsert<T>(this DataRow row, string getid, params string[] args)
-        {
-            var type = typeof(T);
-            var attr = type.Table();
-
-            var sql = "if exists(select 0 from [{1}] where [{0}]=@{0})";
-            sql = string.Format(sql, attr.Keys, attr.Table);
-
-            string update = null;
-            string insert = null;
-            string values = null;
-            var properties = type.Properties();
-            foreach (var property in properties)
-            {
-                if (property.ISelect(out string column))
-                {
-                    if (column == attr.Key) continue;
-                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
-
-                    if (row.IsNull(property))
-                    {
-                        update = string.Format("{0}[{1}]=NULL,", update, column);
-                    }
-                    else
-                    {
-                        update = string.Format("{0}[{1}]=@{1},", update, column);
-                        insert = string.Format("{0}[{1}],", insert, column);
-                        values = string.Format("{0}@{1},", values, column);
-                    }
-                }
-            }
-            update = update.TrimEnd(',');
-            insert = insert.TrimEnd(',');
-            values = values.TrimEnd(',');
-            sql = string.Format("{0} update [{1}] set {2} where {3}=@{3} else insert into [{1}]({4}) values({5})",
-                sql, attr.Table, update, attr.Keys, insert, values);
-
-            sql = string.Format("{0};{1}", sql, getid);
-            return sql;
         }
 
         #endregion

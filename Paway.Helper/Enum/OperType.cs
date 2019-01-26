@@ -6,9 +6,9 @@ using System.Text;
 namespace Paway.Helper
 {
     /// <summary>
-    /// Sql操作
+    /// 操作类型
     /// </summary>
-    public enum SqlType : int
+    public enum OperType : int
     {
         /// <summary>
         /// 默认
@@ -26,9 +26,5 @@ namespace Paway.Helper
         /// Delete
         /// </summary>
         Delete,
-        /// <summary>
-        /// Replace
-        /// </summary>
-        Replace
     }
 }

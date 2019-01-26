@@ -106,7 +106,7 @@ namespace Paway.Test
                 if (list.Count == 0) return;
                 list[0].N2 = DateTime.Now.Minute.ToString();
                 list[0].V2 = DateTime.Now.Second.ToString();
-                service.Replace(list[0]);
+                service.Update(list[0]);
             }
             catch (Exception ex)
             {
@@ -120,7 +120,7 @@ namespace Paway.Test
             {
                 if (list.Count == 0) return;
                 object result = service.ExecuteScalar("select count(0) from Hello");
-                service.Delete<TestData>(list[0].Id);
+                service.Delete(list[0]);
                 list.RemoveAt(0);
             }
             catch (Exception ex)
@@ -137,7 +137,7 @@ namespace Paway.Test
                 service.Insert(list[0]);
                 list[0].N2 = "V3";
                 list[0].Id = 17;
-                service.Replace(list[0]);
+                service.Update(list[0]);
             }
             catch (Exception ex)
             {
@@ -202,7 +202,7 @@ namespace Paway.Test
                 Insert(info);
                 info.Id = 19;
                 info.Name = "admin001";
-                Replace(info);
+                Insert(info);
             }
         }
     }
