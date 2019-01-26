@@ -563,7 +563,7 @@ namespace Paway.Utils
 
         #region Insert
         /// <summary>
-        ///     插入列
+        ///     插入行
         /// </summary>
         public bool Insert<T>(T t, DbCommand cmd = null, bool Identity = false)
         {
@@ -619,14 +619,14 @@ namespace Paway.Utils
 
         #region Update
         /// <summary>
-        ///     更新列
+        ///     更新行
         /// </summary>
         public bool Update<T>(T t, params string[] args)
         {
             return Update<T>(t, null, args);
         }
         /// <summary>
-        ///     更新列
+        ///     更新行
         /// </summary>
         public bool Update<T>(T t, DbCommand cmd = null, params string[] args)
         {
@@ -679,7 +679,42 @@ namespace Paway.Utils
 
         #region Delete
         /// <summary>
-        ///     删除列
+        ///     删除所有行(不监听更新事件)
+        /// </summary>
+        public bool Delete<T>(DbCommand cmd = null)
+        {
+            return Delete<T>("1=1", cmd);
+        }
+        /// <summary>
+        ///     删除指定条件下的数据(不监听更新事件)
+        /// </summary>
+        public bool Delete<T>(string find, DbCommand cmd = null)
+        {
+            var iTrans = cmd == null;
+            string sql = null;
+            try
+            {
+                if (iTrans) cmd = CommandStart();
+                sql = DataBaseHelper.Delete<T>(find);
+                cmd.CommandText = sql;
+                OnCommandText(cmd);
+                bool result = false;
+                result = cmd.ExecuteNonQuery() == 1;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                log.ErrorFormat("Delete.Error[{0}]\r\n{1}", sql, ex);
+                throw;
+            }
+            finally
+            {
+                if (iTrans) CommandEnd(cmd);
+            }
+        }
+
+        /// <summary>
+        ///     删除行
         /// </summary>
         public bool Delete<T>(T t, DbCommand cmd = null)
         {
