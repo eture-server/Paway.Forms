@@ -758,6 +758,69 @@ namespace Paway.Utils
 
         #endregion
 
+        #region Replace
+        /// <summary>
+        /// 替换,由insert/Update替代
+        /// </summary>
+        public void Replace<T>(List<T> list, DbCommand cmd = null) where T : IId
+        {
+            bool iAlone = cmd == null;
+            try
+            {
+                if (iAlone) cmd = TransStart();
+
+                List<T> iList = new List<T>();
+                List<T> uList = new List<T>();
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (list[i].Id == 0) iList.Add(list[i]);
+                    else iList.Add(list[i]);
+                }
+                if (iList.Count > 0) Insert(iList, cmd);
+                if (uList.Count > 0) Update(uList, cmd);
+
+                if (iAlone) TransCommit(cmd);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                if (iAlone) TransError(cmd, ex);
+                throw;
+            }
+            finally
+            {
+                if (iAlone) CommandEnd(cmd);
+            }
+        }
+        /// <summary>
+        /// 替换,由insert/Update替代
+        /// </summary>
+        public void Replace<T>(T t, DbCommand cmd = null) where T : IId
+        {
+            bool iAlone = cmd == null;
+            try
+            {
+                if (iAlone) cmd = TransStart();
+
+                if (t.Id == 0) Insert(t, cmd);
+                else Update(t, cmd);
+
+                if (iAlone) TransCommit(cmd);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                if (iAlone) TransError(cmd, ex);
+                throw;
+            }
+            finally
+            {
+                if (iAlone) CommandEnd(cmd);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Dispose
