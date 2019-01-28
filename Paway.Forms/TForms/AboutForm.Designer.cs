@@ -89,7 +89,7 @@
             this.Controls.Add(this.lbCopyright);
             this.Controls.Add(this.lbVersion);
             this.Controls.Add(this.lbDesc);
-            this.IDrawRound = false;
+            this.IRound = false;
             this.IResize = false;
             this.IShadow = false;
             this.ITransfer = true;

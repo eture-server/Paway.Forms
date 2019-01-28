@@ -208,7 +208,7 @@
             this.Controls.Add(this.btName);
             this.Controls.Add(this.pictureBox1);
             this.ForeColor = System.Drawing.Color.White;
-            this.IDrawBorder = true;
+            this.IBorder = true;
             this.Name = "Form1";
             this.Padding = new System.Windows.Forms.Padding(0, 26, 3, 3);
             this.Text = "Form1";

@@ -104,7 +104,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(850, 580);
             this.ContextMenuShow = this.contextMenuStrip1;
-            this.IDrawBorder = true;
+            this.IBorder = true;
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "MainForm";
             this.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(110)))), ((int)(((byte)(230)))));

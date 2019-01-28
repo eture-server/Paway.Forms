@@ -323,7 +323,7 @@ namespace Paway.Forms
                 TopLevel = true;
                 ShowIcon = false;
                 IResize = false;
-                IDrawBorder = true;
+                IBorder = true;
                 SysButton = TSysButton.Close;
                 BackColor = Color.FromArgb(0, 122, 204);
             }

@@ -133,7 +133,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.ClientSize = new System.Drawing.Size(443, 280);
-            this.IShadow = false;
             this.Name = "Login";
             this.ShowInTaskbar = true;
             this.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(57)))), ((int)(((byte)(50)))));

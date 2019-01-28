@@ -415,18 +415,18 @@ namespace Paway.Forms
         /// <summary>
         ///     是否绘制边框
         /// </summary>
-        protected bool _iDrawBorder;
+        protected bool _iBorder;
         /// <summary>
         ///     是否绘制边框
         /// </summary>
         [Browsable(true), Description("是否绘制边框")]
         [DefaultValue(false)]
-        public bool IDrawBorder
+        public bool IBorder
         {
-            get { return _iDrawBorder; }
+            get { return _iBorder; }
             set
             {
-                _iDrawBorder = value;
+                _iBorder = value;
                 Invalidate();
             }
         }
@@ -434,18 +434,18 @@ namespace Paway.Forms
         /// <summary>
         ///     是否剪成圆角
         /// </summary>
-        protected bool _iDrawRound = true;
+        protected bool _iRound = true;
         /// <summary>
         ///     是否剪成圆角
         /// </summary>
         [Browsable(true), Description("是否剪成圆角")]
         [DefaultValue(true)]
-        public bool IDrawRound
+        public bool IRound
         {
-            get { return _iDrawRound; }
+            get { return _iRound; }
             set
             {
-                _iDrawRound = value;
+                _iRound = value;
                 DrawRound();
             }
         }
@@ -783,7 +783,7 @@ namespace Paway.Forms
         private void DrawFrameBorder(Graphics g)
         {
             //绘画边框
-            if (_iDrawBorder)
+            if (_iBorder)
             {
                 if (WindowState == FormWindowState.Maximized)
                 {
@@ -846,7 +846,7 @@ namespace Paway.Forms
         protected void DrawRound()
         {
             //调用API，将窗体剪成圆角
-            var ellipse = _iDrawRound ? TRadius : 0;
+            var ellipse = _iRound ? TRadius : 0;
             var rgn = NativeMethods.CreateRoundRectRgn(0, 0, Width + 1, Height + 1, ellipse, ellipse);
             if (!IsDisposed)
             {
@@ -1200,7 +1200,7 @@ namespace Paway.Forms
         /// <param name="control"></param>
         protected void TDrawBelowBorder(Control control)
         {
-            if (!_iDrawBorder || control == null || _borderImage == null) return;
+            if (!_iBorder || control == null || _borderImage == null) return;
             control.Paint += Control_PaintDB;
         }
 
