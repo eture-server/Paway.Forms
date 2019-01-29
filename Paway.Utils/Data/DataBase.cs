@@ -797,26 +797,8 @@ namespace Paway.Utils
         /// </summary>
         public void Replace<T>(T t, DbCommand cmd = null) where T : IId
         {
-            bool iAlone = cmd == null;
-            try
-            {
-                if (iAlone) cmd = TransStart();
-
-                if (t.Id == 0) Insert(t, cmd);
-                else Update(t, cmd);
-
-                if (iAlone) TransCommit(cmd);
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-                if (iAlone) TransError(cmd, ex);
-                throw;
-            }
-            finally
-            {
-                if (iAlone) CommandEnd(cmd);
-            }
+            if (t.Id == 0) Insert(t, cmd);
+            else Update(t, cmd);
         }
 
         #endregion

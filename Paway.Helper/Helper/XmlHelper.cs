@@ -71,7 +71,6 @@ namespace Paway.Helper
             XmlDocument doc = new XmlDocument();
             doc.Load(file);
             XmlNode root = doc.DocumentElement;
-            if (root.Name != type.Name) throw new Exception("文档类型不一致");
             XmlNode element = root.FirstChild;
 
             T obj = Activator.CreateInstance<T>();

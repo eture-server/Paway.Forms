@@ -412,10 +412,7 @@ namespace Paway.Forms
         [DefaultValue(TMouseState.Normal)]
         protected virtual TMouseState TitleBarMenuState { get; set; }
 
-        /// <summary>
-        ///     是否绘制边框
-        /// </summary>
-        protected bool _iBorder;
+        private bool _iBorder;
         /// <summary>
         ///     是否绘制边框
         /// </summary>
@@ -431,10 +428,7 @@ namespace Paway.Forms
             }
         }
 
-        /// <summary>
-        ///     是否剪成圆角
-        /// </summary>
-        protected bool _iRound = true;
+        private bool _iRound = true;
         /// <summary>
         ///     是否剪成圆角
         /// </summary>
