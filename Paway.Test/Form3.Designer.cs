@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form3));
             this.tControl1 = new Paway.Forms.TControl();
             this.toolBar1 = new Paway.Forms.ToolBar();
@@ -49,7 +49,7 @@
             this.toolBar1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolBar1.ICheckEvent = true;
             this.toolBar1.IScroll = false;
-            this.toolBar1.Items.Add(toolItem1);
+            this.toolBar1.Items.Add(toolItem2);
             this.toolBar1.ItemSize = new System.Drawing.Size(191, 251);
             this.toolBar1.Location = new System.Drawing.Point(0, 0);
             this.toolBar1.MDirection = Paway.Helper.TMDirection.T3DLeftToRight;
@@ -75,6 +75,8 @@
             this.Controls.Add(this.btChange);
             this.Controls.Add(this.tControl1);
             this.Name = "Form3";
+            this.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(110)))), ((int)(((byte)(230)))));
+            this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(244)))));
             this.TBrush.ColorNormal = System.Drawing.Color.CornflowerBlue;
             this.TBrush.ColorSpace = System.Drawing.Color.Ivory;
             this.Text = "你好";

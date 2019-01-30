@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Paway.Helper;
+using System.Threading;
 
 namespace Paway.Test
 {
@@ -20,7 +21,6 @@ namespace Paway.Test
         {
             InitializeComponent();
             btChange.Click += btChange_Click;
-            btChange_Click(this, EventArgs.Empty);
             toolBar1.MoveFinished += toolBar1_MoveFinished;
         }
 
@@ -39,6 +39,10 @@ namespace Paway.Test
             toolBar1.TranImage = iChange ? Resources.i1 : Resources.noon;
             toolBar1.TranLaterImage = iChange ? Resources.noon : Resources.i1;
             toolBar1.MStart();
+            using (new Progress())
+            {
+                Thread.Sleep(5000);
+            }
         }
     }
 }

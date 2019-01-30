@@ -84,6 +84,26 @@ namespace Paway.Forms
                 }
             }
         }
+        public bool ITime
+        {
+            get
+            {
+                lock (this._states)
+                {
+                    if (this._states.Count < 1) return false;
+                    return this._states[this._states.Count - 1].ITime;
+                }
+            }
+        }
+        public void Cancel()
+        {
+            lock (this._states)
+            {
+                if (this._states.Count < 1) return;
+                this._states[this._states.Count - 1].ICancel = true;
+                this._states[this._states.Count - 1].Caption = "Cancel...";
+            }
+        }
         public int Max
         {
             get
@@ -103,13 +123,12 @@ namespace Paway.Forms
                 {
                     if (this._states.Count < 1) return 50;
                     var state = this._states[this._states.Count - 1];
-                    if (state.NoValue)
-                        state.Value++;
+                    if (state.NoValue) state.Value++;
                     if (state.Value > state.Max)
                     {
                         index++;
                         if (index < state.Max * 12 / 100)
-                        {
+                        {//停留
                             state.Value = state.Max;
                         }
                         else

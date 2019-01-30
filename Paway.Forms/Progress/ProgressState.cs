@@ -20,6 +20,8 @@ namespace Paway.Forms
             }
             set { _caption = value; }
         }
+        public bool ITime { get { return DateTime.Now.Subtract(DateTime).TotalSeconds > 3; } }
+        public bool ICancel { get; set; }
         public bool NoValue { get; set; }
         public int Max { get; set; }
         public int Value { get; set; }

@@ -98,14 +98,20 @@ namespace Paway.Forms
         /// <param name="value">进度值</param>
         public void Step(int value)
         {
+            this._state.NoValue = false;
             this._state.Value = value;
         }
+        /// <summary>
+        /// 是否取消
+        /// </summary>
+        public bool ICancel { get { return this._state.ICancel; } }
         /// <summary>
         /// 重置
         /// </summary>
         public void Reset()
         {
             this._state.Max = 0;
+            this._state.NoValue = true;
         }
     }
 }

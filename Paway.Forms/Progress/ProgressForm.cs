@@ -20,6 +20,7 @@ namespace Paway.Forms
         public ProgressState State { get { return this.states.CurrentState; } }
         public IntPtr WindowToWatch { get { return this.states.CurrentHandle; } }
         public string Caption { get { return this.states.CurrentCaption; } }
+        public bool ITime { get { return this.states.ITime; } }
         public ProgressForm(ProgressStates states)
         {
             InitializeComponent();
@@ -27,9 +28,10 @@ namespace Paway.Forms
             this.states = states;
             this.Location = new Point(-1000, -1000);
             this.StartPosition = FormStartPosition.Manual;
-            this.TMouseMove(panel1);
+            this.TMouseMove(this);
             this.TMouseMove(lbCaption);
             this.TMouseMove(progressBar1);
+            this.toolCancel.ItemClick += ToolCancel_ItemClick;
 
             timer = new Timer()
             {
@@ -38,7 +40,10 @@ namespace Paway.Forms
             timer.Tick += new EventHandler(Timer_Tick);
             timer.Start();
         }
-
+        private void ToolCancel_ItemClick(object sender, EventArgs e)
+        {
+            this.states.Cancel();
+        }
         private void Timer_Tick(object sender, EventArgs e)
         {
             try
@@ -115,6 +120,7 @@ namespace Paway.Forms
                         }
                     }
                     lbCaption.Text = this.Caption;
+                    toolCancel.Visible = this.ITime;
                     Application.DoEvents();
                 }
             }
