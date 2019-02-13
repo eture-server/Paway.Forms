@@ -830,7 +830,9 @@ namespace Paway.Helper
         /// </summary>
         public static Type GenericType(this object obj)
         {
-            var types = obj.GetType().GetGenericArguments();
+            Type type = obj as Type;
+            if (type == null) type = obj.GetType();
+            var types = type.GetGenericArguments();
             if (types.Length == 1) return types[0];
             return null;
         }
