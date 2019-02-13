@@ -90,11 +90,11 @@ namespace Paway.Helper
         /// <summary>
         ///     生成XML文件
         /// </summary>
-        public static void Save<T>(string file, T info, string ns = null, Dictionary<string, string> args = null)
+        public static void Save<T>(string file, T info, string ns = null, Dictionary<string, string> args = null, string standalone = null)
         {
             Type type = typeof(T);
             XmlDocument doc = new XmlDocument();
-            XmlDeclaration xml = doc.CreateXmlDeclaration("1.0", "utf-8", null);
+            XmlDeclaration xml = doc.CreateXmlDeclaration("1.0", "utf-8", standalone);
             doc.AppendChild(xml);
             string desc = type.Description() ?? type.Name;
             XmlElement root = ns == null ? doc.CreateElement(desc) : doc.CreateElement(ns, desc, "n:s");
