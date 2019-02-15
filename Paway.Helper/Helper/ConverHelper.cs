@@ -851,7 +851,7 @@ namespace Paway.Helper
         /// <summary>
         ///     一般复制
         /// </summary>
-        public static T Clone<T>(this T t, T copy = default(T))
+        public static T Clone<T>(this T t, object copy = null)
         {
             return t.Clone(false, copy);
         }
@@ -871,7 +871,7 @@ namespace Paway.Helper
             var asmb = Assembly.GetAssembly(type);
             if (copy == null)
                 copy = asmb.CreateInstance(type.FullName);
-            type.Clone(ref copy, t, child);
+            type.Clone(copy, t, child);
 
             return (T)copy;
         }
@@ -879,7 +879,7 @@ namespace Paway.Helper
         /// <summary>
         ///     复制子级
         /// </summary>
-        public static void Clone(this Type parent, ref object copy, object t, bool child)
+        public static void Clone(this Type parent, object copy, object t, bool child)
         {
             var properties = parent.Properties();
             var descriptors = parent.Descriptors();
@@ -902,7 +902,7 @@ namespace Paway.Helper
                         if (!type.IsValueType && type != typeof(string))
                         {
                             var obj = asmb.CreateInstance(type.FullName);
-                            type.Clone(ref obj, list[j], child);
+                            type.Clone(obj, list[j], child);
                             clist.Add(obj);
                         }
                         else
@@ -916,7 +916,7 @@ namespace Paway.Helper
                     var type = value.GetType();
                     var asmb = Assembly.GetAssembly(type);
                     var obj = asmb.CreateInstance(type.FullName);
-                    type.Clone(ref obj, value, child);
+                    type.Clone(obj, value, child);
                 }
             }
         }
