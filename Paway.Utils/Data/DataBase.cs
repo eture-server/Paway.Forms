@@ -774,7 +774,7 @@ namespace Paway.Utils
                 for (int i = 0; i < list.Count; i++)
                 {
                     if (list[i].Id == 0) iList.Add(list[i]);
-                    else iList.Add(list[i]);
+                    else uList.Add(list[i]);
                 }
                 if (iList.Count > 0) Insert(iList, cmd);
                 if (uList.Count > 0) Update(uList, cmd);
