@@ -498,6 +498,7 @@ namespace Paway.Forms
                 base.DataSource = temp;
             }
             UpdateColumns(type);
+            OnRefreshChanged();
         }
 
         /// <summary>
@@ -507,6 +508,7 @@ namespace Paway.Forms
         {
             if (type == null || type == typeof(string) || type.IsValueType) return;
 
+            var properties = type.Properties();
             for (var i = 0; i < Columns.Count; i++)
             {
                 if (Columns[i].Name == ICheckBoxName)
@@ -517,7 +519,6 @@ namespace Paway.Forms
                 {
                     _tColumnIndex = i;
                 }
-                var properties = type.Properties();
                 var property = properties.Find(c => c.Name == Columns[i].Name);
                 if (property == null)
                 {
@@ -535,6 +536,12 @@ namespace Paway.Forms
                 Columns[i].Visible = property.IShow(out string text);
                 Columns[i].HeaderText = text;
             }
+        }
+        /// <summary>
+        /// 引发事件
+        /// </summary>
+        internal void OnRefreshChanged()
+        {
             RefreshChanged?.Invoke();
         }
 

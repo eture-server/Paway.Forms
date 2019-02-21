@@ -303,6 +303,7 @@ namespace Paway.Forms
                 }
                 Edit.DataSource = table;
                 Edit.UpdateColumns(DataType);
+                Edit.OnRefreshChanged();
             }
             else if (dataSource is IList)
             {

@@ -161,13 +161,13 @@ namespace Paway.Helper
 
         #region 关于四舍五入
         /// <summary>
-        /// 中国式四舍五入,取两位
+        /// 中国式四舍五入,默认两位
         /// </summary>
-        public static double Round(double value)
+        public static double Round(double value, int decimals = 2)
         {
             try
             {
-                return Decimal.ToDouble(Math.Round(new Decimal(value.ClearError()), 2, MidpointRounding.AwayFromZero));
+                return Decimal.ToDouble(Math.Round(new Decimal(value.ClearError()), decimals, MidpointRounding.AwayFromZero));
             }
             catch
             {
