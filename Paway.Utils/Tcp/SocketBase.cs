@@ -56,12 +56,12 @@ namespace Paway.Utils
         /// <summary>
         ///     数据发送服务类
         /// </summary>
-        protected SendDataService SendDataService { get; set; }
+        protected internal SendDataService SendDataService { get; set; }
 
         /// <summary>
         ///     线程通知，停止运行。
         /// </summary>
-        internal volatile bool SendStop;
+        protected internal volatile bool SendStop;
 
         /// <summary>
         ///     连接时间
@@ -193,7 +193,7 @@ namespace Paway.Utils
         /// <summary>
         ///     触发socker异常事件
         /// </summary>
-        protected void OnSocketException(SocketError type)
+        protected internal void OnSocketException(SocketError type)
         {
             if (Disposed) return;
             OnDisConnectEvent(type);
@@ -203,7 +203,7 @@ namespace Paway.Utils
         ///     触发客户端日志
         /// </summary>
         /// <param name="message"></param>
-        protected void OnClientEvent(string message)
+        protected internal void OnClientEvent(string message)
         {
             try
             {
@@ -220,7 +220,7 @@ namespace Paway.Utils
         /// <summary>
         ///     触发socker异常事件->断开
         /// </summary>
-        protected virtual void OnDisConnectEvent(SocketError type)
+        protected internal virtual void OnDisConnectEvent(SocketError type)
         {
             try
             {
@@ -243,7 +243,7 @@ namespace Paway.Utils
         /// <summary>
         ///     等待客户端发送过来的数据
         /// </summary>
-        internal void WaitForData(AsynSocketArg state)
+        protected internal void WaitForData(AsynSocketArg state)
         {
             try
             {
@@ -296,7 +296,7 @@ namespace Paway.Utils
         /// <summary>
         ///     直接发送消息对象
         /// </summary>
-        internal void SendData(byte[] msgBuffer)
+        protected internal void SendData(byte[] msgBuffer)
         {
             try
             {
@@ -334,7 +334,7 @@ namespace Paway.Utils
         /// <summary>
         ///     Disposes the instance of SocketClient.
         /// </summary>
-        internal bool Disposed;
+        protected internal bool Disposed;
 
         /// <summary>
         ///     释放

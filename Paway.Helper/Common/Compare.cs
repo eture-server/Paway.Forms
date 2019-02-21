@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Paway.Helper
 {
-    /// <summary>
-    ///     比较委托
-    /// </summary>
-    public delegate bool EqualsComparer<T>(T x, T y);
-
     /// <summary>
     ///     比较方法
     ///     用法：new List(T).Distinct(new Compare((x, y) => x.Value == y.Value))
@@ -14,12 +10,12 @@ namespace Paway.Helper
     /// <typeparam name="T"></typeparam>
     public class Compare<T> : IEqualityComparer<T>
     {
-        private readonly EqualsComparer<T> _equalsComparer;
+        private readonly Func<T, T, bool> _equalsComparer;
 
         /// <summary>
         /// 构造：传递委托方法
         /// </summary>
-        public Compare(EqualsComparer<T> equalsComparer)
+        public Compare(Func<T, T, bool> equalsComparer)
         {
             _equalsComparer = equalsComparer;
         }

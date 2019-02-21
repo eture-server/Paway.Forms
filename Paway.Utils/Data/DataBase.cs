@@ -76,9 +76,7 @@ namespace Paway.Utils
         /// <summary>
         ///     对sql语句进行过滤
         /// </summary>
-        protected virtual void OnCommandText(DbCommand cmd)
-        {
-        }
+        protected virtual void OnCommandText(DbCommand cmd) { }
 
         #endregion
 
@@ -451,19 +449,13 @@ namespace Paway.Utils
         ///     查找指定查询语句
         ///     指定返回行数
         /// </summary>
-        public virtual List<T> Find<T>(string find, int count, DbCommand cmd = null, params string[] args)
-        {
-            return Find<T>(find, count, false, cmd, args);
-        }
+        public abstract List<T> Find<T>(string find, int count, DbCommand cmd = null, params string[] args);
         /// <summary>
         ///     填充 System.Data.DataSet 并返回一个List列表
         ///     查找指定查询语句
         ///     指定返回行数
         /// </summary>
-        public virtual DataTable FindTable<T>(string find, int count, DbCommand cmd = null, params string[] args)
-        {
-            return FindTable<T>(find, count, false, cmd, args);
-        }
+        public abstract DataTable FindTable<T>(string find, int count, DbCommand cmd = null, params string[] args);
 
         /// <summary>
         ///     填充 System.Data.DataSet 并返回一个List列表

@@ -13,7 +13,6 @@ namespace Paway.Utils
     public abstract class SQLiteHelper : DataBase
     {
         #region 初始化
-
         /// <summary>
         ///     文件名
         /// </summary>
@@ -22,8 +21,7 @@ namespace Paway.Utils
         /// <summary>
         ///     初始化
         /// </summary>
-        public SQLiteHelper()
-            : base(typeof(SQLiteConnection), typeof(SQLiteCommand), typeof(SQLiteParameter))
+        public SQLiteHelper() : base(typeof(SQLiteConnection), typeof(SQLiteCommand), typeof(SQLiteParameter))
         {
             GetId = "select LAST_INSERT_ROWID() Id";
         }
@@ -82,41 +80,7 @@ namespace Paway.Utils
 
         #endregion
 
-        #region 扩展.分步
-
-        /// <summary>
-        ///     打开一个连接
-        /// </summary>
-        /// <returns></returns>
-        protected new SQLiteCommand CommandStart()
-        {
-            return base.CommandStart() as SQLiteCommand;
-        }
-
-        /// <summary>
-        ///     打开一个连接
-        /// </summary>
-        /// <returns></returns>
-        protected new SQLiteCommand CommandStart(string sql)
-        {
-            return base.CommandStart(sql) as SQLiteCommand;
-        }
-
-        /// <summary>
-        ///     事务处理
-        ///     打开一个连接
-        ///     返回SqlCommand实例
-        /// </summary>
-        /// <returns></returns>
-        protected new SQLiteCommand TransStart()
-        {
-            return base.TransStart() as SQLiteCommand;
-        }
-
-        #endregion
-
         #region 扩展重载
-
         /// <summary>
         ///     查找指定查询语句
         ///     填充 System.Data.DataSet 并返回一个List列表

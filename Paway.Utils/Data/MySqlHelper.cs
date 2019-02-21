@@ -18,7 +18,6 @@ namespace Paway.Utils
             @"Data Source={0};Database={1};User Id={2};Password={3};Persist Security Info=True;pooling=false;CharSet=utf8;port={4}";
 
         #region 重载
-
         /// <summary>
         ///     对sql语句进行过滤
         /// </summary>
@@ -31,7 +30,6 @@ namespace Paway.Utils
         #endregion
 
         #region 初始化
-
         /// <summary>
         ///     初始化
         ///     没有
@@ -58,38 +56,6 @@ namespace Paway.Utils
         protected void InitConnect(string host, string database, string user, string pad, int port = 3306)
         {
             ConnString = string.Format(DbConnect, host, database, user, pad, port);
-        }
-
-        #endregion
-
-        #region 扩展.分步
-
-        /// <summary>
-        ///     打开一个连接
-        /// </summary>
-        protected new MySqlCommand CommandStart()
-        {
-            return base.CommandStart() as MySqlCommand;
-        }
-
-        /// <summary>
-        ///     打开一个连接
-        /// </summary>
-        /// <returns></returns>
-        protected new MySqlCommand CommandStart(string sql)
-        {
-            return base.CommandStart(sql) as MySqlCommand;
-        }
-
-        /// <summary>
-        ///     事务处理
-        ///     打开一个连接
-        ///     返回SqlCommand实例
-        /// </summary>
-        /// <returns></returns>
-        protected new MySqlCommand TransStart()
-        {
-            return base.TransStart() as MySqlCommand;
         }
 
         #endregion

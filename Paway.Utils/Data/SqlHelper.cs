@@ -1,4 +1,7 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 
 namespace Paway.Utils
@@ -46,35 +49,23 @@ namespace Paway.Utils
 
         #endregion
 
-        #region 扩展.分步
+        #region 扩展重载
 
         /// <summary>
-        ///     打开一个连接
+        ///     查找指定查询语句
+        ///     填充 System.Data.DataSet 并返回一个List列表
         /// </summary>
-        /// <returns></returns>
-        protected new SqlCommand CommandStart()
+        public override List<T> Find<T>(string find, int count, DbCommand cmd = null, params string[] args)
         {
-            return base.CommandStart() as SqlCommand;
+            return base.Find<T>(find, count, false, cmd, args);
         }
-
         /// <summary>
-        ///     打开一个连接
+        ///     查找指定查询语句
+        ///     填充 System.Data.DataSet 并返回一个DataTable
         /// </summary>
-        /// <returns></returns>
-        protected new SqlCommand CommandStart(string sql)
+        public override DataTable FindTable<T>(string find, int count, DbCommand cmd = null, params string[] args)
         {
-            return base.CommandStart(sql) as SqlCommand;
-        }
-
-        /// <summary>
-        ///     事务处理
-        ///     打开一个连接
-        ///     返回SqlCommand实例
-        /// </summary>
-        /// <returns></returns>
-        protected new SqlCommand TransStart()
-        {
-            return base.TransStart() as SqlCommand;
+            return base.FindTable<T>(find, count, false, cmd, args);
         }
 
         #endregion
