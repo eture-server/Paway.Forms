@@ -32,7 +32,7 @@ namespace Paway.Utils
         /// <summary>
         ///     重写实例 socket异常事件
         /// </summary>
-        protected internal override void OnDisConnectEvent(SocketError type)
+        internal override void OnDisConnectEvent(SocketError type)
         {
             ClearClientSocket();
             base.OnDisConnectEvent(type);

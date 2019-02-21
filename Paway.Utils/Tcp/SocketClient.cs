@@ -7,7 +7,7 @@ namespace Paway.Utils
     /// <summary>
     ///     Tcp通讯：Socket通讯客户端
     /// </summary>
-    public class SocketClient : SocketBase
+    internal class SocketClient : SocketBase
     {
         #region 构造
 

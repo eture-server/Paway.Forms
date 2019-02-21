@@ -6,7 +6,7 @@ namespace Paway.Utils
     /// <summary>
     ///     数据接收方法
     /// </summary>
-    public class AsynSocketArg
+    internal class AsynSocketArg
     {
         private const int BufferSize = 1024;
 

@@ -10,7 +10,7 @@ namespace Paway.Utils
     /// <summary>
     ///     数据发送类
     /// </summary>
-    public class SendDataService : IDisposable
+    internal class SendDataService : IDisposable
     {
         /// <summary>
         ///     发送数据间隔(ms)

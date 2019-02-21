@@ -6,7 +6,7 @@ namespace Paway.Utils
 {
     /// <summary>
     /// </summary>
-    public static class ConnListener
+    internal static class ConnListener
     {
         /// <summary>
         ///     Using IOControl code to configue socket KeepAliveValues for line disconnection detection(because default is toooo

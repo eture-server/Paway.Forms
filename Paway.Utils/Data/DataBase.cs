@@ -37,7 +37,7 @@ namespace Paway.Utils
         /// <summary>
         ///     返回最新插入列主键Id
         /// </summary>
-        protected string GetId { get; set; }
+        internal string GetId { get; set; }
 
         /// <summary>
         ///     连接字符串
@@ -47,7 +47,7 @@ namespace Paway.Utils
         /// <summary>
         /// 长连接对象
         /// </summary>
-        protected DbConnection Connection;
+        internal DbConnection Connection;
         /// <summary>
         /// 长连接开关
         /// </summary>
@@ -831,6 +831,7 @@ namespace Paway.Utils
             {
                 if (disposing)
                 {
+                    Close();
                 }
             }
             disposed = true;
