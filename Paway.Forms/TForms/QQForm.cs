@@ -9,12 +9,7 @@ namespace Paway.Forms
     /// </summary>
     public class QQForm : FormBase
     {
-        #region 构造函数
-
-        #endregion
-
         #region 方法
-
         /// <summary>
         ///     绘画按钮
         /// </summary>
