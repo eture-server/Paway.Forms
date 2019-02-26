@@ -174,6 +174,32 @@ namespace Paway.Helper
                 return value;
             }
         }
+        /// <summary>
+        /// 关于数字格式化
+        /// </summary>
+        public static string Rounds(double value, int max = 2, int min = 2)
+        {
+            string length = string.Empty;
+            for (int i = 0; i < max && i < min; i++)
+                length += "0";
+            for (int i = min; i < max; i++)
+                length += "#";
+            return string.Format("{0:0." + length + "}", value);
+        }
+        /// <summary>
+        /// 关于显示数字
+        /// </summary>
+        public static string Number(double number)
+        {
+            return TMethod.Rounds(number, 2, 0);
+        }
+        /// <summary>
+        /// 关于货币格式化
+        /// </summary>
+        public static string Money(double money)
+        {
+            return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol + TMethod.Rounds(money, 2);
+        }
 
         #endregion
 
