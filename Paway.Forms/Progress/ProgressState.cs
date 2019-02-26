@@ -20,16 +20,18 @@ namespace Paway.Forms
             }
             set { _caption = value; }
         }
-        public bool ITime { get { return DateTime.Now.Subtract(DateTime).TotalSeconds > 3; } }
+        public bool ITime { get { return CanCancel && DateTime.Now.Subtract(DateTime).TotalSeconds > 3; } }
+        private bool CanCancel;
         public bool ICancel { get; set; }
         public bool NoValue { get; set; }
         public int Max { get; set; }
         public int Value { get; set; }
         public DateTime DateTime { get; set; }
-        public ProgressState(IntPtr handle, string caption, int max)
+        public ProgressState(IntPtr handle, string caption, bool canCancel, int max)
         {
             this.Handle = handle;
             this.Caption = caption;
+            this.CanCancel = canCancel;
             this.Max = max == 0 ? 100 : max;
             this.NoValue = max == 0;
             this.DateTime = DateTime.Now;

@@ -74,7 +74,6 @@ namespace Paway.Forms
             gridview1.Edit.CellFormatting += Gridview1_CellFormatting;
             gridview1.Edit.CurrentCellChanged += Gridview1_CurrentCellChanged;
             gridview1.Edit.DoubleClick += Gridview1_DoubleClick;
-            gridview1.PagerInfo.PageSize = 20;
         }
 
         #region 权限-按钮

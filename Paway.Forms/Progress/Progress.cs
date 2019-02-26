@@ -64,17 +64,25 @@ namespace Paway.Forms
         /// </summary>
         /// <param name="caption">标题</param>
         /// <param name="max">最大值</param>
-        public Progress(string caption = "Loading..", int max = 0) : this(ProgressStates.False, caption, max) { }
+        public Progress(string caption = "Loading..", int max = 0) : this(ProgressStates.False, false, caption, max) { }
+        /// <summary>
+        /// 初始化实例
+        /// </summary>
+        /// <param name="canCancel">是否可以取消，默认否</param>
+        /// <param name="caption">标题</param>
+        /// <param name="max">最大值</param>
+        public Progress(bool canCancel, string caption = "Loading..", int max = 0) : this(ProgressStates.False, canCancel, caption, max) { }
         /// <summary>
         /// 初始化实例
         /// </summary>
         /// <param name="owner">父控件</param>
+        /// <param name="canCancel">是否可以取消，默认否</param>
         /// <param name="caption">标题</param>
         /// <param name="max">最大值</param>
-        public Progress(IntPtr owner, string caption = "Loading..", int max = 0)
+        public Progress(IntPtr owner, bool canCancel = false, string caption = "Loading..", int max = 0)
         {
             Application.DoEvents();
-            this._state = new ProgressState(owner, caption, max);
+            this._state = new ProgressState(owner, caption, canCancel, max);
             states.Add(this._state);
         }
         /// <summary>
