@@ -596,13 +596,13 @@ namespace Paway.Forms
             }
             if (TRoot != null)
             {
-                dr = dt.Select(string.Format("{0} = '{1}'", TId, TRoot));
+                dr = dt.Select(string.Format("[{0}] = '{1}'", TId, TRoot));
                 if (dr.Length > 0) throw new Exception("子节点不可与根节点相同");
-                dr = dt.Select(string.Format("{0} = '{1}'", TParentId, TRoot));
+                dr = dt.Select(string.Format("[{0}] = '{1}'", TParentId, TRoot));
             }
             else
             {
-                dr = dt.Select(string.Format("{0} is null", TParentId));
+                dr = dt.Select(string.Format("[{0}] is null", TParentId));
             }
             for (var i = 0; i < dr.Length; i++)
             {
@@ -616,7 +616,7 @@ namespace Paway.Forms
         /// </summary>
         protected virtual void AddNodes(DataTable dt, ItemNode parent)
         {
-            var dr = dt.Select(string.Format("{0} = '{1}'", TParentId, parent[TId.ToString()]));
+            var dr = dt.Select(string.Format("[{0}] = '{1}'", TParentId, parent[TId.ToString()]));
             for (var i = 0; i < dr.Length; i++)
             {
                 var node = CreateNode(dr[i]);

@@ -189,16 +189,16 @@ namespace Paway.Helper
         /// <summary>
         /// 关于显示数字
         /// </summary>
-        public static string Number(double number)
+        public static string Number(double number, int decimals = 2)
         {
-            return TMethod.Rounds(number, 2, 0);
+            return TMethod.Rounds(number, decimals, 0);
         }
         /// <summary>
         /// 关于货币格式化
         /// </summary>
-        public static string Money(double money)
+        public static string Money(double money, int decimals = 2)
         {
-            return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol + TMethod.Rounds(money, 2);
+            return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol + TMethod.Rounds(money, decimals, 0);
         }
 
         #endregion
