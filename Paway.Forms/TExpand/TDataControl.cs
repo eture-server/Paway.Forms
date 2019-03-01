@@ -324,11 +324,18 @@ namespace Paway.Forms
         {
             return this.List.AsParallel().Where((Activator.CreateInstance<T>().Find(value)));
         }
+        /// <summary>
+        /// 查询完成
+        /// </summary>
+        protected virtual void OnFound(IEnumerable<T> list)
+        {
+            this.gridview1.DataSource = list;
+        }
         private void TbName_TextChanged(object sender, EventArgs e)
         {
             if (!ToFind())
             {
-                this.gridview1.DataSource = this.List;
+                OnFound(this.List);
             }
         }
         private bool ToFind()
@@ -338,7 +345,8 @@ namespace Paway.Forms
             if (!value.IsNullOrEmpty())
             {
                 this.FList = OnFind(tbName.Text);
-                this.gridview1.DataSource = FList;
+                OnFound(this.FList);
+                this.tbName.Focus();
                 return true;
             }
             return false;
@@ -370,6 +378,7 @@ namespace Paway.Forms
                     tbName.Focus();
                     break;
                 case (Keys)Shortcut.CtrlA:
+                    if (tbName.Visible && tbName.ContainsFocus) break;
                     toolBar1.TClickItem("添加");
                     break;
                 case Keys.Enter:
