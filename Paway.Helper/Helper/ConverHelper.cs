@@ -894,6 +894,7 @@ namespace Paway.Helper
                 if (value is IList)
                 {
                     var clist = descriptor.GetValue(copy) as IList;
+                    clist.Clear();
                     var list = value as IList;
                     var type = list.GenericType();
                     var asmb = Assembly.GetAssembly(type);
