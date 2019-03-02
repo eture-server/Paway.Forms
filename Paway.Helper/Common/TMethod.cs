@@ -177,7 +177,7 @@ namespace Paway.Helper
         /// <summary>
         /// 关于数字格式化
         /// </summary>
-        public static string Rounds(double value, int max = 2, int min = 2)
+        public static string Rounds(double value, int max = 2, int min = 0)
         {
             string length = string.Empty;
             for (int i = 0; i < max && i < min; i++)
@@ -187,18 +187,18 @@ namespace Paway.Helper
             return string.Format("{0:0." + length + "}", value);
         }
         /// <summary>
-        /// 关于显示数字
+        /// 关于显示数字(最低两位)
         /// </summary>
         public static string Number(double number, int decimals = 2)
         {
-            return TMethod.Rounds(number, decimals, 0);
+            return TMethod.Rounds(number, decimals, 2);
         }
         /// <summary>
-        /// 关于货币格式化
+        /// 关于货币格式化(最低两位)
         /// </summary>
         public static string Money(double money, int decimals = 2)
         {
-            return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol + TMethod.Rounds(money, decimals, 0);
+            return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol + TMethod.Rounds(money, decimals, 2);
         }
 
         #endregion
