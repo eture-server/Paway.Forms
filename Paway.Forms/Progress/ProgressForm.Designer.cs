@@ -41,7 +41,7 @@ namespace Paway.Forms
             // 
             // toolCancel
             // 
-            this.toolCancel.ICheckEvent = true;
+            this.toolCancel.IClickEvent = true;
             toolItem1.Text = "Cancel";
             this.toolCancel.Items.Add(toolItem1);
             this.toolCancel.ItemSize = new System.Drawing.Size(62, 16);

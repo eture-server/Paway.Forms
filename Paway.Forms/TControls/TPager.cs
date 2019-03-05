@@ -322,7 +322,7 @@ namespace Paway.Forms
             // 
             // toolEnd
             // 
-            this.toolEnd.ICheckEvent = true;
+            this.toolEnd.IClickEvent = true;
             toolItem1.Hit = "End";
             toolItem1.Text = ">|";
             this.toolEnd.Items.Add(toolItem1);
@@ -347,7 +347,7 @@ namespace Paway.Forms
             // 
             // toolNext
             // 
-            this.toolNext.ICheckEvent = true;
+            this.toolNext.IClickEvent = true;
             toolItem2.Hit = "Next";
             toolItem2.Text = ">";
             this.toolNext.Items.Add(toolItem2);
@@ -372,7 +372,7 @@ namespace Paway.Forms
             // 
             // toolLast
             // 
-            this.toolLast.ICheckEvent = true;
+            this.toolLast.IClickEvent = true;
             toolItem3.Hit = "Last";
             toolItem3.Text = "<";
             this.toolLast.Items.Add(toolItem3);
@@ -397,7 +397,7 @@ namespace Paway.Forms
             // 
             // toolFirst
             // 
-            this.toolFirst.ICheckEvent = true;
+            this.toolFirst.IClickEvent = true;
             toolItem4.Hit = "First";
             toolItem4.Text = "|<";
             this.toolFirst.Items.Add(toolItem4);

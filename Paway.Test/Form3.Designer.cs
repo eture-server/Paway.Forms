@@ -47,7 +47,7 @@
             // toolBar1
             // 
             this.toolBar1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.toolBar1.ICheckEvent = true;
+            this.toolBar1.IClickEvent = true;
             this.toolBar1.IScroll = false;
             this.toolBar1.Items.Add(toolItem2);
             this.toolBar1.ItemSize = new System.Drawing.Size(191, 251);

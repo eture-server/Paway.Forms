@@ -187,9 +187,9 @@ namespace Paway.Forms
         /// <summary>
         /// 插入数据到数据库
         /// </summary>
-        protected virtual void OnAddInfo(T info)
+        protected virtual bool OnAddInfo(T info)
         {
-            server.Insert(info);
+            return server.Insert(info);
         }
         /// <summary>
         /// 编辑数据
@@ -198,9 +198,9 @@ namespace Paway.Forms
         /// <summary>
         /// 更新数据到数据库
         /// </summary>
-        protected virtual void OnEditInfo(T info)
+        protected virtual bool OnEditInfo(T info)
         {
-            server.Update(info);
+            return server.Update(info);
         }
         /// <summary>
         /// 删除数据
@@ -209,9 +209,9 @@ namespace Paway.Forms
         /// <summary>
         /// 从数据库删除数据
         /// </summary>
-        protected virtual void OnDeleteInfo(T info)
+        protected virtual bool OnDeleteInfo(T info)
         {
-            server.Delete(info);
+            return server.Delete(info);
         }
 
         #endregion
@@ -235,7 +235,7 @@ namespace Paway.Forms
                     T data = OnAdd();
                     if (data != null)
                     {
-                        OnAddInfo(data);
+                        if (!OnAddInfo(data)) break;
                         this.List.Add(data);
                         if (ToFind())
                         {
@@ -254,14 +254,14 @@ namespace Paway.Forms
                 case "编辑":
                     if (this.Info == null)
                     {
-                        ExceptionHelper.Show("请选择数据项");
+                        ExceptionHelper.Show("Please select item");
                         break;
                     }
                     if (this.Info.Id < 0) return;
                     Form edit = OnEdit(this.Info);
                     if (edit != null && edit.ShowDialog(this) == DialogResult.OK)
                     {
-                        OnEditInfo(this.Info);
+                        if (!OnEditInfo(this.Info)) break;
                         if (ToFind())
                         {
                             gridview1.AutoLast();
@@ -277,7 +277,7 @@ namespace Paway.Forms
                 case "删除":
                     if (this.Info == null)
                     {
-                        ExceptionHelper.Show("请选择数据项");
+                        ExceptionHelper.Show("Please select item");
                         break;
                     }
                     if (this.Info.Id < 0) return;
@@ -285,7 +285,7 @@ namespace Paway.Forms
                     DialogResult result = MessageBox.Show(this, delete.Item2, delete.Item1, MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
                     if (result == DialogResult.OK)
                     {
-                        OnDeleteInfo(this.Info);
+                        if (!OnDeleteInfo(this.Info)) break;
                         this.List.Remove(this.Info);
                         if (ToFind())
                         {

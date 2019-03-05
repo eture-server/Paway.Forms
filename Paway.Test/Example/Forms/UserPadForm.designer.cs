@@ -63,7 +63,7 @@
             // 
             this.toolCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.toolCancel.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolCancel.ICheckEvent = true;
+            this.toolCancel.IClickEvent = true;
             this.toolCancel.IItemLine = true;
             this.toolCancel.ImageSize = new System.Drawing.Size(0, 0);
             toolItem1.Text = "取消";
@@ -87,7 +87,7 @@
             // 
             this.toolOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.toolOk.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolOk.ICheckEvent = true;
+            this.toolOk.IClickEvent = true;
             this.toolOk.IItemLine = true;
             this.toolOk.ImageSize = new System.Drawing.Size(0, 0);
             toolItem2.Text = "确认";

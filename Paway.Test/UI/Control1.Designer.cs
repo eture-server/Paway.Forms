@@ -52,7 +52,7 @@
             this.toolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolbar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolbar.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolbar.ICheckEvent = true;
+            this.toolbar.IClickEvent = true;
             toolItem1.Tag = "登陆";
             toolItem1.Text = "登陆";
             toolItem2.Tag = "更新密码";

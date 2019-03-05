@@ -65,7 +65,7 @@
             this.toolBar1.Controls.Add(this.tbName);
             this.toolBar1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolBar1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.toolBar1.ICheckEvent = true;
+            this.toolBar1.IClickEvent = true;
             this.toolBar1.IImageShow = true;
             toolItem1.Image = global::Paway.Forms.Properties.Resources.refresh;
             toolItem1.Tag = "刷新";

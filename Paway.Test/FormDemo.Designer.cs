@@ -695,7 +695,7 @@
             // toolBar3
             // 
             this.toolBar3.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.toolBar3.ICheckEvent = true;
+            this.toolBar3.IClickEvent = true;
             toolItem12.Text = "光暗";
             toolItem13.Text = "反色";
             toolItem14.Text = "浮雕";

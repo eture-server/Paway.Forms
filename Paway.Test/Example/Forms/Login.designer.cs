@@ -71,7 +71,7 @@
             // 
             this.toolOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.toolOk.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolOk.ICheckEvent = true;
+            this.toolOk.IClickEvent = true;
             this.toolOk.IItemLine = true;
             this.toolOk.ImageSize = new System.Drawing.Size(0, 0);
             toolItem1.Text = "登陆";

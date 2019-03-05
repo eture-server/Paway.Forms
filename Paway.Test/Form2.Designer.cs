@@ -97,7 +97,7 @@
             // 
             // toolBar1
             // 
-            this.toolBar1.ICheckEvent = true;
+            this.toolBar1.IClickEvent = true;
             toolItem1.Text = "上";
             toolItem2.Text = "下";
             toolItem3.Text = "左";
@@ -144,7 +144,7 @@
             this.toolUp.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.toolUp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolUp.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolUp.ICheckEvent = true;
+            this.toolUp.IClickEvent = true;
             toolItem21.Text = "清明上河图";
             this.toolUp.Items.Add(toolItem21);
             this.toolUp.ItemSize = new System.Drawing.Size(90, 90);
@@ -169,7 +169,7 @@
             this.toolBar2.Controls.Add(this.toolUp);
             this.toolBar2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolBar2.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolBar2.ICheckEvent = true;
+            this.toolBar2.IClickEvent = true;
             this.toolBar2.IImageShow = true;
             this.toolBar2.ImageSize = new System.Drawing.Size(32, 32);
             toolItem22.Image = global::Paway.Test.Properties.Resources.online;

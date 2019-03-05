@@ -52,7 +52,7 @@
             // toolBar1
             // 
             this.toolBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.toolBar1.ICheckEvent = true;
+            this.toolBar1.IClickEvent = true;
             toolItem1.TColor.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(95)))), ((int)(((byte)(20)))));
             toolItem1.TColor.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(159)))), ((int)(((byte)(91)))));
             toolItem1.TColor.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(126)))), ((int)(((byte)(34)))));
