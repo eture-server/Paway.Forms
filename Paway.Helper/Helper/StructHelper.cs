@@ -11,7 +11,7 @@ namespace Paway.Helper
     /// <summary>
     ///     结构体-内存
     /// </summary>
-    public abstract class SctructHelper
+    public abstract class StructHelper
     {
         /// <summary>
         ///     反序列化所提供流中的数据并重新组成对象
@@ -26,7 +26,6 @@ namespace Paway.Helper
                 return formatter.Deserialize(stream);
             }
         }
-
         /// <summary>
         ///     将对象或具有给定根的对象序列化为所提供的流
         /// </summary>
@@ -41,6 +40,7 @@ namespace Paway.Helper
                 return stream.ToArray();
             }
         }
+
         /// <summary>
         /// byte[]转图片(无编码)
         /// </summary>
@@ -66,6 +66,47 @@ namespace Paway.Helper
                 ms.Read(buffer, 0, buffer.Length);
                 return buffer;
             }
+        }
+
+        /// <summary>
+        ///     创建图像并锁定内存，写入byte[]
+        /// </summary>
+        public static Bitmap FromRawData(byte[] rawData, int width, int height, PixelFormat format)
+        {
+            if (width < 1 || height < 1)
+                throw new ArgumentException("width和height必须大于零。");
+            if (rawData == null)
+                throw new ArgumentNullException("rawData", "rawData 不能为空。");
+
+            var image = new Bitmap(width, height, format);
+            var bitmapData = image.LockBits(
+                new Rectangle(0, 0, image.Width, image.Height),
+                ImageLockMode.WriteOnly,
+                image.PixelFormat);
+            var byteCount = bitmapData.Stride * bitmapData.Height;
+            Marshal.Copy(rawData, 0, bitmapData.Scan0, byteCount);
+            image.UnlockBits(bitmapData);
+
+            return image;
+        }
+        /// <summary>
+        ///     将图像锁定到内存，复制到byte[]
+        /// </summary>
+        public static byte[] ToRawData(Bitmap image)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image", "image 不能为空。");
+
+            var bitmapData = image.LockBits(
+                new Rectangle(0, 0, image.Width, image.Height),
+                ImageLockMode.ReadOnly,
+                image.PixelFormat);
+            var byteCount = bitmapData.Stride * bitmapData.Height;
+            var rawData = new byte[byteCount];
+            Marshal.Copy(bitmapData.Scan0, rawData, 0, rawData.Length);
+            image.UnlockBits(bitmapData);
+
+            return rawData;
         }
     }
 }

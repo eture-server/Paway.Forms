@@ -1808,6 +1808,7 @@ namespace Paway.Forms
         /// <returns></returns>
         public override bool Contain(Point point)
         {
+            if (INormal) return false;
             for (var i = 0; i < Items.Count; i++)
             {
                 if (Items[i].Rectangle.Contains(point))

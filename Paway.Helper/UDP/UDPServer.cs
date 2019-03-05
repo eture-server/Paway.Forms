@@ -102,7 +102,7 @@ namespace Paway.Helper
             object message = null;
             try
             {
-                message = SctructHelper.GetObjectFromByte(buffer);
+                message = StructHelper.GetObjectFromByte(buffer);
             }
             catch
             {

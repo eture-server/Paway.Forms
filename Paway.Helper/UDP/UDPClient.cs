@@ -17,7 +17,7 @@ namespace Paway.Helper
             try
             {
                 udpClient = new UdpClient();
-                var byteData = message is byte[] ? message as byte[] : SctructHelper.GetByteFromObject(message);
+                var byteData = message is byte[] ? message as byte[] : StructHelper.GetByteFromObject(message);
                 //先处理发送的数据，加上一字节头+四字节长度
                 var msgBuffer = new byte[byteData.Length + 5];
                 msgBuffer[0] = Preamble;

@@ -651,7 +651,7 @@ namespace Paway.Helper
             }
             else if (pro.PropertyType == typeof(Image) && value is byte[])
             {
-                pro.SetValue(obj, SctructHelper.BytesToImage(value as byte[]));
+                pro.SetValue(obj, StructHelper.BytesToImage(value as byte[]));
             }
             else if (pro.PropertyType == typeof(int) || pro.PropertyType == typeof(int?))
             {

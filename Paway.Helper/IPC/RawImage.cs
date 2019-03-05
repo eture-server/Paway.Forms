@@ -11,11 +11,10 @@ namespace Paway.Helper
     [Serializable]
     public class RawImage
     {
-        private readonly int format;
+        private readonly PixelFormat format;
         private readonly int height;
         private readonly int width;
         private Bitmap _Image;
-
         private byte[] rawData;
 
         /// <summary>
@@ -27,8 +26,8 @@ namespace Paway.Helper
             {
                 width = image.Width;
                 height = image.Height;
-                format = (int)image.PixelFormat;
-                ByteData = ToRawData(image);
+                format = image.PixelFormat;
+                ByteData = StructHelper.ToRawData(image);
                 image = null;
             }
         }
@@ -41,7 +40,7 @@ namespace Paway.Helper
             get
             {
                 if (_Image == null && width > 0 && height > 0)
-                    _Image = FromRawData();
+                    _Image = StructHelper.FromRawData(rawData, width, height, format);
                 return _Image;
             }
         }
@@ -53,48 +52,6 @@ namespace Paway.Helper
         {
             get { return rawData; }
             set { rawData = value; }
-        }
-
-        /// <summary>
-        ///     创建图像并锁定内存，写入byte[]
-        /// </summary>
-        public Bitmap FromRawData()
-        {
-            if (width < 1 || height < 1)
-                throw new ArgumentException("width和height必须大于零。");
-            if (rawData == null)
-                throw new ArgumentNullException("rawData", "rawData 不能为空。");
-
-            var image = new Bitmap(width, height, (PixelFormat)format);
-            var bitmapData = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.WriteOnly,
-                image.PixelFormat);
-            var byteCount = bitmapData.Stride * bitmapData.Height;
-            Marshal.Copy(rawData, 0, bitmapData.Scan0, byteCount);
-            image.UnlockBits(bitmapData);
-
-            return image;
-        }
-
-        /// <summary>
-        ///     将图像锁定到内存，复制到byte[]
-        /// </summary>
-        public byte[] ToRawData(Bitmap image)
-        {
-            if (image == null)
-                throw new ArgumentNullException("image", "image 不能为空。");
-
-            var bitmapData = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly,
-                image.PixelFormat);
-            var byteCount = bitmapData.Stride * bitmapData.Height;
-            var rawData = new byte[byteCount];
-            Marshal.Copy(bitmapData.Scan0, rawData, 0, rawData.Length);
-            image.UnlockBits(bitmapData);
-
-            return rawData;
         }
     }
 }

@@ -1286,7 +1286,7 @@ namespace Paway.Utils
 
             if (prop.PropertyType == typeof(Image) && value is Image)
             {
-                value = SctructHelper.ImageToBytes((Image)value);
+                value = StructHelper.ImageToBytes((Image)value);
                 if (value == null) return false;
             }
             else if (prop.PropertyType == typeof(DateTime) && value is DateTime)
@@ -1310,7 +1310,7 @@ namespace Paway.Utils
 
             if (prop.PropertyType == typeof(Image) && value is Image)
             {
-                value = SctructHelper.ImageToBytes((Image)value);
+                value = StructHelper.ImageToBytes((Image)value);
                 if (value == null) return false;
             }
             else if (prop.PropertyType == typeof(DateTime) && value is DateTime)

@@ -154,7 +154,7 @@ namespace Paway.Utils
             {
                 try
                 {
-                    message = SctructHelper.GetObjectFromByte(buffer);
+                    message = StructHelper.GetObjectFromByte(buffer);
                 }
                 catch
                 {
@@ -281,7 +281,7 @@ namespace Paway.Utils
             }
             if (SendDataService != null && message != null)
             {
-                var byteData = message is byte[] ? message as byte[] : SctructHelper.GetByteFromObject(message);
+                var byteData = message is byte[] ? message as byte[] : StructHelper.GetByteFromObject(message);
                 SendDataService.SendData(byteData);
             }
             else if (ithrow)

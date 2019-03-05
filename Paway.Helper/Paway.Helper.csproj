@@ -79,6 +79,7 @@
     <Compile Include="Helper\LoadHelper.cs" />
     <Compile Include="Helper\ExceptionHelper.cs" />
     <Compile Include="Helper\ExcelHelper.cs" />
+    <Compile Include="Helper\StructHelper.cs" />
     <Compile Include="Helper\WebHelper.cs" />
     <Compile Include="Helper\Base64Helper.cs" />
     <Compile Include="Helper\BitmapHelper.cs" />
@@ -87,7 +88,6 @@
     <Compile Include="Helper\EncryptHelper.cs" />
     <Compile Include="Helper\EntityHelper.cs" />
     <Compile Include="Helper\HardWareHelper.cs" />
-    <Compile Include="Helper\SctructHelper.cs" />
     <Compile Include="Helper\StringHelper.cs" />
     <Compile Include="Helper\XmlHelper.cs" />
     <Compile Include="Info\FindInfo.cs" />
