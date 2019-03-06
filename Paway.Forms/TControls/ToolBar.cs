@@ -173,6 +173,11 @@ namespace Paway.Forms
         /// </summary>
         private readonly ToolTip _toolTop;
 
+        /// <summary>
+        ///     按下抬起项是否相同中用的过度项
+        /// </summary>
+        private ToolItem _tempItem;
+
         #endregion
 
         #region 公共属性
@@ -318,13 +323,22 @@ namespace Paway.Forms
             }
         }
 
+        private bool _iClickEvent;
         /// <summary>
         ///     单击事件开关
         ///     单击松开后取消选中状态，只有鼠标移入状态
         /// </summary>
         [Description("单击事件开关")]
         [DefaultValue(false)]
-        public bool IClickEvent { get; set; }
+        public bool IClickEvent
+        {
+            get { return _iClickEvent; }
+            set
+            {
+                if (_iMultiple) return;
+                _iClickEvent = value;
+            }
+        }
 
         /// <summary>
         ///     图片显示开关
@@ -360,6 +374,7 @@ namespace Paway.Forms
             get { return _iMultiple; }
             set
             {
+                if (value) _iClickEvent = false;
                 _iMultiple = value;
                 Invalidate();
             }
@@ -758,14 +773,14 @@ namespace Paway.Forms
         #region 激发事件的方法
 
         /// <summary>
-        ///     当选择的 Item 发生改变时(按下时)激发。
+        ///     当选择的 Item 发生改变时激发。
         /// </summary>
         /// <param name="item"></param>
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
         public virtual void OnSelectedItemChanged(ToolItem item, EventArgs e)
         {
             if (!item.Enable) return;
-            if (Events[EventSelectedItemChanged] is EventHandler handler)
+            if (Events[EventSelectedItemChanged] is Action<ToolItem, EventArgs> handler)
             {
                 item.Owner = this;
                 handler(item, e);
@@ -773,7 +788,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     当单击项后(抬起时)激发。
+        ///     当单击项后激发。
         /// </summary>
         /// <param name="item"></param>
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
@@ -781,7 +796,7 @@ namespace Paway.Forms
         {
             if (!item.Enable) return;
             {
-                if (Events[EventItemClick] is EventHandler handler)
+                if (Events[EventItemClick] is Action<ToolItem, EventArgs> handler)
                 {
                     item.Owner = this;
                     handler(item, e);
@@ -797,7 +812,7 @@ namespace Paway.Forms
         public virtual bool OnEditClick(ToolItem item, EventArgs e)
         {
             if (!item.Enable) return false;
-            if (Events[EventEditClick] is EventHandler handler)
+            if (Events[EventEditClick] is Action<ToolItem, EventArgs> handler)
             {
                 item.Owner = this;
                 handler(item, e);
@@ -832,7 +847,7 @@ namespace Paway.Forms
         /// <summary>
         ///     当选中项的发生改变时
         /// </summary>
-        public event EventHandler SelectedItemChanged
+        public event Action<ToolItem, EventArgs> SelectedItemChanged
         {
             add { Events.AddHandler(EventSelectedItemChanged, value); }
             remove { Events.RemoveHandler(EventSelectedItemChanged, value); }
@@ -841,7 +856,7 @@ namespace Paway.Forms
         /// <summary>
         ///     当单击项时事件发生
         /// </summary>
-        public event EventHandler ItemClick
+        public event Action<ToolItem, EventArgs> ItemClick
         {
             add { Events.AddHandler(EventItemClick, value); }
             remove { Events.RemoveHandler(EventItemClick, value); }
@@ -850,7 +865,7 @@ namespace Paway.Forms
         /// <summary>
         ///     当编辑项时事件发生
         /// </summary>
-        public event EventHandler EditClick
+        public event Action<ToolItem, EventArgs> EditClick
         {
             add { Events.AddHandler(EventEditClick, value); }
             remove { Events.RemoveHandler(EventEditClick, value); }
@@ -1481,7 +1496,7 @@ namespace Paway.Forms
                             InvaRectDesc(item, TMouseState.Move);
                         }
                     }
-                    if (IClickEvent || item.MouseState != TMouseState.Down)
+                    if (_iClickEvent || item.MouseState != TMouseState.Down)
                     {
                         flag = false;
                         if (item.MouseState != TMouseState.Move && item.MouseState != TMouseState.Down)
@@ -1499,7 +1514,7 @@ namespace Paway.Forms
                 else
                 {
                     InvaRectDesc(item, TMouseState.Normal);
-                    if (IClickEvent || item.MouseState != TMouseState.Down)
+                    if (_iClickEvent || item.MouseState != TMouseState.Down)
                     {
                         InvalidateItem(item, TMouseState.Normal);
                     }
@@ -1524,10 +1539,19 @@ namespace Paway.Forms
             foreach (var item in Items)
             {
                 InvaRectDesc(item, TMouseState.Normal);
-                if ((IClickEvent && !_iMultiple) || item.MouseState != TMouseState.Down)
+                if ((_iClickEvent && !_iMultiple) || item.MouseState != TMouseState.Down)
                 {
                     InvalidateItem(item, TMouseState.Normal);
                 }
+            }
+            ClearTemp();
+        }
+        private void ClearTemp()
+        {
+            if (_tempItem != null && _tempItem != _selectedItem)
+            {
+                InvalidateItem(_tempItem, TMouseState.Normal);
+                _tempItem = null;
             }
         }
 
@@ -1553,7 +1577,7 @@ namespace Paway.Forms
                 {
                     OnMouseDown(point, item, e, contain);
                 }
-                else if (!INormal && !_iMultiple && contain)
+                else if (!INormal && !_iMultiple && contain && item != _selectedItem)
                 {
                     InvalidateItem(item, TMouseState.Normal);
                 }
@@ -1562,24 +1586,9 @@ namespace Paway.Forms
 
         private void OnMouseDown(Point point, ToolItem item, EventArgs e, bool contain)
         {
-            //事件
-            if (item != _selectedItem && !item.RectDesc.Contains(point))
+            if (item != _tempItem)
             {
-                _selectedItem = item;
-                _selectedIndex = Items.GetIndexOfRange(item);
-                OnSelectedItemChanged(item, e);
-            }
-            if (item.RectDesc.Contains(point))
-            {
-                var ifocus = false;
-                if (item.RectDesc.Contains(point))
-                {
-                    ifocus = OnEditClick(item, e);
-                }
-                if (!ifocus)
-                {
-                    Invalidate(item);
-                }
+                _tempItem = item;
             }
             if (INormal) return;
             if (item.RectDesc.Contains(point))
@@ -1629,23 +1638,49 @@ namespace Paway.Forms
                     OnMouseUp(point, item, e);
                 }
             }
+            ClearTemp();
         }
 
         private void OnMouseUp(Point point, ToolItem item, EventArgs e)
         {
-            OnItemClick(item, e);
-            if (INormal) return;
-            if (item.RectDesc.Contains(point))
+            if (!INormal)
             {
-                InvaRectDesc(item, TMouseState.Move);
+                if (item.RectDesc.Contains(point))
+                {
+                    InvaRectDesc(item, TMouseState.Move);
+                }
+                else
+                {
+                    InvaRectDesc(item, TMouseState.Normal);
+                }
+                if (!_iMultiple && _iClickEvent && item.MouseState == TMouseState.Down)
+                {
+                    InvalidateItem(item, TMouseState.Move);
+                }
             }
-            else
+            if (item == _tempItem)
             {
-                InvaRectDesc(item, TMouseState.Normal);
-            }
-            if (!_iMultiple && IClickEvent && item.MouseState == TMouseState.Down)
-            {
-                InvalidateItem(item, TMouseState.Move);
+                //事件
+                _tempItem = null;
+                if (item.RectDesc.Contains(point))
+                {
+                    var ifocus = OnEditClick(item, e);
+                    if (!ifocus)
+                    {
+                        Invalidate(item);
+                    }
+                }
+                else
+                {
+                    if (item != _selectedItem)
+                    {
+                        if (_selectedItem != null) InvalidateItem(_selectedItem, TMouseState.Normal);
+                        _selectedItem = item;
+                        _selectedIndex = Items.GetIndexOfRange(item);
+                        OnSelectedItemChanged(item, e);
+                    }
+                    OnItemClick(item, e);
+                }
             }
         }
 
@@ -1847,7 +1882,7 @@ namespace Paway.Forms
             if (index >= 0)
             {
                 _selectedItem = _items[index];
-                if (!IClickEvent)
+                if (!_iClickEvent)
                 {
                     InvalidateItem(_selectedItem, TMouseState.Down);
                 }

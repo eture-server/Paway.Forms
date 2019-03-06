@@ -25,23 +25,18 @@ namespace Paway.Test
             base.OnShown(e);
 
             this.TDrawBelowBorder(panel1);
-            this.tsmAbout.Click += tsmAbout_Click;
-            this.toolBar1.ItemClick += toolBar1_ItemClickChanged;
+            this.tsmAbout.Click += TsmAbout_Click;
         }
 
-        void toolBar1_ItemClickChanged(object sender, EventArgs e)
-        {
-        }
-
-        void tsmAbout_Click(object sender, EventArgs e)
+        private void TsmAbout_Click(object sender, EventArgs e)
         {
             AboutForm about = new AboutForm();
             about.ShowDialog(this);
         }
 
-        private void toolBar1_SelectedItemChanged(object sender, EventArgs e)
+        private void ToolBar1_SelectedItemChanged(ToolItem item, EventArgs e)
         {
-            MControl.ReLoad(panel1, typeof(Control1), e, TMDirection.None, new Action<object, EventArgs>(Method));
+            MControl.ReLoad(panel1, typeof(Control1), EventArgs.Empty, TMDirection.None, new Action<object, EventArgs>(Method));
         }
         public void Method(object sender, EventArgs e) { }
     }

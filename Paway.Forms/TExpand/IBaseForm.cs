@@ -88,7 +88,7 @@ namespace Paway.Forms
                     }
                     return true;
                 case Keys.Enter | Keys.Control:
-                    ToolOk_ItemClick(this, EventArgs.Empty);
+                    ToolOk_ItemClick(null, EventArgs.Empty);
                     break;
                 case Keys.Enter:
                     if (IEnter) EnterFoucs();
@@ -99,7 +99,7 @@ namespace Paway.Forms
                 case Keys.Escape:
                     if (iExit)
                     {
-                        ToolCancel_ItemClick(this, EventArgs.Empty);
+                        ToolCancel_ItemClick(null, EventArgs.Empty);
                     }
                     iExit = true;
                     break;
@@ -148,11 +148,10 @@ namespace Paway.Forms
         /// <summary>
         /// 其它响应
         /// </summary>
-        protected void ToolBar1_ItemClick(object sender, EventArgs e)
+        protected void ToolBar1_ItemClick(ToolItem item, EventArgs e)
         {
             try
             {
-                ToolItem item = sender as ToolItem;
                 OnItemClick(item);
             }
             catch (Exception ex)
@@ -163,7 +162,7 @@ namespace Paway.Forms
         /// <summary>
         /// 确认OK
         /// </summary>
-        protected void ToolOk_ItemClick(object sender, EventArgs e)
+        protected void ToolOk_ItemClick(ToolItem item, EventArgs e)
         {
             try
             {
@@ -183,7 +182,7 @@ namespace Paway.Forms
         /// <summary>
         /// 取消Cancel
         /// </summary>
-        protected void ToolCancel_ItemClick(object sender, EventArgs e)
+        protected void ToolCancel_ItemClick(ToolItem item, EventArgs e)
         {
             try
             {

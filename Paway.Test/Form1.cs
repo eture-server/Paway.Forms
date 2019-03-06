@@ -36,12 +36,12 @@ namespace Paway.Test
             //toolBar.Items[1].Text = string.Format("{0}&{1}", "你好", null);
         }
 
-        void ToolClose_EditClick(object sender, EventArgs e)
+        private void ToolClose_EditClick(ToolItem item, EventArgs e)
         {
             //new QQDemo().ShowDialog(this);
         }
 
-        void BtName_Click(object sender, EventArgs e)
+        private void BtName_Click(object sender, EventArgs e)
         {
             //toolBar.Items.Add(new ToolItem(DateTime.Now.Second.ToString()) { IHeard = true });
             toolBar.Items.Add(new ToolItem(DateTime.Now.Second.ToString() + "A"));
@@ -74,9 +74,8 @@ namespace Paway.Test
             //timer.Enabled = true;
         }
 
-        void ToolClose_ItemClick(object sender, EventArgs e)
+        private void ToolClose_ItemClick(ToolItem item, EventArgs e)
         {
-            ToolItem item = sender as ToolItem;
             item.IChange = false;
             //this.TextShow = DateTime.Now.ToString();
         }

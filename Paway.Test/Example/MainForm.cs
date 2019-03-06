@@ -46,9 +46,8 @@ namespace Paway.Test
         }
 
         #region 菜单
-        private void ToolBar1_SelectedItemChanged(object sender, EventArgs e)
+        private void ToolBar1_SelectedItemChanged(ToolItem item, EventArgs e)
         {
-            ToolItem item = sender as ToolItem;
             switch (item.Text)
             {
                 case "主页":

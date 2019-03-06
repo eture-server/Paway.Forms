@@ -19,13 +19,13 @@ namespace Paway.Test
         public Form2()
         {
             InitializeComponent();
-            toolBar1.ItemClick += toolBar1_ItemClick;
-            toolBar2.ItemClick += toolBar2_ItemClick;
+            toolBar1.ItemClick += ToolBar1_ItemClick;
+            toolBar2.ItemClick += ToolBar2_ItemClick;
             toolUp.ItemClick += toolUp_ItemClick;
             //toolOk.MDirection = TMDirection.Transparent;
         }
 
-        void toolUp_ItemClick(object sender, EventArgs e)
+        private void toolUp_ItemClick(ToolItem item, EventArgs e)
         {
             //toolBar2.Items.Add(new ToolItem(DateTime.Now.Second.ToString()));
             toolBar2.Items.RemoveAt(1);
@@ -56,15 +56,13 @@ namespace Paway.Test
             toolBar2.TStart();
             //toolBar1.TClickFirst();
         }
-        void toolBar2_ItemClick(object sender, EventArgs e)
+        private void ToolBar2_ItemClick(ToolItem item, EventArgs e)
         {
-            ToolItem item = sender as ToolItem;
             item.Text = DateTime.Now.Second.ToString();
         }
 
-        void toolBar1_ItemClick(object sender, EventArgs e)
+        private void ToolBar1_ItemClick(ToolItem item, EventArgs e)
         {
-            ToolItem item = sender as ToolItem;
             MControl control = null;
             //MControl.ReSet(panel3);
             switch (item.Text)

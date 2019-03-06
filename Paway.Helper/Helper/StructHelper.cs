@@ -71,7 +71,7 @@ namespace Paway.Helper
         /// <summary>
         ///     创建图像并锁定内存，写入byte[]
         /// </summary>
-        public static Bitmap FromRawData(byte[] rawData, int width, int height, PixelFormat format)
+        public static Bitmap FromRawData(byte[] rawData, int width, int height, PixelFormat format = PixelFormat.Format32bppArgb)
         {
             if (width < 1 || height < 1)
                 throw new ArgumentException("width和height必须大于零。");

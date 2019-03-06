@@ -178,12 +178,12 @@ namespace Paway.Forms
             PagerInfo.CurrentPageIndex = page;
         }
 
-        private void ToolFirst_ItemClick(object sender, EventArgs e)
+        private void ToolFirst_ItemClick(ToolItem item, EventArgs e)
         {
             RefreshData(1);
         }
 
-        private void ToolLast_ItemClick(object sender, EventArgs e)
+        private void ToolLast_ItemClick(ToolItem item, EventArgs e)
         {
             if (PagerInfo.CurrentPageIndex > 1)
             {
@@ -195,7 +195,7 @@ namespace Paway.Forms
             }
         }
 
-        private void ToolNext_ItemClick(object sender, EventArgs e)
+        private void ToolNext_ItemClick(ToolItem item, EventArgs e)
         {
             if (PagerInfo.CurrentPageIndex < PagerInfo.PageCount)
             {
@@ -211,7 +211,7 @@ namespace Paway.Forms
             }
         }
 
-        private void ToolEnd_ItemClick(object sender, EventArgs e)
+        private void ToolEnd_ItemClick(ToolItem item, EventArgs e)
         {
             if (PagerInfo.PageCount > 0)
             {

@@ -103,7 +103,7 @@ namespace Paway.Test
             }
         }
 
-        void toolBar3_SelectedItemChanged(object sender, EventArgs e)
+        void toolBar3_SelectedItemChanged(ToolItem item, EventArgs e)
         {
             Bitmap image = null;
             if (pictureBox1.Image == null)

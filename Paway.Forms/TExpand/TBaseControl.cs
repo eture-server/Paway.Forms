@@ -129,11 +129,10 @@ namespace Paway.Forms
         /// <summary>
         /// 其它响应
         /// </summary>
-        protected void ToolBar1_ItemClick(object sender, EventArgs e)
+        protected void ToolBar1_ItemClick(ToolItem item, EventArgs e)
         {
             try
             {
-                ToolItem item = sender as ToolItem;
                 OnItemClick(item);
             }
             catch (Exception ex)

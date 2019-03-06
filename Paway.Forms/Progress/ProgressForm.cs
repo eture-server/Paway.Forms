@@ -40,7 +40,7 @@ namespace Paway.Forms
             timer.Tick += new EventHandler(Timer_Tick);
             timer.Start();
         }
-        private void ToolCancel_ItemClick(object sender, EventArgs e)
+        private void ToolCancel_ItemClick(ToolItem item, EventArgs e)
         {
             this.states.Cancel();
         }

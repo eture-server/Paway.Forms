@@ -283,17 +283,9 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     从指定的文件初始化图像
-        /// </summary>
-        public static Bitmap GetBitmapFormFile(string fileName)
-        {
-            return GetBitmapFormFile(fileName, PixelFormat.Format32bppArgb);
-        }
-
-        /// <summary>
         ///     从指定的文件初始化图像，并指定像素格式
         /// </summary>
-        public static Bitmap GetBitmapFormFile(string fileName, PixelFormat format)
+        public static Bitmap GetBitmapFormFile(string fileName, PixelFormat format = PixelFormat.Format32bppArgb)
         {
             var bitmap = new Bitmap(fileName);
             var image = new Bitmap(bitmap.Width, bitmap.Height, format);
