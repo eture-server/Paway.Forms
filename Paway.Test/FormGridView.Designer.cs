@@ -71,7 +71,11 @@
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.tDataGridView1);
             this.panel1.Padding = new System.Windows.Forms.Padding(10, 10, 10, 2);
-            this.panel1.Size = new System.Drawing.Size(710, 546);
+            this.panel1.Size = new System.Drawing.Size(710, 492);
+            // 
+            // lbTitle
+            // 
+            this.lbTitle.Location = new System.Drawing.Point(330, 31);
             // 
             // panel3
             // 
@@ -81,7 +85,7 @@
             this.panel3.Location = new System.Drawing.Point(10, 355);
             this.panel3.Name = "panel3";
             this.panel3.Padding = new System.Windows.Forms.Padding(3);
-            this.panel3.Size = new System.Drawing.Size(690, 189);
+            this.panel3.Size = new System.Drawing.Size(690, 135);
             this.panel3.TabIndex = 10;
             // 
             // tDataGridView2
@@ -91,7 +95,7 @@
             this.tDataGridView2.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Single;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 12F);
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DodgerBlue;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
@@ -113,7 +117,7 @@
             this.tDataGridView2.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.tDataGridView2.RowTemplate.Height = 23;
             this.tDataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.tDataGridView2.Size = new System.Drawing.Size(684, 183);
+            this.tDataGridView2.Size = new System.Drawing.Size(684, 129);
             this.tDataGridView2.TabIndex = 12;
             // 
             // ProColor
@@ -180,7 +184,7 @@
             // 
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.Color.Red;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 12F);
             dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Red;
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
@@ -188,7 +192,7 @@
             this.tDataGridViewPager1.Edit.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("微软雅黑", 12F);
             dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -199,7 +203,7 @@
             this.tDataGridViewPager1.Edit.Name = "tDataGridView1";
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.Color.Red;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("微软雅黑", 12F);
             dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.White;
@@ -221,7 +225,6 @@
             // 
             // 
             this.tDataGridViewPager1.TPager.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
-            this.tDataGridViewPager1.TPager.Cursor = System.Windows.Forms.Cursors.Hand;
             this.tDataGridViewPager1.TPager.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.tDataGridViewPager1.TPager.Location = new System.Drawing.Point(0, 138);
             this.tDataGridViewPager1.TPager.Name = "pager1";
@@ -236,7 +239,7 @@
             this.tDataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("微软雅黑", 12F);
             dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -253,13 +256,15 @@
             this.ComponentId});
             this.tDataGridView1.Dock = System.Windows.Forms.DockStyle.Top;
             this.tDataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(186)))), ((int)(((byte)(132)))));
+            this.tDataGridView1.ICheckBox = true;
             this.tDataGridView1.ICheckBoxName = "IsSelect";
             this.tDataGridView1.IMultiText = true;
             this.tDataGridView1.Location = new System.Drawing.Point(10, 10);
             this.tDataGridView1.MultiSelect = true;
             this.tDataGridView1.Name = "tDataGridView1";
+            this.tDataGridView1.ReadOnly = false;
             dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("微软雅黑", 12F);
             dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Red;
             dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.tDataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
@@ -285,7 +290,6 @@
             this.IsSelect.FillWeight = 83.18353F;
             this.IsSelect.HeaderText = "";
             this.IsSelect.Name = "IsSelect";
-            this.IsSelect.ReadOnly = true;
             // 
             // CommandType
             // 
@@ -345,8 +349,11 @@
             // 
             this.BackColor = System.Drawing.Color.CornflowerBlue;
             this.ClientSize = new System.Drawing.Size(712, 574);
-            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "FormGridView";
+            this.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(57)))), ((int)(((byte)(50)))));
+            this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(112)))), ((int)(((byte)(99)))));
+            this.TBrush.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(84)))), ((int)(((byte)(74)))));
+            this.TBrush.ColorSpace = System.Drawing.Color.Ivory;
             this.Text = "hello,world";
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
@@ -355,6 +362,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.tDataGridViewPager1.Edit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tDataGridView1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -376,6 +384,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn ActionTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn ComponentId;
-
     }
 }

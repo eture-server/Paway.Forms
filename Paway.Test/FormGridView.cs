@@ -108,6 +108,11 @@ namespace Paway.Test
                     ComponentId = Guid.NewGuid(),
                 });
             }
+            list.Add(new CheckBoxDataGridViewData
+            {
+                Id = "-1",
+                ComponentId = Guid.NewGuid(),
+            });
             tDataGridView1.DataSource = list;
 
             this.tDataGridView1.AddSpanHeader(2, 2, "Hello");
