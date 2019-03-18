@@ -7,6 +7,7 @@ namespace Paway.Forms
 {
     internal class ProgressState
     {
+        public event Action CancelEvent;
         public IntPtr Handle { get; set; }
         private string _caption;
         public string Caption
@@ -22,7 +23,16 @@ namespace Paway.Forms
         }
         public bool ITime { get { return CanCancel && DateTime.Now.Subtract(DateTime).TotalSeconds > 3; } }
         private bool CanCancel;
-        public bool ICancel { get; set; }
+        private bool _iCancel;
+        public bool ICancel
+        {
+            get { return _iCancel; }
+            set
+            {
+                _iCancel = value;
+                CancelEvent?.BeginInvoke(null, null);
+            }
+        }
         public bool NoValue { get; set; }
         public int Max { get; set; }
         public int Value { get; set; }

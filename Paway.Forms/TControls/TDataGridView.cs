@@ -15,9 +15,13 @@ namespace Paway.Forms
     public class TDataGridView : DataGridView
     {
         /// <summary>
-        ///     数据刷新后触发
+        /// 数据刷新后触发
         /// </summary>
         public event Action RefreshChanged;
+        /// <summary>
+        /// CheckBox选中事件
+        /// </summary>
+        public event Action<bool> CheckedChanged;
 
         #region 构造函数
         /// <summary>
@@ -619,7 +623,6 @@ namespace Paway.Forms
         {
             HeaderCheckBoxClick((CheckBox)sender);
         }
-
         private void HeaderCheckBoxClick(CheckBox HCheckBox)
         {
             if (!_iCheckBox || string.IsNullOrEmpty(ICheckBoxName)) return;
@@ -628,6 +631,7 @@ namespace Paway.Forms
             {
                 ((DataGridViewCheckBoxCell)Row.Cells[ICheckBoxName]).Value = HCheckBox.Checked;
             }
+            CheckedChanged?.Invoke(HCheckBox.Checked);
             RefreshEdit();
         }
 

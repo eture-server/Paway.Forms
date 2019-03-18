@@ -16,6 +16,10 @@ namespace Paway.Forms
         private readonly static ProgressStates states = new ProgressStates();
         private static Thread thread;
         private volatile static bool IStop;
+        /// <summary>
+        /// 取消事件
+        /// </summary>
+        public event Action CancelEvent;
 
         /// <summary>
         /// 初始化线程
@@ -83,7 +87,12 @@ namespace Paway.Forms
         {
             Application.DoEvents();
             this._state = new ProgressState(owner, caption, canCancel, max);
+            this._state.CancelEvent += _state_CancelEvent;
             states.Add(this._state);
+        }
+        private void _state_CancelEvent()
+        {
+            CancelEvent?.Invoke();
         }
         /// <summary>
         /// 完成释放
