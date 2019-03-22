@@ -93,66 +93,37 @@ namespace Paway.Helper
         public string Text { get; set; }
     }
     /// <summary>
-    ///     特性.字段Excel设置
+    ///     特性.不导出Excel
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
-    public sealed class ExcelAttribute : Attribute
+    public sealed class NoExcelAttribute : Attribute
     {
-        private bool _iExcel = true;
-        /// <summary>
-        ///     是否生成到ExcelTable
-        ///     默认true
-        /// </summary>
-        public bool IExcel { get { return _iExcel; } }
-
         /// <summary>
         /// </summary>
-        public ExcelAttribute(bool excel)
-        {
-            _iExcel = excel;
-        }
+        public NoExcelAttribute() { }
     }
     /// <summary>
-    ///     特性.字段Sort设置
+    ///     特性.排序
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
     public sealed class SortAttribute : Attribute
     {
         /// <summary>
-        ///     是否自定义排序列
-        ///     默认false
         /// </summary>
-        public bool ISort { get; }
-
-        /// <summary>
-        /// </summary>
-        public SortAttribute(bool sort)
-        {
-            ISort = sort;
-        }
+        public SortAttribute(bool sort) { }
     }
     /// <summary>
-    ///     特性.字段Clone设置
+    ///     特性.不复制
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public sealed class CloneAttribute : Attribute
+    public sealed class NoCloneAttribute : Attribute
     {
-        private bool _iClone = true;
-        /// <summary>
-        ///     是否复制列
-        ///     默认true
-        /// </summary>
-        public bool IClone { get { return _iClone; } }
-
         /// <summary>
         /// </summary>
-        public CloneAttribute(bool clone)
-        {
-            _iClone = clone;
-        }
+        public NoCloneAttribute() { }
     }
     /// <summary>
     ///     特性.类Table设置

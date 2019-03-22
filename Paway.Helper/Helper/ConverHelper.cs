@@ -805,8 +805,8 @@ namespace Paway.Helper
         /// </summary>
         public static bool IExcel(this MemberInfo pro)
         {
-            var list = pro.GetCustomAttributes(typeof(ExcelAttribute), false) as ExcelAttribute[];
-            return list.Length == 0 || list[0].IExcel;
+            var list = pro.GetCustomAttributes(typeof(NoExcelAttribute), false) as NoExcelAttribute[];
+            return list.Length == 0;
         }
         /// <summary>
         /// 自定义排序列标记
@@ -814,12 +814,15 @@ namespace Paway.Helper
         public static bool ISort(this MemberInfo pro)
         {
             var list = pro.GetCustomAttributes(typeof(SortAttribute), false) as SortAttribute[];
-            return list.Length == 1 && list[0].ISort;
+            return list.Length == 1;
         }
+        /// <summary>
+        /// 自定义不复制列标记
+        /// </summary>
         private static bool IClone(this MemberInfo pro)
         {
-            var list = pro.GetCustomAttributes(typeof(CloneAttribute), false) as CloneAttribute[];
-            return list.Length == 0 || list[0].IClone;
+            var list = pro.GetCustomAttributes(typeof(NoCloneAttribute), false) as NoCloneAttribute[];
+            return list.Length == 0;
         }
 
         #endregion
