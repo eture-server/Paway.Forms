@@ -169,7 +169,7 @@ namespace Paway.Forms
         /// </summary>
         protected void HaveQuery()
         {
-            tbName.Visible = true;
+            panel2.Visible = true;
         }
 
         #endregion
@@ -340,7 +340,7 @@ namespace Paway.Forms
         }
         private bool ToFind()
         {
-            if (!tbName.Visible && tbName.IError) return false;
+            if (!panel2.Visible && tbName.IError) return false;
             string value = tbName.Text.Trim();
             if (!value.IsNullOrEmpty())
             {
@@ -378,7 +378,7 @@ namespace Paway.Forms
                     tbName.Focus();
                     break;
                 case (Keys)Shortcut.CtrlA:
-                    if (tbName.Visible && tbName.ContainsFocus) break;
+                    if (panel2.Visible && tbName.ContainsFocus) break;
                     toolBar1.TClickItem("添加");
                     break;
                 case Keys.Enter:

@@ -126,7 +126,7 @@ namespace Paway.Forms
         /// <summary>
         ///     绘制列数据在源中的序号
         /// </summary>
-        private int _iCheckBoxIndex { get; set; }
+        private int _iCheckBoxIndex = -1;
 
         /// <summary>
         ///     要绘制的CheckBox
@@ -513,6 +513,7 @@ namespace Paway.Forms
             if (type == null || type == typeof(string) || type.IsValueType) return;
 
             var properties = type.Properties();
+            _iCheckBoxIndex = -1;
             for (var i = 0; i < Columns.Count; i++)
             {
                 if (Columns[i].Name == ICheckBoxName)
@@ -646,6 +647,7 @@ namespace Paway.Forms
         {
             if (e.RowIndex != -1) return;
             if (!_iCheckBox) return;
+            _headerCheckBox.Visible = _iCheckBoxIndex != -1;
             if (e.ColumnIndex == _iCheckBoxIndex)
             {
                 var oRectangle = GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);

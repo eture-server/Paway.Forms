@@ -35,10 +35,11 @@
             this.tControl1 = new Paway.Forms.TControl();
             this.panel1 = new Paway.Forms.TControl();
             this.toolBar1 = new Paway.Forms.ToolBar();
+            this.panel2 = new Paway.Forms.TControl();
             this.tbName = new Paway.Forms.QQTextBox();
             this.gridview1 = new Paway.Forms.TDataGridViewPager();
             this.panel1.SuspendLayout();
-            this.toolBar1.SuspendLayout();
+            this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridview1.Edit)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,6 +55,7 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.toolBar1);
+            this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
@@ -64,7 +66,6 @@
             // toolBar1
             // 
             this.toolBar1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.toolBar1.Controls.Add(this.tbName);
             this.toolBar1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolBar1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.toolBar1.IAutoWidth = true;
@@ -90,29 +91,40 @@
             this.toolBar1.Location = new System.Drawing.Point(0, 2);
             this.toolBar1.MDirection = Paway.Helper.TMDirection.Up;
             this.toolBar1.Name = "toolBar1";
-            this.toolBar1.Size = new System.Drawing.Size(693, 32);
-            this.toolBar1.TabIndex = 2;
+            this.toolBar1.Size = new System.Drawing.Size(535, 32);
+            this.toolBar1.TabIndex = 69;
             this.toolBar1.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))));
             this.toolBar1.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(244)))), ((int)(((byte)(191)))));
             this.toolBar1.TextFirst.ColorMove = System.Drawing.Color.Blue;
             this.toolBar1.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
             // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel2.Controls.Add(this.tbName);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel2.Location = new System.Drawing.Point(535, 2);
+            this.panel2.Name = "panel2";
+            this.panel2.Padding = new System.Windows.Forms.Padding(0, 3, 5, 0);
+            this.panel2.Size = new System.Drawing.Size(158, 32);
+            this.panel2.TabIndex = 68;
+            // 
             // tbName
             // 
-            this.tbName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbName.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.tbName.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tbName.Icon = global::Paway.Forms.Properties.Resources.search;
             this.tbName.IconIsButton = true;
             this.tbName.ITrans = true;
             this.tbName.Lines = new string[0];
-            this.tbName.Location = new System.Drawing.Point(525, 4);
+            this.tbName.Location = new System.Drawing.Point(0, 3);
             this.tbName.MaxLength = 16;
             this.tbName.Name = "tbName";
             this.tbName.Regex = "";
             this.tbName.RegexType = Paway.Helper.RegexType.Normal;
-            this.tbName.Size = new System.Drawing.Size(158, 25);
-            this.tbName.TabIndex = 58;
-            this.tbName.Visible = false;
+            this.tbName.Size = new System.Drawing.Size(153, 29);
+            this.tbName.TabIndex = 60;
             this.tbName.WaterText = "Ctrl+F搜索";
             // 
             // gridview1
@@ -156,7 +168,7 @@
             this.Name = "TDataControl";
             this.Size = new System.Drawing.Size(693, 237);
             this.panel1.ResumeLayout(false);
-            this.toolBar1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridview1.Edit)).EndInit();
             this.ResumeLayout(false);
 
@@ -165,11 +177,10 @@
         #endregion
 
         protected Paway.Forms.TControl panel1;
-        protected Paway.Forms.ToolBar toolBar1;
-        protected Paway.Forms.QQTextBox tbName;
         protected Paway.Forms.TDataGridViewPager gridview1;
         protected Paway.Forms.TControl tControl1;
-
-
+        protected ToolBar toolBar1;
+        protected TControl panel2;
+        protected QQTextBox tbName;
     }
 }

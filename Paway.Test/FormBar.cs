@@ -1,4 +1,5 @@
 ﻿using Paway.Forms;
+using Paway.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,11 +16,12 @@ namespace Paway.Test
         public FormBar()
         {
             InitializeComponent();
-            toolBar2.ItemClick += ToolBar2_ItemClick;
+            toolBar2.SelectedItemChanged += ToolBar2_ItemClick;
         }
         private void ToolBar2_ItemClick(ToolItem item, EventArgs e)
         {
-            //toolBar2.TClickItem(-1);
+            ExceptionHelper.Show(item.Text);
+            if (item.First == "0") toolBar2.TClickItem(-1);
         }
     }
 }
