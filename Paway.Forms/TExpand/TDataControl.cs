@@ -48,6 +48,7 @@ namespace Paway.Forms
         public TDataControl()
         {
             InitializeComponent();
+            this.toolBar1.TDirection = Paway.Helper.TDirection.Vertical;
         }
         /// <summary>
         /// ReLoad
@@ -88,6 +89,7 @@ namespace Paway.Forms
         protected void NewItem(string name, string tag = null, Image image = null)
         {
             toolBar1.Items.Add(new ToolItem(name, image) { Tag = tag ?? name });
+            toolBar1.TRefresh();
         }
         /// <summary>
         /// 添加刷新按钮(默认)

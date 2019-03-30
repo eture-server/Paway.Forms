@@ -32,7 +32,7 @@
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
-            this.tControl1 = new Paway.Forms.TControl();
+            this.panel3 = new Paway.Forms.TControl();
             this.panel1 = new Paway.Forms.TControl();
             this.toolBar1 = new Paway.Forms.ToolBar();
             this.panel2 = new Paway.Forms.TControl();
@@ -43,17 +43,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridview1.Edit)).BeginInit();
             this.SuspendLayout();
             // 
-            // tControl1
+            // panel3
             // 
-            this.tControl1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.tControl1.Location = new System.Drawing.Point(683, 37);
-            this.tControl1.Name = "tControl1";
-            this.tControl1.Size = new System.Drawing.Size(10, 200);
-            this.tControl1.TabIndex = 66;
-            this.tControl1.Visible = false;
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel3.Location = new System.Drawing.Point(683, 37);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(10, 200);
+            this.panel3.TabIndex = 66;
+            this.panel3.Visible = false;
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panel1.Controls.Add(this.toolBar1);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -65,7 +66,6 @@
             // 
             // toolBar1
             // 
-            this.toolBar1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.toolBar1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolBar1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.toolBar1.IAutoWidth = true;
@@ -108,6 +108,7 @@
             this.panel2.Padding = new System.Windows.Forms.Padding(0, 3, 5, 0);
             this.panel2.Size = new System.Drawing.Size(158, 32);
             this.panel2.TabIndex = 68;
+            this.panel2.Visible = false;
             // 
             // tbName
             // 
@@ -161,7 +162,7 @@
             // TDataControl
             // 
             this.Controls.Add(this.gridview1);
-            this.Controls.Add(this.tControl1);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.MInterval = 6;
@@ -178,7 +179,7 @@
 
         protected Paway.Forms.TControl panel1;
         protected Paway.Forms.TDataGridViewPager gridview1;
-        protected Paway.Forms.TControl tControl1;
+        protected Paway.Forms.TControl panel3;
         protected ToolBar toolBar1;
         protected TControl panel2;
         protected QQTextBox tbName;
