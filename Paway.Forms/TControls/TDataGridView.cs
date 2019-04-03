@@ -22,6 +22,10 @@ namespace Paway.Forms
         /// CheckBox选中事件
         /// </summary>
         public event Action<bool> CheckedChanged;
+        /// <summary>
+        /// 合并单元格取消事件
+        /// </summary>
+        public event Func<int, string, bool> SpanEvent;
 
         #region 构造函数
         /// <summary>
@@ -691,8 +695,7 @@ namespace Paway.Forms
             var DownRows = 0;
             //总行数
             var count = 0;
-            if (SpanColumns.Contains(e.ColumnIndex) && Columns[e.ColumnIndex] is DataGridViewTextBoxColumn cell
-                && cell.Visible && cell.ReadOnly)
+            if (SpanColumns.Contains(e.ColumnIndex) && Columns[e.ColumnIndex] is DataGridViewTextBoxColumn cell && cell.Visible && cell.ReadOnly)
             {
                 var curValue = e.Value == null ? "" : e.Value.ToString().Trim();
                 if (string.IsNullOrEmpty(curValue)) return;
@@ -705,55 +708,39 @@ namespace Paway.Forms
                     for (var i = e.RowIndex; i < Rows.Count; i++)
                     {
                         if (Rows[i].Cells[e.ColumnIndex].Value == null) break;
+                        if (i > e.RowIndex && SpanEvent != null && SpanEvent(i, Columns[e.ColumnIndex].DataPropertyName)) break;
                         if (Rows[i].Cells[e.ColumnIndex].Value.ToString().Equals(curValue))
                         {
                             if (Rows[i].Cells[e.ColumnIndex].Selected) select = true;
-                            //this.Rows[i].Cells[e.ColumnIndex].Selected = this.Rows[e.RowIndex].Cells[e.ColumnIndex].Selected;
                             DownRows++;
-                            if (e.RowIndex != i)
-                            {
-                                cellwidth = cellwidth < Rows[i].Cells[e.ColumnIndex].Size.Width
-                                    ? cellwidth
-                                    : Rows[i].Cells[e.ColumnIndex].Size.Width;
-                            }
+                            cellwidth = cellwidth < Rows[i].Cells[e.ColumnIndex].Size.Width
+                                ? cellwidth : Rows[i].Cells[e.ColumnIndex].Size.Width;
                         }
-                        else
-                        {
-                            break;
-                        }
+                        else break;
                     }
 
                     #endregion
 
                     #region 获取上面的行数
 
-                    for (var i = e.RowIndex; i >= 0; i--)
+                    for (var i = e.RowIndex - 1; i >= 0; i--)
                     {
+                        if (Rows[i].Cells[e.ColumnIndex].Value == null) break;
+                        if (SpanEvent != null && SpanEvent(i + 1, Columns[e.ColumnIndex].DataPropertyName)) break;
                         if (Rows[i].Cells[e.ColumnIndex].Value.ToString().Equals(curValue))
                         {
                             if (Rows[i].Cells[e.ColumnIndex].Selected) select = true;
-                            //this.Rows[i].Cells[e.ColumnIndex].Selected = this.Rows[e.RowIndex].Cells[e.ColumnIndex].Selected;
                             UpRows++;
-                            if (e.RowIndex != i)
-                            {
-                                cellwidth = cellwidth < Rows[i].Cells[e.ColumnIndex].Size.Width
-                                    ? cellwidth
-                                    : Rows[i].Cells[e.ColumnIndex].Size.Width;
-                            }
+                            cellwidth = cellwidth < Rows[i].Cells[e.ColumnIndex].Size.Width
+                                ? cellwidth : Rows[i].Cells[e.ColumnIndex].Size.Width;
                         }
-                        else
-                        {
-                            break;
-                        }
+                        else break;
                     }
 
                     #endregion
 
-                    count = DownRows + UpRows - 1;
-                    if (count < 2)
-                    {
-                        return;
-                    }
+                    count = DownRows + UpRows;
+                    if (count < 2) return;
                 }
                 if (select)
                 {
@@ -762,31 +749,27 @@ namespace Paway.Forms
                     for (var i = e.RowIndex; i < Rows.Count; i++)
                     {
                         if (Rows[i].Cells[e.ColumnIndex].Value == null) break;
+                        if (i > e.RowIndex && SpanEvent != null && SpanEvent(i, Columns[e.ColumnIndex].DataPropertyName)) break;
                         if (Rows[i].Cells[e.ColumnIndex].Value.ToString().Equals(curValue))
                         {
                             Rows[i].Cells[e.ColumnIndex].Selected = true;
                         }
-                        else
-                        {
-                            break;
-                        }
+                        else break;
                     }
 
                     #endregion
 
                     #region 选中上面的行
 
-                    for (var i = e.RowIndex; i >= 0; i--)
+                    for (var i = e.RowIndex - 1; i >= 0; i--)
                     {
                         if (Rows[i].Cells[e.ColumnIndex].Value == null) break;
+                        if (SpanEvent != null && SpanEvent(i + 1, Columns[e.ColumnIndex].DataPropertyName)) break;
                         if (Rows[i].Cells[e.ColumnIndex].Value.ToString().Equals(curValue))
                         {
                             Rows[i].Cells[e.ColumnIndex].Selected = true;
                         }
-                        else
-                        {
-                            break;
-                        }
+                        else break;
                     }
 
                     #endregion
@@ -799,16 +782,13 @@ namespace Paway.Forms
                 //以背景色填充
                 e.Graphics.FillRectangle(backBrush, e.CellBounds);
                 //画字符串
-                PaintingFont(e, cellwidth, UpRows, DownRows, count);
+                PaintingFont(e, cellwidth, UpRows + 1, DownRows, count);
                 if (DownRows == 1)
                 {
-                    e.Graphics.DrawLine(gridLinePen, e.CellBounds.Left, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1,
-                        e.CellBounds.Bottom - 1);
-                    count = 0;
+                    e.Graphics.DrawLine(gridLinePen, e.CellBounds.Left, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1);
                 }
                 // 画右边线
-                e.Graphics.DrawLine(gridLinePen, e.CellBounds.Right - 1, e.CellBounds.Top - 1, e.CellBounds.Right - 1,
-                    e.CellBounds.Bottom - 1);
+                e.Graphics.DrawLine(gridLinePen, e.CellBounds.Right - 1, e.CellBounds.Top - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1);
 
                 e.Handled = true;
             }
