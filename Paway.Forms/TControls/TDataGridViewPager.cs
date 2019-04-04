@@ -179,6 +179,7 @@ namespace Paway.Forms
             if (this.DataSource == null) return;
             if (this.Edit.CurrentCell == null) return;
             DataGridViewColumn column = this.Edit.Columns[this.Index];
+            if (column.SortMode == DataGridViewColumnSortMode.NotSortable) return;
             var sort = column.HeaderCell.SortGlyphDirection;
             {
                 if (sort == SortOrder.None) sort = SortOrder.Ascending;
@@ -303,7 +304,7 @@ namespace Paway.Forms
                 }
                 Edit.DataSource = table;
                 Edit.UpdateColumns(DataType);
-                Edit.OnRefreshChanged();
+                Edit.OnRefreshChanged(DataType);
             }
             else if (dataSource is IList)
             {
@@ -327,7 +328,6 @@ namespace Paway.Forms
                 PagerInfo.RecordCount = 0;
                 Edit.DataSource = dataSource;
             }
-            UpdateColumnsSortMode();
         }
         /// <summary>
         /// IEnumerable
@@ -347,17 +347,6 @@ namespace Paway.Forms
             }
             PagerInfo.RecordCount = i;
             Edit.DataSource = temp;
-        }
-        /// <summary>
-        ///     更新列排序模式
-        /// </summary>
-        protected void UpdateColumnsSortMode()
-        {
-            if (DataType == null || DataType == typeof(string) || DataType.IsValueType) return;
-            for (var i = 0; i < Edit.Columns.Count; i++)
-            {
-                Edit.Columns[i].SortMode = DataGridViewColumnSortMode.Programmatic;
-            }
         }
 
         /// <summary>

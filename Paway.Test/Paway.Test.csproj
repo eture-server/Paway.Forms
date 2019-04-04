@@ -302,9 +302,6 @@
     <EmbeddedResource Include="Example\UI\WaitControl.resx">
       <DependentUpon>WaitControl.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -349,9 +346,6 @@
     <None Include="Resources\process.gif" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="alog.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="Resources\search.png" />
     <None Include="Resources\refresh.png" />
     <None Include="Resources\edit.png" />
@@ -363,6 +357,11 @@
     <None Include="Resources\i1_trans.png" />
     <None Include="Resources\i1.jpg" />
     <None Include="Resources\n1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="log.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

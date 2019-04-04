@@ -506,7 +506,7 @@ namespace Paway.Forms
                 base.DataSource = temp;
             }
             UpdateColumns(type);
-            OnRefreshChanged();
+            OnRefreshChanged(type);
         }
 
         /// <summary>
@@ -549,8 +549,15 @@ namespace Paway.Forms
         /// <summary>
         /// 引发事件
         /// </summary>
-        internal void OnRefreshChanged()
+        internal void OnRefreshChanged(Type type)
         {
+            if (type != null && type != typeof(string) && !type.IsValueType)
+            {
+                for (var i = 0; i < Columns.Count; i++)
+                {
+                    Columns[i].SortMode = DataGridViewColumnSortMode.Programmatic;
+                }
+            }
             RefreshChanged?.Invoke();
         }
 

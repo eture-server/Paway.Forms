@@ -53,7 +53,7 @@ namespace Paway.Test
                 //temp = Paway.Helper.BitmapHelper.HSLToRGB(list[0], list[1], list[2] - 20);
 
                 //log4net.Config.XmlConfigurator.Configure();
-                log4net.Config.XmlConfigurator.Configure(new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "alog.xml")));
+                log4net.Config.XmlConfigurator.Configure(new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log.xml")));
                 Assembly assembly = Assembly.GetExecutingAssembly();
                 AssemblyTitleAttribute attrTitle = Attribute.GetCustomAttribute(assembly, typeof(AssemblyTitleAttribute)) as AssemblyTitleAttribute;
                 log.InfoFormat("{0} v{1} ({2})", attrTitle.Title, assembly.GetName().Version, Environment.MachineName);
