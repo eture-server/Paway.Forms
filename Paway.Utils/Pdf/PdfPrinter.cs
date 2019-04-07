@@ -80,7 +80,6 @@ namespace Paway.Utils
         /// <param name="document"></param>
         public override void OnStartPage(PdfWriter writer, Document document)
         {
-            var cb = writer.DirectContent;
             if (HeaderContent.Image != null)
             {
                 var img = Image.GetInstance(HeaderContent.Image, BaseColor.WHITE);
@@ -128,8 +127,7 @@ namespace Paway.Utils
         /// <param name="document"></param>
         public void OnStartPage2(PdfWriter writer, Document document)
         {
-            var strWidth = 0f;
-            var fontSize = 0f;
+            float strWidth, fontSize;
             var padTop = 40f;
 
             var cb = writer.DirectContent;
@@ -286,8 +284,8 @@ namespace Paway.Utils
                 WidthPercentage = 100f,
                 SkipFirstHeader = false
             };
-            var pCells = new PdfPCell[table.Columns.Count];
-            PdfPRow pRow = null;
+            PdfPCell[] pCells;
+            PdfPRow pRow;
             //内容
             foreach (DataRow row in table.Rows)
             {

@@ -405,7 +405,7 @@ namespace Paway.Helper
             var rect = new Rectangle(0, 0, width, height);
             //用可读写的方式锁定全部位图像素
             var bmpData = bitmap.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            byte gray = 0;
+            byte gray;
             var val = param.ToInt();
             unsafe //启用不安全模式
             {
@@ -516,7 +516,6 @@ namespace Paway.Helper
             {
                 var p = (byte*)bmpData.Scan0; //获取首地址
                 var f = (byte*)copyData.Scan0; //获取首地址
-                var offset = bmpData.Stride - width * 4;
                 //二维图像循环
                 //for (int y = height - 1; y >= 0; y--)
                 for (var y = 0; y < height; y++)
@@ -557,7 +556,6 @@ namespace Paway.Helper
             {
                 var p = (byte*)bmpData.Scan0; //获取首地址
                 var f = (byte*)copyData.Scan0; //获取首地址
-                var offset = bmpData.Stride - width * 4;
                 //二维图像循环
                 for (var x = 0; x < width; x++)
                 {
@@ -656,7 +654,7 @@ namespace Paway.Helper
             var width = bmp.Width;
             var height = bmp.Height;
             // PixelFormat指定图像中每个像素的颜色数据的格式 
-            var pixelFormat = default(PixelFormat);
+            PixelFormat pixelFormat;
             if (bkColor == Color.Transparent)
             {
                 pixelFormat = PixelFormat.Format32bppArgb;
@@ -786,7 +784,7 @@ namespace Paway.Helper
             delMax = Max - Min; //Delta RGB value
 
             var L = (Max + Min) / 2.0;
-            double H = 0, S = 0;
+            double H = 0, S;
             if (delMax == 0) //This is a gray, no chroma...
             {
                 //H = 2.0/3.0;          //Windows下S值为0时，H值始终为160（2/3*240）

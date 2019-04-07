@@ -125,7 +125,7 @@ namespace Paway.Utils
             }
             finally
             {
-                SocketConfig.ThreadList.TryRemove(Thread.CurrentThread.ManagedThreadId, out string name);
+                SocketConfig.ThreadList.TryRemove(Thread.CurrentThread.ManagedThreadId, out _);
             }
         }
 
@@ -173,7 +173,7 @@ namespace Paway.Utils
                     return;
                 }
                 var socket = socketListener.EndAccept(asyn);
-                var client = new SocketPackage(this, socket);
+                var client = new SocketPackage(socket);
                 OnClientConnect(client);
                 SocketConfig.ClientList.Add(client);
                 client.ClientEvent += Client_ClientEvent;

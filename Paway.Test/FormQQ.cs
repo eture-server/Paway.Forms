@@ -18,7 +18,6 @@ namespace Paway.Test
         public FormQQ()
         {
             InitializeComponent();
-            this.contextMenuStrip1.Renderer = new QQToolStripRenderer();
         }
 
         private void AnimalShow()

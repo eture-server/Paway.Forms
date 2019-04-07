@@ -477,8 +477,8 @@ namespace Paway.Forms
             {
                 if (_items == null)
                 {
-                    _items = new ToolItemCollection(this);
-                    _items.ListChanged += _items_ListChanged;
+                    _items = new ToolItemCollection();
+                    _items.ListChanged += Items_ListChanged;
                 }
                 return _items;
             }
@@ -602,7 +602,7 @@ namespace Paway.Forms
             {
                 if (_change == null)
                 {
-                    _change = new TProperties(MethodBase.GetCurrentMethod());
+                    _change = new TProperties();
                     _change.ValueChange += delegate { Invalidate(); };
                 }
                 return _change;
@@ -621,7 +621,7 @@ namespace Paway.Forms
             {
                 if (_text == null)
                 {
-                    _text = new TProperties(MethodBase.GetCurrentMethod());
+                    _text = new TProperties();
                     _text.ValueChange += delegate { Invalidate(); };
                 }
                 return _text;
@@ -640,7 +640,7 @@ namespace Paway.Forms
             {
                 if (_textSencond == null)
                 {
-                    _textSencond = new TProperties(MethodBase.GetCurrentMethod());
+                    _textSencond = new TProperties();
                     _textSencond.ValueChange += delegate { Invalidate(); };
                 }
                 return _textSencond;
@@ -659,7 +659,7 @@ namespace Paway.Forms
             {
                 if (_desc == null)
                 {
-                    _desc = new TProperties(MethodBase.GetCurrentMethod());
+                    _desc = new TProperties();
                     _desc.ValueChange += delegate { Invalidate(); };
                 }
                 return _desc;
@@ -678,7 +678,7 @@ namespace Paway.Forms
             {
                 if (_headDesc == null)
                 {
-                    _headDesc = new TProperties(MethodBase.GetCurrentMethod());
+                    _headDesc = new TProperties();
                     _headDesc.ValueChange += delegate { Invalidate(); };
                 }
                 return _headDesc;
@@ -696,7 +696,7 @@ namespace Paway.Forms
             {
                 if (_endDesc == null)
                 {
-                    _endDesc = new TProperties(MethodBase.GetCurrentMethod());
+                    _endDesc = new TProperties();
                     _endDesc.ValueChange += delegate { Invalidate(); };
                 }
                 return _endDesc;
@@ -715,7 +715,7 @@ namespace Paway.Forms
             {
                 if (_backGround == null)
                 {
-                    _backGround = new TProperties(MethodBase.GetCurrentMethod());
+                    _backGround = new TProperties();
                     _backGround.ValueChange += delegate { Invalidate(); };
                 }
                 return _backGround;
@@ -945,7 +945,7 @@ namespace Paway.Forms
             {
                 count = TCountColumn > TCountLine ? TCountColumn : TCountLine;
                 if (Items.Count % count == 0) count = 0;
-                else count = count - Items.Count % count;
+                else count -= Items.Count % count;
             }
             //填充空Item
             for (var i = 0; i < count; i++)
@@ -987,7 +987,6 @@ namespace Paway.Forms
             SizeF size2 = TextRenderer.MeasureText(item.Sencond, TextSencond.FontNormal, item.Rectangle.Size);
             int width = Math.Max(size1.Width, size2.Width).ToInt() + _textPading.Left + _textPading.Right;
             if (IImageShow && item.Image != null) width += ImageSize.Width + _textPading.Left + _textPading.Right;
-            int height = 0;
             if (_iAutoWidth)
             {
                 if (_itemSize.Width > 0)
@@ -998,7 +997,7 @@ namespace Paway.Forms
                 item.Rectangle = new Rectangle(item.Rectangle.X, item.Rectangle.Y, width, item.Rectangle.Height);
             }
             width = Math.Max(size1.Width, size2.Width).ToInt();
-            height = Math.Max(size1.Height, size2.Height).ToInt();
+            int height = Math.Max(size1.Height, size2.Height).ToInt();
             switch (_tDirection)
             {
                 case TDirection.Level:
@@ -1078,8 +1077,7 @@ namespace Paway.Forms
 
         private void DrawItem(Graphics g, ToolItem item)
         {
-            RectangleF temp = RectangleF.Empty;
-            temp = RectangleF.Intersect(g.VisibleClipBounds, item.Rectangle);
+            var temp = RectangleF.Intersect(g.VisibleClipBounds, item.Rectangle);
             if (temp != RectangleF.Empty)
             {
                 if (item.IHeard)
@@ -1246,7 +1244,7 @@ namespace Paway.Forms
         /// </summary>
         private void DrawText(Graphics g, ToolItem item)
         {
-            var textRect = Rectangle.Empty;
+            Rectangle textRect;
             if (string.IsNullOrEmpty(item.Text)) item.Text = string.Empty;
             {
                 textRect = new Rectangle
@@ -1578,7 +1576,7 @@ namespace Paway.Forms
                 var item = Items[i];
                 if (item.Rectangle.Contains(point))
                 {
-                    OnMouseDown(point, item, e, contain);
+                    OnMouseDown(point, item);
                 }
                 else if (!INormal && !_iMultiple && contain && item != _selectedItem)
                 {
@@ -1587,7 +1585,7 @@ namespace Paway.Forms
             }
         }
 
-        private void OnMouseDown(Point point, ToolItem item, EventArgs e, bool contain)
+        private void OnMouseDown(Point point, ToolItem item)
         {
             if (item != _tempItem)
             {
@@ -1705,7 +1703,7 @@ namespace Paway.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _items_ListChanged(object sender, ListChangedEventArgs e)
+        private void Items_ListChanged(object sender, ListChangedEventArgs e)
         {
             if (e.ListChangedType == ListChangedType.ItemAdded)
             {
@@ -1714,16 +1712,6 @@ namespace Paway.Forms
             if (!ILoad) return;
             if (Items.Count > 1 && e.ListChangedType == ListChangedType.ItemAdded && e.NewIndex == Items.Count - 1)
             {
-                var last = 0;
-                switch (TDirection)
-                {
-                    case TDirection.Level:
-                        last = TCountLine;
-                        break;
-                    case TDirection.Vertical:
-                        last = TCountColumn;
-                        break;
-                }
                 var index = Items.Count - 2;
                 var xPos = Items[index].Rectangle.X;
                 var yPos = Items[index].Rectangle.Y;
@@ -2136,7 +2124,7 @@ namespace Paway.Forms
         #endregion
 
         #region 变色项
-        private Timer _tChange = new Timer();
+        private readonly Timer _tChange = new Timer();
 
         /// <summary>
         ///     动态项
@@ -2305,7 +2293,7 @@ namespace Paway.Forms
             Controls.Add(_panelScroll);
 
             _hScroll = new HScrollBar();
-            _hScroll.Scroll += _hScroll_Scroll;
+            _hScroll.Scroll += HScroll_Scroll;
             //_hScroll.Dock = DockStyle.Bottom;
             //_hScroll.Height = _tScrollHeight;
             _panelScroll.Controls.Add(_hScroll);
@@ -2320,7 +2308,7 @@ namespace Paway.Forms
             }
 
             _vScroll = new VScrollBar();
-            _vScroll.Scroll += _vScroll_Scroll;
+            _vScroll.Scroll += VScroll_Scroll;
             //_vScroll.Dock = DockStyle.Right;
             //_vScroll.Width = _tScrollHeight;
             _panelScroll.Controls.Add(_vScroll);
@@ -2498,7 +2486,7 @@ namespace Paway.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _hScroll_Scroll(object sender, ScrollEventArgs e)
+        private void HScroll_Scroll(object sender, ScrollEventArgs e)
         {
             var diff = e.NewValue - e.OldValue;
             if (e.NewValue == 0)
@@ -2519,7 +2507,7 @@ namespace Paway.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _vScroll_Scroll(object sender, ScrollEventArgs e)
+        private void VScroll_Scroll(object sender, ScrollEventArgs e)
         {
             var diff = e.NewValue - e.OldValue;
             if (e.NewValue == 0)

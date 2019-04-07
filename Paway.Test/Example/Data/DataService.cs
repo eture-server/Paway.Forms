@@ -63,7 +63,7 @@ namespace Paway.Test
             catch (Exception ex)
             {
                 log.Error(ex);
-                TransError(cmd, ex);
+                TransError(cmd);
                 throw new Exception(string.Empty, ex);
             }
             finally
@@ -144,7 +144,7 @@ namespace Paway.Test
             catch (Exception ex)
             {
                 log.Error(ex);
-                TransError(cmd, ex);
+                TransError(cmd);
                 throw;
             }
             finally

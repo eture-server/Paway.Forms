@@ -99,7 +99,7 @@ namespace Paway.Helper
         /// </summary>
         private void HandleMessage(byte[] buffer, IPEndPoint ipAddress)
         {
-            object message = null;
+            object message;
             try
             {
                 message = StructHelper.GetObjectFromByte(buffer);

@@ -10,8 +10,6 @@ namespace Paway.Utils
     /// </summary>
     public class SocketPackage : SocketBase
     {
-        private readonly Service Host;
-
         /// <summary>
         ///     线程锁
         /// </summary>
@@ -20,11 +18,9 @@ namespace Paway.Utils
         /// <summary>
         ///     为每个客户端连接创建实例
         /// </summary>
-        /// <param name="host">服务端</param>
         /// <param name="socket">连接的Socket实例</param>
-        public SocketPackage(Service host, Socket socket)
+        public SocketPackage(Socket socket)
         {
-            Host = host;
             Socket = socket;
             SendDataService = new SendDataService(this);
         }

@@ -16,19 +16,15 @@ namespace Paway.Test
 {
     public partial class Form1 : QQForm
     {
-        private Timer timer = new Timer();
-        readonly System.Threading.AutoResetEvent eventRead = new System.Threading.AutoResetEvent(true);
         public Form1()
         {
             InitializeComponent();
             toolBar.ItemClick += ToolClose_ItemClick;
             toolBar.EditClick += ToolClose_EditClick;
-            btName.Click += BtName_Click;
-            tip = new ToolTip();
+            toolOk.Click += BtName_Click;
             this.Opacity = 0.8;
         }
 
-        private ToolTip tip;
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);

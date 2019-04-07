@@ -80,7 +80,7 @@ namespace Paway.Forms
         {
             get
             {
-                var x = 0;
+                int x;
                 var width = 28;
                 switch (SysButton)
                 {
@@ -102,7 +102,7 @@ namespace Paway.Forms
         {
             get
             {
-                var x = 0;
+                int x;
                 var width = 28;
                 switch (SysButton)
                 {

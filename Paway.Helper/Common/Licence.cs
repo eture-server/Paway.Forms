@@ -49,15 +49,15 @@ namespace Paway.Helper
         /// <summary>
         ///     检查文件创建日期，过期无效
         /// </summary>
-        public static void Checking(Type type)
+        public static void Checking()
         {
-            Checking(type, 30);
+            Checking(30);
         }
 
         /// <summary>
         ///     检查文件创建日期，过期无效
         /// </summary>
-        public static void Checking(Type type, int days)
+        public static void Checking(int days)
         {
             EncryptHelper.EncryptMD5(days.ToString());
             var file = new FileInfo(Assembly.GetExecutingAssembly().Location);

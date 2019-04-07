@@ -333,7 +333,7 @@ namespace Paway.Forms
         private void Reset(Point pMove)
         {
             Invalidate(rect);
-            int x = 0, y = 0;
+            int x, y;
             if (rect.Width > Width)
             {
                 x = rect.X + pMove.X - pStart.X;

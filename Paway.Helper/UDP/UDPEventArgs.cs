@@ -14,7 +14,7 @@ namespace Paway.Helper
         public UDPEventArgs(bool result, object msg, IPEndPoint ipAddress)
         {
             Result = result;
-            IpAddress = IpAddress;
+            IpAddress = ipAddress;
             Data = msg;
         }
 

@@ -46,7 +46,6 @@ namespace Paway.Forms
                 Thread.Sleep(40);
             }
             progressForm.Close();
-            progressForm = null;
         }
         /// <summary>
         /// 清空数据，关闭线程
@@ -87,10 +86,10 @@ namespace Paway.Forms
         {
             Application.DoEvents();
             this._state = new ProgressState(owner, caption, canCancel, max);
-            this._state.CancelEvent += _state_CancelEvent;
+            this._state.CancelEvent += State_CancelEvent;
             states.Add(this._state);
         }
-        private void _state_CancelEvent()
+        private void State_CancelEvent()
         {
             CancelEvent?.Invoke();
         }

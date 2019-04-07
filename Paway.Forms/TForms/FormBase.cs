@@ -459,7 +459,7 @@ namespace Paway.Forms
             {
                 if (_tBrush == null)
                 {
-                    _tBrush = new TProperties(MethodBase.GetCurrentMethod());
+                    _tBrush = new TProperties();
                     _tBrush.ValueChange += delegate { Invalidate(ClientRectangle); };
                 }
                 return _tBrush;
@@ -1146,7 +1146,7 @@ namespace Paway.Forms
                 }
                 if (_sysButton != TSysButton.Close)
                 {
-                    param.Style = param.Style | (int)WindowStyle.WS_MINIMIZEBOX; // 允许最小化操作
+                    param.Style |= (int)WindowStyle.WS_MINIMIZEBOX; // 允许最小化操作
                 }
                 return param;
             }

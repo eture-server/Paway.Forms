@@ -248,7 +248,7 @@ namespace Paway.Test
             catch (Exception ex)
             {
                 log.Error(ex);
-                TransError(cmd, ex);
+                TransError(cmd);
                 log.Debug("ThreadId异常:" + Thread.CurrentThread.ManagedThreadId);
                 throw;
             }

@@ -48,7 +48,7 @@ namespace Paway.Helper
                 if (string.Equals(name, value, StringComparison.CurrentCultureIgnoreCase))
                     return (T)field.GetRawConstantValue();
             }
-            return default(T);
+            return default;
         }
     }
 
@@ -112,7 +112,7 @@ namespace Paway.Helper
     {
         /// <summary>
         /// </summary>
-        public SortAttribute(bool sort) { }
+        public SortAttribute() { }
     }
     /// <summary>
     ///     特性.不复制

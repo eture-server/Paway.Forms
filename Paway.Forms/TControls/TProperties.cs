@@ -31,15 +31,13 @@ namespace Paway.Forms
         private StringAlignment _stringHorizontal = StringAlignment.Near;
 
         private StringAlignment _stringVertical = StringAlignment.Near;
-        private MethodBase parent;
 
         /// <summary>
         ///     构造
         ///     初始化
         /// </summary>
-        public TProperties(MethodBase parent)
+        public TProperties()
         {
-            this.parent = parent;
             HeightNormal = InitHeight(FontNormal);
             HeightMove = InitHeight(FontMove);
             HeightDown = InitHeight(FontDown);

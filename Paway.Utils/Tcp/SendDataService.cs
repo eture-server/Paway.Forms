@@ -37,7 +37,7 @@ namespace Paway.Utils
         /// </summary>
         public SendDataService(SocketBase socket)
         {
-            Licence.Checking(MethodBase.GetCurrentMethod().DeclaringType);
+            Licence.Checking();
             if (socket == null) return;
             Socket = socket;
             Socket.IPPoint = socket.Socket.RemoteEndPoint as IPEndPoint;
@@ -74,7 +74,8 @@ namespace Paway.Utils
                     Thread.Sleep(100);
                 }
             }
-            SocketConfig.ThreadList.TryRemove(Thread.CurrentThread.ManagedThreadId, out string name);
+
+            SocketConfig.ThreadList.TryRemove(Thread.CurrentThread.ManagedThreadId, out _);
         }
 
         #region Dispose

@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             this.tProgressBar1 = new Paway.Forms.TProgressBar();
-            this.btnReset = new Paway.Forms.QQButton();
+            this.btnReset = new Paway.Forms.ToolBar();
             this.SuspendLayout();
             // 
             // tProgressBar1
@@ -46,16 +47,30 @@
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(186, 29);
+            this.btnReset.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnReset.Font = new System.Drawing.Font("Tahoma", 15F);
+            this.btnReset.IClickEvent = true;
+            this.btnReset.IItemLine = true;
+            this.btnReset.ImageSize = new System.Drawing.Size(0, 0);
+            toolItem1.Text = "Reset";
+            this.btnReset.Items.Add(toolItem1);
+            this.btnReset.ItemSize = new System.Drawing.Size(75, 32);
+            this.btnReset.ItemSpace = 5;
+            this.btnReset.Location = new System.Drawing.Point(191, 41);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(73, 28);
-            this.btnReset.TabIndex = 46;
-            this.btnReset.Text = "Reset";
-            this.btnReset.UseVisualStyleBackColor = false;
+            this.btnReset.Size = new System.Drawing.Size(75, 32);
+            this.btnReset.TabIndex = 67;
+            this.btnReset.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
+            this.btnReset.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
+            this.btnReset.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(135)))), ((int)(((byte)(239)))));
+            this.btnReset.TextFirst.ColorDown = System.Drawing.Color.White;
+            this.btnReset.TextFirst.ColorMove = System.Drawing.Color.White;
+            this.btnReset.TextFirst.ColorNormal = System.Drawing.Color.Black;
+            this.btnReset.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.btnReset.Trans = 150;
             // 
             // Form4
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.ClientSize = new System.Drawing.Size(300, 300);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.tProgressBar1);
@@ -68,6 +83,6 @@
         #endregion
 
         private Forms.TProgressBar tProgressBar1;
-        private Forms.QQButton btnReset;
+        private Forms.ToolBar btnReset;
     }
 }

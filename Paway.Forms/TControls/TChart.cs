@@ -194,7 +194,7 @@ namespace Paway.Forms
             if (this.ChartAreas[0].AxisX.CustomLabels.Count == 0) return;
 
             string v1 = this.ChartAreas[0].AxisX.CustomLabels[0].Text;
-            double value = 0;
+            double value;
             if (this.Series[0].XValueType == ChartValueType.Time)
             {
                 var v2 = v1.Split(' ')[0].Split(':');
@@ -219,7 +219,7 @@ namespace Paway.Forms
             if (ax.Count > 0)
             {
                 var temp = ax[0];
-                double value = 0;
+                double value;
                 if (this.Series[0].XValueType == ChartValueType.Time)
                 {
                     var v1 = temp.Text.Split(' ')[0];
@@ -259,9 +259,9 @@ namespace Paway.Forms
             {
                 this.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
             }
-            OnIndexEvent(e.X);
+            OnIndexEvent();
         }
-        private void OnIndexEvent(int x)
+        private void OnIndexEvent()
         {
             try
             {

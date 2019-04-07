@@ -282,7 +282,7 @@ namespace Paway.Forms
             get
             {
                 if (_items == null)
-                    _items = new TreeItemCollection(this);
+                    _items = new TreeItemCollection();
                 return _items;
             }
         }
@@ -578,7 +578,7 @@ namespace Paway.Forms
 
         private void AddNodes(DataTable dt, Type type)
         {
-            DataRow[] dr = null;
+            DataRow[] dr;
             if (TRoot == null)
             {
                 var properties = type.Properties();
@@ -688,7 +688,7 @@ namespace Paway.Forms
                 var node = nodes[i];
                 if (Rectangle.Union(rect, node.Bounds) != Rectangle.Empty)
                 {
-                    C_DrawNode(g, node.ForeColor == Color.Empty ? ForeColor : node.ForeColor, node.BackColor == Color.Empty ? BackColor : node.BackColor, nodes[i], 0);
+                    C_DrawNode(g, node.ForeColor == Color.Empty ? ForeColor : node.ForeColor, node.BackColor == Color.Empty ? BackColor : node.BackColor, nodes[i]);
                     C_DrawAdd(g, node);
                 }
                 if (node.IsExpanded && node.Nodes.Count > 0)
@@ -717,7 +717,7 @@ namespace Paway.Forms
             }
         }
 
-        private void C_DrawNode(Graphics g, Color foreColor, Color backColor, TreeNode node, int height)
+        private void C_DrawNode(Graphics g, Color foreColor, Color backColor, TreeNode node)
         {
             if (node == null) return;
             if (SelectedNode != null && SelectedNode.Name == node.Name)
@@ -761,10 +761,10 @@ namespace Paway.Forms
                         switch (_items[i].Alignment)
                         {
                             case StringAlignment.Center:
-                                temp = temp | TextFormatFlags.HorizontalCenter;
+                                temp |= TextFormatFlags.HorizontalCenter;
                                 break;
                             case StringAlignment.Far:
-                                temp = temp | TextFormatFlags.Right;
+                                temp |= TextFormatFlags.Right;
                                 break;
                         }
                         TextRenderer.DrawText(g, item[_items[i].Name].ToString(), Font, irect, foreColor, temp);
@@ -868,7 +868,7 @@ namespace Paway.Forms
             var g = CreateGraphics();
             Color foreColor = (node == null || node.ForeColor == Color.Empty) ? ColorHotFore : node.ForeColor;
             Color backColor = (node == null || node.BackColor == Color.Empty) ? ColorHot : node.BackColor;
-            C_DrawNode(g, foreColor, backColor, node, 1);
+            C_DrawNode(g, foreColor, backColor, node);
             lastnode = node;
             g.Dispose();
         }
@@ -1161,25 +1161,12 @@ namespace Paway.Forms
     [ListBindable(false)]
     public class TreeItemCollection : List<TreeItem>
     {
-        #region 变量
-
-        /// <summary>
-        ///     TreeView
-        /// </summary>
-        private TreeView _owner;
-
-        #endregion
-
         #region 构造函数
 
         /// <summary>
         ///     初始化 Paway.Forms.TreeItemCollection 新的实例。
         /// </summary>
-        /// <param name="owner">ToolBar</param>
-        public TreeItemCollection(TreeView owner)
-        {
-            _owner = owner;
-        }
+        public TreeItemCollection() { }
 
         #endregion
 

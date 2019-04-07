@@ -149,7 +149,7 @@ namespace Paway.Utils
         /// <param name="buffer"></param>
         private void HandleMessage(byte[] buffer)
         {
-            object message = null;
+            object message;
             try
             {
                 try
@@ -281,7 +281,7 @@ namespace Paway.Utils
             }
             if (SendDataService != null && message != null)
             {
-                var byteData = message is byte[] ? message as byte[] : StructHelper.GetByteFromObject(message);
+                var byteData = message is byte[]? message as byte[] : StructHelper.GetByteFromObject(message);
                 SendDataService.SendData(byteData);
             }
             else if (ithrow)

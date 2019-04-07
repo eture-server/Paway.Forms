@@ -42,15 +42,16 @@
             Paway.Forms.ToolItem toolItem11 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem12 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem13 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem14 = new Paway.Forms.ToolItem();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.toolDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btName = new Paway.Forms.QQButton();
             this.toolBar = new Paway.Forms.ToolBar();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.tbRsa2 = new Paway.Forms.QQTextBox();
             this.tbName = new Paway.Forms.QQTextBox();
+            this.toolOk = new Paway.Forms.ToolBar();
             this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -83,17 +84,6 @@
             this.pictureBox1.Size = new System.Drawing.Size(1, 1);
             this.pictureBox1.TabIndex = 25;
             this.pictureBox1.TabStop = false;
-            // 
-            // btName
-            // 
-            this.btName.BackColor = System.Drawing.Color.Gainsboro;
-            this.btName.ForeColor = System.Drawing.Color.White;
-            this.btName.Location = new System.Drawing.Point(35, 274);
-            this.btName.Name = "btName";
-            this.btName.Size = new System.Drawing.Size(64, 32);
-            this.btName.TabIndex = 30;
-            this.btName.Text = "hello";
-            this.btName.UseVisualStyleBackColor = false;
             // 
             // toolBar
             // 
@@ -169,7 +159,7 @@
             this.tbRsa2.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.tbRsa2.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tbRsa2.Lines = new string[0];
-            this.tbRsa2.Location = new System.Drawing.Point(137, 277);
+            this.tbRsa2.Location = new System.Drawing.Point(201, 274);
             this.tbRsa2.MaxLength = 128;
             this.tbRsa2.Name = "tbRsa2";
             this.tbRsa2.Regex = "[0-9]+(\\.[0-9]+)?";
@@ -187,12 +177,36 @@
             this.tbName.Icon = global::Paway.Test.Properties.Resources.search;
             this.tbName.IconIsButton = true;
             this.tbName.Lines = new string[0];
-            this.tbName.Location = new System.Drawing.Point(271, 277);
+            this.tbName.Location = new System.Drawing.Point(343, 274);
             this.tbName.MaxLength = 10;
             this.tbName.Name = "tbName";
             this.tbName.RegexType = Paway.Helper.RegexType.Normal;
             this.tbName.Size = new System.Drawing.Size(172, 29);
             this.tbName.TabIndex = 64;
+            // 
+            // toolOk
+            // 
+            this.toolOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.toolOk.Font = new System.Drawing.Font("Tahoma", 15F);
+            this.toolOk.IClickEvent = true;
+            this.toolOk.IItemLine = true;
+            this.toolOk.ImageSize = new System.Drawing.Size(0, 0);
+            toolItem14.Text = "hello";
+            this.toolOk.Items.Add(toolItem14);
+            this.toolOk.ItemSize = new System.Drawing.Size(64, 32);
+            this.toolOk.ItemSpace = 5;
+            this.toolOk.Location = new System.Drawing.Point(35, 274);
+            this.toolOk.Name = "toolOk";
+            this.toolOk.Size = new System.Drawing.Size(64, 32);
+            this.toolOk.TabIndex = 65;
+            this.toolOk.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
+            this.toolOk.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
+            this.toolOk.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(135)))), ((int)(((byte)(239)))));
+            this.toolOk.TextFirst.ColorDown = System.Drawing.Color.White;
+            this.toolOk.TextFirst.ColorMove = System.Drawing.Color.White;
+            this.toolOk.TextFirst.ColorNormal = System.Drawing.Color.Black;
+            this.toolOk.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolOk.Trans = 150;
             // 
             // Form1
             // 
@@ -201,13 +215,12 @@
             this.BackColor = System.Drawing.Color.Gainsboro;
             this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(611, 328);
+            this.Controls.Add(this.toolOk);
             this.Controls.Add(this.tbRsa2);
             this.Controls.Add(this.tbName);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.toolBar);
-            this.Controls.Add(this.btName);
             this.Controls.Add(this.pictureBox1);
-            this.ForeColor = System.Drawing.Color.White;
             this.IBorder = true;
             this.Name = "Form1";
             this.Padding = new System.Windows.Forms.Padding(0, 26, 3, 3);
@@ -225,10 +238,10 @@
         private System.Windows.Forms.ToolStripMenuItem toolAdd;
         private System.Windows.Forms.ToolStripMenuItem toolDelete;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private Forms.QQButton btName;
         private Forms.ToolBar toolBar;
         private System.Windows.Forms.PictureBox pictureBox2;
         private Forms.QQTextBox tbRsa2;
         private Forms.QQTextBox tbName;
+        private Forms.ToolBar toolOk;
     }
 }

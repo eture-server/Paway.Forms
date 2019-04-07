@@ -676,10 +676,7 @@ namespace Paway.Helper
             else if (pro.PropertyType == typeof(DateTime) || pro.PropertyType == typeof(DateTime?))
             {
                 var time = value.ToDateTime();
-                if (TConfig.IUtcTime && time.Kind != DateTimeKind.Local)
-                {
-                    time = TimeZoneInfo.ConvertTimeFromUtc(time, TimeZoneInfo.Local);
-                }
+                if (TConfig.IUtcTime) time = time.ToLocalTime();
                 pro.SetValue(obj, time);
             }
             else if (pro.PropertyType == typeof(string))

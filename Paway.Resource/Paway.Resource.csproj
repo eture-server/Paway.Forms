@@ -60,24 +60,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="QQ\Button\down.png" />
-    <EmbeddedResource Include="QQ\Button\focus.png" />
-    <EmbeddedResource Include="QQ\Button\highlight.png" />
-    <EmbeddedResource Include="QQ\Button\Light.png" />
-    <EmbeddedResource Include="QQ\Button\normal.png" />
-    <EmbeddedResource Include="QQ\Button\White-side.png" />
     <EmbeddedResource Include="QQ\CheckBox\hightlight.png" />
     <EmbeddedResource Include="QQ\CheckBox\normal.png" />
     <EmbeddedResource Include="QQ\CheckBox\tick_highlight.png" />
     <EmbeddedResource Include="QQ\CheckBox\tick_normal.png" />
     <EmbeddedResource Include="QQ\CheckBox\_tick_highlight.png" />
     <EmbeddedResource Include="QQ\CheckBox\_tick_normal.png" />
-    <EmbeddedResource Include="QQ\ContextMenu\menu_arrow.png" />
-    <EmbeddedResource Include="QQ\ContextMenu\menu_bkg.png" />
-    <EmbeddedResource Include="QQ\ContextMenu\menu_bkg_board.png" />
-    <EmbeddedResource Include="QQ\ContextMenu\menu_check.png" />
-    <EmbeddedResource Include="QQ\ContextMenu\menu_cutling.png" />
-    <EmbeddedResource Include="QQ\ContextMenu\menu_highlight.png" />
     <EmbeddedResource Include="QQ\FormFrame\fringe_bkg.png" />
     <EmbeddedResource Include="QQ\RadioButton\highlight.png" />
     <EmbeddedResource Include="QQ\RadioButton\normal.png" />
@@ -95,11 +83,6 @@
     <EmbeddedResource Include="QQ\SysButton\btn_restore_down.png" />
     <EmbeddedResource Include="QQ\SysButton\btn_restore_highlight.png" />
     <EmbeddedResource Include="QQ\SysButton\btn_restore_normal.png" />
-    <EmbeddedResource Include="QQ\TabControl\main_tabbtn_down.png" />
-    <EmbeddedResource Include="QQ\TabControl\main_tabbtn_highlight.png" />
-    <EmbeddedResource Include="QQ\TabControl\main_tab_bkg.png" />
-    <EmbeddedResource Include="QQ\TabControl\main_tab_check.png" />
-    <EmbeddedResource Include="QQ\TabControl\main_tab_highlight.png" />
     <EmbeddedResource Include="QQ\TextBox\move.png" />
     <EmbeddedResource Include="QQ\TextBox\normal.png" />
   </ItemGroup>
@@ -113,21 +96,9 @@
     <EmbeddedResource Include="_360\SysButton\title_bar_menu.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="_360\Form\framemod.png" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="_360\ToolBar\toolbar_hover.png" />
     <EmbeddedResource Include="_360\ToolBar\toolbar_normal.png" />
     <EmbeddedResource Include="_360\ToolBar\toolbar_pushed.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="QQ\Button\gray.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="QQ\UserList\collapseTexture.png" />
-    <EmbeddedResource Include="QQ\UserList\collapseTextureHigh.png" />
-    <EmbeddedResource Include="QQ\UserList\expandTexture.png" />
-    <EmbeddedResource Include="QQ\UserList\expandTextureHigh.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="QQ\FormFrame\ContactFilter_splitter.png" />

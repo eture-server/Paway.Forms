@@ -31,7 +31,7 @@ namespace Paway.Utils
         public event Action<object> MessageEvent;
 
         private string Host;
-        private int Port;
+        private readonly int Port;
         private SocketClient client;
 
         /// <summary>

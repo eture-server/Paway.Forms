@@ -180,7 +180,7 @@ namespace Paway.Forms
             {
                 if (_color == null)
                 {
-                    _color = new TProperties(MethodBase.GetCurrentMethod());
+                    _color = new TProperties();
                     _color.ValueChange += delegate { TRefresh(); };
                 }
                 return _color;

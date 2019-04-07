@@ -1,4 +1,6 @@
-﻿namespace Paway.Test
+﻿using System.Windows.Forms;
+
+namespace Paway.Test
 {
     partial class FormDemo
     {
@@ -121,24 +123,19 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.qqTextBox1 = new Paway.Forms.QQTextBox();
-            this.btDemo360 = new Paway.Forms.QQButton();
-            this.btQQDemo = new Paway.Forms.QQButton();
+            this.btDemo360 = new Button();
+            this.btQQDemo = new Button();
             this.toolBar3 = new Paway.Forms.ToolBar();
-            this.btTTsRead = new Paway.Forms.QQButton();
+            this.btTTsRead = new Button();
             this.tNumTestBox1 = new Paway.Forms.TNumTestBox();
             this.tbPrompt = new Paway.Forms.QQTextBox();
             this.tComboBox21 = new Paway.Forms.TComboBox();
-            this.btAbout = new Paway.Forms.QQButton();
-            this.btGridView = new Paway.Forms.QQButton();
-            this.btSearch = new Paway.Forms.QQButton();
-            this.btImage = new Paway.Forms.QQButton();
-            this.qqTabControl1 = new Paway.Forms.QQTabControl();
-            this.qqTabPage1 = new Paway.Forms.QQTabPage();
-            this.qqTabPage2 = new Paway.Forms.QQTabPage();
-            this.qqTabPage3 = new Paway.Forms.QQTabPage();
-            this.qqTabPage4 = new Paway.Forms.QQTabPage();
-            this.btQQ = new Paway.Forms.QQButton();
-            this.bt360 = new Paway.Forms.QQButton();
+            this.btAbout = new Button();
+            this.btGridView = new Button();
+            this.btSearch = new Button();
+            this.btImage = new Button();
+            this.btQQ = new Button();
+            this.bt360 = new Button();
             this.numEditTestBox2 = new Paway.Forms.TNumTestBox();
             this.qqCheckBox1 = new Paway.Forms.QQCheckBox();
             this.qqRadioButton1 = new Paway.Forms.QQRadioButton();
@@ -146,7 +143,6 @@
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            this.qqTabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStrip1
@@ -741,7 +737,6 @@
             // tNumTestBox1
             // 
             this.tNumTestBox1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tNumTestBox1.ForeColor = System.Drawing.Color.Black;
             this.tNumTestBox1.Lines = new string[] {
         "9"};
             this.tNumTestBox1.Location = new System.Drawing.Point(16, 151);
@@ -828,62 +823,6 @@
             this.btImage.Text = "Image";
             this.btImage.UseVisualStyleBackColor = false;
             // 
-            // qqTabControl1
-            // 
-            this.qqTabControl1.Controls.Add(this.qqTabPage1);
-            this.qqTabControl1.Controls.Add(this.qqTabPage2);
-            this.qqTabControl1.Controls.Add(this.qqTabPage3);
-            this.qqTabControl1.Controls.Add(this.qqTabPage4);
-            this.qqTabControl1.ForeColor = System.Drawing.Color.Black;
-            this.qqTabControl1.ItemSize = new System.Drawing.Size(80, 32);
-            this.qqTabControl1.Location = new System.Drawing.Point(12, 13);
-            this.qqTabControl1.Name = "qqTabControl1";
-            this.qqTabControl1.SelectedIndex = 0;
-            this.qqTabControl1.Size = new System.Drawing.Size(215, 100);
-            this.qqTabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.qqTabControl1.TabIndex = 15;
-            // 
-            // qqTabPage1
-            // 
-            this.qqTabPage1.BackColor = System.Drawing.Color.White;
-            this.qqTabPage1.ContextMenuShow = this.contextMenuStrip1;
-            this.qqTabPage1.Location = new System.Drawing.Point(4, 36);
-            this.qqTabPage1.Name = "qqTabPage1";
-            this.qqTabPage1.Size = new System.Drawing.Size(207, 60);
-            this.qqTabPage1.TabIndex = 0;
-            this.qqTabPage1.Text = "我们有臾";
-            // 
-            // qqTabPage2
-            // 
-            this.qqTabPage2.BackColor = System.Drawing.Color.White;
-            this.qqTabPage2.ContextMenuShow = null;
-            this.qqTabPage2.Location = new System.Drawing.Point(4, 36);
-            this.qqTabPage2.Name = "qqTabPage2";
-            this.qqTabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.qqTabPage2.Size = new System.Drawing.Size(207, 60);
-            this.qqTabPage2.TabIndex = 0;
-            this.qqTabPage2.Text = "tabPage1";
-            // 
-            // qqTabPage3
-            // 
-            this.qqTabPage3.BackColor = System.Drawing.Color.White;
-            this.qqTabPage3.ContextMenuShow = null;
-            this.qqTabPage3.Location = new System.Drawing.Point(4, 36);
-            this.qqTabPage3.Name = "qqTabPage3";
-            this.qqTabPage3.Size = new System.Drawing.Size(207, 60);
-            this.qqTabPage3.TabIndex = 1;
-            this.qqTabPage3.Text = "tabPage2";
-            // 
-            // qqTabPage4
-            // 
-            this.qqTabPage4.BackColor = System.Drawing.Color.White;
-            this.qqTabPage4.ContextMenuShow = null;
-            this.qqTabPage4.Location = new System.Drawing.Point(4, 36);
-            this.qqTabPage4.Name = "qqTabPage4";
-            this.qqTabPage4.Size = new System.Drawing.Size(207, 60);
-            this.qqTabPage4.TabIndex = 2;
-            this.qqTabPage4.Text = "tabPage3";
-            // 
             // btQQ
             // 
             this.btQQ.BackColor = System.Drawing.Color.DarkSeaGreen;
@@ -909,7 +848,6 @@
             // numEditTestBox2
             // 
             this.numEditTestBox2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.numEditTestBox2.ForeColor = System.Drawing.Color.Black;
             this.numEditTestBox2.ITrans = true;
             this.numEditTestBox2.Lines = new string[] {
         "0"};
@@ -974,7 +912,6 @@
             this.Controls.Add(this.btGridView);
             this.Controls.Add(this.btSearch);
             this.Controls.Add(this.btImage);
-            this.Controls.Add(this.qqTabControl1);
             this.Controls.Add(this.btQQ);
             this.Controls.Add(this.bt360);
             this.Controls.Add(this.numEditTestBox2);
@@ -985,7 +922,6 @@
             this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            this.qqTabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1057,32 +993,27 @@
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn8;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn40;
         private Forms.TNumTestBox numEditTestBox2;
-        private Forms.QQButton bt360;
-        private Forms.QQButton btQQ;
+        private Button bt360;
+        private Button btQQ;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 在线ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 离开ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem 离开ToolStripMenuItem1;
-        private Forms.QQTabControl qqTabControl1;
-        private Forms.QQTabPage qqTabPage2;
-        private Forms.QQTabPage qqTabPage1;
-        private Forms.QQButton btImage;
-        private Forms.QQButton btSearch;
-        private Forms.QQButton btGridView;
-        private Forms.QQButton btAbout;
+        private Button btImage;
+        private Button btSearch;
+        private Button btGridView;
+        private Button btAbout;
         private Forms.TComboBox tComboBox21;
         private System.Windows.Forms.TextBox tbCat;
         private Forms.QQTextBox tbPrompt;
         private Forms.TNumTestBox tNumTestBox1;
-        private Forms.QQButton btTTsRead;
+        private Button btTTsRead;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private Forms.QQTabPage qqTabPage3;
-        private Forms.QQTabPage qqTabPage4;
         private Forms.ToolBar toolBar3;
-        private Forms.QQButton btQQDemo;
-        private Forms.QQButton btDemo360;
+        private Button btQQDemo;
+        private Button btDemo360;
         private Forms.QQTextBox qqTextBox1;
         private Forms.QQCheckBox qqCheckBox1;
         private Forms.QQRadioButton qqRadioButton1;

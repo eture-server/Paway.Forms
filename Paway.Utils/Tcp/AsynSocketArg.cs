@@ -28,7 +28,7 @@ namespace Paway.Utils
         {
             get
             {
-                var size = 4;
+                int size;
                 // 先获取4字节数据
                 if (length == -1)
                 {

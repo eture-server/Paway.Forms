@@ -44,12 +44,14 @@ namespace Paway.Test
             }
             for (int i = 0; i < 900; i++)
             {
-                ToolItem item = new ToolItem();
-                item.Text = i.ToString();
-                item.Image = Resources.online;
-                item.EndDesc = "x1";
-                item.HeadDesc = "16.00";
-                item.Desc = "+";
+                ToolItem item = new ToolItem
+                {
+                    Text = i.ToString(),
+                    Image = Resources.online,
+                    EndDesc = "x1",
+                    HeadDesc = "16.00",
+                    Desc = "+"
+                };
                 toolBar2.Items.Add(item);
             }
             toolBar2.TChangeStart();
@@ -63,57 +65,56 @@ namespace Paway.Test
 
         private void ToolBar1_ItemClick(ToolItem item, EventArgs e)
         {
-            MControl control = null;
             //MControl.ReSet(panel3);
             switch (item.Text)
             {
                 case "上":
-                    control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.Up);
+                  MControl.ReLoad(panel3, typeof(Control2), TMDirection.Up);
                     break;
                 case "下":
-                    control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.Down);
+                     MControl.ReLoad(panel3, typeof(Control2), TMDirection.Down);
                     break;
                 case "左":
-                    control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.Left);
+                     MControl.ReLoad(panel3, typeof(Control1), TMDirection.Left);
                     break;
                 case "右":
-                    control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.Right);
+                     MControl.ReLoad(panel3, typeof(Control1), TMDirection.Right);
                     break;
                 case "中":
-                    control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.Center);
+                     MControl.ReLoad(panel3, typeof(Control1), TMDirection.Center);
                     break;
                 case "无":
-                    control = MControl.ReLoad(panel3, typeof(Control1));
+                     MControl.ReLoad(panel3, typeof(Control1));
                     break;
                 case "色1":
-                    control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.Transparent);
+                     MControl.ReLoad(panel3, typeof(Control1), TMDirection.Transparent);
                     break;
                 case "色2":
-                    control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.None);
+                     MControl.ReLoad(panel3, typeof(Control2), TMDirection.None);
                     break;
                 case "左转":
-                    control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.T3DLeft);
+                     MControl.ReLoad(panel3, typeof(Control1), TMDirection.T3DLeft);
                     break;
                 case "左右转":
-                    control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.T3DLeftToRight);
+                     MControl.ReLoad(panel3, typeof(Control1), TMDirection.T3DLeftToRight);
                     break;
                 case "右转":
-                    control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.T3DRight);
+                     MControl.ReLoad(panel3, typeof(Control2), TMDirection.T3DRight);
                     break;
                 case "右左转":
-                    control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.T3DRightToLeft);
+                     MControl.ReLoad(panel3, typeof(Control2), TMDirection.T3DRightToLeft);
                     break;
                 case "上转":
-                    control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.T3DUp);
+                     MControl.ReLoad(panel3, typeof(Control1), TMDirection.T3DUp);
                     break;
                 case "上下转":
-                    control = MControl.ReLoad(panel3, typeof(Control1), TMDirection.T3DUpToDown);
+                     MControl.ReLoad(panel3, typeof(Control1), TMDirection.T3DUpToDown);
                     break;
                 case "下转":
-                    control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.T3DDown);
+                     MControl.ReLoad(panel3, typeof(Control2), TMDirection.T3DDown);
                     break;
                 case "下上转":
-                    control = MControl.ReLoad(panel3, typeof(Control2), TMDirection.T3DDownToUp);
+                     MControl.ReLoad(panel3, typeof(Control2), TMDirection.T3DDownToUp);
                     break;
             }
         }

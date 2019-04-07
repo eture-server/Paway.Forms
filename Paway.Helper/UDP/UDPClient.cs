@@ -40,7 +40,6 @@ namespace Paway.Helper
                 if (udpClient != null)
                 {
                     udpClient.Close();
-                    udpClient = null;
                 }
             }
         }

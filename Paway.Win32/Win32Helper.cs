@@ -99,7 +99,6 @@ namespace Paway.Win32
             var hWnd = FindWindow(form);
             if (hWnd != IntPtr.Zero)
             {
-                var size = Marshal.SizeOf(typeof(T));
                 UserDataStruct cds;
                 cds.vData = IntPtr.Zero;
                 cds.lData = Marshal.SizeOf(typeof(T));
@@ -121,7 +120,6 @@ namespace Paway.Win32
                 var hWnd = hList.Keys.ElementAt(i);
                 if (hWnd != IntPtr.Zero)
                 {
-                    var size = Marshal.SizeOf(typeof(T));
                     UserDataStruct cds;
                     cds.vData = IntPtr.Zero;
                     cds.lData = Marshal.SizeOf(typeof(T));
@@ -412,7 +410,6 @@ namespace Paway.Win32
         public static IntPtr StructureToByte<T>(T structure)
         {
             var size = Marshal.SizeOf(typeof(T));
-            var buffer = new byte[size];
             var bufferIntPtr = Marshal.AllocHGlobal(size);
             try
             {
@@ -431,8 +428,7 @@ namespace Paway.Win32
         /// </summary>
         public static T ByteToStructure<T>(IntPtr allocIntPtr)
         {
-            object structure = null;
-            var size = Marshal.SizeOf(typeof(T));
+            object structure;
             //IntPtr allocIntPtr = Marshal.AllocHGlobal(size);
             try
             {

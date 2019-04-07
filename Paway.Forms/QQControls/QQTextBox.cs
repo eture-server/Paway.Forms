@@ -576,11 +576,6 @@ namespace Paway.Forms
         /// </summary>
         public new event EventHandler TextChanged;
 
-        private void OnTextChang()
-        {
-            TextChanged?.Invoke(this, EventArgs.Empty);
-        }
-
         /// <summary>
         ///     偏移文本框
         /// </summary>

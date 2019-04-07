@@ -250,13 +250,12 @@ namespace Paway.Helper
         /// <summary>
         /// 创建单元格并且赋值
         /// </summary>
-        /// <param name="wb">IWorkbook实例</param>
         /// <param name="row">行对象</param>
         /// <param name="index">单元格索引</param>
         /// <param name="style">样式</param>
         /// <param name="value">单元格值</param>
         /// <returns></returns>
-        public static ICell CreateCell(IWorkbook wb, IRow row, int index, ICellStyle style, string value)
+        public static ICell CreateCell(IRow row, int index, ICellStyle style, string value)
         {
             ICell cell = row.CreateCell(index);
             cell.CellStyle = style;
@@ -275,7 +274,7 @@ namespace Paway.Helper
         public static ICell CreateCellHeader(IWorkbook wb, IRow row, int index, string value)
         {
             ICellStyle style = Getcellstyle(wb, CellStyle.Header, HorizontalAlignment.Center);
-            return CreateCell(wb, row, index, style, value);
+            return CreateCell(row, index, style, value);
         }
 
         /// <summary>
@@ -289,7 +288,7 @@ namespace Paway.Helper
         public static ICell CreateCellDefalut(IWorkbook wb, IRow row, int index, string value)
         {
             ICellStyle style = Getcellstyle(wb, CellStyle.Default, HorizontalAlignment.Left);
-            return CreateCell(wb, row, index, style, value);
+            return CreateCell(row, index, style, value);
         }
 
         /// <summary>

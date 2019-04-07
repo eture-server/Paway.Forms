@@ -1,4 +1,6 @@
-﻿namespace Paway.Test
+﻿using System.Windows.Forms;
+
+namespace Paway.Test
 {
     partial class FormSql
     {
@@ -28,16 +30,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btInsert = new Paway.Forms.QQButton();
+            this.btInsert = new Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btUpdate = new Paway.Forms.QQButton();
-            this.btUpOrIn = new Paway.Forms.QQButton();
-            this.btDelete = new Paway.Forms.QQButton();
-            this.btSelect = new Paway.Forms.QQButton();
-            this.btnReplace = new Paway.Forms.QQButton();
-            this.btnStart = new Paway.Forms.QQButton();
+            this.btUpdate = new Button();
+            this.btUpOrIn = new Button();
+            this.btDelete = new Button();
+            this.btSelect = new Button();
+            this.btnReplace = new Button();
+            this.btnStart = new Button();
             this.tbStart = new Paway.Forms.TNumTestBox();
-            this.btnTest = new Paway.Forms.QQButton();
+            this.btnTest = new Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -179,15 +181,15 @@
 
         #endregion
 
-        private Forms.QQButton btUpdate;
+        private Button btUpdate;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private Forms.QQButton btInsert;
-        private Forms.QQButton btUpOrIn;
-        private Forms.QQButton btDelete;
-        private Forms.QQButton btSelect;
-        private Forms.QQButton btnReplace;
-        private Forms.QQButton btnStart;
+        private Button btInsert;
+        private Button btUpOrIn;
+        private Button btDelete;
+        private Button btSelect;
+        private Button btnReplace;
+        private Button btnStart;
         private Forms.TNumTestBox tbStart;
-        private Forms.QQButton btnTest;
+        private Button btnTest;
     }
 }

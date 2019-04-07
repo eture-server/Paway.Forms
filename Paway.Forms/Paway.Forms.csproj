@@ -136,9 +136,6 @@
     <Compile Include="TControls\TDataGridViewPager.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TControls\TListBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="TControls\TPager.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -152,22 +149,12 @@
     <Compile Include="..\AssemblyVersion.cs">
       <Link>Properties\AssemblyVersion.cs</Link>
     </Compile>
-    <Compile Include="QQControls\QQButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="QQControls\QQCheckBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="QQControls\QQRadioButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="QQControls\QQTabControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="QQControls\QQTabPage.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="QQControls\QQToolStripRenderer.cs" />
     <Compile Include="QQControls\QQTextBoxBase.cs">
       <SubType>Component</SubType>
     </Compile>

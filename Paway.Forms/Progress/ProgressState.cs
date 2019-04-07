@@ -22,7 +22,7 @@ namespace Paway.Forms
             set { _caption = value; }
         }
         public bool ITime { get { return CanCancel && DateTime.Now.Subtract(DateTime).TotalSeconds > 3; } }
-        private bool CanCancel;
+        private readonly bool CanCancel;
         private bool _iCancel;
         public bool ICancel
         {

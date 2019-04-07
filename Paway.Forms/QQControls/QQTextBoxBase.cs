@@ -33,7 +33,7 @@ namespace Paway.Forms
         /// <summary>
         ///     绘制水印
         /// </summary>
-        private void WmPaintWater(ref Message m)
+        private void WmPaintWater()
         {
             if (IsDisposed) return;
             using (var g = Graphics.FromHwnd(Handle))
@@ -61,7 +61,7 @@ namespace Paway.Forms
         {
             base.WndProc(ref m);
             if (m.Msg == (int)WindowsMessage.WM_PAINT)
-                WmPaintWater(ref m); //绘制水印
+                WmPaintWater(); //绘制水印
         }
 
         #endregion

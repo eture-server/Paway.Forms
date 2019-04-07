@@ -157,7 +157,7 @@ namespace Paway.Test
                 FileInfo file = new FileInfo(Assembly.GetExecutingAssembly().Location);
                 TimeSpan time = DateTime.Now.Subtract(file.LastWriteTime);
                 if (time.Days > 3) return;
-                Licence.Checking(MethodBase.GetCurrentMethod().DeclaringType, 3);
+                Licence.Checking(3);
 
                 MControl.ReLoad(parent, type, e, TMDirection.Transparent, new Action<object, EventArgs>(Changed));
             }

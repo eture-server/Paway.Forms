@@ -72,24 +72,6 @@ namespace Paway.Forms
 
         #endregion
 
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // BaseText
-            // 
-            this.BaseText.BackColor = System.Drawing.Color.White;
-            // 
-            // TNumTestBox
-            // 
-            this.Lines = new string[0];
-            this.Name = "TNumTestBox";
-            this.Size = new System.Drawing.Size(166, 34);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
-        }
-
         #region  member fields
 
         private const int m_MaxDecimalLength = 10; // max dot length

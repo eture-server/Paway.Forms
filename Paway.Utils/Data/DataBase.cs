@@ -67,7 +67,7 @@ namespace Paway.Utils
         /// <param name="paramType">参数</param>
         protected DataBase(Type connType, Type cmdType, Type paramType)
         {
-            Licence.Checking(MethodBase.GetCurrentMethod().DeclaringType);
+            Licence.Checking();
             this.connType = connType;
             this.cmdType = cmdType;
             this.paramType = paramType;
@@ -177,9 +177,9 @@ namespace Paway.Utils
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                if (iTrans) TransError(cmd, ex);
+                if (iTrans) TransError(cmd);
                 throw;
             }
             finally
@@ -288,9 +288,9 @@ namespace Paway.Utils
                 cmd.Transaction.Commit();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                TransError(cmd, ex);
+                TransError(cmd);
                 throw;
             }
         }
@@ -299,7 +299,7 @@ namespace Paway.Utils
         ///     事务处理异常回退
         ///     关闭DbCommand实例的连接，并释放
         /// </summary>
-        protected void TransError(DbCommand cmd, Exception e)
+        protected void TransError(DbCommand cmd)
         {
             if (cmd == null || cmd.Connection == null || cmd.Transaction == null) return;
             try
@@ -383,7 +383,7 @@ namespace Paway.Utils
                     DataTable table = new DataTable();
                     table.Load(dr);
                     var list = table.ToList<T>(1);
-                    return list.Count == 1 ? list[0] : default(T);
+                    return list.Count == 1 ? list[0] : default;
                 }
             }
             catch (Exception ex)
@@ -596,9 +596,9 @@ namespace Paway.Utils
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                if (iTrans) TransError(cmd, ex);
+                if (iTrans) TransError(cmd);
                 throw;
             }
             finally
@@ -656,9 +656,9 @@ namespace Paway.Utils
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                if (iTrans) TransError(cmd, ex);
+                if (iTrans) TransError(cmd);
                 throw;
             }
             finally
@@ -737,9 +737,9 @@ namespace Paway.Utils
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                if (iTrans) TransError(cmd, ex);
+                if (iTrans) TransError(cmd);
                 throw;
             }
             finally
@@ -776,7 +776,7 @@ namespace Paway.Utils
             catch (Exception ex)
             {
                 log.Error(ex);
-                if (iAlone) TransError(cmd, ex);
+                if (iAlone) TransError(cmd);
                 throw;
             }
             finally
@@ -1183,10 +1183,7 @@ namespace Paway.Utils
             param.ParameterName = string.Format("@{0}", column);
             if (value is DateTime time)
             {
-                if (TConfig.IUtcTime && time.Kind != DateTimeKind.Utc)
-                {
-                    time = TimeZoneInfo.ConvertTimeToUtc(time, TimeZoneInfo.Local);
-                }
+                if (TConfig.IUtcTime) time = time.ToUniversalTime();
                 param.Value = time;
             }
             else
@@ -1299,7 +1296,6 @@ namespace Paway.Utils
         }
         private static bool IsValue(this DataRow row, PropertyInfo prop, out object value)
         {
-            value = null;
             value = row[prop.Name];
             if (value == null || value == DBNull.Value)
             {

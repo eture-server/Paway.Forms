@@ -1,4 +1,6 @@
-﻿namespace Paway.Test
+﻿using System.Windows.Forms;
+
+namespace Paway.Test
 {
     partial class Control2
     {
@@ -35,7 +37,7 @@
             Paway.Forms.ToolItem toolItem5 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem6 = new Paway.Forms.ToolItem();
             this.qqTextBox1 = new Paway.Forms.QQTextBox();
-            this.btQQDemo = new Paway.Forms.QQButton();
+            this.btQQDemo = new Button();
             this.tbPrompt = new Paway.Forms.QQTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.toolRight = new Paway.Forms.ToolBar();
@@ -234,7 +236,7 @@
         #endregion
 
         private Forms.QQTextBox qqTextBox1;
-        private Forms.QQButton btQQDemo;
+        private Button btQQDemo;
         private Forms.QQTextBox tbPrompt;
         private System.Windows.Forms.Label label1;
         private Forms.ToolBar toolRight;

@@ -6,7 +6,7 @@ namespace Paway.Forms
     /// <summary>
     ///     360窗体示例
     /// </summary>
-    public partial class Demo360 : _360Form
+    public partial class Demo360 : Form360
     {
         /// <summary>
         ///     构造

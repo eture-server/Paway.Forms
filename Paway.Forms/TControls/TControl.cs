@@ -23,7 +23,7 @@ namespace Paway.Forms
         /// </summary>
         public TControl()
         {
-            Licence.Checking(MethodBase.GetCurrentMethod().DeclaringType);
+            Licence.Checking();
             IFixedBackground = false;
             IMouseMove = false;
             SetStyle(
@@ -253,7 +253,7 @@ namespace Paway.Forms
             {
                 if (_tBrush == null)
                 {
-                    _tBrush = new TProperties(MethodBase.GetCurrentMethod());
+                    _tBrush = new TProperties();
                     _tBrush.ValueChange += delegate { Invalidate(ClientRectangle); };
                 }
                 return _tBrush;
@@ -385,7 +385,7 @@ namespace Paway.Forms
         private bool i3d;
         private Image image;
         private volatile bool iStop = true;
-        private object mdLock = new object();
+        private readonly object mdLock = new object();
 
         private void InitShow()
         {

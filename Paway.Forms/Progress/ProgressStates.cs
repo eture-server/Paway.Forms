@@ -8,7 +8,7 @@ namespace Paway.Forms
 {
     internal class ProgressStates : IEnumerable
     {
-        private List<ProgressState> _states = new List<ProgressState>();
+        private readonly List<ProgressState> _states = new List<ProgressState>();
         public static IntPtr False = (IntPtr)(-1);
         private int index;
 

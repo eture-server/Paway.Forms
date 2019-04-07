@@ -33,7 +33,7 @@ namespace Paway.Helper
         /// <returns></returns>
         public static string EncryptMD5(string str)
         {
-            string result = null;
+            string result;
             try
             {
                 MD5 md = new MD5CryptoServiceProvider();
@@ -378,7 +378,6 @@ namespace Paway.Helper
                 if (fs != null)
                 {
                     fs.Close();
-                    fs = null;
                 }
                 return data;
             }

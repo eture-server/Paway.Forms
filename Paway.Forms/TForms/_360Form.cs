@@ -11,7 +11,7 @@ namespace Paway.Forms
     /// <summary>
     ///     360 窗体
     /// </summary>
-    public class _360Form : FormBase
+    public class Form360 : FormBase
     {
         #region 构造函数
 
@@ -58,11 +58,6 @@ namespace Paway.Forms
         #endregion
 
         #region 资源图片
-
-        /// <summary>
-        ///     边框图片
-        /// </summary>
-        private readonly Image _borderImage = AssemblyHelper.GetImage("_360.Form.framemod.png");
 
         /// <summary>
         ///     关闭按钮图片
@@ -141,7 +136,7 @@ namespace Paway.Forms
             {
                 var width = _maxImage.Width / 4;
                 var height = _maxImage.Height;
-                var x = 0;
+                int x;
                 var y = CloseRect.Y;
                 switch (SysButton)
                 {
@@ -165,7 +160,7 @@ namespace Paway.Forms
             {
                 var width = _minImage.Width / 4;
                 var height = _minImage.Height;
-                var x = 0;
+                int x;
                 var y = CloseRect.Y;
                 switch (SysButton)
                 {
@@ -296,7 +291,6 @@ namespace Paway.Forms
             var g = e.Graphics;
             g.SmoothingMode = SmoothingMode.HighQuality;
 
-            var rect = ClientRectangle;
             if (ControlBox)
             {
                 switch (SysButton)

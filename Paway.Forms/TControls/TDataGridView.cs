@@ -81,11 +81,9 @@ namespace Paway.Forms
             if (Columns[e.ColumnIndex] is DataGridViewTextBoxColumn cell && cell.Visible && cell.ReadOnly)
             {
                 var graphics = e.Graphics;
-                var colorFore = e.CellStyle.ForeColor;
                 var colorBack = e.CellStyle.BackColor;
                 if (Rows[e.RowIndex].Selected)
                 {
-                    colorFore = e.CellStyle.SelectionForeColor;
                     colorBack = e.CellStyle.SelectionBackColor;
                 }
                 DrawBounds(e.Graphics, new SolidBrush(colorBack), e.CellBounds, e.RowIndex);
@@ -95,14 +93,12 @@ namespace Paway.Forms
                 var strSecond = e.Value.ToString().Substring(index + 1);
 
                 var fontFore = e.CellStyle.Font;
-                var sizText = TextRenderer.MeasureText(graphics, strFirst, fontFore);
                 var intX = e.CellBounds.Left + e.CellStyle.Padding.Left;
                 var intY = e.CellBounds.Top + e.CellStyle.Padding.Top;
                 var intWidth = e.CellBounds.Width - (e.CellStyle.Padding.Left + e.CellStyle.Padding.Right);
                 var intHeight = e.CellBounds.Height - (e.CellStyle.Padding.Top + e.CellStyle.Padding.Bottom);
-                intHeight = intHeight / 2;
+                intHeight /= 2;
 
-                colorFore = Color.Black;
                 //the first line 
                 TextFormatFlags format = DrawHelper.TextEnd;
                 if (e.CellStyle.Alignment == DataGridViewContentAlignment.MiddleCenter)
@@ -110,15 +106,14 @@ namespace Paway.Forms
                     format = DrawHelper.TextCenter;
                 }
                 TextRenderer.DrawText(graphics, strFirst, fontFore, new Rectangle(intX, intY, intWidth, intHeight),
-                    colorFore, format);
+                    Color.Black, format);
 
                 fontFore = e.CellStyle.Font;
-                intY = intY + intHeight;
+                intY += intHeight;
 
-                colorFore = Color.SteelBlue;
                 //the seconde line
                 TextRenderer.DrawText(graphics, strSecond, fontFore, new Rectangle(intX, intY, intWidth, intHeight),
-                    colorFore, format);
+                    Color.SteelBlue, format);
 
                 e.Handled = true;
             }
@@ -789,7 +784,7 @@ namespace Paway.Forms
                 //以背景色填充
                 e.Graphics.FillRectangle(backBrush, e.CellBounds);
                 //画字符串
-                PaintingFont(e, cellwidth, UpRows + 1, DownRows, count);
+                PaintingFont(e, UpRows + 1, count);
                 if (DownRows == 1)
                 {
                     e.Graphics.DrawLine(gridLinePen, e.CellBounds.Left, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1);
@@ -804,17 +799,9 @@ namespace Paway.Forms
         /// <summary>
         ///     画字符串
         /// </summary>
-        /// <param name="e"></param>
-        /// <param name="cellwidth"></param>
-        /// <param name="UpRows"></param>
-        /// <param name="DownRows"></param>
-        /// <param name="count"></param>
-        private void PaintingFont(DataGridViewCellPaintingEventArgs e, int cellwidth, int UpRows, int DownRows, int count)
+        private void PaintingFont(DataGridViewCellPaintingEventArgs e, int UpRows, int count)
         {
-            var fontBrush = new SolidBrush(e.CellStyle.ForeColor);
             var value = e.Value?.ToString();
-            var fontheight = (int)e.Graphics.MeasureString(value, e.CellStyle.Font).Height;
-            var fontwidth = (int)e.Graphics.MeasureString(value, e.CellStyle.Font).Width;
             var cellheight = e.CellBounds.Height;
             TextFormatFlags format = DrawHelper.TextEnd;
             if (e.CellStyle.Alignment == DataGridViewContentAlignment.MiddleCenter)

@@ -46,7 +46,6 @@ namespace Paway.Helper
             // 注册这个IPC信道.
             ChannelServices.RegisterChannel(serverChannel, true);
             // 向信道暴露一个远程对象.
-            var type = MethodBase.GetCurrentMethod().DeclaringType;
             RemotingConfiguration.RegisterWellKnownServiceType(typeof(T), "IPCObject", mode);
             IBusy = true;
         }

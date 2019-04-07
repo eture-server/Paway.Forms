@@ -12,7 +12,7 @@ using Paway.Helper;
 
 namespace Paway.Test
 {
-    public partial class Form360 : _360Form
+    public partial class Form360 : Forms.Form360
     {
         public Form360()
         {

@@ -360,7 +360,6 @@ namespace Paway.Forms
         {
             base.OnPaintBackground(e);
             var g = e.Graphics;
-            var rect = ClientRectangle;
             // 左上角
             DrawHelper.DrawImage(g, _backImage, 0, 0, 5, 5, 5, 5, 10, 10);
             // 左边

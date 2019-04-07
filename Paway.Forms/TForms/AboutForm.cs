@@ -20,8 +20,6 @@ namespace Paway.Forms
             this.TMouseMove(lbVersion);
             this.TMouseMove(lbDesc);
             this.TMouseMove(lbCopyright);
-            //输出软件名称和版本号
-            var assembly = Assembly.GetExecutingAssembly();
             lbDesc.Text = "Welcome";
             this.TextShow = string.Empty;
         }
@@ -40,7 +38,7 @@ namespace Paway.Forms
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            Assembly assembly = null;
+            Assembly assembly;
             if (Owner == null)
             {
                 assembly = Assembly.GetExecutingAssembly();
@@ -118,7 +116,7 @@ namespace Paway.Forms
                 }
                 else
                 {
-                    Opacity = Opacity + d;
+                    Opacity += d;
                 }
             }
             else
@@ -132,7 +130,7 @@ namespace Paway.Forms
                 }
                 else
                 {
-                    Opacity = Opacity - d;
+                    Opacity -= d;
                 }
             }
         }

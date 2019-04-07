@@ -9,25 +9,13 @@ namespace Paway.Forms
     [ListBindable(false)]
     public class ToolItemCollection : BindingList<ToolItem>, IDisposable
     {
-        #region 变量
-
-        /// <summary>
-        ///     ToolBar
-        /// </summary>
-        private ToolBar _owner;
-
-        #endregion
-
         #region 构造函数
 
         /// <summary>
         ///     初始化 Paway.Forms.ToolItemCollection 新的实例。
         /// </summary>
         /// <param name="owner">ToolBar</param>
-        public ToolItemCollection(ToolBar owner)
-        {
-            _owner = owner;
-        }
+        public ToolItemCollection() { }
 
         #endregion
 

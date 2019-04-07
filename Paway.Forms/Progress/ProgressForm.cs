@@ -15,8 +15,8 @@ namespace Paway.Forms
     {
         private double _opacitySpeed;
         private double _targetOpacity;
-        private Timer timer = null;
-        private ProgressStates states;
+        private readonly Timer timer = null;
+        private readonly ProgressStates states;
         public ProgressState State { get { return this.states.CurrentState; } }
         public IntPtr WindowToWatch { get { return this.states.CurrentHandle; } }
         public string Caption { get { return this.states.CurrentCaption; } }
