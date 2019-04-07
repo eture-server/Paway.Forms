@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
-using Paway.Resource;
 using Paway.Helper;
+using Paway.Forms.Properties;
 
 namespace Paway.Forms
 {
@@ -19,19 +19,63 @@ namespace Paway.Forms
         /// <param name="str">图片字符串</param>
         protected void DrawButton(Graphics g, TMouseState mouseState, Rectangle rect, string str)
         {
+            Bitmap bitmap = null;
             switch (mouseState)
             {
                 case TMouseState.Normal:
-                    g.DrawImage(AssemblyHelper.GetImage("QQ.SysButton.btn_" + str + "_normal.png"), rect);
+                    switch (str)
+                    {
+                        case "mini":
+                            bitmap = Resources.QQ_SysButton_btn_mini_normal;
+                            break;
+                        case "restore":
+                            bitmap = Resources.QQ_SysButton_btn_restore_normal;
+                            break;
+                        case "max":
+                            bitmap = Resources.QQ_SysButton_btn_max_normal;
+                            break;
+                        case "close":
+                            bitmap = Resources.QQ_SysButton_btn_close_normal;
+                            break;
+                    }
                     break;
                 case TMouseState.Move:
                 case TMouseState.Up:
-                    g.DrawImage(AssemblyHelper.GetImage("QQ.SysButton.btn_" + str + "_highlight.png"), rect);
+                    switch (str)
+                    {
+                        case "mini":
+                            bitmap = Resources.QQ_SysButton_btn_mini_highlight;
+                            break;
+                        case "restore":
+                            bitmap = Resources.QQ_SysButton_btn_restore_highlight;
+                            break;
+                        case "max":
+                            bitmap = Resources.QQ_SysButton_btn_max_highlight;
+                            break;
+                        case "close":
+                            bitmap = Resources.QQ_SysButton_btn_close_highlight;
+                            break;
+                    }
                     break;
                 case TMouseState.Down:
-                    g.DrawImage(AssemblyHelper.GetImage("QQ.SysButton.btn_" + str + "_down.png"), rect);
+                    switch (str)
+                    {
+                        case "mini":
+                            bitmap = Resources.QQ_SysButton_btn_mini_down;
+                            break;
+                        case "restore":
+                            bitmap = Resources.QQ_SysButton_btn_restore_down;
+                            break;
+                        case "max":
+                            bitmap = Resources.QQ_SysButton_btn_max_down;
+                            break;
+                        case "close":
+                            bitmap = Resources.QQ_SysButton_btn_close_down;
+                            break;
+                    }
                     break;
             }
+            if (bitmap != null) g.DrawImage(bitmap, rect);
         }
 
         #endregion

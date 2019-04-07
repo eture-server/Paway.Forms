@@ -107,10 +107,8 @@
             this.IBorder = true;
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "MainForm";
-            this.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(110)))), ((int)(((byte)(230)))));
-            this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(244)))));
-            this.TBrush.ColorNormal = System.Drawing.Color.CornflowerBlue;
-            this.TBrush.ColorSpace = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.TBrush.ColorMove = System.Drawing.Color.CornflowerBlue;
+            this.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.Text = "";
             this.Controls.SetChildIndex(this.panel1, 0);
             this.panel1.ResumeLayout(false);

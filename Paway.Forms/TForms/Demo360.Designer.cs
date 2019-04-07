@@ -84,10 +84,8 @@ namespace Paway.Forms
             this.Name = "Demo360";
             this.Padding = new System.Windows.Forms.Padding(0, 26, 0, 0);
             this.ShowIcon = false;
-            this.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(110)))), ((int)(((byte)(230)))));
-            this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(244)))));
-            this.TBrush.ColorNormal = System.Drawing.Color.CornflowerBlue;
-            this.TBrush.ColorSpace = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.TBrush.ColorMove = System.Drawing.Color.CornflowerBlue;
+            this.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.Text = "Demo360";
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);

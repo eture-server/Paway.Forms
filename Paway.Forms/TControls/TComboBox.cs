@@ -3,8 +3,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using Paway.Forms.Properties;
 using Paway.Helper;
-using Paway.Resource;
 
 namespace Paway.Forms
 {
@@ -14,7 +14,7 @@ namespace Paway.Forms
     public class TComboBox : TControl
     {
         #region override
-        private readonly Image moveImage = AssemblyHelper.GetImage("QQ.TextBox.move.png");
+        private readonly Image moveImage = Resources.QQ_TextBox_move;
         /// <summary>
         ///     边框图片
         /// </summary>
@@ -68,7 +68,7 @@ namespace Paway.Forms
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TComboBoxBase Edit { get { return tComboBox1; } }
 
-        private readonly Image _borderImage = AssemblyHelper.GetImage("QQ.TextBox.normal.png");
+        private readonly Image _borderImage = Resources.QQ_TextBox_normal;
         private TMouseState _mouseState = TMouseState.Normal;
 
         /// <summary>

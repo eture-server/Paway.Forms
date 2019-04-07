@@ -7,9 +7,9 @@ using System.Drawing.Text;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Paway.Helper;
-using Paway.Resource;
 using Paway.Win32;
 using System.Reflection;
+using Paway.Forms.Properties;
 
 namespace Paway.Forms
 {
@@ -64,7 +64,7 @@ namespace Paway.Forms
         /// <summary>
         ///     边框图片
         /// </summary>
-        private readonly Image _borderImage = AssemblyHelper.GetImage("QQ.FormFrame.fringe_bkg.png");
+        private readonly Image _borderImage = Resources.QQ_FormFrame_fringe_bkg;
 
         /// <summary>
         ///     系统按钮
@@ -732,11 +732,11 @@ namespace Paway.Forms
             g.SmoothingMode = SmoothingMode.HighQuality;
 
             //绘制背景
-            if (TBrush.ColorSpace != Color.Empty && TBrush.ColorNormal != Color.Empty)
+            if (TBrush.ColorMove != Color.Empty && TBrush.ColorDown != Color.Empty)
             {
-                TranColor = TBrush.ColorNormal;
+                TranColor = TBrush.ColorMove;
                 var normal = TranColor;
-                TranColor = TBrush.ColorSpace;
+                TranColor = TBrush.ColorDown;
                 var space = TranColor;
                 using (var brush = new LinearGradientBrush(ClientRectangle, normal, space, _tBrushMode))
                 {

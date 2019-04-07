@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using Paway.Forms.Properties;
 using Paway.Helper;
-using Paway.Resource;
 
 namespace Paway.Forms
 {
@@ -54,12 +54,12 @@ namespace Paway.Forms
         /// <summary>
         ///     背景图片
         /// </summary>
-        private readonly Image _backImage = AssemblyHelper.GetImage("QQ.SkinMgr.all_inside02_bkg.png");
+        private readonly Image _backImage = Resources.QQ_SkinMgr_all_inside02_bkg;
 
         /// <summary>
         ///     分割线
         /// </summary>
-        private readonly Image _splitImage = AssemblyHelper.GetImage("QQ.FormFrame.ContactFilter_splitter.png");
+        private readonly Image _splitImage = Resources.QQ_FormFrame_ContactFilter_splitter;
 
         #endregion
 

@@ -20,8 +20,6 @@ namespace Paway.Forms
 
         private Color _cNormal = Color.Empty;
 
-        private Color _cSpace = Color.Empty;
-
         private Font _fDown = new Font("微软雅黑", 12f, FontStyle.Regular, GraphicsUnit.Point, 1);
 
         private Font _fMove = new Font("微软雅黑", 12f, FontStyle.Regular, GraphicsUnit.Point, 1);
@@ -175,21 +173,6 @@ namespace Paway.Forms
             set
             {
                 _cDown = value;
-                OnValueChange(value);
-            }
-        }
-
-        /// <summary>
-        ///     项间隔的颜色
-        /// </summary>
-        [Description("项间隔的颜色")]
-        [DefaultValue(typeof(Color), "")]
-        public Color ColorSpace
-        {
-            get { return _cSpace; }
-            set
-            {
-                _cSpace = value;
                 OnValueChange(value);
             }
         }

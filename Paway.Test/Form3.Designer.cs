@@ -66,7 +66,7 @@
             this.btChange.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btChange.Font = new System.Drawing.Font("Tahoma", 15F);
             this.btChange.IClickEvent = true;
-            this.btChange.IItemLine = true;
+            this.btChange.ColorLine = System.Drawing.Color.Transparent;
             this.btChange.ImageSize = new System.Drawing.Size(0, 0);
             toolItem2.Text = "Change";
             this.btChange.Items.Add(toolItem2);
@@ -91,10 +91,8 @@
             this.Controls.Add(this.btChange);
             this.Controls.Add(this.tControl1);
             this.Name = "Form3";
-            this.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(110)))), ((int)(((byte)(230)))));
-            this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(244)))));
-            this.TBrush.ColorNormal = System.Drawing.Color.CornflowerBlue;
-            this.TBrush.ColorSpace = System.Drawing.Color.Ivory;
+            this.TBrush.ColorMove = System.Drawing.Color.CornflowerBlue;
+            this.TBrush.ColorDown = System.Drawing.Color.Ivory;
             this.Text = "你好";
             this.Trans = 155;
             this.tControl1.ResumeLayout(false);

@@ -2,8 +2,8 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using Paway.Forms.Properties;
 using Paway.Helper;
-using Paway.Resource;
 using Paway.Win32;
 
 namespace Paway.Forms
@@ -25,7 +25,7 @@ namespace Paway.Forms
             UpdateStyles();
             InitializeComponent();
             this.screen = screen;
-            if (screen == null) this.screen = AssemblyHelper.GetImage("Controls.blank.png") as Bitmap;
+            if (screen == null) this.screen = Resources.Controls_blank;
             else this.screen = screen;
             Cursor = Cursors.Hand;
             ratio = this.screen.Width * 1.0 / this.screen.Height;

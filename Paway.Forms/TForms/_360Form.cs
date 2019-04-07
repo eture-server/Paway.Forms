@@ -3,8 +3,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using Paway.Resource;
 using Paway.Helper;
+using Paway.Forms.Properties;
 
 namespace Paway.Forms
 {
@@ -62,27 +62,27 @@ namespace Paway.Forms
         /// <summary>
         ///     关闭按钮图片
         /// </summary>
-        private readonly Image _closeImage = AssemblyHelper.GetImage("_360.SysButton.sys_button_close.png");
+        private readonly Image _closeImage = Resources._360_SysButton_sys_button_close;
 
         /// <summary>
         ///     最小化按钮图片
         /// </summary>
-        private readonly Image _minImage = AssemblyHelper.GetImage("_360.SysButton.sys_button_min.png");
+        private readonly Image _minImage = Resources._360_SysButton_sys_button_min;
 
         /// <summary>
         ///     最大化按钮图片
         /// </summary>
-        private readonly Image _maxImage = AssemblyHelper.GetImage("_360.SysButton.sys_button_max.png");
+        private readonly Image _maxImage = Resources._360_SysButton_sys_button_max;
 
         /// <summary>
         ///     还原按钮图片
         /// </summary>
-        private readonly Image _restoreImage = AssemblyHelper.GetImage("_360.SysButton.sys_button_restore.png");
+        private readonly Image _restoreImage = Resources._360_SysButton_sys_button_restore;
 
         /// <summary>
         ///     标题栏菜单按钮图片
         /// </summary>
-        private readonly Image _titleBarMenuImage = AssemblyHelper.GetImage("_360.SysButton.title_bar_menu.png");
+        private readonly Image _titleBarMenuImage = Resources._360_SysButton_title_bar_menu;
 
         #endregion
 

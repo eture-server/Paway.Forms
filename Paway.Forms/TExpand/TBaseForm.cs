@@ -81,10 +81,8 @@ namespace Paway.Forms
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "TBaseForm";
             this.Padding = new System.Windows.Forms.Padding(1, 80, 1, 2);
-            this.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(57)))), ((int)(((byte)(50)))));
-            this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(112)))), ((int)(((byte)(99)))));
-            this.TBrush.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(84)))), ((int)(((byte)(74)))));
-            this.TBrush.ColorSpace = System.Drawing.Color.Ivory;
+            this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(84)))), ((int)(((byte)(74)))));
+            this.TBrush.ColorDown = System.Drawing.Color.Ivory;
             this.Controls.SetChildIndex(this.lbTitle, 0);
             this.Controls.SetChildIndex(this.panel1, 0);
             this.ResumeLayout(false);

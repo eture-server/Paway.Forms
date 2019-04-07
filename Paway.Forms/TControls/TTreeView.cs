@@ -5,8 +5,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using Paway.Forms.Properties;
 using Paway.Helper;
-using Paway.Resource;
 
 namespace Paway.Forms
 {
@@ -70,12 +70,12 @@ namespace Paway.Forms
         /// </summary>
         private TreeNode lastnode;
 
-        private readonly Image add = AssemblyHelper.GetImage("Controls.+.png");
-        private readonly Image less = AssemblyHelper.GetImage("Controls.-.png");
+        private readonly Image add = Resources.Controls_add;
+        private readonly Image less = Resources.Controls_less;
 
-        private readonly Image check_normal = AssemblyHelper.GetImage("QQ.CheckBox.normal.png");
-        private readonly Image check_tick = AssemblyHelper.GetImage("QQ.CheckBox.tick_normal.png");
-        private readonly Image check_hight = AssemblyHelper.GetImage("QQ.CheckBox._tick_highlight.png");
+        private readonly Image check_normal = Resources.QQ_CheckBox_normal;
+        private readonly Image check_tick = Resources.QQ_CheckBox_tick_normal;
+        private readonly Image check_hight = Resources.QQ_CheckBox__tick_highlight;
 
         #endregion
 

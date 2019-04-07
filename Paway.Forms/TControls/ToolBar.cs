@@ -5,9 +5,9 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using Paway.Helper;
-using Paway.Resource;
 using System.Threading.Tasks;
 using System.Reflection;
+using Paway.Forms.Properties;
 
 namespace Paway.Forms
 {
@@ -95,7 +95,7 @@ namespace Paway.Forms
         ///     默认时的按钮图片
         /// </summary>
         private Image _normalImage;
-        private readonly Image _normalImage2 = AssemblyHelper.GetImage("_360.ToolBar.toolbar_normal.png");
+        private readonly Image _normalImage2 = Resources._360_ToolBar_toolbar_normal;
         /// <summary>
         ///     默认图片
         /// </summary>
@@ -115,7 +115,7 @@ namespace Paway.Forms
         ///     鼠标按下时的图片
         /// </summary>
         private Image _downImage;
-        private readonly Image _downImage2 = AssemblyHelper.GetImage("_360.ToolBar.toolbar_hover.png");
+        private readonly Image _downImage2 = Resources._360_ToolBar_toolbar_hover;
         /// <summary>
         ///     鼠标按下时的图片
         /// </summary>
@@ -135,7 +135,7 @@ namespace Paway.Forms
         ///     鼠标划过时的图片
         /// </summary>
         private Image _moveImage;
-        private readonly Image _moveImage2 = AssemblyHelper.GetImage("_360.ToolBar.toolbar_pushed.png");
+        private readonly Image _moveImage2 = Resources._360_ToolBar_toolbar_pushed;
         /// <summary>
         ///     鼠标划过时的图片
         /// </summary>
@@ -158,7 +158,7 @@ namespace Paway.Forms
         /// <summary>
         ///     多选状态下选中时附加的图片
         /// </summary>
-        private readonly Image _selectImage2 = AssemblyHelper.GetImage("Controls.accept_16.png");
+        private readonly Image _selectImage2 = Resources.Controls_accept_16;
 
         #endregion
 
@@ -288,18 +288,18 @@ namespace Paway.Forms
         [DefaultValue(false)]
         public bool INormal { get; set; }
 
-        private bool _iItemLine;
+        private Color _colorLine;
         /// <summary>
-        ///     绘制边框线开关
+        ///     绘制边框线颜色
         /// </summary>
-        [Description("绘制边框线开关")]
-        [DefaultValue(false)]
-        public bool IItemLine
+        [Description("绘制边框线颜色")]
+        [DefaultValue(typeof(Color), "")]
+        public Color ColorLine
         {
-            get { return _iItemLine; }
+            get { return _colorLine; }
             set
             {
-                _iItemLine = value;
+                _colorLine = value;
                 Invalidate();
             }
         }
@@ -892,8 +892,7 @@ namespace Paway.Forms
             var temp = g.VisibleClipBounds;
             //修理毛边
             temp = new RectangleF(temp.X - 1, temp.Y - 1, temp.Width + 2, temp.Height + 2);
-            TranColor = TBackGround.ColorSpace;
-            g.FillRectangle(new SolidBrush(TranColor), temp);
+            g.FillRectangle(new SolidBrush(TranColor(BackColor)), temp);
 
             ////多线程处理(GDI是同一个，占用更多CPU，绘制效率有提升吗)
             //Parallel.For(0, Items.Count, (i) =>
@@ -1122,24 +1121,19 @@ namespace Paway.Forms
             {
                 case TMouseState.Normal:
                 case TMouseState.Leave:
-                    if (!item.Enable)
+                    var color = Color.Gray;
+                    if (item.Enable)
                     {
-                        TranColor = Color.Gray;
+                        color = TranColor(item.TColor.ColorNormal == Color.Empty ? TBackGround.ColorNormal : item.TColor.ColorNormal);
                     }
-                    else
-                    {
-                        TranColor = item.TColor.ColorNormal == Color.Empty
-                            ? TBackGround.ColorNormal
-                            : item.TColor.ColorNormal;
-                    }
-                    if (TranColor == Color.Empty)
+                    if (color == Color.Empty)
                     {
                         var temp = _normalImage ?? _normalImage2;
                         g.DrawImage(temp, item.Rectangle);
                     }
                     else
                     {
-                        DrawBackground(g, TranColor, item);
+                        DrawBackground(g, color, item);
                     }
                     break;
                 case TMouseState.Move:
@@ -1147,15 +1141,15 @@ namespace Paway.Forms
                     DrawMoveBack(g, item);
                     break;
                 case TMouseState.Down:
-                    TranColor = item.TColor.ColorDown == Color.Empty ? TBackGround.ColorDown : item.TColor.ColorDown;
-                    if (TranColor == Color.Empty)
+                    color = TranColor(item.TColor.ColorDown == Color.Empty ? TBackGround.ColorDown : item.TColor.ColorDown);
+                    if (color == Color.Empty)
                     {
                         var temp = _downImage ?? _downImage2;
                         g.DrawImage(temp, item.Rectangle);
                     }
                     else
                     {
-                        DrawBackground(g, TranColor, item);
+                        DrawBackground(g, color, item);
                     }
                     Image image = _selectImage ?? _selectImage2;
                     if (_iMultiple && image != null)
@@ -1176,20 +1170,24 @@ namespace Paway.Forms
             {
                 var path = DrawHelper.CreateRoundPath(item.Rectangle, radiu);
                 g.FillPath(new SolidBrush(color), path);
-                if (_iItemLine)
+                if (_colorLine != Color.Empty)
                 {
-                    var temp = BitmapHelper.RGBAddLight(color, -10);
+                    var temp = _colorLine;
+                    if (temp == Color.Transparent) temp = BitmapHelper.RGBAddLight(color, -10);
+                    else temp = TranColor(_colorLine);
                     g.DrawPath(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B)), path);
                 }
             }
             else
             {
                 g.FillRectangle(new SolidBrush(color), item.Rectangle);
-                if (_iItemLine)
+                if (_colorLine != Color.Empty)
                 {
                     var rect = item.Rectangle;
                     rect = new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1);
-                    var temp = BitmapHelper.RGBAddLight(color, -10);
+                    var temp = _colorLine;
+                    if (temp == Color.Transparent) temp = BitmapHelper.RGBAddLight(color, -10);
+                    else temp = TranColor(_colorLine);
                     g.DrawRectangle(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B)), rect);
                 }
             }
@@ -1200,15 +1198,15 @@ namespace Paway.Forms
         /// </summary>
         private void DrawMoveBack(Graphics g, ToolItem item)
         {
-            TranColor = item.TColor.ColorMove == Color.Empty ? TBackGround.ColorMove : item.TColor.ColorMove;
-            if (TranColor == Color.Empty)
+            var color = TranColor(item.TColor.ColorMove == Color.Empty ? TBackGround.ColorMove : item.TColor.ColorMove);
+            if (color == Color.Empty)
             {
                 var temp = _moveImage ?? _moveImage2;
                 g.DrawImage(temp, item.Rectangle);
             }
             else
             {
-                DrawBackground(g, TranColor, item);
+                DrawBackground(g, color, item);
             }
         }
 
@@ -1403,10 +1401,8 @@ namespace Paway.Forms
 
             if (!item.Enable)
             {
-                {
-                    var temp = new Rectangle(rect.X + Offset.X, rect.Y + Offset.Y, rect.Width, rect.Height);
-                    TextRenderer.DrawText(g, text, font, temp, color, desc.TextFormat);
-                }
+                var temp = new Rectangle(rect.X + Offset.X, rect.Y + Offset.Y, rect.Width, rect.Height);
+                TextRenderer.DrawText(g, text, font, temp, color, desc.TextFormat);
                 return;
             }
             switch (state)

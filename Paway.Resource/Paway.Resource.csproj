@@ -60,65 +60,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="QQ\CheckBox\hightlight.png" />
-    <EmbeddedResource Include="QQ\CheckBox\normal.png" />
-    <EmbeddedResource Include="QQ\CheckBox\tick_highlight.png" />
-    <EmbeddedResource Include="QQ\CheckBox\tick_normal.png" />
-    <EmbeddedResource Include="QQ\CheckBox\_tick_highlight.png" />
-    <EmbeddedResource Include="QQ\CheckBox\_tick_normal.png" />
-    <EmbeddedResource Include="QQ\FormFrame\fringe_bkg.png" />
-    <EmbeddedResource Include="QQ\RadioButton\highlight.png" />
-    <EmbeddedResource Include="QQ\RadioButton\normal.png" />
-    <EmbeddedResource Include="QQ\RadioButton\tick_highlight.png" />
-    <EmbeddedResource Include="QQ\RadioButton\tick_normal.png" />
-    <EmbeddedResource Include="QQ\SysButton\btn_close_down.png" />
-    <EmbeddedResource Include="QQ\SysButton\btn_close_highlight.png" />
-    <EmbeddedResource Include="QQ\SysButton\btn_close_normal.png" />
-    <EmbeddedResource Include="QQ\SysButton\btn_max_down.png" />
-    <EmbeddedResource Include="QQ\SysButton\btn_max_highlight.png" />
-    <EmbeddedResource Include="QQ\SysButton\btn_max_normal.png" />
-    <EmbeddedResource Include="QQ\SysButton\btn_mini_down.png" />
-    <EmbeddedResource Include="QQ\SysButton\btn_mini_highlight.png" />
-    <EmbeddedResource Include="QQ\SysButton\btn_mini_normal.png" />
-    <EmbeddedResource Include="QQ\SysButton\btn_restore_down.png" />
-    <EmbeddedResource Include="QQ\SysButton\btn_restore_highlight.png" />
-    <EmbeddedResource Include="QQ\SysButton\btn_restore_normal.png" />
-    <EmbeddedResource Include="QQ\TextBox\move.png" />
-    <EmbeddedResource Include="QQ\TextBox\normal.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="_360\SysButton\sys_button_close.png" />
-    <EmbeddedResource Include="_360\SysButton\sys_button_max.png" />
-    <EmbeddedResource Include="_360\SysButton\sys_button_min.png" />
-    <EmbeddedResource Include="_360\SysButton\sys_button_restore.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="_360\SysButton\title_bar_menu.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="_360\ToolBar\toolbar_hover.png" />
-    <EmbeddedResource Include="_360\ToolBar\toolbar_normal.png" />
-    <EmbeddedResource Include="_360\ToolBar\toolbar_pushed.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="QQ\FormFrame\ContactFilter_splitter.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="QQ\SkinMgr\all_inside02_bkg.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Controls\blank.png" />
-    <EmbeddedResource Include="Controls\process.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Controls\accept_16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Controls\t.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Controls\+.png" />
-    <EmbeddedResource Include="Controls\-.png" />
+    <Folder Include="QQ\SysButton\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

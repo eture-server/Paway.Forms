@@ -350,10 +350,8 @@
             this.BackColor = System.Drawing.Color.CornflowerBlue;
             this.ClientSize = new System.Drawing.Size(712, 574);
             this.Name = "FormGridView";
-            this.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(57)))), ((int)(((byte)(50)))));
-            this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(112)))), ((int)(((byte)(99)))));
-            this.TBrush.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(84)))), ((int)(((byte)(74)))));
-            this.TBrush.ColorSpace = System.Drawing.Color.Ivory;
+            this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(84)))), ((int)(((byte)(74)))));
+            this.TBrush.ColorDown = System.Drawing.Color.Ivory;
             this.Text = "hello,world";
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);

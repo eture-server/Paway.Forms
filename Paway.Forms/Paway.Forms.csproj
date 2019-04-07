@@ -209,10 +209,6 @@
       <Project>{01826a18-9c4d-4a13-99a1-db29b0d49de9}</Project>
       <Name>Paway.Helper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Paway.Resource\Paway.Resource.csproj">
-      <Project>{6902413a-d983-4845-83fc-e9f8ca042ab2}</Project>
-      <Name>Paway.Resource</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Paway.Win32\Paway.Win32.csproj">
       <Project>{6DCAE3D1-F084-49F4-B21F-25D906E02567}</Project>
       <Name>Paway.Win32</Name>
@@ -277,6 +273,123 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\_360_toolbar_toolbar_pushed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\_360_sysbutton_sys_button_close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\_360_sysbutton_sys_button_max.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\_360_sysbutton_sys_button_min.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\_360_sysbutton_sys_button_restore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\_360_sysbutton_title_bar_menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\_360_toolbar_toolbar_hover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\_360_toolbar_toolbar_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\controls_accept_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\controls_blank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\controls_add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\controls_less.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_skinmgr_all_inside02_bkg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_textbox_move.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_textbox_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_formframe_contactfilter_splitter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_formframe_fringe_bkg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_checkbox__tick_highlight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_checkbox__tick_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_checkbox_hightlight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_checkbox_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_checkbox_tick_highlight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_checkbox_tick_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_radiobutton_highlight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_radiobutton_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_radiobutton_tick_highlight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_radiobutton_tick_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_sysbutton_btn_close_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_sysbutton_btn_close_highlight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_sysbutton_btn_close_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_sysbutton_btn_max_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_sysbutton_btn_max_highlight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_sysbutton_btn_max_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_sysbutton_btn_mini_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_sysbutton_btn_mini_highlight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_sysbutton_btn_mini_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_sysbutton_btn_restore_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_sysbutton_btn_restore_highlight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qq_sysbutton_btn_restore_normal.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

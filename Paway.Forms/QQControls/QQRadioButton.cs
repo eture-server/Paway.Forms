@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Windows.Forms;
+using Paway.Forms.Properties;
 using Paway.Helper;
-using Paway.Resource;
 
 namespace Paway.Forms
 {
@@ -131,10 +131,10 @@ namespace Paway.Forms
             }
         }
 
-        private readonly Image tick_normalImage = AssemblyHelper.GetImage("QQ.RadioButton.tick_normal.png");
-        private readonly Image normalImage = AssemblyHelper.GetImage("QQ.RadioButton.normal.png");
-        private readonly Image tick_highlightImage = AssemblyHelper.GetImage("QQ.RadioButton.tick_highlight.png");
-        private readonly Image highlightImage = AssemblyHelper.GetImage("QQ.RadioButton.highlight.png");
+        private readonly Image tick_normalImage = Resources.QQ_RadioButton_tick_normal;
+        private readonly Image normalImage = Resources.QQ_RadioButton_normal;
+        private readonly Image tick_highlightImage = Resources.QQ_RadioButton_tick_highlight;
+        private readonly Image highlightImage = Resources.QQ_RadioButton_highlight;
 
         #endregion
 

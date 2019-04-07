@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Windows.Forms;
+using Paway.Forms.Properties;
 using Paway.Helper;
-using Paway.Resource;
 
 namespace Paway.Forms
 {
@@ -135,12 +135,12 @@ namespace Paway.Forms
             }
         }
 
-        private readonly Image normalImage = AssemblyHelper.GetImage("QQ.CheckBox.normal.png");
-        private readonly Image tick_normalImage = AssemblyHelper.GetImage("QQ.CheckBox.tick_normal.png");
-        private readonly Image tick_highlightImage = AssemblyHelper.GetImage("QQ.CheckBox.tick_highlight.png");
-        private readonly Image hightlightImage = AssemblyHelper.GetImage("QQ.CheckBox.hightlight.png");
-        private readonly Image _tick_normalImage = AssemblyHelper.GetImage("QQ.CheckBox._tick_normal.png");
-        private readonly Image _tick_highlightImage = AssemblyHelper.GetImage("QQ.CheckBox._tick_highlight.png");
+        private readonly Image normalImage = Resources.QQ_CheckBox_normal;
+        private readonly Image tick_normalImage = Resources.QQ_CheckBox_tick_normal;
+        private readonly Image tick_highlightImage = Resources.QQ_CheckBox_tick_highlight;
+        private readonly Image hightlightImage = Resources.QQ_CheckBox_hightlight;
+        private readonly Image _tick_normalImage = Resources.QQ_CheckBox__tick_normal;
+        private readonly Image _tick_highlightImage = Resources.QQ_CheckBox__tick_highlight;
 
         #endregion
 

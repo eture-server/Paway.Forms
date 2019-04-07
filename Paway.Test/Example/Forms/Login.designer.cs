@@ -72,7 +72,7 @@
             this.toolOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.toolOk.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolOk.IClickEvent = true;
-            this.toolOk.IItemLine = true;
+            this.toolOk.ColorLine = System.Drawing.Color.Transparent;
             this.toolOk.ImageSize = new System.Drawing.Size(0, 0);
             toolItem1.Text = "登陆";
             this.toolOk.Items.Add(toolItem1);
@@ -135,10 +135,8 @@
             this.ClientSize = new System.Drawing.Size(443, 280);
             this.Name = "Login";
             this.ShowInTaskbar = true;
-            this.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(57)))), ((int)(((byte)(50)))));
-            this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(112)))), ((int)(((byte)(99)))));
-            this.TBrush.ColorNormal = System.Drawing.Color.CornflowerBlue;
-            this.TBrush.ColorSpace = System.Drawing.Color.Ivory;
+            this.TBrush.ColorMove = System.Drawing.Color.CornflowerBlue;
+            this.TBrush.ColorDown = System.Drawing.Color.Ivory;
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);

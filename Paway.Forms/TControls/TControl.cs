@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using Paway.Helper;
-using Paway.Resource;
 using Paway.Win32;
 using System.Reflection;
 
@@ -89,12 +88,10 @@ namespace Paway.Forms
             g.SmoothingMode = SmoothingMode.HighQuality;
 
             //绘制背景
-            if (TBrush.ColorSpace != Color.Empty && TBrush.ColorNormal != Color.Empty)
+            if (TBrush.ColorMove != Color.Empty && TBrush.ColorDown != Color.Empty)
             {
-                TranColor = TBrush.ColorNormal;
-                var normal = TranColor;
-                TranColor = TBrush.ColorSpace;
-                var space = TranColor;
+                var normal = TranColor(TBrush.ColorMove);
+                var space = TranColor(TBrush.ColorDown);
                 using (var brush = new LinearGradientBrush(ClientRectangle, normal, space, _tBrushMode))
                 {
                     var blend = new Blend()
@@ -141,21 +138,16 @@ namespace Paway.Forms
         /// </summary>
         public bool ILoad;
 
-        private Color _tranColor;
         /// <summary>
         ///     绘制背景时自动颜色透明度
         /// </summary>
-        protected Color TranColor
+        protected Color TranColor(Color color)
         {
-            get
+            if (color.A > Trans)
             {
-                if (_tranColor.A > Trans)
-                {
-                    _tranColor = Color.FromArgb(Trans, _tranColor.R, _tranColor.G, _tranColor.B);
-                }
-                return _tranColor;
+                color = Color.FromArgb(Trans, color.R, color.G, color.B);
             }
-            set { _tranColor = value; }
+            return color;
         }
 
         #endregion

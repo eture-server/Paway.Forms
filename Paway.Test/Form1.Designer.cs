@@ -87,6 +87,8 @@
             // 
             // toolBar
             // 
+            this.toolBar.BackColor = System.Drawing.Color.Silver;
+            this.toolBar.ColorLine = System.Drawing.Color.Empty;
             this.toolBar.Font = new System.Drawing.Font("Tahoma", 15F);
             toolItem1.IHeard = true;
             toolItem1.TColor.StringVertical = System.Drawing.StringAlignment.Center;
@@ -128,6 +130,7 @@
             this.toolBar.Location = new System.Drawing.Point(35, 29);
             this.toolBar.MDirection = Paway.Helper.TMDirection.Center;
             this.toolBar.Name = "toolBar";
+            this.toolBar.Padding = new System.Windows.Forms.Padding(5);
             this.toolBar.Size = new System.Drawing.Size(260, 215);
             this.toolBar.TabIndex = 31;
             this.toolBar.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
@@ -187,9 +190,9 @@
             // toolOk
             // 
             this.toolOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.toolOk.ColorLine = System.Drawing.Color.Transparent;
             this.toolOk.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolOk.IClickEvent = true;
-            this.toolOk.IItemLine = true;
             this.toolOk.ImageSize = new System.Drawing.Size(0, 0);
             toolItem14.Text = "hello";
             this.toolOk.Items.Add(toolItem14);

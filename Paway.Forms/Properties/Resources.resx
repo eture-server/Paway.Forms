@@ -124,6 +124,18 @@
   <data name="close" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\close.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Controls_accept_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\controls_accept_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Controls_add" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\controls_add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Controls_blank" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\controls_blank.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Controls_less" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\controls_less.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\edit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -133,10 +145,115 @@
   <data name="load2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\load.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="QQ_CheckBox_hightlight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_checkbox_hightlight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_CheckBox_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_checkbox_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_CheckBox_tick_highlight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_checkbox_tick_highlight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_CheckBox_tick_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_checkbox_tick_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_CheckBox__tick_highlight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_checkbox__tick_highlight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_CheckBox__tick_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_checkbox__tick_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_FormFrame_ContactFilter_splitter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_formframe_contactfilter_splitter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_FormFrame_fringe_bkg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_formframe_fringe_bkg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_RadioButton_highlight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_radiobutton_highlight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_RadioButton_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_radiobutton_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_RadioButton_tick_highlight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_radiobutton_tick_highlight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_RadioButton_tick_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_radiobutton_tick_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_SkinMgr_all_inside02_bkg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_skinmgr_all_inside02_bkg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_SysButton_btn_close_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_sysbutton_btn_close_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_SysButton_btn_close_highlight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_sysbutton_btn_close_highlight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_SysButton_btn_close_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_sysbutton_btn_close_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_SysButton_btn_max_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_sysbutton_btn_max_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_SysButton_btn_max_highlight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_sysbutton_btn_max_highlight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_SysButton_btn_max_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_sysbutton_btn_max_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_SysButton_btn_mini_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_sysbutton_btn_mini_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_SysButton_btn_mini_highlight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_sysbutton_btn_mini_highlight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_SysButton_btn_mini_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_sysbutton_btn_mini_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_SysButton_btn_restore_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_sysbutton_btn_restore_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_SysButton_btn_restore_highlight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_sysbutton_btn_restore_highlight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_SysButton_btn_restore_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_sysbutton_btn_restore_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_TextBox_move" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_textbox_move.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ_TextBox_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qq_textbox_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\refresh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="search" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\search.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_360_SysButton_sys_button_close" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\_360_sysbutton_sys_button_close.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_360_SysButton_sys_button_max" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\_360_sysbutton_sys_button_max.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_360_SysButton_sys_button_min" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\_360_sysbutton_sys_button_min.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_360_SysButton_sys_button_restore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\_360_sysbutton_sys_button_restore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_360_SysButton_title_bar_menu" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\_360_sysbutton_title_bar_menu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_360_ToolBar_toolbar_hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\_360_toolbar_toolbar_hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_360_ToolBar_toolbar_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\_360_toolbar_toolbar_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_360_ToolBar_toolbar_pushed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\_360_toolbar_toolbar_pushed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

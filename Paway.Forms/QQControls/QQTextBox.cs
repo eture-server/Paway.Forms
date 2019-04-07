@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Drawing.Design;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using Paway.Forms.Properties;
 using Paway.Helper;
-using Paway.Resource;
 
 namespace Paway.Forms
 {
@@ -15,8 +15,8 @@ namespace Paway.Forms
     {
         #region 变量
 
-        private readonly Image _borderImage = AssemblyHelper.GetImage("QQ.TextBox.normal.png");
-        private readonly Image _moveImage = AssemblyHelper.GetImage("QQ.TextBox.move.png");
+        private readonly Image _borderImage = Resources.QQ_TextBox_normal;
+        private readonly Image _moveImage = Resources.QQ_TextBox_move;
         private Cursor _cursor = Cursors.IBeam;
         private TMouseState _mouseState = TMouseState.Normal;
         private TMouseState _iconMouseState = TMouseState.Normal;

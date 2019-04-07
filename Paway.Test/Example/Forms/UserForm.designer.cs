@@ -60,7 +60,7 @@
             this.toolCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.toolCancel.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolCancel.IClickEvent = true;
-            this.toolCancel.IItemLine = true;
+            this.toolCancel.ColorLine = System.Drawing.Color.Transparent;
             this.toolCancel.ImageSize = new System.Drawing.Size(0, 0);
             toolItem1.Text = "取消";
             this.toolCancel.Items.Add(toolItem1);
@@ -84,7 +84,7 @@
             this.toolOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.toolOk.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolOk.IClickEvent = true;
-            this.toolOk.IItemLine = true;
+            this.toolOk.ColorLine = System.Drawing.Color.Transparent;
             this.toolOk.ImageSize = new System.Drawing.Size(0, 0);
             toolItem2.Text = "确认";
             this.toolOk.Items.Add(toolItem2);
@@ -158,10 +158,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.ClientSize = new System.Drawing.Size(443, 280);
             this.Name = "UserForm";
-            this.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(57)))), ((int)(((byte)(50)))));
-            this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(112)))), ((int)(((byte)(99)))));
-            this.TBrush.ColorNormal = System.Drawing.Color.CornflowerBlue;
-            this.TBrush.ColorSpace = System.Drawing.Color.Ivory;
+            this.TBrush.ColorMove = System.Drawing.Color.CornflowerBlue;
+            this.TBrush.ColorDown = System.Drawing.Color.Ivory;
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
