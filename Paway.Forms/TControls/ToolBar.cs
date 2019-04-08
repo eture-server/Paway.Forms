@@ -288,22 +288,6 @@ namespace Paway.Forms
         [DefaultValue(false)]
         public bool INormal { get; set; }
 
-        private Color _colorLine;
-        /// <summary>
-        ///     绘制边框线颜色
-        /// </summary>
-        [Description("绘制边框线颜色")]
-        [DefaultValue(typeof(Color), "")]
-        public Color ColorLine
-        {
-            get { return _colorLine; }
-            set
-            {
-                _colorLine = value;
-                Invalidate();
-            }
-        }
-
         /// <summary>
         ///     补充整行\列
         /// </summary>
@@ -602,7 +586,7 @@ namespace Paway.Forms
             {
                 if (_change == null)
                 {
-                    _change = new TProperties();
+                    _change = new TProperties(MethodBase.GetCurrentMethod());
                     _change.ValueChange += delegate { Invalidate(); };
                 }
                 return _change;
@@ -719,6 +703,25 @@ namespace Paway.Forms
                     _backGround.ValueChange += delegate { Invalidate(); };
                 }
                 return _backGround;
+            }
+        }
+
+        private TProperties _colorLine;
+        /// <summary>
+        ///     边框线颜色属性
+        /// </summary>
+        [Description("边框线颜色属性")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public TProperties TColorLine
+        {
+            get
+            {
+                if (_colorLine == null)
+                {
+                    _colorLine = new TProperties(MethodBase.GetCurrentMethod());
+                    _colorLine.ValueChange += delegate { Invalidate(); };
+                }
+                return _colorLine;
             }
         }
 
@@ -1122,6 +1125,7 @@ namespace Paway.Forms
                 case TMouseState.Normal:
                 case TMouseState.Leave:
                     var color = Color.Gray;
+                    var colorLine = TranColor(TColorLine.ColorNormal);
                     if (item.Enable)
                     {
                         color = TranColor(item.TColor.ColorNormal == Color.Empty ? TBackGround.ColorNormal : item.TColor.ColorNormal);
@@ -1133,7 +1137,7 @@ namespace Paway.Forms
                     }
                     else
                     {
-                        DrawBackground(g, color, item);
+                        DrawBackground(g, color, colorLine, item);
                     }
                     break;
                 case TMouseState.Move:
@@ -1142,6 +1146,7 @@ namespace Paway.Forms
                     break;
                 case TMouseState.Down:
                     color = TranColor(item.TColor.ColorDown == Color.Empty ? TBackGround.ColorDown : item.TColor.ColorDown);
+                    colorLine = TranColor(TColorLine.ColorDown);
                     if (color == Color.Empty)
                     {
                         var temp = _downImage ?? _downImage2;
@@ -1149,7 +1154,7 @@ namespace Paway.Forms
                     }
                     else
                     {
-                        DrawBackground(g, color, item);
+                        DrawBackground(g, color, colorLine, item);
                     }
                     Image image = _selectImage ?? _selectImage2;
                     if (_iMultiple && image != null)
@@ -1163,7 +1168,7 @@ namespace Paway.Forms
         /// <summary>
         ///     填充Item内部颜色
         /// </summary>
-        protected virtual void DrawBackground(Graphics g, Color color, ToolItem item)
+        protected virtual void DrawBackground(Graphics g, Color color, Color colorLine, ToolItem item)
         {
             g.PixelOffsetMode = PixelOffsetMode.Default;
             var radiu = item.TRadiu > _tRadiu ? item.TRadiu : _tRadiu;
@@ -1171,24 +1176,24 @@ namespace Paway.Forms
             {
                 var path = DrawHelper.CreateRoundPath(item.Rectangle, radiu);
                 g.FillPath(new SolidBrush(color), path);
-                if (_colorLine != Color.Empty)
+                if (colorLine != Color.Empty)
                 {
-                    var temp = _colorLine;
+                    var temp = colorLine;
                     if (temp == Color.Transparent) temp = BitmapHelper.RGBAddLight(color, -10);
-                    else temp = TranColor(_colorLine);
+                    else temp = TranColor(colorLine);
                     g.DrawPath(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B)), path);
                 }
             }
             else
             {
                 g.FillRectangle(new SolidBrush(color), item.Rectangle);
-                if (_colorLine != Color.Empty)
+                if (colorLine != Color.Empty)
                 {
                     var rect = item.Rectangle;
                     rect = new Rectangle(rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
-                    var temp = _colorLine;
+                    var temp = colorLine;
                     if (temp == Color.Transparent) temp = BitmapHelper.RGBAddLight(color, -10);
-                    else temp = TranColor(_colorLine);
+                    else temp = TranColor(colorLine);
                     g.DrawRectangle(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B)), rect);
                 }
             }
@@ -1201,6 +1206,7 @@ namespace Paway.Forms
         private void DrawMoveBack(Graphics g, ToolItem item)
         {
             var color = TranColor(item.TColor.ColorMove == Color.Empty ? TBackGround.ColorMove : item.TColor.ColorMove);
+            var colorLine = TranColor(TColorLine.ColorMove);
             if (color == Color.Empty)
             {
                 var temp = _moveImage ?? _moveImage2;
@@ -1208,7 +1214,7 @@ namespace Paway.Forms
             }
             else
             {
-                DrawBackground(g, color, item);
+                DrawBackground(g, color, colorLine, item);
             }
         }
 
@@ -2582,6 +2588,8 @@ namespace Paway.Forms
             {
                 if (_backGround != null)
                     _backGround.Dispose();
+                if (_colorLine != null)
+                    _colorLine.Dispose();
                 if (_change != null)
                     _change.Dispose();
                 if (_desc != null)

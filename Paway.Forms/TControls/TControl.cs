@@ -245,7 +245,7 @@ namespace Paway.Forms
             {
                 if (_tBrush == null)
                 {
-                    _tBrush = new TProperties();
+                    _tBrush = new TProperties(MethodBase.GetCurrentMethod());
                     _tBrush.ValueChange += delegate { Invalidate(ClientRectangle); };
                 }
                 return _tBrush;

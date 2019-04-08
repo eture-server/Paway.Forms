@@ -50,7 +50,9 @@
             this.btnReset.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnReset.Font = new System.Drawing.Font("Tahoma", 15F);
             this.btnReset.IClickEvent = true;
-            this.btnReset.ColorLine = System.Drawing.Color.Transparent;
+            this.btnReset.TColorLine.ColorDown = System.Drawing.Color.Transparent;
+            this.btnReset.TColorLine.ColorMove = System.Drawing.Color.Transparent;
+            this.btnReset.TColorLine.ColorNormal = System.Drawing.Color.Transparent;
             this.btnReset.ImageSize = new System.Drawing.Size(0, 0);
             toolItem1.Text = "Reset";
             this.btnReset.Items.Add(toolItem1);

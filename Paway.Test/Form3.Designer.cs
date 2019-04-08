@@ -66,7 +66,9 @@
             this.btChange.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btChange.Font = new System.Drawing.Font("Tahoma", 15F);
             this.btChange.IClickEvent = true;
-            this.btChange.ColorLine = System.Drawing.Color.Transparent;
+            this.btChange.TColorLine.ColorDown = System.Drawing.Color.Transparent;
+            this.btChange.TColorLine.ColorMove = System.Drawing.Color.Transparent;
+            this.btChange.TColorLine.ColorNormal = System.Drawing.Color.Transparent;
             this.btChange.ImageSize = new System.Drawing.Size(0, 0);
             toolItem2.Text = "Change";
             this.btChange.Items.Add(toolItem2);

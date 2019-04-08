@@ -29,13 +29,15 @@ namespace Paway.Forms
         private StringAlignment _stringHorizontal = StringAlignment.Near;
 
         private StringAlignment _stringVertical = StringAlignment.Near;
+        private MethodBase parent;
 
         /// <summary>
         ///     构造
         ///     初始化
         /// </summary>
-        public TProperties()
+        public TProperties(MethodBase parent = null)
         {
+            this.parent = parent;
             HeightNormal = InitHeight(FontNormal);
             HeightMove = InitHeight(FontMove);
             HeightDown = InitHeight(FontDown);
@@ -113,10 +115,16 @@ namespace Paway.Forms
                 _cNormal = value;
                 if (value != Color.Empty)
                 {
-                    if (_cMove == Color.Empty)
-                        _cMove = BitmapHelper.RGBAddLight(value, 30);
-                    if (_cDown == Color.Empty)
-                        _cDown = BitmapHelper.RGBAddLight(value, -30);
+                    if (parent == null)
+                    {
+                        if (_cMove == Color.Empty) _cMove = BitmapHelper.RGBAddLight(value, 30);
+                        if (_cDown == Color.Empty) _cDown = BitmapHelper.RGBAddLight(value, -30);
+                    }
+                    else if (parent.Name.Contains(nameof(ToolBar.TColorLine)))
+                    {
+                        if (_cMove == Color.Empty) _cMove = value;
+                        if (_cDown == Color.Empty) _cDown = value;
+                    }
                 }
                 OnValueChange(value);
             }

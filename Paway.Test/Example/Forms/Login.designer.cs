@@ -72,7 +72,9 @@
             this.toolOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.toolOk.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolOk.IClickEvent = true;
-            this.toolOk.ColorLine = System.Drawing.Color.Transparent;
+            this.toolOk.TColorLine.ColorDown = System.Drawing.Color.Transparent;
+            this.toolOk.TColorLine.ColorMove = System.Drawing.Color.Transparent;
+            this.toolOk.TColorLine.ColorNormal = System.Drawing.Color.Transparent;
             this.toolOk.ImageSize = new System.Drawing.Size(0, 0);
             toolItem1.Text = "登陆";
             this.toolOk.Items.Add(toolItem1);

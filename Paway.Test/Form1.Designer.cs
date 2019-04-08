@@ -88,7 +88,6 @@
             // toolBar
             // 
             this.toolBar.BackColor = System.Drawing.Color.Silver;
-            this.toolBar.ColorLine = System.Drawing.Color.Empty;
             this.toolBar.Font = new System.Drawing.Font("Tahoma", 15F);
             toolItem1.IHeard = true;
             toolItem1.TColor.StringVertical = System.Drawing.StringAlignment.Center;
@@ -190,7 +189,9 @@
             // toolOk
             // 
             this.toolOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.toolOk.ColorLine = System.Drawing.Color.Transparent;
+            this.toolOk.TColorLine.ColorDown = System.Drawing.Color.Transparent;
+            this.toolOk.TColorLine.ColorMove = System.Drawing.Color.Transparent;
+            this.toolOk.TColorLine.ColorNormal = System.Drawing.Color.Transparent;
             this.toolOk.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolOk.IClickEvent = true;
             this.toolOk.ImageSize = new System.Drawing.Size(0, 0);

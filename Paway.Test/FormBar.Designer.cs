@@ -36,7 +36,6 @@
             // toolBar2
             // 
             this.toolBar2.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.toolBar2.ColorLine = System.Drawing.Color.Red;
             toolItem1.Image = global::Paway.Test.Properties.Resources.Delete_32x32;
             toolItem1.Text = "0\r\n创建宝贝";
             toolItem2.Text = "Hello";
@@ -52,6 +51,9 @@
             this.toolBar2.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(160)))), ((int)(((byte)(64)))));
             this.toolBar2.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.toolBar2.TBackGround.ColorNormal = System.Drawing.SystemColors.AppWorkspace;
+            this.toolBar2.TColorLine.ColorDown = System.Drawing.Color.Red;
+            this.toolBar2.TColorLine.ColorMove = System.Drawing.Color.Red;
+            this.toolBar2.TColorLine.ColorNormal = System.Drawing.Color.Red;
             this.toolBar2.TDirection = Paway.Helper.TDirection.Vertical;
             this.toolBar2.TextFirst.FontDown = new System.Drawing.Font("微软雅黑", 24F);
             this.toolBar2.TextFirst.FontMove = new System.Drawing.Font("微软雅黑", 24F);
@@ -59,6 +61,7 @@
             this.toolBar2.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
             this.toolBar2.TextSencond.StringVertical = System.Drawing.StringAlignment.Center;
             this.toolBar2.TRadiu = 110;
+            this.toolBar2.Trans = 200;
             // 
             // FormBar
             // 
