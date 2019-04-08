@@ -1165,6 +1165,7 @@ namespace Paway.Forms
         /// </summary>
         protected virtual void DrawBackground(Graphics g, Color color, ToolItem item)
         {
+            g.PixelOffsetMode = PixelOffsetMode.Default;
             var radiu = item.TRadiu > _tRadiu ? item.TRadiu : _tRadiu;
             if (radiu > 0)
             {
@@ -1184,13 +1185,14 @@ namespace Paway.Forms
                 if (_colorLine != Color.Empty)
                 {
                     var rect = item.Rectangle;
-                    rect = new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1);
+                    rect = new Rectangle(rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
                     var temp = _colorLine;
                     if (temp == Color.Transparent) temp = BitmapHelper.RGBAddLight(color, -10);
                     else temp = TranColor(_colorLine);
                     g.DrawRectangle(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B)), rect);
                 }
             }
+            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
         }
 
         /// <summary>
