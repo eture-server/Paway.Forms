@@ -892,10 +892,6 @@ namespace Paway.Forms
             var g = e.Graphics;
             g.TranslateTransform(Offset.X, Offset.Y);
             g.PixelOffsetMode = PixelOffsetMode.HighQuality; //与AntiAlias作用相反
-            var temp = g.VisibleClipBounds;
-            //修理毛边
-            temp = new RectangleF(temp.X - 1, temp.Y - 1, temp.Width + 2, temp.Height + 2);
-            g.FillRectangle(new SolidBrush(TranColor(BackColor)), temp);
 
             ////多线程处理(GDI是同一个，占用更多CPU，绘制效率有提升吗)
             //Parallel.For(0, Items.Count, (i) =>
@@ -1170,7 +1166,6 @@ namespace Paway.Forms
         /// </summary>
         protected virtual void DrawBackground(Graphics g, Color color, Color colorLine, ToolItem item)
         {
-            g.PixelOffsetMode = PixelOffsetMode.Default;
             var radiu = item.TRadiu > _tRadiu ? item.TRadiu : _tRadiu;
             if (radiu > 0)
             {
@@ -1181,7 +1176,9 @@ namespace Paway.Forms
                     var temp = colorLine;
                     if (temp == Color.Transparent) temp = BitmapHelper.RGBAddLight(color, -10);
                     else temp = TranColor(colorLine);
+                    g.PixelOffsetMode = PixelOffsetMode.Default;
                     g.DrawPath(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B)), path);
+                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 }
             }
             else
@@ -1194,10 +1191,11 @@ namespace Paway.Forms
                     var temp = colorLine;
                     if (temp == Color.Transparent) temp = BitmapHelper.RGBAddLight(color, -10);
                     else temp = TranColor(colorLine);
+                    g.PixelOffsetMode = PixelOffsetMode.Default;
                     g.DrawRectangle(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B)), rect);
+                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 }
             }
-            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
         }
 
         /// <summary>
