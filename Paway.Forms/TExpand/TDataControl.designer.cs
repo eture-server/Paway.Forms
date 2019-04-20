@@ -46,9 +46,9 @@
             // panel3
             // 
             this.panel3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel3.Location = new System.Drawing.Point(683, 37);
+            this.panel3.Location = new System.Drawing.Point(683, 34);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(10, 200);
+            this.panel3.Size = new System.Drawing.Size(10, 203);
             this.panel3.TabIndex = 66;
             this.panel3.Visible = false;
             // 
@@ -60,8 +60,8 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(0, 2, 0, 3);
-            this.panel1.Size = new System.Drawing.Size(693, 37);
+            this.panel1.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            this.panel1.Size = new System.Drawing.Size(693, 34);
             this.panel1.TabIndex = 67;
             // 
             // toolBar1
@@ -134,6 +134,7 @@
             // 
             // 
             // 
+            this.gridview1.Edit.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.gridview1.Edit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridview1.Edit.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.gridview1.Edit.Location = new System.Drawing.Point(0, 0);
@@ -143,18 +144,18 @@
             this.gridview1.Edit.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.gridview1.Edit.RowTemplate.Height = 32;
             this.gridview1.Edit.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridview1.Edit.Size = new System.Drawing.Size(683, 170);
+            this.gridview1.Edit.Size = new System.Drawing.Size(683, 173);
             this.gridview1.Edit.TabIndex = 12;
-            this.gridview1.Location = new System.Drawing.Point(0, 37);
+            this.gridview1.Location = new System.Drawing.Point(0, 34);
             this.gridview1.Name = "gridview1";
-            this.gridview1.Size = new System.Drawing.Size(683, 200);
+            this.gridview1.Size = new System.Drawing.Size(683, 203);
             this.gridview1.TabIndex = 69;
             // 
             // 
             // 
             this.gridview1.TPager.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
             this.gridview1.TPager.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.gridview1.TPager.Location = new System.Drawing.Point(0, 170);
+            this.gridview1.TPager.Location = new System.Drawing.Point(0, 173);
             this.gridview1.TPager.Name = "pager1";
             this.gridview1.TPager.Size = new System.Drawing.Size(683, 30);
             this.gridview1.TPager.TabIndex = 11;
