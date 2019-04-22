@@ -103,6 +103,7 @@ namespace Paway.Utils
             finally
             {
                 if (iTrans) CommandEnd(cmd);
+                else cmd.CommandText = string.Empty;
             }
         }
 
@@ -127,6 +128,7 @@ namespace Paway.Utils
             finally
             {
                 if (iTrans) CommandEnd(cmd);
+                else cmd.CommandText = string.Empty;
             }
         }
 
@@ -156,6 +158,7 @@ namespace Paway.Utils
             finally
             {
                 if (iTrans) CommandEnd(cmd);
+                else cmd.CommandText = string.Empty;
             }
         }
 
@@ -185,6 +188,7 @@ namespace Paway.Utils
             finally
             {
                 if (iTrans) CommandEnd(cmd);
+                else cmd.CommandText = string.Empty;
             }
         }
 
@@ -394,6 +398,7 @@ namespace Paway.Utils
             finally
             {
                 if (iTrans) CommandEnd(cmd);
+                else cmd.CommandText = string.Empty;
             }
         }
 
@@ -500,6 +505,7 @@ namespace Paway.Utils
             finally
             {
                 if (iTrans) CommandEnd(cmd);
+                else cmd.CommandText = string.Empty;
             }
         }
         /// <summary>
@@ -548,6 +554,7 @@ namespace Paway.Utils
             finally
             {
                 if (iTrans) CommandEnd(cmd);
+                else cmd.CommandText = string.Empty;
             }
         }
 
@@ -604,6 +611,7 @@ namespace Paway.Utils
             finally
             {
                 if (iTrans) CommandEnd(cmd);
+                else cmd.CommandText = string.Empty;
             }
         }
 
@@ -664,6 +672,7 @@ namespace Paway.Utils
             finally
             {
                 if (iTrans) CommandEnd(cmd);
+                else cmd.CommandText = string.Empty;
             }
         }
 
@@ -702,6 +711,7 @@ namespace Paway.Utils
             finally
             {
                 if (iTrans) CommandEnd(cmd);
+                else cmd.CommandText = string.Empty;
             }
         }
 
@@ -745,6 +755,7 @@ namespace Paway.Utils
             finally
             {
                 if (iTrans) CommandEnd(cmd);
+                else cmd.CommandText = string.Empty;
             }
         }
 
@@ -756,10 +767,10 @@ namespace Paway.Utils
         /// </summary>
         public void Replace<T>(List<T> list, DbCommand cmd = null) where T : IId
         {
-            bool iAlone = cmd == null;
+            bool iTrans = cmd == null;
             try
             {
-                if (iAlone) cmd = TransStart();
+                if (iTrans) cmd = TransStart();
 
                 List<T> iList = new List<T>();
                 List<T> uList = new List<T>();
@@ -771,17 +782,18 @@ namespace Paway.Utils
                 if (iList.Count > 0) Insert(iList, cmd);
                 if (uList.Count > 0) Update(uList, cmd);
 
-                if (iAlone) TransCommit(cmd);
+                if (iTrans) TransCommit(cmd);
             }
             catch (Exception ex)
             {
                 log.Error(ex);
-                if (iAlone) TransError(cmd);
+                if (iTrans) TransError(cmd);
                 throw;
             }
             finally
             {
-                if (iAlone) CommandEnd(cmd);
+                if (iTrans) CommandEnd(cmd);
+                else cmd.CommandText = string.Empty;
             }
         }
         /// <summary>
