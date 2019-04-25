@@ -1086,8 +1086,8 @@ namespace Paway.Utils
             {
                 if (t.IsNull(descriptor)) continue;
 
-                var propertie = properties.Find(c => c.Name == descriptor.Name);
-                if (propertie.ISelect(out string column))
+                var property = properties.Find(c => c.Name == descriptor.Name);
+                if (property.ISelect(out string column))
                 {
                     if (column == key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;

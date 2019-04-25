@@ -471,32 +471,6 @@ namespace Paway.Forms
         private ItemNode CreateNode(DataRow dr)
         {
             var node = new ItemNode(dr);
-            if (_dataSource is IList)
-            {
-                var list = _dataSource as IList;
-                var type = list.GenericType();
-                var descriptors = type.Descriptors();
-                foreach (var descriptor in descriptors)
-                {
-                    if (descriptor.Name == TId.ToString())
-                    {
-                        var value = dr[TId.ToString()].ToString();
-                        for (int j = 0; j < list.Count; j++)
-                        {
-                            if (value == descriptor.GetValue(list[j]).ToString())
-                            {
-                                node.Tag = list[j];
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                node.Tag = dr;
-            }
             node.Text = CreateText(dr);
             node.Name = dr[TId.ToString()].ToString();
             return node;
@@ -582,16 +556,10 @@ namespace Paway.Forms
             if (TRoot == null)
             {
                 var properties = type.Properties();
-                foreach (var property in properties)
+                var property = properties.Find(c => c.Name == TParentId.ToString());
+                if (property != null && !property.PropertyType.IsValueType && property.PropertyType != typeof(string))
                 {
-                    if (property.Name == TParentId.ToString())
-                    {
-                        if (!property.PropertyType.IsValueType && property.PropertyType != typeof(string))
-                        {
-                            TRoot = Activator.CreateInstance(property.PropertyType);
-                        }
-                        break;
-                    }
+                    TRoot = Activator.CreateInstance(property.PropertyType);
                 }
             }
             if (TRoot != null)
@@ -653,6 +621,7 @@ namespace Paway.Forms
                 {
                     total += Items[i].Width;
                 }
+                if (total == 0) return;
                 for (var i = 0; i < Items.Count; i++)
                 {
                     Items[i].Width = Items[i].Width * Width / total;
@@ -1238,13 +1207,6 @@ namespace Paway.Forms
         /// </summary>
         [DefaultValue(false)]
         public bool IAlign { get; set; }
-
-        /// <summary>
-        ///     获取或设置包含有关控件的数据的对象。
-        /// </summary>
-        [Browsable(false)]
-        [DefaultValue(null)]
-        public object Tag { get; set; }
 
         #endregion
     }

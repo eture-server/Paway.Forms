@@ -112,13 +112,10 @@ namespace Paway.Helper
             var descriptors = type.Descriptors();
             foreach (IInfo info in list)
             {
-                foreach (var descriptor in descriptors)
+                var descriptor = descriptors.Find(c => c.Name == info.Name);
+                if (descriptor != null)
                 {
-                    if (descriptor.Name == info.Name)
-                    {
-                        obj.SetValue(descriptor, info.Value);
-                        break;
-                    }
+                    obj.SetValue(descriptor, info.Value);
                 }
             }
             return obj;

@@ -206,10 +206,10 @@ namespace Paway.Forms
                 }
                 var properties = DataType.Properties();
                 var descriptors = DataType.Descriptors();
-                var propertie = properties.Find(c => c.Name == name);
+                var property = properties.Find(c => c.Name == name);
                 var descriptor = descriptors.Find(c => c.Name == name);
                 string sorts = sort == SortOrder.Descending ? "desc" : "asc";
-                if (propertie.ISort())
+                if (property.ISort())
                 {
                     tempList.Sort((x, y) => TCompare(descriptor.GetValue(x), descriptor.GetValue(y), sorts));
                 }
