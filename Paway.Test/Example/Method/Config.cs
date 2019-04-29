@@ -22,6 +22,19 @@ namespace Paway.Test
         public static UserInfo User { get; set; }
         public static AdminInfo Admin { get; set; }
         public static Form MainForm { get; set; }
+        private static LocationInfo _location;
+        /// <summary>
+        /// 本地数据
+        /// </summary>
+        public static LocationInfo Location
+        {
+            get
+            {
+                if (_location == null) LocationInfo.Load();
+                return _location;
+            }
+            set { _location = value; }
+        }
 
         #endregion
 

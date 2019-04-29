@@ -140,7 +140,7 @@ namespace Paway.Helper
         /// <summary>
         /// 从Excel中取值到DataTable
         /// </summary>
-        public DataTable ToDataTable(string fileName, int sheetIndex = 0)
+        public static DataTable ToDataTable(string fileName, int sheetIndex = 0)
         {
             DataTable dt = new DataTable();
             FileStream fs = null;
@@ -205,7 +205,7 @@ namespace Paway.Helper
         /// <summary>
         /// 导出到Excel
         /// </summary>
-        public static void ToExcel<T>(List<T> list, string fileName, Func<string, bool> action = null)
+        public static void ToExcel<T>(List<T> list, string fileName, bool heard = true, Func<string, bool> action = null)
         {
             IWorkbook workbook = new HSSFWorkbook();
             FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
@@ -216,7 +216,7 @@ namespace Paway.Helper
                 ISheet sheet = workbook.CreateSheet("Sheet1");
                 var properties = type.Properties();
                 var descriptors = type.Descriptors();
-                if (true) //写入DataTable的列名
+                if (heard) //写入DataTable的列名
                 {
                     IRow row = sheet.CreateRow(count++);
                     row.Height = 20 * 20;
@@ -242,6 +242,10 @@ namespace Paway.Helper
                         if (descriptor.PropertyType == typeof(double))
                         {
                             CreateCellNumber(workbook, row, index++, (double)descriptor.GetValue(list[i]));
+                        }
+                        else if (descriptor.PropertyType == typeof(int))
+                        {
+                            CreateCellNumber(workbook, row, index++, (int)descriptor.GetValue(list[i]));
                         }
                         else
                         {

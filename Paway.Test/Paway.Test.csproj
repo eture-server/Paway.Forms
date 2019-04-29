@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Example\Data\DataService.cs" />
+    <Compile Include="Example\Debug\LocationInfo.cs" />
     <Compile Include="Example\Enum\UserType.cs" />
     <Compile Include="Example\Enum\MType.cs" />
     <Compile Include="Example\Info\AdminInfo.cs" />
