@@ -20,6 +20,30 @@ namespace Paway.Test
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        #region MessageBox
+        public static bool Ask(string format, params object[] args)
+        {
+            return Ask(Config.MainForm, format, args);
+        }
+        public static bool Ask(Control control, string format, params object[] args)
+        {
+            return Ask(control, string.Format(format, args), MessageBoxIcon.Warning);
+        }
+        public static bool Ask(string msg, MessageBoxIcon icon)
+        {
+            return Dialog(Config.MainForm, msg, icon) == DialogResult.OK;
+        }
+        public static bool Ask(Control control, string msg, MessageBoxIcon icon)
+        {
+            return Dialog(control, msg, icon) == DialogResult.OK;
+        }
+        public static DialogResult Dialog(Control control, string msg, MessageBoxIcon icon)
+        {
+            return MessageBox.Show(control, msg, Config.Text, MessageBoxButtons.OKCancel, icon);
+        }
+
+        #endregion
+
         #region Math关于四舍五入
         /// <summary>
         /// 关于货币格式化

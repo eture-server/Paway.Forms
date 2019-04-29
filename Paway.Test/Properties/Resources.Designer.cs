@@ -19,7 +19,7 @@ namespace Paway.Test.Properties {
     // 类通过类似于 ResGen 或 Visual Studio 的工具自动生成的。
     // 若要添加或移除成员，请编辑 .ResX 文件，然后重新运行 ResGen
     // (以 /str 作为命令选项)，或重新生成 VS 项目。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -47,7 +47,7 @@ namespace Paway.Test.Properties {
         }
         
         /// <summary>
-        ///   使用此强类型资源类，为所有资源查找
+        ///   重写当前线程的 CurrentUICulture 属性
         ///   重写当前线程的 CurrentUICulture 属性。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -57,6 +57,16 @@ namespace Paway.Test.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap about {
+            get {
+                object obj = ResourceManager.GetObject("about", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -183,6 +193,16 @@ namespace Paway.Test.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap pad {
+            get {
+                object obj = ResourceManager.GetObject("pad", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap process {
             get {
                 object obj = ResourceManager.GetObject("process", resourceCulture);
@@ -210,10 +230,9 @@ namespace Paway.Test.Properties {
         ///&quot;Id&quot;  integer Primary Key AutoIncrement not null,
         ///&quot;Name&quot;  nvarchar NULL,
         ///&quot;Pad&quot;  nvarchar NULL,
-        ///&quot;Status&quot;  bit,
-        ///&quot;IsAdmin&quot;  bit,
-        ///&quot;Money&quot;  double,
-        ///&quot;LastDate&quot;  datetime,
+        ///&quot;Statu&quot;  bit,
+        ///&quot;UserType&quot;  int,
+        ///&quot;DateTime&quot;  datetime,
         ///&quot;CreateDate&quot;  datetime
         ///);
         ///GO
@@ -222,7 +241,7 @@ namespace Paway.Test.Properties {
         ///-- Date: 2015-12-12
         ///-- ----------------------------
         ///CREATE TABLE [Admins](
-        ///&quot;Id&quot;  integer Primary Ke [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///&quot;Id&quot;  integer Primary Key AutoIncrement no [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string script {
             get {

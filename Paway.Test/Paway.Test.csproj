@@ -302,6 +302,7 @@
     <EmbeddedResource Include="Example\UI\WaitControl.resx">
       <DependentUpon>WaitControl.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

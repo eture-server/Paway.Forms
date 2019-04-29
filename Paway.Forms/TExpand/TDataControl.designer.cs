@@ -97,6 +97,7 @@
             this.toolBar1.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(244)))), ((int)(((byte)(191)))));
             this.toolBar1.TextFirst.ColorMove = System.Drawing.Color.Blue;
             this.toolBar1.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolBar1.TScrollHeight = 2;
             // 
             // panel2
             // 
