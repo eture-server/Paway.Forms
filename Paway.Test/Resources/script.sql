@@ -10,8 +10,11 @@ CREATE TABLE [Users](
 "Statu"  bit,
 "UserType"  int,
 "DateTime"  datetime,
-"CreateDate"  datetime
+"CreateDate"  datetime,
+ unique(Id asc)
 );
+GO
+Create index main.Users_id on Users (Id ASC);
 GO
 -- ----------------------------
 -- Table structure for Admins
@@ -21,6 +24,9 @@ CREATE TABLE [Admins](
 "Id"  integer Primary Key AutoIncrement not null,
 "Name"  nvarchar,
 "Value"  nvarchar,
-"DateTime"  datetime
+"DateTime"  datetime,
+ unique(Id asc)
 );
+GO
+Create index main.Admins_id on Admins (Id ASC);
 GO

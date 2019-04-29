@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.OleDb;
 using System.IO;
 using System.Collections.Generic;
+using NPOI.XSSF.UserModel;
 
 namespace Paway.Helper
 {
@@ -139,14 +140,24 @@ namespace Paway.Helper
         /// <summary>
         /// 从Excel中取值到DataTable
         /// </summary>
-        public static DataTable ToDataTable(string fileName, int sheetIndex = 0)
+        public DataTable ToDataTable(string fileName, int sheetIndex = 0)
         {
             DataTable dt = new DataTable();
-            FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            FileStream fs = null;
             try
             {
                 int index = 0;
-                IWorkbook workbook = new HSSFWorkbook(fs);
+                IWorkbook workbook = null;
+                try
+                {
+                    fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                    workbook = new HSSFWorkbook(fs);
+                }
+                catch
+                {
+                    fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                    workbook = new XSSFWorkbook(fs);
+                }
                 ISheet sheet = workbook.GetSheetAt(sheetIndex);
                 if (sheet != null)
                 {

@@ -49,12 +49,13 @@ namespace Paway.Test
                 List<AdminBaseInfo> list = Find<AdminBaseInfo>(find, cmd);
                 if (list.Count == 0)
                 {
-                    AdminBaseInfo info = new AdminBaseInfo() { Name = name, Value = value.ToString() };
+                    AdminBaseInfo info = new AdminBaseInfo() { Name = name, Value = value.ToString(), DateTime = DateTime.Now };
                     Insert(info, cmd);
                 }
                 else
                 {
                     list[0].Value = value.ToString();
+                    list[0].DateTime = DateTime.Now;
                     Update(list[0], cmd);
                 }
 
