@@ -86,38 +86,40 @@ namespace Paway.Forms
         /// <summary>
         /// 添加新按钮
         /// </summary>
-        protected void NewItem(string name, string tag = null, Image image = null)
+        protected ToolItem NewItem(string name, string tag = null, Image image = null)
         {
-            toolBar1.Items.Add(new ToolItem(name, image) { Tag = tag ?? name });
+            var item = new ToolItem(name, image) { Tag = tag ?? name };
+            toolBar1.Items.Add(item);
             toolBar1.TRefresh();
+            return item;
         }
         /// <summary>
         /// 添加刷新按钮(默认)
         /// </summary>
-        protected void RefreshItem()
+        protected virtual ToolItem RefreshItem()
         {
-            NewItem("刷新(F5)", "刷新", Resources.refresh);
+            return NewItem("刷新(F5)", "刷新", Resources.refresh);
         }
         /// <summary>
         /// 添加添加按钮
         /// </summary>
-        protected void AddItem()
+        protected ToolItem AddItem()
         {
-            NewItem("添加(A)", "添加", Resources.add);
+            return NewItem("添加(A)", "添加", Resources.add);
         }
         /// <summary>
         /// 添加编辑按钮
         /// </summary>
-        protected void AddEdit()
+        protected ToolItem AddEdit()
         {
-            NewItem("编辑(E)", "编辑", Resources.edit);
+            return NewItem("编辑(E)", "编辑", Resources.edit);
         }
         /// <summary>
         /// 添加删除按钮
         /// </summary>
-        protected void AddDelete()
+        protected ToolItem AddDelete()
         {
-            NewItem("删除(D)", "删除", Resources.close);
+            return NewItem("删除(D)", "删除", Resources.close);
         }
 
         #endregion

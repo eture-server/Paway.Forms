@@ -216,6 +216,8 @@ namespace Paway.Helper
                 ISheet sheet = workbook.CreateSheet("Sheet1");
                 var properties = type.Properties();
                 var descriptors = type.Descriptors();
+                var style = Getcellstyle(workbook, CellStyle.Default, HorizontalAlignment.Left);
+                var numberStyle = Getcellstyle(workbook, CellStyle.Number, HorizontalAlignment.Left);
                 if (heard) //写入DataTable的列名
                 {
                     IRow row = sheet.CreateRow(count++);
@@ -226,7 +228,9 @@ namespace Paway.Helper
                         if (!property.IExcel()) continue;
                         if (action != null && action(property.Name)) continue;
                         property.IShow(out string text);
-                        CreateCellDefalut(workbook, row, index++, text);
+                        var cell = row.CreateCell(index++);
+                        cell.CellStyle = style;
+                        cell.SetCellValue(text);
                     }
                 }
                 for (int i = 0; i < list.Count; ++i)
@@ -241,15 +245,21 @@ namespace Paway.Helper
                         var descriptor = descriptors.Find(c => c.Name == property.Name);
                         if (descriptor.PropertyType == typeof(double))
                         {
-                            CreateCellNumber(workbook, row, index++, (double)descriptor.GetValue(list[i]));
+                            var cell = row.CreateCell(index++);
+                            cell.CellStyle = numberStyle;
+                            cell.SetCellValue((double)descriptor.GetValue(list[i]));
                         }
                         else if (descriptor.PropertyType == typeof(int))
                         {
-                            CreateCellNumber(workbook, row, index++, (int)descriptor.GetValue(list[i]));
+                            var cell = row.CreateCell(index++);
+                            cell.CellStyle = numberStyle;
+                            cell.SetCellValue((int)descriptor.GetValue(list[i]));
                         }
                         else
                         {
-                            CreateCellDefalut(workbook, row, index++, descriptor.GetValue(list[i]).ToString2());
+                            var cell = row.CreateCell(index++);
+                            cell.CellStyle = style;
+                            cell.SetCellValue(descriptor.GetValue(list[i]).ToString2());
                         }
                     }
                 }
