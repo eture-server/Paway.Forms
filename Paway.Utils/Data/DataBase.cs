@@ -387,7 +387,7 @@ namespace Paway.Utils
                     DataTable table = new DataTable();
                     table.Load(dr);
                     var list = table.ToList<T>(1);
-                    return list.Count == 1 ? list[0] : default;
+                    return list.Count == 1 ? list[0] : default(T);
                 }
             }
             catch (Exception ex)

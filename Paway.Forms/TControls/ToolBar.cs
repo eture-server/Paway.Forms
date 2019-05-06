@@ -1892,11 +1892,26 @@ namespace Paway.Forms
             FixScroll(0);
         }
         /// <summary>
-        ///     刷新控件到指定位置
+        ///     刷新控件到指定序号Item(仅适合单行)
         /// </summary>
-        public void TStart(int value)
+        public void TStart(int index)
         {
-            FixScroll(IHaveScroll ? value : 0);
+            if (!IHaveScroll)
+            {
+                FixScroll(0);
+                return;
+            }
+            switch (TDirection)
+            {
+                case TDirection.Level:
+                    int value = Padding.Top + ItemSize.Height * index + ItemSpace * index;
+                    FixScroll(value);
+                    break;
+                case TDirection.Vertical:
+                    value = Padding.Left + ItemSize.Width * index + ItemSpace * index;
+                    FixScroll(value);
+                    break;
+            }
         }
         /// <summary>
         /// 当前滚动条是否在最底部
