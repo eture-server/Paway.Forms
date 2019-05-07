@@ -160,7 +160,7 @@ namespace Paway.Forms
             {
                 var width = _minImage.Width / 4;
                 var height = _minImage.Height;
-                int x;
+                var x = 0;
                 var y = CloseRect.Y;
                 switch (SysButton)
                 {
@@ -170,7 +170,7 @@ namespace Paway.Forms
                     case TSysButton.Close_Mini:
                         x = Width - width - CloseRect.Width - _sysButtonPos;
                         break;
-                    default:
+                    case TSysButton.Close:
                         x = -1 * Width;
                         break;
                 }
@@ -310,6 +310,7 @@ namespace Paway.Forms
                         DrawSysButton(g, CloseRect, _closeImage, CloseState);
                         DrawSysButton(g, MiniRect, _minImage, MinState);
                         break;
+                    default: return;
                 }
                 // 绘制标题栏菜单按钮
                 DrawSysButton(g, TitleBarMenuRect, (Bitmap)_titleBarMenuImage, _titleBarMenuState);

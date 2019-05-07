@@ -82,7 +82,6 @@
             this.toolBar1.Name = "toolBar1";
             this.toolBar1.Size = new System.Drawing.Size(850, 82);
             this.toolBar1.TabIndex = 0;
-            this.toolBar1.SelectedItemChanged += this.ToolBar1_SelectedItemChanged;
             // 
             // pictureBox1
             // 
@@ -158,7 +157,6 @@
             // 
             // 
             this.tDataGridViewPager1.TPager.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
-            this.tDataGridViewPager1.TPager.Cursor = System.Windows.Forms.Cursors.Hand;
             this.tDataGridViewPager1.TPager.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.tDataGridViewPager1.TPager.ForeColor = System.Drawing.Color.White;
             this.tDataGridViewPager1.TPager.Location = new System.Drawing.Point(0, 374);
@@ -198,7 +196,6 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.toolBar1);
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form360";
             this.Padding = new System.Windows.Forms.Padding(0, 26, 0, 0);

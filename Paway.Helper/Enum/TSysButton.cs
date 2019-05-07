@@ -6,9 +6,13 @@
     public enum TSysButton : int
     {
         /// <summary>
+        /// 无
+        /// </summary>
+        None = 0,
+        /// <summary>
         ///     默认-最小化，最大化，关闭
         /// </summary>
-        Normal = 0,
+        Normal,
 
         /// <summary>
         ///     关闭按钮

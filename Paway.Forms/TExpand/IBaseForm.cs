@@ -9,7 +9,7 @@ namespace Paway.Forms
     /// <summary>
     ///     窗体示例
     /// </summary>
-    public partial class IBaseForm : FormBase
+    public partial class IBaseForm : QQForm
     {
         /// <summary>
         /// 双Esc关闭

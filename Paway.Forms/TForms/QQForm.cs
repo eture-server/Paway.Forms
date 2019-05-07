@@ -146,7 +146,7 @@ namespace Paway.Forms
         {
             get
             {
-                int x;
+                var x = 0;
                 var width = 28;
                 switch (SysButton)
                 {
@@ -156,7 +156,7 @@ namespace Paway.Forms
                     case TSysButton.Close_Mini:
                         x = Width - width - CloseRect.Width;
                         break;
-                    default:
+                    case TSysButton.Close:
                         x = -1 * width;
                         break;
                 }
@@ -172,11 +172,17 @@ namespace Paway.Forms
         {
             get
             {
-                if (_sysButton == TSysButton.Normal)
-                    return new Rectangle(Width - 28 * 2 - 39, 0, 39 + 28 + 28, 20);
-                if (_sysButton == TSysButton.Close_Mini)
-                    return new Rectangle(Width - 28 - 39, 0, 39 + 28, 20);
-                return CloseRect;
+                switch (SysButton)
+                {
+                    case TSysButton.Normal:
+                        return new Rectangle(Width - 28 * 2 - 39, 0, 39 + 28 + 28, 20);
+                    case TSysButton.Close:
+                        return CloseRect;
+                    case TSysButton.Close_Mini:
+                        return new Rectangle(Width - 28 - 39, 0, 39 + 28, 20);
+                    default:
+                        return Rectangle.Empty;
+                }
             }
         }
 
