@@ -93,8 +93,8 @@
             this.Controls.Add(this.btChange);
             this.Controls.Add(this.tControl1);
             this.Name = "Form3";
-            this.TBrush.ColorMove = System.Drawing.Color.CornflowerBlue;
             this.TBrush.ColorDown = System.Drawing.Color.Ivory;
+            this.TBrush.ColorMove = System.Drawing.Color.CornflowerBlue;
             this.Text = "你好";
             this.Trans = 155;
             this.tControl1.ResumeLayout(false);

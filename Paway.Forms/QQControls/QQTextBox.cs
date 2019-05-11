@@ -229,6 +229,7 @@ namespace Paway.Forms
                 BaseText.Font = value;
                 UpdateHeight();
                 Invalidate();
+                BaseText.Location = new Point(3, 4);
             }
         }
 
@@ -288,6 +289,7 @@ namespace Paway.Forms
                 _iconRect.Y = (Height - _iconRect.Height) / 2;
                 PositionTextBox();
                 Invalidate();
+                BaseText.Location = new Point(3, 4);
             }
         }
 
@@ -522,16 +524,16 @@ namespace Paway.Forms
             ((System.ComponentModel.ISupportInitialize)(this._error)).BeginInit();
             this.SuspendLayout();
             // 
-            // error
+            // _error
             // 
             this._error.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this._error.ContainerControl = this;
-            this._error.Icon = ((System.Drawing.Icon)(resources.GetObject("error.Icon")));
+            this._error.Icon = ((System.Drawing.Icon)(resources.GetObject("_error.Icon")));
             // 
             // BaseText
             // 
-            this.BaseText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.BaseText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BaseText.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.BaseText.Location = new System.Drawing.Point(3, 4);
@@ -541,7 +543,6 @@ namespace Paway.Forms
             // 
             // QQTextBox
             // 
-            this.BackColor = System.Drawing.Color.Transparent;
             this.Controls.Add(this.BaseText);
             this.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.Name = "QQTextBox";
