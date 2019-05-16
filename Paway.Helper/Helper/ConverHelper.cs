@@ -849,6 +849,49 @@ namespace Paway.Helper
         }
 
         /// <summary>
+        /// 判断值是否相等
+        /// </summary>
+        public static bool ValueEquals<T>(this T t, T temp, bool child = false)
+        {
+            var type = typeof(T);
+            return type.ValueEquals(t, temp, child);
+        }
+        /// <summary>
+        /// 判断值是否相等
+        /// </summary>
+        public static bool ValueEquals(this Type parent, object t, object temp, bool child)
+        {
+            var properties = parent.Properties();
+            var descriptors = parent.Descriptors();
+            foreach (var property in properties)
+            {
+                if (!property.IClone()) continue;
+
+                var descriptor = descriptors.Find(c => c.Name == property.Name);
+                var value = descriptor.GetValue(t);
+                var tempValue = descriptor.GetValue(temp);
+                if (!value.Equals(tempValue)) return false;
+                if (!child) continue;
+                if (value is IList)
+                {
+                    var tlist = tempValue as IList;
+                    var list = value as IList;
+                    if (tlist.Count != list.Count) return false;
+                    for (var i = 0; i < list.Count; i++)
+                    {
+                        if (!list[i].ValueEquals(tlist[i], child)) return false;
+                    }
+                }
+                else if (value != null && !value.GetType().IsValueType && value.GetType() != typeof(string))
+                {
+                    var type = value.GetType();
+                    if (!type.ValueEquals(value, tempValue, child)) return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
         ///     一般复制
         /// </summary>
         public static T Clone<T>(this T t, object copy = null)
