@@ -207,7 +207,10 @@ namespace Paway.Helper
         /// </summary>
         public static void ToExcel<T>(List<T> list, string fileName, bool heard = true, Func<string, bool> action = null)
         {
-            IWorkbook workbook = new HSSFWorkbook();
+            if (File.Exists(fileName)) File.Delete(fileName);
+            IWorkbook workbook = null;
+            if (Path.GetExtension(fileName) == ".xls") workbook = new HSSFWorkbook();
+            else if (Path.GetExtension(fileName) == ".xlsx") workbook = new XSSFWorkbook();
             FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
             try
             {
