@@ -29,20 +29,7 @@ namespace Paway.Forms
             InitChange();
             CustomScroll();
             _toolTop = new ToolTip();
-            //this.MouseEnter += ToolBar_MouseEnter;
-            //_vScroll.MouseEnter += ToolBar_MouseEnter;
-            //_hScroll.MouseEnter += ToolBar_MouseEnter;
-            //this.MouseLeave += ToolBar_MouseLeave;
-            //_vScroll.MouseLeave += ToolBar_MouseLeave;
-            //_hScroll.MouseLeave += ToolBar_MouseLeave;
-        }
-        private void ToolBar_MouseLeave(object sender, EventArgs e)
-        {
-            AutoMouseStatu(false);
-        }
-        private void ToolBar_MouseEnter(object sender, EventArgs e)
-        {
-            AutoMouseStatu(true);
+            InitHide();
         }
         /// <summary>
         /// </summary>
@@ -51,44 +38,18 @@ namespace Paway.Forms
             base.OnLoad(e);
             UpdateScroll();
         }
-
-        #endregion
-
-        #region Private Method
-
         /// <summary>
-        ///     更新图片区域
+        ///     返回包含 System.ComponentModel.Component 的名称的 System.String（如果有）
         /// </summary>
-        private void UpdateImageSize()
+        /// <returns></returns>
+        public override string ToString()
         {
-            if (_iImageShow)
-            {
-                _imageSizeShow = _imageSize;
-                switch (_tLocation)
-                {
-                    case TLocation.Up:
-                        var width = (_itemSize.Width - _imageSize.Width - _textPading.Left - _textPading.Right) / 2;
-                        if (width < 0)
-                        {
-                            _imageSizeShow.Width = _itemSize.Width - _textPading.Left - _textPading.Right;
-                            _imageSizeShow.Height =
-                                (_imageSizeShow.Width * _imageSize.Height * 1.0 / _imageSize.Width).ToInt();
-                        }
-                        break;
-                    case TLocation.Left:
-                        var height = (_itemSize.Height - _imageSize.Height - _textPading.Top - _textPading.Bottom) / 2;
-                        if (height < 0)
-                        {
-                            _imageSizeShow.Height = _itemSize.Height - _textPading.Top - _textPading.Bottom;
-                            _imageSizeShow.Width =
-                                (_imageSizeShow.Height * _imageSize.Width * 1.0 / _imageSize.Height).ToInt();
-                        }
-                        break;
-                }
-            }
+            return string.Format("{0} - {1}", this.Name, TConfig.Name);
         }
 
         #endregion
+
+        #region 私有变量
 
         #region 资源图片
         /// <summary>
@@ -162,7 +123,6 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 私有变量
         /// <summary>
         /// 上一项是否IHeard
         /// </summary>
@@ -177,6 +137,10 @@ namespace Paway.Forms
         ///     按下抬起项是否相同中用的过度项
         /// </summary>
         private ToolItem _tempItem;
+        /// <summary>
+        /// 挂起状态
+        /// </summary>
+        private bool iSuspend;
 
         #endregion
 
@@ -380,66 +344,6 @@ namespace Paway.Forms
             {
                 _iAutoWidth = value;
                 TRefresh();
-            }
-        }
-
-        #endregion
-
-        #region 其它
-        /// <summary>
-        ///     获取或设置项内的空白
-        /// </summary>
-        private Padding _textPading = new Padding(2);
-        /// <summary>
-        ///     获取或设置项内的空白
-        /// </summary>
-        [Description("获取或设置项内的空白")]
-        [DefaultValue(typeof(Padding), "2,2,2,2")]
-        public Padding TextPading
-        {
-            get { return _textPading; }
-            set
-            {
-                _textPading = value;
-                TRefresh();
-            }
-        }
-
-        /// <summary>
-        ///     Item项显示方向
-        /// </summary>
-        private TDirection _tDirection = TDirection.Level;
-        /// <summary>
-        ///     Item项显示方向
-        /// </summary>
-        [Description("Item项显示方向")]
-        [DefaultValue(typeof(TDirection), "Level")]
-        public TDirection TDirection
-        {
-            get { return _tDirection; }
-            set
-            {
-                _tDirection = value;
-                TRefresh();
-            }
-        }
-
-        /// <summary>
-        ///     图片显示位置
-        /// </summary>
-        private TLocation _tLocation = TLocation.Left;
-        /// <summary>
-        ///     图片显示位置
-        /// </summary>
-        [Description("图片显示位置")]
-        [DefaultValue(typeof(TLocation), "Left")]
-        public TLocation TLocation
-        {
-            get { return _tLocation; }
-            set
-            {
-                _tLocation = value;
-                Invalidate();
             }
         }
 
@@ -727,6 +631,64 @@ namespace Paway.Forms
 
         #endregion
 
+        #region 其它
+        /// <summary>
+        ///     获取或设置项内的空白
+        /// </summary>
+        private Padding _textPading = new Padding(2);
+        /// <summary>
+        ///     获取或设置项内的空白
+        /// </summary>
+        [Description("获取或设置项内的空白")]
+        [DefaultValue(typeof(Padding), "2,2,2,2")]
+        public Padding TextPading
+        {
+            get { return _textPading; }
+            set
+            {
+                _textPading = value;
+                TRefresh();
+            }
+        }
+
+        /// <summary>
+        ///     Item项显示方向
+        /// </summary>
+        private TDirection _tDirection = TDirection.Level;
+        /// <summary>
+        ///     Item项显示方向
+        /// </summary>
+        [Description("Item项显示方向")]
+        [DefaultValue(typeof(TDirection), "Level")]
+        public TDirection TDirection
+        {
+            get { return _tDirection; }
+            set
+            {
+                _tDirection = value;
+                TRefresh();
+            }
+        }
+
+        /// <summary>
+        ///     图片显示位置
+        /// </summary>
+        private TLocation _tLocation = TLocation.Left;
+        /// <summary>
+        ///     图片显示位置
+        /// </summary>
+        [Description("图片显示位置")]
+        [DefaultValue(typeof(TLocation), "Left")]
+        public TLocation TLocation
+        {
+            get { return _tLocation; }
+            set
+            {
+                _tLocation = value;
+                Invalidate();
+            }
+        }
+
         /// <summary>
         ///     重写父类的默认大小
         /// </summary>
@@ -752,9 +714,9 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 事件定义
+        #endregion
 
-        #region 事件对像
+        #region 事件定义
 
         /// <summary>
         ///     当选中项的发生改变时事件的 Key
@@ -770,10 +732,6 @@ namespace Paway.Forms
         ///     当单击项编辑时事件的 Key
         /// </summary>
         private static readonly object EventEditClick = new object();
-
-        #endregion
-
-        #region 激发事件的方法
 
         /// <summary>
         ///     当选择的 Item 发生改变时激发。
@@ -845,8 +803,6 @@ namespace Paway.Forms
             }
         }
 
-        #endregion
-
         /// <summary>
         ///     当选中项的发生改变时
         /// </summary>
@@ -881,7 +837,7 @@ namespace Paway.Forms
 
         #endregion
 
-        #region Override Methods
+        #region 绘制与事件
         /// <summary>
         ///     引发 System.Windows.Forms.Form.Paint 事件。
         /// </summary>
@@ -954,7 +910,38 @@ namespace Paway.Forms
             }
         }
 
-        #region 绘制方法
+        /// <summary>
+        ///     更新图片区域
+        /// </summary>
+        private void UpdateImageSize()
+        {
+            if (_iImageShow)
+            {
+                _imageSizeShow = _imageSize;
+                switch (_tLocation)
+                {
+                    case TLocation.Up:
+                        var width = (_itemSize.Width - _imageSize.Width - _textPading.Left - _textPading.Right) / 2;
+                        if (width < 0)
+                        {
+                            _imageSizeShow.Width = _itemSize.Width - _textPading.Left - _textPading.Right;
+                            _imageSizeShow.Height =
+                                (_imageSizeShow.Width * _imageSize.Height * 1.0 / _imageSize.Width).ToInt();
+                        }
+                        break;
+                    case TLocation.Left:
+                        var height = (_itemSize.Height - _imageSize.Height - _textPading.Top - _textPading.Bottom) / 2;
+                        if (height < 0)
+                        {
+                            _imageSizeShow.Height = _itemSize.Height - _textPading.Top - _textPading.Bottom;
+                            _imageSizeShow.Width =
+                                (_imageSizeShow.Height * _imageSize.Width * 1.0 / _imageSize.Height).ToInt();
+                        }
+                        break;
+                }
+            }
+        }
+
         private void DrawHeard(Graphics g, ToolItem item)
         {
             if (!string.IsNullOrEmpty(item.Text))
@@ -1435,8 +1422,6 @@ namespace Paway.Forms
             }
         }
 
-        #endregion
-
         /// <summary>
         ///     重绘正文描述
         /// </summary>
@@ -1707,6 +1692,7 @@ namespace Paway.Forms
         /// <param name="e"></param>
         private void Items_ListChanged(object sender, ListChangedEventArgs e)
         {
+            if (iSuspend) return;
             if (e.ListChangedType == ListChangedType.ItemAdded)
             {
                 Items[e.NewIndex].Owner = this;
@@ -1739,18 +1725,9 @@ namespace Paway.Forms
             }
         }
 
-        /// <summary>
-        ///     返回包含 System.ComponentModel.Component 的名称的 System.String（如果有）
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return string.Format("{0} - {1}", this.Name, TConfig.Name);
-        }
-
         #endregion
 
-        #region Public Methods
+        #region Public
 
         /// <summary>
         ///     获取所有选中项
@@ -2004,6 +1981,27 @@ namespace Paway.Forms
             UpdateScroll();
             Invalidate();
         }
+
+        #endregion
+
+        #region 延迟隐藏滚动条
+        private void InitHide()
+        {
+            //this.MouseEnter += ToolBar_MouseEnter;
+            //_vScroll.MouseEnter += ToolBar_MouseEnter;
+            //_hScroll.MouseEnter += ToolBar_MouseEnter;
+            //this.MouseLeave += ToolBar_MouseLeave;
+            //_vScroll.MouseLeave += ToolBar_MouseLeave;
+            //_hScroll.MouseLeave += ToolBar_MouseLeave;
+        }
+        private void ToolBar_MouseLeave(object sender, EventArgs e)
+        {
+            AutoMouseStatu(false);
+        }
+        private void ToolBar_MouseEnter(object sender, EventArgs e)
+        {
+            AutoMouseStatu(true);
+        }
         private void AutoMouseStatu(bool iMouseStatu)
         {
             this.iMouseStatu = iMouseStatu;
@@ -2026,6 +2024,25 @@ namespace Paway.Forms
         private void AutoMouseStatu3()
         {
             _panelScroll.Visible = iScrollHide & _iScroll & iMouseStatu;
+        }
+
+        #endregion
+
+        #region 挂起事件
+        /// <summary>
+        /// 挂起，不引发事件
+        /// </summary>
+        public void Suspend()
+        {
+            iSuspend = true;
+        }
+        /// <summary>
+        /// 恢复
+        /// </summary>
+        public void Resume()
+        {
+            iSuspend = false;
+            TRefresh();
         }
 
         #endregion
