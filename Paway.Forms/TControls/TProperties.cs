@@ -53,9 +53,14 @@ namespace Paway.Forms
         [DefaultValue(typeof(Font), "微软雅黑, 12pt")]
         public Font FontNormal
         {
-            get { return _fNormal; }
+            get
+            {
+                if (_fNormal == null) _fNormal = new Font("微软雅黑", 12f, FontStyle.Regular, GraphicsUnit.Point, 1);
+                return _fNormal;
+            }
             set
             {
+                if (value == null) return;
                 _fNormal = value;
                 if (_fMove.Name == "微软雅黑" && _fMove.Size == 12f && _fMove.Style == FontStyle.Regular &&
                     _fMove.Unit == GraphicsUnit.Point && _fMove.GdiCharSet == 1)
@@ -79,7 +84,11 @@ namespace Paway.Forms
         [DefaultValue(typeof(Font), "微软雅黑, 12pt")]
         public Font FontMove
         {
-            get { return _fMove; }
+            get
+            {
+                if (_fMove == null) _fMove = new Font("微软雅黑", 12f, FontStyle.Regular, GraphicsUnit.Point, 1);
+                return _fMove;
+            }
             set
             {
                 _fMove = value;
@@ -94,7 +103,11 @@ namespace Paway.Forms
         [DefaultValue(typeof(Font), "微软雅黑, 12pt")]
         public Font FontDown
         {
-            get { return _fDown; }
+            get
+            {
+                if (_fDown == null) _fDown = new Font("微软雅黑", 12f, FontStyle.Regular, GraphicsUnit.Point, 1);
+                return _fDown;
+            }
             set
             {
                 _fDown = value;

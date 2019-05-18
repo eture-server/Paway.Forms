@@ -1862,18 +1862,11 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     刷新控件到原点
-        /// </summary>
-        public void TStart()
-        {
-            FixScroll(0);
-        }
-        /// <summary>
         ///     刷新控件到指定序号Item(仅适合单行)
         /// </summary>
-        public void TStart(int index)
+        public void TStart(int index = 0)
         {
-            if (!IHaveScroll)
+            if (!IHaveScroll || index <= 0)
             {
                 FixScroll(0);
                 return;
