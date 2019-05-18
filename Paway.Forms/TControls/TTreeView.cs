@@ -621,7 +621,7 @@ namespace Paway.Forms
                 {
                     total += Items[i].Width;
                 }
-                if (total == 0) return;
+                if (total == 0 || Width == 0) return;
                 for (var i = 0; i < Items.Count; i++)
                 {
                     Items[i].Width = Items[i].Width * Width / total;
@@ -1178,17 +1178,11 @@ namespace Paway.Forms
         /// </summary>
         public string Name { get; set; }
 
-        private int width = 100;
-
         /// <summary>
         ///     项的长度
         /// </summary>
         [DefaultValue(100)]
-        public int Width
-        {
-            get { return width; }
-            set { width = value; }
-        }
+        public int Width { get; set; } = 100;
 
         /// <summary>
         ///     文本显示的位置,左或右
