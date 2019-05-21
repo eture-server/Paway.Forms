@@ -1692,12 +1692,11 @@ namespace Paway.Forms
         /// <param name="e"></param>
         private void Items_ListChanged(object sender, ListChangedEventArgs e)
         {
-            if (iSuspend) return;
             if (e.ListChangedType == ListChangedType.ItemAdded)
             {
                 Items[e.NewIndex].Owner = this;
             }
-            if (!ILoad) return;
+            if (iSuspend || !ILoad) return;
             if (Items.Count > 1 && e.ListChangedType == ListChangedType.ItemAdded && e.NewIndex == Items.Count - 1)
             {
                 var index = Items.Count - 2;
