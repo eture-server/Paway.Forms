@@ -1181,7 +1181,7 @@ namespace Paway.Forms
                     g.PixelOffsetMode = PixelOffsetMode.Default;
                     //g.DrawPath(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Left), path);
                     g.DrawArc(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Left),
-                               new Rectangle(new Point(rect.X + _linePading.Left / 2, rect.Y + _linePading.Left / 2),
+                               new RectangleF(new PointF(rect.X + _linePading.Left / 2f, rect.Y + _linePading.Left / 2f),
                                new Size(rect.Width - _linePading.Left, rect.Height - _linePading.Left)), 45, 360f);
                     g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 }
@@ -1195,16 +1195,16 @@ namespace Paway.Forms
                     var temp = colorLine;
                     if (temp == Color.Transparent) temp = BitmapHelper.RGBAddLight(color, -10);
                     else temp = TranColor(colorLine);
-                    g.PixelOffsetMode = PixelOffsetMode.Default;
+                    //g.PixelOffsetMode = PixelOffsetMode.Default;
                     if (_linePading.Left > 0) g.DrawLine(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Left),
-                        rect.X + _linePading.Left / 2, rect.Y - 1, rect.X + _linePading.Left / 2, rect.Height);
+                        rect.X + _linePading.Left / 2f, rect.Y, rect.X + _linePading.Left / 2f, rect.Bottom);
                     if (_linePading.Top > 0) g.DrawLine(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Top),
-                        rect.X - 1, rect.Y + _linePading.Top / 2, rect.Width, rect.Y + _linePading.Top / 2);
+                        rect.X, rect.Y + _linePading.Top / 2f, rect.Right, rect.Y + _linePading.Top / 2f);
                     if (_linePading.Right > 0) g.DrawLine(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Right),
-                        rect.Width - _linePading.Right + _linePading.Right / 2, rect.Y - 1, rect.Width - _linePading.Right + _linePading.Right / 2, rect.Height);
+                        rect.Right - _linePading.Right + _linePading.Right / 2f, rect.Y, rect.Right - _linePading.Right + _linePading.Right / 2f, rect.Bottom);
                     if (_linePading.Bottom > 0) g.DrawLine(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Bottom),
-                        rect.X - 1, rect.Height - _linePading.Bottom + _linePading.Bottom / 2, rect.Width, rect.Height - _linePading.Bottom + _linePading.Bottom / 2);
-                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                        rect.X, rect.Bottom - _linePading.Bottom + _linePading.Bottom / 2f, rect.Right, rect.Bottom - _linePading.Bottom + _linePading.Bottom / 2f);
+                    //g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 }
             }
         }
