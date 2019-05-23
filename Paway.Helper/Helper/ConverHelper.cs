@@ -859,7 +859,7 @@ namespace Paway.Helper
         /// <summary>
         /// 判断值是否相等
         /// </summary>
-        public static bool ValueEquals(this Type parent, object t, object temp, bool child)
+        private static bool ValueEquals(this Type parent, object t, object temp, bool child)
         {
             var properties = parent.Properties();
             var descriptors = parent.Descriptors();
@@ -922,7 +922,7 @@ namespace Paway.Helper
         /// <summary>
         ///     复制子级
         /// </summary>
-        public static void Clone(this Type parent, object copy, object t, bool child)
+        private static void Clone(this Type parent, object copy, object t, bool child)
         {
             var properties = parent.Properties();
             var descriptors = parent.Descriptors();

@@ -133,7 +133,7 @@ namespace Paway.Forms
                         if (_cMove == Color.Empty) _cMove = BitmapHelper.RGBAddLight(value, 30);
                         if (_cDown == Color.Empty) _cDown = BitmapHelper.RGBAddLight(value, -30);
                     }
-                    else if (parent.Name.Contains(nameof(ToolBar.TColorLine)))
+                    else if (parent.Name.Contains(nameof(ToolBar.TLineColor)))
                     {
                         if (_cMove == Color.Empty) _cMove = value;
                         if (_cDown == Color.Empty) _cDown = value;

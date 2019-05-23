@@ -60,9 +60,9 @@
             this.toolCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.toolCancel.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolCancel.IClickEvent = true;
-            this.toolCancel.TColorLine.ColorDown = System.Drawing.Color.Transparent;
-            this.toolCancel.TColorLine.ColorMove = System.Drawing.Color.Transparent;
-            this.toolCancel.TColorLine.ColorNormal = System.Drawing.Color.Transparent;
+            this.toolCancel.TLineColor.ColorDown = System.Drawing.Color.Transparent;
+            this.toolCancel.TLineColor.ColorMove = System.Drawing.Color.Transparent;
+            this.toolCancel.TLineColor.ColorNormal = System.Drawing.Color.Transparent;
             this.toolCancel.ImageSize = new System.Drawing.Size(0, 0);
             toolItem1.Text = "取消";
             this.toolCancel.Items.Add(toolItem1);
@@ -86,9 +86,9 @@
             this.toolOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.toolOk.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolOk.IClickEvent = true;
-            this.toolOk.TColorLine.ColorDown = System.Drawing.Color.Transparent;
-            this.toolOk.TColorLine.ColorMove = System.Drawing.Color.Transparent;
-            this.toolOk.TColorLine.ColorNormal = System.Drawing.Color.Transparent;
+            this.toolOk.TLineColor.ColorDown = System.Drawing.Color.Transparent;
+            this.toolOk.TLineColor.ColorMove = System.Drawing.Color.Transparent;
+            this.toolOk.TLineColor.ColorNormal = System.Drawing.Color.Transparent;
             this.toolOk.ImageSize = new System.Drawing.Size(0, 0);
             toolItem2.Text = "确认";
             this.toolOk.Items.Add(toolItem2);

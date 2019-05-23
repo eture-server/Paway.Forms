@@ -174,10 +174,9 @@ namespace Paway.Helper
         {
             var roundedRect = new GraphicsPath();
             roundedRect.AddArc(rect.X, rect.Y, cornerRadius, cornerRadius, 180, 90);
-            roundedRect.AddArc(rect.Right - cornerRadius - 1, rect.Y, cornerRadius, cornerRadius, 270, 90);
-            roundedRect.AddArc(rect.Right - cornerRadius - 1, rect.Bottom - cornerRadius - 1, cornerRadius, cornerRadius,
-                0, 90);
-            roundedRect.AddArc(rect.X, rect.Bottom - cornerRadius - 1, cornerRadius, cornerRadius, 90, 90);
+            roundedRect.AddArc(rect.Right - cornerRadius, rect.Y, cornerRadius, cornerRadius, 270, 90);
+            roundedRect.AddArc(rect.Right - cornerRadius, rect.Bottom - cornerRadius, cornerRadius, cornerRadius, 0, 90);
+            roundedRect.AddArc(rect.X, rect.Bottom - cornerRadius, cornerRadius, cornerRadius, 90, 90);
             roundedRect.CloseFigure();
             return roundedRect;
         }

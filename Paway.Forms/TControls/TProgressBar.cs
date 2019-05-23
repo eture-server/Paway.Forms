@@ -193,9 +193,8 @@ namespace Paway.Forms
                 //p.EndCap = LineCap.Round;
                 //设置连续两段的联接样式  
                 p.LineJoin = LineJoin.Round;
-                g.DrawArc(p,
-                    new Rectangle(new Point(rect.X + tWidth / 2, rect.Y + tWidth / 2),
-                        new Size(rect.Width - 1 - tWidth, rect.Height - 1 - tWidth)), 45, (float)(value * 3.6));
+                g.DrawArc(p, new Rectangle(new Point(rect.X + tWidth / 2, rect.Y + tWidth / 2),
+                        new Size(rect.Width - tWidth, rect.Height - tWidth)), 45, (float)(value * 3.6));
             }
         }
 

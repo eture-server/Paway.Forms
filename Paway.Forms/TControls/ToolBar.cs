@@ -610,22 +610,38 @@ namespace Paway.Forms
             }
         }
 
-        private TProperties _colorLine;
+        private TProperties _lineColor;
         /// <summary>
         ///     边框线颜色属性
         /// </summary>
         [Description("边框线颜色属性")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public TProperties TColorLine
+        public TProperties TLineColor
         {
             get
             {
-                if (_colorLine == null)
+                if (_lineColor == null)
                 {
-                    _colorLine = new TProperties(MethodBase.GetCurrentMethod());
-                    _colorLine.ValueChange += delegate { Invalidate(); };
+                    _lineColor = new TProperties(MethodBase.GetCurrentMethod());
+                    _lineColor.ValueChange += delegate { Invalidate(); };
                 }
-                return _colorLine;
+                return _lineColor;
+            }
+        }
+
+        private Padding _linePading = new Padding(0);
+        /// <summary>
+        /// 设置边框线,圆角时仅使用Left值
+        /// </summary>
+        [Description("设置边框线,圆角时仅使用Left值")]
+        [DefaultValue(typeof(Padding), "0,0,0,0")]
+        public Padding TLinePading
+        {
+            get { return _linePading; }
+            set
+            {
+                _linePading = value;
+                TRefresh();
             }
         }
 
@@ -1108,7 +1124,6 @@ namespace Paway.Forms
                 case TMouseState.Normal:
                 case TMouseState.Leave:
                     var color = Color.Gray;
-                    var colorLine = TranColor(TColorLine.ColorNormal);
                     if (item.Enable)
                     {
                         color = TranColor(item.TColor.ColorNormal == Color.Empty ? TBackGround.ColorNormal : item.TColor.ColorNormal);
@@ -1120,7 +1135,7 @@ namespace Paway.Forms
                     }
                     else
                     {
-                        DrawBackground(g, color, colorLine, item);
+                        DrawBackground(g, color, TranColor(TLineColor.ColorNormal), item);
                     }
                     break;
                 case TMouseState.Move:
@@ -1129,7 +1144,6 @@ namespace Paway.Forms
                     break;
                 case TMouseState.Down:
                     color = TranColor(item.TColor.ColorDown == Color.Empty ? TBackGround.ColorDown : item.TColor.ColorDown);
-                    colorLine = TranColor(TColorLine.ColorDown);
                     if (color == Color.Empty)
                     {
                         var temp = _downImage ?? _downImage2;
@@ -1137,7 +1151,7 @@ namespace Paway.Forms
                     }
                     else
                     {
-                        DrawBackground(g, color, colorLine, item);
+                        DrawBackground(g, color, TranColor(TLineColor.ColorDown), item);
                     }
                     Image image = _selectImage ?? _selectImage2;
                     if (_iMultiple && image != null)
@@ -1156,15 +1170,19 @@ namespace Paway.Forms
             var radiu = item.TRadiu > _tRadiu ? item.TRadiu : _tRadiu;
             if (radiu > 0)
             {
-                var path = DrawHelper.CreateRoundPath(item.Rectangle, radiu);
+                var rect = item.Rectangle;
+                var path = DrawHelper.CreateRoundPath(rect, radiu);
                 g.FillPath(new SolidBrush(color), path);
-                if (colorLine != Color.Empty)
+                if (colorLine != Color.Empty && _linePading.Left > 0)
                 {
                     var temp = colorLine;
                     if (temp == Color.Transparent) temp = BitmapHelper.RGBAddLight(color, -10);
                     else temp = TranColor(colorLine);
                     g.PixelOffsetMode = PixelOffsetMode.Default;
-                    g.DrawPath(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B)), path);
+                    //g.DrawPath(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Left), path);
+                    g.DrawArc(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Left),
+                               new Rectangle(new Point(rect.X + _linePading.Left / 2, rect.Y + _linePading.Left / 2),
+                               new Size(rect.Width - _linePading.Left, rect.Height - _linePading.Left)), 45, 360f);
                     g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 }
             }
@@ -1174,12 +1192,18 @@ namespace Paway.Forms
                 if (colorLine != Color.Empty)
                 {
                     var rect = item.Rectangle;
-                    rect = new Rectangle(rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
                     var temp = colorLine;
                     if (temp == Color.Transparent) temp = BitmapHelper.RGBAddLight(color, -10);
                     else temp = TranColor(colorLine);
                     g.PixelOffsetMode = PixelOffsetMode.Default;
-                    g.DrawRectangle(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B)), rect);
+                    if (_linePading.Left > 0) g.DrawLine(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Left),
+                        rect.X + _linePading.Left / 2, rect.Y - 1, rect.X + _linePading.Left / 2, rect.Height);
+                    if (_linePading.Top > 0) g.DrawLine(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Top),
+                        rect.X - 1, rect.Y + _linePading.Top / 2, rect.Width, rect.Y + _linePading.Top / 2);
+                    if (_linePading.Right > 0) g.DrawLine(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Right),
+                        rect.Width - _linePading.Right + _linePading.Right / 2, rect.Y - 1, rect.Width - _linePading.Right + _linePading.Right / 2, rect.Height);
+                    if (_linePading.Bottom > 0) g.DrawLine(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Bottom),
+                        rect.X - 1, rect.Height - _linePading.Bottom + _linePading.Bottom / 2, rect.Width, rect.Height - _linePading.Bottom + _linePading.Bottom / 2);
                     g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 }
             }
@@ -1191,7 +1215,6 @@ namespace Paway.Forms
         private void DrawMoveBack(Graphics g, ToolItem item)
         {
             var color = TranColor(item.TColor.ColorMove == Color.Empty ? TBackGround.ColorMove : item.TColor.ColorMove);
-            var colorLine = TranColor(TColorLine.ColorMove);
             if (color == Color.Empty)
             {
                 var temp = _moveImage ?? _moveImage2;
@@ -1199,7 +1222,7 @@ namespace Paway.Forms
             }
             else
             {
-                DrawBackground(g, color, colorLine, item);
+                DrawBackground(g, color, TranColor(TLineColor.ColorMove), item);
             }
         }
 
@@ -2610,8 +2633,8 @@ namespace Paway.Forms
             {
                 if (_backGround != null)
                     _backGround.Dispose();
-                if (_colorLine != null)
-                    _colorLine.Dispose();
+                if (_lineColor != null)
+                    _lineColor.Dispose();
                 if (_change != null)
                     _change.Dispose();
                 if (_desc != null)
