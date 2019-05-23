@@ -170,13 +170,14 @@ namespace Paway.Helper
         /// <summary>
         ///     构建圆角路径
         /// </summary>
-        public static GraphicsPath CreateRoundPath(Rectangle rect, int cornerRadius)
+        public static GraphicsPath CreateRoundPath(Rectangle rect, int cornerRadius, int line = 0)
         {
             var roundedRect = new GraphicsPath();
-            roundedRect.AddArc(rect.X, rect.Y, cornerRadius, cornerRadius, 180, 90);
-            roundedRect.AddArc(rect.Right - cornerRadius, rect.Y, cornerRadius, cornerRadius, 270, 90);
-            roundedRect.AddArc(rect.Right - cornerRadius, rect.Bottom - cornerRadius, cornerRadius, cornerRadius, 0, 90);
-            roundedRect.AddArc(rect.X, rect.Bottom - cornerRadius, cornerRadius, cornerRadius, 90, 90);
+            var line2 = line / 2f;
+            roundedRect.AddArc(rect.X + line2, rect.Y + line2, cornerRadius - line, cornerRadius - line, 180, 90);
+            roundedRect.AddArc(rect.Right - cornerRadius + line2, rect.Y + line2, cornerRadius - line, cornerRadius - line, 270, 90);
+            roundedRect.AddArc(rect.Right - cornerRadius + line2, rect.Bottom - cornerRadius + line2, cornerRadius - line, cornerRadius - line, 0, 90);
+            roundedRect.AddArc(rect.X + line2, rect.Bottom - cornerRadius + line2, cornerRadius - line, cornerRadius - line, 90, 90);
             roundedRect.CloseFigure();
             return roundedRect;
         }
