@@ -629,12 +629,12 @@ namespace Paway.Forms
             }
         }
 
-        private Padding _linePading = new Padding(0);
+        private Padding _linePading = new Padding(1);
         /// <summary>
         /// 设置边框线,圆角时仅使用Left值
         /// </summary>
         [Description("设置边框线,圆角时仅使用Left值")]
-        [DefaultValue(typeof(Padding), "0,0,0,0")]
+        [DefaultValue(typeof(Padding), "1,1,1,1")]
         public Padding TLinePading
         {
             get { return _linePading; }
