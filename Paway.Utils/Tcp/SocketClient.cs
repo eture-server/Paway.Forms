@@ -15,10 +15,12 @@ namespace Paway.Utils
         /// </summary>
         /// <param name="host"></param>
         /// <param name="port"></param>
-        public SocketClient(string host, int port)
+        /// <param name="heard">头部字节长度</param>
+        public SocketClient(string host, int port, int heard)
         {
             IPPoint = new IPEndPoint(IPAddress.Parse(host), port);
             Socket = new Socket(IPPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            base.heardLength = heard;
         }
 
         #endregion
@@ -43,7 +45,7 @@ namespace Paway.Utils
 
                 //启动异步接收数据操作
                 var state = new AsynSocketArg();
-                state.InitializeState(Socket);
+                state.InitializeState(Socket, base.heardLength);
                 WaitForData(state);
             }
             //处理其他操作

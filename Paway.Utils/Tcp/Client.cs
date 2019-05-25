@@ -31,16 +31,34 @@ namespace Paway.Utils
         public event Action<object> MessageEvent;
 
         private string Host;
-        private readonly int Port;
+        private int Port;
         private SocketClient client;
+        /// <summary>
+        /// 头部数据长度
+        /// </summary>
+        private int heardLength;
 
         /// <summary>
         ///     构造
         /// </summary>
-        public Client(string host, int port)
+        /// <param name="host"></param>
+        /// <param name="port"></param>
+        /// <param name="heard">头部字节长度</param>
+        public Client(string host, int port, int heard = 2)
         {
             this.Host = host;
             this.Port = port;
+            this.heardLength = heard;
+        }
+        /// <summary>
+        /// 重置并重连
+        /// </summary>
+        public void Reset(string host, int port)
+        {
+            this.Host = host;
+            this.Port = port;
+            this.Stop();
+            this.Connect();
         }
 
         #region Test
@@ -93,7 +111,7 @@ namespace Paway.Utils
             Thread.Sleep(100);
             Stop();
             if (string.IsNullOrEmpty(Host)) Host = HardWareHandler.GetIpAddress();
-            client = new SocketClient(Host, Port);
+            client = new SocketClient(Host, Port, heardLength);
             client.ConnectFinished += Client_ConnectFinished;
             client.ClientEvent += Client_ClientEvent;
             client.MessageEvent += Client_MessageEvent;

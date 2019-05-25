@@ -17,6 +17,11 @@ namespace Paway.Utils
         private ArrayList lstBuffer = new ArrayList();
 
         /// <summary>
+        /// 头部数据长度
+        /// </summary>
+        private int heardLength = 2;
+
+        /// <summary>
         ///     接收的Socket实例对象
         /// </summary>
         public Socket WorkSocket { get; private set; }
@@ -32,7 +37,7 @@ namespace Paway.Utils
                 // 先获取4字节数据
                 if (length == -1)
                 {
-                    size = 4;
+                    size = heardLength;
                 }
                 // 中间数据设置1024缓冲区
                 else if (length - lstBuffer.Count > BufferSize)
@@ -55,10 +60,13 @@ namespace Paway.Utils
         {
             get
             {
-                if (length == -1 && lstBuffer.Count >= 4)
+                if (length == -1 && lstBuffer.Count >= heardLength)
                 {
-                    length = ((byte)lstBuffer[0] << 24 | (byte)lstBuffer[1] << 16 | (byte)lstBuffer[2] << 8 |
-                              (byte)lstBuffer[3] << 0) + 4;
+                    length = heardLength;
+                    for (int i = 0; i < heardLength; i++)
+                    {
+                        length += (byte)lstBuffer[i] << (8 * (heardLength - 1 - i));
+                    }
                 }
                 return length;
             }
@@ -113,10 +121,11 @@ namespace Paway.Utils
         /// <summary>
         ///     初始化state对象
         /// </summary>
-        public void InitializeState(Socket socket)
+        public void InitializeState(Socket socket, int heard)
         {
             InitializeState();
             WorkSocket = socket;
+            heardLength = heard;
             socket.SetSocketKeepAliveValues(1000, 1000);
         }
 

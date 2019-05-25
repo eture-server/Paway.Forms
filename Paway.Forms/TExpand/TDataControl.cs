@@ -340,6 +340,7 @@ namespace Paway.Forms
             if (!ToFind())
             {
                 OnFound(this.List);
+                this.tbName.Focus();
             }
         }
         private bool ToFind()
@@ -379,7 +380,7 @@ namespace Paway.Forms
                     break;
                 case Keys.F:
                 case (Keys)Shortcut.CtrlF:
-                    tbName.Focus();
+                    this.tbName.Focus();
                     break;
                 case (Keys)Shortcut.CtrlA:
                     if (panel2.Visible && tbName.ContainsFocus) break;

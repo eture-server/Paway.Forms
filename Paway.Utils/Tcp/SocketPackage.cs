@@ -19,8 +19,10 @@ namespace Paway.Utils
         ///     为每个客户端连接创建实例
         /// </summary>
         /// <param name="socket">连接的Socket实例</param>
-        public SocketPackage(Socket socket)
+        /// <param name="heard">头部字节长度</param>
+        public SocketPackage(Socket socket, int heard)
         {
+            base.heardLength = heard;
             Socket = socket;
             SendDataService = new SendDataService(this);
         }

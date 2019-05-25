@@ -86,6 +86,10 @@ namespace Paway.Utils
         #endregion
 
         #region private methord
+        /// <summary>
+        /// 头部数据长度
+        /// </summary>
+        protected int heardLength = 2;
 
         /// <summary>
         ///     异步执行接受数据函数
@@ -125,12 +129,12 @@ namespace Paway.Utils
                     }
                     else
                     {
-                        //先处理接受的数据，去掉前四个字节
+                        //先处理接受的数据，去掉前heardLength个字节
                         var buffer = state.LstBuffer.ToArray();
-                        var data = new byte[buffer.Length - 4];
+                        var data = new byte[buffer.Length - heardLength];
                         for (var i = 0; i < data.Length; i++)
                         {
-                            data[i] = (byte)buffer[i + 4];
+                            data[i] = (byte)buffer[i + heardLength];
                         }
                         HandleMessage(data);
                         WaitForData(state);
@@ -174,14 +178,14 @@ namespace Paway.Utils
         private void SendMessage(byte[] byteData)
         {
             //先处理发送的数据，加上四字节长度
-            var msgBuffer = new byte[byteData.Length + 4];
-            msgBuffer[0] = (byte)(byteData.Length >> 24);
-            msgBuffer[1] = (byte)(byteData.Length >> 16);
-            msgBuffer[2] = (byte)(byteData.Length >> 8);
-            msgBuffer[3] = (byte)byteData.Length;
+            var msgBuffer = new byte[byteData.Length + heardLength];
+            for (int i = 0; i < heardLength; i++)
+            {
+                msgBuffer[i] = (byte)(byteData.Length >> (8 * (heardLength - 1 - i)));
+            }
             for (var i = 0; i < byteData.Length; i++)
             {
-                msgBuffer[i + 4] = byteData[i];
+                msgBuffer[i + heardLength] = byteData[i];
             }
             if (!SendStop) Socket.Send(msgBuffer);
         }

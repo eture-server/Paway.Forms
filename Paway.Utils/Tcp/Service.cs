@@ -41,6 +41,11 @@ namespace Paway.Utils
         private Socket socketListener;
 
         /// <summary>
+        /// 头部数据长度
+        /// </summary>
+        private int heardLength = 2;
+
+        /// <summary>
         ///     监听端口
         /// </summary>
         public IPEndPoint IpPort { get; private set; }
@@ -65,8 +70,10 @@ namespace Paway.Utils
         /// </summary>
         /// <param name="host"></param>
         /// <param name="port"></param>
-        public void Listener(string host, int port)
+        /// <param name="heard">头部字节长度</param>
+        public void Listener(string host, int port, int heard = 2)
         {
+            heardLength = heard;
             IpPort = new IPEndPoint(IPAddress.Parse(host), port);
             socketListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             //绑定本端IP地址
@@ -173,7 +180,7 @@ namespace Paway.Utils
                     return;
                 }
                 var socket = socketListener.EndAccept(asyn);
-                var client = new SocketPackage(socket);
+                var client = new SocketPackage(socket, heardLength);
                 OnClientConnect(client);
                 SocketConfig.ClientList.Add(client);
                 client.ClientEvent += Client_ClientEvent;
@@ -182,7 +189,7 @@ namespace Paway.Utils
 
                 //等待客户端发送来的数据
                 var state = new AsynSocketArg();
-                state.InitializeState(socket);
+                state.InitializeState(socket, heardLength);
                 client.WaitForData(state);
             }
             catch (Exception ex)
