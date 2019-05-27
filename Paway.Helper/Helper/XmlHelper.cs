@@ -133,7 +133,8 @@ namespace Paway.Helper
                 }
                 else if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
                 {
-                    Save(doc, element, obj, property.PropertyType);
+                    if (obj != null) Save(doc, element, obj, property.PropertyType);
+                    else root.RemoveChild(element);
                     continue;
                 }
                 else
