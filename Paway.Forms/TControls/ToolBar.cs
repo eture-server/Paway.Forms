@@ -1133,7 +1133,7 @@ namespace Paway.Forms
                         var temp = _normalImage ?? _normalImage2;
                         g.DrawImage(temp, item.Rectangle);
                     }
-                    else
+                    //else
                     {
                         DrawBackground(g, color, TranColor(TLineColor.ColorNormal), item);
                     }
@@ -1149,7 +1149,7 @@ namespace Paway.Forms
                         var temp = _downImage ?? _downImage2;
                         g.DrawImage(temp, item.Rectangle);
                     }
-                    else
+                    //else
                     {
                         DrawBackground(g, color, TranColor(TLineColor.ColorDown), item);
                     }
@@ -1171,12 +1171,15 @@ namespace Paway.Forms
             if (radiu > 0)
             {
                 var rect = item.Rectangle;
-                var path = DrawHelper.CreateRoundPath(rect, radiu);
-                g.FillPath(new SolidBrush(color), path);
+                if (color != Color.Empty)
+                {
+                    var path = DrawHelper.CreateRoundPath(rect, radiu);
+                    g.FillPath(new SolidBrush(color), path);
+                }
                 if (colorLine != Color.Empty && _linePading.Left > 0)
                 {
                     var temp = colorLine;
-                    if (temp == Color.Transparent) temp = BitmapHelper.RGBAddLight(color, -10);
+                    if (temp == Color.Transparent) temp = BitmapHelper.RGBAddLight(color == Color.Empty ? Color.LightGray : color, -15);
                     else temp = TranColor(colorLine);
                     if (radiu == this.ItemSize.Width && radiu == this.ItemSize.Height)
                     {
@@ -1188,19 +1191,19 @@ namespace Paway.Forms
                     }
                     else
                     {
-                        path = DrawHelper.CreateRoundPath(rect, radiu, _linePading.Left);
+                        var path = DrawHelper.CreateRoundPath(rect, radiu, _linePading.Left);
                         g.DrawPath(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Left), path);
                     }
                 }
             }
             else
             {
-                g.FillRectangle(new SolidBrush(color), item.Rectangle);
+                if (color != Color.Empty) g.FillRectangle(new SolidBrush(color), item.Rectangle);
                 if (colorLine != Color.Empty)
                 {
                     var rect = item.Rectangle;
                     var temp = colorLine;
-                    if (temp == Color.Transparent) temp = BitmapHelper.RGBAddLight(color, -10);
+                    if (temp == Color.Transparent) temp = BitmapHelper.RGBAddLight(color == Color.Empty ? Color.LightGray : color, -15);
                     else temp = TranColor(colorLine);
                     //g.PixelOffsetMode = PixelOffsetMode.Default;
                     if (_linePading.Left > 0)
@@ -1243,7 +1246,7 @@ namespace Paway.Forms
                 var temp = _moveImage ?? _moveImage2;
                 g.DrawImage(temp, item.Rectangle);
             }
-            else
+            //else
             {
                 DrawBackground(g, color, TranColor(TLineColor.ColorMove), item);
             }
