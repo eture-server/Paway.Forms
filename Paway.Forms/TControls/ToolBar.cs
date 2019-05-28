@@ -1205,7 +1205,14 @@ namespace Paway.Forms
                     var temp = colorLine;
                     if (temp == Color.Transparent) temp = BitmapHelper.RGBAddLight(color == Color.Empty ? Color.LightGray : color, -15);
                     else temp = TranColor(colorLine);
-                    //g.PixelOffsetMode = PixelOffsetMode.Default;
+                    if (_linePading.All == 1)
+                    {
+                        g.PixelOffsetMode = PixelOffsetMode.Default;
+                        rect = new Rectangle(rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
+                        g.DrawRectangle(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.All), rect);
+                        g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                        return;
+                    }
                     if (_linePading.Left > 0)
                     {
                         var line = _linePading.Left / 2f;
@@ -1230,7 +1237,6 @@ namespace Paway.Forms
                         g.DrawLine(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Bottom),
                           rect.X, rect.Bottom - line, rect.Right, rect.Bottom - line);
                     }
-                    //g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 }
             }
         }
