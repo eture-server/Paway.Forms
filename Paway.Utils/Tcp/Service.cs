@@ -122,8 +122,8 @@ namespace Paway.Utils
                 SocketConfig.ThreadList.TryAdd(Thread.CurrentThread.ManagedThreadId, "Server Heart Listener");
                 while (!ForceStop)
                 {
-                    SendAll(Encoding.GetEncoding("utf-8").GetBytes("hello,world"));
                     Thread.Sleep(heartTime * _heartTime);
+                    SendAll(Encoding.GetEncoding("utf-8").GetBytes("Hello"));
                 }
             }
             catch (Exception ex)

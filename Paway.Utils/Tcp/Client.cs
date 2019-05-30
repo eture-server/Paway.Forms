@@ -124,6 +124,15 @@ namespace Paway.Utils
         {
             this.client.Send(msg);
         }
+        /// <summary>
+        /// 同步直接发送
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="iPackage">true=封装</param>
+        public void SendSync(byte[] buffer, bool iPackage = true)
+        {
+            this.client.SendSync(buffer, iPackage);
+        }
 
         /// <summary>
         /// 接收消息

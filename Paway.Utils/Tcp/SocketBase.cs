@@ -272,7 +272,6 @@ namespace Paway.Utils
         {
             Send(message, true);
         }
-
         /// <summary>
         ///     缓冲发送内部数据的接口
         /// </summary>
@@ -297,18 +296,29 @@ namespace Paway.Utils
                     throw new ArgumentException("message is null");
             }
         }
+        /// <summary>
+        /// 同步
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="iPackage">true=封装</param>
+        internal void SendSync(byte[] buffer, bool iPackage = true)
+        {
+            if (!IConnected) throw new ArgumentException("DisConnected");
+            if (iPackage) SendData(buffer);
+            else if (!SendStop) Socket.Send(buffer);
+        }
 
         /// <summary>
         ///     直接发送消息对象
         /// </summary>
-        internal void SendData(byte[] msgBuffer)
+        internal void SendData(byte[] buffer)
         {
             try
             {
                 //检查连接作相应处理
                 if (IConnected)
                 {
-                    SendMessage(msgBuffer);
+                    SendMessage(buffer);
                 }
                 else
                 {
