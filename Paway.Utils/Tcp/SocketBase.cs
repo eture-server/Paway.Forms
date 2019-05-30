@@ -158,7 +158,8 @@ namespace Paway.Utils
             {
                 try
                 {
-                    message = StructHelper.GetObjectFromByte(buffer);
+                    if (SocketConfig.IStruct) message = StructHelper.GetObjectFromByte(buffer);
+                    else message = buffer;
                 }
                 catch
                 {

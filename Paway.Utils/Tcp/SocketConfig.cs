@@ -3,26 +3,25 @@
 namespace Paway.Utils
 {
     /// <summary>
-    ///     Tcp通讯：Socket通讯公共数据
+    ///     通讯相关
     /// </summary>
     public abstract class SocketConfig
     {
-        private static int _current = 100;
-
         /// <summary>
         ///     10分钟内的限制连接数
         ///     默认100
         /// </summary>
-        public static int Current
-        {
-            get { return _current; }
-            set { _current = value; }
-        }
+        public static int Current { get; set; } = 100;
 
         /// <summary>
         ///     总的限制连接数
         /// </summary>
         public static int Limit { get; set; }
+
+        /// <summary>
+        /// 消息序列化标记
+        /// </summary>
+        public static bool IStruct { get; set; } = true;
 
         /// <summary>
         ///     当前连接数
