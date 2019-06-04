@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using Paway.Helper;
 
 namespace Paway.Utils
@@ -156,6 +157,11 @@ namespace Paway.Utils
             object message;
             try
             {
+                if (buffer.Length == 5 && Encoding.GetEncoding("utf-8").GetString(buffer) == "Hello")
+                {//心跳
+                    Send(buffer);
+                    return;
+                }
                 try
                 {
                     if (SocketConfig.IStruct) message = StructHelper.GetObjectFromByte(buffer);

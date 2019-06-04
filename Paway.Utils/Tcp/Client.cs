@@ -154,6 +154,9 @@ namespace Paway.Utils
                         case SocketError.NotConnected:
                             Thread.Sleep(1000);
                             break;
+                        default:
+                            Thread.Sleep(125);
+                            break;
                     }
                     Connect();
                 }
@@ -176,6 +179,9 @@ namespace Paway.Utils
                     case SocketError.ConnectionAborted:
                     case SocketError.NetworkUnreachable:
                     case SocketError.ConnectionRefused:
+                        Thread.Sleep(3000);
+                        break;
+                    default:
                         Thread.Sleep(1000);
                         break;
                 }
