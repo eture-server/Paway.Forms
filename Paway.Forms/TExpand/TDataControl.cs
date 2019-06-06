@@ -75,6 +75,7 @@ namespace Paway.Forms
             gridview1.Edit.CellFormatting += Gridview1_CellFormatting;
             gridview1.Edit.CurrentCellChanged += Gridview1_CurrentCellChanged;
             gridview1.Edit.DoubleClick += Gridview1_DoubleClick;
+            gridview1.TotalEvent += UpdateDesc;
         }
 
         #region 权限-按钮
@@ -489,6 +490,10 @@ namespace Paway.Forms
                 this.gridview1.DataSource = new FindInfo(statu);
             }
         }
+        /// <summary>
+        /// 更新统计描述
+        /// </summary>
+        protected virtual string UpdateDesc(object obj) { return null; }
 
         #endregion
     }

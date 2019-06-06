@@ -35,6 +35,10 @@ namespace Paway.Forms
         ///     页面切换前触发
         /// </summary>
         public event Func<bool> PageChanging;
+        /// <summary>
+        ///     统计消息
+        /// </summary>
+        public event Func<object, string> TotalEvent;
 
         #endregion
 
@@ -79,7 +83,6 @@ namespace Paway.Forms
             get { return TPager.Visible; }
             set
             {
-                TPager.Visible = value;
                 TPager.PagerInfo.PageSize = value ? 20 : int.MaxValue;
             }
         }
@@ -305,6 +308,7 @@ namespace Paway.Forms
                 Edit.DataSource = table;
                 Edit.UpdateColumns(DataType);
                 Edit.OnRefreshChanged(DataType);
+                TPager.UpdateDesc(TotalEvent?.Invoke(dataSource));
             }
             else if (dataSource is IList)
             {
@@ -318,15 +322,18 @@ namespace Paway.Forms
                     dataList.Add(list[i]);
                 }
                 Edit.DataSource = dataList;
+                TPager.UpdateDesc(TotalEvent?.Invoke(dataSource));
             }
             else if (dataSource is IEnumerable)
             {
                 UpdateSort(dataSource as IEnumerable);
+                TPager.UpdateDesc(TotalEvent?.Invoke(dataSource));
             }
             else
             {
                 PagerInfo.RecordCount = 0;
                 Edit.DataSource = dataSource;
+                TPager.UpdateDesc(null);
             }
         }
         /// <summary>
