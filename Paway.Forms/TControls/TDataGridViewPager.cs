@@ -46,7 +46,7 @@ namespace Paway.Forms
         /// <summary>
         /// 排序列
         /// </summary>
-        protected int Index;
+        private int Index;
 
         private TPager pager1;
         /// <summary>
@@ -106,7 +106,7 @@ namespace Paway.Forms
         [Browsable(false)]
         [Category("Properties")]
         [DefaultValue(null)]
-        public object DataSource
+        public virtual object DataSource
         {
             get { return dataSource; }
             set
@@ -126,7 +126,7 @@ namespace Paway.Forms
         /// <summary>
         /// 更新Type
         /// </summary>
-        public virtual void UpdateType(Type type)
+        public void UpdateType(Type type)
         {
             if (type != null)
                 DataType = type;
@@ -144,7 +144,7 @@ namespace Paway.Forms
         /// <summary>
         ///     数据类型
         /// </summary>
-        protected Type DataType
+        private Type DataType
         {
             get { return _dataType; }
             set
@@ -326,7 +326,7 @@ namespace Paway.Forms
             }
             else if (dataSource is IEnumerable)
             {
-                UpdateSort(dataSource as IEnumerable);
+                RefreshSort(dataSource as IEnumerable);
                 TPager.UpdateDesc(TotalEvent?.Invoke(dataSource));
             }
             else
@@ -339,7 +339,7 @@ namespace Paway.Forms
         /// <summary>
         /// IEnumerable
         /// </summary>
-        protected void UpdateSort(IEnumerable query)
+        private void RefreshSort(IEnumerable query)
         {
             int i = 0;
             var index = PagerInfo.PageSize * (PagerInfo.CurrentPageIndex - 1);
@@ -359,7 +359,7 @@ namespace Paway.Forms
         /// <summary>
         ///     切换至指定页
         /// </summary>
-        public void ToCurrentPage(int index)
+        public void ToPage(int index)
         {
             if (index > PagerInfo.PageCount)
             {

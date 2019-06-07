@@ -494,6 +494,46 @@ namespace Paway.Forms
         /// 更新统计描述
         /// </summary>
         protected virtual string UpdateDesc(object obj) { return null; }
+        /// <summary>
+        /// 获取当前界面数据List
+        /// </summary>
+        protected List<T> GetAll()
+        {
+            var dt = gridview1.DataSource;
+            List<T> aList = new List<T>();
+            if (dt is List<T> factoryList)
+            {
+                aList = factoryList;
+            }
+            else if (dt is List<object> objList)
+            {
+                aList = objList.ConvertAll(c => (T)c);
+            }
+            else if (dt is ParallelQuery<T> query)
+            {
+                aList = query.ToList();
+            }
+            return aList;
+        }
+        /// <summary>
+        /// 获取当前选择数据
+        /// </summary>
+        protected virtual List<T> GetSelect()
+        {
+            var aList = GetAll();
+            List<T> list = new List<T>();
+            for (int i = 0; i < gridview1.Edit.SelectedRows.Count; i++)
+            {
+                long id = gridview1.Edit.SelectedRows[i].Cells[nameof(IId.Id)].Value.ToLong();
+                var info = this.List.Find(c => c.Id == id);
+                if (info != null) list.Add(info);
+            }
+            if (list.Count == 0 && this.Info != null)
+            {
+                list.Add(this.Info);
+            }
+            return list;
+        }
 
         #endregion
     }

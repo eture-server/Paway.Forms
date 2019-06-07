@@ -31,7 +31,7 @@ namespace Paway.Forms
         /// </summary>
         [Description("控件数据")]
         [DefaultValue(null)]
-        public virtual EventArgs Args { get; set; }
+        public EventArgs Args { get; set; }
 
         /// <summary>
         ///     从其它控件切换过来时重新激活
@@ -76,7 +76,7 @@ namespace Paway.Forms
         ///     调用委托
         /// </summary>
         /// <param name="method"></param>
-        public void InitDelegate(Delegate method)
+        internal void InitDelegate(Delegate method)
         {
             this.method = method;
         }

@@ -29,14 +29,7 @@ namespace Paway.Forms
             InitChange();
             CustomScroll();
             _toolTop = new ToolTip();
-            InitHide();
-        }
-        /// <summary>
-        /// </summary>
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-            UpdateScroll();
+            //InitHide();
         }
         /// <summary>
         ///     返回包含 System.ComponentModel.Component 的名称的 System.String（如果有）
@@ -62,7 +55,7 @@ namespace Paway.Forms
         /// </summary>
         [DefaultValue(null)]
         [Description("默认时的按钮图片")]
-        public virtual Image NormalImage
+        public Image NormalImage
         {
             get { return _normalImage; }
             set
@@ -82,7 +75,7 @@ namespace Paway.Forms
         /// </summary>
         [DefaultValue(null)]
         [Description("鼠标按下时的图片")]
-        public virtual Image DownImage
+        public Image DownImage
         {
             get { return _downImage; }
             set
@@ -102,7 +95,7 @@ namespace Paway.Forms
         /// </summary>
         [DefaultValue(null)]
         [Description("鼠标划过时的图片")]
-        public virtual Image MoveImage
+        public Image MoveImage
         {
             get { return _moveImage; }
             set
@@ -733,71 +726,59 @@ namespace Paway.Forms
         #endregion
 
         #region 事件定义
-
         /// <summary>
-        ///     当选中项的发生改变时事件的 Key
+        ///     当选中项的发生改变时
         /// </summary>
-        private static readonly object EventSelectedItemChanged = new object();
-
-        /// <summary>
-        ///     当单击项时事件的 Key
-        /// </summary>
-        private static readonly object EventItemClick = new object();
-
-        /// <summary>
-        ///     当单击项编辑时事件的 Key
-        /// </summary>
-        private static readonly object EventEditClick = new object();
-
+        public event Action<ToolItem, EventArgs> SelectedItemChanged;
         /// <summary>
         ///     当选择的 Item 发生改变时激发。
         /// </summary>
         /// <param name="item"></param>
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
-        public virtual void OnSelectedItemChanged(ToolItem item, EventArgs e)
+        private void OnSelectedItemChanged(ToolItem item, EventArgs e)
         {
             if (!item.Enable) return;
-            if (Events[EventSelectedItemChanged] is Action<ToolItem, EventArgs> handler)
-            {
-                item.Owner = this;
-                handler(item, e);
-            }
+            SelectedItemChanged?.Invoke(item, e);
         }
 
+        /// <summary>
+        ///     当单击项时事件发生
+        /// </summary>
+        public event Action<ToolItem, EventArgs> ItemClick;
         /// <summary>
         ///     当单击项后激发。
         /// </summary>
         /// <param name="item"></param>
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
-        public virtual void OnItemClick(ToolItem item, EventArgs e)
+        private void OnItemClick(ToolItem item, EventArgs e)
         {
             if (!item.Enable) return;
-            {
-                if (Events[EventItemClick] is Action<ToolItem, EventArgs> handler)
-                {
-                    item.Owner = this;
-                    handler(item, e);
-                }
-            }
+            ItemClick?.Invoke(item, e);
         }
 
+        /// <summary>
+        ///     当编辑项时事件发生
+        /// </summary>
+        public event Action<ToolItem, EventArgs> EditClick;
         /// <summary>
         ///     当编辑项时激发。
         /// </summary>
         /// <param name="item"></param>
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
-        public virtual bool OnEditClick(ToolItem item, EventArgs e)
+        private bool OnEditClick(ToolItem item, EventArgs e)
         {
-            if (!item.Enable) return false;
-            if (Events[EventEditClick] is Action<ToolItem, EventArgs> handler)
+            if (!item.Enable && EditClick != null)
             {
-                item.Owner = this;
-                handler(item, e);
+                EditClick.Invoke(item, e);
                 return true;
             }
             return false;
         }
 
+        /// <summary>
+        /// 双击事件
+        /// </summary>
+        public event Action<ToolItem> ItemDoubleClick;
         /// <summary>
         /// 双击事件
         /// </summary>
@@ -819,41 +800,17 @@ namespace Paway.Forms
             }
         }
 
-        /// <summary>
-        ///     当选中项的发生改变时
-        /// </summary>
-        public event Action<ToolItem, EventArgs> SelectedItemChanged
-        {
-            add { Events.AddHandler(EventSelectedItemChanged, value); }
-            remove { Events.RemoveHandler(EventSelectedItemChanged, value); }
-        }
-
-        /// <summary>
-        ///     当单击项时事件发生
-        /// </summary>
-        public event Action<ToolItem, EventArgs> ItemClick
-        {
-            add { Events.AddHandler(EventItemClick, value); }
-            remove { Events.RemoveHandler(EventItemClick, value); }
-        }
-
-        /// <summary>
-        ///     当编辑项时事件发生
-        /// </summary>
-        public event Action<ToolItem, EventArgs> EditClick
-        {
-            add { Events.AddHandler(EventEditClick, value); }
-            remove { Events.RemoveHandler(EventEditClick, value); }
-        }
-
-        /// <summary>
-        /// 双击事件
-        /// </summary>
-        public event Action<ToolItem> ItemDoubleClick;
-
         #endregion
 
-        #region 绘制与事件
+        #region 自定义绘制
+        /// <summary>
+        /// </summary>
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            UpdateScroll();
+        }
+
         /// <summary>
         ///     引发 System.Windows.Forms.Form.Paint 事件。
         /// </summary>
@@ -1165,7 +1122,7 @@ namespace Paway.Forms
         /// <summary>
         ///     填充Item内部颜色
         /// </summary>
-        protected virtual void DrawBackground(Graphics g, Color color, Color colorLine, ToolItem item)
+        private void DrawBackground(Graphics g, Color color, Color colorLine, ToolItem item)
         {
             var radiu = item.TRadiu > _tRadiu ? item.TRadiu : _tRadiu;
             if (radiu > 0)
@@ -1781,8 +1738,7 @@ namespace Paway.Forms
 
         #endregion
 
-        #region Public
-
+        #region 对外公共方法
         /// <summary>
         ///     获取所有选中项
         /// </summary>
@@ -1836,8 +1792,9 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     移除项
+        /// 移除指定First项或Tag项
         /// </summary>
+        /// <param name="text"></param>
         public void TRemove(string text)
         {
             for (var i = 0; i < Items.Count; i++)
@@ -1845,21 +1802,49 @@ namespace Paway.Forms
                 if (Items[i].First == text)
                 {
                     Items.RemoveAt(i);
+                    return;
+                }
+            }
+            for (var i = 0; i < Items.Count; i++)
+            {
+                if (Items[i].Tag.ToString2() == text)
+                {
+                    Items.RemoveAt(i);
                     break;
                 }
             }
         }
+        /// <summary>
+        /// 查找指定First项或Tag项
+        /// </summary>
+        public ToolItem FindItem(string text)
+        {
+            for (var i = 0; i < Items.Count; i++)
+            {
+                if (Items[i].First == text)
+                {
+                    return Items[i];
+                }
+            }
+            for (var i = 0; i < Items.Count; i++)
+            {
+                if (Items[i].Tag.ToString2() == text)
+                {
+                    return Items[i];
+                }
+            }
+            return null;
+        }
 
         /// <summary>
-        ///     选中第一项
+        ///     单击第一项
         /// </summary>
         public void TClickFirst()
         {
             TClickItem(0);
         }
-
         /// <summary>
-        ///     单击项
+        /// 单击指定First项或Tag项
         /// </summary>
         public void TClickItem(string text)
         {
@@ -1976,7 +1961,6 @@ namespace Paway.Forms
         {
             TAutoHeight(0);
         }
-
         /// <summary>
         ///     自适应高度/宽度
         /// </summary>
@@ -2004,7 +1988,6 @@ namespace Paway.Forms
             var index = Items.GetIndexOfRange(item);
             TRefresh(index);
         }
-
         /// <summary>
         ///     刷新项
         /// </summary>
@@ -2034,12 +2017,17 @@ namespace Paway.Forms
         #region 延迟隐藏滚动条
         private void InitHide()
         {
-            //this.MouseEnter += ToolBar_MouseEnter;
-            //_vScroll.MouseEnter += ToolBar_MouseEnter;
-            //_hScroll.MouseEnter += ToolBar_MouseEnter;
-            //this.MouseLeave += ToolBar_MouseLeave;
-            //_vScroll.MouseLeave += ToolBar_MouseLeave;
-            //_hScroll.MouseLeave += ToolBar_MouseLeave;
+            this.MouseEnter += ToolBar_MouseEnter;
+            _vScroll.MouseEnter += ToolBar_MouseEnter;
+            _hScroll.MouseEnter += ToolBar_MouseEnter;
+
+            this.MouseDown += ToolBar_MouseEnter;
+            _vScroll.MouseDown += ToolBar_MouseEnter;
+            _hScroll.MouseDown += ToolBar_MouseEnter;
+
+            this.MouseLeave += ToolBar_MouseLeave;
+            _vScroll.MouseLeave += ToolBar_MouseLeave;
+            _hScroll.MouseLeave += ToolBar_MouseLeave;
         }
         private void ToolBar_MouseLeave(object sender, EventArgs e)
         {
@@ -2636,7 +2624,7 @@ namespace Paway.Forms
         /// <summary>
         ///     表示一个长方形的小弹出窗口，该窗口在用户将指针悬停在一个控件上时显示有关该控件用途的简短说明。
         /// </summary>
-        protected void ShowTooTip(string toolTipText)
+        private void ShowTooTip(string toolTipText)
         {
             _toolTop.Active = true;
             _toolTop.SetToolTip(this, toolTipText);
@@ -2645,7 +2633,7 @@ namespace Paway.Forms
         /// <summary>
         ///     弹出窗口不活动
         /// </summary>
-        protected void HideToolTip()
+        private void HideToolTip()
         {
             if (_toolTop.Active)
             {
