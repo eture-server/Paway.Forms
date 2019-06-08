@@ -1888,7 +1888,7 @@ namespace Paway.Forms
                     InvalidateItem(_items[i], TMouseState.Normal);
                 }
             }
-            if (index >= 0)
+            if (index > -1)
             {
                 _selectedItem = _items[index];
                 if (!_iClickEvent)

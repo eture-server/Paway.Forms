@@ -60,63 +60,9 @@ namespace Paway.Forms
             RowHeadersWidth = 21;
             ScrollBars = ScrollBars.Both;
             SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            GridColor = Color.LightBlue;
             ReadOnly = true;
 
             pictureBox1.BackColor = Color.Transparent;
-        }
-
-        #endregion
-
-        #region 绘制多行文本
-        /// <summary>
-        ///     绘制多行文本
-        /// </summary>
-        /// <param name="e"></param>
-        private void DrawMultiText(DataGridViewCellPaintingEventArgs e)
-        {
-            if (e.Value == null || e.Value.ToString().Trim() == string.Empty || !e.Value.ToString().Contains("&&"))
-                return;
-
-            if (Columns[e.ColumnIndex] is DataGridViewTextBoxColumn cell && cell.Visible && cell.ReadOnly)
-            {
-                var graphics = e.Graphics;
-                var colorBack = e.CellStyle.BackColor;
-                if (Rows[e.RowIndex].Selected)
-                {
-                    colorBack = e.CellStyle.SelectionBackColor;
-                }
-                DrawBounds(e.Graphics, new SolidBrush(colorBack), e.CellBounds, e.RowIndex);
-
-                var index = e.Value.ToString().IndexOf("&&");
-                var strFirst = e.Value.ToString().Substring(0, index);
-                var strSecond = e.Value.ToString().Substring(index + 1);
-
-                var fontFore = e.CellStyle.Font;
-                var intX = e.CellBounds.Left + e.CellStyle.Padding.Left;
-                var intY = e.CellBounds.Top + e.CellStyle.Padding.Top;
-                var intWidth = e.CellBounds.Width - (e.CellStyle.Padding.Left + e.CellStyle.Padding.Right);
-                var intHeight = e.CellBounds.Height - (e.CellStyle.Padding.Top + e.CellStyle.Padding.Bottom);
-                intHeight /= 2;
-
-                //the first line 
-                TextFormatFlags format = DrawHelper.TextEnd;
-                if (e.CellStyle.Alignment == DataGridViewContentAlignment.MiddleCenter)
-                {
-                    format = DrawHelper.TextCenter;
-                }
-                TextRenderer.DrawText(graphics, strFirst, fontFore, new Rectangle(intX, intY, intWidth, intHeight),
-                    Color.Black, format);
-
-                fontFore = e.CellStyle.Font;
-                intY += intHeight;
-
-                //the seconde line
-                TextRenderer.DrawText(graphics, strSecond, fontFore, new Rectangle(intX, intY, intWidth, intHeight),
-                    Color.SteelBlue, format);
-
-                e.Handled = true;
-            }
         }
 
         #endregion
@@ -160,49 +106,6 @@ namespace Paway.Forms
         [Browsable(true), Description("是否绘制多行文本")]
         [DefaultValue(false)]
         public bool IMultiText { get; set; }
-
-        /// <summary>
-        ///     是否合并绘制列
-        /// </summary>
-        private bool _iMerger;
-        /// <summary>
-        ///     是否合并绘制列
-        /// </summary>
-        [Browsable(true), Description("是否合并绘制列")]
-        [DefaultValue(false)]
-        public bool IMerger
-        {
-            get { return _iMerger; }
-            set
-            {
-                _iMerger = value;
-                if (value) MultiSelect = true;
-            }
-        }
-
-        private bool _iMove = true;
-        /// <summary>
-        ///     是否绘制鼠标移过时的颜色
-        /// </summary>
-        [Browsable(true), Description("是否绘制鼠标移过时的颜色")]
-        [DefaultValue(true)]
-        public bool IMove
-        {
-            get { return _iMove; }
-            set { _iMove = value; }
-        }
-
-        private Color _colorMove = Color.Azure;
-        /// <summary>
-        ///     鼠标移过的行颜色
-        /// </summary>
-        [Browsable(true), Description("鼠标移过的行颜色")]
-        [DefaultValue(typeof(Color), "Azure")]
-        public Color IMoveColor
-        {
-            get { return _colorMove; }
-            set { _colorMove = value; }
-        }
 
         /// <summary>
         ///     是否绘制CheckBox
@@ -431,10 +334,11 @@ namespace Paway.Forms
 
         /// <summary>
         ///     获取和设置网格线的颜色。
+        ///     私有，自动设置
         /// </summary>
         [Description("获取和设置网格线的颜色")]
         [DefaultValue(typeof(Color), "LightBlue")]
-        public new Color GridColor
+        private new Color GridColor
         {
             get { return base.GridColor; }
             set { base.GridColor = value; }
@@ -583,6 +487,7 @@ namespace Paway.Forms
         protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
         {
             base.OnCellPainting(e);
+            GridColor = BitmapHelper.RGBAddLight(RowTemplate.DefaultCellStyle.SelectionBackColor, -15);
             if (e.RowIndex == -1)
             {
                 if (_iCheckBox) DrawCombox(e);
@@ -590,9 +495,62 @@ namespace Paway.Forms
             }
             else
             {
-                if (_iMerger) DrawCell(e);
+                DrawCell(e);
                 if (IMultiText) DrawMultiText(e);
                 if (_tColumnIndex != -1 && !string.IsNullOrEmpty(TColumnImage)) DrawImageText(e);
+            }
+        }
+
+        #endregion
+
+        #region 绘制多行文本
+        /// <summary>
+        ///     绘制多行文本
+        /// </summary>
+        /// <param name="e"></param>
+        private void DrawMultiText(DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.Value == null || e.Value.ToString().Trim() == string.Empty || !e.Value.ToString().Contains("&&"))
+                return;
+
+            if (Columns[e.ColumnIndex] is DataGridViewTextBoxColumn cell && cell.Visible && cell.ReadOnly)
+            {
+                var graphics = e.Graphics;
+                var colorBack = e.CellStyle.BackColor;
+                if (Rows[e.RowIndex].Selected)
+                {
+                    colorBack = e.CellStyle.SelectionBackColor;
+                }
+                DrawBounds(e.Graphics, new SolidBrush(colorBack), e.CellBounds, e.RowIndex);
+
+                var index = e.Value.ToString().IndexOf("&&");
+                var strFirst = e.Value.ToString().Substring(0, index);
+                var strSecond = e.Value.ToString().Substring(index + 1);
+
+                var fontFore = e.CellStyle.Font;
+                var intX = e.CellBounds.Left + e.CellStyle.Padding.Left;
+                var intY = e.CellBounds.Top + e.CellStyle.Padding.Top;
+                var intWidth = e.CellBounds.Width - (e.CellStyle.Padding.Left + e.CellStyle.Padding.Right);
+                var intHeight = e.CellBounds.Height - (e.CellStyle.Padding.Top + e.CellStyle.Padding.Bottom);
+                intHeight /= 2;
+
+                //the first line 
+                TextFormatFlags format = DrawHelper.TextEnd;
+                if (e.CellStyle.Alignment == DataGridViewContentAlignment.MiddleCenter)
+                {
+                    format = DrawHelper.TextCenter;
+                }
+                TextRenderer.DrawText(graphics, strFirst, fontFore, new Rectangle(intX, intY, intWidth, intHeight),
+                    Color.Black, format);
+
+                fontFore = e.CellStyle.Font;
+                intY += intHeight;
+
+                //the seconde line
+                TextRenderer.DrawText(graphics, strSecond, fontFore, new Rectangle(intX, intY, intWidth, intHeight),
+                    Color.SteelBlue, format);
+
+                e.Handled = true;
             }
         }
 
@@ -601,19 +559,35 @@ namespace Paway.Forms
         #region 鼠标移过的行颜色
         private void ComBoxGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
-            if (!_iMove) return;
-            if (e.RowIndex >= 0)
-            {
-                Rows[e.RowIndex].DefaultCellStyle.BackColor = RowTemplate.DefaultCellStyle.BackColor;
-            }
+            CellMouseColor(e, RowTemplate.DefaultCellStyle.BackColor, RowTemplate.DefaultCellStyle.SelectionBackColor);
         }
-
         private void ComBoxGridView_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (!_iMove) return;
-            if (e.RowIndex >= 0)
+            var blackColor = BitmapHelper.RGBAddLight(RowTemplate.DefaultCellStyle.SelectionBackColor, 27);
+            var selectionBackColor = BitmapHelper.RGBAddLight(RowTemplate.DefaultCellStyle.SelectionBackColor, -10);
+            CellMouseColor(e, blackColor, selectionBackColor);
+        }
+        private void CellMouseColor(DataGridViewCellEventArgs e, Color blackColor, Color selectionBackColor)
+        {
+            if (e.RowIndex < 0) return;
+            Rows[e.RowIndex].DefaultCellStyle.BackColor = blackColor;
+            if (Rows[e.RowIndex].Selected)
             {
-                Rows[e.RowIndex].DefaultCellStyle.BackColor = IMoveColor;
+                Rows[e.RowIndex].DefaultCellStyle.SelectionBackColor = selectionBackColor;
+            }
+            else if (e.ColumnIndex > -1 && Rows[e.RowIndex].Cells[e.ColumnIndex].Selected)
+            {
+                Rows[e.RowIndex].Cells[e.ColumnIndex].Style.SelectionBackColor = selectionBackColor;
+            }
+            else
+            {
+                for (int i = 0; i < this.Columns.Count; i++)
+                {
+                    if (Rows[e.RowIndex].Cells[i].Selected)
+                    {
+                        Rows[e.RowIndex].Cells[i].Style.SelectionBackColor = selectionBackColor;
+                    }
+                }
             }
         }
 
@@ -687,18 +661,19 @@ namespace Paway.Forms
         private void DrawCell(DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex == -1) return;
-            Brush gridBrush = new SolidBrush(GridColor);
-            var backBrush = new SolidBrush(e.CellStyle.BackColor);
-            var fontBrush = new SolidBrush(e.CellStyle.ForeColor);
-            int cellwidth;
-            //上面相同的行数
-            var UpRows = 0;
-            //下面相同的行数
-            var DownRows = 0;
-            //总行数
-            var count = 0;
             if (SpanColumns.Contains(e.ColumnIndex) && Columns[e.ColumnIndex] is DataGridViewTextBoxColumn cell && cell.Visible && cell.ReadOnly)
             {
+                Brush gridBrush = new SolidBrush(GridColor);
+                var backBrush = new SolidBrush(e.CellStyle.BackColor);
+                var fontBrush = new SolidBrush(e.CellStyle.ForeColor);
+                int cellwidth;
+                //上面相同的行数
+                var UpRows = 0;
+                //下面相同的行数
+                var DownRows = 0;
+                //总行数
+                var count = 0;
+
                 var curValue = e.Value == null ? "" : e.Value.ToString().Trim();
                 if (string.IsNullOrEmpty(curValue)) return;
                 cellwidth = e.CellBounds.Width;

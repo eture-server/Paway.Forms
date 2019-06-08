@@ -31,7 +31,7 @@ namespace Paway.Forms
             lock (this._states)
             {
                 int index = this._states.IndexOf(state);
-                if (index >= 0)
+                if (index > -1)
                 {
                     for (int i = this._states.Count - 1; i >= index; i--)
                     {

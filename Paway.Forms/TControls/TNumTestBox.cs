@@ -480,9 +480,9 @@ namespace Paway.Forms
             }
 
             var dotPos = base.Text.IndexOf(m_decimalSeparator);
-            var isNegative = base.Text.IndexOf(m_negativeSign) >= 0 ? true : false;
+            var isNegative = base.Text.IndexOf(m_negativeSign) > -1 ? true : false;
 
-            if (selStart > dotPos && dotPos >= 0) // delete digit after dot(.)
+            if (selStart > dotPos && dotPos > -1) // delete digit after dot(.)
             {
                 base.Text = base.Text.Substring(0, selStart - 1) +
                             base.Text.Substring(selStart, base.Text.Length - selStart) + "0";
@@ -548,7 +548,7 @@ namespace Paway.Forms
             }
 
             var selLength = SelectedText.Length;
-            if (SelectedText.IndexOf(m_decimalSeparator) >= 0)
+            if (SelectedText.IndexOf(m_decimalSeparator) > -1)
             {
                 selLength--; // selected text contains dot(.), selected length minus 1
             }

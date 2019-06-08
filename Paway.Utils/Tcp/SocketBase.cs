@@ -287,7 +287,7 @@ namespace Paway.Utils
         {
             if (ithrow && !IConnected)
             {
-                throw new ArgumentException("DisConnected");
+                throw new ArgumentException("Not Connected");
             }
             if (SendDataService != null && message != null)
             {
@@ -309,7 +309,7 @@ namespace Paway.Utils
         /// <param name="iPackage">true=封装</param>
         internal void SendSync(byte[] buffer, bool iPackage = true)
         {
-            if (!IConnected) throw new ArgumentException("DisConnected");
+            if (!IConnected) throw new ArgumentException("Not Connected");
             if (iPackage) SendData(buffer);
             else if (!SendStop) Socket.Send(buffer);
         }

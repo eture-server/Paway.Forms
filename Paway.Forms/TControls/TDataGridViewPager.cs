@@ -56,13 +56,13 @@ namespace Paway.Forms
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TPager TPager { get { return pager1; } }
 
-        private TDataGridView tDataGridView1;
+        private TDataGridView gridview1;
         /// <summary>
         ///     编辑控件
         /// </summary>
         [Category("Properties")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public TDataGridView Edit { get { return tDataGridView1; } }
+        public TDataGridView Edit { get { return gridview1; } }
 
         /// <summary>
         ///     分页信息
@@ -449,26 +449,26 @@ namespace Paway.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.tDataGridView1 = new Paway.Forms.TDataGridView();
+            this.gridview1 = new Paway.Forms.TDataGridView();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pager1 = new Paway.Forms.TPager();
-            ((System.ComponentModel.ISupportInitialize)(this.tDataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridview1)).BeginInit();
             this.SuspendLayout();
             // 
-            // tDataGridView1
+            // gridview1
             // 
-            this.tDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.gridview1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id});
-            this.tDataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tDataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.tDataGridView1.Name = "tDataGridView1";
-            this.tDataGridView1.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
-            this.tDataGridView1.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
-            this.tDataGridView1.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
-            this.tDataGridView1.RowTemplate.Height = 32;
-            this.tDataGridView1.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.tDataGridView1.Size = new System.Drawing.Size(576, 173);
-            this.tDataGridView1.TabIndex = 12;
+            this.gridview1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridview1.Location = new System.Drawing.Point(0, 0);
+            this.gridview1.Name = "gridview1";
+            this.gridview1.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
+            this.gridview1.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(197)))), ((int)(((byte)(228)))), ((int)(((byte)(237)))));
+            this.gridview1.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
+            this.gridview1.RowTemplate.Height = 32;
+            this.gridview1.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridview1.Size = new System.Drawing.Size(576, 173);
+            this.gridview1.TabIndex = 12;
             // 
             // Id
             // 
@@ -480,7 +480,6 @@ namespace Paway.Forms
             // pager1
             // 
             this.pager1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
-            this.pager1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pager1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pager1.Location = new System.Drawing.Point(0, 173);
             this.pager1.Name = "pager1";
@@ -489,13 +488,13 @@ namespace Paway.Forms
             // 
             // TDataGridViewPager
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.Controls.Add(this.tDataGridView1);
+            this.Controls.Add(this.gridview1);
             this.Controls.Add(this.pager1);
             this.Name = "TDataGridViewPager";
             this.Size = new System.Drawing.Size(576, 203);
-            ((System.ComponentModel.ISupportInitialize)(this.tDataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridview1)).EndInit();
             this.ResumeLayout(false);
+
         }
 
         #endregion

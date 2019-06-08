@@ -39,6 +39,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel3 = new Paway.Forms.TControl();
@@ -71,7 +72,7 @@
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.tDataGridView1);
             this.panel1.Padding = new System.Windows.Forms.Padding(10, 10, 10, 2);
-            this.panel1.Size = new System.Drawing.Size(710, 492);
+            this.panel1.Size = new System.Drawing.Size(710, 624);
             // 
             // lbTitle
             // 
@@ -85,7 +86,7 @@
             this.panel3.Location = new System.Drawing.Point(10, 355);
             this.panel3.Name = "panel3";
             this.panel3.Padding = new System.Windows.Forms.Padding(3);
-            this.panel3.Size = new System.Drawing.Size(690, 135);
+            this.panel3.Size = new System.Drawing.Size(690, 267);
             this.panel3.TabIndex = 10;
             // 
             // tDataGridView2
@@ -106,8 +107,6 @@
             this.ProSize,
             this.Price});
             this.tDataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tDataGridView2.GridColor = System.Drawing.Color.YellowGreen;
-            this.tDataGridView2.IMerger = true;
             this.tDataGridView2.Location = new System.Drawing.Point(3, 3);
             this.tDataGridView2.MultiSelect = true;
             this.tDataGridView2.Name = "tDataGridView2";
@@ -117,7 +116,7 @@
             this.tDataGridView2.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.tDataGridView2.RowTemplate.Height = 23;
             this.tDataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.tDataGridView2.Size = new System.Drawing.Size(684, 129);
+            this.tDataGridView2.Size = new System.Drawing.Size(684, 261);
             this.tDataGridView2.TabIndex = 12;
             // 
             // ProColor
@@ -202,10 +201,10 @@
             this.tDataGridViewPager1.Edit.Location = new System.Drawing.Point(0, 0);
             this.tDataGridViewPager1.Edit.Name = "tDataGridView1";
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.Red;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.DarkGray;
             dataGridViewCellStyle6.Font = new System.Drawing.Font("微软雅黑", 12F);
             dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.tDataGridViewPager1.Edit.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
@@ -254,8 +253,15 @@
             this.Id,
             this.ActionTime,
             this.ComponentId});
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("微软雅黑", 12F);
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.Red;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.tDataGridView1.DefaultCellStyle = dataGridViewCellStyle10;
             this.tDataGridView1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tDataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(186)))), ((int)(((byte)(132)))));
             this.tDataGridView1.ICheckBox = true;
             this.tDataGridView1.ICheckBoxName = "IsSelect";
             this.tDataGridView1.IMultiText = true;
@@ -263,21 +269,20 @@
             this.tDataGridView1.MultiSelect = true;
             this.tDataGridView1.Name = "tDataGridView1";
             this.tDataGridView1.ReadOnly = false;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("微软雅黑", 12F);
-            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Red;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.tDataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle11.BackColor = System.Drawing.Color.HotPink;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("微软雅黑", 12F);
+            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.Red;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.tDataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
             this.tDataGridView1.RowHeadersVisible = true;
             this.tDataGridView1.RowHeadersWidth = 41;
-            dataGridViewCellStyle11.BackColor = System.Drawing.Color.White;
-            this.tDataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle12.BackColor = System.Drawing.Color.White;
+            this.tDataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle12;
             this.tDataGridView1.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.tDataGridView1.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Red;
             this.tDataGridView1.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Thistle;
             this.tDataGridView1.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Lime;
             this.tDataGridView1.RowTemplate.Height = 32;
-            this.tDataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.tDataGridView1.Size = new System.Drawing.Size(690, 171);
             this.tDataGridView1.TabIndex = 8;
             this.tDataGridView1.TColumnImage = "Image";
@@ -348,10 +353,11 @@
             // FormGridView
             // 
             this.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.ClientSize = new System.Drawing.Size(712, 574);
+            this.ClientSize = new System.Drawing.Size(712, 706);
             this.Name = "FormGridView";
-            this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(84)))), ((int)(((byte)(74)))));
+            this.ShowInTaskbar = true;
             this.TBrush.ColorDown = System.Drawing.Color.Ivory;
+            this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(84)))), ((int)(((byte)(74)))));
             this.Text = "hello,world";
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);

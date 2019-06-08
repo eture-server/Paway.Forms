@@ -68,7 +68,7 @@ namespace Paway.Utils
         public void TestConnection(int timeout = 500)
         {
             if (!this.IConnected)
-                throw new WarningException("Been Disconnected, Please Wait..");
+                throw new WarningException("Not Connected, Please Wait..");
             TcpClient client = new TcpClient();
             try
             {
