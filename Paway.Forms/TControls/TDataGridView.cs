@@ -982,7 +982,6 @@ namespace Paway.Forms
                 }
 
                 var fontBrush = new SolidBrush(e.CellStyle.ForeColor);
-                Console.WriteLine(e.State);
                 if (e.State == DataGridViewElementStates.Selected)
                 {
                     fontBrush.Color = e.CellStyle.SelectionForeColor;

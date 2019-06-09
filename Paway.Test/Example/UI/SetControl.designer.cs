@@ -37,7 +37,7 @@
             Paway.Forms.ToolItem toolItem7 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem8 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem9 = new Paway.Forms.ToolItem();
-            this.panel1 = new Paway.Forms.TControl();
+            this.panel1 = new Paway.Forms.TPanel();
             this.toolBar1 = new Paway.Forms.ToolBar();
             this.SuspendLayout();
             // 
@@ -123,7 +123,7 @@
 
         #endregion
 
-        protected Forms.TControl panel1;
-        private Forms.ToolBar toolBar1;
+        protected Paway.Forms.TPanel panel1;
+        private Paway.Forms.ToolBar toolBar1;
     }
 }

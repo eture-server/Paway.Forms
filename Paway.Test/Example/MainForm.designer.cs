@@ -32,11 +32,11 @@
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.panel1 = new Paway.Forms.TControl();
+            this.panel1 = new Paway.Forms.TPanel();
             this.toolTitle = new Paway.Forms.ToolBar();
             this.toolSet = new Paway.Forms.ToolBar();
-            this.panel3 = new Paway.Forms.TControl();
-            this.panel2 = new Paway.Forms.TControl();
+            this.panel3 = new Paway.Forms.TPanel();
+            this.panel2 = new Paway.Forms.TPanel();
             this.lbDesc = new System.Windows.Forms.Label();
             this.lbStatu = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
@@ -163,10 +163,10 @@
 
         #endregion
         private Paway.Forms.ToolBar toolSet;
-        private Paway.Forms.TControl panel1;
+        private Paway.Forms.TPanel panel1;
         private Paway.Forms.ToolBar toolTitle;
-        private Paway.Forms.TControl panel3;
-        private Paway.Forms.TControl panel2;
+        private Paway.Forms.TPanel panel3;
+        private Paway.Forms.TPanel panel2;
         private System.Windows.Forms.Label lbDesc;
         private System.Windows.Forms.Label lbStatu;
     }

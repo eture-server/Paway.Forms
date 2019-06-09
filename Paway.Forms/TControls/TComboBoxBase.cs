@@ -43,8 +43,6 @@ namespace Paway.Forms
             //获取表示所绘制项的边界的矩形
             var rect = e.Bounds;
             //定义要绘制到控件中的图标图像
-            //定义字体对象
-            var font = new Font("微软雅黑", Font.Size);
             Brush brush = new SolidBrush(ForeColor);
             //获得当前Item的文本
             //绑定字段
@@ -89,7 +87,7 @@ namespace Paway.Forms
             //g.DrawImage(ico, new Point(rect.Left, rect.Top));
             //在当前项图形表面上划上当前Item的文本
             //g.DrawString(tempString, font, new SolidBrush(Color.Black), rect.Left + ico.Size.Width, rect.Top);
-            e.Graphics.DrawString(str?.ToString(), font, brush, rect, DrawHelper.StringVertical);
+            e.Graphics.DrawString(str?.ToString(), Font, brush, rect, DrawHelper.StringVertical);
             //将绘制聚焦框
             e.DrawFocusRectangle();
         }

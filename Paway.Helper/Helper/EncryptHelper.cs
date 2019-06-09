@@ -50,7 +50,6 @@ namespace Paway.Helper
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Encryption.GetSign(string) :: " + ex.Message);
                 throw;
             }
             return result;
@@ -111,7 +110,6 @@ namespace Paway.Helper
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Encryption.Encrypt3DES(string, string) :: " + ex.Message);
                 throw;
             }
             finally
@@ -153,7 +151,6 @@ namespace Paway.Helper
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Encryption.Decrypt3DES(string, string) :: " + ex.Message);
                 throw;
             }
             finally

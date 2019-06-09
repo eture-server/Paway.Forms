@@ -691,7 +691,7 @@ namespace Paway.Forms
             {
                 if (item.ContainsFocus)
                 {
-                    if (item.GetType() == typeof(TControl))
+                    if (item.GetType() == typeof(TControl) || item.GetType() == typeof(TPanel) || item.GetType() == typeof(Panel))
                     {
                         return CurrentPoint(item);
                     }

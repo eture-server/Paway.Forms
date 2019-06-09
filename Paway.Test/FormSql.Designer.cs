@@ -30,16 +30,16 @@ namespace Paway.Test
         /// </summary>
         private void InitializeComponent()
         {
-            this.btInsert = new Button();
+            this.btInsert = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btUpdate = new Button();
-            this.btUpOrIn = new Button();
-            this.btDelete = new Button();
-            this.btSelect = new Button();
-            this.btnReplace = new Button();
-            this.btnStart = new Button();
+            this.btUpdate = new System.Windows.Forms.Button();
+            this.btUpOrIn = new System.Windows.Forms.Button();
+            this.btDelete = new System.Windows.Forms.Button();
+            this.btSelect = new System.Windows.Forms.Button();
+            this.btnReplace = new System.Windows.Forms.Button();
+            this.btnStart = new System.Windows.Forms.Button();
             this.tbStart = new Paway.Forms.TNumTestBox();
-            this.btnTest = new Button();
+            this.btnTest = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -56,7 +56,7 @@ namespace Paway.Test
             this.panel1.Controls.Add(this.btUpdate);
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this.btInsert);
-            this.panel1.Size = new System.Drawing.Size(405, 291);
+            this.panel1.Size = new System.Drawing.Size(405, 290);
             // 
             // lbTitle
             // 
@@ -144,7 +144,6 @@ namespace Paway.Test
             // tbStart
             // 
             this.tbStart.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tbStart.ForeColor = System.Drawing.Color.Black;
             this.tbStart.Lines = new string[] {
         "1000"};
             this.tbStart.Location = new System.Drawing.Point(25, 208);
@@ -152,6 +151,7 @@ namespace Paway.Test
             this.tbStart.Name = "tbStart";
             this.tbStart.Size = new System.Drawing.Size(75, 24);
             this.tbStart.TabIndex = 38;
+            this.tbStart.Text = "1000";
             // 
             // btnTest
             // 
@@ -167,8 +167,8 @@ namespace Paway.Test
             this.ClientSize = new System.Drawing.Size(407, 372);
             this.Name = "FormSql";
             this.ShowInTaskbar = true;
-            this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(84)))), ((int)(((byte)(74)))));
             this.TBrush.ColorDown = System.Drawing.Color.Ivory;
+            this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(84)))), ((int)(((byte)(74)))));
             this.Text = "Sql测试";
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

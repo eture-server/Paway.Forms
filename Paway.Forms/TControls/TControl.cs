@@ -12,7 +12,6 @@ namespace Paway.Forms
     /// <summary>
     ///     自定义基控件
     /// </summary>
-    [Designer("System.Windows.Forms.Design.ParentControlDesigner, System.Design")]
     public class TControl : UserControl, IControl
     {
         #region 构造
@@ -40,6 +39,14 @@ namespace Paway.Forms
             BackColor = Color.Transparent;
             AutoScaleMode = AutoScaleMode.None;
             BackgroundImageLayout = ImageLayout.Stretch;
+        }
+        /// <summary>
+        ///     返回包含 System.ComponentModel.Component 的名称的 System.String（如果有）
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("{0} - {1}", this.Name, TConfig.Name);
         }
 
         #endregion
@@ -372,7 +379,7 @@ namespace Paway.Forms
         private Size size;
         private Point point;
         private Size step;
-        private TControl alpha;
+        private TPanel alpha;
         private int color = 255;
         private bool i3d;
         private Image image;
@@ -395,8 +402,9 @@ namespace Paway.Forms
         {
             ILoad = true;
             base.OnLoad(e);
-            MChild();
             TConfig.Init(this);
+            if (DesignMode) return;
+            MChild();
         }
 
         /// <summary>
@@ -558,7 +566,7 @@ namespace Paway.Forms
                 case TMDirection.T3DDownToUp:
                     if (alpha == null)
                     {
-                        alpha = new TControl();
+                        alpha = new TPanel();
                     }
                     image = BackgroundImage;
                     if (Width > 0 && Height > 0)

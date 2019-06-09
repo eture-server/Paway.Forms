@@ -50,7 +50,6 @@ namespace Paway.Test
             base.OnShown(e);
             var time = Environment.TickCount;
             var b = Environment.TickCount - time;
-            Console.WriteLine(b);
             for (int i = 0; i < 10; i++)
             {
                 TestData data = new TestData
@@ -63,6 +62,7 @@ namespace Paway.Test
                 list.Add(data);
             }
             Win32Helper.ActiveForm(this.Handle);
+            qqTextBox1.Focus();
         }
         private void BtInsert_Click(object sender, EventArgs e)
         {

@@ -60,7 +60,6 @@ namespace Paway.Test
             }
             toolBar2.Resume();
             sw.Stop();
-            Trace.WriteLine(sw.ElapsedMilliseconds);
             toolBar2.TChangeStart();
             toolBar2.TStart();
             //toolBar1.TClickFirst();

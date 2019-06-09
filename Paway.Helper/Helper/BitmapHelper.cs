@@ -276,7 +276,6 @@ namespace Paway.Helper
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("ImageProcess.GetScreenPic() :: " + ex.Message);
                 throw;
             }
             return bitmap;

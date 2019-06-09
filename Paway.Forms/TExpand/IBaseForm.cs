@@ -43,6 +43,15 @@ namespace Paway.Forms
         {
             base.OnShown(e);
             this.Activate();
+            ActivatedFirst(this);
+        }
+        /// <summary>
+        /// 激活第一个控件焦点
+        /// </summary>
+        protected virtual void ActivatedFirst(Control control)
+        {
+            Control result = NextControl(Point.Empty, control);
+            if (result != null) result.Focus();
         }
         internal void LbTitle_Paint(object sender, PaintEventArgs e)
         {

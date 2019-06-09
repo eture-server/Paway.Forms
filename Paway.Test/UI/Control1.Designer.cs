@@ -31,7 +31,7 @@
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
-            this.panel1 = new Paway.Forms.TControl();
+            this.panel1 = new Paway.Forms.TPanel();
             this.toolbar = new Paway.Forms.ToolBar();
             this.tDataGridViewPager1 = new Paway.Forms.TDataGridViewPager();
             this.panel1.SuspendLayout();
@@ -129,7 +129,7 @@
 
         #endregion
 
-        private Forms.TControl panel1;
+        private Forms.TPanel panel1;
         private Forms.ToolBar toolbar;
         private Forms.TDataGridViewPager tDataGridViewPager1;
 

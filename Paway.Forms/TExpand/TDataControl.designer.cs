@@ -32,10 +32,10 @@
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
-            this.panel3 = new Paway.Forms.TControl();
-            this.panel1 = new Paway.Forms.TControl();
+            this.panel3 = new Paway.Forms.TPanel();
+            this.panel1 = new Paway.Forms.TPanel();
             this.toolBar1 = new Paway.Forms.ToolBar();
-            this.panel2 = new Paway.Forms.TControl();
+            this.panel2 = new Paway.Forms.TPanel();
             this.tbName = new Paway.Forms.QQTextBox();
             this.gridview1 = new Paway.Forms.TDataGridViewPager();
             this.panel1.SuspendLayout();
@@ -179,11 +179,23 @@
 
         #endregion
 
-        protected Paway.Forms.TControl panel1;
+        /// <summary>
+        /// </summary>
+        protected Paway.Forms.TPanel panel1;
+        /// <summary>
+        /// </summary>
         protected Paway.Forms.TDataGridViewPager gridview1;
-        protected Paway.Forms.TControl panel3;
+        /// <summary>
+        /// </summary>
+        protected Paway.Forms.TPanel panel3;
+        /// <summary>
+        /// </summary>
         protected ToolBar toolBar1;
-        protected TControl panel2;
+        /// <summary>
+        /// </summary>
+        protected Paway.Forms.TPanel panel2;
+        /// <summary>
+        /// </summary>
         protected QQTextBox tbName;
     }
 }

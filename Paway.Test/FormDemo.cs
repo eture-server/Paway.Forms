@@ -308,7 +308,6 @@ namespace Paway.Test
         //截取消息，进行处理
         public bool PreFilterMessage(ref Message m)
         {
-            Console.WriteLine(m.HWnd);
             //拦截左键单击事件　
             if (m.Msg == 516 && m.HWnd == parent)
             {

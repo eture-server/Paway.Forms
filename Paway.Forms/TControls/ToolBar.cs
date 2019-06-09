@@ -15,7 +15,7 @@ namespace Paway.Forms
     ///     工具栏
     /// </summary>
     [DefaultProperty("Items")]
-    [DefaultEvent("SelectedItemChanged")]
+    [DefaultEvent("ItemClick")]
     public class ToolBar : TControl
     {
         #region 构造函数
@@ -30,14 +30,6 @@ namespace Paway.Forms
             CustomScroll();
             _toolTop = new ToolTip();
             //InitHide();
-        }
-        /// <summary>
-        ///     返回包含 System.ComponentModel.Component 的名称的 System.String（如果有）
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return string.Format("{0} - {1}", this.Name, TConfig.Name);
         }
 
         #endregion
@@ -696,14 +688,6 @@ namespace Paway.Forms
                 _tLocation = value;
                 Invalidate();
             }
-        }
-
-        /// <summary>
-        ///     重写父类的默认大小
-        /// </summary>
-        protected override Size DefaultSize
-        {
-            get { return new Size(300, 82); }
         }
 
         /// <summary>
@@ -2271,7 +2255,7 @@ namespace Paway.Forms
         /// <summary>
         /// 滚动条外框
         /// </summary>
-        private TControl _panelScroll;
+        private TPanel _panelScroll;
         /// <summary>
         ///     垂直滚动条
         /// </summary>
@@ -2358,7 +2342,7 @@ namespace Paway.Forms
         /// </summary>
         private void CustomScroll()
         {
-            _panelScroll = new TControl();
+            _panelScroll = new TPanel();
             Controls.Add(_panelScroll);
 
             _hScroll = new HScrollBar();
@@ -2691,8 +2675,11 @@ namespace Paway.Forms
                     _vScroll2.Dispose();
 
                 _image = null;
-                _tDynamic.Stop();
-                _tDynamic = null;
+                if (_tDynamic != null)
+                {
+                    _tDynamic.Stop();
+                    _tDynamic.Dispose();
+                }
                 if (_pictureBox1 != null)
                 {
                     _pictureBox1.Image = null;

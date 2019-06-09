@@ -5,9 +5,8 @@ namespace Paway.Helper
 {
     /// <summary>
     ///     比较方法
-    ///     用法：new List(T).Distinct(new Compare<T>((x, y) => x.Value == y.Value))
+    ///     用法：new List(T).Distinct(new Compare<T>((x, y) => x.Value == y.Value))</T>
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     public class Compare<T> : IEqualityComparer<T>
     {
         private readonly Func<T, T, bool> _equalsComparer;

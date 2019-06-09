@@ -139,7 +139,7 @@ namespace Paway.Test
             this.numEditTestBox2 = new Paway.Forms.TNumTestBox();
             this.qqCheckBox1 = new Paway.Forms.QQCheckBox();
             this.qqRadioButton1 = new Paway.Forms.QQRadioButton();
-            this.tControl1 = new Paway.Forms.TControl();
+            this.tControl1 = new Paway.Forms.TPanel();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -1017,6 +1017,6 @@ namespace Paway.Test
         private Forms.QQTextBox qqTextBox1;
         private Forms.QQCheckBox qqCheckBox1;
         private Forms.QQRadioButton qqRadioButton1;
-        private Forms.TControl tControl1;
+        private Paway.Forms.TPanel tControl1;
     }
 }

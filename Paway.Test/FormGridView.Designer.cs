@@ -42,13 +42,13 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.panel3 = new Paway.Forms.TControl();
+            this.panel3 = new Paway.Forms.TPanel();
             this.tDataGridView2 = new Paway.Forms.TDataGridView();
             this.ProColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ProSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.panel2 = new Paway.Forms.TControl();
+            this.panel2 = new Paway.Forms.TPanel();
             this.tDataGridViewPager1 = new Paway.Forms.TDataGridViewPager();
             this.tDataGridView1 = new Paway.Forms.TDataGridView();
             this.IsSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -372,9 +372,9 @@
 
         #endregion
 
-        private Paway.Forms.TControl panel3;
+        private Paway.Forms.TPanel panel3;
         private System.Windows.Forms.ImageList imageList1;
-        private Paway.Forms.TControl panel2;
+        private Paway.Forms.TPanel panel2;
         private Forms.TDataGridViewPager tDataGridViewPager1;
         private Forms.TDataGridView tDataGridView1;
         private Forms.TDataGridView tDataGridView2;

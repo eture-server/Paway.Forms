@@ -11,7 +11,7 @@ namespace Paway.Forms
     /// <summary>
     ///     TComboBox+边框
     /// </summary>
-    public class TComboBox : TControl
+    public class TComboBox : TPanel
     {
         #region override
         private readonly Image moveImage = Resources.QQ_TextBox_move;
@@ -140,6 +140,15 @@ namespace Paway.Forms
         {
             InitializeComponent();
             Edit.SizeChanged += TComboBox1_SizeChanged;
+            InitMove();
+        }
+        /// <summary>
+        ///     返回包含 System.ComponentModel.Component 的名称的 System.String（如果有）
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("Value: {0},{1}", this.Edit.SelectedValue, base.ToString());
         }
 
         private void TComboBox1_SizeChanged(object sender, EventArgs e)
@@ -154,10 +163,8 @@ namespace Paway.Forms
         /// <summary>
         ///     背影事件
         /// </summary>
-        /// <param name="e"></param>
-        protected override void OnLoad(EventArgs e)
+        private void InitMove()
         {
-            base.OnLoad(e);
             MouseMove += TComboBox2_MouseMove;
             Edit.MouseMove += TComboBox2_MouseMove;
             MouseLeave += TComboBox2_MouseLeave;

@@ -9,7 +9,7 @@ namespace Paway.Forms
     /// <summary>
     ///     自定义圆形进度条
     /// </summary>
-    public class TProgressBar : TControl
+    public class TProgressBar : TPanel
     {
         #region 变量
 
@@ -178,14 +178,11 @@ namespace Paway.Forms
                 var point = new Point(Width / 2 - (int)size.Width / 2 - 1, Height / 2 - (int)size.Height / 2 + 2);
                 e.Graphics.DrawString(value.ToString(), tFont, new SolidBrush(color), point);
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private void DrawLine(Graphics g, Rectangle rect, Color color, int value)
         {
-            color = Color.FromArgb(Trans, color.R, color.G, color.B);
             using (var p = new Pen(new SolidBrush(color), tWidth))
             {
                 //设置起止点线帽  

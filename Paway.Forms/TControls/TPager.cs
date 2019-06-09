@@ -18,9 +18,9 @@ namespace Paway.Forms
         private Label lbDesc;
         private ToolBar toolEnd;
         private ToolBar toolNext;
-        private TControl tControl2;
+        private Paway.Forms.TPanel tControl2;
         private TNumTestBox txtCurrentPage;
-        private TControl tControl1;
+        private Paway.Forms.TPanel tControl1;
 
         /// <summary>
         ///     页面切换的时候触发
@@ -303,10 +303,10 @@ namespace Paway.Forms
             Paway.Forms.ToolItem toolItem7 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem8 = new Paway.Forms.ToolItem();
             this.lblPageInfo = new System.Windows.Forms.Label();
-            this.tControl1 = new Paway.Forms.TControl();
+            this.tControl1 = new Paway.Forms.TPanel();
             this.toolEnd = new Paway.Forms.ToolBar();
             this.toolNext = new Paway.Forms.ToolBar();
-            this.tControl2 = new Paway.Forms.TControl();
+            this.tControl2 = new Paway.Forms.TPanel();
             this.txtCurrentPage = new Paway.Forms.TNumTestBox();
             this.toolLast = new Paway.Forms.ToolBar();
             this.toolFirst = new Paway.Forms.ToolBar();

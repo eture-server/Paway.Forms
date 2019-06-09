@@ -11,7 +11,7 @@ namespace Paway.Forms
 {
     /// <summary>
     /// </summary>
-    public class QQTextBox : TControl
+    public class QQTextBox : TPanel
     {
         #region 变量
 
@@ -214,17 +214,14 @@ namespace Paway.Forms
         ///     获取或设置控件显示的文字的字体
         /// </summary>
         [Description("获取或设置控件显示的文字的字体")]
-        [DefaultValue(typeof(Font), "微软雅黑, 9pt")]
+        [AmbientValue(null)]
         public override Font Font
         {
             get { return base.Font; }
             set
             {
                 if (BaseText == null) return;
-                if (value == null)
-                {
-                    value = new Font("微软雅黑", 9f, FontStyle.Regular, GraphicsUnit.Point, 1);
-                }
+                if (value == null) return;
                 base.Font = value;
                 BaseText.Font = value;
                 UpdateHeight();
@@ -510,6 +507,15 @@ namespace Paway.Forms
             Padding = new Padding(0, 0, 0, 3);
             ForeColor = Color.Black;
             BackColor = Color.Transparent;
+            this.GotFocus += delegate { Edit.Focus(); };
+        }
+        /// <summary>
+        ///     返回包含 System.ComponentModel.Component 的名称的 System.String（如果有）
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("Text: {0},{1}", this.Text, base.ToString());
         }
 
         /// <summary>
@@ -527,7 +533,6 @@ namespace Paway.Forms
             // _error
             // 
             this._error.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
-            this._error.ContainerControl = this;
             this._error.Icon = ((System.Drawing.Icon)(resources.GetObject("_error.Icon")));
             // 
             // BaseText
@@ -625,7 +630,6 @@ namespace Paway.Forms
             BaseText.TextChanged += BaseText_TextChanged;
             BaseText.LostFocus += BaseText_LostFocus;
             BaseText.GotFocus += BaseText_GotFocus;
-            BaseText.MouseEnter += BaseText_MouseEnter;
             KeyDown += QQTextBox_KeyDown;
         }
 
@@ -721,19 +725,6 @@ namespace Paway.Forms
             _error.SetError(this, error);
         }
 
-        /// <summary>
-        ///     鼠标进入控件激活
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void BaseText_MouseEnter(object sender, EventArgs e)
-        {
-            if (ParentForm.ContainsFocus)
-            {
-                //this.Focus();
-            }
-        }
-
         private void QQTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.A && ModifierKeys == Keys.Control)
@@ -759,16 +750,6 @@ namespace Paway.Forms
         #endregion
 
         #region Override Methods
-
-        /// <summary>
-        ///     控件背景
-        /// </summary>
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-            ITrans = ITrans;
-        }
-
         /// <summary>
         /// </summary>
         /// <param name="e"></param>

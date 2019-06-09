@@ -14,7 +14,6 @@ namespace Paway.Forms
         /// <summary>
         ///     初始化 Paway.Forms.ToolItemCollection 新的实例。
         /// </summary>
-        /// <param name="owner">ToolBar</param>
         public ToolItemCollection() { }
 
         #endregion

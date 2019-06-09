@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             this.tProgressBar1 = new Paway.Forms.TProgressBar();
             this.btnReset = new Paway.Forms.ToolBar();
             this.SuspendLayout();
@@ -41,7 +41,6 @@
             this.tProgressBar1.Size = new System.Drawing.Size(169, 169);
             this.tProgressBar1.TabIndex = 0;
             this.tProgressBar1.TFont = new System.Drawing.Font("微软雅黑", 32F);
-            this.tProgressBar1.Trans = 200;
             this.tProgressBar1.TWidth = 3;
             this.tProgressBar1.Value = 10;
             // 
@@ -50,12 +49,9 @@
             this.btnReset.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnReset.Font = new System.Drawing.Font("Tahoma", 15F);
             this.btnReset.IClickEvent = true;
-            this.btnReset.TLineColor.ColorDown = System.Drawing.Color.Transparent;
-            this.btnReset.TLineColor.ColorMove = System.Drawing.Color.Transparent;
-            this.btnReset.TLineColor.ColorNormal = System.Drawing.Color.Transparent;
             this.btnReset.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem1.Text = "Reset";
-            this.btnReset.Items.Add(toolItem1);
+            toolItem2.Text = "Reset";
+            this.btnReset.Items.Add(toolItem2);
             this.btnReset.ItemSize = new System.Drawing.Size(75, 32);
             this.btnReset.ItemSpace = 5;
             this.btnReset.Location = new System.Drawing.Point(191, 41);
@@ -69,6 +65,9 @@
             this.btnReset.TextFirst.ColorMove = System.Drawing.Color.White;
             this.btnReset.TextFirst.ColorNormal = System.Drawing.Color.Black;
             this.btnReset.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.btnReset.TLineColor.ColorDown = System.Drawing.Color.Transparent;
+            this.btnReset.TLineColor.ColorMove = System.Drawing.Color.Transparent;
+            this.btnReset.TLineColor.ColorNormal = System.Drawing.Color.Transparent;
             this.btnReset.Trans = 150;
             // 
             // Form4
