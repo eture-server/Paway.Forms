@@ -51,7 +51,11 @@ namespace Paway.Forms
         protected virtual void ActivatedFirst(Control control)
         {
             Control result = NextControl(Point.Empty, control);
-            if (result != null) result.Focus();
+            if (result != null)
+            {
+                result.Focus();
+                if (result is QQTextBox textBox) textBox.Reset();
+            }
         }
         internal void LbTitle_Paint(object sender, PaintEventArgs e)
         {

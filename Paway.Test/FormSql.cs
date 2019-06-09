@@ -62,7 +62,6 @@ namespace Paway.Test
                 list.Add(data);
             }
             Win32Helper.ActiveForm(this.Handle);
-            qqTextBox1.Focus();
         }
         private void BtInsert_Click(object sender, EventArgs e)
         {

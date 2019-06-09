@@ -751,7 +751,7 @@ namespace Paway.Forms
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
         private bool OnEditClick(ToolItem item, EventArgs e)
         {
-            if (!item.Enable && EditClick != null)
+            if (item.Enable && EditClick != null)
             {
                 EditClick.Invoke(item, e);
                 return true;
