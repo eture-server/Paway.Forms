@@ -463,7 +463,7 @@ namespace Paway.Forms
             this.gridview1.Location = new System.Drawing.Point(0, 0);
             this.gridview1.Name = "gridview1";
             this.gridview1.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
-            this.gridview1.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(197)))), ((int)(((byte)(228)))), ((int)(((byte)(237)))));
+            this.gridview1.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
             this.gridview1.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.gridview1.RowTemplate.Height = 32;
             this.gridview1.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;

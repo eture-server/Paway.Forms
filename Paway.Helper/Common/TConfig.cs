@@ -24,16 +24,10 @@ namespace Paway.Helper
         #endregion
 
         #region 全局配置
-
         /// <summary>
-        ///     获取或设置控件的背景色
+        ///     统一风格颜色（窗体）
         /// </summary>
-        public static Color? BackColor { get; set; }
-
-        /// <summary>
-        ///     获取或设置控件的前景色
-        /// </summary>
-        public static Color? ForeColor { get; set; }
+        public static Color? TBackColor { get; set; } = Color.CornflowerBlue;
 
         /// <summary>
         ///     颜色透明度且颜色不透明时应用此值
@@ -43,35 +37,15 @@ namespace Paway.Helper
         /// <summary>
         ///     移动控件(父)窗体
         /// </summary>
-        public static bool? IMouseMove { get; set; }
+        public static bool? IMouseMove { get; set; } = true;
 
         #endregion
 
         #region 加载全局属性
-
-        /// <summary>
-        ///     加载全局属性
-        /// </summary>
-        public static void Init(Control control)
-        {
-            if (BackColor != null)
-            {
-                control.BackColor = BackColor ?? Color.Empty;
-            }
-            if (ForeColor != null)
-            {
-                control.ForeColor = ForeColor ?? Color.Empty;
-            }
-            if (control is IControl)
-            {
-                Init(control as IControl);
-            }
-        }
-
         /// <summary>
         ///     加载IControl全局属性
         /// </summary>
-        private static void Init(IControl control)
+        public static void Init(IControl control)
         {
             if (Trans != null && control.Trans == 255)
             {

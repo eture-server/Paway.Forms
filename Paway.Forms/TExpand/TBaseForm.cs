@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Paway.Helper;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace Paway.Forms
             this.TMouseMove(this.panel1);
             lbTitle.Paint -= LbTitle_Paint;
             lbTitle.TextChanged += delegate { this.OnSizeChanged(EventArgs.Empty); };
+            if (TConfig.TBackColor != null) this.TBrush.ColorMove = TConfig.TBackColor ?? Color.Empty;
         }
         /// <summary>
         /// 激活第一个控件焦点

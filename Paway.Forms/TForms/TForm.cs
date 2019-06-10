@@ -236,7 +236,7 @@ namespace Paway.Forms
         protected void TMouseMove(Control control)
         {
             if (control == null) return;
-            if (control is IControl && !(control is TForm) && (control as IControl).IMouseMove) return;
+            if (control is IControl iControl && iControl.IMouseMove) return;
             control.MouseDown += Control_MouseDown;
         }
 
@@ -289,17 +289,12 @@ namespace Paway.Forms
             }
         }
 
-        private bool _iMousemove = true;
         /// <summary>
         ///     移动窗体
         /// </summary>
         [Browsable(false), Description("移动窗体")]
         [DefaultValue(true)]
-        public bool IMouseMove
-        {
-            get { return _iMousemove; }
-            set { _iMousemove = value; }
-        }
+        public bool IMouseMove { get; set; } = true;
 
         #endregion
 

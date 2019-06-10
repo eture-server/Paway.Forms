@@ -89,7 +89,6 @@
             this.toolBar1.Items.Add(toolItem4);
             this.toolBar1.ItemSize = new System.Drawing.Size(0, 32);
             this.toolBar1.Location = new System.Drawing.Point(0, 2);
-            this.toolBar1.MDirection = Paway.Helper.TMDirection.Up;
             this.toolBar1.Name = "toolBar1";
             this.toolBar1.Size = new System.Drawing.Size(535, 32);
             this.toolBar1.TabIndex = 69;

@@ -34,10 +34,7 @@ namespace Paway.Forms
         {
             Initialize();
             Padding = new Padding(1, 26, 1, 1);
-            if (IMouseMove)
-            {
-                TMouseMove(this);
-            }
+            if (IMouseMove) TMouseMove(this);
             StartPosition = FormStartPosition.CenterScreen;
             AutoScaleMode = AutoScaleMode.None;
             ForeColor = Color.White;

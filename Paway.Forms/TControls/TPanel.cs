@@ -13,7 +13,7 @@ namespace Paway.Forms
     ///     自定义基控件
     /// </summary>
     [Designer("System.Windows.Forms.Design.ParentControlDesigner, System.Design")]
-    public class TPanel : Control
+    public class TPanel : Panel
     {
         #region 构造
 
