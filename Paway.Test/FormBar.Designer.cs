@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Paway.Forms.ToolItem toolItem10 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem11 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
@@ -39,14 +37,16 @@
             Paway.Forms.ToolItem toolItem7 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem8 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem9 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem10 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem11 = new Paway.Forms.ToolItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.toolBar3 = new Paway.Forms.ToolBar();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.toolBar1 = new Paway.Forms.ToolBar();
             this.toolBar2 = new Paway.Forms.ToolBar();
-            this.toolBar3 = new Paway.Forms.ToolBar();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,6 +59,41 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(471, 230);
             this.panel1.TabIndex = 46;
+            // 
+            // toolBar3
+            // 
+            this.toolBar3.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.toolBar3.Font = new System.Drawing.Font("Tahoma", 15F);
+            this.toolBar3.IClickEvent = true;
+            toolItem1.Text = "确认";
+            this.toolBar3.Items.Add(toolItem1);
+            this.toolBar3.Items.Add(toolItem2);
+            this.toolBar3.Items.Add(toolItem3);
+            this.toolBar3.Items.Add(toolItem4);
+            this.toolBar3.Items.Add(toolItem5);
+            this.toolBar3.Items.Add(toolItem6);
+            this.toolBar3.Items.Add(toolItem7);
+            this.toolBar3.Items.Add(toolItem8);
+            this.toolBar3.Items.Add(toolItem9);
+            this.toolBar3.ItemSize = new System.Drawing.Size(65, 65);
+            this.toolBar3.ItemSpace = 5;
+            this.toolBar3.Location = new System.Drawing.Point(85, 6);
+            this.toolBar3.Name = "toolBar3";
+            this.toolBar3.Size = new System.Drawing.Size(234, 212);
+            this.toolBar3.TabIndex = 74;
+            this.toolBar3.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
+            this.toolBar3.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
+            this.toolBar3.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(215)))));
+            this.toolBar3.TextFirst.ColorDown = System.Drawing.Color.White;
+            this.toolBar3.TextFirst.ColorMove = System.Drawing.Color.Black;
+            this.toolBar3.TextFirst.ColorNormal = System.Drawing.Color.White;
+            this.toolBar3.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolBar3.TLineColor.ColorDown = System.Drawing.Color.Red;
+            this.toolBar3.TLineColor.ColorMove = System.Drawing.Color.Red;
+            this.toolBar3.TLineColor.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(145)))), ((int)(((byte)(197)))), ((int)(((byte)(238)))));
+            this.toolBar3.TLinePading = new System.Windows.Forms.Padding(3);
+            this.toolBar3.TRadiu = 65;
+            this.toolBar3.Trans = 150;
             // 
             // panel2
             // 
@@ -147,41 +182,6 @@
             this.toolBar2.TLinePading = new System.Windows.Forms.Padding(2);
             this.toolBar2.TRadiu = 110;
             this.toolBar2.Trans = 200;
-            // 
-            // toolBar3
-            // 
-            this.toolBar3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.toolBar3.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolBar3.IClickEvent = true;
-            toolItem1.Text = "确认";
-            this.toolBar3.Items.Add(toolItem1);
-            this.toolBar3.Items.Add(toolItem2);
-            this.toolBar3.Items.Add(toolItem3);
-            this.toolBar3.Items.Add(toolItem4);
-            this.toolBar3.Items.Add(toolItem5);
-            this.toolBar3.Items.Add(toolItem6);
-            this.toolBar3.Items.Add(toolItem7);
-            this.toolBar3.Items.Add(toolItem8);
-            this.toolBar3.Items.Add(toolItem9);
-            this.toolBar3.ItemSize = new System.Drawing.Size(65, 65);
-            this.toolBar3.ItemSpace = 5;
-            this.toolBar3.Location = new System.Drawing.Point(85, 6);
-            this.toolBar3.Name = "toolBar3";
-            this.toolBar3.Size = new System.Drawing.Size(234, 212);
-            this.toolBar3.TabIndex = 74;
-            this.toolBar3.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
-            this.toolBar3.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
-            this.toolBar3.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(215)))));
-            this.toolBar3.TextFirst.ColorDown = System.Drawing.Color.White;
-            this.toolBar3.TextFirst.ColorMove = System.Drawing.Color.Black;
-            this.toolBar3.TextFirst.ColorNormal = System.Drawing.Color.White;
-            this.toolBar3.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
-            this.toolBar3.TLineColor.ColorDown = System.Drawing.Color.Red;
-            this.toolBar3.TLineColor.ColorMove = System.Drawing.Color.Red;
-            this.toolBar3.TLineColor.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(145)))), ((int)(((byte)(197)))), ((int)(((byte)(238)))));
-            this.toolBar3.TLinePading = new System.Windows.Forms.Padding(3);
-            this.toolBar3.TRadiu = 65;
-            this.toolBar3.Trans = 150;
             // 
             // FormBar
             // 

@@ -41,14 +41,6 @@ namespace Paway.Forms
             UpdateStyles();
             toolTop = new ToolTip();
         }
-        /// <summary>
-        /// 应用配置
-        /// </summary>
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-            TConfig.Init(this);
-        }
 
         #endregion
 

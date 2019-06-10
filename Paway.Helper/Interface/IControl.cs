@@ -13,16 +13,6 @@ namespace Paway.Helper
         int Trans { get; set; }
 
         /// <summary>
-        ///     表示控件背景色
-        /// </summary>
-        Color BackColor { get; set; }
-
-        /// <summary>
-        ///     获取或设置控件显示的文字的字体
-        /// </summary>
-        Font Font { get; set; }
-
-        /// <summary>
         ///     移动控件(父)窗体
         /// </summary>
         bool IMouseMove { get; set; }

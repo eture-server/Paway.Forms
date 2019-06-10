@@ -337,8 +337,8 @@ namespace Paway.Forms
         ///     私有，自动设置
         /// </summary>
         [Description("获取和设置网格线的颜色")]
-        [DefaultValue(typeof(Color), "LightBlue")]
-        private new Color GridColor
+        [Browsable(false), DefaultValue(typeof(Color), "149, 204, 223")]
+        public new Color GridColor
         {
             get { return base.GridColor; }
             set { base.GridColor = value; }

@@ -22,8 +22,6 @@ namespace Paway.Forms
         public TControl()
         {
             Licence.Checking();
-            IFixedBackground = false;
-            IMouseMove = false;
             SetStyle(
                 ControlStyles.UserPaint |
                 ControlStyles.AllPaintingInWmPaint |
@@ -402,7 +400,6 @@ namespace Paway.Forms
         {
             ILoad = true;
             base.OnLoad(e);
-            TConfig.Init(this);
             if (DesignMode) return;
             MChild();
         }
