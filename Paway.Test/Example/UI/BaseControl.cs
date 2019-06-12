@@ -24,19 +24,20 @@ namespace Paway.Test
         }
 
         #region 外部刷新事件
-        protected virtual void OnRefresh(MEventArgs m) { }
-        public override void Refresh(object sender, EventArgs e)
+        protected virtual bool OnRefresh(MEventArgs m) { return true; }
+        public override bool Refresh(object sender, EventArgs e)
         {
             MEventArgs m = e as MEventArgs;
-            if (m == null) return;
+            if (m == null) return true;
             try
             {
-                OnRefresh(m);
+                return OnRefresh(m);
             }
             catch (Exception ex)
             {
                 ExceptionHelper.Show(ex);
             }
+            return true;
         }
 
         #endregion

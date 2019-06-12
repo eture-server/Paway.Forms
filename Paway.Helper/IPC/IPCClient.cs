@@ -17,7 +17,7 @@ namespace Paway.Helper
         /// <summary>
         ///     接口实例
         /// </summary>
-        public T Object { get; private set; }
+        public T Obj { get; private set; }
 
         /// <summary>
         ///     连接状态
@@ -27,7 +27,7 @@ namespace Paway.Helper
         /// <summary>
         ///     创建一个IPC信道。
         /// </summary>
-        public void Connect(string name)
+        public virtual void Connect(string name)
         {
             try
             {
@@ -41,9 +41,8 @@ namespace Paway.Helper
                 };
                 channel = new IpcChannel(props, clientProvider, serverProvider);
                 ChannelServices.RegisterChannel(channel, true);
-                Object = Activator.GetObject(typeof(T), string.Format("ipc://ServerChannel-Server.{0}/IPCObject", name)) as T;
-                if (Object != null)
-                    IConnected = true;
+                Obj = Activator.GetObject(typeof(T), string.Format("ipc://ServerChannel-Server.{0}/IPCObject", name)) as T;
+                IConnected = Obj != null;
             }
             catch (Exception)
             {
@@ -54,7 +53,7 @@ namespace Paway.Helper
         /// <summary>
         ///     断开IPC连接
         /// </summary>
-        public void Stop()
+        public virtual void Stop()
         {
             if (channel != null)
             {
@@ -62,7 +61,7 @@ namespace Paway.Helper
                 channel.StopListening(null);
             }
             channel = null;
-            Object = null;
+            Obj = null;
             IConnected = false;
         }
 

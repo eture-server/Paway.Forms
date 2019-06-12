@@ -25,7 +25,7 @@ namespace Paway.Helper
         ///     启动
         ///     默认单实例
         /// </summary>
-        public void Start()
+        public virtual void Start()
         {
             Start(WellKnownObjectMode.Singleton);
         }
@@ -33,7 +33,7 @@ namespace Paway.Helper
         /// <summary>
         ///     启动
         /// </summary>
-        public void Start(WellKnownObjectMode mode)
+        public virtual void Start(WellKnownObjectMode mode)
         {
             var serverProvider = new BinaryServerFormatterSinkProvider();
             var clientProvider = new BinaryClientFormatterSinkProvider();
@@ -53,7 +53,7 @@ namespace Paway.Helper
         /// <summary>
         ///     停止服务
         /// </summary>
-        public void Stop()
+        public virtual void Stop()
         {
             if (serverChannel != null)
             {

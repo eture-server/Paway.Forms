@@ -68,9 +68,7 @@ namespace Paway.Forms
         /// <summary>
         ///     刷新数据
         /// </summary>
-        public virtual void Refresh(object sender, EventArgs e)
-        {
-        }
+        public virtual bool Refresh(object sender, EventArgs e) { return true; }
 
         /// <summary>
         ///     调用委托
@@ -398,15 +396,16 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     刷新所有控件数据
+        ///     刷新所有控件数据（返回false，响应控件可取消/中止）
         /// </summary>
-        public static void RefreshAll(object sender, EventArgs e)
+        public static bool RefreshAll(object sender, EventArgs e)
         {
             for (var i = 0; i < _list.Count; i++)
             {
                 var item = _list.Keys.ElementAt(i);
-                _list[item].Refresh(sender, e);
+                if (!_list[item].Refresh(sender, e)) return false;
             }
+            return true;
         }
 
         #endregion

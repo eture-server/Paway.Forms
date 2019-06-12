@@ -49,15 +49,15 @@ namespace Paway.Helper
         /// <summary>
         ///     检查文件创建日期，过期无效
         /// </summary>
-        public static void Checking()
+        public static void Checking(bool ithrow = false)
         {
-            Checking(30);
+            Checking(30, ithrow);
         }
 
         /// <summary>
         ///     检查文件创建日期，过期无效
         /// </summary>
-        public static void Checking(int days)
+        public static void Checking(int days, bool ithrow = false)
         {
             EncryptHelper.EncryptMD5(days.ToString());
             var file = new FileInfo(Assembly.GetExecutingAssembly().Location);
@@ -65,7 +65,7 @@ namespace Paway.Helper
             //全球时间24小时以内
             if (ts < new TimeSpan(0, -24, 0, 0) || ts > new TimeSpan(days, 0, 0, 0))
             {
-                //throw new LicenseException(type);
+                if (ithrow) throw new LicenseException(typeof(Licence));
             }
         }
     }

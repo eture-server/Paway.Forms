@@ -41,6 +41,14 @@ namespace Paway.Forms
             UpdateStyles();
             toolTop = new ToolTip();
         }
+        /// <summary>
+        /// 应用配置
+        /// </summary>
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            TConfig.Init(this);
+        }
 
         #endregion
 
@@ -228,7 +236,7 @@ namespace Paway.Forms
         protected void TMouseMove(Control control)
         {
             if (control == null) return;
-            if (control is IControl iControl && iControl.IMouseMove) return;
+            if (control is IControl iControl && !(control is TForm) && iControl.IMouseMove) return;
             control.MouseDown += Control_MouseDown;
         }
 
