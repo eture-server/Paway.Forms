@@ -9,7 +9,7 @@ namespace Paway.Forms
     /// <summary>
     ///     自定义圆形进度条
     /// </summary>
-    public class TProgressBar : TPanel
+    public class TProgressBar : TControl
     {
         #region 变量
 

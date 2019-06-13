@@ -11,7 +11,7 @@ namespace Paway.Forms
     /// <summary>
     ///     TComboBox+边框
     /// </summary>
-    public class TComboBox : TPanel
+    public class TComboBox : TControl
     {
         #region override
         private readonly Image moveImage = Resources.QQ_TextBox_move;

@@ -118,7 +118,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="TControls\TProgressBar.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="TControls\TProperties.cs" />
     <Compile Include="TControls\MControl.cs">
@@ -128,7 +128,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="TControls\TComboBox.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="TControls\TDataGridView.cs">
       <SubType>Component</SubType>
@@ -146,7 +146,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="TControls\TNumTestBox.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\AssemblyVersion.cs">
@@ -162,7 +162,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="QQControls\QQTextBox.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="TForms\AboutForm.cs">
       <SubType>Form</SubType>

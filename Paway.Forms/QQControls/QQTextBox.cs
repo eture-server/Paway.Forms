@@ -11,7 +11,7 @@ namespace Paway.Forms
 {
     /// <summary>
     /// </summary>
-    public class QQTextBox : TPanel
+    public class QQTextBox : TControl
     {
         #region 变量
 
@@ -225,8 +225,6 @@ namespace Paway.Forms
                 base.Font = value;
                 BaseText.Font = value;
                 UpdateHeight();
-                Invalidate();
-                BaseText.Location = new Point(3, 4);
             }
         }
 
@@ -240,6 +238,11 @@ namespace Paway.Forms
                 var hight = TextRenderer.MeasureText("你好", Font).Height;
                 Height = hight + 8;
             }
+            BaseText.Size = new Size(Size.Width - 6, Size.Height - 8);
+            _iconRect.Y = (Height - _iconRect.Height) / 2;
+            PositionTextBox();
+            Invalidate();
+            BaseText.Location = new Point(3, 4);
         }
 
         /// <summary>
@@ -280,25 +283,8 @@ namespace Paway.Forms
                     value = new Size(166, 24);
                 }
                 base.Size = value;
-                var width = TextRenderer.MeasureText("你好", Font).Width;
-                BaseText.Size = new Size(value.Width - width / 4, value.Height - 8);
                 UpdateHeight();
-                _iconRect.Y = (Height - _iconRect.Height) / 2;
-                PositionTextBox();
-                Invalidate();
-                BaseText.Location = new Point(3, 4);
             }
-        }
-
-        /// <summary>
-        ///     获取或设置控件内的空白。
-        /// </summary>
-        [Description("获取或设置控件内的空白")]
-        [DefaultValue(typeof(Padding), "0,0,0,3")]
-        public new Padding Padding
-        {
-            get { return base.Padding; }
-            set { base.Padding = value; }
         }
 
         #endregion
@@ -398,11 +384,21 @@ namespace Paway.Forms
             set
             {
                 _isTrans = value;
-                if (Parent != null)
-                    BaseText.BackColor = value ? Parent.BackColor : BackColor;
-                BackColor = value ? Color.Transparent : BackColor;
-                Invalidate();
+                UpdateTran();
             }
+        }
+        private void UpdateTran()
+        {
+            if (_isTrans) BaseText.BackColor = ParentColor(Parent);
+            else BaseText.BackColor = BackColor;
+            BackColor = _isTrans ? Color.Transparent : BackColor;
+            Invalidate();
+        }
+        private Color ParentColor(Control panent)
+        {
+            if (panent == null) return Color.Transparent;
+            if (panent.BackColor != Color.Transparent) return panent.BackColor;
+            return ParentColor(panent.Parent);
         }
 
         /// <summary>
@@ -504,7 +500,6 @@ namespace Paway.Forms
         {
             InitializeComponent();
             InitEvents();
-            Padding = new Padding(0, 0, 0, 3);
             ForeColor = Color.Black;
             BackColor = Color.Transparent;
             this.GotFocus += delegate { Edit.Focus(); };
@@ -750,6 +745,15 @@ namespace Paway.Forms
         #endregion
 
         #region Override Methods
+        /// <summary>
+        ///     控件背景
+        /// </summary>
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            if (_isTrans) UpdateTran();
+        }
+
         /// <summary>
         /// </summary>
         /// <param name="e"></param>

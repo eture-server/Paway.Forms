@@ -298,10 +298,10 @@ namespace Paway.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            Paway.Forms.ToolItem toolItem5 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem6 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem7 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem8 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
             this.lblPageInfo = new System.Windows.Forms.Label();
             this.tControl1 = new Paway.Forms.TPanel();
             this.toolEnd = new Paway.Forms.ToolBar();
@@ -346,9 +346,9 @@ namespace Paway.Forms
             // 
             this.toolEnd.Dock = System.Windows.Forms.DockStyle.Left;
             this.toolEnd.IClickEvent = true;
-            toolItem5.Hit = "End";
-            toolItem5.Text = ">|";
-            this.toolEnd.Items.Add(toolItem5);
+            toolItem1.Hit = "End";
+            toolItem1.Text = ">|";
+            this.toolEnd.Items.Add(toolItem1);
             this.toolEnd.ItemSize = new System.Drawing.Size(30, 24);
             this.toolEnd.ItemSpace = 5;
             this.toolEnd.Location = new System.Drawing.Point(153, 0);
@@ -372,9 +372,9 @@ namespace Paway.Forms
             // 
             this.toolNext.Dock = System.Windows.Forms.DockStyle.Left;
             this.toolNext.IClickEvent = true;
-            toolItem6.Hit = "Next";
-            toolItem6.Text = ">";
-            this.toolNext.Items.Add(toolItem6);
+            toolItem2.Hit = "Next";
+            toolItem2.Text = ">";
+            this.toolNext.Items.Add(toolItem2);
             this.toolNext.ItemSize = new System.Drawing.Size(30, 24);
             this.toolNext.ItemSpace = 5;
             this.toolNext.Location = new System.Drawing.Point(123, 0);
@@ -396,7 +396,6 @@ namespace Paway.Forms
             // 
             // tControl2
             // 
-            this.tControl2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
             this.tControl2.Controls.Add(this.txtCurrentPage);
             this.tControl2.Dock = System.Windows.Forms.DockStyle.Left;
             this.tControl2.Location = new System.Drawing.Point(80, 0);
@@ -407,14 +406,14 @@ namespace Paway.Forms
             // 
             // txtCurrentPage
             // 
-            this.txtCurrentPage.Dock = System.Windows.Forms.DockStyle.Left;
+            this.txtCurrentPage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtCurrentPage.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.txtCurrentPage.ITrans = true;
             this.txtCurrentPage.Lines = new string[] {
         "0"};
             this.txtCurrentPage.Location = new System.Drawing.Point(0, 4);
             this.txtCurrentPage.MaxLength = 10;
             this.txtCurrentPage.Name = "txtCurrentPage";
-            this.txtCurrentPage.Padding = new System.Windows.Forms.Padding(0);
             this.txtCurrentPage.Size = new System.Drawing.Size(43, 26);
             this.txtCurrentPage.TabIndex = 27;
             this.txtCurrentPage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -423,9 +422,9 @@ namespace Paway.Forms
             // 
             this.toolLast.Dock = System.Windows.Forms.DockStyle.Left;
             this.toolLast.IClickEvent = true;
-            toolItem7.Hit = "Last";
-            toolItem7.Text = "<";
-            this.toolLast.Items.Add(toolItem7);
+            toolItem3.Hit = "Last";
+            toolItem3.Text = "<";
+            this.toolLast.Items.Add(toolItem3);
             this.toolLast.ItemSize = new System.Drawing.Size(30, 24);
             this.toolLast.ItemSpace = 5;
             this.toolLast.Location = new System.Drawing.Point(50, 0);
@@ -449,9 +448,9 @@ namespace Paway.Forms
             // 
             this.toolFirst.Dock = System.Windows.Forms.DockStyle.Left;
             this.toolFirst.IClickEvent = true;
-            toolItem8.Hit = "First";
-            toolItem8.Text = "|<";
-            this.toolFirst.Items.Add(toolItem8);
+            toolItem4.Hit = "First";
+            toolItem4.Text = "|<";
+            this.toolFirst.Items.Add(toolItem4);
             this.toolFirst.ItemSize = new System.Drawing.Size(30, 24);
             this.toolFirst.Location = new System.Drawing.Point(20, 0);
             this.toolFirst.Name = "toolFirst";
