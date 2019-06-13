@@ -37,7 +37,7 @@ namespace Paway.Helper
         /// <summary>
         ///     移动控件(父)窗体
         /// </summary>
-        public static bool? IMouseMove { get; set; } = true;
+        public static bool? IMouseMove { get; set; }
 
         #endregion
 
