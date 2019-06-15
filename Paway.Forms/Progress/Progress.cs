@@ -40,9 +40,11 @@ namespace Paway.Forms
             ProgressForm progressForm = new ProgressForm(states);
             while (!IStop)
             {
-                progressForm.Text = string.Format("Progress.{0}.{1}", progressForm.Handle, progressForm.WindowToWatch);
-
-                Application.DoEvents();
+                if (progressForm.Visible || states.Count > 0)
+                {
+                    progressForm.Text = string.Format("Progress.{0}.{1}", progressForm.Handle, progressForm.WindowToWatch);
+                    Application.DoEvents();
+                }
                 Thread.Sleep(40);
             }
             progressForm.Close();

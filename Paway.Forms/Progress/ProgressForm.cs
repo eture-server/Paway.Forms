@@ -13,7 +13,13 @@ namespace Paway.Forms
 {
     internal partial class ProgressForm : TForm
     {
-        private double _opacitySpeed;
+        /// <summary>
+        /// 显示/隐藏速度
+        /// </summary>
+        private double _opacitySpeed = 0.2;
+        /// <summary>
+        /// 显示/隐藏目标透明度
+        /// </summary>
         private double _targetOpacity;
         private readonly Timer timer = null;
         private readonly ProgressStates states;
@@ -28,6 +34,8 @@ namespace Paway.Forms
             this.states = states;
             this.Location = new Point(-1000, -1000);
             this.StartPosition = FormStartPosition.Manual;
+            this.Opacity = 0;
+            this.TopMost = true;
             this.TMouseMove(this);
             this.TMouseMove(lbCaption);
             this.TMouseMove(progressBar1);
@@ -121,7 +129,6 @@ namespace Paway.Forms
                     }
                     lbCaption.Text = this.Caption;
                     toolCancel.Visible = this.ITime;
-                    Application.DoEvents();
                 }
             }
             catch

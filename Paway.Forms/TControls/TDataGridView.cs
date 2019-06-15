@@ -1008,7 +1008,14 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     合并列
+        /// 取消合并列
+        /// </summary>
+        public void ClearSpanHeader()
+        {
+            SpanRows.Clear();
+        }
+        /// <summary>
+        /// 合并列
         /// </summary>
         /// <param name="ColIndex">列的索引</param>
         /// <param name="ColCount">需要合并的列数</param>

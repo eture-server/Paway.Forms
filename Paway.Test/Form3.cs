@@ -41,7 +41,7 @@ namespace Paway.Test
             toolBar1.MStart();
             using (new Progress())
             {
-                Thread.Sleep(5000);
+                Thread.Sleep(2000);
             }
         }
     }
