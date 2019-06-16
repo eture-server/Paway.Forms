@@ -46,6 +46,7 @@ namespace Paway.Helper
         /// </summary>
         public static Image BytesToImage(byte[] buffer)
         {
+            if (buffer == null || buffer.Length == 0) return null;
             MemoryStream ms = new MemoryStream(buffer);
             Image image = Image.FromStream(ms);
             return image;
@@ -55,6 +56,7 @@ namespace Paway.Helper
         /// </summary>
         public static byte[] ImageToBytes(Image image)
         {
+            if (image == null) return null;
             using (MemoryStream ms = new MemoryStream())
             {
                 ImageFormat format = image.RawFormat;

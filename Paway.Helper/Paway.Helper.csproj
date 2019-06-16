@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\CodeTimer.cs" />
+    <Compile Include="Common\DataTableEntityBuilder.cs" />
     <Compile Include="Common\RowComparer.cs" />
     <Compile Include="Common\Compare.cs" />
     <Compile Include="Common\Licence.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Enum\TDirection.cs" />
     <Compile Include="Enum\TMouseState.cs" />
     <Compile Include="Enum\TSysButton.cs" />
+    <Compile Include="Helper\CloneHelper.cs" />
     <Compile Include="Helper\LoadHelper.cs" />
     <Compile Include="Helper\ExceptionHelper.cs" />
     <Compile Include="Helper\ExcelHelper.cs" />

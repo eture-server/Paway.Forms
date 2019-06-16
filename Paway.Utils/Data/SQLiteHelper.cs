@@ -83,17 +83,10 @@ namespace Paway.Utils
         #region 扩展重载
         /// <summary>
         ///     查找指定查询语句
-        ///     填充 System.Data.DataSet 并返回一个List列表
-        /// </summary>
-        public override List<T> Find<T>(string find, int count, DbCommand cmd = null, params string[] args)
-        {
-            return base.Find<T>(find, count, true, cmd, args);
-        }
-        /// <summary>
-        ///     查找指定查询语句
         ///     填充 System.Data.DataSet 并返回一个DataTable
+        ///     标记是否使用Limit查找指定数量
         /// </summary>
-        public override DataTable FindTable<T>(string find, int count, DbCommand cmd = null, params string[] args)
+        protected override DataTable FindTable<T>(string find, int count, bool iLimit, DbCommand cmd = null, params string[] args)
         {
             return base.FindTable<T>(find, count, true, cmd, args);
         }

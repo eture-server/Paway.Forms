@@ -405,16 +405,9 @@ namespace Paway.Utils
         /// <summary>
         ///     填充 System.Data.DataSet 并返回一个List列表
         /// </summary>
-        public List<T> Find<T>(params string[] args)
-        {
-            return Find<T>(null, null, args);
-        }
-        /// <summary>
-        ///     填充 System.Data.DataSet 并返回一个List列表
-        /// </summary>
         public List<T> Find<T>(DbCommand cmd = null, params string[] args)
         {
-            return Find<T>(null, 0, false, cmd, args);
+            return Find<T>(null, 0, cmd, args);
         }
         /// <summary>
         ///     填充 System.Data.DataSet 并返回一个DataTable
@@ -438,7 +431,7 @@ namespace Paway.Utils
         /// </summary>
         public List<T> Find<T>(string find, DbCommand cmd = null, params string[] args)
         {
-            return Find<T>(find, 0, false, cmd, args);
+            return Find<T>(find, 0, cmd, args);
         }
         /// <summary>
         ///     填充 System.Data.DataSet 并返回一个DataTable
@@ -448,73 +441,23 @@ namespace Paway.Utils
         {
             return FindTable<T>(find, 0, false, cmd, args);
         }
-
         /// <summary>
         ///     填充 System.Data.DataSet 并返回一个List列表
         ///     查找指定查询语句
         ///     指定返回行数
         /// </summary>
-        public abstract List<T> Find<T>(string find, int count, DbCommand cmd = null, params string[] args);
-        /// <summary>
-        ///     填充 System.Data.DataSet 并返回一个List列表
-        ///     查找指定查询语句
-        ///     指定返回行数
-        /// </summary>
-        public abstract DataTable FindTable<T>(string find, int count, DbCommand cmd = null, params string[] args);
-
-        /// <summary>
-        ///     填充 System.Data.DataSet 并返回一个List列表
-        ///     查找指定查询语句
-        ///     指定返回行数
-        ///     是否SQLite
-        /// </summary>
-        protected List<T> Find<T>(string find, int count, bool isSQLite, DbCommand cmd = null, params string[] args)
+        public List<T> Find<T>(string find, int count, DbCommand cmd = null, params string[] args)
         {
-            var iTrans = cmd == null;
-            string sql = null;
-            try
-            {
-                if (iTrans) cmd = CommandStart();
-
-                if (isSQLite)
-                {
-                    sql = DataBaseHelper.Select<T>(find, args);
-                    if (count > 0)
-                    {
-                        sql = string.Format("{0} limit {1}", sql, count);
-                    }
-                }
-                else
-                {
-                    sql = DataBaseHelper.Select<T>(find, count, args);
-                }
-                cmd.CommandText = sql;
-                OnCommandText(cmd);
-                using (var dr = cmd.ExecuteReader())
-                {
-                    DataTable table = new DataTable();
-                    table.Load(dr);
-                    return table.ToList<T>();
-                }
-            }
-            catch (Exception ex)
-            {
-                log.ErrorFormat("Find.Error[{0}]\r\n{1}", sql, ex);
-                throw;
-            }
-            finally
-            {
-                if (iTrans) CommandEnd(cmd);
-                else cmd.CommandText = string.Empty;
-            }
+            var table = FindTable<T>(find, count, false, cmd, args);
+            return table.ToList<T>();
         }
         /// <summary>
         ///     填充 System.Data.DataSet 并返回一个List列表
         ///     查找指定查询语句
         ///     指定返回行数
-        ///     是否SQLite
+        ///     标记是否使用Limit查找指定数量
         /// </summary>
-        protected DataTable FindTable<T>(string find, int count, bool isSQLite, DbCommand cmd = null, params string[] args)
+        protected virtual DataTable FindTable<T>(string find, int count, bool iLimit, DbCommand cmd = null, params string[] args)
         {
             Type type = typeof(T);
             var iTrans = cmd == null;
@@ -523,7 +466,7 @@ namespace Paway.Utils
             {
                 if (iTrans) cmd = CommandStart();
 
-                if (isSQLite)
+                if (iLimit)
                 {
                     sql = DataBaseHelper.Select<T>(find, args);
                     if (count > 0)
@@ -539,10 +482,11 @@ namespace Paway.Utils
                 OnCommandText(cmd);
                 using (var dr = cmd.ExecuteReader())
                 {
-                    var table = type.CreateTable();
+                    var table = type.CreateTable(true);
                     table.Load(dr);
-                    table.PrimaryKey = new DataColumn[] { table.Columns[type.TableKey()] };
-                    table.PrimaryKey = null;
+                    //未知处理
+                    //table.PrimaryKey = new DataColumn[] { table.Columns[type.TableKey()] };
+                    //table.PrimaryKey = null;
                     return table;
                 }
             }
@@ -914,8 +858,7 @@ namespace Paway.Utils
             {
                 if (property.ISelect(out string column))
                 {
-                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
-
+                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) == null) continue;
                     sql = string.Format("{0} [{1}],", sql, column);
                 }
             }
@@ -982,8 +925,7 @@ namespace Paway.Utils
                 if (property.ISelect(out string column))
                 {
                     if (column == attr.Key) continue;
-                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
-
+                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) == null) continue;
                     var descriptor = descriptors.Find(c => c.Name == property.Name);
                     if (t.IsNull(descriptor))
                     {
@@ -1019,8 +961,7 @@ namespace Paway.Utils
                 if (property.ISelect(out string column))
                 {
                     if (column == attr.Key) continue;
-                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
-
+                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) == null) continue;
                     if (row.IsNull(property))
                     {
                         sql = string.Format("{0} [{1}]=NULL,", sql, column);
@@ -1090,8 +1031,7 @@ namespace Paway.Utils
                 if (property.ISelect(out string column))
                 {
                     if (column == key) continue;
-                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
-
+                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) == null) continue;
                     insert = string.Format("{0}[{1}],", insert, column);
                     value = string.Format("{0}@{1},", value, column);
                 }
@@ -1107,12 +1047,10 @@ namespace Paway.Utils
             foreach (var property in properties)
             {
                 if (row.IsNull(property)) continue;
-
                 if (property.ISelect(out string column))
                 {
                     if (column == key) continue;
-                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
-
+                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) == null) continue;
                     insert = string.Format("{0}[{1}],", insert, column);
                     value = string.Format("{0}@{1},", value, column);
                 }
@@ -1138,7 +1076,6 @@ namespace Paway.Utils
                 if (property.ISelect(out string column))
                 {
                     if (column != key) continue;
-
                     var descriptor = descriptors.Find(c => c.Name == property.Name);
                     if (descriptor.PropertyType == typeof(int))
                     {
@@ -1169,7 +1106,6 @@ namespace Paway.Utils
                 if (property.ISelect(out string column))
                 {
                     if (column != key) continue;
-
                     row[property.Name] = value;
                     return true;
                 }
@@ -1220,13 +1156,11 @@ namespace Paway.Utils
             foreach (var descriptor in descriptors)
             {
                 if (!t.IsValue(descriptor, out object value)) continue;
-
                 var property = properties.Find(c => c.Name == descriptor.Name);
                 if (property.ISelect(out string column))
                 {
                     //Key必须要
-                    if (key != column && args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
-
+                    if (args.Length > 0 && key != column && args.FirstOrDefault(c => c == column) == null) continue;
                     var param = AddParameter(asmb, ptype, column, value);
                     pList.Add(param);
                 }
@@ -1248,12 +1182,10 @@ namespace Paway.Utils
             foreach (var property in properties)
             {
                 if (!row.IsValue(property, out object value)) continue;
-
                 if (property.ISelect(out string column))
                 {
                     //Key必须要
-                    if (key != column && args.Length > 0 && args.FirstOrDefault(c => c == column) != column) continue;
-
+                    if (args.Length > 0 && key != column && args.FirstOrDefault(c => c == column) == null) continue;
                     var param = AddParameter(asmb, ptype, column, value);
                     pList.Add(param);
                 }

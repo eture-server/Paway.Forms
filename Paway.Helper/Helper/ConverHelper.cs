@@ -413,34 +413,20 @@ namespace Paway.Helper
             return pList;
         }
 
-
-        /// <summary>
-        /// 多行加到新的DataTable
-        /// </summary>
-        public static DataTable ToDataTable(this DataRow[] rows)
-        {
-            if (rows == null || rows.Length == 0) return null;
-            // 复制DataRow的表结构
-            DataTable table = rows[0].Table.Clone();
-            foreach (DataRow row in rows)
-            {
-                // 将DataRow添加到DataTable中
-                table.ImportRow(row);
-            }
-            return table;
-        }
         /// <summary>
         ///     将指定类型转为DataTable
         /// </summary>
         /// <returns></returns>
-        public static DataTable CreateTable(this Type type)
+        public static DataTable CreateTable(this Type type, bool sql = false)
         {
             var table = new DataTable(type.Name);
             var properties = type.Properties();
             foreach (var property in properties)
             {
                 if (property.PropertyType.IsGenericType) continue;
-                table.Columns.Add(property.Column(), property.PropertyType);
+                var pType = property.PropertyType;
+                if (sql && (pType == typeof(Image) || pType == typeof(Bitmap))) pType = typeof(byte[]);
+                table.Columns.Add(property.Column(), pType);
             }
             return table;
         }
@@ -485,8 +471,7 @@ namespace Paway.Helper
                 for (int j = 0; j < table.Rows.Count; j++)
                 {
                     var value = descriptor.GetValue(list[j]);
-                    lock (table)
-                        table.Rows[j][property.Name] = value;
+                    table.Rows[j][property.Name] = value;
                 }
             }
             return table;
@@ -534,8 +519,7 @@ namespace Paway.Helper
                 for (int j = 0; j < table.Rows.Count; j++)
                 {
                     var value = descriptor.GetValue(list[j]);
-                    lock (table)
-                        table.Rows[j][name] = value;
+                    table.Rows[j][name] = value;
                 }
             }
             return table;
@@ -563,8 +547,7 @@ namespace Paway.Helper
         /// </summary>
         public static DataRow CreateItem<T>(this Type type, T t, DataTable table = null)
         {
-            if (table == null)
-                table = type.CreateTable();
+            if (table == null) table = type.CreateTable();
             DataRow row = table.NewRow();
             var properties = type.Properties();
             var descriptors = type.Descriptors();
@@ -581,34 +564,18 @@ namespace Paway.Helper
         /// <summary>
         ///     将DataTable转为IList
         /// </summary>
-        public static List<T> ToList<T>(this DataTable table, int count = int.MaxValue)
+        public static List<T> ToList<T>(this DataTable table, int? count = null)
         {
-            if (table == null)
-            {
-                return null;
-            }
+            if (table == null) return null;
             if (count > table.Rows.Count) count = table.Rows.Count;
             List<T> list = new List<T>();
-            var type = typeof(T);
-            var properties = type.Properties();
-            var descriptors = type.Descriptors();
-            for (int i = 0; i < count; i++)
+            if (table.Rows.Count > 0)
             {
-                list.Add(Activator.CreateInstance<T>());
-            }
-            foreach (var property in properties)
-            {
-                string name = property.Column();
-                var descriptor = descriptors.Find(c => c.Name == property.Name);
-                foreach (DataColumn column in table.Columns)
+                var builder = DataTableEntityBuilder<T>.CreateBuilder(table.Rows[0]);
+                foreach (DataRow dr in table.Rows)
                 {
-                    if (name != column.ColumnName) continue;
-                    for (var j = 0; j < list.Count; j++)
-                    {
-                        var value = table.Rows[j][column.ColumnName];
-                        list[j].SetValue(descriptor, value);
-                    }
-                    break;
+                    list.Add(builder.Build(dr));
+                    if (count != null && list.Count == count) break;
                 }
             }
             return list;
@@ -816,7 +783,7 @@ namespace Paway.Helper
         /// <summary>
         /// 自定义不复制列标记
         /// </summary>
-        private static bool IClone(this MemberInfo pro)
+        public static bool IClone(this MemberInfo pro)
         {
             var list = pro.GetCustomAttributes(typeof(NoCloneAttribute), false) as NoCloneAttribute[];
             return list.Length == 0;
@@ -824,7 +791,7 @@ namespace Paway.Helper
 
         #endregion
 
-        #region Clone
+        #region Equals
         /// <summary>
         ///     返回泛型实参数类型
         /// </summary>
@@ -851,15 +818,15 @@ namespace Paway.Helper
         /// <summary>
         /// 判断值是否相等
         /// </summary>
-        public static bool ValueEquals<T>(this T t, T temp, bool child = false)
+        public static bool TEquals<T>(this T t, T temp, bool child = false)
         {
             var type = typeof(T);
-            return type.ValueEquals(t, temp, child);
+            return type.TEquals(t, temp, child);
         }
         /// <summary>
         /// 判断值是否相等
         /// </summary>
-        private static bool ValueEquals(this Type parent, object t, object temp, bool child)
+        private static bool TEquals(this Type parent, object t, object temp, bool child)
         {
             var properties = parent.Properties();
             var descriptors = parent.Descriptors();
@@ -879,105 +846,16 @@ namespace Paway.Helper
                     if (tlist.Count != list.Count) return false;
                     for (var i = 0; i < list.Count; i++)
                     {
-                        if (!list[i].ValueEquals(tlist[i], child)) return false;
+                        if (!list[i].TEquals(tlist[i], child)) return false;
                     }
                 }
                 else if (value != null && !value.GetType().IsValueType && value.GetType() != typeof(string))
                 {
                     var type = value.GetType();
-                    if (!type.ValueEquals(value, tempValue, child)) return false;
+                    if (!type.TEquals(value, tempValue, child)) return false;
                 }
             }
             return true;
-        }
-
-        /// <summary>
-        ///     一般复制
-        /// </summary>
-        public static T Clone<T>(this T t, object copy = null)
-        {
-            return t.Clone(false, copy);
-        }
-
-        /// <summary>
-        ///     深度复制：引用、IList子级。
-        ///     不要使用嵌套参数
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="t"></param>
-        /// <param name="child">是否深度复制 引用、IList子级</param>
-        /// <param name="copy"></param>
-        /// <returns></returns>
-        public static T Clone<T>(this T t, bool child, object copy = null)
-        {
-            var type = typeof(T);
-            var asmb = Assembly.GetAssembly(type);
-            if (copy == null)
-                copy = asmb.CreateInstance(type.FullName);
-            type.Clone(copy, t, child);
-
-            return (T)copy;
-        }
-
-        /// <summary>
-        ///     复制子级
-        /// </summary>
-        private static void Clone(this Type parent, object copy, object t, bool child)
-        {
-            var properties = parent.Properties();
-            var descriptors = parent.Descriptors();
-            foreach (var property in properties)
-            {
-                if (!property.IClone()) continue;
-
-                var descriptor = descriptors.Find(c => c.Name == property.Name);
-                var value = descriptor.GetValue(t);
-                descriptor.SetValue(copy, value);
-                if (!child) continue;
-                if (value is IList)
-                {
-                    var clist = descriptor.GetValue(copy) as IList;
-                    clist.Clear();
-                    var list = value as IList;
-                    var type = list.GenericType();
-                    var asmb = Assembly.GetAssembly(type);
-                    for (var j = 0; j < list.Count; j++)
-                    {
-                        if (!type.IsValueType && type != typeof(string))
-                        {
-                            var obj = asmb.CreateInstance(type.FullName);
-                            type.Clone(obj, list[j], child);
-                            clist.Add(obj);
-                        }
-                        else
-                        {
-                            clist.Add(list[j]);
-                        }
-                    }
-                }
-                else if (value != null && !value.GetType().IsValueType && value.GetType() != typeof(string))
-                {
-                    var type = value.GetType();
-                    var asmb = Assembly.GetAssembly(type);
-                    var obj = asmb.CreateInstance(type.FullName);
-                    type.Clone(obj, value, child);
-                }
-            }
-        }
-
-        /// <summary>
-        ///     从实体类复制到DataRow
-        ///     是否同步复制开关
-        /// </summary>
-        public static void Clone<T>(this DataRow row, DataRow copy, bool aysc = true)
-        {
-            var type = typeof(T);
-            var properties = type.Properties();
-            foreach (var property in properties)
-            {
-                if (aysc && !property.IClone()) continue;
-                copy[property.Name] = row[property.Name];
-            }
         }
 
         #endregion
