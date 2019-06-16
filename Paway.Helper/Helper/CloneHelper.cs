@@ -60,6 +60,25 @@ namespace Paway.Helper
 
             generator.Emit(OpCodes.Newobj, cInfo);
             generator.Emit(OpCodes.Stloc_0);
+            GetFuncEmit(generator, type);
+            while (type.BaseType != null)
+            {//获取父类属性
+                type = type.BaseType;
+                GetFuncEmit(generator, type);
+            }
+
+            // Load new constructed obj on eval stack -> 1 item on stack
+            generator.Emit(OpCodes.Ldloc_0);
+            // Return constructed object.   --> 0 items on stack
+            generator.Emit(OpCodes.Ret);
+
+            return dymMethod.CreateDelegate(typeof(Func<T, T>));
+        }
+        /// <summary>
+        /// 获取指定Type属性
+        /// </summary>
+        private static void GetFuncEmit(ILGenerator generator, Type type)
+        {
             foreach (FieldInfo field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
             {
                 Match match = new Regex(@"<(?<name>\w+)>").Match(field.Name);
@@ -79,13 +98,6 @@ namespace Paway.Helper
                 //  (0 items on eval stack)
                 generator.Emit(OpCodes.Stfld, field);
             }
-
-            // Load new constructed obj on eval stack -> 1 item on stack
-            generator.Emit(OpCodes.Ldloc_0);
-            // Return constructed object.   --> 0 items on stack
-            generator.Emit(OpCodes.Ret);
-
-            return dymMethod.CreateDelegate(typeof(Func<T, T>));
         }
         /// <summary>
         /// 生成动态代码，仅复制公有属性
