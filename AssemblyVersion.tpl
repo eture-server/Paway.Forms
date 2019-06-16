@@ -5,6 +5,6 @@
 #else
 [assembly: AssemblyConfiguration("Release")]
 #endif
-[assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.0.$WCREV$")]
+[assembly: AssemblyVersion("2.1.0.0")]
+[assembly: AssemblyFileVersion("2.1.0.$WCREV$")]
 [assembly: AssemblyDefaultAlias("$WCDATE$")]
