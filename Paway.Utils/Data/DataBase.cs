@@ -369,37 +369,10 @@ namespace Paway.Utils
         /// </summary>
         public T Find<T>(long id, DbCommand cmd = null, params string[] args)
         {
-            var iTrans = cmd == null;
-            string sql = null;
-            try
-            {
-                if (iTrans) cmd = CommandStart();
-                sql = DataBaseHelper.Select<T>(args);
-
-                var parame = paramType.AddParameter<T>(id);
-                cmd.CommandText = sql;
-                OnCommandText(cmd);
-                cmd.CommandType = CommandType.Text;
-                cmd.Parameters.Clear();
-                cmd.Parameters.Add(parame);
-                using (var dr = cmd.ExecuteReader())
-                {
-                    DataTable table = new DataTable();
-                    table.Load(dr);
-                    var list = table.ToList<T>(1);
-                    return list.Count == 1 ? list[0] : default(T);
-                }
-            }
-            catch (Exception ex)
-            {
-                log.ErrorFormat("Find.Error[{0}]\r\n{1}", sql, ex);
-                throw;
-            }
-            finally
-            {
-                if (iTrans) CommandEnd(cmd);
-                else cmd.CommandText = string.Empty;
-            }
+            var attr = typeof(T).Table();
+            var sql = string.Format("[{0}] = {1}", attr.Keys, id);
+            var list = Find<T>(sql, cmd, args);
+            return list.Count == 1 ? list[0] : default;
         }
 
         /// <summary>

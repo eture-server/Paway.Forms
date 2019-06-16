@@ -184,11 +184,11 @@ namespace Paway.Forms
         /// 数据统计
         /// </summary>
         /// <returns></returns>
-        protected virtual T OnTotal() { return default(T); }
+        protected virtual T OnTotal() { return default; }
         /// <summary>
         /// 添加数据
         /// </summary>
-        protected virtual T OnAdd() { return default(T); }
+        protected virtual T OnAdd() { return default; }
         /// <summary>
         /// 插入数据到数据库
         /// </summary>
@@ -437,7 +437,7 @@ namespace Paway.Forms
             else
             {
                 this.Index = -1;
-                this.Info = default(T);
+                this.Info = default;
             }
         }
         private void Gridview1_DoubleClick(object sender, EventArgs e)

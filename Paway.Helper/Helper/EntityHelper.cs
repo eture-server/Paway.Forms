@@ -48,7 +48,7 @@ namespace Paway.Helper
                 if (string.Equals(name, value, StringComparison.CurrentCultureIgnoreCase))
                     return (T)field.GetRawConstantValue();
             }
-            return default(T);
+            return default;
         }
     }
 
