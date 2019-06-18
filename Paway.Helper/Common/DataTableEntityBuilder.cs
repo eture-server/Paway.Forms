@@ -37,10 +37,6 @@ namespace Paway.Helper
             LocalBuilder result = generator.DeclareLocal(type);
             generator.Emit(OpCodes.Newobj, type.GetConstructor(Type.EmptyTypes));
             generator.Emit(OpCodes.Stloc, result);
-            //byte[]转Image非静态方法转变示例
-            var imageHelper = generator.DeclareLocal(typeof(StructHelper));
-            generator.Emit(OpCodes.Newobj, type.GetConstructor(Type.EmptyTypes));
-            generator.Emit(OpCodes.Stloc, imageHelper);
             var properties = type.Properties();
             for (int i = 0; i < dataRecord.ItemArray.Length; i++)
             {
@@ -64,19 +60,14 @@ namespace Paway.Helper
                     generator.Emit(OpCodes.Callvirt, isDBNullMethod);
                     generator.Emit(OpCodes.Brtrue, endIfLabel);
                     generator.Emit(OpCodes.Ldloc, result);
-                    if (property.PropertyType == typeof(Image))
-                    {
-                        //加载参数
-                        generator.Emit(OpCodes.Ldloc, imageHelper);
-                    }
                     generator.Emit(OpCodes.Ldarg_0);
                     generator.Emit(OpCodes.Ldc_I4, i);
                     generator.Emit(OpCodes.Callvirt, getValueMethod);
                     if (property.PropertyType == typeof(Image))
                     {
                         generator.Emit(OpCodes.Unbox_Any, typeof(byte[]));
-                        //转化为Image
-                        generator.Emit(OpCodes.Callvirt, getImage);
+                        //静态方法byte[]转Image
+                        generator.Emit(OpCodes.Call, getImage);
                     }
                     else generator.Emit(OpCodes.Unbox_Any, property.PropertyType);
                     generator.Emit(OpCodes.Callvirt, property.GetSetMethod());
