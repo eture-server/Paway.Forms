@@ -227,7 +227,6 @@ namespace Paway.Helper
                     row.Height = 20 * 20;
                     foreach (var property in properties)
                     {
-                        if (property.PropertyType.IsGenericType) continue;
                         if (!property.IExcel()) continue;
                         if (action != null && action(property.Name)) continue;
                         property.IShow(out string text);
@@ -242,7 +241,6 @@ namespace Paway.Helper
                     IRow row = sheet.CreateRow(count++);
                     foreach (var property in properties)
                     {
-                        if (property.PropertyType.IsGenericType) continue;
                         if (!property.IExcel()) continue;
                         if (action != null && action(property.Name)) continue;
                         var descriptor = descriptors.Find(c => c.Name == property.Name);

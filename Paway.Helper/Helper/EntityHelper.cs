@@ -104,17 +104,6 @@ namespace Paway.Helper
         public NoExcelAttribute() { }
     }
     /// <summary>
-    ///     特性.排序
-    /// </summary>
-    [Serializable]
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
-    public sealed class SortAttribute : Attribute
-    {
-        /// <summary>
-        /// </summary>
-        public SortAttribute() { }
-    }
-    /// <summary>
     ///     特性.不复制
     /// </summary>
     [Serializable]

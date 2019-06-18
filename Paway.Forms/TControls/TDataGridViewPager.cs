@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Paway.Helper;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Linq;
 
 namespace Paway.Forms
 {
@@ -112,7 +113,7 @@ namespace Paway.Forms
             set
             {
                 dataSource = value;
-                if (dataSource is IList || dataSource is IEnumerable)
+                if (dataSource is IEnumerable)
                 {
                     DataType = dataSource.GenericType();
                 }
@@ -199,28 +200,23 @@ namespace Paway.Forms
         /// </summary>
         protected virtual bool SortColumn(SortOrder sort, string name)
         {
-            if (this.DataSource is IList)
+            if (this.DataSource is IEnumerable)
             {
-                var list = this.DataSource as IList;
+                var list = this.DataSource as IEnumerable;
                 List<object> tempList = new List<object>();
-                for (int i = 0; i < list.Count; i++)
+                foreach (var item in list)
                 {
-                    tempList.Add(list[i]);
+                    tempList.Add(item);
                 }
-                var properties = DataType.Properties();
-                var descriptors = DataType.Descriptors();
-                var property = properties.Find(c => c.Name == name);
-                var descriptor = descriptors.Find(c => c.Name == name);
-                string sorts = sort == SortOrder.Descending ? "desc" : "asc";
-                if (property.ISort())
+                var builder = SortBuilder.CreateBuilder(DataType, name);
+                if (sort == SortOrder.Ascending)
                 {
-                    tempList.Sort((x, y) => TCompare(descriptor.GetValue(x), descriptor.GetValue(y), sorts));
+                    this.dataSource = tempList.AsParallel().OrderBy(c => builder.Build(c));
                 }
                 else
                 {
-                    tempList.Sort((x, y) => TCompare(descriptor, x, y, sorts));
+                    this.dataSource = tempList.AsParallel().OrderByDescending(c => builder.Build(c));
                 }
-                this.dataSource = tempList;
                 RefreshData();
             }
             else if (this.DataSource is DataTable)
@@ -231,31 +227,12 @@ namespace Paway.Forms
             else return false;
             return true;
         }
-        private int TCompare(PropertyDescriptor pro, object obj1, object obj2, string sort)
-        {
-            int result = pro.TCompare(pro.GetValue(obj1), pro.GetValue(obj2));
-            return sort == "asc" ? result : -result;
-        }
-        private int TCompare(object obj1, object obj2, string sort)
-        {
-            int result = obj1.TCompare(obj2);
-            return sort == "asc" ? result : -result;
-        }
         private void SortData(Type type, string name, DataTable dt, int index, SortOrder sort)
         {
             if (type == null) return;
             var properties = type.Properties();
             var property = properties.Find(c => c.Name == name);
-            if (property.ISort())
-            {
-                this.DataSource = SortColumn(dt, index, sort);
-            }
-            else
-            {
-                string order = string.Format("{0} {1}", name, sort == SortOrder.Descending ? "desc" : "asc");
-                DataRow[] rows = dt.Select(String.Empty, order);
-                this.DataSource = rows.CopyToDataTable();
-            }
+            this.DataSource = SortColumn(dt, index, sort);
         }
         private DataTable SortColumn(DataTable dt, int index, SortOrder sort)
         {
@@ -310,20 +287,6 @@ namespace Paway.Forms
                 Edit.OnRefreshChanged(DataType);
                 TPager.UpdateDesc(TotalEvent?.Invoke(dataSource));
             }
-            else if (dataSource is IList)
-            {
-                var list = dataSource as IList;
-
-                PagerInfo.RecordCount = list.Count;
-                var dataList = DataType.CreateList();
-                var index = PagerInfo.PageSize * (PagerInfo.CurrentPageIndex - 1);
-                for (var i = index; i < index + PagerInfo.PageSize && i < list.Count; i++)
-                {
-                    dataList.Add(list[i]);
-                }
-                Edit.DataSource = dataList;
-                TPager.UpdateDesc(TotalEvent?.Invoke(dataSource));
-            }
             else if (dataSource is IEnumerable)
             {
                 RefreshSort(dataSource as IEnumerable);
@@ -343,17 +306,17 @@ namespace Paway.Forms
         {
             int i = 0;
             var index = PagerInfo.PageSize * (PagerInfo.CurrentPageIndex - 1);
-            var temp = DataType.CreateList();
+            var emabList = DataType.CreateList();
             foreach (var item in query)
             {
                 i++;
                 if (i > index && i <= index + PagerInfo.PageSize)
                 {
-                    temp.Add(item);
+                    emabList.Add(item);
                 }
             }
             PagerInfo.RecordCount = i;
-            Edit.DataSource = temp;
+            Edit.DataSource = emabList;
         }
 
         /// <summary>

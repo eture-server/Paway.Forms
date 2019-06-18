@@ -387,11 +387,11 @@ namespace Paway.Forms
                 return;
             }
             Type type = null;
-            if (value is IList)
+            if (value is IEnumerable)
             {
-                var list = value as IList;
+                var list = value as IEnumerable;
                 type = list.GenericType();
-                base.DataSource = type.ToDataTable(list);
+                base.DataSource = list.ToDataTable();
             }
             else if (value is DataTable)
             {
@@ -432,8 +432,7 @@ namespace Paway.Forms
                 {
                     foreach (var temp in properties)
                     {
-                        var column = temp.Column();
-                        if (column == Columns[i].Name)
+                        if (Columns[i].Name == temp.Column())
                         {
                             property = temp;
                             break;

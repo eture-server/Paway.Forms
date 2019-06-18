@@ -61,8 +61,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\CodeTimer.cs" />
-    <Compile Include="Common\DataTableEntityBuilder.cs" />
-    <Compile Include="Common\EntityDataTableBuilder.cs" />
+    <Compile Include="ILBuider\BuilderHelper.cs" />
+    <Compile Include="ILBuider\EntityBuilder.cs" />
+    <Compile Include="ILBuider\DataTableBuilder.cs" />
     <Compile Include="Common\RowComparer.cs" />
     <Compile Include="Common\Compare.cs" />
     <Compile Include="Common\Licence.cs" />
@@ -78,7 +79,7 @@
     <Compile Include="Enum\TDirection.cs" />
     <Compile Include="Enum\TMouseState.cs" />
     <Compile Include="Enum\TSysButton.cs" />
-    <Compile Include="Helper\CloneHelper.cs" />
+    <Compile Include="ILBuider\CloneBuilder.cs" />
     <Compile Include="Helper\LoadHelper.cs" />
     <Compile Include="Helper\ExceptionHelper.cs" />
     <Compile Include="Helper\ExcelHelper.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Helper\HardWareHelper.cs" />
     <Compile Include="Helper\StringHelper.cs" />
     <Compile Include="Helper\XmlHelper.cs" />
+    <Compile Include="ILBuider\SortBuilder.cs" />
     <Compile Include="Info\FindInfo.cs" />
     <Compile Include="Interface\IDataService.cs" />
     <Compile Include="Interface\IFind.cs" />

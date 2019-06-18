@@ -455,7 +455,7 @@ namespace Paway.Utils
                 OnCommandText(cmd);
                 using (var dr = cmd.ExecuteReader())
                 {
-                    var table = type.CreateTable(true);
+                    var table = type.CreateTable();
                     table.Load(dr);
                     //未知处理
                     //table.PrimaryKey = new DataColumn[] { table.Columns[type.TableKey()] };

@@ -242,7 +242,7 @@ namespace Paway.Forms
                 _iAutoWidth = value;
                 if (_dataSource == null || TId == null || TParentId == null) return;
                 var type = _dataSource.GetType();
-                if (_dataSource is IList)
+                if (_dataSource is IEnumerable)
                 {
                     type = _dataSource.GenericType();
                 }
@@ -374,11 +374,11 @@ namespace Paway.Forms
             {
                 dt = _dataSource as DataTable;
             }
-            else if (_dataSource is IList)
+            else if (_dataSource is IEnumerable)
             {
-                var list = _dataSource as IList;
+                var list = _dataSource as IEnumerable;
                 type = list.GenericType();
-                dt = type.ToDataTable(list);
+                dt = list.ToDataTable();
             }
             else if (type == typeof(string) || type.IsValueType)
             {
@@ -406,11 +406,10 @@ namespace Paway.Forms
             {
                 dt = _dataSource as DataTable;
             }
-            else if (_dataSource is IList)
+            else if (_dataSource is IEnumerable)
             {
-                var list = _dataSource as IList;
-                var type = list.GenericType();
-                dt = type.ToDataTable(list, TId.ToString2(), id);
+                var list = _dataSource as IEnumerable;
+                dt = list.ToDataTable();
             }
             if (dt == null) return;
             var dr = dt.Select(string.Format("{0} = '{1}'", TId, id));

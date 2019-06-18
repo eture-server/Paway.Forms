@@ -417,16 +417,18 @@ namespace Paway.Helper
         ///     将指定类型转为DataTable
         /// </summary>
         /// <returns></returns>
-        public static DataTable CreateTable(this Type type, bool sql = false)
+        public static DataTable CreateTable(this Type type)
         {
             var table = new DataTable(type.Name);
             var properties = type.Properties();
             foreach (var property in properties)
             {
-                if (property.PropertyType.IsGenericType) continue;
-                var pType = property.PropertyType;
-                if (sql && (pType == typeof(Image) || pType == typeof(Bitmap))) pType = typeof(byte[]);
-                table.Columns.Add(property.Column(), pType);
+                Type dbType = property.PropertyType;
+                if (property.PropertyType.IsGenericType)
+                {
+                    dbType = Nullable.GetUnderlyingType(property.PropertyType);
+                }
+                table.Columns.Add(property.Column(), dbType);
             }
             return table;
         }
@@ -445,166 +447,24 @@ namespace Paway.Helper
             }
         }
         /// <summary>
-        ///     IList转为 Excel标记的DataTable
-        /// </summary>
-        public static DataTable ToExcelTable<T>(this List<T> list)
-        {
-            return typeof(T).ToExcelTable(list);
-        }
-        /// <summary>
-        ///     IList转为 Excel标记的DataTable
-        /// </summary>
-        public static DataTable ToExcelTable(this Type type, IList list)
-        {
-            var table = type.CreateExcelTable();
-            var properties = type.Properties();
-            var descriptors = type.Descriptors();
-            for (int i = 0; i < list.Count; i++)
-            {
-                table.Rows.Add(table.NewRow());
-            }
-            foreach (var property in properties)
-            {
-                if (property.PropertyType.IsGenericType) continue;
-                if (!property.IExcel()) continue;
-                var descriptor = descriptors.Find(c => c.Name == property.Name);
-                for (int j = 0; j < table.Rows.Count; j++)
-                {
-                    var value = descriptor.GetValue(list[j]);
-                    table.Rows[j][property.Name] = value;
-                }
-            }
-            return table;
-        }
-        /// <summary>
         ///     将指定类型转为DataTable
         /// </summary>
         /// <returns></returns>
-        private static DataTable CreateExcelTable(this Type type)
+        public static DataTable CreateExcelTable(this Type type)
         {
             var table = new DataTable(type.Name);
             var properties = type.Properties();
             foreach (var property in properties)
             {
-                if (property.PropertyType.IsGenericType) continue;
                 if (!property.IExcel()) continue;
-                table.Columns.Add(property.Name, property.PropertyType);
+                Type dbType = property.PropertyType;
+                if (property.PropertyType.IsGenericType)
+                {
+                    dbType = Nullable.GetUnderlyingType(property.PropertyType);
+                }
+                table.Columns.Add(property.Name, dbType);
             }
             return table;
-        }
-        /// <summary>
-        ///     IList转为 DataTable
-        /// </summary>
-        public static DataTable ToDataTable<T>(this List<T> list)
-        {
-            return typeof(T).ToDataTable(list);
-        }
-        /// <summary>
-        ///     IList转为 DataTable
-        /// </summary>
-        public static DataTable ToDataTable(this Type type, IList list)
-        {
-            var table = type.CreateTable();
-            var properties = type.Properties();
-            var descriptors = type.Descriptors();
-            for (int i = 0; i < list.Count; i++)
-            {
-                table.Rows.Add(table.NewRow());
-            }
-            foreach (var property in properties)
-            {
-                if (property.PropertyType.IsGenericType) continue;
-                string name = property.Column();
-                var descriptor = descriptors.Find(c => c.Name == property.Name);
-                for (int j = 0; j < table.Rows.Count; j++)
-                {
-                    var value = descriptor.GetValue(list[j]);
-                    table.Rows[j][name] = value;
-                }
-            }
-            return table;
-        }
-        /// <summary>
-        ///     IList转为 DataTable
-        ///     指定列名的值
-        /// </summary>
-        public static DataTable ToDataTable(this Type type, IList list, string name, object value)
-        {
-            var table = type.CreateTable();
-            var descriptors = type.Descriptors();
-            var descriptor = descriptors.Find(c => c.Name == name);
-            for (int i = 0; i < list.Count; i++)
-            {
-                if (descriptor.GetValue(list[i]).Equals(value))
-                {
-                    table.Rows.Add(type.CreateItem(list[i], table));
-                }
-            }
-            return table;
-        }
-        /// <summary>
-        ///     从类创建行
-        /// </summary>
-        public static DataRow CreateItem<T>(this Type type, T t, DataTable table = null)
-        {
-            if (table == null) table = type.CreateTable();
-            DataRow row = table.NewRow();
-            var properties = type.Properties();
-            var descriptors = type.Descriptors();
-            foreach (var property in properties)
-            {
-                if (property.PropertyType.IsGenericType) continue;
-                string name = property.Column();
-                var descriptor = descriptors.Find(c => c.Name == property.Name);
-                row[name] = descriptor.GetValue(t);
-            }
-            return row;
-        }
-
-        /// <summary>
-        ///     将DataTable转为IList
-        /// </summary>
-        public static List<T> ToList<T>(this DataTable table, int? count = null)
-        {
-            if (table == null) return null;
-            if (count > table.Rows.Count) count = table.Rows.Count;
-            List<T> list = new List<T>();
-            if (table.Rows.Count > 0)
-            {
-                var builder = DataTableEntityBuilder<T>.CreateBuilder(table.Rows[0]);
-                foreach (DataRow dr in table.Rows)
-                {
-                    list.Add(builder.Build(dr));
-                    if (count != null && list.Count == count) break;
-                }
-            }
-            return list;
-        }
-
-        /// <summary>
-        ///     从行创建类
-        /// </summary>
-        public static T CreateItem<T>(this DataRow row)
-        {
-            var type = typeof(T);
-            var obj = Activator.CreateInstance<T>(); //string 类型不支持无参的反射
-            if (row == null) return obj;
-            var properties = type.Properties();
-            var descriptors = type.Descriptors();
-            foreach (var property in properties)
-            {
-                string name = property.Column();
-                var descriptor = descriptors.Find(c => c.Name == property.Name);
-                foreach (DataColumn column in row.Table.Columns)
-                {
-                    if (name != column.ColumnName) continue;
-                    var value = row[column.ColumnName];
-                    obj.SetValue(descriptor, value);
-                    break;
-                }
-            }
-
-            return obj;
         }
 
         /// <summary>
@@ -773,14 +633,6 @@ namespace Paway.Helper
             return list.Length == 0;
         }
         /// <summary>
-        /// 自定义排序列标记
-        /// </summary>
-        public static bool ISort(this MemberInfo pro)
-        {
-            var list = pro.GetCustomAttributes(typeof(SortAttribute), false) as SortAttribute[];
-            return list.Length == 1;
-        }
-        /// <summary>
         /// 自定义不复制列标记
         /// </summary>
         public static bool IClone(this MemberInfo pro)
@@ -803,7 +655,6 @@ namespace Paway.Helper
             if (types.Length == 1) return types[0];
             return null;
         }
-
         /// <summary>
         ///     返回泛型实参实例
         /// </summary>
@@ -1043,81 +894,158 @@ namespace Paway.Helper
             }
         }
         /// <summary>
+        /// 将值拆箱为Double值以进行比较
         /// </summary>
-        public static int TCompare(this PropertyDescriptor pro, object obj1, object obj2)
+        public static double TCompareDouble(this object obj)
         {
-            if ((obj1 == null || obj1 == DBNull.Value) && (obj2 == null || obj2 == DBNull.Value)) return 0;
-            if (obj1 == null || obj1 == DBNull.Value) return -1;
-            if (obj2 == null || obj2 == DBNull.Value) return 1;
-            if (pro.PropertyType == typeof(Image))
+            if (obj == null) return 0;
+            Type type = obj.GetType();
+            switch (type.Name)
             {
-                return 0;
+                case nameof(Double):
+                    return (double)obj;
+                case nameof(Single):
+                    return (float)obj;
+                case nameof(Decimal):
+                    return (double)(decimal)obj;
+                default:
+                    return obj.ToDouble();
             }
-            else if (pro.PropertyType == typeof(int) || pro.PropertyType == typeof(int?))
+        }
+        /// <summary>
+        /// 将字符串转为Long值以进行比较
+        /// </summary>
+        public static long TCompare(this object obj)
+        {
+            if (obj is string x)
             {
-                return ((int)obj1).CompareTo((int)obj2);
-            }
-            else if (pro.PropertyType == typeof(long) || pro.PropertyType == typeof(long?))
-            {
-                return ((long)obj1).CompareTo((long)obj2);
-            }
-            else if (pro.PropertyType == typeof(double) || pro.PropertyType == typeof(double?))
-            {
-                return ((double)obj1).CompareTo((double)obj2);
-            }
-            else if (pro.PropertyType == typeof(float) || pro.PropertyType == typeof(float?))
-            {
-                return ((float)obj1).CompareTo((float)obj2);
-            }
-            else if (pro.PropertyType == typeof(bool) || pro.PropertyType == typeof(bool?))
-            {
-                return ((bool)obj1).CompareTo((bool)obj2);
-            }
-            else if (pro.PropertyType == typeof(DateTime) || pro.PropertyType == typeof(DateTime?))
-            {
-                return (obj1.ToDateTime()).CompareTo(obj2.ToDateTime());
-            }
-            else if (pro.PropertyType == typeof(string))
-            {
-                return obj1.TCompare(obj2);
-            }
-            else if (pro.PropertyType.IsEnum)
-            {
-                Type type = pro.PropertyType.GetEnumUnderlyingType();
-                if (type == typeof(byte))
+                char[] arr1 = x.ToCharArray();
+                int i = 0, j = 0;
+                long value = 0;
+                while (i < arr1.Length)
                 {
-                    return ((byte)obj1).CompareTo((byte)obj2);
+                    if (char.IsDigit(arr1[i]))
+                    {
+                        string s1 = "";
+                        while (i < arr1.Length && char.IsDigit(arr1[i]))
+                        {
+                            s1 += arr1[i];
+                            i++;
+                        }
+                        value += long.Parse(s1);
+                    }
+                    else
+                    {
+                        value += arr1[i];
+                        i++;
+                        j++;
+                    }
                 }
-                else if (type == typeof(sbyte))
+                return value;
+            }
+            if (obj == null) return 0;
+            Type type = obj.GetType();
+            switch (type.Name)
+            {
+                case nameof(Int64):
+                    return (long)obj;
+                case nameof(Int32):
+                    return (int)obj;
+                case nameof(Int16):
+                    return (short)obj;
+                case nameof(Byte):
+                    return (byte)obj;
+                case nameof(Boolean):
+                    return (bool)obj ? 1 : 0;
+                case nameof(DateTime):
+                    return ((DateTime)obj).Ticks;
+                case nameof(Image):
+                case nameof(Bitmap):
+                    return 0;
+            }
+            if (type.IsEnum) return (int)obj;
+            return obj.ToLong();
+        }
+
+        #endregion
+
+        #region 普通复制
+        /// <summary>
+        /// 深度复制：引用、IList列表（禁止复制链结构，会造成死循环）
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="t"></param>
+        /// <param name="child">复制子级标记</param>
+        /// <returns></returns>
+        public static T Clone<T>(this T t, bool child)
+        {
+            var type = typeof(T);
+            var asmb = Assembly.GetAssembly(type);
+            var copy = asmb.CreateInstance(type.FullName);
+            return t.Clone(copy, child);
+        }
+        /// <summary>
+        /// 深度复制：引用、IList列表（禁止复制链结构，会造成死循环）
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="t"></param>
+        /// <param name="copy">已有实体</param>
+        /// <param name="child">复制子级标记</param>
+        /// <returns></returns>
+        public static T Clone<T>(this T t, object copy, bool child)
+        {
+            var type = typeof(T);
+            var asmb = Assembly.GetAssembly(type);
+            if (copy == null)
+                copy = asmb.CreateInstance(type.FullName);
+            type.Clone(copy, t, child);
+
+            return (T)copy;
+        }
+        /// <summary>
+        ///     复制子级
+        /// </summary>
+        private static void Clone(this Type parent, object copy, object t, bool child)
+        {
+            var properties = parent.Properties();
+            var descriptors = parent.Descriptors();
+            foreach (var property in properties)
+            {
+                if (!property.IClone()) continue;
+
+                var descriptor = descriptors.Find(c => c.Name == property.Name);
+                var value = descriptor.GetValue(t);
+                descriptor.SetValue(copy, value);
+                if (child && value is IList)
                 {
-                    return ((sbyte)obj1).CompareTo((sbyte)obj2);
+                    var list = value as IList;
+                    var type = list.GenericType();
+                    var clist = type.CreateList();
+                    descriptor.SetValue(copy, clist);
+                    var asmb = Assembly.GetAssembly(type);
+                    for (var j = 0; j < list.Count; j++)
+                    {
+                        if (!type.IsValueType && type != typeof(string))
+                        {
+                            var obj = asmb.CreateInstance(type.FullName);
+                            type.Clone(obj, list[j], child);
+                            clist.Add(obj);
+                        }
+                        else
+                        {
+                            clist.Add(list[j]);
+                        }
+                    }
                 }
-                else if (type == typeof(short))
+                else if (child && value != null && !value.GetType().IsValueType && value.GetType() != typeof(string) && !(value is Image))
                 {
-                    return ((short)obj1).CompareTo((short)obj2);
-                }
-                else if (type == typeof(ushort))
-                {
-                    return ((ushort)obj1).CompareTo((ushort)obj2);
-                }
-                else if (type == typeof(int))
-                {
-                    return ((int)obj1).CompareTo((int)obj2);
-                }
-                else if (type == typeof(uint))
-                {
-                    return ((uint)obj1).CompareTo((uint)obj2);
-                }
-                else if (type == typeof(long))
-                {
-                    return ((long)obj1).CompareTo((long)obj2);
-                }
-                else if (type == typeof(ulong))
-                {
-                    return ((ulong)obj1).CompareTo((ulong)obj2);
+                    var type = value.GetType();
+                    var asmb = Assembly.GetAssembly(type);
+                    var obj = asmb.CreateInstance(type.FullName);
+                    descriptor.SetValue(copy, obj);
+                    type.Clone(obj, value, child);
                 }
             }
-            return 0;
         }
 
         #endregion
