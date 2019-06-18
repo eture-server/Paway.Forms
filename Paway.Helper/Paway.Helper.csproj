@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Common\CodeTimer.cs" />
     <Compile Include="Common\DataTableEntityBuilder.cs" />
+    <Compile Include="Common\EntityDataTableBuilder.cs" />
     <Compile Include="Common\RowComparer.cs" />
     <Compile Include="Common\Compare.cs" />
     <Compile Include="Common\Licence.cs" />

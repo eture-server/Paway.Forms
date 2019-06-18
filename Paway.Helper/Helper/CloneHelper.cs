@@ -51,14 +51,9 @@ namespace Paway.Helper
             var type = typeof(T);
             // Create ILGenerator
             DynamicMethod dymMethod = new DynamicMethod("DoClone", type, new Type[] { type }, true);
-            ConstructorInfo cInfo = type.GetConstructor(new Type[] { });
-
             ILGenerator generator = dymMethod.GetILGenerator();
 
-            LocalBuilder lbf = generator.DeclareLocal(type);
-            //lbf.SetLocalSymInfo("_temp");
-
-            generator.Emit(OpCodes.Newobj, cInfo);
+            generator.Emit(OpCodes.Newobj, type.GetConstructor(Type.EmptyTypes));
             generator.Emit(OpCodes.Stloc_0);
             GetFuncEmit(generator, type);
             while (type.BaseType != null)

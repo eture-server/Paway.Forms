@@ -24,7 +24,7 @@ namespace Paway.Helper
             return ((Func<DataRow, T>)handler)(dataRecord);
         }
         /// <summary>
-        /// 生成动态代码，创建委托
+        /// IL动态代码，创建委托
         /// </summary>
         public static DataTableEntityBuilder<T> CreateBuilder(DataRow dataRecord)
         {
