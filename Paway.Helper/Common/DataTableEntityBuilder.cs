@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -14,6 +15,7 @@ namespace Paway.Helper
     {
         private static readonly MethodInfo getValueMethod = typeof(DataRow).GetMethod("get_Item", new Type[] { typeof(int) });
         private static readonly MethodInfo isDBNullMethod = typeof(DataRow).GetMethod("IsNull", new Type[] { typeof(int) });
+        private static readonly MethodInfo getImage = typeof(StructHelper).GetMethod("BytesToImage", new Type[] { typeof(byte[]) });
         private Delegate handler;
         private DataTableEntityBuilder() { }
         /// <summary>
@@ -35,6 +37,10 @@ namespace Paway.Helper
             LocalBuilder result = generator.DeclareLocal(type);
             generator.Emit(OpCodes.Newobj, type.GetConstructor(Type.EmptyTypes));
             generator.Emit(OpCodes.Stloc, result);
+            //byte[]转Image非静态方法转变示例
+            var imageHelper = generator.DeclareLocal(typeof(StructHelper));
+            generator.Emit(OpCodes.Newobj, type.GetConstructor(Type.EmptyTypes));
+            generator.Emit(OpCodes.Stloc, imageHelper);
             var properties = type.Properties();
             for (int i = 0; i < dataRecord.ItemArray.Length; i++)
             {
@@ -58,10 +64,21 @@ namespace Paway.Helper
                     generator.Emit(OpCodes.Callvirt, isDBNullMethod);
                     generator.Emit(OpCodes.Brtrue, endIfLabel);
                     generator.Emit(OpCodes.Ldloc, result);
+                    if (property.PropertyType == typeof(Image))
+                    {
+                        //加载参数
+                        generator.Emit(OpCodes.Ldloc, imageHelper);
+                    }
                     generator.Emit(OpCodes.Ldarg_0);
                     generator.Emit(OpCodes.Ldc_I4, i);
                     generator.Emit(OpCodes.Callvirt, getValueMethod);
-                    generator.Emit(OpCodes.Unbox_Any, property.PropertyType);
+                    if (property.PropertyType == typeof(Image))
+                    {
+                        generator.Emit(OpCodes.Unbox_Any, typeof(byte[]));
+                        //转化为Image
+                        generator.Emit(OpCodes.Callvirt, getImage);
+                    }
+                    else generator.Emit(OpCodes.Unbox_Any, property.PropertyType);
                     generator.Emit(OpCodes.Callvirt, property.GetSetMethod());
                     generator.MarkLabel(endIfLabel);
                 }
