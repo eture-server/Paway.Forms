@@ -31,7 +31,7 @@ namespace Paway.Helper
             var getImage = typeof(StructHelper).GetMethod("BytesToImage", new Type[] { typeof(byte[]) });
 
             var type = typeof(T);
-            var dymMethod = new DynamicMethod(type.Name + "CreateEntity", type, new Type[] { typeof(DataRow) }, type, true);
+            var dymMethod = new DynamicMethod(type.Name + "EntityBuilder", type, new Type[] { typeof(DataRow) }, type, true);
             ILGenerator generator = dymMethod.GetILGenerator();
 
             LocalBuilder result = generator.DeclareLocal(type);

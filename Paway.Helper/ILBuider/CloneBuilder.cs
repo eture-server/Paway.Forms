@@ -24,7 +24,7 @@ namespace Paway.Helper
         {
             var type = typeof(T);
             // Create ILGenerator
-            var dymMethod = new DynamicMethod(type.Name + "Clone", type, new Type[] { type }, true);
+            var dymMethod = new DynamicMethod(type.Name + "CloneBuilder", type, new Type[] { type }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
 
             generator.Emit(OpCodes.Newobj, type.GetConstructor(Type.EmptyTypes));
@@ -75,7 +75,7 @@ namespace Paway.Helper
         {
             var type = typeof(T);
             // Create ILGenerator
-            var dymMethod = new DynamicMethod(type.Name + "Clone", null, new Type[] { type, type });
+            var dymMethod = new DynamicMethod(type.Name + "CloneBuilder", null, new Type[] { type, type });
             ILGenerator generator = dymMethod.GetILGenerator();
 
             foreach (var temp in type.Properties().FindAll(temp => temp.CanRead && temp.CanWrite))

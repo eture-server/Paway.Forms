@@ -414,10 +414,12 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     将指定类型转为DataTable
+        /// 将指定类型转为DataTable
         /// </summary>
+        /// <param name="type"></param>
+        /// <param name="sql">从数据取值时，Image存储格式为byte[]</param>
         /// <returns></returns>
-        public static DataTable CreateTable(this Type type)
+        public static DataTable CreateTable(this Type type, bool sql = false)
         {
             var table = new DataTable(type.Name);
             var properties = type.Properties();
@@ -428,6 +430,8 @@ namespace Paway.Helper
                 {
                     dbType = Nullable.GetUnderlyingType(property.PropertyType);
                 }
+                if (dbType == null) continue;
+                if (sql && (dbType == typeof(Image) || dbType == typeof(Bitmap))) dbType = typeof(byte[]);
                 table.Columns.Add(property.Column(), dbType);
             }
             return table;
@@ -462,6 +466,7 @@ namespace Paway.Helper
                 {
                     dbType = Nullable.GetUnderlyingType(property.PropertyType);
                 }
+                if (dbType == null) continue;
                 table.Columns.Add(property.Name, dbType);
             }
             return table;
@@ -894,6 +899,29 @@ namespace Paway.Helper
             }
         }
         /// <summary>
+        /// 将值拆箱为Int值以进行比较
+        /// </summary>
+        public static int TCompareInt(this object obj)
+        {
+            if (obj == null) return 0;
+            Type type = obj.GetType();
+            switch (type.Name)
+            {
+                case nameof(Int32):
+                    return (int)obj;
+                case nameof(Int16):
+                    return (short)obj;
+                case nameof(Byte):
+                    return (byte)obj;
+                case nameof(Boolean):
+                    return (bool)obj ? 1 : 0;
+                case nameof(Image):
+                case nameof(Bitmap):
+                    return 0;
+            }
+            return obj.ToInt();
+        }
+        /// <summary>
         /// 将值拆箱为Double值以进行比较
         /// </summary>
         public static double TCompareDouble(this object obj)
@@ -949,19 +977,8 @@ namespace Paway.Helper
             {
                 case nameof(Int64):
                     return (long)obj;
-                case nameof(Int32):
-                    return (int)obj;
-                case nameof(Int16):
-                    return (short)obj;
-                case nameof(Byte):
-                    return (byte)obj;
-                case nameof(Boolean):
-                    return (bool)obj ? 1 : 0;
                 case nameof(DateTime):
                     return ((DateTime)obj).Ticks;
-                case nameof(Image):
-                case nameof(Bitmap):
-                    return 0;
             }
             if (type.IsEnum) return (int)obj;
             return obj.ToLong();

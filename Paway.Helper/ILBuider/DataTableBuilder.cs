@@ -31,7 +31,7 @@ namespace Paway.Helper
         {
             var setValueMethod = typeof(DataRow).GetMethod("set_Item", new Type[] { typeof(string), typeof(object) });
 
-            var dymMethod = new DynamicMethod(type.Name + "ConvertDataRow", null, new Type[] { typeof(object), typeof(DataRow) }, true);
+            var dymMethod = new DynamicMethod(type.Name + "DataTableBuilder", null, new Type[] { typeof(object), typeof(DataRow) }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
             foreach (var property in type.GetProperties())
             {
