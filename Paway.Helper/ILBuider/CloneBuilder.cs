@@ -27,8 +27,9 @@ namespace Paway.Helper
             var dymMethod = new DynamicMethod(type.Name + "CloneBuilder", type, new Type[] { type }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
 
+            LocalBuilder result = generator.DeclareLocal(type);
             generator.Emit(OpCodes.Newobj, type.GetConstructor(Type.EmptyTypes));
-            generator.Emit(OpCodes.Stloc_0);
+            generator.Emit(OpCodes.Stloc, result);
 
             GetCloneFunc(generator, type);
             while (type.BaseType != null)
@@ -38,7 +39,7 @@ namespace Paway.Helper
             }
 
             // Load new constructed obj on eval stack -> 1 item on stack
-            generator.Emit(OpCodes.Ldloc_0);
+            generator.Emit(OpCodes.Ldloc, result);
             // Return constructed object.   --> 0 items on stack
             generator.Emit(OpCodes.Ret);
             return dymMethod.CreateDelegate(typeof(Func<T, T>));
@@ -50,7 +51,8 @@ namespace Paway.Helper
         {
             foreach (FieldInfo field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
             {
-                Match match = new Regex(@"<(?<name>\w+)>").Match(field.Name);
+                if (field.FieldType.IsGenericType && Nullable.GetUnderlyingType(field.FieldType) == null) continue;
+                var match = new Regex(@"<(?<name>\w+)>").Match(field.Name);
                 if (match.Success)
                 {
                     PropertyInfo property = type.GetProperty(match.Groups["name"].ToString());
@@ -78,16 +80,17 @@ namespace Paway.Helper
             var dymMethod = new DynamicMethod(type.Name + "CloneBuilder", null, new Type[] { type, type });
             ILGenerator generator = dymMethod.GetILGenerator();
 
-            foreach (var temp in type.Properties().FindAll(temp => temp.CanRead && temp.CanWrite))
+            foreach (var property in type.Properties().FindAll(c => c.CanRead && c.CanWrite))
             {
                 //不复制静态类属性
-                if (temp.GetAccessors(true)[0].IsStatic) continue;
-                if (!temp.IClone()) continue;
+                if (property.GetAccessors(true)[0].IsStatic) continue;
+                if (property.PropertyType.IsGenericType && Nullable.GetUnderlyingType(property.PropertyType) == null) continue;
+                if (!property.IClone()) continue;
 
                 generator.Emit(OpCodes.Ldarg_1);// los
                 generator.Emit(OpCodes.Ldarg_0);// s
-                generator.Emit(OpCodes.Callvirt, temp.GetGetMethod());
-                generator.Emit(OpCodes.Callvirt, temp.GetSetMethod());
+                generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
+                generator.Emit(OpCodes.Callvirt, property.GetSetMethod());
             }
             generator.Emit(OpCodes.Ret);
             return dymMethod.CreateDelegate(typeof(Action<T, T>));

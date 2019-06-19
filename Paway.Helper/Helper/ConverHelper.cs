@@ -1039,6 +1039,7 @@ namespace Paway.Helper
                     var type = list.GenericType();
                     var clist = type.CreateList();
                     descriptor.SetValue(copy, clist);
+                    clist = descriptor.GetValue(copy) as IList;
                     var asmb = Assembly.GetAssembly(type);
                     for (var j = 0; j < list.Count; j++)
                     {
