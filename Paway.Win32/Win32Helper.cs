@@ -11,7 +11,7 @@ namespace Paway.Win32
     /// <summary>
     ///     Win32API 发送消息与查找窗体
     /// </summary>
-    public class Win32Helper
+    public abstract class Win32Helper
     {
         /// <summary>
         /// </summary>

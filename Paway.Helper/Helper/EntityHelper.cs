@@ -57,7 +57,7 @@ namespace Paway.Helper
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
-    public sealed class PropertyAttribute : Attribute
+    public class PropertyAttribute : Attribute
     {
         private bool _iSelect = true;
         private bool _iShow = true;
@@ -97,7 +97,7 @@ namespace Paway.Helper
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
-    public sealed class NoExcelAttribute : Attribute
+    public class NoExcelAttribute : Attribute
     {
         /// <summary>
         /// </summary>
@@ -108,7 +108,7 @@ namespace Paway.Helper
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public sealed class NoCloneAttribute : Attribute
+    public class NoCloneAttribute : Attribute
     {
         /// <summary>
         /// </summary>
@@ -119,7 +119,7 @@ namespace Paway.Helper
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
-    public sealed class TableAttribute : Attribute
+    public class TableAttribute : Attribute
     {
         /// <summary>
         ///     主键名称，不可更新

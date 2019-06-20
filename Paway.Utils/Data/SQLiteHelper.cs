@@ -10,7 +10,7 @@ namespace Paway.Utils
     /// <summary>
     ///     SqLite操作基类
     /// </summary>
-    public abstract class SQLiteHelper : DataBase
+    public class SQLiteHelper : DataBase
     {
         #region 初始化
         /// <summary>

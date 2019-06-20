@@ -13,7 +13,7 @@ namespace Paway.Helper
     /// <summary>
     /// 启动控制
     /// </summary>
-    public static class LoadHelper
+    public abstract class LoadHelper
     {
         private static ILoadForm form;
         /// <summary>

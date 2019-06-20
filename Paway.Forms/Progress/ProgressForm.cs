@@ -129,6 +129,7 @@ namespace Paway.Forms
                     }
                     lbCaption.Text = this.Caption;
                     toolCancel.Visible = this.ITime;
+                    Application.DoEvents();
                 }
             }
             catch

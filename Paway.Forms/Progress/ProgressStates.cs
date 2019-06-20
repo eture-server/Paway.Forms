@@ -100,8 +100,8 @@ namespace Paway.Forms
             lock (this._states)
             {
                 if (this._states.Count < 1) return;
-                this._states[this._states.Count - 1].ICancel = true;
                 this._states[this._states.Count - 1].Caption = "Cancel...";
+                this._states[this._states.Count - 1].ICancel = true;
             }
         }
         public int Max

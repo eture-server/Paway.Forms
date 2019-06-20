@@ -39,7 +39,7 @@ namespace Paway.Test
             toolBar1.TranImage = iChange ? Resources.i1 : Resources.noon;
             toolBar1.TranLaterImage = iChange ? Resources.noon : Resources.i1;
             toolBar1.MStart();
-            using (new Progress())
+            using (new Progress(true))
             {
                 Thread.Sleep(2000);
             }

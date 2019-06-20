@@ -7,7 +7,7 @@ namespace Paway.Helper
     /// <summary>
     ///     对 字符串 的扩展操作
     /// </summary>
-    public static class StringHelper
+    public abstract class StringHelper
     {
         #region 正则检查
 

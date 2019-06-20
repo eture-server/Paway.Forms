@@ -10,7 +10,7 @@ namespace Paway.Utils
     /// <summary>
     ///     导出类示例
     /// </summary>
-    public class Export
+    public abstract class Export
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 

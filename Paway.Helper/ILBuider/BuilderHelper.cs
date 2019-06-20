@@ -128,6 +128,18 @@ namespace Paway.Helper
 
         #region Sort
         /// <summary>
+        /// 并行排序（指定类型，非泛型），并返回排序后的List列表
+        /// </summary>
+        /// <param name="type">指定类型</param>
+        /// <param name="list">object列表</param>
+        /// <param name="name">排序列名称</param>
+        /// <param name="sort">true:升序，false:倒序</param>
+        public static ParallelQuery Sort(this Type type, List<object> list, string name, bool sort = true)
+        {
+            var builder = SortBuilder.CreateBuilder(type, name);
+            return sort ? list.AsParallel().OrderBy(c => builder.Build(c)) : list.AsParallel().OrderByDescending(c => builder.Build(c));
+        }
+        /// <summary>
         /// 并行排序，并返回排序后的List列表
         /// </summary>
         /// <param name="list"></param>

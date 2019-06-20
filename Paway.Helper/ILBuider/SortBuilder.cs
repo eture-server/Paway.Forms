@@ -14,7 +14,7 @@ namespace Paway.Helper
     /// <summary>
     /// IL动态代码(Emit)，排序
     /// </summary>
-    public class SortBuilder
+    internal class SortBuilder
     {
         /// <summary>
         /// 返回类型

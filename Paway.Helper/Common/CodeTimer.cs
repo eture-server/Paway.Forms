@@ -18,7 +18,7 @@ namespace Paway.Helper
     /// <summary>
     /// 压力测试计时
     /// </summary>
-    public static class CodeTimer
+    public abstract class CodeTimer
     {
         /// <summary>
         /// 初始化，预加载

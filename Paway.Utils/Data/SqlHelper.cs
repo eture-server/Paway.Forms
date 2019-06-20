@@ -9,7 +9,7 @@ namespace Paway.Utils
     /// <summary>
     ///     SQL操作基类
     /// </summary>
-    public abstract class SqlHelper : DataBase
+    public class SqlHelper : DataBase
     {
         /// <summary>
         ///     连接字符模板

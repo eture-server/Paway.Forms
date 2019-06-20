@@ -208,15 +208,7 @@ namespace Paway.Forms
                 {
                     tempList.Add(item);
                 }
-                var builder = SortBuilder.CreateBuilder(DataType, name);
-                if (sort == SortOrder.Ascending)
-                {
-                    this.dataSource = tempList.AsParallel().OrderBy(c => builder.Build(c));
-                }
-                else
-                {
-                    this.dataSource = tempList.AsParallel().OrderByDescending(c => builder.Build(c));
-                }
+                this.dataSource = DataType.Sort(tempList, name);
                 RefreshData();
             }
             else if (this.DataSource is DataTable)

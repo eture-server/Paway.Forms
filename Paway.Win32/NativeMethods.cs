@@ -8,7 +8,7 @@ namespace Paway.Win32
     /// <summary>
     ///     NativeMethods - Win32 API 方法
     /// </summary>
-    public class NativeMethods
+    public abstract class NativeMethods
     {
         #region user32.dll
         #region 系统菜单

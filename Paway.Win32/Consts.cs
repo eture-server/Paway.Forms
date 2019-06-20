@@ -5,7 +5,7 @@ namespace Paway.Win32
     /// <summary>
     ///     Win32 API 常量
     /// </summary>
-    public class Consts
+    public abstract class Consts
     {
         #region Result
         /// <summary>

@@ -3,6 +3,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.ComponentModel;
 
 namespace Paway.Forms
 {
@@ -14,28 +15,22 @@ namespace Paway.Forms
         private readonly ProgressState _state = null;
 
         private readonly static ProgressStates states = new ProgressStates();
-        private static Thread thread;
-        private volatile static bool IStop;
+        private volatile static bool IStop = true;
         /// <summary>
         /// 取消事件
         /// </summary>
-        public event Action CancelEvent;
+        public event Func<bool> CancelEvent;
 
         /// <summary>
         /// 初始化线程
         /// </summary>
         public static void Initialize()
         {
+            if (!IStop) return;
             IStop = false;
-            thread = new Thread(ThreadProc)
-            {
-                Name = "progress thread",
-                Priority = ThreadPriority.Highest,
-                IsBackground = true
-            };
-            thread.Start();
+            new Action(Run).BeginInvoke(null, null);
         }
-        private static void ThreadProc()
+        private static void Run()
         {
             ProgressForm progressForm = new ProgressForm(states);
             while (!IStop)
@@ -56,8 +51,6 @@ namespace Paway.Forms
         {
             states.Clear();
             IStop = true;
-            if (thread != null && thread.IsAlive)
-                thread.Join(100);
         }
         /// <summary>
         /// 正在显示的进度条数量
@@ -73,7 +66,7 @@ namespace Paway.Forms
         /// <summary>
         /// 初始化实例
         /// </summary>
-        /// <param name="canCancel">是否可以取消，默认否</param>
+        /// <param name="canCancel">是否可以取消，默认否（设置取消未注册事件，则直接关闭窗体）</param>
         /// <param name="caption">标题</param>
         /// <param name="max">最大值</param>
         public Progress(bool canCancel, string caption = "Loading..", int max = 0) : this(ProgressStates.False, canCancel, caption, max) { }
@@ -81,7 +74,7 @@ namespace Paway.Forms
         /// 初始化实例
         /// </summary>
         /// <param name="owner">父控件</param>
-        /// <param name="canCancel">是否可以取消，默认否</param>
+        /// <param name="canCancel">是否可以取消，默认否（设置取消未注册事件，则直接关闭窗体）</param>
         /// <param name="caption">标题</param>
         /// <param name="max">最大值</param>
         public Progress(IntPtr owner, bool canCancel = false, string caption = "Loading..", int max = 0)
@@ -93,7 +86,7 @@ namespace Paway.Forms
         }
         private void State_CancelEvent()
         {
-            CancelEvent?.Invoke();
+            if (CancelEvent == null || CancelEvent.Invoke()) Dispose();
         }
         /// <summary>
         /// 完成释放

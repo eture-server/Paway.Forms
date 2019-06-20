@@ -61,7 +61,7 @@ namespace Paway.Test
                 Progress.Initialize();
                 Application.ThreadException += Application_ThreadException;
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-                Application.Run(new FormGridView());
+                Application.Run(new Form3());
             }
             catch (Exception e)
             {
