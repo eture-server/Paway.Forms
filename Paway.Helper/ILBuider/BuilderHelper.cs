@@ -130,39 +130,37 @@ namespace Paway.Helper
         /// <summary>
         /// 并行排序，并返回排序后的List列表
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
         /// <param name="name">排序列名称</param>
         /// <param name="sort">true:升序，false:倒序</param>
-        public static List<T> Sort<T>(this List<T> list, string name, bool sort = true)
+        public static void Sort<T>(this List<T> list, string name, bool sort = true)
         {
-            var dic = new Dictionary<string, bool>();
-            dic.Add(name, sort);
-            return list.Sort(dic);
+            var dic = new Dictionary<string, bool>
+            {
+                { name, sort }
+            };
+            list.Sort(dic);
         }
         /// <summary>
         /// 多列并行升序排序，并返回排序后的List列表
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
         /// <param name="names">排序列名称组</param>
-        public static List<T> Sort<T>(this List<T> list, params string[] names)
+        public static void Sort<T>(this List<T> list, params string[] names)
         {
-            if (names.Length == 0) throw new ArgumentException("未设置排序列", "names");
             var dic = new Dictionary<string, bool>();
             foreach (var name in names) dic.Add(name, true);
-            return list.Sort(dic);
+            list.Sort(dic);
         }
         /// <summary>
         /// 并行排序，并返回排序后的List列表
         /// 自定义列与升倒序键值对
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
         /// <param name="sort">Key:名称，值:true:升序，false:倒序</param>
-        public static List<T> Sort<T>(this List<T> list, Dictionary<string, bool> sort)
+        public static void Sort<T>(this List<T> list, Dictionary<string, bool> sort)
         {
-            if (sort == null || sort.Count == 0) throw new ArgumentException("未设置排序列", "sort");
+            if (sort == null || sort.Count == 0) throw new ArgumentException("未设置排序列");
             var parallel = list.AsParallel();
             var item = sort.ElementAt(0);
             var builder = SortBuilder.CreateBuilder(typeof(T), item.Key);
@@ -173,7 +171,9 @@ namespace Paway.Helper
                 builder = SortBuilder.CreateBuilder(typeof(T), item.Key);
                 orderBy = item.Value ? orderBy.ThenBy(c => builder.Build(c)) : orderBy.ThenByDescending(c => builder.Build(c));
             }
-            return orderBy.ToList();
+            var temp = orderBy.ToList();
+            list.Clear();
+            list.AddRange(temp);
         }
 
         #endregion
