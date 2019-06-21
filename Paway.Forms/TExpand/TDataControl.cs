@@ -414,12 +414,17 @@ namespace Paway.Forms
 
         #region 快捷显示
         /// <summary>
-        /// CellFormatting
+        /// 单元格设置CellFormatting
         /// </summary>
         protected virtual void OnUpdateCell(string name, DataGridViewCellFormattingEventArgs e) { }
         /// <summary>
+        /// 单元格焦点切换事件
         /// </summary>
         protected virtual void OnCurrentCellChanged() { }
+        /// <summary>
+        /// 行双击事件
+        /// </summary>
+        protected virtual void OnRowDoubleClick(int rowIndex) { }
         private void Gridview1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             string name = gridview1.Edit.Columns[e.ColumnIndex].Name;
@@ -442,7 +447,15 @@ namespace Paway.Forms
         }
         private void Gridview1_DoubleClick(object sender, EventArgs e)
         {
-            toolBar1.TClickItem("编辑");
+            if (e is MouseEventArgs me)
+            {
+                var hit = gridview1.Edit.HitTest(me.X, me.Y);
+                if (hit.RowIndex > -1)
+                {
+                    toolBar1.TClickItem("编辑");
+                    OnRowDoubleClick(hit.RowIndex);
+                }
+            }
         }
 
         #endregion

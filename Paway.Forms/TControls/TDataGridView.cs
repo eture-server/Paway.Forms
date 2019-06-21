@@ -107,21 +107,18 @@ namespace Paway.Forms
         [DefaultValue(false)]
         public bool IMultiText { get; set; }
 
+        private string _iCheckBoxName;
         /// <summary>
-        ///     是否绘制CheckBox
+        /// CheckBox绘制列列Name
         /// </summary>
-        private bool _iCheckBox;
-        /// <summary>
-        ///     是否绘制CheckBox
-        /// </summary>
-        [Browsable(true), Description("是否绘制CheckBox")]
-        [DefaultValue(false)]
-        public bool ICheckBox
+        [Browsable(true), Description("绘制列列Name")]
+        [DefaultValue(null)]
+        public string ICheckBoxName
         {
-            get { return _iCheckBox; }
+            get { return _iCheckBoxName; }
             set
             {
-                _iCheckBox = value;
+                _iCheckBoxName = value;
                 if (_headerCheckBox == null)
                 {
                     _headerCheckBox = new CheckBox()
@@ -134,17 +131,10 @@ namespace Paway.Forms
                     _headerCheckBox.MouseClick += HeaderCheckBox_MouseClick;
                     CurrentCellDirtyStateChanged += ComBoxGridView_CurrentCellDirtyStateChanged;
                 }
-                _headerCheckBox.Visible = _iCheckBox;
+                _headerCheckBox.Visible = !_iCheckBoxName.IsNullOrEmpty();
                 Invalidate();
             }
         }
-
-        /// <summary>
-        ///     绘制列列Name
-        /// </summary>
-        [Browsable(true), Description("绘制列列Name")]
-        [DefaultValue(null)]
-        public string ICheckBoxName { get; set; }
 
         #endregion
 
@@ -384,6 +374,7 @@ namespace Paway.Forms
             if (value == null)
             {
                 base.DataSource = null;
+                ClearBox();
                 return;
             }
             Type type = null;
@@ -392,10 +383,12 @@ namespace Paway.Forms
                 var list = value as IEnumerable;
                 type = list.GenericType();
                 base.DataSource = list.ToDataTable();
+                if (!list.GetEnumerator().MoveNext()) ClearBox();
             }
-            else if (value is DataTable)
+            else if (value is DataTable dt)
             {
-                base.DataSource = value;
+                base.DataSource = dt;
+                if (dt.Rows.Count == 0) ClearBox();
             }
             else
             {
@@ -403,6 +396,7 @@ namespace Paway.Forms
                 var temp = type.CreateList();
                 temp.Add(value);
                 base.DataSource = temp;
+                ClearBox();
             }
             UpdateColumns(type);
             OnRefreshChanged(type);
@@ -419,7 +413,7 @@ namespace Paway.Forms
             _iCheckBoxIndex = -1;
             for (var i = 0; i < Columns.Count; i++)
             {
-                if (Columns[i].Name == ICheckBoxName)
+                if (Columns[i].Name == _iCheckBoxName)
                 {
                     _iCheckBoxIndex = i;
                 }
@@ -489,7 +483,7 @@ namespace Paway.Forms
             GridColor = BitmapHelper.RGBAddLight(RowTemplate.DefaultCellStyle.SelectionBackColor, -15);
             if (e.RowIndex == -1)
             {
-                if (_iCheckBox) DrawCombox(e);
+                if (!_iCheckBoxName.IsNullOrEmpty()) DrawCombox(e);
                 HeaderMerge(e);
             }
             else
@@ -593,6 +587,13 @@ namespace Paway.Forms
         #endregion
 
         #region 绘制Combox
+        /// <summary>
+        /// 清空选择
+        /// </summary>
+        private void ClearBox()
+        {
+            if (_headerCheckBox != null) _headerCheckBox.Checked = false;
+        }
         private void HeaderCheckBox_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Space)
@@ -605,11 +606,11 @@ namespace Paway.Forms
         }
         private void HeaderCheckBoxClick(CheckBox HCheckBox)
         {
-            if (!_iCheckBox || string.IsNullOrEmpty(ICheckBoxName)) return;
+            if (_iCheckBoxName.IsNullOrEmpty()) return;
 
             foreach (DataGridViewRow Row in Rows)
             {
-                ((DataGridViewCheckBoxCell)Row.Cells[ICheckBoxName]).Value = HCheckBox.Checked;
+                ((DataGridViewCheckBoxCell)Row.Cells[_iCheckBoxName]).Value = HCheckBox.Checked;
             }
             CheckedChanged?.Invoke(HCheckBox.Checked);
             RefreshEdit();
@@ -617,7 +618,7 @@ namespace Paway.Forms
 
         private void ComBoxGridView_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
-            if (!_iCheckBox) return;
+            if (_iCheckBoxName.IsNullOrEmpty()) return;
             if (CurrentCell is DataGridViewCheckBoxCell)
                 CommitEdit(DataGridViewDataErrorContexts.Commit);
         }
@@ -625,7 +626,7 @@ namespace Paway.Forms
         private void DrawCombox(DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex != -1) return;
-            if (!_iCheckBox) return;
+            if (_iCheckBoxName.IsNullOrEmpty()) return;
             _headerCheckBox.Visible = _iCheckBoxIndex != -1;
             if (e.ColumnIndex == _iCheckBoxIndex)
             {

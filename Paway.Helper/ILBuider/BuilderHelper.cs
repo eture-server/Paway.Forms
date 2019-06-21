@@ -173,15 +173,14 @@ namespace Paway.Helper
         public static void Sort<T>(this List<T> list, Dictionary<string, bool> sort)
         {
             if (sort == null || sort.Count == 0) throw new ArgumentException("未设置排序列");
-            var parallel = list.AsParallel();
             var item = sort.ElementAt(0);
             var builder = SortBuilder.CreateBuilder(typeof(T), item.Key);
             var orderBy = item.Value ? list.AsParallel().OrderBy(c => builder.Build(c)) : list.AsParallel().OrderByDescending(c => builder.Build(c));
             for (int i = 1; i < sort.Count; i++)
             {
                 item = sort.ElementAt(i);
-                builder = SortBuilder.CreateBuilder(typeof(T), item.Key);
-                orderBy = item.Value ? orderBy.ThenBy(c => builder.Build(c)) : orderBy.ThenByDescending(c => builder.Build(c));
+                var builder2 = SortBuilder.CreateBuilder(typeof(T), item.Key);
+                orderBy = item.Value ? orderBy.ThenBy(c => builder2.Build(c)) : orderBy.ThenByDescending(c => builder2.Build(c));
             }
             var temp = orderBy.ToList();
             list.Clear();

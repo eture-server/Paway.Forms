@@ -208,7 +208,7 @@ namespace Paway.Forms
                 {
                     tempList.Add(item);
                 }
-                this.dataSource = DataType.Sort(tempList, name);
+                this.dataSource = DataType.Sort(tempList, name, sort == SortOrder.Ascending);
                 RefreshData();
             }
             else if (this.DataSource is DataTable)

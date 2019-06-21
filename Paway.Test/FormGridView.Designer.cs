@@ -262,7 +262,6 @@
             dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.tDataGridView1.DefaultCellStyle = dataGridViewCellStyle10;
             this.tDataGridView1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tDataGridView1.ICheckBox = true;
             this.tDataGridView1.ICheckBoxName = "IsSelect";
             this.tDataGridView1.IMultiText = true;
             this.tDataGridView1.Location = new System.Drawing.Point(10, 10);
