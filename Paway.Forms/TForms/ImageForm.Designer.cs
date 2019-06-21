@@ -34,7 +34,7 @@
             // 
             this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(350, 448);
-            this.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ForeColor = System.Drawing.Color.Red;
             this.ITransfer = true;
             this.Name = "ImageForm";
