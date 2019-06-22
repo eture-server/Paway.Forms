@@ -322,7 +322,7 @@ namespace Paway.Forms
                 item = list.ElementAt(i);
                 list2.Add(item.Key.Points[item.Value]);
             }
-            list2.Sort((c1, c2) => c1.Name.TCompare(c2.Name));
+            list2.Sort(nameof(DataPoint.Name));
 
 
             double length = (this.ChartAreas[0].AxisX.ScaleView.ViewMaximum - this.ChartAreas[0].AxisX.ScaleView.ViewMinimum) / 2;
@@ -358,7 +358,7 @@ namespace Paway.Forms
             this.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.Red;
             this.ChartAreas[0].AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
             this.ChartAreas[0].AxisY.CustomLabels.Clear();
-            list2.Sort((c1, c2) => c1.YValues[0].TCompare(c2.YValues[0]));
+            list2.Sort((c1, c2) => c1.YValues[0].TCompare().CompareTo(c2.YValues[0].TCompare()));
             for (int i = 0; i < list2.Count; i++)
             {
                 CustomLabel y = new CustomLabel()

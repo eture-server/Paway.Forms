@@ -393,7 +393,7 @@ namespace Paway.Forms
             else
             {
                 type = value.GetType();
-                var temp = type.CreateList();
+                var temp = type.GenericList();
                 temp.Add(value);
                 base.DataSource = temp;
                 ClearBox();

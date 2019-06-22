@@ -44,7 +44,7 @@ namespace Paway.Helper
                         var type2 = descriptor.PropertyType.GenericType();
                         if (obj == null)
                         {
-                            obj = type2.CreateList();
+                            obj = type2.GenericList();
                             info.SetValue(descriptor, obj);
                         }
                         var obj2 = Assembly.GetAssembly(type2).CreateInstance(type2.FullName);
@@ -139,7 +139,7 @@ namespace Paway.Helper
                 }
                 else
                 {
-                    var value = obj.ToString2();
+                    var value = obj.ToStrs();
                     if (allowEmpty || !value.IsNullOrEmpty())
                     {
                         if (!descriptor.Description.IsNullOrEmpty())

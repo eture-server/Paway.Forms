@@ -113,7 +113,7 @@ namespace Paway.Helper
             var strHardDiskID = string.Empty;
             foreach (ManagementObject mo in searcher.Get())
             {
-                strHardDiskID = mo["SerialNumber"].ToString2().Trim();
+                strHardDiskID = mo["SerialNumber"].ToStrs().Trim();
                 if (!string.IsNullOrEmpty(strHardDiskID))
                     break;
             }

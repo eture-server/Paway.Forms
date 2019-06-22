@@ -272,7 +272,7 @@ namespace Paway.Helper
         /// <summary>
         ///     String转换
         /// </summary>
-        public static string ToString2(this object obj)
+        public static string ToStrs(this object obj)
         {
             if (obj == null || obj == DBNull.Value)
                 return string.Empty;
@@ -309,7 +309,7 @@ namespace Paway.Helper
         /// </summary>
         public static string ToSpell(this object obj)
         {
-            string text = obj.ToString2();
+            string text = obj.ToStrs();
             string str = "";
             for (int i = 0; i < text.Length; i++)
             {
@@ -513,7 +513,7 @@ namespace Paway.Helper
             }
             else if (pro.PropertyType == typeof(string))
             {
-                pro.SetValue(obj, value.ToString2());
+                pro.SetValue(obj, value.ToStrs());
             }
             else if (pro.PropertyType.IsEnum)
             {
@@ -663,7 +663,7 @@ namespace Paway.Helper
         /// <summary>
         ///     返回泛型实参实例
         /// </summary>
-        public static IList CreateList(this Type type)
+        public static IList GenericList(this Type type)
         {
             var listType = typeof(List<>);
             listType = listType.MakeGenericType(type);
@@ -917,7 +917,8 @@ namespace Paway.Helper
                     return (bool)obj ? 1 : 0;
                 case nameof(Image):
                 case nameof(Bitmap):
-                    return 0;
+                    var image = (Image)obj;
+                    return image.Width * image.Height;
             }
             return obj.ToInt();
         }
@@ -1037,7 +1038,7 @@ namespace Paway.Helper
                 {
                     var list = value as IList;
                     var type = list.GenericType();
-                    var clist = type.CreateList();
+                    var clist = type.GenericList();
                     descriptor.SetValue(copy, clist);
                     clist = descriptor.GetValue(copy) as IList;
                     var asmb = Assembly.GetAssembly(type);

@@ -1791,7 +1791,7 @@ namespace Paway.Forms
             }
             for (var i = 0; i < Items.Count; i++)
             {
-                if (Items[i].Tag.ToString2() == text)
+                if (Items[i].Tag.ToStrs() == text)
                 {
                     Items.RemoveAt(i);
                     break;
@@ -1812,7 +1812,7 @@ namespace Paway.Forms
             }
             for (var i = 0; i < Items.Count; i++)
             {
-                if (Items[i].Tag.ToString2() == text)
+                if (Items[i].Tag.ToStrs() == text)
                 {
                     return Items[i];
                 }
@@ -1842,7 +1842,7 @@ namespace Paway.Forms
             }
             for (var i = 0; i < Items.Count; i++)
             {
-                if (Items[i].Tag.ToString2() == text)
+                if (Items[i].Tag.ToStrs() == text)
                 {
                     TClickItem(i);
                     break;

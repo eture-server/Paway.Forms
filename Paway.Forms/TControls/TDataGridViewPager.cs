@@ -298,7 +298,7 @@ namespace Paway.Forms
         {
             int i = 0;
             var index = PagerInfo.PageSize * (PagerInfo.CurrentPageIndex - 1);
-            var emabList = DataType.CreateList();
+            var emabList = DataType.GenericList();
             foreach (var item in query)
             {
                 i++;

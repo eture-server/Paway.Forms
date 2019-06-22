@@ -260,7 +260,7 @@ namespace Paway.Helper
                         {
                             var cell = row.CreateCell(index++);
                             cell.CellStyle = style;
-                            cell.SetCellValue(descriptor.GetValue(list[i]).ToString2());
+                            cell.SetCellValue(descriptor.GetValue(list[i]).ToStrs());
                         }
                     }
                 }
