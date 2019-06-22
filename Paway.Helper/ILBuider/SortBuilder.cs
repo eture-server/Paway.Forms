@@ -56,7 +56,7 @@ namespace Paway.Helper
             var getTCompare = typeof(ConverHelper).GetMethod("TCompare", new Type[] { typeof(object) });
             var getTCompareInt = typeof(ConverHelper).GetMethod("TCompareInt", new Type[] { typeof(object) });
             var getTCompareDouble = typeof(ConverHelper).GetMethod("TCompareDouble", new Type[] { typeof(object) });
-            var dymMethod = new DynamicMethod(type.Name + "SortBuilder" + name, typeof(long), new Type[] { typeof(object) }, true);
+            var dymMethod = new DynamicMethod(type.Name + "SortBuilder", typeof(long), new Type[] { typeof(object) }, true);
             switch (property.PropertyType.Name)
             {
                 case nameof(Int32):
@@ -65,12 +65,12 @@ namespace Paway.Helper
                 case nameof(Boolean):
                 case nameof(Image):
                 case nameof(Bitmap):
-                    dymMethod = new DynamicMethod(type.Name + "SortBuilderInt" + name, typeof(int), new Type[] { typeof(object) }, true);
+                    dymMethod = new DynamicMethod(type.Name + "SortBuilderInt", typeof(int), new Type[] { typeof(object) }, true);
                     break;
                 case nameof(Double):
                 case nameof(Single):
                 case nameof(Decimal):
-                    dymMethod = new DynamicMethod(type.Name + "SortBuilderDouble" + name, typeof(double), new Type[] { typeof(object) }, true);
+                    dymMethod = new DynamicMethod(type.Name + "SortBuilderDouble", typeof(double), new Type[] { typeof(object) }, true);
                     break;
             }
             var generator = dymMethod.GetILGenerator();// Create ILGenerator

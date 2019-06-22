@@ -12,11 +12,10 @@ using System.Text.RegularExpressions;
 namespace Paway.Helper
 {
     /// <summary>
-    /// IL动态代码(Emit)，复制
+    /// IL动态代码(Emit)，复制（不复制子级）
     /// </summary>
     internal abstract class CloneBuilder
     {
-        #region 动态生成代码Emit技术(IL生成)复制（不复制子级）
         /// <summary>
         /// 生成动态代码，复制属性字段等所有
         /// </summary>
@@ -117,7 +116,5 @@ namespace Paway.Helper
 
             return lambda.Compile();
         }
-
-        #endregion
     }
 }

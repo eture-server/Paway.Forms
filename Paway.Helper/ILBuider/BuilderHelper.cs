@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Common;
 using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
@@ -185,6 +186,38 @@ namespace Paway.Helper
             var temp = orderBy.ToList();
             list.Clear();
             list.AddRange(temp);
+        }
+
+        #endregion
+
+        #region SQL
+        /// <summary>
+        /// 创建SQL参数
+        /// </summary>
+        public static DbParameter AddParameter(string column, object value, Type type, Type ptype)
+        {
+            var asmb = Assembly.GetAssembly(ptype);
+            var param = asmb.CreateInstance(ptype.FullName) as DbParameter;
+            param.ParameterName = string.Format("@{0}", column);
+            switch (type.Name)
+            {
+                case nameof(DateTime):
+                    var time = (DateTime)value;
+                    if (TConfig.IUtcTime) time = time.ToUniversalTime();
+                    if (time == DateTime.MinValue) param.Value = DBNull.Value;
+                    else param.Value = time;
+                    break;
+                case nameof(Image):
+                case nameof(Bitmap):
+                    param.Value = StructHelper.ImageToBytes((Image)value);
+                    param.DbType = DbType.Binary;
+                    break;
+                default:
+                    param.Value = value;
+                    break;
+            }
+            if (param.Value == null) param.Value = DBNull.Value;
+            return param;
         }
 
         #endregion

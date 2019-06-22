@@ -497,9 +497,10 @@ namespace Paway.Utils
                 var sql = typeof(T).Insert(GetId, Identity);
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
+                var builder = SQLBuilder<T>.CreateBuilder(paramType);
                 for (var i = 0; i < list.Count; i++)
                 {
-                    var pList = list[i].AddParameters(paramType).ToArray();
+                    var pList = builder.Build(list[i]).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
                     using (var dr = cmd.ExecuteReader())
@@ -566,9 +567,10 @@ namespace Paway.Utils
                 var sql = typeof(T).Update(args);
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
+                var builder = SQLBuilder<T>.CreateBuilder(paramType, args);
                 for (var i = 0; i < list.Count; i++)
                 {
-                    var pList = list[i].AddParameters(paramType, args).ToArray();
+                    var pList = builder.Build(list[i]).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
                     cmd.ExecuteNonQuery();
@@ -647,9 +649,10 @@ namespace Paway.Utils
                 var sql = DataBaseHelper.Delete<T>();
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
+                var builder = SQLBuilder<T>.CreateBuilder(paramType);
                 for (var i = 0; i < list.Count; i++)
                 {
-                    var pList = list[i].AddParameters(paramType).ToArray();
+                    var pList = builder.Build(list[i]).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
                     cmd.ExecuteNonQuery();
@@ -944,74 +947,6 @@ namespace Paway.Utils
                 }
             }
             return false;
-        }
-
-        #endregion
-
-        #region AddParameter
-        /// <summary>
-        ///     添加参数值到参数列表
-        ///     通用型
-        /// </summary>
-        public static List<DbParameter> AddParameters<T>(this T t, Type ptype, params string[] args)
-        {
-            var type = typeof(T);
-            var asmb = Assembly.GetAssembly(ptype);
-            var pList = new List<DbParameter>();
-
-            var key = type.TableKey();
-            var properties = type.Properties();
-            var descriptors = type.Descriptors();
-            foreach (var descriptor in descriptors)
-            {
-                object value = t.GetValue(descriptor);
-                var property = properties.Find(c => c.Name == descriptor.Name);
-                if (property.ISelect(out string column))
-                {
-                    //Key必须要
-                    if (args.Length > 0 && key != column && args.FirstOrDefault(c => c == column) == null) continue;
-                    var param = AddParameter(asmb, ptype, column, value);
-                    if (descriptor.PropertyType == typeof(Image)) param.DbType = DbType.Binary;
-                    pList.Add(param);
-                }
-            }
-            return pList;
-        }
-        private static DbParameter AddParameter(Assembly asmb, Type ptype, string column, object value)
-        {
-            var param = asmb.CreateInstance(ptype.FullName) as DbParameter;
-            param.ParameterName = string.Format("@{0}", column);
-            if (value is DateTime time)
-            {
-                if (TConfig.IUtcTime) time = time.ToUniversalTime();
-                param.Value = time;
-            }
-            else
-            {
-                param.Value = value;
-            }
-            return param;
-        }
-
-        #endregion
-
-        #region 特性
-        private static object GetValue<T>(this T t, PropertyDescriptor prop)
-        {
-            var value = prop.GetValue(t);
-            if (value == null || value == DBNull.Value) return DBNull.Value;
-            if (prop.PropertyType == typeof(Image) && value is Image)
-            {
-                value = StructHelper.ImageToBytes((Image)value);
-                if (value == null) return DBNull.Value;
-            }
-            else if (prop.PropertyType == typeof(DateTime) && value is DateTime)
-            {
-                var dt = value.ToDateTime();
-                if (dt == DateTime.MinValue) return DBNull.Value;
-                value = dt;
-            }
-            return value;
         }
 
         #endregion
