@@ -441,7 +441,7 @@ namespace Paway.Utils
 
                 if (iLimit)
                 {
-                    sql = DataBaseHelper.Select<T>(find, args);
+                    sql = type.Select(find, 0, args);
                     if (count > 0)
                     {
                         sql = string.Format("{0} limit {1}", sql, count);
@@ -449,7 +449,7 @@ namespace Paway.Utils
                 }
                 else
                 {
-                    sql = DataBaseHelper.Select<T>(find, count, args);
+                    sql = type.Select(find, count, args);
                 }
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
@@ -483,10 +483,8 @@ namespace Paway.Utils
         /// </summary>
         public bool Insert<T>(T t, DbCommand cmd = null, bool Identity = false)
         {
-            var list = new List<T> { t };
-            return Insert<T>(list, cmd, Identity);
+            return Insert(new List<T> { t }, cmd, Identity);
         }
-
         /// <summary>
         ///     插入列表
         /// </summary>
@@ -496,11 +494,11 @@ namespace Paway.Utils
             try
             {
                 if (iTrans) cmd = TransStart();
+                var sql = typeof(T).Insert(GetId, Identity);
+                cmd.CommandText = sql;
+                OnCommandText(cmd);
                 for (var i = 0; i < list.Count; i++)
                 {
-                    var sql = list[i].Insert(GetId, Identity);
-                    cmd.CommandText = sql;
-                    OnCommandText(cmd);
                     var pList = list[i].AddParameters(paramType).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
@@ -516,7 +514,7 @@ namespace Paway.Utils
                         }
                     }
                 }
-                OnUpdate<T>(cmd, list, OperType.Insert);
+                OnUpdate(cmd, list, OperType.Insert);
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
@@ -540,17 +538,15 @@ namespace Paway.Utils
         /// </summary>
         public bool Update<T>(T t, params string[] args)
         {
-            return Update<T>(t, null, args);
+            return Update(t, null, args);
         }
         /// <summary>
         ///     更新行
         /// </summary>
         public bool Update<T>(T t, DbCommand cmd = null, params string[] args)
         {
-            var list = new List<T> { t };
-            return Update(list, cmd, args);
+            return Update(new List<T> { t }, cmd, args);
         }
-
         /// <summary>
         ///     更新列表
         /// </summary>
@@ -567,17 +563,17 @@ namespace Paway.Utils
             try
             {
                 if (iTrans) cmd = TransStart();
+                var sql = typeof(T).Update(args);
+                cmd.CommandText = sql;
+                OnCommandText(cmd);
                 for (var i = 0; i < list.Count; i++)
                 {
-                    var sql = list[i].Update(args);
-                    cmd.CommandText = sql;
-                    OnCommandText(cmd);
                     var pList = list[i].AddParameters(paramType, args).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
                     cmd.ExecuteNonQuery();
                 }
-                OnUpdate<T>(cmd, list, OperType.Update);
+                OnUpdate(cmd, list, OperType.Update);
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
@@ -599,14 +595,14 @@ namespace Paway.Utils
         /// <summary>
         ///     删除所有行(不监听更新事件)
         /// </summary>
-        public bool Delete<T>(DbCommand cmd = null)
+        public int Delete<T>(DbCommand cmd = null)
         {
             return Delete<T>("1=1", cmd);
         }
         /// <summary>
         ///     删除指定条件下的数据(不监听更新事件)
         /// </summary>
-        public bool Delete<T>(string find, DbCommand cmd = null)
+        public int Delete<T>(string find, DbCommand cmd = null)
         {
             var iTrans = cmd == null;
             string sql = null;
@@ -616,9 +612,7 @@ namespace Paway.Utils
                 sql = DataBaseHelper.Delete<T>(find);
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
-                bool result = false;
-                result = cmd.ExecuteNonQuery() == 1;
-                return result;
+                return cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
@@ -647,14 +641,14 @@ namespace Paway.Utils
         public bool Delete<T>(List<T> list, DbCommand cmd = null)
         {
             var iTrans = cmd == null;
-            var sql = DataBaseHelper.Delete<T>();
             try
             {
                 if (iTrans) cmd = TransStart();
+                var sql = DataBaseHelper.Delete<T>();
+                cmd.CommandText = sql;
+                OnCommandText(cmd);
                 for (var i = 0; i < list.Count; i++)
                 {
-                    cmd.CommandText = sql;
-                    OnCommandText(cmd);
                     var pList = list[i].AddParameters(paramType).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
@@ -781,35 +775,13 @@ namespace Paway.Utils
         #region Select
         /// <summary>
         ///     将指定类型转为Select语句
-        ///     指定查询条件为主列
-        /// </summary>
-        public static string Select<T>(params string[] args)
-        {
-            var attr = typeof(T).Table();
-            var sql = Select<T>(0, args);
-            sql = string.Format("{0} from [{1}]", sql, attr.Table);
-            sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Keys);
-            return sql;
-        }
-
-        /// <summary>
-        ///     将指定类型转为Select语句
-        ///     指定查询条件
-        /// </summary>
-        public static string Select<T>(string find, params string[] args)
-        {
-            return Select<T>(find, 0, args);
-        }
-
-        /// <summary>
-        ///     将指定类型转为Select语句
         ///     指定查询条件
         ///     返回指定行数
         /// </summary>
-        public static string Select<T>(string find, int count, params string[] args)
+        public static string Select(this Type type, string find, int count, params string[] args)
         {
-            var attr = ConverHelper.AttrTable(typeof(T));
-            var sql = Select<T>(count, args);
+            var attr = type.Table();
+            var sql = type.Select(count, args);
             sql = string.Format("{0} from [{1}]", sql, attr.Table);
             if (find != null)
             {
@@ -817,10 +789,8 @@ namespace Paway.Utils
             }
             return sql;
         }
-
-        private static string Select<T>(int count, params string[] args)
+        private static string Select(this Type type, int count, params string[] args)
         {
-            var type = typeof(T);
             var sql = "select";
             if (count != 0)
             {
@@ -852,14 +822,13 @@ namespace Paway.Utils
             var sql = string.Format("delete from [{0}] where [{1}]=@{1}", attr.Table, attr.Keys);
             return sql;
         }
-
         /// <summary>
         ///     将指定类型转为Delete语句
         ///     指定删除条件
         /// </summary>
         public static string Delete<T>(string find)
         {
-            var attr = ConverHelper.AttrTable(typeof(T));
+            var attr = typeof(T).Table();
             return string.Format("delete from [{0}] where {1}", attr.Table, find);
         }
 
@@ -869,25 +838,16 @@ namespace Paway.Utils
         /// <summary>
         ///     将指定类型转为Update语句
         /// </summary>
-        public static string Update<T>(this T t, params string[] args)
+        public static string Update(this Type type, params string[] args)
         {
-            return t.Update(false, args);
+            return type.Update(false, args);
         }
-        /// <summary>
-        ///     将指定类型转为Update语句
-        /// </summary>
-        public static string Update<T>(this DataRow row, params string[] args)
-        {
-            return row.Update<T>(false, args);
-        }
-
         /// <summary>
         ///     将指定类型转为Update语句
         ///     append=true时为附加,对应Sql语句中的+
         /// </summary>
-        public static string Update<T>(this T t, bool append = false, params string[] args)
+        public static string Update(this Type type, bool append = false, params string[] args)
         {
-            var type = typeof(T);
             var attr = type.Table();
             var sql = "update [{0}] set";
             sql = string.Format(sql, attr.Table);
@@ -900,46 +860,7 @@ namespace Paway.Utils
                     if (column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) == null) continue;
                     var descriptor = descriptors.Find(c => c.Name == property.Name);
-                    if (t.IsNull(descriptor))
-                    {
-                        sql = string.Format("{0} [{1}]=NULL,", sql, column);
-                    }
-                    else if (append)
-                    {
-                        sql = string.Format("{0} [{1}]=[{1}]+@{1},", sql, column);
-                    }
-                    else
-                    {
-                        sql = string.Format("{0} [{1}]=@{1},", sql, column);
-                    }
-                }
-            }
-            sql = sql.TrimEnd(',');
-            sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Keys);
-            return sql;
-        }
-        /// <summary>
-        ///     将指定类型转为Update语句
-        ///     append=true时为附加,对应Sql语句中的+
-        /// </summary>
-        public static string Update<T>(this DataRow row, bool append = false, params string[] args)
-        {
-            var type = typeof(T);
-            var attr = type.Table();
-            var sql = "update [{0}] set";
-            sql = string.Format(sql, attr.Table);
-            var properties = type.Properties();
-            foreach (var property in properties)
-            {
-                if (property.ISelect(out string column))
-                {
-                    if (column == attr.Key) continue;
-                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) == null) continue;
-                    if (row.IsNull(property))
-                    {
-                        sql = string.Format("{0} [{1}]=NULL,", sql, column);
-                    }
-                    else if (append)
+                    if (append)
                     {
                         sql = string.Format("{0} [{1}]=[{1}]+@{1},", sql, column);
                     }
@@ -960,11 +881,11 @@ namespace Paway.Utils
         /// <summary>
         ///     将指定类型转为Insert语句
         /// </summary>
-        public static string Insert<T>(this T t, string getId, bool Identity)
+        public static string Insert(this Type type, string getId, bool Identity)
         {
-            var attr = ConverHelper.AttrTable(typeof(T));
+            var attr = type.Table();
 
-            t.Insert(attr.Key, typeof(T), out string insert, out string value);
+            type.Insert(attr.Key, out string insert, out string value);
             var sql = string.Format("insert into [{0}]({1}) values({2})", attr.Table, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
             if (Identity)
@@ -973,24 +894,7 @@ namespace Paway.Utils
             }
             return sql;
         }
-        /// <summary>
-        ///     将指定类型转为Insert语句
-        /// </summary>
-        public static string Insert<T>(this DataRow row, string getId, bool Identity)
-        {
-            var attr = ConverHelper.AttrTable(typeof(T));
-
-            row.Insert<T>(attr.Key, typeof(T), out string insert, out string value);
-            var sql = string.Format("insert into [{0}]({1}) values({2})", attr.Table, insert, value);
-            sql = string.Format("{0};{1}", sql, getId);
-            if (Identity)
-            {
-                sql = string.Format("SET IDENTITY_INSERT [{0}] ON;{1}", attr.Table, sql);
-            }
-            return sql;
-        }
-
-        private static void Insert<T>(this T t, string key, Type type, out string insert, out string value, params string[] args)
+        private static void Insert(this Type type, string key, out string insert, out string value, params string[] args)
         {
             insert = null;
             value = null;
@@ -998,8 +902,6 @@ namespace Paway.Utils
             var descriptors = type.Descriptors();
             foreach (var descriptor in descriptors)
             {
-                if (t.IsNull(descriptor)) continue;
-
                 var property = properties.Find(c => c.Name == descriptor.Name);
                 if (property.ISelect(out string column))
                 {
@@ -1012,26 +914,6 @@ namespace Paway.Utils
             insert = insert.TrimEnd(',');
             value = value.TrimEnd(',');
         }
-        private static void Insert<T>(this DataRow row, string key, Type type, out string insert, out string value, params string[] args)
-        {
-            insert = null;
-            value = null;
-            var properties = type.Properties();
-            foreach (var property in properties)
-            {
-                if (row.IsNull(property)) continue;
-                if (property.ISelect(out string column))
-                {
-                    if (column == key) continue;
-                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) == null) continue;
-                    insert = string.Format("{0}[{1}],", insert, column);
-                    value = string.Format("{0}@{1},", value, column);
-                }
-            }
-            insert = insert.TrimEnd(',');
-            value = value.TrimEnd(',');
-        }
-
         /// <summary>
         ///     设置主键值
         /// </summary>
@@ -1063,40 +945,37 @@ namespace Paway.Utils
             }
             return false;
         }
-        /// <summary>
-        ///     设置主键值
-        /// </summary>
-        public static bool SetMark<T>(this DataRow row, object value)
-        {
-            if (value == null || value == DBNull.Value) return false;
-            if (value.ToInt() == 0) return false;
-
-            var type = typeof(T);
-            string key = type.TableKey();
-            var properties = type.Properties();
-            foreach (var property in properties)
-            {
-                if (property.ISelect(out string column))
-                {
-                    if (column != key) continue;
-                    row[property.Name] = value;
-                    return true;
-                }
-            }
-            return false;
-        }
 
         #endregion
 
         #region AddParameter
         /// <summary>
         ///     添加参数值到参数列表
-        ///     主键
+        ///     通用型
         /// </summary>
-        public static DbParameter AddParameter<T>(this Type ptype, object value)
+        public static List<DbParameter> AddParameters<T>(this T t, Type ptype, params string[] args)
         {
+            var type = typeof(T);
             var asmb = Assembly.GetAssembly(ptype);
-            return AddParameter(asmb, ptype, typeof(T).TableKey(), value);
+            var pList = new List<DbParameter>();
+
+            var key = type.TableKey();
+            var properties = type.Properties();
+            var descriptors = type.Descriptors();
+            foreach (var descriptor in descriptors)
+            {
+                object value = t.GetValue(descriptor);
+                var property = properties.Find(c => c.Name == descriptor.Name);
+                if (property.ISelect(out string column))
+                {
+                    //Key必须要
+                    if (args.Length > 0 && key != column && args.FirstOrDefault(c => c == column) == null) continue;
+                    var param = AddParameter(asmb, ptype, column, value);
+                    if (descriptor.PropertyType == typeof(Image)) param.DbType = DbType.Binary;
+                    pList.Add(param);
+                }
+            }
+            return pList;
         }
         private static DbParameter AddParameter(Assembly asmb, Type ptype, string column, object value)
         {
@@ -1113,126 +992,26 @@ namespace Paway.Utils
             }
             return param;
         }
-        /// <summary>
-        ///     添加参数值到参数列表
-        ///     通用型
-        /// </summary>
-        public static List<DbParameter> AddParameters<T>(this T t, Type ptype, params string[] args)
-        {
-            var type = typeof(T);
-            var asmb = Assembly.GetAssembly(ptype);
-            var pList = new List<DbParameter>();
-
-            var key = type.TableKey();
-            var properties = type.Properties();
-            var descriptors = type.Descriptors();
-            foreach (var descriptor in descriptors)
-            {
-                if (!t.IsValue(descriptor, out object value)) continue;
-                var property = properties.Find(c => c.Name == descriptor.Name);
-                if (property.ISelect(out string column))
-                {
-                    //Key必须要
-                    if (args.Length > 0 && key != column && args.FirstOrDefault(c => c == column) == null) continue;
-                    var param = AddParameter(asmb, ptype, column, value);
-                    pList.Add(param);
-                }
-            }
-            return pList;
-        }
-        /// <summary>
-        ///     添加参数值到参数列表
-        ///     通用型
-        /// </summary>
-        public static List<DbParameter> AddParameters<T>(this DataRow row, Type ptype, params string[] args)
-        {
-            var type = typeof(T);
-            var asmb = Assembly.GetAssembly(ptype);
-            var pList = new List<DbParameter>();
-
-            var key = type.TableKey();
-            var properties = type.Properties();
-            foreach (var property in properties)
-            {
-                if (!row.IsValue(property, out object value)) continue;
-                if (property.ISelect(out string column))
-                {
-                    //Key必须要
-                    if (args.Length > 0 && key != column && args.FirstOrDefault(c => c == column) == null) continue;
-                    var param = AddParameter(asmb, ptype, column, value);
-                    pList.Add(param);
-                }
-            }
-            return pList;
-        }
 
         #endregion
 
         #region 特性
-        private static bool IsNull<T>(this T t, PropertyDescriptor prop)
+        private static object GetValue<T>(this T t, PropertyDescriptor prop)
         {
             var value = prop.GetValue(t);
-            if (value == null || value == DBNull.Value) return true;
-
-            if (prop.PropertyType == typeof(DateTime) && value is DateTime)
-            {
-                var dt = value.ToDateTime();
-                if (dt == DateTime.MinValue) return true;
-            }
-            return false;
-        }
-        private static bool IsNull(this DataRow row, PropertyInfo prop)
-        {
-            var value = row[prop.Name];
-            if (value == null || value == DBNull.Value) return prop.PropertyType.IsValueType;
-
-            if (prop.PropertyType == typeof(DateTime) && value is DateTime)
-            {
-                var dt = value.ToDateTime();
-                if (dt == DateTime.MinValue) return true;
-            }
-            return false;
-        }
-        private static bool IsValue<T>(this T t, PropertyDescriptor prop, out object value)
-        {
-            value = prop.GetValue(t);
-            if (value == null || value == DBNull.Value) return false;
-
+            if (value == null || value == DBNull.Value) return DBNull.Value;
             if (prop.PropertyType == typeof(Image) && value is Image)
             {
                 value = StructHelper.ImageToBytes((Image)value);
-                if (value == null) return false;
+                if (value == null) return DBNull.Value;
             }
             else if (prop.PropertyType == typeof(DateTime) && value is DateTime)
             {
                 var dt = value.ToDateTime();
-                if (dt == DateTime.MinValue) return false;
+                if (dt == DateTime.MinValue) return DBNull.Value;
                 value = dt;
             }
-            return true;
-        }
-        private static bool IsValue(this DataRow row, PropertyInfo prop, out object value)
-        {
-            value = row[prop.Name];
-            if (value == null || value == DBNull.Value)
-            {
-                bool result = prop.PropertyType.IsValueType;
-                if (result) value = Activator.CreateInstance(prop.PropertyType);
-                return result;
-            }
-
-            if (prop.PropertyType == typeof(Image) && value is Image)
-            {
-                value = StructHelper.ImageToBytes((Image)value);
-                if (value == null) return false;
-            }
-            else if (prop.PropertyType == typeof(DateTime) && value is DateTime)
-            {
-                var dt = value.ToDateTime();
-                if (dt == DateTime.MinValue) return false;
-                value = dt;
-            }
-            return true;
+            return value;
         }
 
         #endregion

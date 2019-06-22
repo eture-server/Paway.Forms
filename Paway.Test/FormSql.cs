@@ -57,7 +57,7 @@ namespace Paway.Test
                     Id = i,
                     N2 = "Name" + i,
                     Tag = "Tag" + i,
-                    Image = pictureBox1.Image,
+                    //Image = pictureBox1.Image,
                 };
                 list.Add(data);
             }
@@ -209,7 +209,7 @@ namespace Paway.Test
     {
         public SqlService()
         {
-            base.InitConnect(@"(local)\SQLEXPRESS", "DiningLC", "mobot", "mobot");
+            base.InitConnect(@"(local)", "DiningLC", "mobot", "mobot");
         }
         public void Connect()
         {

@@ -43,15 +43,9 @@ namespace Paway.Helper
                 PropertyInfo property = type.GetProperty(dataRecord.Table.Columns[i].ColumnName);
                 if (property == null)
                 {
-                    foreach (var item in properties)
-                    {
-                        if (item.Column() == dataRecord.Table.Columns[i].ColumnName)
-                        {
-                            property = item;
-                            break;
-                        }
-                    }
+                    property = properties.Find(c => c.Column() == dataRecord.Table.Columns[i].ColumnName);
                 }
+                if (property == null) continue;
                 var endIfLabel = generator.DefineLabel();
                 if (property != null && property.GetSetMethod() != null)
                 {

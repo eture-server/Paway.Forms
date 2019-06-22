@@ -424,14 +424,7 @@ namespace Paway.Forms
                 var property = properties.Find(c => c.Name == Columns[i].Name);
                 if (property == null)
                 {
-                    foreach (var temp in properties)
-                    {
-                        if (Columns[i].Name == temp.Column())
-                        {
-                            property = temp;
-                            break;
-                        }
-                    }
+                    property = properties.Find(c => c.Column() == Columns[i].Name);
                 }
                 if (property == null) continue;
                 Columns[i].Visible = property.IShow(out string text);

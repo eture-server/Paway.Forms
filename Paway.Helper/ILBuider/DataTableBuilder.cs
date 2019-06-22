@@ -39,6 +39,7 @@ namespace Paway.Helper
                 Label endIfLabel = generator.DefineLabel();
                 if (property.PropertyType.IsGenericType)
                 {
+                    if (Nullable.GetUnderlyingType(property.PropertyType) == null) continue;
                     generator.Emit(OpCodes.Ldarg_0);
                     generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
                     generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
