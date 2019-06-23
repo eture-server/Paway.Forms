@@ -28,7 +28,7 @@ namespace Paway.Helper
         {
             if (!CloneFunc.TryGetValue(typeof(T), out Delegate func))
             {
-                func = CloneBuilder.GetCloneFunc<T>();
+                func = CloneBuilder.CloneFunc<T>();
                 CloneFunc.Add(typeof(T), func);
             }
             return ((Func<T, T>)func)(t);
@@ -40,7 +40,7 @@ namespace Paway.Helper
         {
             if (!CloneAction.TryGetValue(typeof(T), out Delegate action))
             {
-                action = CloneBuilder.GetCloneAction<T>();
+                action = CloneBuilder.CloneAction<T>();
                 CloneAction.Add(typeof(T), action);
             }
              ((Action<T, T>)action)(t, copy);
@@ -218,6 +218,74 @@ namespace Paway.Helper
             }
             if (param.Value == null) param.Value = DBNull.Value;
             return param;
+        }
+
+        #endregion
+
+        #region GetValue、SetValue
+        private static Dictionary<string, Delegate> GetValueFunc { set; get; } = new Dictionary<string, Delegate>();
+        private static Dictionary<string, Delegate> SetValueFunc { set; get; } = new Dictionary<string, Delegate>();
+        /// <summary>
+        /// IL动态代码(Emit)，获取值
+        /// </summary>
+        public static object GetValue<T>(this T t, string name)
+        {
+            return GetValue(typeof(T), t, name);
+        }
+        /// <summary>
+        /// IL动态代码(Emit)，获取值
+        /// </summary>
+        public static object GetValue(this Type type, object obj, string name)
+        {
+            if (!GetValueFunc.TryGetValue(type.FullName + "._" + name, out Delegate func))
+            {
+                func = ValueBuilder.GetValueFunc(type, name);
+                GetValueFunc.Add(type.FullName + "." + name, func);
+            }
+            return ((Func<object, object>)func)(obj);
+        }
+        /// <summary>
+        /// IL动态代码(Emit)，设置值
+        /// </summary>
+        public static void SetValue<T>(this T t, string name, object value)
+        {
+            SetValue(typeof(T), t, name, value);
+        }
+        /// <summary>
+        /// IL动态代码(Emit)，GetValue
+        /// </summary>
+        public static void SetValue(this Type type, object obj, string name, object value)
+        {
+            if (!SetValueFunc.TryGetValue(type.FullName + "." + name, out Delegate func))
+            {
+                func = ValueBuilder.SetValueFunc(type, name);
+                SetValueFunc.Add(type.FullName + "." + name, func);
+            }
+            ((Action<object, object>)func)(obj, value);
+        }
+
+        #endregion
+
+        #region 动态代码
+        /// <summary>
+        /// 值数据转引用数据(Value->object)
+        /// GetGetMethod()获取到的是值引用
+        /// </summary>
+        internal static void Box(this ILGenerator generator, PropertyInfo property)
+        {
+            if (property.PropertyType.IsValueType || property.PropertyType == typeof(string))
+                generator.Emit(OpCodes.Box, property.PropertyType);
+            else
+                generator.Emit(OpCodes.Castclass, property.PropertyType);
+        }
+        /// <summary>
+        /// 拆箱 引用数据转值数据(object->Value)
+        /// 实体.SetGetMethod()需要值数据
+        /// DataRow.SetGetMethod()需要引用数据
+        /// </summary>
+        internal static void UnBox(this ILGenerator generator, PropertyInfo property)
+        {
+            generator.Emit(OpCodes.Unbox_Any, property.PropertyType);
         }
 
         #endregion

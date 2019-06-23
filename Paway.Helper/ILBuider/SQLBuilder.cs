@@ -48,7 +48,7 @@ namespace Paway.Helper
             generator.Emit(OpCodes.Stloc, result);
             foreach (var property in type.Properties())
             {
-                if (!property.ISelect(out string column)) continue;
+                if (!property.ISelect(out string column) || !property.CanRead) continue;
                 if (args.Length > 0 && key != column && args.FirstOrDefault(c => c == column) == null) continue;
 
                 generator.Emit(OpCodes.Ldloc, result);
@@ -56,14 +56,12 @@ namespace Paway.Helper
                     generator.Emit(OpCodes.Ldstr, column);
                 }
                 generator.Emit(OpCodes.Ldarg_0);
-                generator.Emit(OpCodes.Callvirt, property.GetGetMethod());//获取
-                //实体数据使用需要装箱
-                if (property.PropertyType.IsValueType || property.PropertyType == typeof(string))
-                    generator.Emit(OpCodes.Box, property.PropertyType);//装箱                                                        
-                else
-                    generator.Emit(OpCodes.Castclass, property.PropertyType);
-                generator.Emit(OpCodes.Ldtoken, property.PropertyType);
-                generator.Emit(OpCodes.Ldtoken, ptype);
+                generator.Emit(OpCodes.Callvirt, property.GetGetMethod());//获取值
+                generator.Box(property);//值数据转引用数据
+                {//参数
+                    generator.Emit(OpCodes.Ldtoken, property.PropertyType);
+                    generator.Emit(OpCodes.Ldtoken, ptype);
+                }
                 generator.Emit(OpCodes.Call, addParameter);
                 generator.Emit(OpCodes.Callvirt, add);
             }
@@ -98,12 +96,11 @@ namespace Paway.Helper
             var dymMethod = new DynamicMethod(type.Name + "SQLBuilder", null, new Type[] { type, typeof(long) }, type, true);
             ILGenerator generator = dymMethod.GetILGenerator();
             var property = type.Property(key);
-            if (property != null)
+            if (property != null && property.CanWrite)
             {
                 generator.Emit(OpCodes.Ldarg_0);
                 generator.Emit(OpCodes.Ldarg_1);
-                //object要拆箱为指定type类型
-                //generator.Emit(OpCodes.Unbox_Any, property.PropertyType);
+                //generator.UnBox(property);//引用转值
                 generator.Emit(OpCodes.Callvirt, property.GetSetMethod());
             }
             generator.Emit(OpCodes.Ret);

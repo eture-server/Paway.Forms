@@ -56,12 +56,7 @@ namespace Paway.Forms
             }
             else if (type != typeof(string) && !type.IsValueType)
             {
-                var descriptors = type.Descriptors();
-                var descriptor = descriptors.Find(c => c.Name == DisplayMember);
-                if (descriptor != null)
-                {
-                    str = descriptor.GetValue(obj);
-                }
+                str = type.GetValue(obj, DisplayMember);
             }
             else
             {

@@ -398,9 +398,8 @@ namespace Paway.Helper
         /// </summary>
         public static PropertyInfo Property(this Type type, string name)
         {
-            var properties = type.Properties();
-            var property = properties.Find(c => c.Name == name);
-            if (property == null) property = properties.Find(c => c.Column() == name);
+            var property = type.GetProperty(name);
+            if (property == null) property = type.Properties().Find(c => c.Column() == name);
             return property;
         }
         /// <summary>
@@ -681,14 +680,12 @@ namespace Paway.Helper
         private static bool TEquals(this Type parent, object t, object temp, bool child)
         {
             var properties = parent.Properties();
-            var descriptors = parent.Descriptors();
             foreach (var property in properties)
             {
                 if (!property.IClone()) continue;
 
-                var descriptor = descriptors.Find(c => c.Name == property.Name);
-                var value = descriptor.GetValue(t);
-                var tempValue = descriptor.GetValue(temp);
+                var value = parent.GetValue(t, property.Name);
+                var tempValue = parent.GetValue(temp, property.Name);
                 if (!value.Equals(tempValue)) return false;
                 if (!child) continue;
                 if (value is IList)
@@ -1022,21 +1019,19 @@ namespace Paway.Helper
         private static void Clone(this Type parent, object copy, object t, bool child)
         {
             var properties = parent.Properties();
-            var descriptors = parent.Descriptors();
             foreach (var property in properties)
             {
                 if (!property.IClone()) continue;
 
-                var descriptor = descriptors.Find(c => c.Name == property.Name);
-                var value = descriptor.GetValue(t);
-                descriptor.SetValue(copy, value);
+                var value = parent.GetValue(t, property.Name);
+                parent.SetValue(copy, property.Name, value);
                 if (child && value is IList)
                 {
                     var list = value as IList;
                     var type = list.GenericType();
                     var clist = type.GenericList();
-                    descriptor.SetValue(copy, clist);
-                    clist = descriptor.GetValue(copy) as IList;
+                    parent.SetValue(copy, property.Name, clist);
+                    clist = parent.GetValue(copy, property.Name) as IList;
                     var asmb = Assembly.GetAssembly(type);
                     for (var j = 0; j < list.Count; j++)
                     {
@@ -1057,7 +1052,7 @@ namespace Paway.Helper
                     var type = value.GetType();
                     var asmb = Assembly.GetAssembly(type);
                     var obj = asmb.CreateInstance(type.FullName);
-                    descriptor.SetValue(copy, obj);
+                    parent.SetValue(copy, property.Name, obj);
                     type.Clone(obj, value, child);
                 }
             }

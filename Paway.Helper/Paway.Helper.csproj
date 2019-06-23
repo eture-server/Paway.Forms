@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Common\CodeTimer.cs" />
     <Compile Include="ILBuider\BuilderHelper.cs" />
+    <Compile Include="ILBuider\ValueBuilder.cs" />
     <Compile Include="ILBuider\SQLBuilder.cs" />
     <Compile Include="ILBuider\EntityBuilder.cs" />
     <Compile Include="ILBuider\DataTableBuilder.cs" />

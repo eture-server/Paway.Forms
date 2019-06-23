@@ -110,14 +110,12 @@ namespace Paway.Helper
         private static void Save<T>(XmlDocument doc, XmlElement root, T info, Type type, bool allowEmpty = false)
         {
             var properties = type.Properties();
-            var descriptors = type.Descriptors();
             foreach (PropertyInfo property in properties)
             {
                 if (!property.IBrowsable()) continue;
                 XmlElement element = doc.CreateElement(property.Name);
                 root.AppendChild(element);
-                var descriptor = descriptors.Find(c => c.Name == property.Name);
-                object obj = descriptor.GetValue(info);
+                object obj = type.GetValue(info, property.Name);
                 if (obj is IList)
                 {
                     var list = obj as IList;
@@ -142,9 +140,9 @@ namespace Paway.Helper
                     var value = obj.ToStrs();
                     if (allowEmpty || !value.IsNullOrEmpty())
                     {
-                        if (!descriptor.Description.IsNullOrEmpty())
+                        if (!property.Description().IsNullOrEmpty())
                         {
-                            var comment = doc.CreateComment(descriptor.Description);
+                            var comment = doc.CreateComment(property.Description());
                             root.InsertBefore(comment, element);
                         }
                         element.InnerText = value;

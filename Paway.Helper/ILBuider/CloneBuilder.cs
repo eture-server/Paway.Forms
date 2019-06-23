@@ -19,7 +19,7 @@ namespace Paway.Helper
         /// <summary>
         /// 生成动态代码，复制属性字段等所有
         /// </summary>
-        public static Delegate GetCloneFunc<T>()
+        public static Delegate CloneFunc<T>()
         {
             var type = typeof(T);
             // Create ILGenerator
@@ -30,11 +30,11 @@ namespace Paway.Helper
             generator.Emit(OpCodes.Newobj, type.GetConstructor(Type.EmptyTypes));
             generator.Emit(OpCodes.Stloc, result);
 
-            GetCloneFunc(generator, type);
+            CloneFunc(generator, type);
             while (type.BaseType != null)
             {//获取所有父类属性
                 type = type.BaseType;
-                GetCloneFunc(generator, type);
+                CloneFunc(generator, type);
             }
 
             // Load new constructed obj on eval stack -> 1 item on stack
@@ -46,7 +46,7 @@ namespace Paway.Helper
         /// <summary>
         /// 获取指定Type属性
         /// </summary>
-        private static void GetCloneFunc(ILGenerator generator, Type type)
+        private static void CloneFunc(ILGenerator generator, Type type)
         {
             foreach (FieldInfo field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
             {
@@ -54,7 +54,7 @@ namespace Paway.Helper
                 var match = new Regex(@"<(?<name>\w+)>").Match(field.Name);
                 if (match.Success)
                 {
-                    PropertyInfo property = type.GetProperty(match.Groups["name"].ToString());
+                    PropertyInfo property = type.Property(match.Groups["name"].ToString());
                     if (property != null && !property.IClone()) continue;
                 }
 
@@ -72,7 +72,7 @@ namespace Paway.Helper
         /// <summary>
         /// 生成动态代码，仅复制公有属性
         /// </summary>
-        public static Delegate GetCloneAction<T>()
+        public static Delegate CloneAction<T>()
         {
             var type = typeof(T);
             // Create ILGenerator
@@ -97,7 +97,7 @@ namespace Paway.Helper
         /// <summary>
         /// 表达式树，仅复制公有属性
         /// </summary>
-        public static Func<T, T> GetCloneLambda<T>()
+        public static Func<T, T> CloneLambda<T>()
         {
             ParameterExpression parameterExpression = Expression.Parameter(typeof(T), "p");
             List<MemberBinding> memberBindingList = new List<MemberBinding>();
@@ -106,7 +106,7 @@ namespace Paway.Helper
             {
                 if (!item.CanWrite || !item.IClone()) continue;
 
-                MemberExpression property = Expression.Property(parameterExpression, typeof(T).GetProperty(item.Name));
+                MemberExpression property = Expression.Property(parameterExpression, typeof(T).Property(item.Name));
                 MemberBinding memberBinding = Expression.Bind(item, property);
                 memberBindingList.Add(memberBinding);
             }

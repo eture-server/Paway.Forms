@@ -42,7 +42,7 @@ namespace Paway.Helper
                 PropertyInfo property = type.Property(dataRecord.Table.Columns[i].ColumnName);
                 if (property == null) continue;
                 var endIfLabel = generator.DefineLabel();
-                if (property != null && property.GetSetMethod() != null)
+                if (property != null && property.CanWrite)
                 {
                     generator.Emit(OpCodes.Ldarg_0);
                     generator.Emit(OpCodes.Ldc_I4, i);
@@ -52,14 +52,14 @@ namespace Paway.Helper
                     generator.Emit(OpCodes.Ldarg_0);
                     generator.Emit(OpCodes.Ldc_I4, i);
                     generator.Emit(OpCodes.Callvirt, getValueMethod);
-                    //DataTable数据使用需要拆箱
+                    //DataTable数据object使用需要拆箱
                     if (property.PropertyType == typeof(Image))
                     {
                         generator.Emit(OpCodes.Unbox_Any, typeof(byte[]));
                         //静态方法byte[]转Image
                         generator.Emit(OpCodes.Call, getImage);
                     }
-                    else generator.Emit(OpCodes.Unbox_Any, property.PropertyType);
+                    else generator.UnBox(property);//引用转值
                     generator.Emit(OpCodes.Callvirt, property.GetSetMethod());
                     generator.MarkLabel(endIfLabel);
                 }

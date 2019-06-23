@@ -36,30 +36,23 @@ namespace Paway.Helper
             foreach (var property in type.Properties())
             {
                 if (iExcel && !property.IExcel()) continue;
+                if (!property.CanRead) continue;
                 Label endIfLabel = generator.DefineLabel();
                 if (property.PropertyType.IsGenericType)
                 {
                     if (Nullable.GetUnderlyingType(property.PropertyType) == null) continue;
                     generator.Emit(OpCodes.Ldarg_0);
                     generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
-                    generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
-                    //实体数据使用需要装箱
-                    if (property.PropertyType.IsValueType || property.PropertyType == typeof(string))
-                        generator.Emit(OpCodes.Box, property.PropertyType);//装箱                                                        
-                    else
-                        generator.Emit(OpCodes.Castclass, property.PropertyType);
+                    generator.Emit(OpCodes.Callvirt, property.GetGetMethod());//获取值
+                    generator.Box(property);//值数据转引用数据
                     generator.Emit(OpCodes.Brfalse, endIfLabel);
                 }
                 generator.Emit(OpCodes.Ldarg_1);
                 generator.Emit(OpCodes.Ldstr, property.Column());
                 generator.Emit(OpCodes.Ldarg_0);
                 generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
-                generator.Emit(OpCodes.Callvirt, property.GetGetMethod());//获取
-                //实体数据使用需要装箱
-                if (property.PropertyType.IsValueType || property.PropertyType == typeof(string))
-                    generator.Emit(OpCodes.Box, property.PropertyType);//装箱                                                        
-                else
-                    generator.Emit(OpCodes.Castclass, property.PropertyType);
+                generator.Emit(OpCodes.Callvirt, property.GetGetMethod());//获取值
+                generator.Box(property);//值数据转引用数据
                 generator.Emit(OpCodes.Callvirt, setValueMethod);
                 if (property.PropertyType.IsGenericType)
                 {

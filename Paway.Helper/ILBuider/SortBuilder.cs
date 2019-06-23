@@ -51,6 +51,7 @@ namespace Paway.Helper
         {
             var property = type.Property(name);
             if (property == null) throw new ArgumentException("名称不存在", name);
+            if (!property.CanRead) throw new Exception("无法读取值");
 
             var getTCompare = typeof(ConverHelper).GetMethod("TCompare", new Type[] { typeof(object) });
             var getTCompareInt = typeof(ConverHelper).GetMethod("TCompareInt", new Type[] { typeof(object) });
@@ -76,12 +77,8 @@ namespace Paway.Helper
 
             generator.Emit(OpCodes.Ldarg_0);
             generator.Emit(OpCodes.Castclass, type);//类型转化
-            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());//调用非静态方法
-            //实体数据使用需要装箱
-            if (property.PropertyType.IsValueType || property.PropertyType == typeof(string))
-                generator.Emit(OpCodes.Box, property.PropertyType);//装箱                                                        
-            else
-                generator.Emit(OpCodes.Castclass, property.PropertyType);
+            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());//获取值
+            generator.Box(property);//值数据转引用数据
             switch (property.PropertyType.Name)
             {
                 case nameof(Int32):

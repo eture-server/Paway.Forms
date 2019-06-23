@@ -71,7 +71,16 @@ namespace Paway.Test
                 TestData data = new TestData
                 {
                     Image = pictureBox1.Image,
+                    V2 = "11"
                 };
+                data.FindInfo = new FindInfo();
+
+                var str = typeof(TestData).GetValue(data, "Value");
+                var v2 = data.GetValue("Value");
+                data.SetValue("Id", 33L);
+                data.SetValue("Value", null);
+                var value = data.GetValue("Id");
+                var d2 = data.Clone(true);
                 list.Add(data);
 
                 service.Insert<TestData>(list);
@@ -278,6 +287,9 @@ namespace Paway.Test
 
         [Property(ISelect = false)]
         public DateTime Date { get; set; }
+
+        [Property(ISelect = false)]
+        public FindInfo FindInfo { get; set; }
 
         public TestData() : this(1) { }
         public TestData(int a)

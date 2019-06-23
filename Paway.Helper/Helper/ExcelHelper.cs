@@ -218,7 +218,6 @@ namespace Paway.Helper
                 int index = 0, count = 0;
                 ISheet sheet = workbook.CreateSheet("Sheet1");
                 var properties = type.Properties();
-                var descriptors = type.Descriptors();
                 var style = Getcellstyle(workbook, CellStyle.Default, HorizontalAlignment.Left);
                 var numberStyle = Getcellstyle(workbook, CellStyle.Number, HorizontalAlignment.Left);
                 if (heard) //写入DataTable的列名
@@ -243,24 +242,23 @@ namespace Paway.Helper
                     {
                         if (!property.IExcel()) continue;
                         if (action != null && action(property.Name)) continue;
-                        var descriptor = descriptors.Find(c => c.Name == property.Name);
-                        if (descriptor.PropertyType == typeof(double))
+                        if (property.PropertyType == typeof(double))
                         {
                             var cell = row.CreateCell(index++);
                             cell.CellStyle = numberStyle;
-                            cell.SetCellValue((double)descriptor.GetValue(list[i]));
+                            cell.SetCellValue((double)type.GetValue(list[i], property.Name));
                         }
-                        else if (descriptor.PropertyType == typeof(int))
+                        else if (property.PropertyType == typeof(int))
                         {
                             var cell = row.CreateCell(index++);
                             cell.CellStyle = numberStyle;
-                            cell.SetCellValue((int)descriptor.GetValue(list[i]));
+                            cell.SetCellValue((int)type.GetValue(list[i], property.Name));
                         }
                         else
                         {
                             var cell = row.CreateCell(index++);
                             cell.CellStyle = style;
-                            cell.SetCellValue(descriptor.GetValue(list[i]).ToStrs());
+                            cell.SetCellValue(type.GetValue(list[i], property.Name).ToStrs());
                         }
                     }
                 }
