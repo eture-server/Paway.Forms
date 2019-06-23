@@ -498,6 +498,7 @@ namespace Paway.Utils
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
                 var builder = SQLBuilder<T>.CreateBuilder(paramType);
+                var builder2 = SQLBuilder<T>.CreateBuilder();
                 for (var i = 0; i < list.Count; i++)
                 {
                     var pList = builder.Build(list[i]).ToArray();
@@ -507,7 +508,7 @@ namespace Paway.Utils
                     {
                         if (dr.Read())
                         {
-                            list[i].SetMark(dr[0]);
+                            builder2.Build(list[i], dr[0].ToLong());
                         }
                         else
                         {
@@ -855,14 +856,12 @@ namespace Paway.Utils
             var sql = "update [{0}] set";
             sql = string.Format(sql, attr.Table);
             var properties = type.Properties();
-            var descriptors = type.Descriptors();
             foreach (var property in properties)
             {
                 if (property.ISelect(out string column))
                 {
                     if (column == attr.Key) continue;
                     if (args.Length > 0 && args.FirstOrDefault(c => c == column) == null) continue;
-                    var descriptor = descriptors.Find(c => c.Name == property.Name);
                     if (append)
                     {
                         sql = string.Format("{0} [{1}]=[{1}]+@{1},", sql, column);
@@ -902,10 +901,8 @@ namespace Paway.Utils
             insert = null;
             value = null;
             var properties = type.Properties();
-            var descriptors = type.Descriptors();
-            foreach (var descriptor in descriptors)
+            foreach (var property in properties)
             {
-                var property = properties.Find(c => c.Name == descriptor.Name);
                 if (property.ISelect(out string column))
                 {
                     if (column == key) continue;
@@ -916,37 +913,6 @@ namespace Paway.Utils
             }
             insert = insert.TrimEnd(',');
             value = value.TrimEnd(',');
-        }
-        /// <summary>
-        ///     设置主键值
-        /// </summary>
-        public static bool SetMark<T>(this T t, object value)
-        {
-            if (value == null || value == DBNull.Value) return false;
-            if (value.ToInt() == 0) return false;
-
-            var type = typeof(T);
-            string key = type.TableKey();
-            var properties = type.Properties();
-            var descriptors = type.Descriptors();
-            foreach (var property in properties)
-            {
-                if (property.ISelect(out string column))
-                {
-                    if (column != key) continue;
-                    var descriptor = descriptors.Find(c => c.Name == property.Name);
-                    if (descriptor.PropertyType == typeof(int))
-                    {
-                        descriptor.SetValue(t, value.ToInt());
-                    }
-                    if (descriptor.PropertyType == typeof(long))
-                    {
-                        descriptor.SetValue(t, value.ToLong());
-                    }
-                    return true;
-                }
-            }
-            return false;
         }
 
         #endregion

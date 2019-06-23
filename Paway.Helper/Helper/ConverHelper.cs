@@ -394,6 +394,16 @@ namespace Paway.Helper
             return pList;
         }
         /// <summary>
+        /// 获取指定名称属性
+        /// </summary>
+        public static PropertyInfo Property(this Type type, string name)
+        {
+            var properties = type.Properties();
+            var property = properties.Find(c => c.Name == name);
+            if (property == null) property = properties.Find(c => c.Column() == name);
+            return property;
+        }
+        /// <summary>
         /// 获取接口所有属性
         /// </summary>
         public static List<PropertyDescriptor> Descriptors(this Type type)
@@ -435,20 +445,6 @@ namespace Paway.Helper
                 table.Columns.Add(property.Column(), dbType);
             }
             return table;
-        }
-        /// <summary>
-        ///     更新表列名
-        ///     实体类中列名与表名一一对应，无则Excel=false
-        /// </summary>
-        public static void UpdateColumn<T>(DataTable dt)
-        {
-            var type = typeof(T);
-            var index = 0;
-            var properties = type.Properties();
-            foreach (var property in properties)
-            {
-                dt.Columns[index++].ColumnName = property.Column();
-            }
         }
         /// <summary>
         ///     将指定类型转为DataTable

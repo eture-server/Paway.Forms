@@ -554,8 +554,7 @@ namespace Paway.Forms
             DataRow[] dr;
             if (TRoot == null)
             {
-                var properties = type.Properties();
-                var property = properties.Find(c => c.Name == TParentId.ToString());
+                var property = type.Property(TParentId.ToString());
                 if (property != null && !property.PropertyType.IsValueType && property.PropertyType != typeof(string))
                 {
                     TRoot = Activator.CreateInstance(property.PropertyType);

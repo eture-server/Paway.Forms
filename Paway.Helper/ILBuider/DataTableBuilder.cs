@@ -33,7 +33,7 @@ namespace Paway.Helper
 
             var dymMethod = new DynamicMethod(type.Name + "DataTableBuilder", null, new Type[] { typeof(object), typeof(DataRow) }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
-            foreach (var property in type.GetProperties())
+            foreach (var property in type.Properties())
             {
                 if (iExcel && !property.IExcel()) continue;
                 Label endIfLabel = generator.DefineLabel();

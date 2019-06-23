@@ -37,14 +37,9 @@ namespace Paway.Helper
             LocalBuilder result = generator.DeclareLocal(type);
             generator.Emit(OpCodes.Newobj, type.GetConstructor(Type.EmptyTypes));
             generator.Emit(OpCodes.Stloc, result);
-            var properties = type.Properties();
             for (int i = 0; i < dataRecord.ItemArray.Length; i++)
             {
-                PropertyInfo property = type.GetProperty(dataRecord.Table.Columns[i].ColumnName);
-                if (property == null)
-                {
-                    property = properties.Find(c => c.Column() == dataRecord.Table.Columns[i].ColumnName);
-                }
+                PropertyInfo property = type.Property(dataRecord.Table.Columns[i].ColumnName);
                 if (property == null) continue;
                 var endIfLabel = generator.DefineLabel();
                 if (property != null && property.GetSetMethod() != null)

@@ -102,7 +102,7 @@ namespace Paway.Helper
             ParameterExpression parameterExpression = Expression.Parameter(typeof(T), "p");
             List<MemberBinding> memberBindingList = new List<MemberBinding>();
 
-            foreach (var item in typeof(T).GetProperties())
+            foreach (var item in typeof(T).Properties())
             {
                 if (!item.CanWrite || !item.IClone()) continue;
 

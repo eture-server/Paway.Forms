@@ -20,15 +20,17 @@ namespace Paway.Helper
     {
         private Delegate handler;
         private SQLBuilder() { }
+
+        #region 创建参数
         /// <summary>
-        /// 转化
+        /// 转化（创建参数）
         /// </summary>
         public List<DbParameter> Build(T t)
         {
             return ((Func<T, List<DbParameter>>)handler)(t);
         }
         /// <summary>
-        /// IL动态代码，创建委托
+        /// IL动态代码，创建委托（创建参数）
         /// </summary>
         public static SQLBuilder<T> CreateBuilder(Type ptype, params string[] args)
         {
@@ -44,7 +46,7 @@ namespace Paway.Helper
             LocalBuilder result = generator.DeclareLocal(valueType);
             generator.Emit(OpCodes.Newobj, valueType.GetConstructor(Type.EmptyTypes));
             generator.Emit(OpCodes.Stloc, result);
-            foreach (var property in type.GetProperties())
+            foreach (var property in type.Properties())
             {
                 if (!property.ISelect(out string column)) continue;
                 if (args.Length > 0 && key != column && args.FirstOrDefault(c => c == column) == null) continue;
@@ -74,5 +76,45 @@ namespace Paway.Helper
             };
             return builder;
         }
+
+        #endregion
+
+        #region 设置主键值
+        /// <summary>
+        /// 转化（设置主键值）
+        /// </summary>
+        public void Build(T t, long value)
+        {
+            ((Action<T, long>)handler)(t, value);
+        }
+        /// <summary>
+        /// IL动态代码，创建委托（设置主键值）
+        /// </summary>
+        public static SQLBuilder<T> CreateBuilder()
+        {
+            var type = typeof(T);
+            var key = type.TableKey();
+
+            var dymMethod = new DynamicMethod(type.Name + "SQLBuilder", null, new Type[] { type, typeof(long) }, type, true);
+            ILGenerator generator = dymMethod.GetILGenerator();
+            var property = type.Property(key);
+            if (property != null)
+            {
+                generator.Emit(OpCodes.Ldarg_0);
+                generator.Emit(OpCodes.Ldarg_1);
+                //object要拆箱为指定type类型
+                //generator.Emit(OpCodes.Unbox_Any, property.PropertyType);
+                generator.Emit(OpCodes.Callvirt, property.GetSetMethod());
+            }
+            generator.Emit(OpCodes.Ret);
+
+            var builder = new SQLBuilder<T>
+            {
+                handler = dymMethod.CreateDelegate(typeof(Action<T, long>))
+            };
+            return builder;
+        }
+
+        #endregion
     }
 }

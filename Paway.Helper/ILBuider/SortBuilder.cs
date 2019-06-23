@@ -49,8 +49,7 @@ namespace Paway.Helper
         /// </summary>
         public static SortBuilder CreateBuilder(Type type, string name)
         {
-            var properties = type.Properties();
-            var property = properties.Find(c => c.Name == name);
+            var property = type.Property(name);
             if (property == null) throw new ArgumentException("名称不存在", name);
 
             var getTCompare = typeof(ConverHelper).GetMethod("TCompare", new Type[] { typeof(object) });
