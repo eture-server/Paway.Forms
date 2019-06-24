@@ -19,6 +19,7 @@ using System.Data.Common;
 using System.Threading;
 using System.Reflection;
 using log4net;
+using System.Data.SQLite;
 
 namespace Paway.Test
 {
@@ -67,23 +68,33 @@ namespace Paway.Test
         {
             try
             {
-                list.Clear();
-                TestData data = new TestData
+                ITestData data = new TestData
                 {
                     Image = pictureBox1.Image,
                     V2 = "11"
                 };
                 data.FindInfo = new FindInfo();
 
-                var str = typeof(TestData).GetValue(data, "Value");
-                var v2 = data.GetValue("Value");
-                data.SetValue("Id", 33L);
-                data.SetValue("Value", null);
-                var value = data.GetValue("Id");
-                var d2 = data.Clone(true);
-                list.Add(data);
+                var d2 = data.Clone();
+                ITestData data2 = new TestData();
+                data.Clone(data2);
 
-                service.Insert<TestData>(list);
+                var list2 = new List<ITestData>();
+                //var d2 = data.Clone(true);
+                list2.Add(data);
+                list2.Sort("Id");
+                var dt = list2.ToDataTable();
+                list2.Sort("V2");
+
+                var list3 = dt.ToList<TestData>();
+
+                data.SetValue("Id", 33L);
+                var id = data.GetValue("Id");
+
+                var builder = SQLBuilder.CreateBuilder(typeof(TestData));
+                builder.Build(data, 12);
+
+                service.Insert(list2);
             }
             catch (Exception ex)
             {
@@ -266,9 +277,21 @@ namespace Paway.Test
             }
         }
     }
-
+    public interface ITestData2
+    {
+        long Id { get; set; }
+    }
+    [Table(Table = "Cashs", Key = "Id")]
+    public interface ITestData : ITestData2
+    {
+        [Property(ISelect = false, Column = "Value")]
+        string V2 { get; set; }
+        [Property(ISelect = false)]
+        FindInfo FindInfo { get; set; }
+        Image Image { get; set; }
+    }
     [Serializable, Table(Table = "Cashs", Key = "Id")]
-    public class TestData
+    public class TestData : ITestData
     {
         //public int Id { get; set; }
         public long Id { get; set; }
@@ -291,8 +314,7 @@ namespace Paway.Test
         [Property(ISelect = false)]
         public FindInfo FindInfo { get; set; }
 
-        public TestData() : this(1) { }
-        public TestData(int a)
+        public TestData()
         {
             this.Date = DateTime.Now;
         }

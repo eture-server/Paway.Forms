@@ -23,10 +23,11 @@ namespace Paway.Helper
         /// </summary>
         public static Delegate GetValueFunc(Type type, string name)
         {
-            var dymMethod = new DynamicMethod(type.Name + "GetValueBuilder", typeof(object), new Type[] { typeof(object) }, type, true);
+            var dymMethod = new DynamicMethod(type.Name + "GetValueBuilder", typeof(object), new Type[] { typeof(object) }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
             var property = type.Property(name);
-            if (property != null && property.CanRead)
+            if (property == null) throw new ArgumentException("名称不存在", name);
+            if (!property.CanRead) throw new InvalidProgramException("无法读取值");
             {
                 generator.Emit(OpCodes.Ldarg_0);
                 generator.Emit(OpCodes.Castclass, type);//类型转化
@@ -42,7 +43,7 @@ namespace Paway.Helper
         /// </summary>
         public static Delegate SetValueFunc(Type type, string name)
         {
-            var dymMethod = new DynamicMethod(type.Name + "SetValueBuilder", null, new Type[] { typeof(object), typeof(object) }, type, true);
+            var dymMethod = new DynamicMethod(type.Name + "SetValueBuilder", null, new Type[] { typeof(object), typeof(object) }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
             var property = type.Property(name);
             if (property != null && property.CanWrite)

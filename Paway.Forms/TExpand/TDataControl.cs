@@ -17,7 +17,7 @@ namespace Paway.Forms
     /// 数据控件示例
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public partial class TDataControl<T> : TBaseControl where T : IId, IFind<T>
+    public partial class TDataControl<T> : TBaseControl where T : IId, IFind<T>, new()
     {
         /// <summary>
         /// 数据

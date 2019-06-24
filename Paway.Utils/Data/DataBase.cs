@@ -360,14 +360,14 @@ namespace Paway.Utils
         /// <summary>
         ///     查找指定主列的数据
         /// </summary>
-        public T Find<T>(long id, params string[] args)
+        public T Find<T>(long id, params string[] args) where T : new()
         {
             return Find<T>(id, null, args);
         }
         /// <summary>
         ///     查找指定主列的数据
         /// </summary>
-        public T Find<T>(long id, DbCommand cmd = null, params string[] args)
+        public T Find<T>(long id, DbCommand cmd = null, params string[] args) where T : new()
         {
             var attr = typeof(T).Table();
             var sql = string.Format("[{0}] = {1}", attr.Keys, id);
@@ -378,7 +378,7 @@ namespace Paway.Utils
         /// <summary>
         ///     填充 System.Data.DataSet 并返回一个List列表
         /// </summary>
-        public List<T> Find<T>(DbCommand cmd = null, params string[] args)
+        public List<T> Find<T>(DbCommand cmd = null, params string[] args) where T : new()
         {
             return Find<T>(null, 0, cmd, args);
         }
@@ -394,7 +394,7 @@ namespace Paway.Utils
         ///     填充 System.Data.DataSet 并返回一个List列表
         ///     查找指定查询语句
         /// </summary>
-        public List<T> Find<T>(string find, params string[] args)
+        public List<T> Find<T>(string find, params string[] args) where T : new()
         {
             return Find<T>(find, null, args);
         }
@@ -402,7 +402,7 @@ namespace Paway.Utils
         ///     填充 System.Data.DataSet 并返回一个List列表
         ///     查找指定查询语句
         /// </summary>
-        public List<T> Find<T>(string find, DbCommand cmd = null, params string[] args)
+        public List<T> Find<T>(string find, DbCommand cmd = null, params string[] args) where T : new()
         {
             return Find<T>(find, 0, cmd, args);
         }
@@ -419,7 +419,7 @@ namespace Paway.Utils
         ///     查找指定查询语句
         ///     指定返回行数
         /// </summary>
-        public List<T> Find<T>(string find, int count, DbCommand cmd = null, params string[] args)
+        public List<T> Find<T>(string find, int count, DbCommand cmd = null, params string[] args) where T : new()
         {
             var table = FindTable<T>(find, count, false, cmd, args);
             return table.ToList<T>();
@@ -490,6 +490,7 @@ namespace Paway.Utils
         /// </summary>
         public bool Insert<T>(List<T> list, DbCommand cmd = null, bool Identity = false)
         {
+            if (list.Count == 0) return false;
             var iTrans = cmd == null;
             try
             {
@@ -497,8 +498,8 @@ namespace Paway.Utils
                 var sql = typeof(T).Insert(GetId, Identity);
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
-                var builder = SQLBuilder<T>.CreateBuilder(paramType);
-                var builder2 = SQLBuilder<T>.CreateBuilder();
+                var builder = SQLBuilder.CreateBuilder(list[0].GetType(), paramType);
+                var builder2 = SQLBuilder.CreateBuilder(list[0].GetType());
                 for (var i = 0; i < list.Count; i++)
                 {
                     var pList = builder.Build(list[i]).ToArray();
@@ -561,6 +562,7 @@ namespace Paway.Utils
         /// </summary>
         public bool Update<T>(List<T> list, DbCommand cmd = null, params string[] args)
         {
+            if (list.Count == 0) return false;
             var iTrans = cmd == null;
             try
             {
@@ -568,7 +570,7 @@ namespace Paway.Utils
                 var sql = typeof(T).Update(args);
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
-                var builder = SQLBuilder<T>.CreateBuilder(paramType, args);
+                var builder = SQLBuilder.CreateBuilder(list[0].GetType(), paramType, args);
                 for (var i = 0; i < list.Count; i++)
                 {
                     var pList = builder.Build(list[i]).ToArray();
@@ -643,6 +645,7 @@ namespace Paway.Utils
         /// </summary>
         public bool Delete<T>(List<T> list, DbCommand cmd = null)
         {
+            if (list.Count == 0) return false;
             var iTrans = cmd == null;
             try
             {
@@ -650,7 +653,7 @@ namespace Paway.Utils
                 var sql = DataBaseHelper.Delete<T>();
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
-                var builder = SQLBuilder<T>.CreateBuilder(paramType);
+                var builder = SQLBuilder.CreateBuilder(list[0].GetType(), paramType);
                 for (var i = 0; i < list.Count; i++)
                 {
                     var pList = builder.Build(list[i]).ToArray();
@@ -898,8 +901,8 @@ namespace Paway.Utils
         }
         private static void Insert(this Type type, string key, out string insert, out string value, params string[] args)
         {
-            insert = null;
-            value = null;
+            insert = string.Empty;
+            value = string.Empty;
             var properties = type.Properties();
             foreach (var property in properties)
             {

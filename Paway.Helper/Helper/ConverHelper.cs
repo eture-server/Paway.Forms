@@ -647,10 +647,9 @@ namespace Paway.Helper
         /// <summary>
         ///     返回泛型实参数类型
         /// </summary>
-        public static Type GenericType(this object obj)
+        public static Type GenericType(this IEnumerable obj)
         {
-            Type type = obj as Type;
-            if (type == null) type = obj.GetType();
+            Type type = obj.GetType();
             var types = type.GetGenericArguments();
             if (types.Length == 1) return types[0];
             return null;
@@ -1025,9 +1024,8 @@ namespace Paway.Helper
 
                 var value = parent.GetValue(t, property.Name);
                 parent.SetValue(copy, property.Name, value);
-                if (child && value is IList)
+                if (child && value is IList list)
                 {
-                    var list = value as IList;
                     var type = list.GenericType();
                     var clist = type.GenericList();
                     parent.SetValue(copy, property.Name, clist);

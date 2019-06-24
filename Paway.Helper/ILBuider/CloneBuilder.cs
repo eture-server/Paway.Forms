@@ -19,11 +19,10 @@ namespace Paway.Helper
         /// <summary>
         /// 生成动态代码，复制属性字段等所有
         /// </summary>
-        public static Delegate CloneFunc<T>()
+        public static Delegate CloneFunc(Type type)
         {
-            var type = typeof(T);
             // Create ILGenerator
-            var dymMethod = new DynamicMethod(type.Name + "CloneBuilder", type, new Type[] { type }, true);
+            var dymMethod = new DynamicMethod(type.Name + "CloneBuilder", typeof(object), new Type[] { typeof(object) }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
 
             LocalBuilder result = generator.DeclareLocal(type);
@@ -41,7 +40,7 @@ namespace Paway.Helper
             generator.Emit(OpCodes.Ldloc, result);
             // Return constructed object.   --> 0 items on stack
             generator.Emit(OpCodes.Ret);
-            return dymMethod.CreateDelegate(typeof(Func<T, T>));
+            return dymMethod.CreateDelegate(typeof(Func<object, object>));
         }
         /// <summary>
         /// 获取指定Type属性
@@ -62,6 +61,7 @@ namespace Paway.Helper
                 generator.Emit(OpCodes.Ldloc_0);
                 // Load initial object (parameter)          (currently 2 items on eval stack)
                 generator.Emit(OpCodes.Ldarg_0);
+                generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
                 // Replace value by field value             (still currently 2 items on eval stack)
                 generator.Emit(OpCodes.Ldfld, field);
                 // Store the value of the top on the eval stack into the object underneath that value on the value stack.
@@ -76,7 +76,7 @@ namespace Paway.Helper
         {
             var type = typeof(T);
             // Create ILGenerator
-            var dymMethod = new DynamicMethod(type.Name + "CloneBuilder", null, new Type[] { type, type });
+            var dymMethod = new DynamicMethod(type.Name + "CloneBuilder", null, new Type[] { type, type }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
 
             foreach (var property in type.Properties().FindAll(c => c.CanRead && c.CanWrite))

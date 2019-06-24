@@ -242,9 +242,9 @@ namespace Paway.Forms
                 _iAutoWidth = value;
                 if (_dataSource == null || TId == null || TParentId == null) return;
                 var type = _dataSource.GetType();
-                if (_dataSource is IEnumerable)
+                if (_dataSource is IEnumerable list)
                 {
-                    type = _dataSource.GenericType();
+                    type = list.GenericType();
                 }
                 UpdateColumns(type);
             }
@@ -374,9 +374,8 @@ namespace Paway.Forms
             {
                 dt = _dataSource as DataTable;
             }
-            else if (_dataSource is IEnumerable)
+            else if (_dataSource is IEnumerable list)
             {
-                var list = _dataSource as IEnumerable;
                 type = list.GenericType();
                 dt = list.ToDataTable();
             }

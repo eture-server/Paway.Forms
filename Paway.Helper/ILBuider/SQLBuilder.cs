@@ -16,7 +16,7 @@ namespace Paway.Helper
     /// <summary>
     /// IL动态代码(Emit)，SQL相关操作.创建参数
     /// </summary>
-    public class SQLBuilder<T>
+    public class SQLBuilder
     {
         private Delegate handler;
         private SQLBuilder() { }
@@ -25,22 +25,21 @@ namespace Paway.Helper
         /// <summary>
         /// 转化（创建参数）
         /// </summary>
-        public List<DbParameter> Build(T t)
+        public List<DbParameter> Build(object t)
         {
-            return ((Func<T, List<DbParameter>>)handler)(t);
+            return ((Func<object, List<DbParameter>>)handler)(t);
         }
         /// <summary>
         /// IL动态代码，创建委托（创建参数）
         /// </summary>
-        public static SQLBuilder<T> CreateBuilder(Type ptype, params string[] args)
+        public static SQLBuilder CreateBuilder(Type type, Type ptype, params string[] args)
         {
-            var type = typeof(T);
             var valueType = typeof(List<DbParameter>);
             var key = type.TableKey();
             var addParameter = typeof(BuilderHelper).GetMethod("AddParameter", new Type[] { typeof(string), typeof(object), typeof(Type), typeof(Type) });
             var add = valueType.GetMethod("Add", new Type[] { typeof(DbParameter) });
 
-            var dymMethod = new DynamicMethod(type.Name + "SQLBuilder", valueType, new Type[] { type }, type, true);
+            var dymMethod = new DynamicMethod(type.Name + "SQLBuilder", valueType, new Type[] { typeof(object) }, type, true);
             ILGenerator generator = dymMethod.GetILGenerator();
 
             LocalBuilder result = generator.DeclareLocal(valueType);
@@ -56,6 +55,7 @@ namespace Paway.Helper
                     generator.Emit(OpCodes.Ldstr, column);
                 }
                 generator.Emit(OpCodes.Ldarg_0);
+                generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
                 generator.Emit(OpCodes.Callvirt, property.GetGetMethod());//获取值
                 generator.Box(property);//值数据转引用数据
                 {//参数
@@ -68,9 +68,9 @@ namespace Paway.Helper
             generator.Emit(OpCodes.Ldloc, result);
             generator.Emit(OpCodes.Ret);
 
-            var builder = new SQLBuilder<T>
+            var builder = new SQLBuilder
             {
-                handler = dymMethod.CreateDelegate(typeof(Func<T, List<DbParameter>>))
+                handler = dymMethod.CreateDelegate(typeof(Func<object, List<DbParameter>>))
             };
             return builder;
         }
@@ -81,33 +81,33 @@ namespace Paway.Helper
         /// <summary>
         /// 转化（设置主键值）
         /// </summary>
-        public void Build(T t, long value)
+        public void Build(object t, long value)
         {
-            ((Action<T, long>)handler)(t, value);
+            ((Action<object, long>)handler)(t, value);
         }
         /// <summary>
         /// IL动态代码，创建委托（设置主键值）
         /// </summary>
-        public static SQLBuilder<T> CreateBuilder()
+        public static SQLBuilder CreateBuilder(Type type)
         {
-            var type = typeof(T);
             var key = type.TableKey();
 
-            var dymMethod = new DynamicMethod(type.Name + "SQLBuilder", null, new Type[] { type, typeof(long) }, type, true);
+            var dymMethod = new DynamicMethod(type.Name + "SQLBuilder", null, new Type[] { typeof(object), typeof(long) }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
             var property = type.Property(key);
             if (property != null && property.CanWrite)
             {
                 generator.Emit(OpCodes.Ldarg_0);
+                generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
                 generator.Emit(OpCodes.Ldarg_1);
                 //generator.UnBox(property);//引用转值
                 generator.Emit(OpCodes.Callvirt, property.GetSetMethod());
             }
             generator.Emit(OpCodes.Ret);
 
-            var builder = new SQLBuilder<T>
+            var builder = new SQLBuilder
             {
-                handler = dymMethod.CreateDelegate(typeof(Action<T, long>))
+                handler = dymMethod.CreateDelegate(typeof(Action<object, long>))
             };
             return builder;
         }

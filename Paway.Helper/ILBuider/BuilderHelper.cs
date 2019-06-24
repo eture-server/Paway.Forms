@@ -26,12 +26,13 @@ namespace Paway.Helper
         /// </summary>
         public static T Clone<T>(this T t)
         {
-            if (!CloneFunc.TryGetValue(typeof(T), out Delegate func))
+            var type = t.GetType();
+            if (!CloneFunc.TryGetValue(type, out Delegate func))
             {
-                func = CloneBuilder.CloneFunc<T>();
-                CloneFunc.Add(typeof(T), func);
+                func = CloneBuilder.CloneFunc(type);
+                CloneFunc.Add(type, func);
             }
-            return ((Func<T, T>)func)(t);
+            return (T)((Func<object, object>)func)(t);
         }
         /// <summary>
         /// IL动态代码(Emit)，复制（不复制包含类，复制基类、公有属性）
@@ -52,7 +53,7 @@ namespace Paway.Helper
         /// <summary>
         /// IL动态代码(Emit)，DataTable转List
         /// </summary>
-        public static List<T> ToList<T>(this DataTable table, int? count = null)
+        public static List<T> ToList<T>(this DataTable table, int? count = null) where T : new()
         {
             List<T> list = new List<T>();
             if (table == null) return list;
@@ -237,7 +238,7 @@ namespace Paway.Helper
         /// </summary>
         public static object GetValue(this Type type, object obj, string name)
         {
-            if (!GetValueFunc.TryGetValue(type.FullName + "._" + name, out Delegate func))
+            if (!GetValueFunc.TryGetValue(type.FullName + "." + name, out Delegate func))
             {
                 func = ValueBuilder.GetValueFunc(type, name);
                 GetValueFunc.Add(type.FullName + "." + name, func);

@@ -10,7 +10,7 @@ namespace Paway.Helper
     /// <summary>
     /// IL动态代码(Emit)，DataTable转List
     /// </summary>
-    internal class EntityBuilder<T>
+    internal class EntityBuilder<T> where T : new()
     {
         private Delegate handler;
         private EntityBuilder() { }
@@ -31,7 +31,7 @@ namespace Paway.Helper
             var getImage = typeof(StructHelper).GetMethod("BytesToImage", new Type[] { typeof(byte[]) });
 
             var type = typeof(T);
-            var dymMethod = new DynamicMethod(type.Name + "EntityBuilder", type, new Type[] { typeof(DataRow) }, type, true);
+            var dymMethod = new DynamicMethod(type.Name + "EntityBuilder", type, new Type[] { typeof(DataRow) }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
 
             LocalBuilder result = generator.DeclareLocal(type);

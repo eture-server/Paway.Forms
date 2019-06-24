@@ -378,9 +378,8 @@ namespace Paway.Forms
                 return;
             }
             Type type = null;
-            if (value is IEnumerable)
+            if (value is IEnumerable list)
             {
-                var list = value as IEnumerable;
                 type = list.GenericType();
                 base.DataSource = list.ToDataTable();
                 if (!list.GetEnumerator().MoveNext()) ClearBox();

@@ -40,15 +40,15 @@ namespace Paway.Helper
                 {
                     if (descriptor.PropertyType.Name == typeof(List<>).Name)
                     {
-                        IList obj = (IList)descriptor.GetValue(info);
-                        var type2 = descriptor.PropertyType.GenericType();
-                        if (obj == null)
+                        IList list = (IList)descriptor.GetValue(info);
+                        var type2 = list.GenericType();
+                        if (list == null)
                         {
-                            obj = type2.GenericList();
-                            info.SetValue(descriptor, obj);
+                            list = type2.GenericList();
+                            info.SetValue(descriptor, list);
                         }
                         var obj2 = Assembly.GetAssembly(type2).CreateInstance(type2.FullName);
-                        obj.Add(obj2);
+                        list.Add(obj2);
                         Load(doc, element.FirstChild, obj2, type2);
                     }
                     else if (descriptor.PropertyType.IsClass && descriptor.PropertyType != typeof(string))
@@ -116,9 +116,8 @@ namespace Paway.Helper
                 XmlElement element = doc.CreateElement(property.Name);
                 root.AppendChild(element);
                 object obj = type.GetValue(info, property.Name);
-                if (obj is IList)
+                if (obj is IList list)
                 {
-                    var list = obj as IList;
                     for (int i = 0; i < list.Count; i++)
                     {
                         if (i > 0)

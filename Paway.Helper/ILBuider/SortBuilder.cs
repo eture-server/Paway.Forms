@@ -51,7 +51,7 @@ namespace Paway.Helper
         {
             var property = type.Property(name);
             if (property == null) throw new ArgumentException("名称不存在", name);
-            if (!property.CanRead) throw new Exception("无法读取值");
+            if (!property.CanRead) throw new InvalidProgramException("无法读取值");
 
             var getTCompare = typeof(ConverHelper).GetMethod("TCompare", new Type[] { typeof(object) });
             var getTCompareInt = typeof(ConverHelper).GetMethod("TCompareInt", new Type[] { typeof(object) });

@@ -332,8 +332,7 @@ namespace Paway.Helper
             lock (fileLock)
             {
                 var data = GetFileData(encryptFile);
-                if (data.Length == 0)
-                    throw new Exception("需要加密的文件不存在");
+                if (data.Length == 0) throw new Exception("需要加密的文件不存在");
 
                 var encryptBytes = EncryptAES(data, keys);
                 var listData = new List<byte>(encryptBytes);
@@ -398,12 +397,10 @@ namespace Paway.Helper
                     listData.RemoveAt(j);
                 }
                 var data = listData.ToArray();
-                if (data.Length == 0)
-                    throw new Exception("数据文件不存在");
+                if (data.Length == 0) throw new Exception("数据文件不存在");
 
                 var decryptBytes = DecryptAES(data, keys);
-                if (!File.Exists(encryptFile))
-                    throw new Exception("数据文件不存在");
+                if (!File.Exists(encryptFile)) throw new Exception("数据文件不存在");
 
                 FileStream fs1 = null;
                 try

@@ -112,9 +112,9 @@ namespace Paway.Forms
             set
             {
                 dataSource = value;
-                if (dataSource is IEnumerable)
+                if (dataSource is IEnumerable list)
                 {
-                    DataType = dataSource.GenericType();
+                    DataType = list.GenericType();
                 }
                 else if (this.DataSource is DataTable)
                 {
