@@ -6,8 +6,8 @@ using System.Runtime.InteropServices;
 // 与程序集关联的信息。
 
 [assembly: AssemblyTitle("Tinn")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyCompany("Tinn")]
+[assembly: AssemblyDescription("共享项目")]
+[assembly: AssemblyCompany("Tinn&a")]
 [assembly: AssemblyProduct("Paway.Forms")]
 [assembly: AssemblyCopyright("Copyright ©  2014 Tinn&a")]
 [assembly: AssemblyTrademark("Tinn")]
