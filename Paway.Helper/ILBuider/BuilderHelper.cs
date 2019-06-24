@@ -231,7 +231,7 @@ namespace Paway.Helper
         /// </summary>
         public static object GetValue<T>(this T t, string name)
         {
-            return GetValue(typeof(T), t, name);
+            return typeof(T).GetValue(t, name);
         }
         /// <summary>
         /// IL动态代码(Emit)，获取值
@@ -250,7 +250,7 @@ namespace Paway.Helper
         /// </summary>
         public static void SetValue<T>(this T t, string name, object value)
         {
-            SetValue(typeof(T), t, name, value);
+            typeof(T).SetValue(t, name, value);
         }
         /// <summary>
         /// IL动态代码(Emit)，GetValue
@@ -263,6 +263,32 @@ namespace Paway.Helper
                 SetValueFunc.Add(type.FullName + "." + name, func);
             }
             ((Action<object, object>)func)(obj, value);
+        }
+
+        #endregion
+
+        #region 静态
+        private static Dictionary<string, Type> GetTypeFunc { set; get; } = new Dictionary<string, Type>();
+        /// <summary>
+        /// 缓存反射类型
+        /// </summary>
+        public static Type GetType<T>(this T t, string name)
+        {
+            return t.GetType().GetType(name);
+        }
+        /// <summary>
+        /// 缓存反射类型
+        /// </summary>
+        public static Type GetType(this Type type, string name)
+        {
+            if (!GetTypeFunc.TryGetValue(type.FullName + "." + name, out Type propertyType))
+            {
+                var property = type.Property(name);
+                if (property == null) propertyType = null;
+                else propertyType = property.PropertyType;
+                GetTypeFunc.Add(type.FullName + "." + name, propertyType);
+            }
+            return propertyType;
         }
 
         #endregion

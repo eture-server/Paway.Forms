@@ -553,10 +553,10 @@ namespace Paway.Forms
             DataRow[] dr;
             if (TRoot == null)
             {
-                var property = type.Property(TParentId.ToString());
-                if (property != null && !property.PropertyType.IsValueType && property.PropertyType != typeof(string))
+                var propertyType = type.GetType(TParentId.ToString());
+                if (propertyType != null && !propertyType.IsValueType && propertyType != typeof(string))
                 {
-                    TRoot = Activator.CreateInstance(property.PropertyType);
+                    TRoot = Activator.CreateInstance(propertyType);
                 }
             }
             if (TRoot != null)

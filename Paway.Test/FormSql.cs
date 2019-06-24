@@ -20,6 +20,7 @@ using System.Threading;
 using System.Reflection;
 using log4net;
 using System.Data.SQLite;
+using System.Collections;
 
 namespace Paway.Test
 {
@@ -75,6 +76,12 @@ namespace Paway.Test
                 };
                 data.FindInfo = new FindInfo();
 
+                data.SetValue("IntValue", 33);
+                var id = data.GetValue("IntValue");
+
+                var propertyType = data.GetType("Id2");
+                propertyType = typeof(ITestData).GetType("IntValue");
+
                 var d2 = data.Clone();
                 ITestData data2 = new TestData();
                 data.Clone(data2);
@@ -82,17 +89,27 @@ namespace Paway.Test
                 var list2 = new List<ITestData>();
                 //var d2 = data.Clone(true);
                 list2.Add(data);
-                list2.Sort("Id");
+                list2.Sort("IntValue");
                 var dt = list2.ToDataTable();
                 list2.Sort("V2");
 
                 var list3 = dt.ToList<TestData>();
 
-                data.SetValue("Id", 33L);
-                var id = data.GetValue("Id");
-
                 var builder = SQLBuilder.CreateBuilder(typeof(TestData));
-                builder.Build(data, 12);
+                builder.Build(data, 12L);
+
+                var descriptors = typeof(ITestData).Descriptors();
+                var descriptor = descriptors.Find(c => c.Name == "List");
+                data.SetValue(descriptor, null);
+                typeof(ITestData).SetValue(data, "IntValue", null);
+                if (descriptor.PropertyType.Name == typeof(List<>).Name)
+                {
+                    var type2 = descriptor.PropertyType.GenericType();
+                    var list = type2.GenericList();
+                    data.SetValue(descriptor, list);
+                    var obj2 = Assembly.GetAssembly(type2).CreateInstance(type2.FullName);
+                    list.Add(obj2);
+                }
 
                 service.Insert(list2);
             }
@@ -289,12 +306,16 @@ namespace Paway.Test
         [Property(ISelect = false)]
         FindInfo FindInfo { get; set; }
         Image Image { get; set; }
+
+        int? IntValue { get; set; }
+        List<FindInfo> List { get; set; }
     }
     [Serializable, Table(Table = "Cashs", Key = "Id")]
     public class TestData : ITestData
     {
         //public int Id { get; set; }
         public long Id { get; set; }
+        public int? IntValue { get; set; }
 
         [Property(ISelect = false, Column = "Name")]
         public string N2 { get; set; }
@@ -313,6 +334,7 @@ namespace Paway.Test
 
         [Property(ISelect = false)]
         public FindInfo FindInfo { get; set; }
+        public List<FindInfo> List { get; set; }
 
         public TestData()
         {

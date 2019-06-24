@@ -40,13 +40,9 @@ namespace Paway.Helper
                 {
                     if (descriptor.PropertyType.Name == typeof(List<>).Name)
                     {
-                        IList list = (IList)descriptor.GetValue(info);
-                        var type2 = list.GenericType();
-                        if (list == null)
-                        {
-                            list = type2.GenericList();
-                            info.SetValue(descriptor, list);
-                        }
+                        var type2 = descriptor.PropertyType.GenericType();
+                        var list = type2.GenericList();
+                        info.SetValue(descriptor, list);
                         var obj2 = Assembly.GetAssembly(type2).CreateInstance(type2.FullName);
                         list.Add(obj2);
                         Load(doc, element.FirstChild, obj2, type2);

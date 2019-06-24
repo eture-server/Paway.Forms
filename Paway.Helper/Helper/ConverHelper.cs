@@ -254,6 +254,18 @@ namespace Paway.Helper
             return 0;
         }
         /// <summary>
+        ///     decimal
+        /// </summary>
+        public static decimal ToDecimal(this object obj)
+        {
+            if (obj == null || obj == DBNull.Value)
+                return 0;
+
+            if (decimal.TryParse(obj.ToString(), out decimal value))
+                return value;
+            return 0;
+        }
+        /// <summary>
         ///     Bool转换
         /// </summary>
         public static bool ToBool(this object obj)
@@ -468,65 +480,65 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        /// 赋值
+        /// 赋值（string数据转指定类型）
         /// </summary>
         public static void SetValue<T>(this T obj, PropertyDescriptor pro, object value)
         {
             if (value == null || value == DBNull.Value)
             {
                 pro.SetValue(obj, null);
+                return;
             }
-            else if (pro.PropertyType == typeof(Image) && value is byte[])
+            var type = pro.PropertyType;
+            if (type.IsGenericType && Nullable.GetUnderlyingType(type) != null) type = Nullable.GetUnderlyingType(type);
+            if (type.IsEnum) type = type.GetEnumUnderlyingType();
+            switch (type.Name)
             {
-                pro.SetValue(obj, StructHelper.BytesToImage(value as byte[]));
-            }
-            else if (pro.PropertyType == typeof(int) || pro.PropertyType == typeof(int?))
-            {
-                pro.SetValue(obj, value.ToInt());
-            }
-            else if (pro.PropertyType == typeof(long) || pro.PropertyType == typeof(long?))
-            {
-                pro.SetValue(obj, value.ToLong());
-            }
-            else if (pro.PropertyType == typeof(double) || pro.PropertyType == typeof(double?))
-            {
-                pro.SetValue(obj, value.ToDouble());
-            }
-            else if (pro.PropertyType == typeof(float) || pro.PropertyType == typeof(float?))
-            {
-                pro.SetValue(obj, value.ToFloat());
-            }
-            else if (pro.PropertyType == typeof(bool) || pro.PropertyType == typeof(bool?))
-            {
-                pro.SetValue(obj, value.ToBool());
-            }
-            else if (pro.PropertyType == typeof(DateTime) || pro.PropertyType == typeof(DateTime?))
-            {
-                var time = value.ToDateTime();
-                if (TConfig.IUtcTime) time = time.ToLocalTime();
-                pro.SetValue(obj, time);
-            }
-            else if (pro.PropertyType == typeof(string))
-            {
-                pro.SetValue(obj, value.ToStrs());
-            }
-            else if (pro.PropertyType.IsEnum)
-            {
-                Type type = pro.PropertyType.GetEnumUnderlyingType();
-                if (type == typeof(byte) || type == typeof(sbyte) ||
-                    type == typeof(short) || type == typeof(ushort) ||
-                    type == typeof(int) || type == typeof(uint))
-                {
-                    pro.SetValue(obj, value.ToInt());
-                }
-                else if (type == typeof(long) || type == typeof(ulong))
-                {
+                case nameof(Image):
+                    if (value is byte[] buffer)
+                    {
+                        pro.SetValue(obj, StructHelper.BytesToImage(buffer));
+                    }
+                    else if (value is Image image)
+                    {
+                        pro.SetValue(obj, image);
+                    }
+                    break;
+                case nameof(Int64):
                     pro.SetValue(obj, value.ToLong());
-                }
-            }
-            else
-            {
-                pro.SetValue(obj, value);
+                    break;
+                case nameof(Int32):
+                    pro.SetValue(obj, value.ToInt());
+                    break;
+                case nameof(Int16):
+                    pro.SetValue(obj, (short)value.ToInt());
+                    break;
+                case nameof(Byte):
+                    pro.SetValue(obj, (byte)value.ToInt());
+                    break;
+                case nameof(Boolean):
+                    pro.SetValue(obj, value.ToBool());
+                    break;
+                case nameof(Double):
+                    pro.SetValue(obj, value.ToDouble());
+                    break;
+                case nameof(Single):
+                    pro.SetValue(obj, value.ToFloat());
+                    break;
+                case nameof(Decimal):
+                    pro.SetValue(obj, value.ToDecimal());
+                    break;
+                case nameof(DateTime):
+                    var time = value.ToDateTime();
+                    if (TConfig.IUtcTime) time = time.ToLocalTime();
+                    pro.SetValue(obj, time);
+                    break;
+                case nameof(String):
+                    pro.SetValue(obj, value.ToStrs());
+                    break;
+                default:
+                    pro.SetValue(obj, value);
+                    break;
             }
         }
 
@@ -649,7 +661,13 @@ namespace Paway.Helper
         /// </summary>
         public static Type GenericType(this IEnumerable obj)
         {
-            Type type = obj.GetType();
+            return obj.GetType().GenericType();
+        }
+        /// <summary>
+        ///     返回泛型实参数类型
+        /// </summary>
+        public static Type GenericType(this Type type)
+        {
             var types = type.GetGenericArguments();
             if (types.Length == 1) return types[0];
             return null;
