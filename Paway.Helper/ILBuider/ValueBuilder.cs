@@ -58,5 +58,23 @@ namespace Paway.Helper
 
             return dymMethod.CreateDelegate(typeof(Action<object, object>));
         }
+        /// <summary>
+        /// IL动态代码，创建委托（获取类型）
+        /// 无参数，可直接缓存。
+        /// </summary>
+        public static Delegate GetTypeFunc(Type type, string name)
+        {
+            var dymMethod = new DynamicMethod(type.Name + "GetTypeBuilder", typeof(Type), new Type[] { }, true);
+            ILGenerator generator = dymMethod.GetILGenerator();
+            var property = type.Property(name);
+            if (property == null) throw new ArgumentException("名称不存在", name);
+            {
+                generator.Emit(OpCodes.Ldtoken, property.PropertyType);
+                generator.Emit(OpCodes.Call, typeof(Type).GetMethod("GetTypeFromHandle", new Type[] { typeof(RuntimeTypeHandle) }));
+            }
+            generator.Emit(OpCodes.Ret);
+
+            return dymMethod.CreateDelegate(typeof(Func<Type>));
+        }
     }
 }
