@@ -18,7 +18,7 @@ namespace Paway.Helper
         public static string NumToBase64ByTwo(int number)
         {
             if (number > Base64.Length * Base64.Length)
-                throw new ArgumentException("超出了两位BASE64表示范围。", "number");
+                throw new ArgumentException("超出了两位BASE64表示范围。");
             return string.Concat(Base64[(number >> 6) & 0x3F], Base64[number & 0x3F]);
         }
 
@@ -30,7 +30,7 @@ namespace Paway.Helper
         public static int NumFromBase64ByTwo(string str)
         {
             if (str == null || str.Length != 2)
-                throw new ArgumentException("只接受两位BASE64字符。", "str");
+                throw new ArgumentException("只接受两位BASE64字符。");
             return (Base64.IndexOf(str[0]) << 6) + Base64.IndexOf(str[1]);
         }
 
@@ -42,7 +42,7 @@ namespace Paway.Helper
         public static string NumToBase64(int number)
         {
             if (number > Base64.Length)
-                throw new ArgumentException("超出了两位BASE64表示范围。", "number");
+                throw new ArgumentException("超出了两位BASE64表示范围。");
             return Base64[number & 0x3F].ToString();
         }
 
@@ -54,7 +54,7 @@ namespace Paway.Helper
         public static int NumFromBase64(string str)
         {
             if (str == null || str.Length != 1)
-                throw new ArgumentException("只接受一位BASE64字符。", "str");
+                throw new ArgumentException("只接受一位BASE64字符。");
             return Base64.IndexOf(str[0]);
         }
 
@@ -70,7 +70,7 @@ namespace Paway.Helper
                 length *= Base64.Length;
             }
             if (number > length)
-                throw new ArgumentException(string.Format("超出了{0}位BASE64表示范围。", n), "number");
+                throw new ArgumentException(string.Format("超出了{0}位BASE64表示范围。", n));
             string result = null;
             for (var i = 0; i < n; i++)
             {

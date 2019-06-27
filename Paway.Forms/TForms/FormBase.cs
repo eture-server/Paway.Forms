@@ -609,7 +609,7 @@ namespace Paway.Forms
         protected void SetBitmap(Bitmap bitmap, byte opacity)
         {
             if (bitmap.PixelFormat != PixelFormat.Format32bppArgb)
-                throw new ApplicationException("The bitmap must be 32ppp with alpha-channel.");
+                throw new ArgumentException("The bitmap must be 32ppp with alpha-channel.");
 
             // The ideia of this is very simple,
             // 1. Create a compatible DC with screen;

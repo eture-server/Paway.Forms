@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
@@ -34,7 +35,6 @@ namespace Paway.Helper
         public static string EncryptMD5(string str)
         {
             string result;
-            try
             {
                 MD5 md = new MD5CryptoServiceProvider();
                 var bytes = Encoding.GetEncoding("utf-8").GetBytes(str);
@@ -47,10 +47,6 @@ namespace Paway.Helper
                     sBuilder.Append(inArray[i].ToString("x2"));
                 }
                 result = sBuilder.ToString();
-            }
-            catch (Exception ex)
-            {
-                throw;
             }
             return result;
         }
@@ -108,10 +104,6 @@ namespace Paway.Helper
                 stream2.FlushFinalBlock();
                 result = Convert.ToBase64String(stream.ToArray());
             }
-            catch (Exception ex)
-            {
-                throw;
-            }
             finally
             {
                 if (stream != null)
@@ -148,10 +140,6 @@ namespace Paway.Helper
                 cs.FlushFinalBlock();
                 var b = ms.ToArray();
                 result = Encoding.GetEncoding("utf-8").GetString(b, 0, b.Length);
-            }
-            catch (Exception ex)
-            {
-                throw;
             }
             finally
             {
@@ -332,7 +320,7 @@ namespace Paway.Helper
             lock (fileLock)
             {
                 var data = GetFileData(encryptFile);
-                if (data.Length == 0) throw new Exception("需要加密的文件不存在");
+                if (data.Length == 0) throw new ArgumentException("需要加密的文件不存在");
 
                 var encryptBytes = EncryptAES(data, keys);
                 var listData = new List<byte>(encryptBytes);
@@ -397,10 +385,10 @@ namespace Paway.Helper
                     listData.RemoveAt(j);
                 }
                 var data = listData.ToArray();
-                if (data.Length == 0) throw new Exception("数据文件不存在");
+                if (data.Length == 0) throw new ArgumentException("数据文件不存在");
 
                 var decryptBytes = DecryptAES(data, keys);
-                if (!File.Exists(encryptFile)) throw new Exception("数据文件不存在");
+                if (!File.Exists(encryptFile)) throw new ArgumentException("数据文件不存在");
 
                 FileStream fs1 = null;
                 try

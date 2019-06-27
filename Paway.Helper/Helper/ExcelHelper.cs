@@ -140,7 +140,11 @@ namespace Paway.Helper
         /// <summary>
         /// 从Excel中取值到DataTable
         /// </summary>
-        public static DataTable ToDataTable(string fileName, int sheetIndex = 0)
+        /// <param name="fileName">文件名</param>
+        /// <param name="excel2003">Excel2003工作簿标记</param>
+        /// <param name="sheetIndex">工作簿序号，默认0</param>
+        /// <returns></returns>
+        public static DataTable ToDataTable(string fileName, bool excel2003, int sheetIndex = 0)
         {
             DataTable dt = new DataTable();
             FileStream fs = null;
@@ -148,12 +152,12 @@ namespace Paway.Helper
             {
                 int index = 0;
                 IWorkbook workbook = null;
-                try
+                if (excel2003)
                 {
                     fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
                     workbook = new HSSFWorkbook(fs);
                 }
-                catch
+                else
                 {
                     fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
                     workbook = new XSSFWorkbook(fs);

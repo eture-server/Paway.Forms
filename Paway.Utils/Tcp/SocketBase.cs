@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
+using log4net;
 using Paway.Helper;
 
 namespace Paway.Utils
@@ -11,6 +13,11 @@ namespace Paway.Utils
     /// </summary>
     public class SocketBase : IDisposable
     {
+        /// <summary>
+        /// 内部日志
+        /// </summary>
+        internal static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         #region 外部数据与事件
 
         /// <summary>
@@ -33,11 +40,7 @@ namespace Paway.Utils
         /// </summary>
         public void OnChange(EventArgs e)
         {
-            try
-            {
-                ChangeEvent?.Invoke(e);
-            }
-            catch { }
+            ChangeEvent?.Invoke(e);
         }
 
         #endregion
@@ -168,15 +171,16 @@ namespace Paway.Utils
                     if (SocketConfig.IStruct) message = StructHelper.GetObjectFromByte(buffer);
                     else message = buffer;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    log.Error(ex);
                     message = buffer;
                 }
                 MessageEvent?.Invoke(message);
             }
             catch (Exception ex)
             {
-                OnClientEvent(ex.Message);
+                log.Error(ex);
             }
         }
 
@@ -227,7 +231,10 @@ namespace Paway.Utils
                 };
                 ClientEvent?.Invoke(msg);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
         }
         /// <summary>
         ///     触发socker异常事件->断开
@@ -245,7 +252,10 @@ namespace Paway.Utils
                 };
                 ClientEvent?.Invoke(msg);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
         }
 
         #endregion
@@ -288,7 +298,7 @@ namespace Paway.Utils
         {
             if (ithrow && !IConnected)
             {
-                throw new ArgumentException("Not Connected");
+                throw new PawayException("Not Connected");
             }
             if (SendDataService != null && message != null)
             {
@@ -298,9 +308,9 @@ namespace Paway.Utils
             else if (ithrow)
             {
                 if (SendDataService == null)
-                    throw new ArgumentException("SendDataService is null");
+                    throw new PawayException("Send Service is null");
                 if (message == null)
-                    throw new ArgumentException("message is null");
+                    throw new ArgumentNullException("message");
             }
         }
         /// <summary>
@@ -310,7 +320,7 @@ namespace Paway.Utils
         /// <param name="iPackage">true=封装</param>
         internal void SendSync(byte[] buffer, bool iPackage = true)
         {
-            if (!IConnected) throw new ArgumentException("Not Connected");
+            if (!IConnected) throw new PawayException("Not Connected");
             if (iPackage) SendData(buffer);
             else if (!SendStop) Socket.Send(buffer);
         }

@@ -63,9 +63,8 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                log.Error(ex);
-                TransError(cmd);
-                throw new Exception(string.Empty, ex);
+                TransError(cmd, ex);
+                throw;
             }
             finally
             {
@@ -113,9 +112,9 @@ namespace Paway.Test
         }
         public void UpdatePad(string pad, string newPad, string newPad2)
         {
-            if (Config.User == null) throw new Exception("用户尚未登陆");
-            if (newPad != newPad2) throw new Exception("两次输入密码不一致");
-            if (Config.User.Pad != EncryptHelper.EncryptMD5(pad + Config.Suffix)) throw new Exception("用户密码错误");
+            if (Config.User == null) throw new WarningException("用户尚未登陆");
+            if (newPad != newPad2) throw new WarningException("两次输入密码不一致");
+            if (Config.User.Pad != EncryptHelper.EncryptMD5(pad + Config.Suffix)) throw new WarningException("用户密码错误");
             Config.User.DateTime = DateTime.Now;
             Config.User.Pad = EncryptHelper.EncryptMD5(newPad + Config.Suffix);
             Update(Config.User, nameof(UserInfo.DateTime), nameof(UserInfo.Pad));
@@ -144,8 +143,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                log.Error(ex);
-                TransError(cmd);
+                TransError(cmd, ex);
                 throw;
             }
             finally

@@ -17,8 +17,9 @@ namespace Paway.Utils
     public abstract class DataBase : IDisposable, IDataService
     {
         /// <summary>
+        /// 日志
         /// </summary>
-        protected static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         #region 事件
         /// <summary>
@@ -180,9 +181,9 @@ namespace Paway.Utils
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                if (iTrans) TransError(cmd);
+                if (iTrans) TransError(cmd, ex);
                 throw;
             }
             finally
@@ -211,20 +212,12 @@ namespace Paway.Utils
         /// </summary>
         protected DbCommand CommandStart(string sql)
         {
-            try
-            {
-                var con = GetCon();
-                var cmd = GetCmd();
-                cmd.CommandText = sql;
-                OnCommandText(cmd);
-                cmd.Connection = con;
-                return cmd;
-            }
-            catch (Exception ex)
-            {
-                log.ErrorFormat("StartCommand.Error[{0}]\r\n{1}", sql, ex);
-                throw;
-            }
+            var con = GetCon();
+            var cmd = GetCmd();
+            cmd.CommandText = sql;
+            OnCommandText(cmd);
+            cmd.Connection = con;
+            return cmd;
         }
 
         /// <summary>
@@ -250,7 +243,7 @@ namespace Paway.Utils
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("EndCommand.Error[{0}]\r\n{1}", cmd.CommandText, ex);
+                log.ErrorFormat("CommandEnd.Error[{0}]\r\n{1}", cmd.CommandText, ex);
                 throw;
             }
         }
@@ -263,21 +256,13 @@ namespace Paway.Utils
         /// <returns></returns>
         protected DbCommand TransStart()
         {
-            try
-            {
-                var con = GetCon();
-                var trans = con.BeginTransaction();
-                var cmd = GetCmd();
-                cmd.Connection = con;
-                cmd.Transaction = trans;
+            var con = GetCon();
+            var trans = con.BeginTransaction();
+            var cmd = GetCmd();
+            cmd.Connection = con;
+            cmd.Transaction = trans;
 
-                return cmd;
-            }
-            catch (Exception ex)
-            {
-                log.ErrorFormat("TransStartCommand.Error\r\n{0}", ex);
-                throw;
-            }
+            return cmd;
         }
 
         /// <summary>
@@ -287,15 +272,9 @@ namespace Paway.Utils
         protected bool TransCommit(DbCommand cmd)
         {
             if (cmd == null || cmd.Connection == null || cmd.Transaction == null) return false;
-            try
             {
                 cmd.Transaction.Commit();
                 return true;
-            }
-            catch (Exception)
-            {
-                TransError(cmd);
-                throw;
             }
         }
 
@@ -303,13 +282,13 @@ namespace Paway.Utils
         ///     事务处理异常回退
         ///     关闭DbCommand实例的连接，并释放
         /// </summary>
-        protected void TransError(DbCommand cmd)
+        protected void TransError(DbCommand cmd, Exception e)
         {
             if (cmd == null || cmd.Connection == null || cmd.Transaction == null) return;
             try
             {
+                log.ErrorFormat("TransError[{0}]\r\n{1}", cmd.CommandText, e);
                 cmd.Transaction.Rollback();
-                log.ErrorFormat("TransCommand.Execute.Error[{0}]", cmd.CommandText);
             }
             catch (Exception ex)
             {
@@ -513,7 +492,7 @@ namespace Paway.Utils
                         }
                         else
                         {
-                            throw new Exception("插入失败：无法读取Id");
+                            throw new PawayException("插入失败：无法读取Id");
                         }
                     }
                 }
@@ -521,9 +500,9 @@ namespace Paway.Utils
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                if (iTrans) TransError(cmd);
+                if (iTrans) TransError(cmd, ex);
                 throw;
             }
             finally
@@ -582,9 +561,9 @@ namespace Paway.Utils
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                if (iTrans) TransError(cmd);
+                if (iTrans) TransError(cmd, ex);
                 throw;
             }
             finally
@@ -665,9 +644,9 @@ namespace Paway.Utils
                 if (iTrans) return TransCommit(cmd);
                 else return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                if (iTrans) TransError(cmd);
+                if (iTrans) TransError(cmd, ex);
                 throw;
             }
             finally
@@ -704,8 +683,7 @@ namespace Paway.Utils
             }
             catch (Exception ex)
             {
-                log.Error(ex);
-                if (iTrans) TransError(cmd);
+                if (iTrans) TransError(cmd, ex);
                 throw;
             }
             finally

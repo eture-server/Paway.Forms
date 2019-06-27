@@ -1,7 +1,9 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace Paway.Forms
@@ -11,6 +13,7 @@ namespace Paway.Forms
     /// </summary>
     public class TProgressBar : TControl
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         #region 变量
 
         /// <summary>
@@ -178,7 +181,10 @@ namespace Paway.Forms
                 var point = new Point(Width / 2 - (int)size.Width / 2 - 1, Height / 2 - (int)size.Height / 2 + 2);
                 e.Graphics.DrawString(value.ToString(), tFont, new SolidBrush(color), point);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
         }
 
         private void DrawLine(Graphics g, Rectangle rect, Color color, int value)

@@ -107,8 +107,7 @@ namespace Paway.Test
         }
         private void Changed(object sender, EventArgs e)
         {
-            MEventArgs m = e as MEventArgs;
-            if (m == null) return;
+            if (!(e is MEventArgs m)) return;
             try
             {
             }

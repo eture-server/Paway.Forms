@@ -56,7 +56,7 @@ namespace Paway.Utils
         public int HeartTime { get; set; } = 3000;
 
         /// <summary>
-        ///     服务端事件
+        /// 服务端事件
         /// </summary>
         public event Action<ServiceEventArgs> SystemEvent;
         /// <summary>
@@ -105,7 +105,10 @@ namespace Paway.Utils
                 {
                     socket.Send(msg, false);
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    log.Error("发送失败", ex);
+                }
             }
         }
 
@@ -235,7 +238,10 @@ namespace Paway.Utils
                 }
                 SystemEvent?.Invoke(msg);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
         }
 
         /// <summary>

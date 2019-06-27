@@ -8,11 +8,14 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Paway.Forms;
 using Paway.Win32;
+using log4net;
+using System.Reflection;
 
 namespace Paway.Forms
 {
     internal partial class ProgressForm : TForm
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         /// <summary>
         /// ÏÔÊ¾/Òþ²ØËÙ¶È
         /// </summary>
@@ -132,8 +135,9 @@ namespace Paway.Forms
                     Application.DoEvents();
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
                 THide();
             }
         }

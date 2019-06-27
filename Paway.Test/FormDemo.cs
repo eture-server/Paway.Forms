@@ -266,11 +266,11 @@ namespace Paway.Test
             //doc.Load(file);
             List<string> list = new List<string>();
             XmlElement root = doc.DocumentElement;
-            if (root == null || root.Name != "Screen") throw new Exception("脚本文件格式不正确。");
+            if (root == null || root.Name != "Screen") throw new ArgumentException("脚本文件格式不正确。");
             XmlNode element = root.FirstChild;
             while (element != null)
             {
-                if (element.Name != "Item") throw new Exception("脚本文件格式不正确。");
+                if (element.Name != "Item") throw new ArgumentException("脚本文件格式不正确。");
                 XmlNode item = element.FirstChild;
                 string result = null;
                 while (item != null)

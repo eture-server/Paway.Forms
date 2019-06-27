@@ -1,10 +1,12 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace Paway.Helper
@@ -14,6 +16,7 @@ namespace Paway.Helper
     /// </summary>
     public abstract class TMethod
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         #region 硬件
         /// <summary>
         /// 获取本机IP地址
@@ -166,8 +169,9 @@ namespace Paway.Helper
             {
                 return Decimal.ToDouble(Math.Round(new Decimal(value.ClearError()), decimals, MidpointRounding.AwayFromZero));
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
                 return value;
             }
         }

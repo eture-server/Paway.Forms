@@ -562,7 +562,7 @@ namespace Paway.Forms
             if (TRoot != null)
             {
                 dr = dt.Select(string.Format("[{0}] = '{1}'", TId, TRoot));
-                if (dr.Length > 0) throw new Exception("子节点不可与根节点相同");
+                if (dr.Length > 0) throw new ArgumentException("子节点不可与根节点相同");
                 dr = dt.Select(string.Format("[{0}] = '{1}'", TParentId, TRoot));
             }
             else

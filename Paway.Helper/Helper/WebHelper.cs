@@ -48,10 +48,6 @@ namespace Paway.Helper
 
                 dt = DateTime.Parse(year + "-" + month + "-" + day + " " + hour + ":" + minite + ":" + second);
             }
-            catch
-            {
-                throw;
-            }
             finally
             {
                 if (wrp != null)

@@ -1,4 +1,5 @@
-﻿using Paway.Helper;
+﻿using log4net;
+using Paway.Helper;
 using System;
 using System.ComponentModel;
 using System.Net;
@@ -13,6 +14,8 @@ namespace Paway.Utils
     /// </summary>
     public class Client
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// 连接状态
         /// </summary>
@@ -67,8 +70,7 @@ namespace Paway.Utils
         /// </summary>
         public void TestConnection(int timeout = 500)
         {
-            if (!this.IConnected)
-                throw new WarningException("Not Connected, Please Wait..");
+            if (!this.IConnected) throw new WarningException("Not Connected, Please Wait..");
             TcpClient client = new TcpClient();
             try
             {
@@ -161,7 +163,10 @@ namespace Paway.Utils
                     Connect();
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
         }
 
         private void Client_ConnectFinished(IPEndPoint sender, SocketAsyncEventArgs e)

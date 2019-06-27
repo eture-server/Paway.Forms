@@ -1011,7 +1011,7 @@ namespace Paway.Forms
         {
             if (ColCount < 2)
             {
-                throw new Exception("行宽应大于1。");
+                throw new ArgumentException("行宽应大于1。");
             }
             //将这些列加入列表
             var Right = ColIndex + ColCount - 1; //同一大标题下的最后一列的索引

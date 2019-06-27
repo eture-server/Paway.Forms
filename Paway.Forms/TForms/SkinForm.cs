@@ -299,7 +299,7 @@ namespace Paway.Forms
                     NativeMethods.DeleteDC(memDc);
                 }
             }
-            throw new ApplicationException("图片必须是32位带Alhpa通道的图片。");
+            throw new ArgumentException("图片必须是32位带Alhpa通道的图片。");
         }
 
         private void Main_FormClosed(object sender, FormClosedEventArgs e)

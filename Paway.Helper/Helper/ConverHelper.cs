@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,6 +19,8 @@ namespace Paway.Helper
     /// </summary>
     public static class ConverHelper
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         #region 关于异常
 
         /// <summary>
@@ -377,8 +380,9 @@ namespace Paway.Helper
             {
                 return Decimal.ToDouble(new Decimal(value));
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
                 return value;
             }
         }

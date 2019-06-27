@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\CodeTimer.cs" />
+    <Compile Include="Common\PawayException.cs" />
     <Compile Include="ILBuider\BuilderHelper.cs" />
     <Compile Include="ILBuider\ValueBuilder.cs" />
     <Compile Include="ILBuider\SQLBuilder.cs" />

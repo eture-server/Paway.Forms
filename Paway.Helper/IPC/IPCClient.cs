@@ -47,6 +47,7 @@ namespace Paway.Helper
             catch (Exception)
             {
                 Stop();
+                throw;
             }
         }
 

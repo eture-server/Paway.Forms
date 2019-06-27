@@ -1,6 +1,8 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 
 namespace Paway.Utils
 {
@@ -66,7 +68,10 @@ namespace Paway.Utils
                 }
                 ConnectFinished?.Invoke(IPPoint, e);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
         }
 
         #endregion

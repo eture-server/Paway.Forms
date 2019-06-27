@@ -263,21 +263,16 @@ namespace Paway.Forms
         }
         private void OnIndexEvent()
         {
-            try
+            if (SelectEvent != null)
             {
-                if (SelectEvent != null)
+                if (this.ChartAreas.Count > 0 && this.ChartAreas[0].AxisX.CustomLabels.Count > 0)
                 {
-                    if (this.ChartAreas[0].AxisX.CustomLabels.Count > 0)
+                    if (this.ChartAreas[0].AxisX.CustomLabels[0].Tag is KeyValuePair<Series, int> d)
                     {
-                        var v = this.ChartAreas[0].AxisX.CustomLabels[0];
-                        if (v.Tag is KeyValuePair<Series, int> d)
-                        {
-                            SelectEvent(d.Value);
-                        }
+                        SelectEvent(d.Value);
                     }
                 }
             }
-            catch { }
         }
         private void TChart_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {

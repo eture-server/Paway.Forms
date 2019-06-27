@@ -266,17 +266,12 @@ namespace Paway.Helper
         public static Bitmap GetScreenPic()
         {
             Bitmap bitmap = null;
-            try
             {
                 var size = Screen.PrimaryScreen.WorkingArea.Size;
                 if (bitmap == null)
                     bitmap = new Bitmap(size.Width, size.Height);
                 var g = Graphics.FromImage(bitmap);
                 g.CopyFromScreen(Point.Empty, Point.Empty, size);
-            }
-            catch (Exception ex)
-            {
-                throw;
             }
             return bitmap;
         }

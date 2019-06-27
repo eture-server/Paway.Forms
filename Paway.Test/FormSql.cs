@@ -244,6 +244,7 @@ namespace Paway.Test
     }
     public class SqlService : SqlHelper
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public SqlService()
         {
             base.InitConnect(@"(local)", "DiningLC", "mobot", "mobot");
@@ -283,8 +284,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                log.Error(ex);
-                TransError(cmd);
+                TransError(cmd, ex);
                 log.Debug("ThreadId异常:" + Thread.CurrentThread.ManagedThreadId);
                 throw;
             }

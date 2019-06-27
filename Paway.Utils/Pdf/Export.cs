@@ -12,8 +12,6 @@ namespace Paway.Utils
     /// </summary>
     public abstract class Export
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <summary>
         ///     导出为PDF
         ///     Pdf导出导出示例
@@ -62,11 +60,6 @@ namespace Paway.Utils
                 document.Add(table);
 
                 return true;
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-                throw;
             }
             finally
             {

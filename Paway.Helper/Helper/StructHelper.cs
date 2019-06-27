@@ -75,10 +75,8 @@ namespace Paway.Helper
         /// </summary>
         public static Bitmap FromRawData(byte[] rawData, int width, int height, PixelFormat format = PixelFormat.Format32bppArgb)
         {
-            if (width < 1 || height < 1)
-                throw new ArgumentException("width和height必须大于零。");
-            if (rawData == null)
-                throw new ArgumentNullException("rawData", "rawData 不能为空。");
+            if (width < 1 || height < 1) throw new ArgumentException("width和height必须大于零。");
+            if (rawData == null) throw new ArgumentNullException("rawData");
 
             var image = new Bitmap(width, height, format);
             var bitmapData = image.LockBits(
@@ -96,8 +94,7 @@ namespace Paway.Helper
         /// </summary>
         public static byte[] ToRawData(Bitmap image)
         {
-            if (image == null)
-                throw new ArgumentNullException("image", "image 不能为空。");
+            if (image == null) throw new ArgumentNullException("image");
 
             var bitmapData = image.LockBits(
                 new Rectangle(0, 0, image.Width, image.Height),

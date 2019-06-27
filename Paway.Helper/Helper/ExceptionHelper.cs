@@ -15,9 +15,7 @@ namespace Paway.Helper
     /// </summary>
     public abstract class ExceptionHelper
     {
-        /// <summary>
-        /// </summary>
-        protected static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static string text;
         private static Form form;
 
