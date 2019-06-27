@@ -45,7 +45,7 @@ namespace Paway.Utils
 
                 //启动异步接收数据操作
                 var state = new AsynSocketArg();
-                state.InitializeState(Socket, base.heardLength);
+                state.InitializeState(Socket, base.heardLength, false);
                 WaitForData(state);
             }
             //处理其他操作

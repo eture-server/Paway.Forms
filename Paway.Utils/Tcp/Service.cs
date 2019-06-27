@@ -50,11 +50,10 @@ namespace Paway.Utils
         /// </summary>
         public IPEndPoint IpPort { get; private set; }
 
-        private int _heartTime = 3000;
         /// <summary>
         /// 心跳检测间隔
         /// </summary>
-        public int HeartTime { get { return _heartTime; } set { _heartTime = value; } }
+        public int HeartTime { get; set; } = 3000;
 
         /// <summary>
         ///     服务端事件
@@ -122,7 +121,7 @@ namespace Paway.Utils
                 SocketConfig.ThreadList.TryAdd(Thread.CurrentThread.ManagedThreadId, "Server Heart Listener");
                 while (!ForceStop)
                 {
-                    Thread.Sleep(heartTime * _heartTime);
+                    Thread.Sleep(heartTime * HeartTime);
                     SendAll(Encoding.GetEncoding("utf-8").GetBytes("Hello"));
                 }
             }
@@ -189,7 +188,7 @@ namespace Paway.Utils
 
                 //等待客户端发送来的数据
                 var state = new AsynSocketArg();
-                state.InitializeState(socket, heardLength);
+                state.InitializeState(socket, heardLength, true);
                 client.WaitForData(state);
             }
             catch (Exception ex)

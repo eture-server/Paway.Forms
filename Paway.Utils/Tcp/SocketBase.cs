@@ -137,7 +137,7 @@ namespace Paway.Utils
                         {
                             data[i] = (byte)buffer[i + heardLength];
                         }
-                        HandleMessage(data);
+                        HandleMessage(data, state.IServer);
                         WaitForData(state);
                     }
                 }
@@ -151,15 +151,16 @@ namespace Paway.Utils
         /// <summary>
         ///     反序列化并处理消息
         /// </summary>
-        /// <param name="buffer"></param>
-        private void HandleMessage(byte[] buffer)
+        /// <param name="buffer">数据</param>
+        /// <param name="iServer">服务端标记</param>
+        private void HandleMessage(byte[] buffer, bool iServer)
         {
             object message;
             try
             {
                 if (buffer.Length == 5 && Encoding.GetEncoding("utf-8").GetString(buffer) == "Hello")
-                {//心跳
-                    Send(buffer);
+                {//心跳，客户端需要回复
+                    if (!iServer) Send(buffer);
                     return;
                 }
                 try

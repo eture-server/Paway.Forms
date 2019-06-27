@@ -95,6 +95,11 @@ namespace Paway.Utils
         }
 
         /// <summary>
+        /// 服务端标记
+        /// </summary>
+        public bool IServer { get; set; }
+
+        /// <summary>
         ///     向数据缓冲区添加接收到的有效数据
         /// </summary>
         /// <param name="bufferValue"></param>
@@ -121,11 +126,12 @@ namespace Paway.Utils
         /// <summary>
         ///     初始化state对象
         /// </summary>
-        public void InitializeState(Socket socket, int heard)
+        public void InitializeState(Socket socket, int heard, bool iServer)
         {
             InitializeState();
             WorkSocket = socket;
             heardLength = heard;
+            this.IServer = iServer;
             socket.SetSocketKeepAliveValues(1000, 1000);
         }
 
