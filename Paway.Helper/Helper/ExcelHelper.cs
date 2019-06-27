@@ -141,10 +141,10 @@ namespace Paway.Helper
         /// 从Excel中取值到DataTable
         /// </summary>
         /// <param name="fileName">文件名</param>
-        /// <param name="excel2003">Excel2003工作簿标记</param>
+        /// <param name="excel2003">Excel2003工作簿标记，默认为空可自动判断文件扩展名</param>
         /// <param name="sheetIndex">工作簿序号，默认0</param>
         /// <returns></returns>
-        public static DataTable ToDataTable(string fileName, bool excel2003, int sheetIndex = 0)
+        public static DataTable ToDataTable(string fileName, bool? excel2003 = null, int sheetIndex = 0)
         {
             DataTable dt = new DataTable();
             FileStream fs = null;
@@ -152,7 +152,8 @@ namespace Paway.Helper
             {
                 int index = 0;
                 IWorkbook workbook = null;
-                if (excel2003)
+                if (excel2003 == null) excel2003 = Path.GetExtension(fileName) == ".xls";
+                if (excel2003 ?? false)
                 {
                     fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
                     workbook = new HSSFWorkbook(fs);
