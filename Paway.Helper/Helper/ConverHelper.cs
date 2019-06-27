@@ -198,8 +198,8 @@ namespace Paway.Helper
         /// </summary>
         public static int ToInt(this object obj)
         {
-            if (obj.GetType() == typeof(int)) return (int)obj;
             if (obj == null || obj == DBNull.Value) return 0;
+            if (obj.GetType() == typeof(int)) return (int)obj;
 
             var value = obj.ToString();
             if (value.Equals("true", StringComparison.OrdinalIgnoreCase)) return 1;
@@ -218,8 +218,8 @@ namespace Paway.Helper
         /// </summary>
         public static long ToLong(this object obj)
         {
-            if (obj.GetType() == typeof(long)) return (long)obj;
             if (obj == null || obj == DBNull.Value) return 0;
+            if (obj.GetType() == typeof(long)) return (long)obj;
 
             if (long.TryParse(obj.ToString(), out long value)) return value;
             return 0;

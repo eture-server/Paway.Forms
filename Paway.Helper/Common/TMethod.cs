@@ -58,10 +58,6 @@ namespace Paway.Helper
         /// <returns>HH:mm:ss</returns>
         public static string Times(TimeSpan time)
         {
-            if (time.TotalSeconds < 60)
-            {
-                return string.Format("{0:D2}", time.Seconds);
-            }
             if (time.TotalMinutes < 60)
             {
                 return string.Format("{0:D2}:{1:D2}", time.Minutes, time.Seconds);
