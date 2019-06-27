@@ -55,9 +55,10 @@ namespace Paway.Helper
         /// </summary>
         public static List<T> ToList<T>(this DataTable table, int? count = null) where T : new()
         {
-            List<T> list = new List<T>();
-            if (table == null) return list;
+            if (table == null) return new List<T>();
+
             if (count > table.Rows.Count) count = table.Rows.Count;
+            List<T> list = new List<T>(count ?? 0);
             if (table.Rows.Count > 0)
             {
                 var builder = EntityBuilder<T>.CreateBuilder(table.Rows[0]);
@@ -197,8 +198,7 @@ namespace Paway.Helper
         /// </summary>
         public static DbParameter AddParameter(string column, object value, Type type, Type ptype)
         {
-            var asmb = Assembly.GetAssembly(ptype);
-            var param = asmb.CreateInstance(ptype.FullName) as DbParameter;
+            var param = (DbParameter)Activator.CreateInstance(ptype);
             param.ParameterName = string.Format("@{0}", column);
             switch (type.Name)
             {

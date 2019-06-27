@@ -27,20 +27,18 @@ namespace Paway.Helper
         {
             Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.High;
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
-            Time("", 1, () => { });
+            Time("", 1, (obj) => { });
         }
 
         /// <summary>
         /// 测试计时
         /// </summary>
-        public static void Time(string name, int iteration, Action action)
+        public static void Time(string name, int iteration, Action<object> action, object obj = null)
         {
-            if (String.IsNullOrEmpty(name)) return;
-
             // 1.
             ConsoleColor currentForeColor = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(name);
+            Console.WriteLine($"{name}<{iteration}>");
 
             // 2.
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
@@ -54,7 +52,7 @@ namespace Paway.Helper
             Stopwatch watch = new Stopwatch();
             watch.Start();
             ulong cycleCount = GetCycleCount();
-            for (int i = 0; i < iteration; i++) action();
+            for (int i = 0; i < iteration; i++) action(obj);
             ulong cpuCycles = GetCycleCount() - cycleCount;
             watch.Stop();
 

@@ -43,13 +43,13 @@ namespace Paway.Helper
                         var type2 = descriptor.PropertyType.GenericType();
                         var list = type2.GenericList();
                         info.SetValue(descriptor, list);
-                        var obj2 = Assembly.GetAssembly(type2).CreateInstance(type2.FullName);
+                        var obj2 = Activator.CreateInstance(type2);
                         list.Add(obj2);
                         Load(doc, element.FirstChild, obj2, type2);
                     }
                     else if (descriptor.PropertyType.IsClass && descriptor.PropertyType != typeof(string))
                     {
-                        var obj = Assembly.GetAssembly(descriptor.PropertyType).CreateInstance(descriptor.PropertyType.FullName);
+                        var obj = Activator.CreateInstance(descriptor.PropertyType);
                         info.SetValue(descriptor, obj);
                         Load(doc, element.FirstChild, obj, descriptor.PropertyType);
                     }

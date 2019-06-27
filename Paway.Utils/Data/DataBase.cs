@@ -316,8 +316,7 @@ namespace Paway.Utils
         }
         private DbConnection InitCon()
         {
-            var asmb = Assembly.GetAssembly(connType);
-            var con = asmb.CreateInstance(connType.FullName) as DbConnection;
+            var con = (DbConnection)Activator.CreateInstance(connType);
             con.ConnectionString = ConnString;
             con.Open();
             return con;
@@ -325,8 +324,7 @@ namespace Paway.Utils
 
         private DbCommand GetCmd()
         {
-            var asmb = Assembly.GetAssembly(cmdType);
-            var cmd = asmb.CreateInstance(cmdType.FullName) as DbCommand;
+            var cmd = (DbCommand)Activator.CreateInstance(cmdType);
             cmd.CommandType = CommandType.Text;
             return cmd;
         }

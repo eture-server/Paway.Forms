@@ -198,25 +198,18 @@ namespace Paway.Helper
         /// </summary>
         public static int ToInt(this object obj)
         {
-            if (obj == null || obj == DBNull.Value)
-                return 0;
+            if (obj.GetType() == typeof(int)) return (int)obj;
+            if (obj == null || obj == DBNull.Value) return 0;
 
-            if (obj.ToString().ToUpper() == "TRUE")
-                return 1;
-            if (obj.ToString().ToUpper() == "FALSE")
-                return 0;
-            if (int.TryParse(obj.ToString(), out int data))
-            {
-                return data;
-            }
+            var value = obj.ToString();
+            if (value.Equals("true", StringComparison.OrdinalIgnoreCase)) return 1;
+            if (value.Equals("false", StringComparison.OrdinalIgnoreCase)) return 0;
+            if (int.TryParse(value, out int data)) return data;
 
-            if (double.TryParse(obj.ToString(), out double result))
+            if (double.TryParse(value, out double result))
             {
                 result = Math.Round(result, MidpointRounding.AwayFromZero);
-                if (int.TryParse(result.ToString(), out data))
-                {
-                    return data;
-                }
+                return (int)result;
             }
             return 0;
         }
@@ -225,11 +218,10 @@ namespace Paway.Helper
         /// </summary>
         public static long ToLong(this object obj)
         {
-            if (obj == null || obj == DBNull.Value)
-                return 0;
+            if (obj.GetType() == typeof(long)) return (long)obj;
+            if (obj == null || obj == DBNull.Value) return 0;
 
-            if (long.TryParse(obj.ToString(), out long value))
-                return value;
+            if (long.TryParse(obj.ToString(), out long value)) return value;
             return 0;
         }
         /// <summary>
@@ -237,11 +229,9 @@ namespace Paway.Helper
         /// </summary>
         public static double ToDouble(this object obj)
         {
-            if (obj == null || obj == DBNull.Value)
-                return 0;
+            if (obj == null || obj == DBNull.Value) return 0;
 
-            if (double.TryParse(obj.ToString(), out double value))
-                return value;
+            if (double.TryParse(obj.ToString(), out double value)) return value;
             return 0;
         }
         /// <summary>
@@ -249,11 +239,9 @@ namespace Paway.Helper
         /// </summary>
         public static float ToFloat(this object obj)
         {
-            if (obj == null || obj == DBNull.Value)
-                return 0;
+            if (obj == null || obj == DBNull.Value) return 0;
 
-            if (float.TryParse(obj.ToString(), out float value))
-                return value;
+            if (float.TryParse(obj.ToString(), out float value)) return value;
             return 0;
         }
         /// <summary>
@@ -261,11 +249,9 @@ namespace Paway.Helper
         /// </summary>
         public static decimal ToDecimal(this object obj)
         {
-            if (obj == null || obj == DBNull.Value)
-                return 0;
+            if (obj == null || obj == DBNull.Value) return 0;
 
-            if (decimal.TryParse(obj.ToString(), out decimal value))
-                return value;
+            if (decimal.TryParse(obj.ToString(), out decimal value)) return value;
             return 0;
         }
         /// <summary>
@@ -273,15 +259,12 @@ namespace Paway.Helper
         /// </summary>
         public static bool ToBool(this object obj)
         {
-            if (obj == null || obj == DBNull.Value)
-                return false;
+            if (obj == null || obj == DBNull.Value) return false;
 
-            if (obj.ToString() == "1")
-                return true;
-            if (obj.ToString() == "0")
-                return false;
-            if (bool.TryParse(obj.ToString(), out bool value))
-                return value;
+            var value = obj.ToString();
+            if (value == "1") return true;
+            if (value == "0") return false;
+            if (bool.TryParse(value, out bool result)) return result;
             return false;
         }
         /// <summary>
@@ -289,8 +272,7 @@ namespace Paway.Helper
         /// </summary>
         public static string ToStrs(this object obj)
         {
-            if (obj == null || obj == DBNull.Value)
-                return string.Empty;
+            if (obj == null || obj == DBNull.Value) return string.Empty;
 
             return obj.ToString().Trim();
         }
@@ -299,25 +281,19 @@ namespace Paway.Helper
         /// </summary>
         public static DateTime ToDateTime(this object obj)
         {
-            if (obj == null || obj == DBNull.Value || obj.ToString() == string.Empty)
-                return new DateTime();
+            if (obj == null || obj == DBNull.Value || obj.ToString() == string.Empty) return DateTime.MinValue;
 
-            return Convert.ToDateTime(obj);
+            if (DateTime.TryParse(obj.ToString(), out DateTime result)) return result;
+            return DateTime.MinValue;
         }
         /// <summary>
         ///     检测obj,如果为DBNUll或空字符串 返回true
         /// </summary>
         public static bool IsNullOrEmpty(this object obj)
         {
-            if (obj == null || obj == DBNull.Value)
-            {
-                return true;
-            }
-            if (string.IsNullOrEmpty(obj.ToString()))
-            {
-                return true;
-            }
-            return false;
+            if (obj == null || obj == DBNull.Value) return true;
+
+            return string.IsNullOrEmpty(obj.ToString());
         }
         /// <summary>
         ///     拼音转换
@@ -396,8 +372,10 @@ namespace Paway.Helper
         /// </summary>
         public static List<PropertyInfo> Properties(this Type type)
         {
-            var list = new List<Type>();
-            list.Add(type);
+            var list = new List<Type>
+            {
+                type
+            };
             if (type.IsInterface)
             {
                 list.AddRange(type.GetInterfaces());
@@ -1017,8 +995,7 @@ namespace Paway.Helper
         public static T Clone<T>(this T t, bool child)
         {
             var type = typeof(T);
-            var asmb = Assembly.GetAssembly(type);
-            var copy = asmb.CreateInstance(type.FullName);
+            var copy = Activator.CreateInstance(type);
             return t.Clone(copy, child);
         }
         /// <summary>
@@ -1032,9 +1009,8 @@ namespace Paway.Helper
         public static T Clone<T>(this T t, object copy, bool child)
         {
             var type = typeof(T);
-            var asmb = Assembly.GetAssembly(type);
             if (copy == null)
-                copy = asmb.CreateInstance(type.FullName);
+                copy = Activator.CreateInstance(type);
             type.Clone(copy, t, child);
 
             return (T)copy;
@@ -1057,12 +1033,11 @@ namespace Paway.Helper
                     var clist = type.GenericList();
                     parent.SetValue(copy, property.Name, clist);
                     clist = parent.GetValue(copy, property.Name) as IList;
-                    var asmb = Assembly.GetAssembly(type);
                     for (var j = 0; j < list.Count; j++)
                     {
                         if (!type.IsValueType && type != typeof(string))
                         {
-                            var obj = asmb.CreateInstance(type.FullName);
+                            var obj = Activator.CreateInstance(type);
                             type.Clone(obj, list[j], child);
                             clist.Add(obj);
                         }
@@ -1075,8 +1050,7 @@ namespace Paway.Helper
                 else if (child && value != null && !value.GetType().IsValueType && value.GetType() != typeof(string) && !(value is Image))
                 {
                     var type = value.GetType();
-                    var asmb = Assembly.GetAssembly(type);
-                    var obj = asmb.CreateInstance(type.FullName);
+                    var obj = Activator.CreateInstance(type);
                     parent.SetValue(copy, property.Name, obj);
                     type.Clone(obj, value, child);
                 }

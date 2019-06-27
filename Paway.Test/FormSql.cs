@@ -107,7 +107,7 @@ namespace Paway.Test
                     var type2 = descriptor.PropertyType.GenericType();
                     var list = type2.GenericList();
                     data.SetValue(descriptor, list);
-                    var obj2 = Assembly.GetAssembly(type2).CreateInstance(type2.FullName);
+                    var obj2 = (DbConnection)Activator.CreateInstance(type2);
                     list.Add(obj2);
                 }
 

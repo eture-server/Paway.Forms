@@ -31,9 +31,7 @@ namespace Paway.Helper
         /// <returns>启动窗体实例</returns>
         public static Form ShowForm<T>(string title, Image load2 = null, string desc = "Loading...") where T : ILoadForm
         {
-            var asmb = Assembly.GetAssembly(typeof(T));
-
-            var form = (Form)asmb.CreateInstance(typeof(T).FullName);
+            var form = (Form)Activator.CreateInstance(typeof(T));
             LoadHelper.form = (ILoadForm)form;
             form.TopMost = true;
             form.Text = title;
