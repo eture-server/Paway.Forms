@@ -38,7 +38,7 @@ namespace Paway.Helper
             // 1.
             ConsoleColor currentForeColor = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"{name}<{iteration}>");
+            Console.WriteLine($"{name}: {iteration}");
 
             // 2.
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
