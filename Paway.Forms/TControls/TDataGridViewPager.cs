@@ -49,12 +49,13 @@ namespace Paway.Forms
         /// </summary>
         private int Index;
 
+        private TPager pager1;
         /// <summary>
         ///     导航栏
         /// </summary>
         [Category("Properties"), Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public TPager TPager { get; private set; }
+        public TPager TPager { get { return pager1; } }
 
         private TDataGridView gridview1;
         /// <summary>
@@ -398,12 +399,13 @@ namespace Paway.Forms
         {
             this.gridview1 = new Paway.Forms.TDataGridView();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TPager = new Paway.Forms.TPager();
+            this.pager1 = new Paway.Forms.TPager();
             ((System.ComponentModel.ISupportInitialize)(this.gridview1)).BeginInit();
             this.SuspendLayout();
             // 
             // gridview1
             // 
+            this.gridview1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.gridview1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id});
             this.gridview1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -426,17 +428,17 @@ namespace Paway.Forms
             // 
             // pager1
             // 
-            this.TPager.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
-            this.TPager.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.TPager.Location = new System.Drawing.Point(0, 173);
-            this.TPager.Name = "pager1";
-            this.TPager.Size = new System.Drawing.Size(576, 30);
-            this.TPager.TabIndex = 11;
+            this.pager1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
+            this.pager1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pager1.Location = new System.Drawing.Point(0, 173);
+            this.pager1.Name = "pager1";
+            this.pager1.Size = new System.Drawing.Size(576, 30);
+            this.pager1.TabIndex = 11;
             // 
             // TDataGridViewPager
             // 
             this.Controls.Add(this.gridview1);
-            this.Controls.Add(this.TPager);
+            this.Controls.Add(this.pager1);
             this.Name = "TDataGridViewPager";
             this.Size = new System.Drawing.Size(576, 203);
             ((System.ComponentModel.ISupportInitialize)(this.gridview1)).EndInit();

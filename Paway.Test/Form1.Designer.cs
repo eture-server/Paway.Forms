@@ -189,9 +189,6 @@
             // toolOk
             // 
             this.toolOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.toolOk.TLineColor.ColorDown = System.Drawing.Color.Transparent;
-            this.toolOk.TLineColor.ColorMove = System.Drawing.Color.Transparent;
-            this.toolOk.TLineColor.ColorNormal = System.Drawing.Color.Transparent;
             this.toolOk.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolOk.IClickEvent = true;
             this.toolOk.ImageSize = new System.Drawing.Size(0, 0);
@@ -210,6 +207,9 @@
             this.toolOk.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolOk.TextFirst.ColorNormal = System.Drawing.Color.Black;
             this.toolOk.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolOk.TLineColor.ColorDown = System.Drawing.Color.Transparent;
+            this.toolOk.TLineColor.ColorMove = System.Drawing.Color.Transparent;
+            this.toolOk.TLineColor.ColorNormal = System.Drawing.Color.Transparent;
             this.toolOk.Trans = 150;
             // 
             // Form1

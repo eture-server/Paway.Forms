@@ -59,9 +59,8 @@ namespace Paway.Test
         protected void WaitDrawDataGridView()
         {
             BindingList<WaitDrawDataGridViewData> list = new BindingList<WaitDrawDataGridViewData>();
-            tDataGridViewPager1.PagerInfo.PageSize = 50;
-            //tDataGridViewPager1.PageChanged += tDataGridViewPager1_PageChanged;
-            tDataGridViewPager1.DataSource = new Data2() { A = "正在加载" };
+            tDataGridViewPager2.PagerInfo.PageSize = 50;
+            tDataGridViewPager2.DataSource = new Data2() { A = "正在加载" };
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "image");
             for (int i = 0; i < 113; i++)
             {
@@ -85,10 +84,7 @@ namespace Paway.Test
                 }
                 list.Add(dti);
             }
-            tDataGridViewPager1.DataSource = list;
-        }
-        void tDataGridViewPager1_PageChanged(object sender, EventArgs e)
-        {
+            tDataGridViewPager2.DataSource = list;
         }
         protected void CheckBoxDataGridView()
         {

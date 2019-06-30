@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Design;
+using System.IO;
 using System.Windows.Forms;
 using Paway.Helper;
 
@@ -41,6 +43,8 @@ namespace Paway.Forms
             CellMouseEnter += ComBoxGridView_CellMouseEnter;
             CellMouseLeave += ComBoxGridView_CellMouseLeave;
             CellFormatting += TDataGridView_CellFormatting;
+            CellMouseDown += TDataGridView_CellMouseDown;
+            CellMouseUp += TDataGridView_CellMouseUp;
             BackgroundColor = Color.White;
             BorderStyle = BorderStyle.None;
             InitializeComponent();
@@ -51,7 +55,7 @@ namespace Paway.Forms
             AllowUserToDeleteRows = false;
             AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             ColumnHeadersHeight = 30;
             ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             MultiSelect = false;
@@ -61,6 +65,7 @@ namespace Paway.Forms
             ScrollBars = ScrollBars.Both;
             SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             ReadOnly = true;
+            EnableHeadersVisualStyles = false;
 
             pictureBox1.BackColor = Color.Transparent;
         }
@@ -227,7 +232,7 @@ namespace Paway.Forms
         ///     获取应用于列标题的边框样式。
         /// </summary>
         [Description("获取应用于列标题的边框样式")]
-        [DefaultValue(DataGridViewHeaderBorderStyle.None)]
+        [DefaultValue(DataGridViewHeaderBorderStyle.Single)]
         public new DataGridViewHeaderBorderStyle ColumnHeadersBorderStyle
         {
             get { return base.ColumnHeadersBorderStyle; }
@@ -323,8 +328,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取和设置网格线的颜色。
-        ///     私有，自动设置
+        ///     获取和设置网格线的颜色（自动设置）
         /// </summary>
         [Description("获取和设置网格线的颜色")]
         [Browsable(false), DefaultValue(typeof(Color), "149, 204, 223")]
@@ -343,6 +347,18 @@ namespace Paway.Forms
         {
             get { return base.ReadOnly; }
             set { base.ReadOnly = value; }
+        }
+
+        /// <summary>
+        /// 获取或设置一个值，该值指示在对应用程序启用了可视样式的情况下，行标题和列标题是否使用用户当前主题的可视样式。
+        /// 如果对标题启用了可视样式，为 true；否则为 false。默认值为 true。
+        /// </summary>
+        [DefaultValue(false)]
+        [IODescriptionAttribute("DataGridView_EnableHeadersVisualStylesDescr")]
+        public new bool EnableHeadersVisualStyles
+        {
+            get { return base.EnableHeadersVisualStyles; }
+            set { base.EnableHeadersVisualStyles = value; }
         }
 
         #endregion
@@ -549,7 +565,14 @@ namespace Paway.Forms
         }
         private void CellMouseColor(DataGridViewCellEventArgs e, Color blackColor, Color selectionBackColor)
         {
-            if (e.RowIndex < 0) return;
+            if (e.RowIndex < 0)
+            {
+                if (e.ColumnIndex != -1)
+                {
+                    Columns[e.ColumnIndex].HeaderCell.Style.BackColor = blackColor;
+                }
+                return;
+            }
             Rows[e.RowIndex].DefaultCellStyle.BackColor = blackColor;
             if (Rows[e.RowIndex].Selected)
             {
@@ -568,6 +591,22 @@ namespace Paway.Forms
                         Rows[e.RowIndex].Cells[i].Style.SelectionBackColor = selectionBackColor;
                     }
                 }
+            }
+        }
+        private void TDataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex < 0 && e.ColumnIndex != -1)
+            {
+                var selectionBackColor = BitmapHelper.RGBAddLight(RowTemplate.DefaultCellStyle.SelectionBackColor, -10);
+                Columns[e.ColumnIndex].HeaderCell.Style.BackColor = selectionBackColor;
+            }
+        }
+        private void TDataGridView_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex < 0 && e.ColumnIndex != -1)
+            {
+                var blackColor = BitmapHelper.RGBAddLight(RowTemplate.DefaultCellStyle.SelectionBackColor, 27);
+                Columns[e.ColumnIndex].HeaderCell.Style.BackColor = blackColor;
             }
         }
 
