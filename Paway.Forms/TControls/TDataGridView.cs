@@ -1013,7 +1013,7 @@ namespace Paway.Forms
                     fontBrush.Color = e.CellStyle.SelectionForeColor;
                 }
                 //画上半部分底色
-                g.FillRectangle(new SolidBrush(Color.White), left - 2, top - 1, right - left + 3, (bottom - top) / 2 + 1);
+                g.FillRectangle(new SolidBrush(ColumnHeadersDefaultCellStyle.BackColor), left - 2, top - 1, right - left + 3, (bottom - top) / 2 + 1);
 
                 //画中线
                 g.DrawLine(new Pen(GridColor), left - 2, (top + bottom) / 2, right, (top + bottom) / 2);

@@ -33,13 +33,13 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormGridView));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel3 = new Paway.Forms.TPanel();
             this.tDataGridView2 = new Paway.Forms.TDataGridView();
             this.ProColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -47,6 +47,7 @@
             this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.panel2 = new Paway.Forms.TPanel();
+            this.tDataGridViewPager2 = new Paway.Forms.TDataGridViewPager();
             this.tDataGridView1 = new Paway.Forms.TDataGridView();
             this.IsSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.CommandType = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,13 +56,12 @@
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ActionTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ComponentId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tDataGridViewPager2 = new Paway.Forms.TDataGridViewPager();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tDataGridView2)).BeginInit();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tDataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tDataGridViewPager2.Edit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tDataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -174,12 +174,52 @@
             this.panel2.Size = new System.Drawing.Size(690, 174);
             this.panel2.TabIndex = 9;
             // 
+            // tDataGridViewPager2
+            // 
+            this.tDataGridViewPager2.Dock = System.Windows.Forms.DockStyle.Fill;
+            // 
+            // 
+            // 
+            this.tDataGridViewPager2.Edit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tDataGridViewPager2.Edit.Location = new System.Drawing.Point(0, 0);
+            this.tDataGridViewPager2.Edit.Name = "gridview1";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 12F);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.LightBlue;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tDataGridViewPager2.Edit.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.tDataGridViewPager2.Edit.RowHeadersVisible = true;
+            this.tDataGridViewPager2.Edit.RowHeadersWidth = 32;
+            this.tDataGridViewPager2.Edit.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
+            this.tDataGridViewPager2.Edit.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
+            this.tDataGridViewPager2.Edit.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
+            this.tDataGridViewPager2.Edit.RowTemplate.Height = 32;
+            this.tDataGridViewPager2.Edit.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.tDataGridViewPager2.Edit.Size = new System.Drawing.Size(684, 138);
+            this.tDataGridViewPager2.Edit.TabIndex = 12;
+            this.tDataGridViewPager2.Location = new System.Drawing.Point(3, 3);
+            this.tDataGridViewPager2.Name = "tDataGridViewPager2";
+            this.tDataGridViewPager2.Size = new System.Drawing.Size(684, 168);
+            this.tDataGridViewPager2.TabIndex = 12;
+            // 
+            // 
+            // 
+            this.tDataGridViewPager2.TPager.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
+            this.tDataGridViewPager2.TPager.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tDataGridViewPager2.TPager.Location = new System.Drawing.Point(0, 138);
+            this.tDataGridViewPager2.TPager.Name = "pager1";
+            this.tDataGridViewPager2.TPager.Size = new System.Drawing.Size(684, 30);
+            this.tDataGridViewPager2.TPager.TabIndex = 11;
+            // 
             // tDataGridView1
             // 
             this.tDataGridView1.AllowUserToAddRows = true;
             this.tDataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.None;
             this.tDataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Single;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle5.Font = new System.Drawing.Font("微软雅黑", 12F);
             dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
@@ -290,45 +330,6 @@
             this.ComponentId.ReadOnly = true;
             this.ComponentId.Visible = false;
             // 
-            // tDataGridViewPager2
-            // 
-            this.tDataGridViewPager2.Dock = System.Windows.Forms.DockStyle.Fill;
-            // 
-            // 
-            // 
-            this.tDataGridViewPager2.Edit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tDataGridViewPager2.Edit.Location = new System.Drawing.Point(0, 0);
-            this.tDataGridViewPager2.Edit.Name = "gridview1";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 12F);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.LightBlue;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.tDataGridViewPager2.Edit.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.tDataGridViewPager2.Edit.RowHeadersVisible = true;
-            this.tDataGridViewPager2.Edit.RowHeadersWidth = 32;
-            this.tDataGridViewPager2.Edit.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
-            this.tDataGridViewPager2.Edit.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
-            this.tDataGridViewPager2.Edit.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
-            this.tDataGridViewPager2.Edit.RowTemplate.Height = 32;
-            this.tDataGridViewPager2.Edit.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.tDataGridViewPager2.Edit.Size = new System.Drawing.Size(684, 138);
-            this.tDataGridViewPager2.Edit.TabIndex = 12;
-            this.tDataGridViewPager2.Location = new System.Drawing.Point(3, 3);
-            this.tDataGridViewPager2.Name = "tDataGridViewPager2";
-            this.tDataGridViewPager2.Size = new System.Drawing.Size(684, 168);
-            this.tDataGridViewPager2.TabIndex = 12;
-            // 
-            // 
-            // 
-            this.tDataGridViewPager2.TPager.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
-            this.tDataGridViewPager2.TPager.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tDataGridViewPager2.TPager.Location = new System.Drawing.Point(0, 138);
-            this.tDataGridViewPager2.TPager.Name = "pager1";
-            this.tDataGridViewPager2.TPager.Size = new System.Drawing.Size(684, 30);
-            this.tDataGridViewPager2.TPager.TabIndex = 11;
-            // 
             // FormGridView
             // 
             this.BackColor = System.Drawing.Color.CornflowerBlue;
@@ -342,8 +343,8 @@
             this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tDataGridView2)).EndInit();
             this.panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.tDataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tDataGridViewPager2.Edit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tDataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
