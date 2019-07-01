@@ -122,7 +122,6 @@ namespace Paway.Test
             this.tbCat = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.btDemo360 = new System.Windows.Forms.Button();
             this.btQQDemo = new System.Windows.Forms.Button();
             this.btTTsRead = new System.Windows.Forms.Button();
             this.btAbout = new System.Windows.Forms.Button();
@@ -655,17 +654,6 @@ namespace Paway.Test
             this.pictureBox2.TabIndex = 41;
             this.pictureBox2.TabStop = false;
             // 
-            // btDemo360
-            // 
-            this.btDemo360.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.btDemo360.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btDemo360.Location = new System.Drawing.Point(233, 119);
-            this.btDemo360.Name = "btDemo360";
-            this.btDemo360.Size = new System.Drawing.Size(109, 28);
-            this.btDemo360.TabIndex = 46;
-            this.btDemo360.Text = "Demo360";
-            this.btDemo360.UseVisualStyleBackColor = false;
-            // 
             // btQQDemo
             // 
             this.btQQDemo.BackColor = System.Drawing.Color.DarkSeaGreen;
@@ -887,7 +875,6 @@ namespace Paway.Test
             this.Controls.Add(this.qqRadioButton1);
             this.Controls.Add(this.qqCheckBox1);
             this.Controls.Add(this.qqTextBox1);
-            this.Controls.Add(this.btDemo360);
             this.Controls.Add(this.btQQDemo);
             this.Controls.Add(this.toolBar3);
             this.Controls.Add(this.pictureBox2);
@@ -1000,7 +987,6 @@ namespace Paway.Test
         private System.Windows.Forms.PictureBox pictureBox2;
         private Forms.ToolBar toolBar3;
         private Button btQQDemo;
-        private Button btDemo360;
         private Forms.QQTextBox qqTextBox1;
         private Forms.QQCheckBox qqCheckBox1;
         private Forms.QQRadioButton qqRadioButton1;

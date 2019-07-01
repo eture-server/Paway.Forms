@@ -47,26 +47,18 @@ namespace Paway.Helper
         /// </summary>
         private static void CloneFunc(ILGenerator generator, Type type)
         {
-            foreach (FieldInfo field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+            foreach (var property in type.Properties().FindAll(c => c.CanRead && c.CanWrite))
             {
-                if (field.FieldType.IsGenericType && Nullable.GetUnderlyingType(field.FieldType) == null) continue;
-                var match = new Regex(@"<(?<name>\w+)>").Match(field.Name);
-                if (match.Success)
-                {
-                    PropertyInfo property = type.Property(match.Groups["name"].ToString());
-                    if (property != null && !property.IClone()) continue;
-                }
+                if (property.PropertyType.IsGenericType && Nullable.GetUnderlyingType(property.PropertyType) == null) continue;
+                if (!property.IClone()) continue;
 
                 // Load the new object on the eval stack... (currently 1 item on eval stack)
                 generator.Emit(OpCodes.Ldloc_0);
                 // Load initial object (parameter)          (currently 2 items on eval stack)
                 generator.Emit(OpCodes.Ldarg_0);
                 generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
-                // Replace value by field value             (still currently 2 items on eval stack)
-                generator.Emit(OpCodes.Ldfld, field);
-                // Store the value of the top on the eval stack into the object underneath that value on the value stack.
-                //  (0 items on eval stack)
-                generator.Emit(OpCodes.Stfld, field);
+                generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
+                generator.Emit(OpCodes.Callvirt, property.GetSetMethod());
             }
         }
         /// <summary>
@@ -93,28 +85,6 @@ namespace Paway.Helper
             }
             generator.Emit(OpCodes.Ret);
             return dymMethod.CreateDelegate(typeof(Action<T, T>));
-        }
-        /// <summary>
-        /// 表达式树，仅复制公有属性
-        /// </summary>
-        public static Func<T, T> CloneLambda<T>()
-        {
-            ParameterExpression parameterExpression = Expression.Parameter(typeof(T), "p");
-            List<MemberBinding> memberBindingList = new List<MemberBinding>();
-
-            foreach (var item in typeof(T).Properties())
-            {
-                if (!item.CanWrite || !item.IClone()) continue;
-
-                MemberExpression property = Expression.Property(parameterExpression, typeof(T).Property(item.Name));
-                MemberBinding memberBinding = Expression.Bind(item, property);
-                memberBindingList.Add(memberBinding);
-            }
-
-            MemberInitExpression memberInitExpression = Expression.MemberInit(Expression.New(typeof(T)), memberBindingList.ToArray());
-            Expression<Func<T, T>> lambda = Expression.Lambda<Func<T, T>>(memberInitExpression, new ParameterExpression[] { parameterExpression });
-
-            return lambda.Compile();
         }
     }
 }

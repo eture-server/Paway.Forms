@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
@@ -45,7 +44,6 @@
             Paway.Forms.ToolItem toolItem14 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem15 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem16 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem17 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem18 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem19 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem20 = new Paway.Forms.ToolItem();
@@ -68,30 +66,18 @@
             Paway.Forms.ToolItem toolItem37 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem38 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem39 = new Paway.Forms.ToolItem();
-            this.toolUp = new Paway.Forms.ToolBar();
+            Paway.Forms.ToolItem toolItem17 = new Paway.Forms.ToolItem();
+            this.toolBar1 = new Paway.Forms.ToolBar();
+            this.panel3 = new Paway.Forms.TControl();
             this.toolBar2 = new Paway.Forms.ToolBar();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.功能1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.功能2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1.SuspendLayout();
+            this.toolUp = new Paway.Forms.ToolBar();
             this.panel3.SuspendLayout();
             this.toolBar2.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // panel2
-            // 
-            this.panel2.Location = new System.Drawing.Point(0, 485);
-            this.panel2.Size = new System.Drawing.Size(898, 26);
-            // 
-            // panel1
-            // 
-            this.panel1.Location = new System.Drawing.Point(1, 26);
-            this.panel1.Size = new System.Drawing.Size(898, 513);
             // 
             // toolBar1
             // 
-            this.toolBar1.IClickEvent = true;
+            this.toolBar1.Dock = System.Windows.Forms.DockStyle.Top;
             toolItem1.Text = "上";
             toolItem2.Text = "下";
             toolItem3.Text = "左";
@@ -125,35 +111,20 @@
             this.toolBar1.Items.Add(toolItem15);
             this.toolBar1.Items.Add(toolItem16);
             this.toolBar1.ItemSize = new System.Drawing.Size(64, 33);
-            this.toolBar1.Size = new System.Drawing.Size(898, 67);
+            this.toolBar1.Location = new System.Drawing.Point(1, 26);
+            this.toolBar1.Name = "toolBar1";
+            this.toolBar1.Size = new System.Drawing.Size(798, 67);
+            this.toolBar1.TabIndex = 0;
             // 
             // panel3
             // 
+            this.panel3.BackColor = System.Drawing.Color.White;
             this.panel3.Controls.Add(this.toolBar2);
-            this.panel3.Location = new System.Drawing.Point(0, 67);
-            this.panel3.Size = new System.Drawing.Size(898, 418);
-            // 
-            // toolUp
-            // 
-            this.toolUp.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.toolUp.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolUp.IClickEvent = true;
-            toolItem17.Text = "清明上河图";
-            this.toolUp.Items.Add(toolItem17);
-            this.toolUp.ItemSize = new System.Drawing.Size(90, 90);
-            this.toolUp.Location = new System.Drawing.Point(629, 22);
-            this.toolUp.Name = "toolUp";
-            this.toolUp.Size = new System.Drawing.Size(92, 92);
-            this.toolUp.TabIndex = 57;
-            this.toolUp.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
-            this.toolUp.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
-            this.toolUp.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(135)))), ((int)(((byte)(239)))));
-            this.toolUp.TextFirst.ColorDown = System.Drawing.Color.White;
-            this.toolUp.TextFirst.ColorMove = System.Drawing.Color.White;
-            this.toolUp.TextFirst.ColorNormal = System.Drawing.Color.Black;
-            this.toolUp.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
-            this.toolUp.TRadiu = 90;
-            this.toolUp.Trans = 150;
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(1, 93);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(798, 356);
+            this.panel3.TabIndex = 1;
             // 
             // toolBar2
             // 
@@ -218,8 +189,8 @@
             this.toolBar2.ItemSpace = 5;
             this.toolBar2.Location = new System.Drawing.Point(0, 0);
             this.toolBar2.Name = "toolBar2";
-            this.toolBar2.Size = new System.Drawing.Size(898, 418);
-            this.toolBar2.TabIndex = 35;
+            this.toolBar2.Size = new System.Drawing.Size(798, 356);
+            this.toolBar2.TabIndex = 37;
             this.toolBar2.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
             this.toolBar2.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(127)))), ((int)(((byte)(104)))));
             this.toolBar2.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(72)))), ((int)(((byte)(38)))));
@@ -235,56 +206,50 @@
             this.toolBar2.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
             this.toolBar2.Trans = 150;
             // 
-            // contextMenuStrip1
+            // toolUp
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.功能1ToolStripMenuItem,
-            this.功能2ToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(108, 48);
-            // 
-            // 功能1ToolStripMenuItem
-            // 
-            this.功能1ToolStripMenuItem.Name = "功能1ToolStripMenuItem";
-            this.功能1ToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-            this.功能1ToolStripMenuItem.Text = "功能1";
-            // 
-            // 功能2ToolStripMenuItem
-            // 
-            this.功能2ToolStripMenuItem.Name = "功能2ToolStripMenuItem";
-            this.功能2ToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-            this.功能2ToolStripMenuItem.Text = "功能2";
+            this.toolUp.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.toolUp.Font = new System.Drawing.Font("Tahoma", 15F);
+            this.toolUp.IClickEvent = true;
+            toolItem17.Text = "清明上河图";
+            this.toolUp.Items.Add(toolItem17);
+            this.toolUp.ItemSize = new System.Drawing.Size(90, 90);
+            this.toolUp.Location = new System.Drawing.Point(575, 6);
+            this.toolUp.Name = "toolUp";
+            this.toolUp.Size = new System.Drawing.Size(92, 92);
+            this.toolUp.TabIndex = 57;
+            this.toolUp.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
+            this.toolUp.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
+            this.toolUp.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(135)))), ((int)(((byte)(239)))));
+            this.toolUp.TextFirst.ColorDown = System.Drawing.Color.White;
+            this.toolUp.TextFirst.ColorMove = System.Drawing.Color.White;
+            this.toolUp.TextFirst.ColorNormal = System.Drawing.Color.Black;
+            this.toolUp.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolUp.TRadiu = 90;
+            this.toolUp.Trans = 150;
             // 
             // Form2
             // 
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(149)))), ((int)(((byte)(237)))));
-            this.ClientSize = new System.Drawing.Size(900, 540);
-            this.IBorder = true;
-            this.Location = new System.Drawing.Point(0, 0);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.toolBar1);
             this.Name = "Form2";
-            this.Padding = new System.Windows.Forms.Padding(1, 26, 1, 1);
             this.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.TBrush.ColorMove = System.Drawing.Color.CornflowerBlue;
-            this.Text = "Form2";
-            this.Controls.SetChildIndex(this.panel1, 0);
-            this.panel1.ResumeLayout(false);
+            this.Text = "Form1";
             this.panel3.ResumeLayout(false);
             this.toolBar2.ResumeLayout(false);
-            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
+        private Forms.ToolBar toolBar1;
+        private Forms.TControl panel3;
         private Forms.ToolBar toolBar2;
         private Forms.ToolBar toolUp;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem 功能1ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 功能2ToolStripMenuItem;
-
-
-
-
     }
 }

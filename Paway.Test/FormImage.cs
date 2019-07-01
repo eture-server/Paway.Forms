@@ -1,4 +1,5 @@
-﻿using Paway.Helper;
+﻿using Paway.Forms;
+using Paway.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +13,7 @@ using System.Windows.Forms;
 
 namespace Paway.Test
 {
-    public partial class FormImage : Form
+    public partial class FormImage : QQForm
     {
         public FormImage()
         {
@@ -448,7 +449,8 @@ namespace Paway.Test
             ColorDialog color = new ColorDialog();
             color.ShowDialog(this);
             this.color = color.Color;
-            this.lbColor.Text = this.color.ToString();
+            textBox1.Text = this.color.A.ToString();
+            this.lbColor.BackColor = this.color;
         }
         void btClear_Click(object sender, EventArgs e)
         {

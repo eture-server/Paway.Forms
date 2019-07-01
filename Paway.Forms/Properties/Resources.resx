@@ -232,28 +232,13 @@
   <data name="search" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\search.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_360_SysButton_sys_button_close" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\_360_sysbutton_sys_button_close.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="toolbar_toolbar_hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\toolbar_toolbar_hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_360_SysButton_sys_button_max" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\_360_sysbutton_sys_button_max.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="toolbar_toolbar_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\toolbar_toolbar_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_360_SysButton_sys_button_min" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\_360_sysbutton_sys_button_min.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_360_SysButton_sys_button_restore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\_360_sysbutton_sys_button_restore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_360_SysButton_title_bar_menu" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\_360_sysbutton_title_bar_menu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_360_ToolBar_toolbar_hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\_360_toolbar_toolbar_hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_360_ToolBar_toolbar_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\_360_toolbar_toolbar_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_360_ToolBar_toolbar_pushed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\_360_toolbar_toolbar_pushed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="toolbar_toolbar_pushed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\toolbar_toolbar_pushed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

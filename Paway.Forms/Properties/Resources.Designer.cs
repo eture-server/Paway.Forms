@@ -63,86 +63,6 @@ namespace Paway.Forms.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap _360_SysButton_sys_button_close {
-            get {
-                object obj = ResourceManager.GetObject("_360_SysButton_sys_button_close", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap _360_SysButton_sys_button_max {
-            get {
-                object obj = ResourceManager.GetObject("_360_SysButton_sys_button_max", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap _360_SysButton_sys_button_min {
-            get {
-                object obj = ResourceManager.GetObject("_360_SysButton_sys_button_min", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap _360_SysButton_sys_button_restore {
-            get {
-                object obj = ResourceManager.GetObject("_360_SysButton_sys_button_restore", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap _360_SysButton_title_bar_menu {
-            get {
-                object obj = ResourceManager.GetObject("_360_SysButton_title_bar_menu", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap _360_ToolBar_toolbar_hover {
-            get {
-                object obj = ResourceManager.GetObject("_360_ToolBar_toolbar_hover", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap _360_ToolBar_toolbar_normal {
-            get {
-                object obj = ResourceManager.GetObject("_360_ToolBar_toolbar_normal", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap _360_ToolBar_toolbar_pushed {
-            get {
-                object obj = ResourceManager.GetObject("_360_ToolBar_toolbar_pushed", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
         internal static System.Drawing.Bitmap add {
             get {
                 object obj = ResourceManager.GetObject("add", resourceCulture);
@@ -516,6 +436,36 @@ namespace Paway.Forms.Properties {
         internal static System.Drawing.Bitmap search {
             get {
                 object obj = ResourceManager.GetObject("search", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap toolBar_toolbar_hover {
+            get {
+                object obj = ResourceManager.GetObject("toolBar_toolbar_hover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap toolBar_toolbar_normal {
+            get {
+                object obj = ResourceManager.GetObject("toolBar_toolbar_normal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap toolBar_toolbar_pushed {
+            get {
+                object obj = ResourceManager.GetObject("toolBar_toolbar_pushed", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -41,7 +41,7 @@ namespace Paway.Forms
         ///     默认时的按钮图片
         /// </summary>
         private Image _normalImage;
-        private readonly Image _normalImage2 = Resources._360_ToolBar_toolbar_normal;
+        private readonly Image _normalImage2 = Resources.toolBar_toolbar_normal;
         /// <summary>
         ///     默认图片
         /// </summary>
@@ -61,7 +61,7 @@ namespace Paway.Forms
         ///     鼠标按下时的图片
         /// </summary>
         private Image _downImage;
-        private readonly Image _downImage2 = Resources._360_ToolBar_toolbar_hover;
+        private readonly Image _downImage2 = Resources.toolBar_toolbar_hover;
         /// <summary>
         ///     鼠标按下时的图片
         /// </summary>
@@ -81,7 +81,7 @@ namespace Paway.Forms
         ///     鼠标划过时的图片
         /// </summary>
         private Image _moveImage;
-        private readonly Image _moveImage2 = Resources._360_ToolBar_toolbar_pushed;
+        private readonly Image _moveImage2 = Resources.toolBar_toolbar_pushed;
         /// <summary>
         ///     鼠标划过时的图片
         /// </summary>

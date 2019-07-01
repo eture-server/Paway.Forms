@@ -27,14 +27,18 @@ namespace Paway.Test
             //obj.Image = BitmapHelper.GetBitmapFormFile(@"D:\Tinn\DotNet\House\bin\Debug\Code\110031622_45259-02360-00.png");
             //server.Update(obj);
 
-            var dt = server.FindTable<ITestInfo>("1=1 limit 1");
             ITestInfo info = server.Find<TestInfo>(1);
-            info.FindInfo = new FindInfo();
+            info.FindInfo = new FindInfo() { Id = 100 };
             info.List.Add(new FindInfo());
+            info.Clone(obj);
+            obj.FindInfo.Id = 101;
             info.Clone(obj, false);
-            var obj2 = info.Clone(true);
+            var obj2 = info.Clone();
+            obj2 = info.Clone(true);
+
             var list2 = server.Find<TestInfo>("1=1 limit 100");
             var dt2 = list2.ToDataTable();
+            var dt = server.FindTable<ITestInfo>("1=1 limit 1");
 
             Stopwatch sw = new Stopwatch();
             sw.Restart();

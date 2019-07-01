@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.tPictureBox1 = new Paway.Forms.TPictureBox();
             this.btLess = new System.Windows.Forms.Button();
             this.btAdd = new System.Windows.Forms.Button();
             this.btChange = new System.Windows.Forms.Button();
@@ -45,19 +46,18 @@
             this.toolReset = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolSave = new System.Windows.Forms.ToolStripMenuItem();
-            this.tPictureBox1 = new Paway.Forms.TPictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tPictureBox1)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Location = new System.Drawing.Point(1, 26);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -77,10 +77,21 @@
             this.splitContainer1.Panel2.Controls.Add(this.btClear);
             this.splitContainer1.Panel2.Controls.Add(this.lbColor);
             this.splitContainer1.Panel2.Controls.Add(this.btColor);
-            this.splitContainer1.Size = new System.Drawing.Size(554, 371);
-            this.splitContainer1.SplitterDistance = 411;
+            this.splitContainer1.Size = new System.Drawing.Size(552, 344);
+            this.splitContainer1.SplitterDistance = 409;
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 50;
+            // 
+            // tPictureBox1
+            // 
+            this.tPictureBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(153)))), ((int)(((byte)(188)))));
+            this.tPictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tPictureBox1.Image = null;
+            this.tPictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.tPictureBox1.Name = "tPictureBox1";
+            this.tPictureBox1.Size = new System.Drawing.Size(409, 344);
+            this.tPictureBox1.TabIndex = 55;
+            this.tPictureBox1.TabStop = false;
             // 
             // btLess
             // 
@@ -202,32 +213,20 @@
             this.toolSave.Size = new System.Drawing.Size(100, 22);
             this.toolSave.Text = "保存";
             // 
-            // tPictureBox1
-            // 
-            this.tPictureBox1.BackColor = System.Drawing.Color.White;
-            this.tPictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tPictureBox1.Image = null;
-            this.tPictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.tPictureBox1.Name = "tPictureBox1";
-            this.tPictureBox1.Size = new System.Drawing.Size(411, 371);
-            this.tPictureBox1.TabIndex = 55;
-            this.tPictureBox1.TabStop = false;
-            // 
             // FormImage
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(153)))), ((int)(((byte)(188)))));
             this.ClientSize = new System.Drawing.Size(554, 371);
             this.Controls.Add(this.splitContainer1);
             this.Name = "FormImage";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormImage";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tPictureBox1)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

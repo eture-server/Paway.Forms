@@ -170,12 +170,6 @@
     <Compile Include="TForms\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TForms\Demo360.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TForms\Demo360.Designer.cs">
-      <DependentUpon>Demo360.cs</DependentUpon>
-    </Compile>
     <Compile Include="TForms\FormBase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -201,9 +195,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="TForms\TForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TForms\_360Form.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
@@ -276,30 +267,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\search.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\_360_toolbar_toolbar_pushed.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\_360_sysbutton_sys_button_close.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\_360_sysbutton_sys_button_max.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\_360_sysbutton_sys_button_min.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\_360_sysbutton_sys_button_restore.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\_360_sysbutton_title_bar_menu.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\_360_toolbar_toolbar_hover.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\_360_toolbar_toolbar_normal.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\controls_accept_16.png" />
@@ -393,6 +360,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\qq_sysbutton_btn_restore_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\toolbar_toolbar_hover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\toolbar_toolbar_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\toolbar_toolbar_pushed.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

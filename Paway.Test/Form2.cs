@@ -1,7 +1,6 @@
 ﻿using Paway.Forms;
 using Paway.Helper;
 using Paway.Test.Properties;
-using Paway.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,12 +9,11 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace Paway.Test
 {
-    public partial class Form2 : Demo360
+    public partial class Form2 : QQForm
     {
         public Form2()
         {
@@ -23,15 +21,12 @@ namespace Paway.Test
             toolBar1.ItemClick += ToolBar1_ItemClick;
             toolBar2.ItemClick += ToolBar2_ItemClick;
             toolUp.ItemClick += toolUp_ItemClick;
-            //toolOk.MDirection = TMDirection.Transparent;
         }
-
         private void toolUp_ItemClick(ToolItem item, EventArgs e)
         {
             //toolBar2.Items.Add(new ToolItem(DateTime.Now.Second.ToString()));
             toolBar2.Items.RemoveAt(1);
         }
-
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
