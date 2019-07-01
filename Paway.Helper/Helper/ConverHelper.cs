@@ -22,7 +22,6 @@ namespace Paway.Helper
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         #region 关于异常
-
         /// <summary>
         ///     获取异常中的所有描述
         /// </summary>
@@ -55,7 +54,7 @@ namespace Paway.Helper
             for (int i = 0; i < cnStr.Length; i++)
             {
                 string v = null;
-                bool c = GetCharSpellCode(cnStr.Substring(i, 1), ref v);
+                bool c = GetSpellCode(cnStr.Substring(i, 1), ref v);
                 if ((c || last) && !args.Contains(v))
                 {
                     strTemp += v;
@@ -70,7 +69,7 @@ namespace Paway.Helper
         /// <param name="cnChar">单个汉字</param>
         /// <param name="result">单个小写字母</param>
         /// <returns>如果是字母，返回false</returns>
-        private static bool GetCharSpellCode(string cnChar, ref string result)
+        private static bool GetSpellCode(string cnChar, ref string result)
         {
             long lenCnChar;
             byte[] zw = Encoding.Default.GetBytes(cnChar);
@@ -189,6 +188,57 @@ namespace Paway.Helper
             }
             return true;
         }
+        /// <summary>
+        ///     拼音转换
+        /// </summary>
+        public static string ToSpell(this object obj)
+        {
+            string text = obj.ToStrs();
+            string str = "";
+            for (int i = 0; i < text.Length; i++)
+            {
+                //取单个汉字
+                str += GetSpell(text.Substring(i, 1));
+            }
+            return str;
+        }
+        /// <summary>
+        /// 根据一个汉字获得其首拼音
+        /// </summary>
+        private static string GetSpell(string chart)
+        {
+            //获得其ASSIC码
+            byte[] arrCN = Encoding.Default.GetBytes(chart);
+            if (arrCN.Length > 1)
+            {
+                int area = (short)arrCN[0];
+                int pos = (short)arrCN[1];
+
+                //int code = (area << 8) + pos;
+                int code = area * 256 + pos;
+                //0~65535
+                //a~Z的数字表示
+                int[] areacode = { 45217, 45253, 45761, 46318, 46826, 47010, 47297,
+                                     47614, 48119, 48119, 49062, 49324, 49896, 50371,
+                                     50614, 50622, 50906, 51387, 51446, 52218,
+                                     52698, 52698, 52698, 52980, 53689, 54481 };
+                //判断其值在那2个数字之间
+                for (int i = 0; i < 26; i++)
+                {
+                    //最后一个汉字的值
+                    int max = 55290;
+                    if (i != 25)
+                        max = areacode[i + 1];
+                    if (areacode[i] <= code && code < max)
+                    {
+                        //转为字母返回
+                        return Encoding.Default.GetString(new byte[] { (byte)(97 + i) });
+                    }
+                }
+                return "*";
+            }
+            else return chart;
+        }
 
         #endregion
 
@@ -296,58 +346,6 @@ namespace Paway.Helper
             return string.IsNullOrEmpty(obj.ToString());
         }
         /// <summary>
-        ///     拼音转换
-        /// </summary>
-        public static string ToSpell(this object obj)
-        {
-            string text = obj.ToStrs();
-            string str = "";
-            for (int i = 0; i < text.Length; i++)
-            {
-                //取单个汉字
-                str += GetSpell(text.Substring(i, 1));
-            }
-            return str;
-        }
-        /// <summary>
-        /// 根据一个汉字获得其首拼音
-        /// </summary>
-        private static string GetSpell(string chart)
-        {
-            //获得其ASSIC码
-            byte[] arrCN = Encoding.Default.GetBytes(chart);
-            if (arrCN.Length > 1)
-            {
-                int area = (short)arrCN[0];
-                int pos = (short)arrCN[1];
-
-                //int code = (area << 8) + pos;
-                int code = area * 256 + pos;
-                //0~65535
-                //a~Z的数字表示
-                int[] areacode = { 45217, 45253, 45761, 46318, 46826, 47010, 47297,
-                                     47614, 48119, 48119, 49062, 49324, 49896, 50371,
-                                     50614, 50622, 50906, 51387, 51446, 52218,
-                                     52698, 52698, 52698, 52980, 53689, 54481 };
-                //判断其值在那2个数字之间
-                for (int i = 0; i < 26; i++)
-                {
-                    //最后一个汉字的值
-                    int max = 55290;
-                    if (i != 25)
-                        max = areacode[i + 1];
-                    if (areacode[i] <= code && code < max)
-                    {
-                        //转为字母返回
-                        return Encoding.Default.GetString(new byte[] { (byte)(97 + i) });
-                    }
-                }
-                return "*";
-            }
-            else return chart;
-        }
-
-        /// <summary>
         /// 消除算术计算误差(double转decimal)
         /// </summary>
         public static double ClearError(this double value)
@@ -434,11 +432,9 @@ namespace Paway.Helper
             foreach (var property in properties)
             {
                 Type dbType = property.PropertyType;
-                if (property.PropertyType.IsGenericType)
-                {
-                    dbType = Nullable.GetUnderlyingType(property.PropertyType);
-                }
+                if (dbType.IsGenericType) dbType = Nullable.GetUnderlyingType(dbType);
                 if (dbType == null) continue;
+                if (dbType.IsClass && dbType != typeof(string) && dbType != typeof(byte[]) && dbType != typeof(Image) && dbType != typeof(Bitmap)) continue;
                 if (sql && (dbType == typeof(Image) || dbType == typeof(Bitmap))) dbType = typeof(byte[]);
                 table.Columns.Add(property.Column(), dbType);
             }
@@ -456,11 +452,9 @@ namespace Paway.Helper
             {
                 if (!property.IExcel()) continue;
                 Type dbType = property.PropertyType;
-                if (property.PropertyType.IsGenericType)
-                {
-                    dbType = Nullable.GetUnderlyingType(property.PropertyType);
-                }
+                if (dbType.IsGenericType) dbType = Nullable.GetUnderlyingType(dbType);
                 if (dbType == null) continue;
+                if (dbType.IsClass && dbType != typeof(string) && dbType != typeof(byte[]) && dbType != typeof(Image) && dbType != typeof(Bitmap)) continue;
                 table.Columns.Add(property.Name, dbType);
             }
             return table;
@@ -580,9 +574,12 @@ namespace Paway.Helper
         /// <summary>
         /// 生成数据列标记
         /// </summary>
-        public static bool ISelect(this MemberInfo pro, out string column)
+        public static bool ISelect(this PropertyInfo pro, out string column)
         {
             column = pro.Name;
+            var dbType = pro.PropertyType;
+            if (dbType.IsGenericType && Nullable.GetUnderlyingType(dbType) == null) return false;
+            if (dbType.IsClass && dbType != typeof(string) && dbType != typeof(byte[]) && dbType != typeof(Image) && dbType != typeof(Bitmap)) return false;
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             if (list.Length == 1 && list[0].Column != null)
             {
@@ -644,33 +641,6 @@ namespace Paway.Helper
 
         #region Equals
         /// <summary>
-        ///     返回泛型实参数类型
-        /// </summary>
-        public static Type GenericType(this IEnumerable obj)
-        {
-            return obj.GetType().GenericType();
-        }
-        /// <summary>
-        ///     返回泛型实参数类型
-        /// </summary>
-        public static Type GenericType(this Type type)
-        {
-            var types = type.GetGenericArguments();
-            if (types.Length == 1) return types[0];
-            return null;
-        }
-        /// <summary>
-        ///     返回泛型实参实例
-        /// </summary>
-        public static IList GenericList(this Type type)
-        {
-            var listType = typeof(List<>);
-            listType = listType.MakeGenericType(type);
-            var list = Activator.CreateInstance(listType) as IList;
-            return list;
-        }
-
-        /// <summary>
         /// 判断值是否相等
         /// </summary>
         public static bool TEquals<T>(this T t, T temp, bool child = false)
@@ -713,13 +683,40 @@ namespace Paway.Helper
 
         #endregion
 
-        #region 在窗体上固定控件位置
+        #region 泛型
+        /// <summary>
+        ///     返回泛型实参数类型
+        /// </summary>
+        public static Type GenericType(this IEnumerable obj)
+        {
+            return obj.GetType().GenericType();
+        }
+        /// <summary>
+        ///     返回泛型实参数类型
+        /// </summary>
+        public static Type GenericType(this Type type)
+        {
+            var types = type.GetGenericArguments();
+            if (types.Length == 1) return types[0];
+            return null;
+        }
+        /// <summary>
+        ///     返回泛型实参实例
+        /// </summary>
+        public static IList GenericList(this Type type)
+        {
+            var listType = typeof(List<>);
+            listType = listType.MakeGenericType(type);
+            var list = Activator.CreateInstance(listType) as IList;
+            return list;
+        }
 
+        #endregion
+
+        #region 在窗体上固定控件位置
         private static List<LocateInfo> tList;
         private static Size normal = Size.Empty;
-
         #region private class
-
         /// <summary>
         ///     定位属性
         /// </summary>
@@ -902,6 +899,7 @@ namespace Paway.Helper
         {
             if (obj == null) return 0;
             Type type = obj.GetType();
+            if (type.IsEnum) type = type.GetEnumUnderlyingType();
             switch (type.Name)
             {
                 case nameof(Int32):
@@ -939,36 +937,10 @@ namespace Paway.Helper
             }
         }
         /// <summary>
-        /// 将字符串转为Long值以进行比较
+        /// 将值拆箱为Long值以进行比较
         /// </summary>
-        public static long TCompare(this object obj)
+        public static long TCompareLong(this object obj)
         {
-            if (obj is string x)
-            {
-                char[] arr1 = x.ToCharArray();
-                int i = 0, j = 0;
-                long value = 0;
-                while (i < arr1.Length)
-                {
-                    if (char.IsDigit(arr1[i]))
-                    {
-                        string s1 = "";
-                        while (i < arr1.Length && char.IsDigit(arr1[i]))
-                        {
-                            s1 += arr1[i];
-                            i++;
-                        }
-                        value += long.Parse(s1);
-                    }
-                    else
-                    {
-                        value += arr1[i];
-                        i++;
-                        j++;
-                    }
-                }
-                return value;
-            }
             if (obj == null) return 0;
             Type type = obj.GetType();
             switch (type.Name)
@@ -977,9 +949,17 @@ namespace Paway.Helper
                     return (long)obj;
                 case nameof(DateTime):
                     return ((DateTime)obj).Ticks;
+                default:
+                    return obj.ToLong();
             }
-            if (type.IsEnum) return (int)obj;
-            return obj.ToLong();
+        }
+        /// <summary>
+        /// 将字符串转为String值以进行比较
+        /// </summary>
+        public static string TCompareString(this object obj)
+        {
+            if (obj is string) return (string)obj;
+            return obj.ToStrs();
         }
 
         #endregion
@@ -994,7 +974,7 @@ namespace Paway.Helper
         /// <returns></returns>
         public static T Clone<T>(this T t, bool child)
         {
-            var type = typeof(T);
+            var type = t.GetType();
             var copy = Activator.CreateInstance(type);
             return t.Clone(copy, child);
         }

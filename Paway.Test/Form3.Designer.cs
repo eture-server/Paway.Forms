@@ -66,9 +66,6 @@
             this.btChange.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btChange.Font = new System.Drawing.Font("Tahoma", 15F);
             this.btChange.IClickEvent = true;
-            this.btChange.TLineColor.ColorDown = System.Drawing.Color.Transparent;
-            this.btChange.TLineColor.ColorMove = System.Drawing.Color.Transparent;
-            this.btChange.TLineColor.ColorNormal = System.Drawing.Color.Transparent;
             this.btChange.ImageSize = new System.Drawing.Size(0, 0);
             toolItem2.Text = "Change";
             this.btChange.Items.Add(toolItem2);
@@ -85,6 +82,9 @@
             this.btChange.TextFirst.ColorMove = System.Drawing.Color.White;
             this.btChange.TextFirst.ColorNormal = System.Drawing.Color.Black;
             this.btChange.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.btChange.TLineColor.ColorDown = System.Drawing.Color.Transparent;
+            this.btChange.TLineColor.ColorMove = System.Drawing.Color.Transparent;
+            this.btChange.TLineColor.ColorNormal = System.Drawing.Color.Transparent;
             this.btChange.Trans = 150;
             // 
             // Form3
@@ -92,7 +92,9 @@
             this.ClientSize = new System.Drawing.Size(384, 346);
             this.Controls.Add(this.btChange);
             this.Controls.Add(this.tControl1);
+            this.IRound = false;
             this.Name = "Form3";
+            this.SysButton = Paway.Helper.TSysButton.Close;
             this.TBrush.ColorDown = System.Drawing.Color.Ivory;
             this.TBrush.ColorMove = System.Drawing.Color.CornflowerBlue;
             this.Text = "你好";

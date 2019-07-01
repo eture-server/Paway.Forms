@@ -153,7 +153,6 @@ namespace Paway.Test
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
-            this.bt360.Click += delegate { new Form360().Show(); };
             this.btQQ.Click += delegate { new FormQQ().ShowDialog(this); };
             this.btAbout.Click += btAbout_Click;
             this.btGridView.Click += delegate { new FormGridView().Show(); };

@@ -437,6 +437,7 @@ namespace Paway.Forms
             set
             {
                 _iRound = value;
+                TRadius = value ? 4 : 0;
                 DrawRound();
             }
         }
@@ -836,6 +837,7 @@ namespace Paway.Forms
         /// </summary>
         protected void DrawRound()
         {
+            if (!this.Visible) return;
             //调用API，将窗体剪成圆角
             var ellipse = _iRound ? TRadius : 0;
             var rgn = NativeMethods.CreateRoundRectRgn(0, 0, Width + 1, Height + 1, ellipse, ellipse);
@@ -1239,33 +1241,21 @@ namespace Paway.Forms
         #endregion
 
         #region 将控件剪成圆角
-
-        private int raw;
-
+        private int ellipse;
         /// <summary>
         ///     将控件剪成圆角
         /// </summary>
-        protected void TDrawRoundRect(Control control, int raw)
+        protected void TDrawRoundRect(Control control, int ellipse)
         {
             if (control == null) return;
-            this.raw = raw;
+            this.ellipse = ellipse;
             control.SizeChanged += Control_SizeChanged;
             Control_SizeChanged(control, EventArgs.Empty);
         }
-
         private void Control_SizeChanged(object sender, EventArgs e)
         {
-            var control = sender as Control;
-            var rgn = NativeMethods.CreateRoundRectRgn(control.ClientRectangle.X, control.ClientRectangle.Y,
-                control.ClientRectangle.Width + 1 - control.ClientRectangle.X,
-                control.ClientRectangle.Height + 1 - control.ClientRectangle.Y,
-                raw, raw);
-            if (!control.IsDisposed)
-            {
-                NativeMethods.SetWindowRgn(control.Handle, rgn, true);
-            }
+            DrawRoundRect(sender as Control, ellipse);
         }
-
         /// <summary>
         ///     将控件剪成圆角
         /// </summary>
@@ -1274,17 +1264,8 @@ namespace Paway.Forms
         protected void DrawRoundRect(Control control, int ellipse)
         {
             if (control == null) return;
-
-            var rgn = NativeMethods.CreateRoundRectRgn(control.ClientRectangle.X, control.ClientRectangle.Y,
-                control.ClientRectangle.Width + 1 - control.ClientRectangle.X,
-                control.ClientRectangle.Height + 1 - control.ClientRectangle.Y,
-                ellipse, ellipse);
-            if (!control.IsDisposed)
-            {
-                NativeMethods.SetWindowRgn(control.Handle, rgn, true);
-            }
+            DrawRoundRect(control, control.ClientRectangle, ellipse);
         }
-
         /// <summary>
         ///     将控件剪成圆角
         /// </summary>

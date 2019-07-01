@@ -139,8 +139,17 @@ namespace Paway.Helper
         /// <param name="sort">true:升序，false:倒序</param>
         public static ParallelQuery Sort(this Type type, List<object> list, string name, bool sort = true)
         {
-            var builder = SortBuilder.CreateBuilder(type, name);
-            return sort ? list.AsParallel().OrderBy(c => builder.Build(c)) : list.AsParallel().OrderByDescending(c => builder.Build(c));
+            var builder = SortBuilder.CreateBuilder(type, name, out bool iString);
+            var property = type.Property(name);
+            if (iString)
+            {
+                return sort ? list.AsParallel().OrderBy(c => builder.Build(c) as string, new StringComparer()) :
+                    list.AsParallel().OrderByDescending(c => builder.Build(c) as string, new StringComparer());
+            }
+            else
+            {
+                return sort ? list.AsParallel().OrderBy(c => builder.Build(c)) : list.AsParallel().OrderByDescending(c => builder.Build(c));
+            }
         }
         /// <summary>
         /// 并行排序，并返回排序后的List列表
@@ -177,13 +186,32 @@ namespace Paway.Helper
         {
             if (sort == null || sort.Count == 0) throw new ArgumentException("未设置排序列");
             var item = sort.ElementAt(0);
-            var builder = SortBuilder.CreateBuilder(typeof(T), item.Key);
-            var orderBy = item.Value ? list.AsParallel().OrderBy(c => builder.Build(c)) : list.AsParallel().OrderByDescending(c => builder.Build(c));
+            var builder = SortBuilder.CreateBuilder(typeof(T), item.Key, out bool iString);
+            var property = typeof(T).Property(item.Key);
+            OrderedParallelQuery<T> orderBy;
+            if (iString)
+            {
+                orderBy = item.Value ? list.AsParallel().OrderBy(c => builder.Build(c) as string, new StringComparer()) :
+                   list.AsParallel().OrderByDescending(c => builder.Build(c) as string, new StringComparer());
+            }
+            else
+            {
+                orderBy = item.Value ? list.AsParallel().OrderBy(c => builder.Build(c)) : list.AsParallel().OrderByDescending(c => builder.Build(c));
+            }
             for (int i = 1; i < sort.Count; i++)
             {
                 item = sort.ElementAt(i);
-                var builder2 = SortBuilder.CreateBuilder(typeof(T), item.Key);
-                orderBy = item.Value ? orderBy.ThenBy(c => builder2.Build(c)) : orderBy.ThenByDescending(c => builder2.Build(c));
+                var builder2 = SortBuilder.CreateBuilder(typeof(T), item.Key, out iString);
+                property = typeof(T).Property(item.Key);
+                if (iString)
+                {
+                    orderBy = item.Value ? orderBy.ThenBy(c => builder2.Build(c) as string, new StringComparer()) :
+                        orderBy.ThenByDescending(c => builder2.Build(c) as string, new StringComparer());
+                }
+                else
+                {
+                    orderBy = item.Value ? orderBy.ThenBy(c => builder2.Build(c)) : orderBy.ThenByDescending(c => builder2.Build(c));
+                }
             }
             var temp = orderBy.ToList();
             list.Clear();

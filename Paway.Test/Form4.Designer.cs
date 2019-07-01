@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             this.tProgressBar1 = new Paway.Forms.TProgressBar();
             this.btnReset = new Paway.Forms.ToolBar();
             this.SuspendLayout();
@@ -41,7 +41,6 @@
             this.tProgressBar1.Size = new System.Drawing.Size(169, 169);
             this.tProgressBar1.TabIndex = 0;
             this.tProgressBar1.TFont = new System.Drawing.Font("微软雅黑", 32F);
-            this.tProgressBar1.TWidth = 3;
             this.tProgressBar1.Value = 10;
             // 
             // btnReset
@@ -50,8 +49,8 @@
             this.btnReset.Font = new System.Drawing.Font("Tahoma", 15F);
             this.btnReset.IClickEvent = true;
             this.btnReset.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem2.Text = "Reset";
-            this.btnReset.Items.Add(toolItem2);
+            toolItem1.Text = "Reset";
+            this.btnReset.Items.Add(toolItem1);
             this.btnReset.ItemSize = new System.Drawing.Size(75, 32);
             this.btnReset.ItemSpace = 5;
             this.btnReset.Location = new System.Drawing.Point(191, 41);

@@ -12,6 +12,7 @@ namespace Paway.Forms
     /// <summary>
     ///     自定义基控件
     /// </summary>
+    [Designer("System.Windows.Forms.Design.ParentControlDesigner, System.Design")]
     public class TControl : UserControl, IControl
     {
         #region 构造

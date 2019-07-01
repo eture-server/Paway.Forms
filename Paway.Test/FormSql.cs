@@ -29,7 +29,7 @@ namespace Paway.Test
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         SqlService service = new SqlService();
-        List<TestData> list = new List<TestData>();
+        List<TestInfo> list = new List<TestInfo>();
 
         public FormSql()
         {
@@ -54,11 +54,10 @@ namespace Paway.Test
             var b = Environment.TickCount - time;
             for (int i = 0; i < 10; i++)
             {
-                TestData data = new TestData
+                TestInfo data = new TestInfo
                 {
                     Id = i,
-                    N2 = "Name" + i,
-                    Tag = "Tag" + i,
+                    Name = "Name" + i,
                     //Image = pictureBox1.Image,
                 };
                 list.Add(data);
@@ -69,10 +68,10 @@ namespace Paway.Test
         {
             try
             {
-                ITestData data = new TestData
+                ITestInfo data = new TestInfo
                 {
                     Image = pictureBox1.Image,
-                    V2 = "11"
+                    NewPad = "11"
                 };
                 data.FindInfo = new FindInfo();
 
@@ -80,28 +79,28 @@ namespace Paway.Test
                 var id = data.GetValue("IntValue");
 
                 var propertyType = data.GetType("Id2");
-                propertyType = typeof(ITestData).GetType("IntValue");
+                propertyType = typeof(ITestInfo).GetType("IntValue");
 
                 var d2 = data.Clone();
-                ITestData data2 = new TestData();
+                ITestInfo data2 = new TestInfo();
                 data.Clone(data2);
 
-                var list2 = new List<ITestData>();
+                var list2 = new List<ITestInfo>();
                 //var d2 = data.Clone(true);
                 list2.Add(data);
                 list2.Sort("IntValue");
                 var dt = list2.ToDataTable();
                 list2.Sort("V2");
 
-                var list3 = dt.ToList<TestData>();
+                var list3 = dt.ToList<TestInfo>();
 
-                var builder = SQLBuilder.CreateBuilder(typeof(TestData));
+                var builder = SQLBuilder.CreateBuilder(typeof(TestInfo));
                 builder.Build(data, 12L);
 
-                var descriptors = typeof(ITestData).Descriptors();
+                var descriptors = typeof(ITestInfo).Descriptors();
                 var descriptor = descriptors.Find(c => c.Name == "List");
                 data.SetValue(descriptor, null);
-                typeof(ITestData).SetValue(data, "IntValue", null);
+                typeof(ITestInfo).SetValue(data, "IntValue", null);
                 if (descriptor.PropertyType.Name == typeof(List<>).Name)
                 {
                     var type2 = descriptor.PropertyType.GenericType();
@@ -124,9 +123,9 @@ namespace Paway.Test
             try
             {
                 if (list.Count == 0) return;
-                list[0].N2 = DateTime.Now.Minute.ToString();
-                list[0].V2 = DateTime.Now.Second.ToString();
-                service.Update<TestData>(list[0]);
+                list[0].Name = DateTime.Now.Minute.ToString();
+                list[0].NewPad = DateTime.Now.Second.ToString();
+                service.Update<TestInfo>(list[0]);
             }
             catch (Exception ex)
             {
@@ -140,8 +139,8 @@ namespace Paway.Test
             {
                 //暂不支持MySql
                 if (list.Count == 0) return;
-                list[0].N2 = DateTime.Now.Minute.ToString();
-                list[0].V2 = DateTime.Now.Second.ToString();
+                list[0].Name = DateTime.Now.Minute.ToString();
+                list[0].NewPad = DateTime.Now.Second.ToString();
                 service.Update(list[0]);
             }
             catch (Exception ex)
@@ -171,7 +170,7 @@ namespace Paway.Test
             {
                 if (list.Count == 0) return;
                 service.Insert(list[0]);
-                list[0].N2 = "V3";
+                list[0].Name = "V3";
                 list[0].Id = 17;
                 service.Update(list[0]);
             }
@@ -186,7 +185,7 @@ namespace Paway.Test
             try
             {
                 new SqlService().Connect();
-                list = service.Find<TestData>("id=" + 12948) as List<TestData>;
+                list = service.Find<TestInfo>("id=" + 12948) as List<TestInfo>;
             }
             catch (Exception ex)
             {
@@ -223,6 +222,8 @@ namespace Paway.Test
     }
     public class SQLiteService : SQLiteHelper
     {
+        //insert into[Users]([Name],[Pad],[Statu],[UserType],[Value],[Image],[DateTime])
+        //select[Name],[Pad],[Statu],[UserType],[Value],[Image],[DateTime] from[Users];
         public const string dbName = "paway.db";
         public SQLiteService()
         {
@@ -292,53 +293,6 @@ namespace Paway.Test
             {
                 CommandEnd(cmd);
             }
-        }
-    }
-    public interface ITestData2
-    {
-        long Id { get; set; }
-    }
-    [Table(Table = "Cashs", Key = "Id")]
-    public interface ITestData : ITestData2
-    {
-        [Property(ISelect = false, Column = "Value")]
-        string V2 { get; set; }
-        [Property(ISelect = false)]
-        FindInfo FindInfo { get; set; }
-        Image Image { get; set; }
-
-        int? IntValue { get; set; }
-        List<FindInfo> List { get; set; }
-    }
-    [Serializable, Table(Table = "Cashs", Key = "Id")]
-    public class TestData : ITestData
-    {
-        //public int Id { get; set; }
-        public long Id { get; set; }
-        public int? IntValue { get; set; }
-
-        [Property(ISelect = false, Column = "Name")]
-        public string N2 { get; set; }
-
-        [Property(ISelect = false)]
-        public string Tag { get; set; }
-
-        [Property(ISelect = false, Column = "Value")]
-        public string V2 { get; set; }
-
-        [Property(Column = "Image")]
-        public Image Image { get; set; }
-
-        [Property(ISelect = false)]
-        public DateTime Date { get; set; }
-
-        [Property(ISelect = false)]
-        public FindInfo FindInfo { get; set; }
-        public List<FindInfo> List { get; set; }
-
-        public TestData()
-        {
-            this.Date = DateTime.Now;
         }
     }
 }

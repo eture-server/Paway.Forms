@@ -353,7 +353,7 @@ namespace Paway.Forms
             this.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.Red;
             this.ChartAreas[0].AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
             this.ChartAreas[0].AxisY.CustomLabels.Clear();
-            list2.Sort((c1, c2) => c1.YValues[0].TCompare().CompareTo(c2.YValues[0].TCompare()));
+            list2.Sort((c1, c2) => c1.YValues[0].CompareTo(c2.YValues[0]));
             for (int i = 0; i < list2.Count; i++)
             {
                 CustomLabel y = new CustomLabel()

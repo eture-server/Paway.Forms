@@ -40,6 +40,13 @@ namespace Paway.Helper
             for (int i = 0; i < dataRecord.ItemArray.Length; i++)
             {
                 PropertyInfo property = type.Property(dataRecord.Table.Columns[i].ColumnName);
+                Type dbType = property.PropertyType;
+                if (dbType.IsGenericType)
+                {
+                    if (Nullable.GetUnderlyingType(dbType) == null) continue;
+                    dbType = Nullable.GetUnderlyingType(dbType);
+                }
+                if (dbType.IsClass && dbType != typeof(string) && dbType != typeof(byte[]) && dbType != typeof(Image) && dbType != typeof(Bitmap)) continue;
                 if (property != null && property.CanWrite)
                 {
                     var endIfLabel = generator.DefineLabel();
@@ -52,7 +59,7 @@ namespace Paway.Helper
                     generator.Emit(OpCodes.Ldc_I4, i);
                     generator.Emit(OpCodes.Callvirt, getValueMethod);
                     //DataTable数据object使用需要拆箱
-                    if (property.PropertyType == typeof(Image) && dataRecord.Table.Columns[i].DataType == typeof(byte[]))
+                    if ((dbType == typeof(Image) || dbType == typeof(Bitmap)) && dataRecord.Table.Columns[i].DataType == typeof(byte[]))
                     {
                         generator.Emit(OpCodes.Unbox_Any, typeof(byte[]));
                         //静态方法byte[]转Image

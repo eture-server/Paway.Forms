@@ -31,26 +31,26 @@ namespace Paway.Test
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            Paway.Forms.ToolItem toolItem12 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem13 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem14 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem15 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem16 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem17 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem18 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem19 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem20 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem21 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem22 = new Paway.Forms.ToolItem();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem5 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem6 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem7 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem8 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem9 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem10 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem11 = new Paway.Forms.ToolItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.在线ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.离开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -122,24 +122,23 @@ namespace Paway.Test
             this.tbCat = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.btDemo360 = new System.Windows.Forms.Button();
+            this.btQQDemo = new System.Windows.Forms.Button();
+            this.btTTsRead = new System.Windows.Forms.Button();
+            this.btAbout = new System.Windows.Forms.Button();
+            this.btGridView = new System.Windows.Forms.Button();
+            this.btSearch = new System.Windows.Forms.Button();
+            this.btImage = new System.Windows.Forms.Button();
+            this.btQQ = new System.Windows.Forms.Button();
+            this.tControl1 = new Paway.Forms.TPanel();
+            this.qqRadioButton1 = new Paway.Forms.QQRadioButton();
+            this.qqCheckBox1 = new Paway.Forms.QQCheckBox();
             this.qqTextBox1 = new Paway.Forms.QQTextBox();
-            this.btDemo360 = new Button();
-            this.btQQDemo = new Button();
             this.toolBar3 = new Paway.Forms.ToolBar();
-            this.btTTsRead = new Button();
             this.tNumTestBox1 = new Paway.Forms.TNumTestBox();
             this.tbPrompt = new Paway.Forms.QQTextBox();
             this.tComboBox21 = new Paway.Forms.TComboBox();
-            this.btAbout = new Button();
-            this.btGridView = new Button();
-            this.btSearch = new Button();
-            this.btImage = new Button();
-            this.btQQ = new Button();
-            this.bt360 = new Button();
             this.numEditTestBox2 = new Paway.Forms.TNumTestBox();
-            this.qqCheckBox1 = new Paway.Forms.QQCheckBox();
-            this.qqRadioButton1 = new Paway.Forms.QQRadioButton();
-            this.tControl1 = new Paway.Forms.TPanel();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -201,8 +200,8 @@ namespace Paway.Test
             // CommandType2
             // 
             this.CommandType2.DataPropertyName = "CommandType";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.CommandType2.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CommandType2.DefaultCellStyle = dataGridViewCellStyle1;
             this.CommandType2.HeaderText = "类型";
             this.CommandType2.Name = "CommandType2";
             this.CommandType2.ReadOnly = true;
@@ -251,8 +250,8 @@ namespace Paway.Test
             // dataGridViewTextBoxColumn3
             // 
             this.dataGridViewTextBoxColumn3.DataPropertyName = "CommandType";
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewTextBoxColumn3.HeaderText = "类型";
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
@@ -301,8 +300,8 @@ namespace Paway.Test
             // dataGridViewTextBoxColumn8
             // 
             this.dataGridViewTextBoxColumn8.DataPropertyName = "CommandType";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn8.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn8.DefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridViewTextBoxColumn8.HeaderText = "类型";
             this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
             this.dataGridViewTextBoxColumn8.ReadOnly = true;
@@ -351,8 +350,8 @@ namespace Paway.Test
             // dataGridViewTextBoxColumn13
             // 
             this.dataGridViewTextBoxColumn13.DataPropertyName = "CommandType";
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn13.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn13.DefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridViewTextBoxColumn13.HeaderText = "类型";
             this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
             this.dataGridViewTextBoxColumn13.ReadOnly = true;
@@ -401,8 +400,8 @@ namespace Paway.Test
             // dataGridViewTextBoxColumn18
             // 
             this.dataGridViewTextBoxColumn18.DataPropertyName = "CommandType";
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn18.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn18.DefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridViewTextBoxColumn18.HeaderText = "类型";
             this.dataGridViewTextBoxColumn18.Name = "dataGridViewTextBoxColumn18";
             this.dataGridViewTextBoxColumn18.ReadOnly = true;
@@ -451,8 +450,8 @@ namespace Paway.Test
             // dataGridViewTextBoxColumn23
             // 
             this.dataGridViewTextBoxColumn23.DataPropertyName = "CommandType";
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn23.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn23.DefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridViewTextBoxColumn23.HeaderText = "类型";
             this.dataGridViewTextBoxColumn23.Name = "dataGridViewTextBoxColumn23";
             this.dataGridViewTextBoxColumn23.ReadOnly = true;
@@ -501,8 +500,8 @@ namespace Paway.Test
             // dataGridViewTextBoxColumn28
             // 
             this.dataGridViewTextBoxColumn28.DataPropertyName = "CommandType";
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn28.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn28.DefaultCellStyle = dataGridViewCellStyle7;
             this.dataGridViewTextBoxColumn28.HeaderText = "类型";
             this.dataGridViewTextBoxColumn28.Name = "dataGridViewTextBoxColumn28";
             this.dataGridViewTextBoxColumn28.ReadOnly = true;
@@ -551,8 +550,8 @@ namespace Paway.Test
             // dataGridViewTextBoxColumn33
             // 
             this.dataGridViewTextBoxColumn33.DataPropertyName = "CommandType";
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn33.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn33.DefaultCellStyle = dataGridViewCellStyle8;
             this.dataGridViewTextBoxColumn33.HeaderText = "类型";
             this.dataGridViewTextBoxColumn33.Name = "dataGridViewTextBoxColumn33";
             this.dataGridViewTextBoxColumn33.ReadOnly = true;
@@ -601,8 +600,8 @@ namespace Paway.Test
             // dataGridViewTextBoxColumn38
             // 
             this.dataGridViewTextBoxColumn38.DataPropertyName = "CommandType";
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn38.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn38.DefaultCellStyle = dataGridViewCellStyle9;
             this.dataGridViewTextBoxColumn38.HeaderText = "类型";
             this.dataGridViewTextBoxColumn38.Name = "dataGridViewTextBoxColumn38";
             this.dataGridViewTextBoxColumn38.ReadOnly = true;
@@ -656,16 +655,6 @@ namespace Paway.Test
             this.pictureBox2.TabIndex = 41;
             this.pictureBox2.TabStop = false;
             // 
-            // qqTextBox1
-            // 
-            this.qqTextBox1.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.qqTextBox1.Lines = new string[0];
-            this.qqTextBox1.Location = new System.Drawing.Point(16, 181);
-            this.qqTextBox1.Name = "qqTextBox1";
-            this.qqTextBox1.RegexType = Paway.Helper.RegexType.Password;
-            this.qqTextBox1.Size = new System.Drawing.Size(92, 25);
-            this.qqTextBox1.TabIndex = 47;
-            // 
             // btDemo360
             // 
             this.btDemo360.BackColor = System.Drawing.Color.DarkSeaGreen;
@@ -688,40 +677,6 @@ namespace Paway.Test
             this.btQQDemo.Text = "QQDemo";
             this.btQQDemo.UseVisualStyleBackColor = false;
             // 
-            // toolBar3
-            // 
-            this.toolBar3.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.toolBar3.IClickEvent = true;
-            toolItem12.Text = "光暗";
-            toolItem13.Text = "反色";
-            toolItem14.Text = "浮雕";
-            toolItem15.Text = "滤色";
-            toolItem16.Text = "左右";
-            toolItem17.Text = "上下";
-            toolItem18.Text = "灰度";
-            toolItem19.Text = "黑白";
-            toolItem20.Text = "透明";
-            toolItem21.Text = "换色";
-            toolItem22.Text = "HSL";
-            this.toolBar3.Items.Add(toolItem12);
-            this.toolBar3.Items.Add(toolItem13);
-            this.toolBar3.Items.Add(toolItem14);
-            this.toolBar3.Items.Add(toolItem15);
-            this.toolBar3.Items.Add(toolItem16);
-            this.toolBar3.Items.Add(toolItem17);
-            this.toolBar3.Items.Add(toolItem18);
-            this.toolBar3.Items.Add(toolItem19);
-            this.toolBar3.Items.Add(toolItem20);
-            this.toolBar3.Items.Add(toolItem21);
-            this.toolBar3.Items.Add(toolItem22);
-            this.toolBar3.ItemSize = new System.Drawing.Size(50, 18);
-            this.toolBar3.ItemSpace = 0;
-            this.toolBar3.Location = new System.Drawing.Point(498, 16);
-            this.toolBar3.Name = "toolBar3";
-            this.toolBar3.Size = new System.Drawing.Size(50, 261);
-            this.toolBar3.TabIndex = 44;
-            this.toolBar3.TDirection = Paway.Helper.TDirection.Vertical;
-            // 
             // btTTsRead
             // 
             this.btTTsRead.BackColor = System.Drawing.Color.DarkSeaGreen;
@@ -733,51 +688,6 @@ namespace Paway.Test
             this.btTTsRead.TabIndex = 39;
             this.btTTsRead.Text = "朗读";
             this.btTTsRead.UseVisualStyleBackColor = false;
-            // 
-            // tNumTestBox1
-            // 
-            this.tNumTestBox1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tNumTestBox1.Lines = new string[] {
-        "9"};
-            this.tNumTestBox1.Location = new System.Drawing.Point(16, 151);
-            this.tNumTestBox1.MaxLength = 10;
-            this.tNumTestBox1.Name = "tNumTestBox1";
-            this.tNumTestBox1.Size = new System.Drawing.Size(92, 24);
-            this.tNumTestBox1.TabIndex = 37;
-            // 
-            // tbPrompt
-            // 
-            this.tbPrompt.BackColor = System.Drawing.Color.White;
-            this.tbPrompt.Enabled = false;
-            this.tbPrompt.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tbPrompt.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.tbPrompt.Lines = new string[0];
-            this.tbPrompt.Location = new System.Drawing.Point(16, 210);
-            this.tbPrompt.Name = "tbPrompt";
-            this.tbPrompt.ReadOnly = true;
-            this.tbPrompt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.tbPrompt.Size = new System.Drawing.Size(261, 24);
-            this.tbPrompt.TabIndex = 35;
-            // 
-            // tComboBox21
-            // 
-            // 
-            // 
-            // 
-            this.tComboBox21.Edit.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.tComboBox21.Edit.Items.AddRange(new object[] {
-            "dfsewf",
-            "wegwe",
-            "gwegweg"});
-            this.tComboBox21.Edit.Location = new System.Drawing.Point(1, 1);
-            this.tComboBox21.Edit.Name = "tComboBox1";
-            this.tComboBox21.Edit.Size = new System.Drawing.Size(103, 23);
-            this.tComboBox21.Edit.TabIndex = 0;
-            this.tComboBox21.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.tComboBox21.Location = new System.Drawing.Point(118, 180);
-            this.tComboBox21.Name = "tComboBox21";
-            this.tComboBox21.Size = new System.Drawing.Size(105, 25);
-            this.tComboBox21.TabIndex = 31;
             // 
             // btAbout
             // 
@@ -834,40 +744,14 @@ namespace Paway.Test
             this.btQQ.Text = "QQ";
             this.btQQ.UseVisualStyleBackColor = false;
             // 
-            // bt360
+            // tControl1
             // 
-            this.bt360.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.bt360.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.bt360.Location = new System.Drawing.Point(16, 241);
-            this.bt360.Name = "bt360";
-            this.bt360.Size = new System.Drawing.Size(59, 28);
-            this.bt360.TabIndex = 11;
-            this.bt360.Text = "360";
-            this.bt360.UseVisualStyleBackColor = false;
-            // 
-            // numEditTestBox2
-            // 
-            this.numEditTestBox2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.numEditTestBox2.ITrans = true;
-            this.numEditTestBox2.Lines = new string[] {
-        "0"};
-            this.numEditTestBox2.Location = new System.Drawing.Point(16, 123);
-            this.numEditTestBox2.MaxLength = 10;
-            this.numEditTestBox2.Name = "numEditTestBox2";
-            this.numEditTestBox2.Size = new System.Drawing.Size(92, 24);
-            this.numEditTestBox2.TabIndex = 5;
-            // 
-            // qqCheckBox1
-            // 
-            this.qqCheckBox1.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.qqCheckBox1.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.qqCheckBox1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.qqCheckBox1.Location = new System.Drawing.Point(118, 121);
-            this.qqCheckBox1.Name = "qqCheckBox1";
-            this.qqCheckBox1.Size = new System.Drawing.Size(107, 25);
-            this.qqCheckBox1.TabIndex = 66;
-            this.qqCheckBox1.Text = "你好World";
-            this.qqCheckBox1.UseVisualStyleBackColor = false;
+            this.tControl1.BackColor = System.Drawing.Color.Gainsboro;
+            this.tControl1.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.tControl1.Location = new System.Drawing.Point(248, 16);
+            this.tControl1.Name = "tControl1";
+            this.tControl1.Size = new System.Drawing.Size(94, 87);
+            this.tControl1.TabIndex = 68;
             // 
             // qqRadioButton1
             // 
@@ -881,14 +765,119 @@ namespace Paway.Test
             this.qqRadioButton1.Text = "qqRadioButton1";
             this.qqRadioButton1.UseVisualStyleBackColor = false;
             // 
-            // tControl1
+            // qqCheckBox1
             // 
-            this.tControl1.BackColor = System.Drawing.Color.Gainsboro;
-            this.tControl1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.tControl1.Location = new System.Drawing.Point(248, 16);
-            this.tControl1.Name = "tControl1";
-            this.tControl1.Size = new System.Drawing.Size(94, 87);
-            this.tControl1.TabIndex = 68;
+            this.qqCheckBox1.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.qqCheckBox1.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.qqCheckBox1.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.qqCheckBox1.Location = new System.Drawing.Point(118, 121);
+            this.qqCheckBox1.Name = "qqCheckBox1";
+            this.qqCheckBox1.Size = new System.Drawing.Size(107, 25);
+            this.qqCheckBox1.TabIndex = 66;
+            this.qqCheckBox1.Text = "你好World";
+            this.qqCheckBox1.UseVisualStyleBackColor = false;
+            // 
+            // qqTextBox1
+            // 
+            this.qqTextBox1.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.qqTextBox1.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.qqTextBox1.Lines = new string[0];
+            this.qqTextBox1.Location = new System.Drawing.Point(16, 181);
+            this.qqTextBox1.Name = "qqTextBox1";
+            this.qqTextBox1.RegexType = Paway.Helper.RegexType.Password;
+            this.qqTextBox1.Size = new System.Drawing.Size(92, 25);
+            this.qqTextBox1.TabIndex = 47;
+            // 
+            // toolBar3
+            // 
+            this.toolBar3.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.toolBar3.IClickEvent = true;
+            toolItem1.Text = "光暗";
+            toolItem2.Text = "反色";
+            toolItem3.Text = "浮雕";
+            toolItem4.Text = "滤色";
+            toolItem5.Text = "左右";
+            toolItem6.Text = "上下";
+            toolItem7.Text = "灰度";
+            toolItem8.Text = "黑白";
+            toolItem9.Text = "透明";
+            toolItem10.Text = "换色";
+            toolItem11.Text = "HSL";
+            this.toolBar3.Items.Add(toolItem1);
+            this.toolBar3.Items.Add(toolItem2);
+            this.toolBar3.Items.Add(toolItem3);
+            this.toolBar3.Items.Add(toolItem4);
+            this.toolBar3.Items.Add(toolItem5);
+            this.toolBar3.Items.Add(toolItem6);
+            this.toolBar3.Items.Add(toolItem7);
+            this.toolBar3.Items.Add(toolItem8);
+            this.toolBar3.Items.Add(toolItem9);
+            this.toolBar3.Items.Add(toolItem10);
+            this.toolBar3.Items.Add(toolItem11);
+            this.toolBar3.ItemSize = new System.Drawing.Size(50, 18);
+            this.toolBar3.ItemSpace = 0;
+            this.toolBar3.Location = new System.Drawing.Point(498, 16);
+            this.toolBar3.Name = "toolBar3";
+            this.toolBar3.Size = new System.Drawing.Size(50, 261);
+            this.toolBar3.TabIndex = 44;
+            this.toolBar3.TDirection = Paway.Helper.TDirection.Vertical;
+            // 
+            // tNumTestBox1
+            // 
+            this.tNumTestBox1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tNumTestBox1.Lines = new string[] {
+        "9"};
+            this.tNumTestBox1.Location = new System.Drawing.Point(16, 151);
+            this.tNumTestBox1.MaxLength = 10;
+            this.tNumTestBox1.Name = "tNumTestBox1";
+            this.tNumTestBox1.Size = new System.Drawing.Size(92, 24);
+            this.tNumTestBox1.TabIndex = 37;
+            // 
+            // tbPrompt
+            // 
+            this.tbPrompt.BackColor = System.Drawing.Color.White;
+            this.tbPrompt.Enabled = false;
+            this.tbPrompt.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tbPrompt.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.tbPrompt.Lines = new string[0];
+            this.tbPrompt.Location = new System.Drawing.Point(16, 210);
+            this.tbPrompt.Name = "tbPrompt";
+            this.tbPrompt.ReadOnly = true;
+            this.tbPrompt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.tbPrompt.Size = new System.Drawing.Size(261, 24);
+            this.tbPrompt.TabIndex = 35;
+            // 
+            // tComboBox21
+            // 
+            // 
+            // 
+            // 
+            this.tComboBox21.Edit.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.tComboBox21.Edit.Items.AddRange(new object[] {
+            "dfsewf",
+            "wegwe",
+            "gwegweg"});
+            this.tComboBox21.Edit.Location = new System.Drawing.Point(1, 1);
+            this.tComboBox21.Edit.Name = "tComboBox1";
+            this.tComboBox21.Edit.Size = new System.Drawing.Size(103, 23);
+            this.tComboBox21.Edit.TabIndex = 0;
+            this.tComboBox21.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.tComboBox21.Location = new System.Drawing.Point(118, 180);
+            this.tComboBox21.Name = "tComboBox21";
+            this.tComboBox21.Size = new System.Drawing.Size(105, 25);
+            this.tComboBox21.TabIndex = 31;
+            // 
+            // numEditTestBox2
+            // 
+            this.numEditTestBox2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.numEditTestBox2.ITrans = true;
+            this.numEditTestBox2.Lines = new string[] {
+        "0"};
+            this.numEditTestBox2.Location = new System.Drawing.Point(16, 123);
+            this.numEditTestBox2.MaxLength = 10;
+            this.numEditTestBox2.Name = "numEditTestBox2";
+            this.numEditTestBox2.Size = new System.Drawing.Size(92, 24);
+            this.numEditTestBox2.TabIndex = 5;
             // 
             // FormDemo
             // 
@@ -913,7 +902,6 @@ namespace Paway.Test
             this.Controls.Add(this.btSearch);
             this.Controls.Add(this.btImage);
             this.Controls.Add(this.btQQ);
-            this.Controls.Add(this.bt360);
             this.Controls.Add(this.numEditTestBox2);
             this.Name = "FormDemo";
             this.ShowIcon = false;
@@ -993,7 +981,6 @@ namespace Paway.Test
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn8;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn40;
         private Forms.TNumTestBox numEditTestBox2;
-        private Button bt360;
         private Button btQQ;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 在线ToolStripMenuItem;

@@ -26,29 +26,29 @@ namespace Paway.Test
             WaitDrawDataGridView();
             CheckBoxDataGridView();
             CheckBox();
-            this.tDataGridView1.TProgressIndex = -1;
-            this.tDataGridView1.CurrentCellChanged += comBoxGridView1_CurrentCellChanged;
+            this.gridview1.TProgressIndex = -1;
+            this.gridview1.CurrentCellChanged += GridView1_CurrentCellChanged;
         }
 
         int index = -1;
         Bitmap bitmap;
         Bitmap last;
-        private void comBoxGridView1_CurrentCellChanged(object sender, EventArgs e)
+        private void GridView1_CurrentCellChanged(object sender, EventArgs e)
         {
-            if (this.tDataGridView1.CurrentCell == null) return;
-            if (this.tDataGridView1.CurrentCell.RowIndex == index) return;
-            if (index != -1) this.tDataGridView1.Rows[index].Cells[0].Value = false;
+            if (this.gridview1.CurrentCell == null) return;
+            if (this.gridview1.CurrentCell.RowIndex == index) return;
+            if (index != -1) this.gridview1.Rows[index].Cells[0].Value = false;
             int old = index;
 
-            index = this.tDataGridView1.CurrentCell.RowIndex;
-            this.tDataGridView1.TProgressIndex = index;
-            bitmap = this.tDataGridView1.Rows[index].Cells["Image"].Value as Bitmap;
-            this.tDataGridView1.Rows[index].Cells[0].Value = true;
-            this.tDataGridView1.Rows[index].Cells[2].Value = string.Format("点击123456&第1步123456");
+            index = this.gridview1.CurrentCell.RowIndex;
+            this.gridview1.TProgressIndex = index;
+            bitmap = this.gridview1.Rows[index].Cells["Image"].Value as Bitmap;
+            this.gridview1.Rows[index].Cells[0].Value = true;
+            this.gridview1.Rows[index].Cells[2].Value = string.Format("点击123456&第1步123456");
             if (last != null)
             {
-                this.tDataGridView1.Rows[old].Cells[2].Value = "点击";
-                this.tDataGridView1.Rows[old].Cells["Image"].Value = last;
+                this.gridview1.Rows[old].Cells[2].Value = "点击";
+                this.gridview1.Rows[old].Cells["Image"].Value = last;
             }
             if (bitmap != null)
             {
@@ -59,8 +59,8 @@ namespace Paway.Test
         protected void WaitDrawDataGridView()
         {
             BindingList<WaitDrawDataGridViewData> list = new BindingList<WaitDrawDataGridViewData>();
-            tDataGridViewPager2.PagerInfo.PageSize = 50;
-            tDataGridViewPager2.DataSource = new Data2() { A = "正在加载" };
+            gridview2.PagerInfo.PageSize = 50;
+            gridview2.DataSource = new Data2() { A = "正在加载" };
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "image");
             for (int i = 0; i < 113; i++)
             {
@@ -72,19 +72,26 @@ namespace Paway.Test
                 {
                     StatuImage = BitmapHelper.GetBitmapFormFile(string.Format("{0}\\{1}.png", path, i % 3)),
                     Product = "Product" + (!b ? 1 : 2),
-                    AppName = "AppName" + (!a ? 1 : (!b ? 2 : (!c ? 3 : 4))),
+                    AppName = "AppName" + i,
                     Index = i,
                     Progress = i,
                 };
                 switch (i % 3)
                 {
-                    case 0: dti.Device = DeviceType.Carte; break;
-                    case 1: dti.Device = DeviceType.Delete; break;
-                    case 2: dti.Device = DeviceType.Checkout; break;
+                    case 0:
+                        dti.Device = DeviceType.Carte;
+                        dti.Product = "ABABAB";
+                        break;
+                    case 1:
+                        dti.Device = DeviceType.Delete;
+                        dti.Product = "BABABA"; break;
+                    case 2:
+                        dti.Device = DeviceType.Checkout;
+                        dti.Product = "AABBAB"; break;
                 }
                 list.Add(dti);
             }
-            tDataGridViewPager2.DataSource = list;
+            gridview2.DataSource = list;
         }
         protected void CheckBoxDataGridView()
         {
@@ -109,9 +116,9 @@ namespace Paway.Test
                 Id = "-1",
                 ComponentId = Guid.NewGuid(),
             });
-            tDataGridView1.DataSource = list;
+            gridview1.DataSource = list;
 
-            this.tDataGridView1.AddSpanHeader(2, 2, "Hello");
+            this.gridview1.AddSpanHeader(2, 2, "Hello");
         }
         protected void CheckBox()
         {
@@ -134,8 +141,8 @@ namespace Paway.Test
                     Price = i,
                 });
             }
-            tDataGridView2.DataSource = list;
-            tDataGridView2.AddSpanColumns(0, 1);
+            gridview3.DataSource = list;
+            gridview3.AddSpanColumns(0, 1);
 
             BindingList<Data2> list2 = new BindingList<Data2>();
             for (int i = 0; i < 6; i++)

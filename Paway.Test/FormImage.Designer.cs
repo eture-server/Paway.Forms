@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.tPictureBox1 = new Paway.Forms.TPictureBox();
             this.btLess = new System.Windows.Forms.Button();
             this.btAdd = new System.Windows.Forms.Button();
             this.btChange = new System.Windows.Forms.Button();
@@ -44,14 +43,15 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolAuto = new System.Windows.Forms.ToolStripMenuItem();
             this.toolReset = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolSave = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.tPictureBox1 = new Paway.Forms.TPictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tPictureBox1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tPictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -81,17 +81,6 @@
             this.splitContainer1.SplitterDistance = 411;
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 50;
-            // 
-            // tPictureBox1
-            // 
-            this.tPictureBox1.BackColor = System.Drawing.Color.Black;
-            this.tPictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tPictureBox1.Image = null;
-            this.tPictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.tPictureBox1.Name = "tPictureBox1";
-            this.tPictureBox1.Size = new System.Drawing.Size(411, 371);
-            this.tPictureBox1.TabIndex = 55;
-            this.tPictureBox1.TabStop = false;
             // 
             // btLess
             // 
@@ -188,30 +177,41 @@
             this.toolStripSeparator1,
             this.toolSave});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 98);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(101, 76);
             // 
             // toolAuto
             // 
             this.toolAuto.Name = "toolAuto";
-            this.toolAuto.Size = new System.Drawing.Size(152, 22);
+            this.toolAuto.Size = new System.Drawing.Size(100, 22);
             this.toolAuto.Text = "自动";
             // 
             // toolReset
             // 
             this.toolReset.Name = "toolReset";
-            this.toolReset.Size = new System.Drawing.Size(152, 22);
+            this.toolReset.Size = new System.Drawing.Size(100, 22);
             this.toolReset.Text = "重置";
-            // 
-            // toolSave
-            // 
-            this.toolSave.Name = "toolSave";
-            this.toolSave.Size = new System.Drawing.Size(152, 22);
-            this.toolSave.Text = "保存";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(97, 6);
+            // 
+            // toolSave
+            // 
+            this.toolSave.Name = "toolSave";
+            this.toolSave.Size = new System.Drawing.Size(100, 22);
+            this.toolSave.Text = "保存";
+            // 
+            // tPictureBox1
+            // 
+            this.tPictureBox1.BackColor = System.Drawing.Color.White;
+            this.tPictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tPictureBox1.Image = null;
+            this.tPictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.tPictureBox1.Name = "tPictureBox1";
+            this.tPictureBox1.Size = new System.Drawing.Size(411, 371);
+            this.tPictureBox1.TabIndex = 55;
+            this.tPictureBox1.TabStop = false;
             // 
             // FormImage
             // 
@@ -226,8 +226,8 @@
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.tPictureBox1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tPictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }

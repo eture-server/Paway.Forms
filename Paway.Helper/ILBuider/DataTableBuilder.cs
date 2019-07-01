@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -37,10 +38,12 @@ namespace Paway.Helper
             {
                 if (iExcel && !property.IExcel()) continue;
                 if (!property.CanRead) continue;
+                Type dbType = property.PropertyType;
+                if (dbType.IsClass && dbType != typeof(string) && dbType != typeof(byte[]) && dbType != typeof(Image) && dbType != typeof(Bitmap)) continue;
                 Label endIfLabel = generator.DefineLabel();
-                if (property.PropertyType.IsGenericType)
+                if (dbType.IsGenericType)
                 {
-                    if (Nullable.GetUnderlyingType(property.PropertyType) == null) continue;
+                    if (Nullable.GetUnderlyingType(dbType) == null) continue;
                     generator.Emit(OpCodes.Ldarg_0);
                     generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
                     generator.Emit(OpCodes.Callvirt, property.GetGetMethod());//获取值
@@ -54,7 +57,7 @@ namespace Paway.Helper
                 generator.Emit(OpCodes.Callvirt, property.GetGetMethod());//获取值
                 generator.Box(property);//值数据转引用数据
                 generator.Emit(OpCodes.Callvirt, setValueMethod);
-                if (property.PropertyType.IsGenericType)
+                if (dbType.IsGenericType)
                 {
                     generator.MarkLabel(endIfLabel);
                 }
