@@ -88,10 +88,7 @@ namespace Paway.Helper
             }
             var generator = dymMethod.GetILGenerator();// Create ILGenerator
 
-            generator.Emit(OpCodes.Ldarg_0);
-            generator.Emit(OpCodes.Castclass, type);//类型转化
-            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());//获取值
-            generator.Box(property);//值数据转引用数据
+            generator.GetValue(property, type);//获取引用值
             switch (dbType.Name)
             {
                 case nameof(Int32):

@@ -54,6 +54,7 @@ namespace Paway.Helper
                     generator.Emit(OpCodes.Ldc_I4, i);
                     generator.Emit(OpCodes.Callvirt, isDBNullMethod);
                     generator.Emit(OpCodes.Brtrue, endIfLabel);
+
                     generator.Emit(OpCodes.Ldloc, result);
                     generator.Emit(OpCodes.Ldarg_0);
                     generator.Emit(OpCodes.Ldc_I4, i);

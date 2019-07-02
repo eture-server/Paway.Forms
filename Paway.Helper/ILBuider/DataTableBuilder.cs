@@ -41,20 +41,18 @@ namespace Paway.Helper
                 Type dbType = property.PropertyType;
                 if (dbType.IsClass && dbType != typeof(string) && dbType != typeof(byte[]) && dbType != typeof(Image) && dbType != typeof(Bitmap)) continue;
                 Label endIfLabel = generator.DefineLabel();
-                LocalBuilder value = generator.DeclareLocal(dbType);
+                LocalBuilder value = null;
                 if (dbType.IsGenericType)
                 {
                     if (Nullable.GetUnderlyingType(dbType) == null) continue;
-                    GetValue(type, generator, property);
-                    //generator.Emit(OpCodes.Stloc, value);
-                    //generator.Emit(OpCodes.Ldloc, value);
+                    value = generator.DeclareLocal(dbType);
+                    generator.GetValue(property, type);//获取引用值
                     generator.Emit(OpCodes.Brfalse, endIfLabel);
                 }
                 generator.Emit(OpCodes.Ldarg_1);
                 generator.Emit(OpCodes.Ldstr, property.Column());
 
-                //if (dbType.IsGenericType) generator.Emit(OpCodes.Ldloc, value);
-                GetValue(type, generator, property);
+                generator.GetValue(property, type);//获取引用值
                 generator.Emit(OpCodes.Callvirt, setValueMethod);
                 if (dbType.IsGenericType)
                 {
@@ -68,13 +66,6 @@ namespace Paway.Helper
                 handler = dymMethod.CreateDelegate(typeof(Action<object, DataRow>))
             };
             return builder;
-        }
-        private static void GetValue(Type type, ILGenerator generator, PropertyInfo property)
-        {
-            generator.Emit(OpCodes.Ldarg_0);
-            generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
-            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());//获取值
-            generator.Box(property);//值数据转引用数据
         }
     }
 }

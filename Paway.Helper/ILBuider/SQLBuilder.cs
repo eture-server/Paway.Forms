@@ -54,10 +54,7 @@ namespace Paway.Helper
                 {//参数
                     generator.Emit(OpCodes.Ldstr, column);
                 }
-                generator.Emit(OpCodes.Ldarg_0);
-                generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
-                generator.Emit(OpCodes.Callvirt, property.GetGetMethod());//获取值
-                generator.Box(property);//值数据转引用数据
+                generator.GetValue(property, type);//获取引用值
                 {//参数
                     generator.Emit(OpCodes.Ldtoken, property.PropertyType);
                     generator.Emit(OpCodes.Ldtoken, ptype);

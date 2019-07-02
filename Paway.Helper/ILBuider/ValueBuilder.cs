@@ -29,10 +29,7 @@ namespace Paway.Helper
             if (property == null) throw new ArgumentNullException(name);
             if (!property.CanRead) throw new ArgumentException("无法读取值");
             {
-                generator.Emit(OpCodes.Ldarg_0);
-                generator.Emit(OpCodes.Castclass, type);//类型转化
-                generator.Emit(OpCodes.Callvirt, property.GetGetMethod());//获取值
-                generator.Box(property);//值数据转引用数据
+                generator.GetValue(property, type);//获取引用值
             }
             generator.Emit(OpCodes.Ret);
 

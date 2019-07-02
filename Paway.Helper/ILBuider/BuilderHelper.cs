@@ -380,11 +380,21 @@ namespace Paway.Helper
 
         #region 动态代码
         /// <summary>
-        /// 值数据转引用数据(Value->object)
-        /// GetGetMethod()获取到的是值引用
+        /// 转化参数到类型，获取参数值，返回引用数据（指定类型时，调用转化）
+        /// </summary>
+        internal static void GetValue(this ILGenerator generator, PropertyInfo property, Type type)
+        {
+            generator.Emit(OpCodes.Ldarg_0);
+            generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
+            generator.Box(property);//值数据转引用数据
+        }
+        /// <summary>
+        /// 获取参数值，并将值数据转引用数据(Value->object)
+        /// GetGetMethod()获取到的是值
         /// </summary>
         internal static void Box(this ILGenerator generator, PropertyInfo property)
         {
+            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());//获取值
             if (property.PropertyType.IsValueType || property.PropertyType == typeof(string))
                 generator.Emit(OpCodes.Box, property.PropertyType);
             else

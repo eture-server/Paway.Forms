@@ -66,14 +66,10 @@ namespace Paway.Helper
         {
             var method = typeof(BuilderHelper).GetMethod(nameof(BuilderHelper.CloneObject), new Type[] { typeof(object), typeof(object), typeof(bool) });
             // Load initial object (parameter)          (currently 2 items on eval stack)
-            generator.Emit(OpCodes.Ldarg_0);
-            generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
-            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
-            generator.Box(property);//值数据转引用数据
+            generator.GetValue(property, type);//获取引用值
 
             // Load the new object on the eval stack... (currently 1 item on eval stack)
             generator.Emit(OpCodes.Ldloc_0);
-            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
             generator.Box(property);//值数据转引用数据
 
             {//参数
@@ -89,10 +85,7 @@ namespace Paway.Helper
             var method = typeof(BuilderHelper).GetMethod(nameof(BuilderHelper.CloneObject), new Type[] { typeof(object), typeof(bool) });
 
             Label endIfLabel = generator.DefineLabel();
-            generator.Emit(OpCodes.Ldarg_0);// s
-            generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
-            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
-            generator.Box(property);//值数据转引用数据
+            generator.GetValue(property, type);//获取引用值
 
             //保存值到变量（变量需要主动创建后可用），以免重复获取
             LocalBuilder value = generator.DeclareLocal(property.PropertyType);
@@ -152,14 +145,10 @@ namespace Paway.Helper
         {
             var method = typeof(BuilderHelper).GetMethod(nameof(BuilderHelper.CloneObject), new Type[] { typeof(object), typeof(object), typeof(bool) });
 
-            generator.Emit(OpCodes.Ldarg_0);// s
-            generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
-            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
-            generator.Box(property);//值数据转引用数据
+            generator.GetValue(property, type);//获取引用值
 
             generator.Emit(OpCodes.Ldarg_1);// los
             generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
-            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
             generator.Box(property);//值数据转引用数据
 
             {//参数
@@ -175,10 +164,7 @@ namespace Paway.Helper
             var method = typeof(BuilderHelper).GetMethod(nameof(BuilderHelper.CloneObject), new Type[] { typeof(object), typeof(bool) });
 
             Label endIfLabel = generator.DefineLabel();
-            generator.Emit(OpCodes.Ldarg_0);// s
-            generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
-            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
-            generator.Box(property);//值数据转引用数据
+            generator.GetValue(property, type);//获取引用值
 
             //保存值到变量（变量需要主动创建后可用），以免重复获取
             LocalBuilder value = generator.DeclareLocal(property.PropertyType);
