@@ -27,11 +27,11 @@ namespace Paway.Helper
         public static EntityBuilder<T> CreateBuilder(DataRow dataRecord)
         {
             var getValueMethod = typeof(DataRow).GetMethod("get_Item", new Type[] { typeof(int) });
-            var isDBNullMethod = typeof(DataRow).GetMethod("IsNull", new Type[] { typeof(int) });
-            var getImage = typeof(StructHelper).GetMethod("BytesToImage", new Type[] { typeof(byte[]) });
+            var isDBNullMethod = typeof(DataRow).GetMethod(nameof(DataRow.IsNull), new Type[] { typeof(int) });
+            var getImage = typeof(StructHelper).GetMethod(nameof(StructHelper.BytesToImage), new Type[] { typeof(byte[]) });
 
             var type = typeof(T);
-            var dymMethod = new DynamicMethod(type.Name + "EntityBuilder", type, new Type[] { typeof(DataRow) }, true);
+            var dymMethod = new DynamicMethod(type.Name + nameof(EntityBuilder<T>), type, new Type[] { typeof(DataRow) }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
 
             LocalBuilder result = generator.DeclareLocal(type);

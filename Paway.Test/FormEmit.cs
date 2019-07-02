@@ -33,7 +33,6 @@ namespace Paway.Test
             info.List2 = new List<FindInfo>();
             server.Update(info);
 
-
             var obj3 = info.Clone(true);
             obj3.FindInfo.Id = 102;
             obj3.List.Clear();
@@ -51,7 +50,7 @@ namespace Paway.Test
             var dt = list.ToDataTable();
             Debug.WriteLine("FindList=>" + sw.ElapsedMilliseconds);
 
-            var list3 = list.Clone();
+            var list3 = list.Clone(true);
             list.Clone(list3);
 
             var dt2 = server.FindTable<ITestInfo>("1=1 limit 20");
@@ -61,8 +60,15 @@ namespace Paway.Test
             list.Sort(nameof(TestInfo.UserType));
             Debug.WriteLine("OrderBy2=>" + sw.ElapsedMilliseconds);
             sw.Restart();
-            var temp = list.AsParallel().OrderBy(c => c.Name).ToList();
+            var temp = list.AsParallel().OrderBy(c => c.Name);
             Debug.WriteLine("OrderBy1=>" + sw.ElapsedMilliseconds);
+            sw.Restart();
+            var temp2 = list.AsParallel().OrderBy(c => c.Name).ToList();
+            Debug.WriteLine("ToList.Time=>" + sw.ElapsedMilliseconds);
+            sw.Restart();
+            foreach (var item in temp)
+            { }
+            Debug.WriteLine("ToList.Time=>" + sw.ElapsedMilliseconds);
             gridview1.DataSource = list;
         }
     }

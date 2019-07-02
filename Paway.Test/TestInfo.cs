@@ -31,7 +31,7 @@ namespace Paway.Test
         public virtual string Name { get; set; }
     }
     [Serializable, Table(Table = "Users", Key = "Id")]
-    public class TestInfo : TestBase, ITestInfo
+    public class TestInfo : TestBase, ITestInfo, IFind<TestInfo>
     {
         public override string Name { get => base.Name; set => base.Name = value; }
 
@@ -55,6 +55,11 @@ namespace Paway.Test
         public TestInfo()
         {
             this.DateTime = DateTime.Now;
+        }
+
+        public Func<TestInfo, bool> Find(string value)
+        {
+            throw new NotImplementedException();
         }
     }
 }

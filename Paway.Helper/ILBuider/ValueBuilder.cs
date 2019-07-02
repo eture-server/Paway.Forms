@@ -23,7 +23,7 @@ namespace Paway.Helper
         /// </summary>
         public static Delegate GetValueFunc(Type type, string name)
         {
-            var dymMethod = new DynamicMethod(type.Name + "GetValueBuilder", typeof(object), new Type[] { typeof(object) }, true);
+            var dymMethod = new DynamicMethod(type.Name + nameof(ValueBuilder), typeof(object), new Type[] { typeof(object) }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
             var property = type.Property(name);
             if (property == null) throw new ArgumentNullException(name);
@@ -43,7 +43,7 @@ namespace Paway.Helper
         /// </summary>
         public static Delegate SetValueFunc(Type type, string name)
         {
-            var dymMethod = new DynamicMethod(type.Name + "SetValueBuilder", null, new Type[] { typeof(object), typeof(object) }, true);
+            var dymMethod = new DynamicMethod(type.Name + nameof(ValueBuilder), null, new Type[] { typeof(object), typeof(object) }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
             var property = type.Property(name);
             if (property != null && property.CanWrite)
@@ -64,13 +64,13 @@ namespace Paway.Helper
         /// </summary>
         public static Delegate GetTypeFunc(Type type, string name)
         {
-            var dymMethod = new DynamicMethod(type.Name + "GetTypeBuilder", typeof(Type), new Type[] { }, true);
+            var dymMethod = new DynamicMethod(type.Name + nameof(ValueBuilder), typeof(Type), new Type[] { }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
             var property = type.Property(name);
             if (property == null) throw new ArgumentNullException(name);
             {
                 generator.Emit(OpCodes.Ldtoken, property.PropertyType);
-                generator.Emit(OpCodes.Call, typeof(Type).GetMethod("GetTypeFromHandle", new Type[] { typeof(RuntimeTypeHandle) }));
+                generator.Emit(OpCodes.Call, typeof(Type).GetMethod(nameof(Type.GetTypeFromHandle), new Type[] { typeof(RuntimeTypeHandle) }));
             }
             generator.Emit(OpCodes.Ret);
 

@@ -36,10 +36,10 @@ namespace Paway.Helper
         {
             var valueType = typeof(List<DbParameter>);
             var key = type.TableKey();
-            var addParameter = typeof(BuilderHelper).GetMethod("AddParameter", new Type[] { typeof(string), typeof(object), typeof(Type), typeof(Type) });
-            var add = valueType.GetMethod("Add", new Type[] { typeof(DbParameter) });
+            var addParameter = typeof(BuilderHelper).GetMethod(nameof(BuilderHelper.AddParameter), new Type[] { typeof(string), typeof(object), typeof(Type), typeof(Type) });
+            var add = valueType.GetMethod(nameof(List<DbParameter>.Add), new Type[] { typeof(DbParameter) });
 
-            var dymMethod = new DynamicMethod(type.Name + "SQLBuilder", valueType, new Type[] { typeof(object) }, type, true);
+            var dymMethod = new DynamicMethod(type.Name + nameof(SQLBuilder), valueType, new Type[] { typeof(object) }, type, true);
             ILGenerator generator = dymMethod.GetILGenerator();
 
             LocalBuilder result = generator.DeclareLocal(valueType);
@@ -92,7 +92,7 @@ namespace Paway.Helper
         {
             var key = type.TableKey();
 
-            var dymMethod = new DynamicMethod(type.Name + "SQLBuilder", null, new Type[] { typeof(object), typeof(long) }, true);
+            var dymMethod = new DynamicMethod(type.Name + nameof(SQLBuilder), null, new Type[] { typeof(object), typeof(long) }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
             var property = type.Property(key);
             if (property != null && property.CanWrite)

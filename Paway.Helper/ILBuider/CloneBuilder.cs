@@ -22,7 +22,7 @@ namespace Paway.Helper
         public static Delegate CloneFunc(Type type, bool depth)
         {
             // Create ILGenerator
-            var dymMethod = new DynamicMethod(type.Name + "CloneBuilder", typeof(object), new Type[] { typeof(object) }, true);
+            var dymMethod = new DynamicMethod(type.Name + nameof(CloneBuilder), typeof(object), new Type[] { typeof(object) }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
 
             LocalBuilder result = generator.DeclareLocal(type);
@@ -64,7 +64,7 @@ namespace Paway.Helper
         /// </summary>
         private static void CloneFuncRead(Type type, ILGenerator generator, PropertyInfo property)
         {
-            var method = typeof(BuilderHelper).GetMethod("CloneObject", new Type[] { typeof(object), typeof(object), typeof(bool) });
+            var method = typeof(BuilderHelper).GetMethod(nameof(BuilderHelper.CloneObject), new Type[] { typeof(object), typeof(object), typeof(bool) });
             // Load initial object (parameter)          (currently 2 items on eval stack)
             generator.Emit(OpCodes.Ldarg_0);
             generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
@@ -86,23 +86,23 @@ namespace Paway.Helper
         /// </summary>
         private static void CloneFuncWrite(Type type, ILGenerator generator, PropertyInfo property)
         {
-            var method = typeof(BuilderHelper).GetMethod("CloneObject", new Type[] { typeof(object), typeof(bool) });
+            var method = typeof(BuilderHelper).GetMethod(nameof(BuilderHelper.CloneObject), new Type[] { typeof(object), typeof(bool) });
 
             Label endIfLabel = generator.DefineLabel();
             generator.Emit(OpCodes.Ldarg_0);// s
             generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
             generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
             generator.Box(property);//值数据转引用数据
+
+            //保存值到变量（变量需要主动创建后可用），以免重复获取
+            LocalBuilder value = generator.DeclareLocal(property.PropertyType);
+            generator.Emit(OpCodes.Stloc, value);
+            generator.Emit(OpCodes.Ldloc, value);
             generator.Emit(OpCodes.Brfalse, endIfLabel);
 
             // Load the new object on the eval stack... (currently 1 item on eval stack)
             generator.Emit(OpCodes.Ldloc_0);
-            // Load initial object (parameter)          (currently 2 items on eval stack)
-            generator.Emit(OpCodes.Ldarg_0);
-            generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
-            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
-            generator.Box(property);//值数据转引用数据
-
+            generator.Emit(OpCodes.Ldloc, value);
             {//参数
                 generator.Emit(OpCodes.Ldc_I4, 1);
             }
@@ -117,7 +117,7 @@ namespace Paway.Helper
         public static Delegate CloneAction(Type type, bool depth)
         {
             // Create ILGenerator
-            var dymMethod = new DynamicMethod(type.Name + "CloneBuilder", null, new Type[] { typeof(object), typeof(object) }, true);
+            var dymMethod = new DynamicMethod(type.Name + nameof(CloneBuilder), null, new Type[] { typeof(object), typeof(object) }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
 
             foreach (var property in type.Properties().FindAll(c => c.CanRead))
@@ -150,7 +150,7 @@ namespace Paway.Helper
         /// </summary>
         private static void CloneActionRead(Type type, ILGenerator generator, PropertyInfo property)
         {
-            var method = typeof(BuilderHelper).GetMethod("CloneObject", new Type[] { typeof(object), typeof(object), typeof(bool) });
+            var method = typeof(BuilderHelper).GetMethod(nameof(BuilderHelper.CloneObject), new Type[] { typeof(object), typeof(object), typeof(bool) });
 
             generator.Emit(OpCodes.Ldarg_0);// s
             generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
@@ -172,22 +172,23 @@ namespace Paway.Helper
         /// </summary>
         private static void CloneActionWrite(Type type, ILGenerator generator, PropertyInfo property)
         {
-            var method = typeof(BuilderHelper).GetMethod("CloneObject", new Type[] { typeof(object), typeof(bool) });
+            var method = typeof(BuilderHelper).GetMethod(nameof(BuilderHelper.CloneObject), new Type[] { typeof(object), typeof(bool) });
 
             Label endIfLabel = generator.DefineLabel();
             generator.Emit(OpCodes.Ldarg_0);// s
             generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
             generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
             generator.Box(property);//值数据转引用数据
+
+            //保存值到变量（变量需要主动创建后可用），以免重复获取
+            LocalBuilder value = generator.DeclareLocal(property.PropertyType);
+            generator.Emit(OpCodes.Stloc, value);
+            generator.Emit(OpCodes.Ldloc, value);
             generator.Emit(OpCodes.Brfalse, endIfLabel);
 
             generator.Emit(OpCodes.Ldarg_1);// los
             generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
-            generator.Emit(OpCodes.Ldarg_0);// s
-            generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
-            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
-            generator.Box(property);//值数据转引用数据
-
+            generator.Emit(OpCodes.Ldloc, value);
             {//参数
                 generator.Emit(OpCodes.Ldc_I4, 1);
             }

@@ -57,16 +57,15 @@ namespace Paway.Helper
             if (property == null) throw new ArgumentNullException(name);
             if (!property.CanRead) throw new ArgumentException("无法读取值");
 
-            var getTCompareString = typeof(ConverHelper).GetMethod("TCompareString", new Type[] { typeof(object) });
-            var getTCompareInt = typeof(ConverHelper).GetMethod("TCompareInt", new Type[] { typeof(object) });
-            var getTCompareEnum = typeof(ConverHelper).GetMethod("TCompareEnum", new Type[] { typeof(object) });
-            var getTCompareLong = typeof(ConverHelper).GetMethod("TCompareLong", new Type[] { typeof(object) });
-            var getTCompareDouble = typeof(ConverHelper).GetMethod("TCompareDouble", new Type[] { typeof(object) });
+            var getTCompareString = typeof(ConverHelper).GetMethod(nameof(ConverHelper.TCompareString), new Type[] { typeof(object) });
+            var getTCompareInt = typeof(ConverHelper).GetMethod(nameof(ConverHelper.TCompareInt), new Type[] { typeof(object) });
+            var getTCompareLong = typeof(ConverHelper).GetMethod(nameof(ConverHelper.TCompareLong), new Type[] { typeof(object) });
+            var getTCompareDouble = typeof(ConverHelper).GetMethod(nameof(ConverHelper.TCompareDouble), new Type[] { typeof(object) });
 
             var dbType = property.PropertyType;
             if (dbType.IsGenericType && Nullable.GetUnderlyingType(dbType) != null) dbType = Nullable.GetUnderlyingType(dbType);
             if (dbType.IsEnum) dbType = dbType.GetEnumUnderlyingType();
-            var dymMethod = new DynamicMethod(type.Name + "SortBuilder", typeof(string), new Type[] { typeof(object) }, true);
+            var dymMethod = new DynamicMethod(type.Name + nameof(SortBuilder), typeof(string), new Type[] { typeof(object) }, true);
             switch (dbType.Name)
             {
                 case nameof(Int32):
@@ -75,16 +74,16 @@ namespace Paway.Helper
                 case nameof(Boolean):
                 case nameof(Image):
                 case nameof(Bitmap):
-                    dymMethod = new DynamicMethod(type.Name + "SortBuilderInt", typeof(int), new Type[] { typeof(object) }, true);
+                    dymMethod = new DynamicMethod(type.Name + nameof(SortBuilder), typeof(int), new Type[] { typeof(object) }, true);
                     break;
                 case nameof(Int64):
                 case nameof(DateTime):
-                    dymMethod = new DynamicMethod(type.Name + "SortBuilderLong", typeof(long), new Type[] { typeof(object) }, true);
+                    dymMethod = new DynamicMethod(type.Name + nameof(SortBuilder), typeof(long), new Type[] { typeof(object) }, true);
                     break;
                 case nameof(Double):
                 case nameof(Single):
                 case nameof(Decimal):
-                    dymMethod = new DynamicMethod(type.Name + "SortBuilderDouble", typeof(double), new Type[] { typeof(object) }, true);
+                    dymMethod = new DynamicMethod(type.Name + nameof(SortBuilder), typeof(double), new Type[] { typeof(object) }, true);
                     break;
             }
             var generator = dymMethod.GetILGenerator();// Create ILGenerator
