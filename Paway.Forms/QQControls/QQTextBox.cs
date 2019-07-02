@@ -17,7 +17,6 @@ namespace Paway.Forms
 
         private readonly Image _borderImage = Resources.QQ_TextBox_normal;
         private readonly Image _moveImage = Resources.QQ_TextBox_move;
-        private Cursor _cursor = Cursors.IBeam;
         private TMouseState _mouseState = TMouseState.Normal;
         private TMouseState _iconMouseState = TMouseState.Normal;
         private bool _iconIsButton;
@@ -197,8 +196,8 @@ namespace Paway.Forms
         [DefaultValue(typeof(Cursor), "IBeam")]
         public override Cursor Cursor
         {
-            get { return _cursor; }
-            set { _cursor = value; }
+            get { return base.Cursor; }
+            set { base.Cursor = value; }
         }
 
         /// <summary>
@@ -502,6 +501,7 @@ namespace Paway.Forms
             InitEvents();
             ForeColor = Color.Black;
             BackColor = Color.Transparent;
+            Cursor = Cursors.IBeam;
             this.GotFocus += delegate { Edit.Focus(); };
         }
         /// <summary>
@@ -854,7 +854,6 @@ namespace Paway.Forms
         {
             if (disposing)
             {
-                if (_cursor != null) _cursor.Dispose();
                 if (_borderImage != null)
                     _borderImage.Dispose();
                 if (_moveImage != null)

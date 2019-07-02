@@ -399,7 +399,7 @@ namespace Paway.Forms
             {
                 type = list.GenericType();
                 base.DataSource = list.ToDataTable();
-                if (!list.GetEnumerator().MoveNext()) ClearBox();
+                if (list.Count == 0) ClearBox();
             }
             else if (value is DataTable dt)
             {
