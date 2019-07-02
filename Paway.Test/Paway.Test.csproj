@@ -225,6 +225,9 @@
     <Compile Include="Example\UI\WaitControl.designer.cs">
       <DependentUpon>WaitControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\TestControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <EmbeddedResource Include="Example\UI\BaseControl.resx">
       <DependentUpon>BaseControl.cs</DependentUpon>
     </EmbeddedResource>

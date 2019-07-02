@@ -113,7 +113,7 @@ namespace Paway.Forms
             set
             {
                 dataSource = value;
-                if (dataSource is IEnumerable list)
+                if (dataSource is IList list)
                 {
                     DataType = list.GenericType();
                 }
@@ -200,15 +200,15 @@ namespace Paway.Forms
         /// </summary>
         protected virtual bool SortColumn(SortOrder sort, string name)
         {
-            if (this.DataSource is IEnumerable)
+            if (this.DataSource is IList list)
             {
-                var list = this.DataSource as IEnumerable;
                 List<object> tempList = new List<object>();
                 foreach (var item in list)
                 {
                     tempList.Add(item);
                 }
-                this.dataSource = DataType.Sort(tempList, name, sort == SortOrder.Ascending);
+                tempList.Sort(name, sort == SortOrder.Ascending);
+                this.dataSource = tempList;
                 RefreshData();
             }
             else if (this.DataSource is DataTable)
@@ -272,9 +272,18 @@ namespace Paway.Forms
                 Edit.OnRefreshChanged(DataType);
                 TPager.UpdateDesc(TotalEvent?.Invoke(dataSource));
             }
-            else if (dataSource is IEnumerable)
+            else if (dataSource is IList list)
             {
-                RefreshSort(dataSource as IEnumerable);
+                PagerInfo.RecordCount = list.Count;
+
+                var temp = DataType.GenericList();
+                var index = PagerInfo.PageSize * (PagerInfo.CurrentPageIndex - 1);
+                for (var i = index; i < index + PagerInfo.PageSize; i++)
+                {
+                    if (i >= list.Count) break;
+                    temp.Add(list[i]);
+                }
+                Edit.DataSource = temp;
                 TPager.UpdateDesc(TotalEvent?.Invoke(dataSource));
             }
             else
@@ -283,25 +292,6 @@ namespace Paway.Forms
                 Edit.DataSource = dataSource;
                 TPager.UpdateDesc(null);
             }
-        }
-        /// <summary>
-        /// IEnumerable
-        /// </summary>
-        private void RefreshSort(IEnumerable query)
-        {
-            int i = 0;
-            var index = PagerInfo.PageSize * (PagerInfo.CurrentPageIndex - 1);
-            var emabList = DataType.GenericList();
-            foreach (var item in query)
-            {
-                i++;
-                if (i > index && i <= index + PagerInfo.PageSize)
-                {
-                    emabList.Add(item);
-                }
-            }
-            PagerInfo.RecordCount = i;
-            Edit.DataSource = emabList;
         }
 
         /// <summary>

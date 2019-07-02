@@ -59,7 +59,8 @@ namespace Paway.Test
 
         public Func<TestInfo, bool> Find(string value)
         {
-            throw new NotImplementedException();
+            return c => c.Name.IndexOf(value, StringComparison.OrdinalIgnoreCase) != -1 ||
+            c.NewPad.IndexOf(value, StringComparison.OrdinalIgnoreCase) != -1;
         }
     }
 }

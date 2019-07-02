@@ -687,7 +687,7 @@ namespace Paway.Helper
         /// <summary>
         ///     返回泛型实参数类型
         /// </summary>
-        public static Type GenericType(this IEnumerable obj)
+        public static Type GenericType(this IList obj)
         {
             return obj.GetType().GenericType();
         }
@@ -707,8 +707,7 @@ namespace Paway.Helper
         {
             var listType = typeof(List<>);
             listType = listType.MakeGenericType(type);
-            var list = Activator.CreateInstance(listType) as IList;
-            return list;
+            return Activator.CreateInstance(listType) as IList;
         }
 
         #endregion

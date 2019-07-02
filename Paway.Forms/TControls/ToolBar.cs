@@ -1072,7 +1072,7 @@ namespace Paway.Forms
                     if (color == Color.Empty)
                     {
                         var temp = _normalImage ?? _normalImage2;
-                        g.DrawImage(temp, item.Rectangle);
+                        if (temp != null) g.DrawImage(temp, item.Rectangle);
                     }
                     //else
                     {
@@ -1088,7 +1088,7 @@ namespace Paway.Forms
                     if (color == Color.Empty)
                     {
                         var temp = _downImage ?? _downImage2;
-                        g.DrawImage(temp, item.Rectangle);
+                        if (temp != null) g.DrawImage(temp, item.Rectangle);
                     }
                     //else
                     {
@@ -1191,7 +1191,7 @@ namespace Paway.Forms
             if (color == Color.Empty)
             {
                 var temp = _moveImage ?? _moveImage2;
-                g.DrawImage(temp, item.Rectangle);
+                if (temp != null) g.DrawImage(temp, item.Rectangle);
             }
             //else
             {

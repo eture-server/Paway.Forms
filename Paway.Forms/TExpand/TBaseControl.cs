@@ -101,7 +101,7 @@ namespace Paway.Forms
             AsyncResult result = (AsyncResult)ar;
             var action = (Func<string, object>)result.AsyncDelegate;
             var value = action.EndInvoke(ar);
-            if (this.Visible && value != null && !(value is IEnumerable))
+            if (this.Visible && value != null && !(value is IList))
             {
                 ExceptionHelper.Show(value);
             }

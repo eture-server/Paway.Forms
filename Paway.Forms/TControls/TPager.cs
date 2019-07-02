@@ -250,6 +250,7 @@ namespace Paway.Forms
                     num = 1;
 
                 RefreshData(num);
+                toolNext.Focus();
             }
         }
 

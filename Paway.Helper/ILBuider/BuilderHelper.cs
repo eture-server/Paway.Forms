@@ -37,7 +37,7 @@ namespace Paway.Helper
         /// </summary>
         public static object CloneObject(object obj, bool depth)
         {
-            if (obj is IEnumerable list)
+            if (obj is IList list)
             {
                 var type = list.GenericType();
                 if (!CloneFunc.TryGetValue(type.FullName + "." + depth, out Delegate func))
@@ -53,7 +53,7 @@ namespace Paway.Helper
                 }
                 return iList;
             }
-            else
+            else if (obj != null)
             {
                 var type = obj.GetType();
                 if (!CloneFunc.TryGetValue(type.FullName + "." + depth, out Delegate func))
@@ -63,6 +63,7 @@ namespace Paway.Helper
                 }
                 return ((Func<object, object>)func)(obj);
             }
+            return null;
         }
         /// <summary>
         /// IL动态代码(Emit)，复制（到已有实体及列表）
@@ -92,7 +93,7 @@ namespace Paway.Helper
                     copyList.Add(action(item));
                 }
             }
-            else
+            else if (obj != null)
             {
                 var type = obj.GetType();
                 if (!CloneAction.TryGetValue(type.FullName + "." + depth, out Delegate action))
@@ -141,7 +142,7 @@ namespace Paway.Helper
         /// <summary>
         /// IL动态代码(Emit)，List转DataTable
         /// </summary>
-        public static DataTable ToDataTable(this IEnumerable list)
+        public static DataTable ToDataTable(this IList list)
         {
             var type = list.GenericType();
             return type.ToDataTable(list);
@@ -149,7 +150,7 @@ namespace Paway.Helper
         /// <summary>
         /// IL动态代码(Emit)，List转DataTable
         /// </summary>
-        internal static DataTable ToDataTable(this Type type, IEnumerable list)
+        public static DataTable ToDataTable(this Type type, IList list)
         {
             var table = type.CreateTable();
             var builder = DataTableBuilder.CreateBuilder(type);
@@ -188,27 +189,6 @@ namespace Paway.Helper
 
         #region Sort
         /// <summary>
-        /// 并行排序（指定类型，非泛型），并返回排序后的List列表
-        /// </summary>
-        /// <param name="type">指定类型</param>
-        /// <param name="list">object列表</param>
-        /// <param name="name">排序列名称</param>
-        /// <param name="sort">true:升序，false:倒序</param>
-        public static ParallelQuery Sort(this Type type, List<object> list, string name, bool sort = true)
-        {
-            var builder = SortBuilder.CreateBuilder(type, name, out bool iString);
-            var property = type.Property(name);
-            if (iString)
-            {
-                return sort ? list.AsParallel().OrderBy(c => builder.Build(c) as string, new StringComparer()) :
-                    list.AsParallel().OrderByDescending(c => builder.Build(c) as string, new StringComparer());
-            }
-            else
-            {
-                return sort ? list.AsParallel().OrderBy(c => builder.Build(c)) : list.AsParallel().OrderByDescending(c => builder.Build(c));
-            }
-        }
-        /// <summary>
         /// 并行排序，并返回排序后的List列表
         /// </summary>
         /// <param name="list"></param>
@@ -242,9 +222,11 @@ namespace Paway.Helper
         public static void Sort<T>(this List<T> list, Dictionary<string, bool> sort)
         {
             if (sort == null || sort.Count == 0) throw new ArgumentException("未设置排序列");
+            if (list.Count == 0) return;
             var item = sort.ElementAt(0);
-            var builder = SortBuilder.CreateBuilder(typeof(T), item.Key, out bool iString);
-            var property = typeof(T).Property(item.Key);
+            var type = list[0].GetType();
+            var builder = SortBuilder.CreateBuilder(type, item.Key, out bool iString);
+            var property = type.Property(item.Key);
             OrderedParallelQuery<T> orderBy;
             if (iString)
             {
@@ -258,8 +240,8 @@ namespace Paway.Helper
             for (int i = 1; i < sort.Count; i++)
             {
                 item = sort.ElementAt(i);
-                var builder2 = SortBuilder.CreateBuilder(typeof(T), item.Key, out iString);
-                property = typeof(T).Property(item.Key);
+                var builder2 = SortBuilder.CreateBuilder(type, item.Key, out iString);
+                property = type.Property(item.Key);
                 if (iString)
                 {
                     orderBy = item.Value ? orderBy.ThenBy(c => builder2.Build(c) as string, new StringComparer()) :

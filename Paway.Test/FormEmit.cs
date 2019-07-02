@@ -69,7 +69,7 @@ namespace Paway.Test
             foreach (var item in temp)
             { }
             Debug.WriteLine("ToList.Time=>" + sw.ElapsedMilliseconds);
-            gridview1.DataSource = list;
+            //gridview1.DataSource = list;
         }
     }
 }

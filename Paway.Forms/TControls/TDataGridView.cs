@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Design;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Paway.Helper;
 
@@ -394,7 +395,7 @@ namespace Paway.Forms
                 return;
             }
             Type type = null;
-            if (value is IEnumerable list)
+            if (value is IList list)
             {
                 type = list.GenericType();
                 base.DataSource = list.ToDataTable();

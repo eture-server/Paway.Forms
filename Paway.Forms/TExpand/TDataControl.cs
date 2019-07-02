@@ -26,7 +26,7 @@ namespace Paway.Forms
         /// <summary>
         /// 当前查询数据
         /// </summary>
-        protected ParallelQuery<T> FList;
+        protected List<T> FList;
         /// <summary>
         /// 当前选中序号
         /// </summary>
@@ -325,14 +325,14 @@ namespace Paway.Forms
         /// <summary>
         /// 查询
         /// </summary>
-        protected virtual ParallelQuery<T> OnFind(string value)
+        protected virtual List<T> OnFind(string value)
         {
-            return this.List.AsParallel().Where((Activator.CreateInstance<T>().Find(value)));
+            return this.List.AsParallel().Where((Activator.CreateInstance<T>().Find(value))).ToList();
         }
         /// <summary>
         /// 查询完成
         /// </summary>
-        protected virtual void OnFound(IEnumerable<T> list)
+        protected virtual void OnFound(List<T> list)
         {
             this.gridview1.DataSource = list;
         }
@@ -376,15 +376,20 @@ namespace Paway.Forms
         {
             switch (key)
             {
-                case Keys.F5:
-                    toolBar1.TClickItem("刷新");
-                    break;
-                case Keys.F:
                 case (Keys)Shortcut.CtrlF:
                     this.tbName.Focus();
                     break;
+                default:
+                    if (panel2.Visible && tbName.ContainsFocus) return false;
+                    if (gridview1.TPager.ContainsFocus) return false;
+                    break;
+            }
+            switch (key)
+            {
+                case Keys.F5:
+                    toolBar1.TClickItem("刷新");
+                    break;
                 case (Keys)Shortcut.CtrlA:
-                    if (panel2.Visible && tbName.ContainsFocus) break;
                     toolBar1.TClickItem("添加");
                     break;
                 case Keys.Enter:
@@ -493,9 +498,9 @@ namespace Paway.Forms
         /// </summary>
         protected override void OnFinished(object result)
         {
-            if (result is IList)
+            if (result is List<T> list)
             {
-                InitData(server, result as List<T>, false);
+                InitData(server, list, false);
             }
             else
             {
@@ -521,10 +526,6 @@ namespace Paway.Forms
             else if (dt is List<object> objList)
             {
                 aList = objList.ConvertAll(c => (T)c);
-            }
-            else if (dt is ParallelQuery<T> query)
-            {
-                aList = query.ToList();
             }
             return aList;
         }
