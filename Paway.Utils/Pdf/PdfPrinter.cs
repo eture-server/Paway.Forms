@@ -101,9 +101,11 @@ namespace Paway.Utils
                 {
                     Doc.SetMargins(Doc.LeftMargin, Doc.RightMargin, HeaderContent.Image.Height + 10, Doc.BottomMargin);
                 }
-                var fs = new FileStream(PrintPath, FileMode.Create);
-                var writer = PdfWriter.GetInstance(Doc, fs);
-                writer.PageEvent = new PdfPrinter(PrintPath, DefaultPageSize, HeaderContent);
+                using (var fs = new FileStream(PrintPath, FileMode.Create))
+                {
+                    var writer = PdfWriter.GetInstance(Doc, fs);
+                    writer.PageEvent = new PdfPrinter(PrintPath, DefaultPageSize, HeaderContent);
+                }
             }
             if (!Doc.IsOpen())
             {

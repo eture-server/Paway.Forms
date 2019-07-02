@@ -854,6 +854,7 @@ namespace Paway.Forms
         {
             if (disposing)
             {
+                if (_cursor != null) _cursor.Dispose();
                 if (_borderImage != null)
                     _borderImage.Dispose();
                 if (_moveImage != null)
@@ -863,6 +864,7 @@ namespace Paway.Forms
                 _icon = null;
                 if (BaseText != null)
                     BaseText.Dispose();
+                if (components != null) components.Dispose();
             }
             base.Dispose(disposing);
         }

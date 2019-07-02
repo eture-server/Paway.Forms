@@ -34,18 +34,20 @@ namespace Paway.Helper
         /// <returns></returns>
         public static string GetCpuId()
         {
-            var mc = new ManagementClass("Win32_Processor");
-            var moc = mc.GetInstances();
-            var strCpuID = string.Empty;
-            foreach (ManagementObject mo in moc)
+            using (var mc = new ManagementClass("Win32_Processor"))
             {
-                if (mo.Properties["ProcessorId"] != null)
+                var moc = mc.GetInstances();
+                var strCpuID = string.Empty;
+                foreach (ManagementObject mo in moc)
                 {
-                    strCpuID = mo.Properties["ProcessorId"].Value.ToString();
-                    break;
+                    if (mo.Properties["ProcessorId"] != null)
+                    {
+                        strCpuID = mo.Properties["ProcessorId"].Value.ToString();
+                        break;
+                    }
                 }
+                return strCpuID;
             }
-            return strCpuID;
         }
 
         /// <summary>
@@ -90,17 +92,17 @@ namespace Paway.Helper
         /// <returns></returns>
         public static string GetNetCardMacAddress()
         {
-            ManagementClass mc;
-            ManagementObjectCollection moc;
-            mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
-            moc = mc.GetInstances();
-            var str = "";
-            foreach (ManagementObject mo in moc)
+            using (var mc = new ManagementClass("Win32_NetworkAdapterConfiguration"))
             {
-                if ((bool)mo["IPEnabled"])
-                    str += "," + mo["MacAddress"];
+                var moc = mc.GetInstances();
+                var str = "";
+                foreach (ManagementObject mo in moc)
+                {
+                    if ((bool)mo["IPEnabled"])
+                        str += "," + mo["MacAddress"];
+                }
+                return str.Length > 0 ? str.Substring(1) : str;
             }
-            return str.Length > 0 ? str.Substring(1) : str;
         }
 
         /// <summary>
@@ -109,15 +111,17 @@ namespace Paway.Helper
         /// <returns></returns>
         public static string GetMainHardDiskId()
         {
-            var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PhysicalMedia");
-            var strHardDiskID = string.Empty;
-            foreach (ManagementObject mo in searcher.Get())
+            using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PhysicalMedia"))
             {
-                strHardDiskID = mo["SerialNumber"].ToStrs().Trim();
-                if (!string.IsNullOrEmpty(strHardDiskID))
-                    break;
+                var strHardDiskID = string.Empty;
+                foreach (ManagementObject mo in searcher.Get())
+                {
+                    strHardDiskID = mo["SerialNumber"].ToStrs().Trim();
+                    if (!string.IsNullOrEmpty(strHardDiskID))
+                        break;
+                }
+                return strHardDiskID;
             }
-            return strHardDiskID;
         }
 
         /// <summary>

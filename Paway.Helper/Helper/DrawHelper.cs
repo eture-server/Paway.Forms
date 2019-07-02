@@ -187,8 +187,11 @@ namespace Paway.Helper
         /// </summary>
         public static void CreateBelowPath(Graphics g, Rectangle rect, Color color)
         {
-            g.DrawPath(new Pen(new SolidBrush(color)),
-                CreateBelowPath(new Rectangle(rect.X, rect.Y, rect.Width - 1, rect.Height - 1), 3));
+            using (var pen = new Pen(new SolidBrush(color)))
+            using (var path = CreateBelowPath(new Rectangle(rect.X, rect.Y, rect.Width - 1, rect.Height - 1), 3))
+            {
+                g.DrawPath(pen, path);
+            }
         }
 
         /// <summary>

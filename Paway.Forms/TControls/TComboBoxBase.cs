@@ -48,7 +48,7 @@ namespace Paway.Forms
             //绑定字段
             var obj = Items[e.Index];
             var type = obj.GetType();
-            object str = null;
+            object str;
             if (type == typeof(DataRowView))
             {
                 var dr = obj as DataRowView;
@@ -62,21 +62,22 @@ namespace Paway.Forms
             {
                 str = Items[e.Index];
             }
-            //选中项ComboBoxEdit
-            if ((e.State & DrawItemState.ComboBoxEdit) == DrawItemState.ComboBoxEdit)
-            {
-                e.Graphics.FillRectangle(new SolidBrush(BackColor), rect);
-            }
             //Selected
-            else if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
+            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
             {
                 //在当前项图形表面上划一个矩形
-                e.Graphics.FillRectangle(new SolidBrush(_colorSelect), rect);
+                using (var solidBrush = new SolidBrush(_colorSelect))
+                {
+                    e.Graphics.FillRectangle(solidBrush, rect);
+                }
                 brush = new SolidBrush(_colorFore);
             }
             else
             {
-                e.Graphics.FillRectangle(new SolidBrush(BackColor), rect);
+                using (var solidBrush = new SolidBrush(BackColor))
+                {
+                    e.Graphics.FillRectangle(solidBrush, rect);
+                }
             }
             //在当前项图形表面上划上图标
             //g.DrawImage(ico, new Point(rect.Left, rect.Top));
@@ -85,6 +86,7 @@ namespace Paway.Forms
             e.Graphics.DrawString(str?.ToString(), Font, brush, rect, DrawHelper.StringVertical);
             //将绘制聚焦框
             e.DrawFocusRectangle();
+            brush.Dispose();
         }
 
         #endregion

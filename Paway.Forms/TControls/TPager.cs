@@ -285,8 +285,10 @@ namespace Paway.Forms
                     lblPageInfo.Dispose();
                 if (txtCurrentPage != null)
                     txtCurrentPage.Dispose();
-                if (components != null)
-                    components.Dispose();
+                if (lbDesc != null) lbDesc.Dispose();
+                if (tControl1 != null) tControl1.Dispose();
+                if (tControl2 != null) tControl2.Dispose();
+                if (components != null) components.Dispose();
             }
             base.Dispose(disposing);
         }

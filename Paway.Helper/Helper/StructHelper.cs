@@ -47,9 +47,11 @@ namespace Paway.Helper
         public static Image BytesToImage(byte[] buffer)
         {
             if (buffer == null || buffer.Length == 0) return null;
-            MemoryStream ms = new MemoryStream(buffer);
-            Image image = Image.FromStream(ms);
-            return image;
+            using (var ms = new MemoryStream(buffer))
+            {
+                Image image = Image.FromStream(ms);
+                return image;
+            }
         }
         /// <summary>
         /// 图片转byte[](无编码)

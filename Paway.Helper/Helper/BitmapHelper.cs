@@ -499,31 +499,33 @@ namespace Paway.Helper
             //生成图
             var bitmap = new Bitmap(image);
             //对照图
-            var copy = new Bitmap(image);
-            var width = bitmap.Width;
-            var height = bitmap.Height;
-            var rect = new Rectangle(0, 0, width, height);
-            //用可读写的方式锁定全部位图像素
-            var bmpData = bitmap.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            var copyData = copy.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            unsafe //启用不安全模式
+            using (var copy = new Bitmap(image))
             {
-                var p = (byte*)bmpData.Scan0; //获取首地址
-                var f = (byte*)copyData.Scan0; //获取首地址
-                //二维图像循环
-                //for (int y = height - 1; y >= 0; y--)
-                for (var y = 0; y < height; y++)
+                var width = bitmap.Width;
+                var height = bitmap.Height;
+                var rect = new Rectangle(0, 0, width, height);
+                //用可读写的方式锁定全部位图像素
+                var bmpData = bitmap.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                var copyData = copy.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                unsafe //启用不安全模式
                 {
-                    for (var x = width - 1; x >= 0; x--)
+                    var p = (byte*)bmpData.Scan0; //获取首地址
+                    var f = (byte*)copyData.Scan0; //获取首地址
+                                                   //二维图像循环
+                                                   //for (int y = height - 1; y >= 0; y--)
+                    for (var y = 0; y < height; y++)
                     {
-                        p[y * width * 4 + (width - 1 - x) * 4 + 0] = f[y * width * 4 + x * 4];
-                        p[y * width * 4 + (width - 1 - x) * 4 + 1] = f[y * width * 4 + x * 4 + 1];
-                        p[y * width * 4 + (width - 1 - x) * 4 + 2] = f[y * width * 4 + x * 4 + 2];
+                        for (var x = width - 1; x >= 0; x--)
+                        {
+                            p[y * width * 4 + (width - 1 - x) * 4 + 0] = f[y * width * 4 + x * 4];
+                            p[y * width * 4 + (width - 1 - x) * 4 + 1] = f[y * width * 4 + x * 4 + 1];
+                            p[y * width * 4 + (width - 1 - x) * 4 + 2] = f[y * width * 4 + x * 4 + 2];
+                        }
                     }
                 }
+                bitmap.UnlockBits(bmpData);
+                return bitmap;
             }
-            bitmap.UnlockBits(bmpData);
-            return bitmap;
         }
 
         #endregion
@@ -539,100 +541,106 @@ namespace Paway.Helper
             //生成图
             var bitmap = new Bitmap(image);
             //对照图
-            var copy = new Bitmap(image);
-            var width = bitmap.Width;
-            var height = bitmap.Height;
-            var rect = new Rectangle(0, 0, width, height);
-            //用可读写的方式锁定全部位图像素
-            var bmpData = bitmap.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            var copyData = copy.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            unsafe //启用不安全模式
+            using (var copy = new Bitmap(image))
             {
-                var p = (byte*)bmpData.Scan0; //获取首地址
-                var f = (byte*)copyData.Scan0; //获取首地址
-                //二维图像循环
-                for (var x = 0; x < width; x++)
+                var width = bitmap.Width;
+                var height = bitmap.Height;
+                var rect = new Rectangle(0, 0, width, height);
+                //用可读写的方式锁定全部位图像素
+                var bmpData = bitmap.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                var copyData = copy.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                unsafe //启用不安全模式
                 {
-                    for (var y = height - 1; y >= 0; y--)
+                    var p = (byte*)bmpData.Scan0; //获取首地址
+                    var f = (byte*)copyData.Scan0; //获取首地址
+                                                   //二维图像循环
+                    for (var x = 0; x < width; x++)
                     {
-                        p[(height - 1 - y) * width * 4 + x * 4 + 0] = f[y * width * 4 + x * 4];
-                        p[(height - 1 - y) * width * 4 + x * 4 + 1] = f[y * width * 4 + x * 4 + 1];
-                        p[(height - 1 - y) * width * 4 + x * 4 + 2] = f[y * width * 4 + x * 4 + 2];
+                        for (var y = height - 1; y >= 0; y--)
+                        {
+                            p[(height - 1 - y) * width * 4 + x * 4 + 0] = f[y * width * 4 + x * 4];
+                            p[(height - 1 - y) * width * 4 + x * 4 + 1] = f[y * width * 4 + x * 4 + 1];
+                            p[(height - 1 - y) * width * 4 + x * 4 + 2] = f[y * width * 4 + x * 4 + 2];
+                        }
                     }
                 }
+                bitmap.UnlockBits(bmpData);
+                return bitmap;
             }
-            bitmap.UnlockBits(bmpData);
-            return bitmap;
         }
 
         /// <summary>
         ///     顺时针90度
         /// </summary>
-        private Bitmap Rotate90(Image image)
+        public static Bitmap Rotate90(Image image)
         {
             //原图
-            var bitmap = new Bitmap(image);
-            //生成图
-            var width = bitmap.Width;
-            var height = bitmap.Height;
-            var copy = new Bitmap(height, width);
-            var rect = new Rectangle(0, 0, height, width);
-            //用可读写的方式锁定全部位图像素
-            var bmpData = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadWrite,
-                PixelFormat.Format32bppArgb);
-            var copyData = copy.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            unsafe //启用不安全模式
+            using (var bitmap = new Bitmap(image))
             {
-                var p = (byte*)copyData.Scan0; //获取首地址
-                var f = (byte*)bmpData.Scan0; //获取首地址
-                //二维图像循环
-                for (var x = 0; x < width; x++)
+                //生成图
+                var width = bitmap.Width;
+                var height = bitmap.Height;
+                var copy = new Bitmap(height, width);
+                var rect = new Rectangle(0, 0, height, width);
+                //用可读写的方式锁定全部位图像素
+                var bmpData = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadWrite,
+                    PixelFormat.Format32bppArgb);
+                var copyData = copy.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                unsafe //启用不安全模式
                 {
-                    for (var y = 0; y < height; y++)
+                    var p = (byte*)copyData.Scan0; //获取首地址
+                    var f = (byte*)bmpData.Scan0; //获取首地址
+                                                  //二维图像循环
+                    for (var x = 0; x < width; x++)
                     {
-                        p[y * 4 + x * height * 4 + 0] = f[x * 4 + (height - 1 - y) * width * 4 + 0];
-                        p[y * 4 + x * height * 4 + 1] = f[x * 4 + (height - 1 - y) * width * 4 + 1];
-                        p[y * 4 + x * height * 4 + 2] = f[x * 4 + (height - 1 - y) * width * 4 + 2];
+                        for (var y = 0; y < height; y++)
+                        {
+                            p[y * 4 + x * height * 4 + 0] = f[x * 4 + (height - 1 - y) * width * 4 + 0];
+                            p[y * 4 + x * height * 4 + 1] = f[x * 4 + (height - 1 - y) * width * 4 + 1];
+                            p[y * 4 + x * height * 4 + 2] = f[x * 4 + (height - 1 - y) * width * 4 + 2];
+                        }
                     }
                 }
+                copy.UnlockBits(copyData);
+                return copy;
             }
-            copy.UnlockBits(copyData);
-            return copy;
         }
 
         /// <summary>
         ///     顺时针270度（逆时针90度）
         /// </summary>
-        private Bitmap Rotate270(Image image)
+        public static Bitmap Rotate270(Image image)
         {
             //原图
-            var bitmap = new Bitmap(image);
-            //生成图
-            var width = bitmap.Width;
-            var height = bitmap.Height;
-            var copy = new Bitmap(height, width);
-            var rect = new Rectangle(0, 0, height, width);
-            //用可读写的方式锁定全部位图像素
-            var bmpData = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadWrite,
-                PixelFormat.Format32bppArgb);
-            var copyData = copy.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            unsafe //启用不安全模式
+            using (var bitmap = new Bitmap(image))
             {
-                var p = (byte*)copyData.Scan0; //获取首地址
-                var f = (byte*)bmpData.Scan0; //获取首地址
-                //二维图像循环
-                for (var x = 0; x < width; x++)
+                //生成图
+                var width = bitmap.Width;
+                var height = bitmap.Height;
+                var copy = new Bitmap(height, width);
+                var rect = new Rectangle(0, 0, height, width);
+                //用可读写的方式锁定全部位图像素
+                var bmpData = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadWrite,
+                    PixelFormat.Format32bppArgb);
+                var copyData = copy.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                unsafe //启用不安全模式
                 {
-                    for (var y = 0; y < height; y++)
+                    var p = (byte*)copyData.Scan0; //获取首地址
+                    var f = (byte*)bmpData.Scan0; //获取首地址
+                                                  //二维图像循环
+                    for (var x = 0; x < width; x++)
                     {
-                        p[y * 4 + (width - 1 - x) * height * 4 + 0] = f[x * 4 + y * width * 4 + 0];
-                        p[y * 4 + (width - 1 - x) * height * 4 + 1] = f[x * 4 + y * width * 4 + 1];
-                        p[y * 4 + (width - 1 - x) * height * 4 + 2] = f[x * 4 + y * width * 4 + 2];
+                        for (var y = 0; y < height; y++)
+                        {
+                            p[y * 4 + (width - 1 - x) * height * 4 + 0] = f[x * 4 + y * width * 4 + 0];
+                            p[y * 4 + (width - 1 - x) * height * 4 + 1] = f[x * 4 + y * width * 4 + 1];
+                            p[y * 4 + (width - 1 - x) * height * 4 + 2] = f[x * 4 + y * width * 4 + 2];
+                        }
                     }
                 }
+                copy.UnlockBits(copyData);
+                return copy;
             }
-            copy.UnlockBits(copyData);
-            return copy;
         }
 
         #endregion
@@ -670,27 +678,29 @@ namespace Paway.Helper
             g.Dispose();
 
             // 画布路径 
-            var path = new GraphicsPath();
-            // 向路径添加一个矩形 
-            path.AddRectangle(new RectangleF(0f, 0f, width, height));
+            using (var path = new GraphicsPath())
             // 创建一个单位矩阵 
-            var matrix = new Matrix();
-            // 沿原点并按指定角度顺时针旋转 
-            matrix.Rotate(angle);
+            using (var matrix = new Matrix())
+            {
+                // 向路径添加一个矩形 
+                path.AddRectangle(new RectangleF(0f, 0f, width, height));
+                // 沿原点并按指定角度顺时针旋转 
+                matrix.Rotate(angle);
 
-            var rct = path.GetBounds(matrix);
-            var newImg = new Bitmap(Convert.ToInt32(rct.Width), Convert.ToInt32(rct.Height), pixelFormat);
-            g = Graphics.FromImage(newImg);
-            g.Clear(bkColor);
-            // 平移来更改坐标的原点 
-            g.TranslateTransform(-rct.X, -rct.Y);
-            g.RotateTransform(angle);
-            g.InterpolationMode = InterpolationMode.HighQualityBilinear;
-            g.DrawImageUnscaled(tempImg, 0, 0);
-            g.Dispose();
-            tempImg.Dispose();
+                var rct = path.GetBounds(matrix);
+                var newImg = new Bitmap(Convert.ToInt32(rct.Width), Convert.ToInt32(rct.Height), pixelFormat);
+                g = Graphics.FromImage(newImg);
+                g.Clear(bkColor);
+                // 平移来更改坐标的原点 
+                g.TranslateTransform(-rct.X, -rct.Y);
+                g.RotateTransform(angle);
+                g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+                g.DrawImageUnscaled(tempImg, 0, 0);
+                g.Dispose();
+                tempImg.Dispose();
 
-            return newImg;
+                return newImg;
+            }
         }
 
         #endregion

@@ -69,7 +69,10 @@ namespace Paway.Forms
             Bitmap image = pictureBox2.Image as Bitmap;
             var color = image.GetPixel(label1.Left, label1.Right);
             color = Color.FromArgb(255 - color.R, 255 - color.G, 255 - color.B);
-            e.Graphics.DrawString(label1.Text, label1.Font, new SolidBrush(color), label1.Location);
+            using (var solidBrush = new SolidBrush(color))
+            {
+                e.Graphics.DrawString(label1.Text, label1.Font, solidBrush, label1.Location);
+            }
         }
     }
 }

@@ -179,7 +179,10 @@ namespace Paway.Forms
                     color = tColor;
                 var size = e.Graphics.MeasureString(value.ToString(), tFont);
                 var point = new Point(Width / 2 - (int)size.Width / 2 - 1, Height / 2 - (int)size.Height / 2 + 2);
-                e.Graphics.DrawString(value.ToString(), tFont, new SolidBrush(color), point);
+                using (var solidBrush = new SolidBrush(color))
+                {
+                    e.Graphics.DrawString(value.ToString(), tFont, solidBrush, point);
+                }
             }
             catch (Exception ex)
             {

@@ -374,6 +374,9 @@ namespace Paway.Forms
         {
             if (disposing && (components != null))
             {
+                if (Id != null) Id.Dispose();
+                if (gridview1 != null) gridview1.Dispose();
+                if (pager1 != null) pager1.Dispose();
                 components.Dispose();
             }
             base.Dispose(disposing);

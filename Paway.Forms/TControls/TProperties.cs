@@ -29,7 +29,7 @@ namespace Paway.Forms
         private StringAlignment _stringHorizontal = StringAlignment.Near;
 
         private StringAlignment _stringVertical = StringAlignment.Near;
-        private MethodBase parent;
+        private readonly MethodBase parent;
 
         /// <summary>
         ///     构造

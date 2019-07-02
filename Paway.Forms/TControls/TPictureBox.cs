@@ -180,6 +180,7 @@ namespace Paway.Forms
                         break;
                 }
             }
+            sfd.Dispose();
         }
         #endregion
 
@@ -432,6 +433,12 @@ namespace Paway.Forms
             if (disposing)
             {
                 screen = null;
+
+                if (contextMenuStrip1 != null) contextMenuStrip1.Dispose();
+                if (toolAuto != null) toolAuto.Dispose();
+                if (toolNormal != null) toolNormal.Dispose();
+                if (toolStripSeparator1 != null) toolStripSeparator1.Dispose();
+                if (toolSave != null) toolSave.Dispose();
                 if (components != null) components.Dispose();
             }
             base.Dispose(disposing);

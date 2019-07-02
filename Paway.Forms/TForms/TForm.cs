@@ -383,5 +383,18 @@ namespace Paway.Forms
         }
 
         #endregion
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (toolTop != null) toolTop.Dispose();
+                if (skin != null) skin.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

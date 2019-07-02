@@ -914,7 +914,10 @@ namespace Paway.Forms
                         case TDirection.Vertical:
                             var color = item.TColor.ColorNormal;
                             if (color == Color.Empty) color = Color.Black;
-                            g.DrawString(item.Text, item.TColor.FontNormal, new SolidBrush(color), temp, item.TColor.StringFormat);
+                            using (var solidBrush = new SolidBrush(color))
+                            {
+                                g.DrawString(item.Text, item.TColor.FontNormal, solidBrush, temp, item.TColor.StringFormat);
+                            }
                             break;
                     }
                 }
@@ -1114,8 +1117,11 @@ namespace Paway.Forms
                 var rect = item.Rectangle;
                 if (color != Color.Empty)
                 {
-                    var path = DrawHelper.CreateRoundPath(rect, radiu);
-                    g.FillPath(new SolidBrush(color), path);
+                    using (var path = DrawHelper.CreateRoundPath(rect, radiu))
+                    using (var solidBrush = new SolidBrush(color))
+                    {
+                        g.FillPath(solidBrush, path);
+                    }
                 }
                 if (colorLine != Color.Empty && _linePading.Left > 0)
                 {
@@ -1125,21 +1131,33 @@ namespace Paway.Forms
                     if (radiu == this.ItemSize.Width && radiu == this.ItemSize.Height)
                     {
                         //g.PixelOffsetMode = PixelOffsetMode.Default;
-                        g.DrawArc(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Left),
-                                   new RectangleF(new PointF(rect.X + _linePading.Left / 2f, rect.Y + _linePading.Left / 2f),
-                                   new Size(rect.Width - _linePading.Left, rect.Height - _linePading.Left)), 45, 360f);
+                        using (var pen = new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Left))
+                        {
+                            g.DrawArc(pen,
+                                new RectangleF(new PointF(rect.X + _linePading.Left / 2f, rect.Y + _linePading.Left / 2f),
+                                new Size(rect.Width - _linePading.Left, rect.Height - _linePading.Left)), 45, 360f);
+                        }
                         //g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                     }
                     else
                     {
-                        var path = DrawHelper.CreateRoundPath(rect, radiu, _linePading.Left);
-                        g.DrawPath(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Left), path);
+                        using (var path = DrawHelper.CreateRoundPath(rect, radiu, _linePading.Left))
+                        using (var pen = new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Left))
+                        {
+                            g.DrawPath(pen, path);
+                        }
                     }
                 }
             }
             else
             {
-                if (color != Color.Empty) g.FillRectangle(new SolidBrush(color), item.Rectangle);
+                if (color != Color.Empty)
+                {
+                    using (var solidBrush = new SolidBrush(color))
+                    {
+                        g.FillRectangle(solidBrush, item.Rectangle);
+                    }
+                }
                 if (colorLine != Color.Empty)
                 {
                     var rect = item.Rectangle;
@@ -1150,33 +1168,44 @@ namespace Paway.Forms
                     {
                         g.PixelOffsetMode = PixelOffsetMode.Default;
                         rect = new Rectangle(rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
-                        g.DrawRectangle(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.All), rect);
+                        using (var pen = new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.All))
+                        {
+                            g.DrawRectangle(pen, rect);
+                        }
                         g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                         return;
                     }
                     if (_linePading.Left > 0)
                     {
                         var line = _linePading.Left / 2f;
-                        g.DrawLine(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Left),
-                            rect.X + line, rect.Y + _linePading.Top, rect.X + line, rect.Bottom - _linePading.Bottom);
+                        using (var pen = new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Left))
+                        {
+                            g.DrawLine(pen, rect.X + line, rect.Y + _linePading.Top, rect.X + line, rect.Bottom - _linePading.Bottom);
+                        }
                     }
                     if (_linePading.Top > 0)
                     {
                         var line = _linePading.Top / 2f;
-                        g.DrawLine(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Top),
-                         rect.X, rect.Y + line, rect.Right, rect.Y + line);
+                        using (var pen = new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Top))
+                        {
+                            g.DrawLine(pen, rect.X, rect.Y + line, rect.Right, rect.Y + line);
+                        }
                     }
                     if (_linePading.Right > 0)
                     {
                         var line = _linePading.Right / 2f;
-                        g.DrawLine(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Right),
-                         rect.Right - line, rect.Y + _linePading.Top, rect.Right - line, rect.Bottom - _linePading.Bottom);
+                        using (var pen = new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Right))
+                        {
+                            g.DrawLine(pen, rect.Right - line, rect.Y + _linePading.Top, rect.Right - line, rect.Bottom - _linePading.Bottom);
+                        }
                     }
                     if (_linePading.Bottom > 0)
                     {
                         var line = _linePading.Bottom / 2f;
-                        g.DrawLine(new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Bottom),
-                          rect.X, rect.Bottom - line, rect.Right, rect.Bottom - line);
+                        using (var pen = new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Bottom))
+                        {
+                            g.DrawLine(pen, rect.X, rect.Bottom - line, rect.Right, rect.Bottom - line);
+                        }
                     }
                 }
             }
@@ -2067,7 +2096,7 @@ namespace Paway.Forms
         #endregion
 
         #region 动态显示项的图片
-        private Timer _tDynamic = new Timer();
+        private readonly Timer _tDynamic = new Timer();
         private PictureBox _pictureBox1;
 
         /// <summary>

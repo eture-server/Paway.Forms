@@ -32,10 +32,12 @@ namespace Paway.Helper
                 con.Open();
                 using (var cmd = new OleDbDataAdapter(sql, con))
                 {
-                    var ds = new DataSet();
-                    cmd.Fill(ds);
-                    var dt = ds.Tables[0];
-                    return dt;
+                    using (var ds = new DataSet())
+                    {
+                        cmd.Fill(ds);
+                        var dt = ds.Tables[0];
+                        return dt;
+                    }
                 }
             }
         }

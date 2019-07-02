@@ -370,10 +370,7 @@ namespace Paway.Helper
         /// </summary>
         public static List<PropertyInfo> Properties(this Type type)
         {
-            var list = new List<Type>
-            {
-                type
-            };
+            var list = new List<Type> { type };
             if (type.IsInterface)
             {
                 list.AddRange(type.GetInterfaces());
@@ -404,8 +401,7 @@ namespace Paway.Helper
         /// </summary>
         public static List<PropertyDescriptor> Descriptors(this Type type)
         {
-            var list = new List<Type>();
-            list.Add(type);
+            var list = new List<Type> { type };
             if (type.IsInterface)
             {
                 list.AddRange(type.GetInterfaces());

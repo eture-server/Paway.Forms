@@ -64,14 +64,9 @@ namespace Paway.Test
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "image");
             for (int i = 0; i < 113; i++)
             {
-                bool a = false, b = false, c = false;
-                if (i % 10 == 1) a = true;
-                if (i % 10 == 3) b = true;
-                if (i % 10 == 5) c = true;
                 WaitDrawDataGridViewData dti = new WaitDrawDataGridViewData
                 {
                     StatuImage = BitmapHelper.GetBitmapFormFile(string.Format("{0}\\{1}.png", path, i % 3)),
-                    Product = "Product" + (!b ? 1 : 2),
                     AppName = "AppName" + i,
                     Index = i,
                     Progress = i,
@@ -96,7 +91,6 @@ namespace Paway.Test
         protected void CheckBoxDataGridView()
         {
             List<CheckBoxDataGridViewData> list = new List<CheckBoxDataGridViewData>();
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "image");
             for (int i = 0; i < 3; i++)
             {
                 list.Add(new CheckBoxDataGridViewData
@@ -106,7 +100,6 @@ namespace Paway.Test
                     CommandType = "点击",
                     ActionTime = DateTime.Now.ToString(),
                     Image = imageList1.Images[i],
-                    //Image = BitmapHelper.GetBitmapFormFile(string.Format("{0}\\{1}.png", path, i)),
                     NameStr = "图标" + i,
                     ComponentId = Guid.NewGuid(),
                 });

@@ -20,9 +20,9 @@ namespace Paway.Test
             InitializeComponent();
             toolBar1.ItemClick += ToolBar1_ItemClick;
             toolBar2.ItemClick += ToolBar2_ItemClick;
-            toolUp.ItemClick += toolUp_ItemClick;
+            toolUp.ItemClick += ToolUp_ItemClick;
         }
-        private void toolUp_ItemClick(ToolItem item, EventArgs e)
+        private void ToolUp_ItemClick(ToolItem item, EventArgs e)
         {
             //toolBar2.Items.Add(new ToolItem(DateTime.Now.Second.ToString()));
             toolBar2.Items.RemoveAt(1);

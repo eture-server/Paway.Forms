@@ -56,7 +56,10 @@ namespace Paway.Forms
             base.OnPaint(e);
             if (panel1.Visible)
             {
-                e.Graphics.DrawLine(new Pen(panel1.BackColor), 2, Height - 2, Width - 3, Height - 2);
+                using (var pen = new Pen(panel1.BackColor))
+                {
+                    e.Graphics.DrawLine(pen, 2, Height - 2, Width - 3, Height - 2);
+                }
             }
         }
 
@@ -97,6 +100,18 @@ namespace Paway.Forms
             this.ResumeLayout(false);
             this.PerformLayout();
 
+        }
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (panel1 != null) panel1.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

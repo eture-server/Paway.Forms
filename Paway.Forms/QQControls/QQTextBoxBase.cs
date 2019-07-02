@@ -45,7 +45,10 @@ namespace Paway.Forms
                     {
                         flags |= TextFormatFlags.RightToLeft | TextFormatFlags.Right;
                     }
-                    TextRenderer.DrawText(g, _waterText, new Font("宋体", 8.5f), ClientRectangle, _waterColor, flags);
+                    using (var font = new Font("宋体", 8.5f))
+                    {
+                        TextRenderer.DrawText(g, _waterText, font, ClientRectangle, _waterColor, flags);
+                    }
                 }
             }
         }

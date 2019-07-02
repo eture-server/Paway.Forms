@@ -294,7 +294,6 @@ namespace Paway.Forms
                         Interval = 0;
                         Timer.Enabled = false;
                         Timer.Dispose();
-                        Timer = null;
                         Notify.Dispose();
                         Notify = null;
                     }
@@ -340,11 +339,11 @@ namespace Paway.Forms
             if (_notifyText != string.Empty)
             {
                 var g = e.Graphics;
-                var sf = new StringFormat()
+                using (var sf = new StringFormat()
                 {
                     FormatFlags = StringFormatFlags.LineLimit,
                     Trimming = StringTrimming.EllipsisCharacter
-                };
+                })
                 using (Brush brush = new SolidBrush(NotifyForeColor))
                 {
                     g.DrawString(NotifyText, NotifyFont, brush, NotifyTextRect, sf);
@@ -397,5 +396,22 @@ namespace Paway.Forms
         }
 
         #endregion
+
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (Timer != null) Timer.Dispose();
+                if (_backImage != null) _backImage.Dispose();
+                if (_splitImage != null) _splitImage.Dispose();
+                if (_notifyFont != null) _notifyFont.Dispose();
+                if (Notify != null) Notify.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

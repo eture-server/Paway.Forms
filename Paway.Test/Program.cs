@@ -17,7 +17,6 @@ namespace Paway.Test
     static class Program
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static Mutex _mutex;
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
@@ -28,8 +27,7 @@ namespace Paway.Test
             Application.SetCompatibleTextRenderingDefault(false);
             try
             {
-                bool createdNew;
-                _mutex = new Mutex(true, "OneInstanceTestOnly", out createdNew);
+                var _mutex = new Mutex(true, "OneInstanceTestOnly", out bool createdNew);
                 if (!createdNew)
                 {//已经有实例在运行，则激活该实例的主窗体。
                     IntPtr hWnd = Win32Helper.ActiveForm(Config.Text);

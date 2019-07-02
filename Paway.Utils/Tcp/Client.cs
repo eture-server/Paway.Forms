@@ -39,7 +39,7 @@ namespace Paway.Utils
         /// <summary>
         /// 头部数据长度
         /// </summary>
-        private int heardLength;
+        private readonly int heardLength;
 
         /// <summary>
         ///     构造

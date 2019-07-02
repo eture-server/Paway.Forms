@@ -20,11 +20,11 @@ namespace Paway.Helper
         public static string EncryptSHA256(string str)
         {
             byte[] key = Encoding.UTF8.GetBytes(str);
-
-            SHA256Managed Sha256 = new SHA256Managed();
-            byte[] buffer = Sha256.ComputeHash(key);
-
-            return Convert.ToBase64String(buffer);
+            using (var Sha256 = new SHA256Managed())
+            {
+                byte[] buffer = Sha256.ComputeHash(key);
+                return Convert.ToBase64String(buffer);
+            }
         }
 
         /// <summary>
@@ -35,8 +35,8 @@ namespace Paway.Helper
         public static string EncryptMD5(string str)
         {
             string result;
+            using (MD5 md = new MD5CryptoServiceProvider())
             {
-                MD5 md = new MD5CryptoServiceProvider();
                 var bytes = Encoding.GetEncoding("utf-8").GetBytes(str);
                 var inArray = md.ComputeHash(bytes);
                 //result = System.Convert.ToBase64String(inArray, 0, inArray.Length);
@@ -89,31 +89,24 @@ namespace Paway.Helper
         /// <returns></returns>
         public static string Encrypt3DES(string content, string key)
         {
-            var result = string.Empty;
-            MemoryStream stream = null;
-            try
+            using (var provider = new TripleDESCryptoServiceProvider())
             {
-                var provider = new TripleDESCryptoServiceProvider();
                 var buffer3 = Encoding.GetEncoding("utf-8").GetBytes(content);
                 provider.Key = Encoding.GetEncoding("utf-8").GetBytes(key);
                 provider.Mode = CipherMode.ECB;
-                stream = new MemoryStream();
-                var transform = provider.CreateEncryptor();
-                var stream2 = new CryptoStream(stream, transform, CryptoStreamMode.Write);
-                stream2.Write(buffer3, 0, buffer3.Length);
-                stream2.FlushFinalBlock();
-                result = Convert.ToBase64String(stream.ToArray());
-            }
-            finally
-            {
-                if (stream != null)
+                using (var stream = new MemoryStream())
                 {
+                    var transform = provider.CreateEncryptor();
+                    using (var stream2 = new CryptoStream(stream, transform, CryptoStreamMode.Write))
+                    {
+                        stream2.Write(buffer3, 0, buffer3.Length);
+                        stream2.FlushFinalBlock();
+                    }
+                    var result = Convert.ToBase64String(stream.ToArray());
                     stream.Flush();
-                    stream.Close();
+                    return result;
                 }
             }
-
-            return result;
         }
 
         /// <summary>
@@ -125,31 +118,23 @@ namespace Paway.Helper
         public static string Decrypt3DES(string sourceData, string key)
         {
             if (sourceData == null) sourceData = string.Empty;
-            var result = string.Empty;
-            MemoryStream ms = null;
-            try
+            using (var des = new TripleDESCryptoServiceProvider())
             {
-                var des = new TripleDESCryptoServiceProvider();
                 var content = Convert.FromBase64String(sourceData);
                 des.Key = Encoding.GetEncoding("utf-8").GetBytes(key);
                 des.Mode = CipherMode.ECB;
-                ms = new MemoryStream();
                 var transform = des.CreateDecryptor();
-                var cs = new CryptoStream(ms, transform, CryptoStreamMode.Write);
-                cs.Write(content, 0, content.Length);
-                cs.FlushFinalBlock();
-                var b = ms.ToArray();
-                result = Encoding.GetEncoding("utf-8").GetString(b, 0, b.Length);
-            }
-            finally
-            {
-                if (ms != null)
+                using (var ms = new MemoryStream())
+                using (var cs = new CryptoStream(ms, transform, CryptoStreamMode.Write))
                 {
+                    cs.Write(content, 0, content.Length);
+                    cs.FlushFinalBlock();
+                    var b = ms.ToArray();
+                    var result = Encoding.GetEncoding("utf-8").GetString(b, 0, b.Length);
                     ms.Flush();
-                    ms.Close();
+                    return result;
                 }
             }
-            return result;
         }
 
         /// <summary>
@@ -183,17 +168,19 @@ namespace Paway.Helper
         public static byte[] EncryptAES(byte[] data, string key)
         {
             //分组加密算法
-            SymmetricAlgorithm des = Rijndael.Create();
-            //设置密钥及密钥向量
-            des.Key = Encoding.UTF8.GetBytes(key);
-            des.IV = _key1;
-            var ms = new MemoryStream();
-            var cs = new CryptoStream(ms, des.CreateEncryptor(), CryptoStreamMode.Write);
-            cs.Write(data, 0, data.Length);
-            cs.FlushFinalBlock();
-            var bytes = ms.ToArray(); //得到加密后的字节数组
-            cs.Close();
-            return bytes;
+            using (var des = Rijndael.Create())
+            {
+                //设置密钥及密钥向量
+                des.Key = Encoding.UTF8.GetBytes(key);
+                des.IV = _key1;
+                var ms = new MemoryStream();
+                var cs = new CryptoStream(ms, des.CreateEncryptor(), CryptoStreamMode.Write);
+                cs.Write(data, 0, data.Length);
+                cs.FlushFinalBlock();
+                var bytes = ms.ToArray(); //得到加密后的字节数组
+                cs.Close();
+                return bytes;
+            }
         }
 
         /// <summary>
@@ -217,15 +204,17 @@ namespace Paway.Helper
         /// <returns>返回解密后的字符串</returns>
         public static byte[] DecryptAES(byte[] bytes, string key)
         {
-            SymmetricAlgorithm des = Rijndael.Create();
-            des.Key = Encoding.UTF8.GetBytes(key);
-            des.IV = _key1;
-            var decryptBytes = new byte[bytes.Length];
-            var ms = new MemoryStream(bytes);
-            var cs = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Read);
-            cs.Read(decryptBytes, 0, decryptBytes.Length);
-            cs.Close();
-            return decryptBytes;
+            using (var des = Rijndael.Create())
+            {
+                des.Key = Encoding.UTF8.GetBytes(key);
+                des.IV = _key1;
+                var decryptBytes = new byte[bytes.Length];
+                var ms = new MemoryStream(bytes);
+                var cs = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Read);
+                cs.Read(decryptBytes, 0, decryptBytes.Length);
+                cs.Close();
+                return decryptBytes;
+            }
         }
 
         #endregion

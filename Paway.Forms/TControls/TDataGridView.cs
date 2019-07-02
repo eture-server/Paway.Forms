@@ -518,7 +518,10 @@ namespace Paway.Forms
                 {
                     colorBack = e.CellStyle.SelectionBackColor;
                 }
-                DrawBounds(e.Graphics, new SolidBrush(colorBack), e.CellBounds, e.RowIndex);
+                using (var solidBrush = new SolidBrush(colorBack))
+                {
+                    DrawBounds(e.Graphics, solidBrush, e.CellBounds, e.RowIndex);
+                }
 
                 var index = e.Value.ToString().IndexOf("&&");
                 var strFirst = e.Value.ToString().Substring(0, index);
@@ -825,14 +828,18 @@ namespace Paway.Forms
         {
             if (e.ColumnIndex == _tColumnIndex)
             {
-                Brush foreBrush = new SolidBrush(e.CellStyle.ForeColor);
-                Brush backBrush = new SolidBrush(e.CellStyle.BackColor);
+                var foreColor = e.CellStyle.ForeColor;
+                var backColor = e.CellStyle.BackColor;
                 if (Rows[e.RowIndex].Selected)
                 {
-                    foreBrush = new SolidBrush(e.CellStyle.SelectionForeColor);
-                    backBrush = new SolidBrush(e.CellStyle.SelectionBackColor);
+                    foreColor = e.CellStyle.SelectionForeColor;
+                    backColor = e.CellStyle.SelectionBackColor;
                 }
-                DrawBounds(e.Graphics, backBrush, e.CellBounds, e.RowIndex);
+                Brush foreBrush = new SolidBrush(foreColor);
+                using (Brush backBrush = new SolidBrush(backColor))
+                {
+                    DrawBounds(e.Graphics, backBrush, e.CellBounds, e.RowIndex);
+                }
 
                 //画图标
                 var bitmap = Rows[e.RowIndex].Cells[TColumnImage].Value as Bitmap;
@@ -845,8 +852,9 @@ namespace Paway.Forms
 
                 //画字符串
                 e.Graphics.DrawString(e.Value?.ToString(), e.CellStyle.Font, foreBrush,
-                    new Rectangle(e.CellBounds.Left + (bitmap == null ? 0 : bitmap.Width) + 10, e.CellBounds.Top,
-                        e.CellBounds.Width, e.CellBounds.Height), DrawHelper.StringVertical);
+                new Rectangle(e.CellBounds.Left + (bitmap == null ? 0 : bitmap.Width) + 10, e.CellBounds.Top,
+                    e.CellBounds.Width, e.CellBounds.Height), DrawHelper.StringVertical);
+                foreBrush.Dispose();
 
                 e.Handled = true;
             }
@@ -860,17 +868,19 @@ namespace Paway.Forms
             // Erase the cell.
             g.FillRectangle(brush, rect);
             //首行线
-            if (index == 0 && !ColumnHeadersVisible)
+            using (var pen = new Pen(GridColor))
             {
-                g.DrawLine(new Pen(GridColor), new Point(rect.X, rect.Top), new Point(rect.Right, rect.Top));
+                if (index == 0 && !ColumnHeadersVisible)
+                {
+                    g.DrawLine(pen, new Point(rect.X, rect.Top), new Point(rect.Right, rect.Top));
+                }
+                //划线
+                var p1 = new Point(rect.Right - 1, rect.Top);
+                var p2 = new Point(rect.Right - 1, rect.Bottom - 1);
+                var p3 = new Point(rect.Left, rect.Bottom - 1);
+                Point[] ps = { p1, p2, p3 };
+                g.DrawLines(pen, ps);
             }
-
-            //划线
-            var p1 = new Point(rect.Right - 1, rect.Top);
-            var p2 = new Point(rect.Right - 1, rect.Bottom - 1);
-            var p3 = new Point(rect.Left, rect.Bottom - 1);
-            Point[] ps = { p1, p2, p3 };
-            g.DrawLines(new Pen(GridColor), ps);
         }
 
         #endregion
@@ -1008,29 +1018,35 @@ namespace Paway.Forms
                         break;
                 }
 
-                var fontBrush = new SolidBrush(e.CellStyle.ForeColor);
-                if (e.State == DataGridViewElementStates.Selected)
+                using (var fontBrush = new SolidBrush(e.CellStyle.ForeColor))
                 {
-                    fontBrush.Color = e.CellStyle.SelectionForeColor;
+                    if (e.State == DataGridViewElementStates.Selected)
+                    {
+                        fontBrush.Color = e.CellStyle.SelectionForeColor;
+                    }
+                    //画上半部分底色
+                    using (var backBrush = new SolidBrush(ColumnHeadersDefaultCellStyle.BackColor))
+                    {
+                        g.FillRectangle(backBrush, left - 2, top - 1, right - left + 3, (bottom - top) / 2 + 1);
+                    }
+                    //画中线
+                    using (var pen = new Pen(GridColor))
+                    {
+                        g.DrawLine(pen, left - 2, (top + bottom) / 2, right, (top + bottom) / 2);
+                    }
+                    //写小标题
+                    g.DrawString(string.Format("{0}", e.Value), e.CellStyle.Font, fontBrush,
+                        new Rectangle(left, (top + bottom) / 2, right - left, (bottom - top) / 2), DrawHelper.StringCenter);
+                    left = GetColumnDisplayRectangle(SpanRows[e.ColumnIndex].Left, true).Left - 2;
+
+                    if (left < 0) left = GetCellDisplayRectangle(-1, -1, true).Width;
+                    right = GetColumnDisplayRectangle(SpanRows[e.ColumnIndex].Right, true).Right - 2;
+                    if (right < 0) right = Width;
+
+                    g.DrawString(SpanRows[e.ColumnIndex].Text, e.CellStyle.Font, fontBrush,
+                        new Rectangle(left, top, right - left, (bottom - top) / 2), DrawHelper.StringCenter);
+                    e.Handled = true;
                 }
-                //画上半部分底色
-                g.FillRectangle(new SolidBrush(ColumnHeadersDefaultCellStyle.BackColor), left - 2, top - 1, right - left + 3, (bottom - top) / 2 + 1);
-
-                //画中线
-                g.DrawLine(new Pen(GridColor), left - 2, (top + bottom) / 2, right, (top + bottom) / 2);
-
-                //写小标题
-                g.DrawString(string.Format("{0}", e.Value), e.CellStyle.Font, fontBrush,
-                    new Rectangle(left, (top + bottom) / 2, right - left, (bottom - top) / 2), DrawHelper.StringCenter);
-                left = GetColumnDisplayRectangle(SpanRows[e.ColumnIndex].Left, true).Left - 2;
-
-                if (left < 0) left = GetCellDisplayRectangle(-1, -1, true).Width;
-                right = GetColumnDisplayRectangle(SpanRows[e.ColumnIndex].Right, true).Right - 2;
-                if (right < 0) right = Width;
-
-                g.DrawString(SpanRows[e.ColumnIndex].Text, e.CellStyle.Font, fontBrush,
-                    new Rectangle(left, top, right - left, (bottom - top) / 2), DrawHelper.StringCenter);
-                e.Handled = true;
             }
         }
 

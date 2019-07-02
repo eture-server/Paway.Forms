@@ -74,7 +74,7 @@ namespace Paway.Forms
 
         private void DrawCorners(Graphics g, Size corSize)
         {
-            Action<int> action = delegate (int n)
+            void action(int n)
             {
                 using (var path = new GraphicsPath())
                 {
@@ -148,7 +148,7 @@ namespace Paway.Forms
                         g.FillPath(brush, path);
                     }
                 }
-            };
+            }
             action(1);
             action(3);
             action(7);
@@ -163,29 +163,15 @@ namespace Paway.Forms
             var rectangle2 = new Rectangle(new Point(0, corSize.Width), gradientSize_LR);
             var rectangle3 = new Rectangle(new Point(Size.Width - (Main.TRadius + 1), corSize.Width), gradientSize_LR);
             var rectangle4 = new Rectangle(new Point(corSize.Width, Size.Height - (Main.TRadius + 1)), gradientSize_TB);
-            using (
-                var brush = new LinearGradientBrush(rect, ShadowColors[1], ShadowColors[0], LinearGradientMode.Vertical)
-                )
+            using (var brush = new LinearGradientBrush(rect, ShadowColors[1], ShadowColors[0], LinearGradientMode.Vertical))
+            using (var brush2 = new LinearGradientBrush(rectangle2, ShadowColors[1], ShadowColors[0], LinearGradientMode.Horizontal))
+            using (var brush3 = new LinearGradientBrush(rectangle3, ShadowColors[0], ShadowColors[1], LinearGradientMode.Horizontal))
+            using (var brush4 = new LinearGradientBrush(rectangle4, ShadowColors[0], ShadowColors[1], LinearGradientMode.Vertical))
             {
-                using (
-                    var brush2 = new LinearGradientBrush(rectangle2, ShadowColors[1], ShadowColors[0],
-                        LinearGradientMode.Horizontal))
-                {
-                    using (
-                        var brush3 = new LinearGradientBrush(rectangle3, ShadowColors[0], ShadowColors[1],
-                            LinearGradientMode.Horizontal))
-                    {
-                        using (
-                            var brush4 = new LinearGradientBrush(rectangle4, ShadowColors[0], ShadowColors[1],
-                                LinearGradientMode.Vertical))
-                        {
-                            g.FillRectangle(brush, rect);
-                            g.FillRectangle(brush2, rectangle2);
-                            g.FillRectangle(brush3, rectangle3);
-                            g.FillRectangle(brush4, rectangle4);
-                        }
-                    }
-                }
+                g.FillRectangle(brush, rect);
+                g.FillRectangle(brush2, rectangle2);
+                g.FillRectangle(brush3, rectangle3);
+                g.FillRectangle(brush4, rectangle4);
             }
         }
 
@@ -255,48 +241,50 @@ namespace Paway.Forms
         /// </summary>
         public void SetBits()
         {
-            var image = new Bitmap(Main.Width + (Main.TRadius + 1) * 2, Main.Height + (Main.TRadius + 1) * 2);
-            var g = Graphics.FromImage(image);
-            g.SmoothingMode = SmoothingMode.HighQuality;
-            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            DrawShadow(g);
-            if (Image.IsCanonicalPixelFormat(image.PixelFormat) && Image.IsAlphaPixelFormat(image.PixelFormat))
+            using (var image = new Bitmap(Main.Width + (Main.TRadius + 1) * 2, Main.Height + (Main.TRadius + 1) * 2))
             {
-                var screenDc = NativeMethods.GetDC(IntPtr.Zero);
-                var memDc = NativeMethods.CreateCompatibleDC(screenDc);
-                var hBitmap = IntPtr.Zero;
-                var oldBitmap = IntPtr.Zero;
-                try
+                var g = Graphics.FromImage(image);
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                DrawShadow(g);
+                if (Image.IsCanonicalPixelFormat(image.PixelFormat) && Image.IsAlphaPixelFormat(image.PixelFormat))
                 {
-                    hBitmap = image.GetHbitmap(Color.FromArgb(0));
-                    oldBitmap = NativeMethods.SelectObject(memDc, hBitmap);
+                    var screenDc = NativeMethods.GetDC(IntPtr.Zero);
+                    var memDc = NativeMethods.CreateCompatibleDC(screenDc);
+                    var hBitmap = IntPtr.Zero;
+                    var oldBitmap = IntPtr.Zero;
+                    try
+                    {
+                        hBitmap = image.GetHbitmap(Color.FromArgb(0));
+                        oldBitmap = NativeMethods.SelectObject(memDc, hBitmap);
 
-                    var psize = new SIZE(Width, Height);
-                    var pointSource = new POINT(0, 0);
-                    var topPos = new POINT(Left, Top);
-                    var blend = new BLENDFUNCTION()
-                    {
-                        BlendOp = Consts.AC_SRC_OVER,
-                        BlendFlags = 0,
-                        SourceConstantAlpha = byte.Parse("255"),
-                        AlphaFormat = Consts.AC_SRC_ALPHA
-                    };
-                    if (!IsDisposed)
-                    {
-                        NativeMethods.UpdateLayeredWindow(Handle, screenDc, ref topPos, ref psize, memDc,
-                            ref pointSource, 0, ref blend, 2);
+                        var psize = new SIZE(Width, Height);
+                        var pointSource = new POINT(0, 0);
+                        var topPos = new POINT(Left, Top);
+                        var blend = new BLENDFUNCTION()
+                        {
+                            BlendOp = Consts.AC_SRC_OVER,
+                            BlendFlags = 0,
+                            SourceConstantAlpha = byte.Parse("255"),
+                            AlphaFormat = Consts.AC_SRC_ALPHA
+                        };
+                        if (!IsDisposed)
+                        {
+                            NativeMethods.UpdateLayeredWindow(Handle, screenDc, ref topPos, ref psize, memDc,
+                                ref pointSource, 0, ref blend, 2);
+                        }
+                        return;
                     }
-                    return;
-                }
-                finally
-                {
-                    NativeMethods.ReleaseDC(IntPtr.Zero, screenDc);
-                    if (hBitmap != IntPtr.Zero)
+                    finally
                     {
-                        NativeMethods.SelectObject(memDc, oldBitmap);
-                        NativeMethods.DeleteObject(hBitmap);
+                        NativeMethods.ReleaseDC(IntPtr.Zero, screenDc);
+                        if (hBitmap != IntPtr.Zero)
+                        {
+                            NativeMethods.SelectObject(memDc, oldBitmap);
+                            NativeMethods.DeleteObject(hBitmap);
+                        }
+                        NativeMethods.DeleteDC(memDc);
                     }
-                    NativeMethods.DeleteDC(memDc);
                 }
             }
             throw new ArgumentException("图片必须是32位带Alhpa通道的图片。");

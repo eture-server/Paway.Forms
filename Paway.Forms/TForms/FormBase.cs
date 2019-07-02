@@ -752,7 +752,10 @@ namespace Paway.Forms
             else if (BackgroundImage == null)
             {
                 TranColor = BackColor;
-                g.FillRectangle(new SolidBrush(TranColor), ClientRectangle);
+                using (var solidBrush = new SolidBrush(TranColor))
+                {
+                    g.FillRectangle(solidBrush, ClientRectangle);
+                }
             }
         }
 
@@ -921,7 +924,12 @@ namespace Paway.Forms
                     if (AboutEvent == null)
                     {
                         if (this.GetType() != typeof(AboutForm))
-                            new AboutForm().ShowDialog(this);
+                        {
+                            using (var about = new AboutForm())
+                            {
+                                about.ShowDialog(this);
+                            }
+                        }
                     }
                     else
                     {
@@ -1339,5 +1347,19 @@ namespace Paway.Forms
         }
 
         #endregion
+
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_borderImage != null) _borderImage.Dispose();
+                if (_tBrush != null) _tBrush.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

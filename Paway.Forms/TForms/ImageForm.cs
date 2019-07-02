@@ -247,7 +247,10 @@ namespace Paway.Forms
                 // 设置画布的描绘质量 - 最临近插值法(显示像素点)
                 g.InterpolationMode = InterpolationMode.NearestNeighbor;
                 g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                g.FillRectangle(new SolidBrush(Color.FromArgb(150, 0, 0, 0)), new Rectangle(Point.Empty, bitmap.Size));
+                using (var solidBrush = new SolidBrush(Color.FromArgb(150, 0, 0, 0)))
+                {
+                    g.FillRectangle(solidBrush, new Rectangle(Point.Empty, bitmap.Size));
+                }
                 g.DrawImage(screen, rect, new Rectangle(Point.Empty, screen.Size), GraphicsUnit.Pixel);
                 DrawText(g);
                 DrawButton(g, CloseState, CloseRect, "close");

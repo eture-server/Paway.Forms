@@ -61,7 +61,10 @@ namespace Paway.Forms
         internal void LbTitle_Paint(object sender, PaintEventArgs e)
         {
             if (lbTitle.Visible)
-                e.Graphics.DrawLine(new Pen(BitmapHelper.RGBAddLight(lbTitle.BackColor, -40)), 0, lbTitle.Height - 1, lbTitle.Width, lbTitle.Height - 1);
+                using (var pen = new Pen(BitmapHelper.RGBAddLight(lbTitle.BackColor, -40)))
+                {
+                    e.Graphics.DrawLine(pen, 0, lbTitle.Height - 1, lbTitle.Width, lbTitle.Height - 1);
+                }
         }
         /// <summary>
         ///     关闭时激发父窗体

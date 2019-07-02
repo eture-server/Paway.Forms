@@ -467,9 +467,11 @@ namespace Paway.Forms
         }
         private ItemNode CreateNode(DataRow dr)
         {
-            var node = new ItemNode(dr);
-            node.Text = CreateText(dr);
-            node.Name = dr[TId.ToString()].ToString();
+            var node = new ItemNode(dr)
+            {
+                Text = CreateText(dr),
+                Name = dr[TId.ToString()].ToString()
+            };
             return node;
         }
         private string CreateText(DataRow dr)
@@ -669,15 +671,27 @@ namespace Paway.Forms
             {
                 if (Focused)
                 {
-                    g.FillRectangle(new SolidBrush(ColorSelect), rect);
+                    using (var solidBrush = new SolidBrush(ColorSelect))
+                    {
+                        g.FillRectangle(solidBrush, rect);
+                    }
                     C_DrawString(g, node, rect, ColorSelectFore);
-                    g.DrawRectangle(new Pen(node.BackColor == Color.Empty ? ColorSelectLine : node.BackColor), rect);
+                    using (var pen = new Pen(node.BackColor == Color.Empty ? ColorSelectLine : node.BackColor))
+                    {
+                        g.DrawRectangle(pen, rect);
+                    }
                 }
                 else
                 {
-                    g.FillRectangle(new SolidBrush(node.BackColor == Color.Empty ? ColorSelectNoFocus : node.BackColor), rect);
+                    using (var solidBrush = new SolidBrush(node.BackColor == Color.Empty ? ColorSelectNoFocus : node.BackColor))
+                    {
+                        g.FillRectangle(solidBrush, rect);
+                    }
                     C_DrawString(g, node, rect, node.ForeColor == Color.Empty ? ColorSelectForeNoFocus : node.ForeColor);
-                    g.DrawRectangle(new Pen(ColorSelectLineNoFocus), rect);
+                    using (var pen = new Pen(ColorSelectLineNoFocus))
+                    {
+                        g.DrawRectangle(pen, rect);
+                    }
                 }
             }
         }
@@ -693,7 +707,10 @@ namespace Paway.Forms
 
             var rect = node.Bounds;
             rect = new Rectangle(rect.Location, new Size(Width - rect.X, rect.Height - 1));
-            g.FillRectangle(new SolidBrush(backColor), new RectangleF(rect.X, rect.Y, rect.Width, rect.Height + 1));
+            using (var solidBrush = new SolidBrush(backColor))
+            {
+                g.FillRectangle(solidBrush, new RectangleF(rect.X, rect.Y, rect.Width, rect.Height + 1));
+            }
             C_DrawString(g, node, rect, foreColor);
         }
 

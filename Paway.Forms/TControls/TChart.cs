@@ -27,13 +27,12 @@ namespace Paway.Forms
         private ToolStripMenuItem toolSave;
         private ToolStripMenuItem toolReset;
         private ToolStripSeparator toolStripSeparator1;
-        private string _tipText = "序号：{0}\r\n值：{1}";
         /// <summary>
         /// 显示格式
         /// </summary>
         [Browsable(false)]
         [DefaultValue("序号：{0}\r\n值：{1}")]
-        public string TipText { get { return _tipText; } set { _tipText = value; } }
+        public string TipText { get; set; } = "序号：{0}\r\n值：{1}";
         /// <summary>
         /// 当前点击序号
         /// </summary>
@@ -89,6 +88,7 @@ namespace Paway.Forms
                 Reset();
                 this.SaveImage(sfd.FileName, ChartImageFormat.Jpeg);
             }
+            sfd.Dispose();
         }
         /// <summary>
         /// 加载点
@@ -516,6 +516,22 @@ namespace Paway.Forms
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
 
+        }
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (contextMenuStrip1 != null) contextMenuStrip1.Dispose();
+                if (toolSave != null) toolSave.Dispose();
+                if (toolReset != null) toolReset.Dispose();
+                if (toolStripSeparator1 != null) toolStripSeparator1.Dispose();
+                if (components != null) components.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }
