@@ -23,6 +23,7 @@ namespace Paway.Test
 
         FindInfo FindInfo { get; set; }
         List<FindInfo> List { get; }
+        List<FindInfo> List2 { get; set; }
     }
     public class TestBase : IId
     {
@@ -49,6 +50,7 @@ namespace Paway.Test
 
         public FindInfo FindInfo { get; set; }
         public List<FindInfo> List { get; } = new List<FindInfo>();
+        public List<FindInfo> List2 { get; set; }
 
         public TestInfo()
         {

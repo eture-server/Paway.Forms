@@ -1,6 +1,6 @@
 ﻿namespace Paway.Test
 {
-    partial class Form5
+    partial class FormEmit
     {
         /// <summary>
         /// Required designer variable.

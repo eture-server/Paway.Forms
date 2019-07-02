@@ -19,32 +19,89 @@ namespace Paway.Helper
     public static class BuilderHelper
     {
         #region Clone
-        private static Dictionary<Type, Delegate> CloneFunc { set; get; } = new Dictionary<Type, Delegate>();
-        private static Dictionary<Type, Delegate> CloneAction { set; get; } = new Dictionary<Type, Delegate>();
+        private static Dictionary<string, Delegate> CloneFunc { set; get; } = new Dictionary<string, Delegate>();
+        private static Dictionary<string, Delegate> CloneAction { set; get; } = new Dictionary<string, Delegate>();
         /// <summary>
-        /// IL动态代码(Emit)，复制（不复制包含类，复制基类、属性、字段）
+        /// IL动态代码(Emit)，复制（实体及列表）
         /// </summary>
-        public static T Clone<T>(this T t)
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="depth">深度克隆Class及IList列表</param>
+        /// <returns></returns>
+        public static T Clone<T>(this T obj, bool depth = false)
         {
-            var type = t.GetType();
-            if (!CloneFunc.TryGetValue(type, out Delegate func))
-            {
-                func = CloneBuilder.CloneFunc(type);
-                CloneFunc.Add(type, func);
-            }
-            return (T)((Func<object, object>)func)(t);
+            return (T)CloneObject(obj, depth);
         }
         /// <summary>
-        /// IL动态代码(Emit)，复制（不复制包含类，复制基类、公有属性）
+        /// IL动态代码(Emit)，复制（实体及列表）
         /// </summary>
-        public static void Clone<T>(this T t, T copy)
+        public static object CloneObject(object obj, bool depth)
         {
-            if (!CloneAction.TryGetValue(typeof(T), out Delegate action))
+            if (obj is IEnumerable list)
             {
-                action = CloneBuilder.CloneAction<T>();
-                CloneAction.Add(typeof(T), action);
+                var type = list.GenericType();
+                if (!CloneFunc.TryGetValue(type.FullName + "." + depth, out Delegate func))
+                {
+                    func = CloneBuilder.CloneFunc(type, depth);
+                    CloneFunc.Add(type.FullName + "." + depth, func);
+                }
+                var iList = type.GenericList();
+                var action = (Func<object, object>)func;
+                foreach (var item in list)
+                {
+                    iList.Add(action(item));
+                }
+                return iList;
             }
-             ((Action<T, T>)action)(t, copy);
+            else
+            {
+                var type = obj.GetType();
+                if (!CloneFunc.TryGetValue(type.FullName + "." + depth, out Delegate func))
+                {
+                    func = CloneBuilder.CloneFunc(type, depth);
+                    CloneFunc.Add(type.FullName + "." + depth, func);
+                }
+                return ((Func<object, object>)func)(obj);
+            }
+        }
+        /// <summary>
+        /// IL动态代码(Emit)，复制（到已有实体及列表）
+        /// </summary>
+        public static void Clone<T>(this T obj, T copy, bool depth = false)
+        {
+            CloneObject(obj, copy, depth);
+        }
+        /// <summary>
+        /// IL动态代码(Emit)，复制（到已有实体及列表）
+        /// </summary>
+        public static void CloneObject(object obj, object copy, bool depth)
+        {
+            if (obj is IList list)
+            {
+                var type = list.GenericType();
+                if (!CloneFunc.TryGetValue(type.FullName + "." + depth, out Delegate func))
+                {
+                    func = CloneBuilder.CloneFunc(type, depth);
+                    CloneFunc.Add(type.FullName + "." + depth, func);
+                }
+                var copyList = copy as IList;
+                copyList.Clear();
+                var action = (Func<object, object>)func;
+                foreach (var item in list)
+                {
+                    copyList.Add(action(item));
+                }
+            }
+            else
+            {
+                var type = obj.GetType();
+                if (!CloneAction.TryGetValue(type.FullName + "." + depth, out Delegate action))
+                {
+                    action = CloneBuilder.CloneAction(type, depth);
+                    CloneAction.Add(type.FullName + "." + depth, action);
+                }
+                ((Action<object, object>)action)(obj, copy);
+            }
         }
 
         #endregion

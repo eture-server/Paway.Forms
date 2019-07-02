@@ -972,11 +972,12 @@ namespace Paway.Helper
         /// <param name="t"></param>
         /// <param name="child">复制子级标记</param>
         /// <returns></returns>
-        public static T Clone<T>(this T t, bool child)
+        [Obsolete("反射复制，已过期")]
+        public static T CloneOld<T>(this T t, bool child)
         {
             var type = t.GetType();
             var copy = Activator.CreateInstance(type);
-            return t.Clone(copy, child);
+            return t.CloneRefel(copy, child);
         }
         /// <summary>
         /// 深度复制：引用、IList列表（禁止复制链结构，会造成死循环）
@@ -986,19 +987,19 @@ namespace Paway.Helper
         /// <param name="copy">已有实体</param>
         /// <param name="child">复制子级标记</param>
         /// <returns></returns>
-        public static T Clone<T>(this T t, object copy, bool child)
+        public static T CloneRefel<T>(this T t, object copy, bool child)
         {
             var type = typeof(T);
             if (copy == null)
                 copy = Activator.CreateInstance(type);
-            type.Clone(copy, t, child);
+            type.CloneRefel(copy, t, child);
 
             return (T)copy;
         }
         /// <summary>
         ///     复制子级
         /// </summary>
-        private static void Clone(this Type parent, object copy, object t, bool child)
+        private static void CloneRefel(this Type parent, object copy, object t, bool child)
         {
             var properties = parent.Properties();
             foreach (var property in properties)
@@ -1018,7 +1019,7 @@ namespace Paway.Helper
                         if (!type.IsValueType && type != typeof(string))
                         {
                             var obj = Activator.CreateInstance(type);
-                            type.Clone(obj, list[j], child);
+                            type.CloneRefel(obj, list[j], child);
                             clist.Add(obj);
                         }
                         else
@@ -1032,7 +1033,7 @@ namespace Paway.Helper
                     var type = value.GetType();
                     var obj = Activator.CreateInstance(type);
                     parent.SetValue(copy, property.Name, obj);
-                    type.Clone(obj, value, child);
+                    type.CloneRefel(obj, value, child);
                 }
             }
         }

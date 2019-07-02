@@ -12,14 +12,14 @@ using System.Text.RegularExpressions;
 namespace Paway.Helper
 {
     /// <summary>
-    /// IL动态代码(Emit)，复制（不复制子级）
+    /// IL动态代码(Emit)，复制（实体及列表），支持深度复制
     /// </summary>
     internal abstract class CloneBuilder
     {
         /// <summary>
-        /// 生成动态代码，复制属性字段等所有
+        /// IL动态代码(Emit)，复制（实体及列表）
         /// </summary>
-        public static Delegate CloneFunc(Type type)
+        public static Delegate CloneFunc(Type type, bool depth)
         {
             // Create ILGenerator
             var dymMethod = new DynamicMethod(type.Name + "CloneBuilder", typeof(object), new Type[] { typeof(object) }, true);
@@ -29,62 +29,172 @@ namespace Paway.Helper
             generator.Emit(OpCodes.Newobj, type.GetConstructor(Type.EmptyTypes));
             generator.Emit(OpCodes.Stloc, result);
 
-            CloneFunc(generator, type);
-            while (type.BaseType != null)
-            {//获取所有父类属性
-                type = type.BaseType;
-                CloneFunc(generator, type);
+            foreach (var property in type.Properties().FindAll(c => c.CanRead))
+            {
+                if (!property.IClone()) continue;
+                Type dbType = property.PropertyType;
+
+                if ((!dbType.IsValueType && dbType.IsGenericType) ||
+                    (dbType.IsClass && dbType != typeof(string) && dbType != typeof(byte[]) && dbType != typeof(Image) && dbType != typeof(Bitmap)))
+                {
+                    if (!depth) continue;
+                    if (property.CanWrite) CloneFuncWrite(type, generator, property);
+                    else CloneFuncRead(type, generator, property);
+                }
+                else if (property.CanWrite)
+                {
+                    // Load the new object on the eval stack... (currently 1 item on eval stack)
+                    generator.Emit(OpCodes.Ldloc_0);
+                    // Load initial object (parameter)          (currently 2 items on eval stack)
+                    generator.Emit(OpCodes.Ldarg_0);
+                    generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
+                    generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
+                    generator.Emit(OpCodes.Callvirt, property.GetSetMethod());
+                }
             }
 
             // Load new constructed obj on eval stack -> 1 item on stack
-            generator.Emit(OpCodes.Ldloc, result);
+            generator.Emit(OpCodes.Ldloc_0, result);
             // Return constructed object.   --> 0 items on stack
             generator.Emit(OpCodes.Ret);
             return dymMethod.CreateDelegate(typeof(Func<object, object>));
         }
         /// <summary>
-        /// 获取指定Type属性
+        /// 只读
         /// </summary>
-        private static void CloneFunc(ILGenerator generator, Type type)
+        private static void CloneFuncRead(Type type, ILGenerator generator, PropertyInfo property)
         {
-            foreach (var property in type.Properties().FindAll(c => c.CanRead && c.CanWrite))
-            {
-                if (property.PropertyType.IsGenericType && Nullable.GetUnderlyingType(property.PropertyType) == null) continue;
-                if (!property.IClone()) continue;
+            var method = typeof(BuilderHelper).GetMethod("CloneObject", new Type[] { typeof(object), typeof(object), typeof(bool) });
+            // Load initial object (parameter)          (currently 2 items on eval stack)
+            generator.Emit(OpCodes.Ldarg_0);
+            generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
+            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
+            generator.Box(property);//值数据转引用数据
 
-                // Load the new object on the eval stack... (currently 1 item on eval stack)
-                generator.Emit(OpCodes.Ldloc_0);
-                // Load initial object (parameter)          (currently 2 items on eval stack)
-                generator.Emit(OpCodes.Ldarg_0);
-                generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
-                generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
-                generator.Emit(OpCodes.Callvirt, property.GetSetMethod());
+            // Load the new object on the eval stack... (currently 1 item on eval stack)
+            generator.Emit(OpCodes.Ldloc_0);
+            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
+            generator.Box(property);//值数据转引用数据
+
+            {//参数
+                generator.Emit(OpCodes.Ldc_I4, 1);
             }
+            generator.Emit(OpCodes.Call, method);//调用静态方法
         }
         /// <summary>
-        /// 生成动态代码，仅复制公有属性
+        /// 可写
         /// </summary>
-        public static Delegate CloneAction<T>()
+        private static void CloneFuncWrite(Type type, ILGenerator generator, PropertyInfo property)
         {
-            var type = typeof(T);
+            var method = typeof(BuilderHelper).GetMethod("CloneObject", new Type[] { typeof(object), typeof(bool) });
+
+            Label endIfLabel = generator.DefineLabel();
+            generator.Emit(OpCodes.Ldarg_0);// s
+            generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
+            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
+            generator.Box(property);//值数据转引用数据
+            generator.Emit(OpCodes.Brfalse, endIfLabel);
+
+            // Load the new object on the eval stack... (currently 1 item on eval stack)
+            generator.Emit(OpCodes.Ldloc_0);
+            // Load initial object (parameter)          (currently 2 items on eval stack)
+            generator.Emit(OpCodes.Ldarg_0);
+            generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
+            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
+            generator.Box(property);//值数据转引用数据
+
+            {//参数
+                generator.Emit(OpCodes.Ldc_I4, 1);
+            }
+            generator.Emit(OpCodes.Call, method);//调用静态方法
+            generator.UnBox(property);//值数据转引用数据
+            generator.Emit(OpCodes.Callvirt, property.GetSetMethod());
+            generator.MarkLabel(endIfLabel);
+        }
+        /// <summary>
+        /// IL动态代码(Emit)，复制（到已有实体及列表）
+        /// </summary>
+        public static Delegate CloneAction(Type type, bool depth)
+        {
             // Create ILGenerator
-            var dymMethod = new DynamicMethod(type.Name + "CloneBuilder", null, new Type[] { type, type }, true);
+            var dymMethod = new DynamicMethod(type.Name + "CloneBuilder", null, new Type[] { typeof(object), typeof(object) }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
 
-            foreach (var property in type.Properties().FindAll(c => c.CanRead && c.CanWrite))
+            foreach (var property in type.Properties().FindAll(c => c.CanRead))
             {
-                //不复制静态类属性
-                if (property.GetAccessors(true)[0].IsStatic) continue;
-                if (property.PropertyType.IsGenericType && Nullable.GetUnderlyingType(property.PropertyType) == null) continue;
                 if (!property.IClone()) continue;
+                Type dbType = property.PropertyType;
 
-                generator.Emit(OpCodes.Ldarg_1);// los
-                generator.Emit(OpCodes.Ldarg_0);// s
-                generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
-                generator.Emit(OpCodes.Callvirt, property.GetSetMethod());
+                if ((!dbType.IsValueType && dbType.IsGenericType) ||
+                    (dbType.IsClass && dbType != typeof(string) && dbType != typeof(byte[]) && dbType != typeof(Image) && dbType != typeof(Bitmap)))
+                {
+                    if (!depth) continue;
+                    if (property.CanWrite) CloneActionWrite(type, generator, property);
+                    else CloneActionRead(type, generator, property);
+                }
+                else if (property.CanWrite)
+                {
+                    generator.Emit(OpCodes.Ldarg_1);// los
+                    generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
+                    generator.Emit(OpCodes.Ldarg_0);// s
+                    generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
+                    generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
+                    generator.Emit(OpCodes.Callvirt, property.GetSetMethod());
+                }
             }
             generator.Emit(OpCodes.Ret);
-            return dymMethod.CreateDelegate(typeof(Action<T, T>));
+            return dymMethod.CreateDelegate(typeof(Action<object, object>));
+        }
+        /// <summary>
+        /// 只读
+        /// </summary>
+        private static void CloneActionRead(Type type, ILGenerator generator, PropertyInfo property)
+        {
+            var method = typeof(BuilderHelper).GetMethod("CloneObject", new Type[] { typeof(object), typeof(object), typeof(bool) });
+
+            generator.Emit(OpCodes.Ldarg_0);// s
+            generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
+            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
+            generator.Box(property);//值数据转引用数据
+
+            generator.Emit(OpCodes.Ldarg_1);// los
+            generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
+            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
+            generator.Box(property);//值数据转引用数据
+
+            {//参数
+                generator.Emit(OpCodes.Ldc_I4, 1);
+            }
+            generator.Emit(OpCodes.Call, method);//调用静态方法
+        }
+        /// <summary>
+        /// 可写
+        /// </summary>
+        private static void CloneActionWrite(Type type, ILGenerator generator, PropertyInfo property)
+        {
+            var method = typeof(BuilderHelper).GetMethod("CloneObject", new Type[] { typeof(object), typeof(bool) });
+
+            Label endIfLabel = generator.DefineLabel();
+            generator.Emit(OpCodes.Ldarg_0);// s
+            generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
+            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
+            generator.Box(property);//值数据转引用数据
+            generator.Emit(OpCodes.Brfalse, endIfLabel);
+
+            generator.Emit(OpCodes.Ldarg_1);// los
+            generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
+            generator.Emit(OpCodes.Ldarg_0);// s
+            generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
+            generator.Emit(OpCodes.Callvirt, property.GetGetMethod());
+            generator.Box(property);//值数据转引用数据
+
+            {//参数
+                generator.Emit(OpCodes.Ldc_I4, 1);
+            }
+            generator.Emit(OpCodes.Call, method);//调用静态方法
+            generator.UnBox(property);//值数据转引用数据
+            generator.Emit(OpCodes.Callvirt, property.GetSetMethod());
+            generator.MarkLabel(endIfLabel);
         }
     }
 }
