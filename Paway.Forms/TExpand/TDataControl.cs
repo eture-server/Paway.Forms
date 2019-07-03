@@ -154,7 +154,7 @@ namespace Paway.Forms
                     this.List.Clear();
                     this.List.AddRange(list);
                 }
-                this.gridview1.DataSource = this.List;
+                this.gridview1.UpdateData(this.List, false);
                 RefreshTotal();
             }
             catch (Exception ex)

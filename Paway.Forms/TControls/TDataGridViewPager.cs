@@ -112,16 +112,7 @@ namespace Paway.Forms
             get { return dataSource; }
             set
             {
-                dataSource = value;
-                if (dataSource is IList list)
-                {
-                    DataType = list.GenericType();
-                }
-                else if (this.DataSource is DataTable)
-                {
-                    UpdateType(null);
-                }
-                RefreshData();
+                UpdateData(value);
             }
         }
         /// <summary>
@@ -135,10 +126,20 @@ namespace Paway.Forms
         /// <summary>
         /// 外部设置数据
         /// </summary>
-        public void UpdateData(object value)
+        /// <param name="value"></param>
+        /// <param name="iRefresh">是否刷新数据，默认True</param>
+        public void UpdateData(object value, bool iRefresh = true)
         {
             dataSource = value;
-            RefreshData();
+            if (dataSource is IList list)
+            {
+                DataType = list.GenericType();
+            }
+            else if (this.DataSource is DataTable)
+            {
+                UpdateType(null);
+            }
+            if (iRefresh) RefreshData();
         }
 
         private Type _dataType;
