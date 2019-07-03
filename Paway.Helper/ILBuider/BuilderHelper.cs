@@ -96,6 +96,7 @@ namespace Paway.Helper
             else if (obj != null)
             {
                 var type = obj.GetType();
+                if (!type.IsInstanceOfType(copy)) type = copy.GetType();
                 if (!CloneAction.TryGetValue(type.FullName + "." + depth, out Delegate action))
                 {
                     action = CloneBuilder.CloneAction(type, depth);

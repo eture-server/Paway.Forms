@@ -16,10 +16,6 @@ namespace Paway.Helper
     /// </summary>
     internal class SortBuilder
     {
-        /// <summary>
-        /// 返回类型
-        /// </summary>
-        private Type returnType;
         private Delegate handler;
         private SortBuilder() { }
         /// <summary>
@@ -27,24 +23,18 @@ namespace Paway.Helper
         /// </summary>
         public dynamic Build(object obj)
         {
-            switch (returnType.Name)
+            switch (handler.Method.ReturnType.Name)
             {
                 case nameof(Int32):
-                case nameof(Int16):
-                case nameof(Byte):
-                case nameof(Boolean):
-                case nameof(Image):
-                case nameof(Bitmap):
                     return ((Func<object, int>)handler)(obj);
                 case nameof(Int64):
-                case nameof(DateTime):
                     return ((Func<object, long>)handler)(obj);
                 case nameof(Double):
-                case nameof(Single):
-                case nameof(Decimal):
                     return ((Func<object, double>)handler)(obj);
-                default:
+                case nameof(String):
                     return ((Func<object, string>)handler)(obj);
+                default:
+                    return 0;
             }
         }
         /// <summary>
@@ -57,7 +47,6 @@ namespace Paway.Helper
             if (property == null) throw new ArgumentNullException(name);
             if (!property.CanRead) throw new ArgumentException("无法读取值");
 
-            var getTCompareString = typeof(ConverHelper).GetMethod(nameof(ConverHelper.TCompareString), new Type[] { typeof(object) });
             var getTCompareInt = typeof(ConverHelper).GetMethod(nameof(ConverHelper.TCompareInt), new Type[] { typeof(object) });
             var getTCompareLong = typeof(ConverHelper).GetMethod(nameof(ConverHelper.TCompareLong), new Type[] { typeof(object) });
             var getTCompareDouble = typeof(ConverHelper).GetMethod(nameof(ConverHelper.TCompareDouble), new Type[] { typeof(object) });
@@ -109,7 +98,8 @@ namespace Paway.Helper
                     generator.Emit(OpCodes.Call, getTCompareDouble);//调用静态方法
                     break;
                 default:
-                    generator.Emit(OpCodes.Call, getTCompareString);//调用静态方法
+                    //String不用再次转化
+                    //generator.Emit(OpCodes.Call, getTCompareString);//调用静态方法
                     break;
             }
             generator.Emit(OpCodes.Ret);
@@ -139,7 +129,6 @@ namespace Paway.Helper
                     builder.handler = dymMethod.CreateDelegate(typeof(Func<object, string>));
                     break;
             }
-            builder.returnType = dbType;
             return builder;
         }
     }

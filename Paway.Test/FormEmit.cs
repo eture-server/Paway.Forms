@@ -33,6 +33,14 @@ namespace Paway.Test
             info.List2 = new List<FindInfo>();
             server.Update(info);
 
+            TestBase b = new TestBase();
+            var b1 = (TestBase)info;
+            b1.Clone(b);
+            b.Id = 3;
+            b.Clone(b1);
+
+            var id = info.GetValue(nameof(TestInfo.FindInfo));
+
             var obj3 = info.Clone(true);
             obj3.FindInfo.Id = 102;
             obj3.List.Clear();

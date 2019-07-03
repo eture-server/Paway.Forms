@@ -29,7 +29,7 @@ namespace Paway.Test
             base.HaveQuery();
             if (DesignMode) return;
             var server = new SQLiteService();
-            var list = server.Find<TestInfo>("1=1 limit 100000");
+            var list = server.Find<TestInfo>("1=1 limit 100");
             base.InitData(server, list);
         }
     }

@@ -191,14 +191,12 @@ namespace Paway.Forms
                 else if (sort == SortOrder.Descending) sort = SortOrder.Ascending;
             }
             column.HeaderCell.SortGlyphDirection = sort;
-            if (!SortColumn(sort, column.Name)) return;
-            column = this.Edit.Columns[this.Index];
-            column.HeaderCell.SortGlyphDirection = sort;
+            SortColumn(sort, column.Name);
         }
         /// <summary>
         /// 自定义排序数据
         /// </summary>
-        protected virtual bool SortColumn(SortOrder sort, string name)
+        protected virtual void SortColumn(SortOrder sort, string name)
         {
             if (this.DataSource is IList list)
             {
@@ -207,17 +205,29 @@ namespace Paway.Forms
                 {
                     tempList.Add(item);
                 }
-                tempList.Sort(name, sort == SortOrder.Ascending);
-                this.dataSource = tempList;
-                RefreshData();
+                var index = this.Index;
+                new Action(() =>
+                {
+                    tempList.Sort(name, sort == SortOrder.Ascending);
+                    this.BeginInvoke(new Action(() =>
+                    {
+                        this.dataSource = tempList;
+                        RefreshData();
+                        if (index < this.Edit.Columns.Count)
+                        {
+                            var column = this.Edit.Columns[index];
+                            if (column.Visible) column.HeaderCell.SortGlyphDirection = sort;
+                        }
+                    }));
+                }).BeginInvoke(null, null);
             }
             else if (this.DataSource is DataTable)
             {
                 var dt = this.DataSource as DataTable;
                 this.DataSource = SortColumn(dt, this.Index, sort);
+                var column = this.Edit.Columns[this.Index];
+                column.HeaderCell.SortGlyphDirection = sort;
             }
-            else return false;
-            return true;
         }
         private DataTable SortColumn(DataTable dt, int index, SortOrder sort)
         {

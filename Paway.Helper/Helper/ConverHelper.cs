@@ -948,14 +948,6 @@ namespace Paway.Helper
                     return obj.ToLong();
             }
         }
-        /// <summary>
-        /// 将字符串转为String值以进行比较
-        /// </summary>
-        public static string TCompareString(this object obj)
-        {
-            if (obj is string) return (string)obj;
-            return obj.ToStrs();
-        }
 
         #endregion
     }
