@@ -13,19 +13,16 @@ namespace Paway.Win32
     /// </summary>
     public abstract class Win32Helper
     {
+        #region 静态变量
         /// <summary>
         /// </summary>
-        public static IntPtr True
-        {
-            get { return (IntPtr)1; }
-        }
+        public static IntPtr True { get { return (IntPtr)1; } }
 
         /// <summary>
         /// </summary>
-        public static IntPtr False
-        {
-            get { return (IntPtr)0; }
-        }
+        public static IntPtr False { get { return (IntPtr)0; } }
+
+        #endregion
 
         #region 全屏置顶窗体
 

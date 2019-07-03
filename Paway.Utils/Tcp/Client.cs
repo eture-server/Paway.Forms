@@ -12,7 +12,7 @@ namespace Paway.Utils
     /// <summary>
     ///     封装Socket通讯客户端
     /// </summary>
-    public class Client
+    public class Client : IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -192,6 +192,31 @@ namespace Paway.Utils
                 }
                 Connect();
             }
+        }
+
+        #endregion
+
+        #region Dispose
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (client != null) client.Dispose();
+            }
+        }
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        public void Dispose()
+        {
+            // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
+            Dispose(true);
+            // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
+            GC.SuppressFinalize(this);
         }
 
         #endregion

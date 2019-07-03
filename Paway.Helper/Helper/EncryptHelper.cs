@@ -94,18 +94,14 @@ namespace Paway.Helper
                 var buffer3 = Encoding.GetEncoding("utf-8").GetBytes(content);
                 provider.Key = Encoding.GetEncoding("utf-8").GetBytes(key);
                 provider.Mode = CipherMode.ECB;
-                using (var stream = new MemoryStream())
+                var stream = new MemoryStream();
+                var transform = provider.CreateEncryptor();
+                using (var stream2 = new CryptoStream(stream, transform, CryptoStreamMode.Write))
                 {
-                    var transform = provider.CreateEncryptor();
-                    using (var stream2 = new CryptoStream(stream, transform, CryptoStreamMode.Write))
-                    {
-                        stream2.Write(buffer3, 0, buffer3.Length);
-                        stream2.FlushFinalBlock();
-                    }
-                    var result = Convert.ToBase64String(stream.ToArray());
-                    stream.Flush();
-                    return result;
+                    stream2.Write(buffer3, 0, buffer3.Length);
+                    stream2.FlushFinalBlock();
                 }
+                return Convert.ToBase64String(stream.ToArray());
             }
         }
 
@@ -124,15 +120,13 @@ namespace Paway.Helper
                 des.Key = Encoding.GetEncoding("utf-8").GetBytes(key);
                 des.Mode = CipherMode.ECB;
                 var transform = des.CreateDecryptor();
-                using (var ms = new MemoryStream())
+                var ms = new MemoryStream();
                 using (var cs = new CryptoStream(ms, transform, CryptoStreamMode.Write))
                 {
                     cs.Write(content, 0, content.Length);
                     cs.FlushFinalBlock();
                     var b = ms.ToArray();
-                    var result = Encoding.GetEncoding("utf-8").GetString(b, 0, b.Length);
-                    ms.Flush();
-                    return result;
+                    return Encoding.GetEncoding("utf-8").GetString(b, 0, b.Length);
                 }
             }
         }

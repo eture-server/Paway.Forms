@@ -47,9 +47,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Root\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="NPOI">
-      <HintPath>..\Root\NPOI.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -85,7 +82,6 @@
     <Compile Include="ILBuider\CloneBuilder.cs" />
     <Compile Include="Helper\LoadHelper.cs" />
     <Compile Include="Helper\ExceptionHelper.cs" />
-    <Compile Include="Helper\ExcelHelper.cs" />
     <Compile Include="Helper\StructHelper.cs" />
     <Compile Include="Helper\WebHelper.cs" />
     <Compile Include="Helper\Base64Helper.cs" />

@@ -27,31 +27,31 @@ namespace Paway.Win32
         /// <summary>
         ///     允许应用程序为复制或修改而访问
         /// </summary>
-        [DllImport("user32.dll", EntryPoint = "GetSystemMenu", CharSet = CharSet.Auto)]
-        public static extern int GetSystemMenu(IntPtr hWnd, bool bRevert);
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
 
         /// <summary>
         ///     删除指定的菜单条目
         /// </summary>
         /// <returns></returns>
-        [DllImport("user32.dll", EntryPoint = "DeleteMenu", CharSet = CharSet.Auto)]
-        public static extern bool DeleteMenu(int hMenu, int uPosition, int uFlags);
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern bool DeleteMenu(IntPtr hMenu, int uPosition, int uFlags);
         /// <summary>
         /// 追加菜单条目
         /// </summary>
-        [DllImport("user32.dll")]
-        public static extern int AppendMenu(int hMenu, int Flagsw, int IDNewItem, string lpNewItem);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        public static extern int AppendMenu(IntPtr hMenu, int Flagsw, IntPtr IDNewItem, string lpNewItem);
         /// <summary>
         /// 插入菜单条目
         /// </summary>
-        [DllImport("user32.dll")]
-        public static extern int InsertMenu(int hMenu, int uFlags, int Flagsw, int IDNewItem, string lpNewItem);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        public static extern int InsertMenu(IntPtr hMenu, int uFlags, int Flagsw, IntPtr IDNewItem, string lpNewItem);
 
         /// <summary>
         /// 该函数在指定位置显示快捷菜单，并跟踪菜单项的选择
         /// </summary>
         [DllImport("user32.dll")]
-        public static extern int TrackPopupMenu(int hMenu, int uFlags, int x, int y, int nReserved, IntPtr hWnd, ref RECT rect);
+        public static extern int TrackPopupMenu(IntPtr hMenu, int uFlags, int x, int y, int nReserved, IntPtr hWnd, ref RECT rect);
 
         #endregion
 
@@ -84,7 +84,7 @@ namespace Paway.Win32
         /// <param name="nHeightEllipse">椭圆的高度</param>
         /// <returns></returns>
         [DllImport("gdi32.dll")]
-        public static extern int CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nWidthEllipse, int nHeightEllipse);
+        public static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nWidthEllipse, int nHeightEllipse);
 
         #region FindWindow
 
@@ -99,7 +99,7 @@ namespace Paway.Win32
         ///     指向包含了窗口文本(或标签)的空中止(C语言)字串的指针;或设
         ///     为零,表示接收任何窗口标题
         /// </param>
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         internal static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Paway.Win32
         /// <param name="lpString"></param>
         /// <param name="nMaxCount"></param>
         /// <returns></returns>
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         internal static extern int GetWindowText(IntPtr hWnd, [Out] StringBuilder lpString, int nMaxCount);
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace Paway.Win32
         /// </summary>
         /// <param name="status"></param>
         /// <returns></returns>
-        [DllImport("user32.dll", EntryPoint = "ShowCursor", CharSet = CharSet.Auto)]
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
         internal static extern int ShowCursor(int status);
 
         /// <summary>
@@ -225,19 +225,19 @@ namespace Paway.Win32
         /// <param name="Msg">消息的标识符</param>
         /// <param name="wParam">具体取决于消息</param>
         /// <param name="lParam">具体取决于消息</param>
-        [DllImport("User32.dll", CharSet = CharSet.Auto, EntryPoint = "SendMessage")]
+        [DllImport("User32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
         /// <summary>
         ///     将指定的消息发送到一个或多个窗口
         /// </summary>
-        [DllImport("User32.dll", EntryPoint = "SendMessage")]
+        [DllImport("User32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, ref CopyDataStruct lParam);
 
         /// <summary>
         ///     将指定的消息发送到一个或多个窗口
         /// </summary>
-        [DllImport("User32.dll", EntryPoint = "SendMessage")]
+        [DllImport("User32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, ref UserDataStruct lParam);
 
         #endregion
@@ -247,7 +247,7 @@ namespace Paway.Win32
         /// </summary>
         /// <param name="which"></param>
         /// <returns></returns>
-        [DllImport("user32.dll", EntryPoint = "GetSystemMetrics")]
+        [DllImport("user32.dll")]
         internal static extern int GetSystemMetrics(int which);
 
         /// <summary>
@@ -273,7 +273,7 @@ namespace Paway.Win32
         /// <param name="hRgn">处理区域</param>
         /// <param name="bRedraw">重绘窗体选项</param>
         [DllImport("user32.dll")]
-        public static extern int SetWindowRgn(IntPtr hwnd, int hRgn, bool bRedraw);
+        public static extern int SetWindowRgn(IntPtr hwnd, IntPtr hRgn, bool bRedraw);
 
         /// <summary>
         /// </summary>

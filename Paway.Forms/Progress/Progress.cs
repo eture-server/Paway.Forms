@@ -10,7 +10,7 @@ namespace Paway.Forms
     /// <summary>
     /// 进度条
     /// </summary>
-    public class Progress : IDisposable
+    public sealed class Progress : IDisposable
     {
         private readonly ProgressState _state = null;
 

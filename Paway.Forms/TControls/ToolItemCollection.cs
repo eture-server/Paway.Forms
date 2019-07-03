@@ -74,7 +74,6 @@ namespace Paway.Forms
         /// <summary>
         /// 释放资源
         /// </summary>
-        // 添加此代码以正确实现可处置模式。
         public void Dispose()
         {
             // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。

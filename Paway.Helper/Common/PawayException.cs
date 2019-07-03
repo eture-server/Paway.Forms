@@ -4,8 +4,9 @@ using System.Collections.Generic;
 namespace Paway.Helper
 {
     /// <summary>
-    /// 定义异常
+    /// 自定义异常
     /// </summary>
+    [Serializable]
     public class PawayException : Exception
     {
         /// <summary>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Runtime.Serialization;
 using System.Windows.Forms;
 using Paway.Forms.Properties;
 using Paway.Helper;
@@ -1114,6 +1115,10 @@ namespace Paway.Forms
         {
             this.dr = dr;
         }
+        /// <summary>
+        /// 序列化
+        /// </summary>
+        protected ItemNode(SerializationInfo serializationInfo, StreamingContext context) : base(serializationInfo, context) { }
 
         /// <summary>
         /// 部分选中

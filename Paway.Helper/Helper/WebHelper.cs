@@ -71,7 +71,6 @@ namespace Paway.Helper
                 client.Encoding = code;
                 url = string.Format(url, args);
                 var html = client.DownloadString(url);
-                client.Dispose();
                 if (regex != null && regex.IsMatch(html))
                 {
                     html = regex.Replace(html, "");

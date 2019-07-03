@@ -13,7 +13,7 @@ namespace Paway.Utils
     /// <summary>
     ///     封装Socket通讯服务端
     /// </summary>
-    public class Service
+    public class Service : IDisposable
     {
         /// <summary>
         ///     错误日志
@@ -272,6 +272,32 @@ namespace Paway.Utils
         private void Client_ClientEvent(ServiceEventArgs e)
         {
             OnSystemEvent(e);
+        }
+
+        #endregion
+
+        #region Dispose
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (allDone != null) allDone.Dispose();
+                if (socketListener != null) socketListener.Dispose();
+            }
+        }
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        public void Dispose()
+        {
+            // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
+            Dispose(true);
+            // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
+            GC.SuppressFinalize(this);
         }
 
         #endregion

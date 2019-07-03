@@ -214,8 +214,7 @@ namespace Paway.Forms
         {
             if (disposing)
             {
-                if (tFont != null)
-                    tFont.Dispose();
+                if (tFont != null) tFont.Dispose();
             }
             base.Dispose(disposing);
         }
