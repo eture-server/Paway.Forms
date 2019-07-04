@@ -21,25 +21,15 @@ namespace Paway.Utils
         /// </summary>
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        #region 事件
-        /// <summary>
-        /// 更新事件
-        /// </summary>
-        public event Action<Type, OperType, object> UpdateEvent;
-        /// <summary>
-        /// 抛出事件
-        /// </summary>
-        protected virtual void OnUpdate<T>(DbCommand cmd, List<T> list, OperType type)
-        {
-            UpdateEvent?.Invoke(typeof(T), type, list);
-        }
-        #endregion
+        #region 字段与属性
+        private readonly Type connType;
+        private readonly Type cmdType;
+        private readonly Type paramType;
 
         /// <summary>
-        ///     返回最新插入列主键Id
+        /// 长连接开关
         /// </summary>
-        internal string GetId { get; set; }
-
+        protected bool ILongConnect;
         /// <summary>
         ///     连接字符串
         /// </summary>
@@ -49,17 +39,30 @@ namespace Paway.Utils
         /// 长连接对象
         /// </summary>
         internal DbConnection Connection;
+
         /// <summary>
-        /// 长连接开关
+        ///     返回最新插入列主键Id
         /// </summary>
-        protected bool ILongConnect;
+        internal string GetId { get; set; }
 
-        #region 构造.加载数据类型
+        #endregion
 
-        private readonly Type connType;
-        private readonly Type cmdType;
-        private readonly Type paramType;
+        #region 事件
+        /// <summary>
+        /// 抛出事件
+        /// </summary>
+        protected virtual void OnUpdate<T>(DbCommand cmd, List<T> list, OperType type)
+        {
+            UpdateEvent?.Invoke(typeof(T), type, list);
+        }
+        /// <summary>
+        /// 更新事件
+        /// </summary>
+        public event Action<Type, OperType, object> UpdateEvent;
 
+        #endregion
+
+        #region 构造
         /// <summary>
         ///     数据类型
         /// </summary>
@@ -81,8 +84,7 @@ namespace Paway.Utils
 
         #endregion
 
-        #region 扩展.方法
-
+        #region public 执行外部Sql
         /// <summary>
         ///     对连接执行 Transact-SQL 语句并返回受影响的行数。
         /// </summary>
@@ -195,145 +197,7 @@ namespace Paway.Utils
 
         #endregion
 
-        #region 扩展.分步
-
-        /// <summary>
-        ///     打开一个连接
-        /// </summary>
-        /// <returns></returns>
-        protected DbCommand CommandStart()
-        {
-            return CommandStart(null);
-        }
-
-        /// <summary>
-        ///     打开一个连接
-        ///     返回SqlCommand实例
-        /// </summary>
-        protected DbCommand CommandStart(string sql)
-        {
-            var con = GetCon();
-            var cmd = GetCmd();
-            cmd.CommandText = sql;
-            OnCommandText(cmd);
-            cmd.Connection = con;
-            return cmd;
-        }
-
-        /// <summary>
-        ///     关闭DbCommand实例的连接，并释放
-        /// </summary>
-        /// <param name="cmd"></param>
-        protected virtual void CommandEnd(DbCommand cmd)
-        {
-            try
-            {
-                if (cmd != null)
-                {
-                    if (!ILongConnect && cmd.Connection != null)
-                    {
-                        if (cmd.Connection.State == ConnectionState.Open || cmd.Connection.State == ConnectionState.Broken)
-                        {
-                            cmd.Connection.Close();
-                        }
-                        cmd.Connection.Dispose();
-                    }
-                    cmd.Dispose();
-                }
-            }
-            catch (Exception ex)
-            {
-                log.ErrorFormat("CommandEnd.Error[{0}]\r\n{1}", cmd.CommandText, ex);
-                throw;
-            }
-        }
-
-        /// <summary>
-        ///     事务处理
-        ///     打开一个连接
-        ///     返回SqlCommand实例
-        /// </summary>
-        /// <returns></returns>
-        protected DbCommand TransStart()
-        {
-            var con = GetCon();
-            var trans = con.BeginTransaction();
-            var cmd = GetCmd();
-            cmd.Connection = con;
-            cmd.Transaction = trans;
-
-            return cmd;
-        }
-
-        /// <summary>
-        ///     事务处理.提交事务
-        /// </summary>
-        /// <param name="cmd"></param>
-        protected bool TransCommit(DbCommand cmd)
-        {
-            if (cmd == null || cmd.Connection == null || cmd.Transaction == null) return false;
-            {
-                cmd.Transaction.Commit();
-                return true;
-            }
-        }
-
-        /// <summary>
-        ///     事务处理异常回退
-        ///     关闭DbCommand实例的连接，并释放
-        /// </summary>
-        protected void TransError(DbCommand cmd, Exception e)
-        {
-            if (cmd == null || cmd.Connection == null || cmd.Transaction == null) return;
-            try
-            {
-                log.ErrorFormat("TransError[{0}]\r\n{1}", cmd.CommandText, e);
-                cmd.Transaction.Rollback();
-            }
-            catch (Exception ex)
-            {
-                log.ErrorFormat("TransError.Error{0}\r\n{1}", cmd.CommandText, ex);
-                throw;
-            }
-        }
-
-        private DbConnection GetCon()
-        {
-            if (ILongConnect)
-            {
-                if (this.Connection == null)
-                {
-                    this.Connection = InitCon();
-                }
-                if (this.Connection.State == ConnectionState.Closed || this.Connection.State == ConnectionState.Broken)
-                {
-                    this.Connection.Close();
-                    this.Connection.Open();
-                }
-                return this.Connection;
-            }
-            return InitCon();
-        }
-        private DbConnection InitCon()
-        {
-            var con = (DbConnection)Activator.CreateInstance(connType);
-            con.ConnectionString = ConnString;
-            con.Open();
-            return con;
-        }
-
-        private DbCommand GetCmd()
-        {
-            var cmd = (DbCommand)Activator.CreateInstance(cmdType);
-            cmd.CommandType = CommandType.Text;
-            return cmd;
-        }
-
-        #endregion
-
-        #region 扩展.语句
-
-        #region Find
+        #region public Find
         /// <summary>
         ///     查找指定主列的数据
         /// </summary>
@@ -454,7 +318,7 @@ namespace Paway.Utils
 
         #endregion
 
-        #region Insert
+        #region public Insert
         /// <summary>
         ///     插入行
         /// </summary>
@@ -512,7 +376,7 @@ namespace Paway.Utils
 
         #endregion
 
-        #region Update
+        #region public Update
         /// <summary>
         ///     更新行
         /// </summary>
@@ -573,7 +437,7 @@ namespace Paway.Utils
 
         #endregion
 
-        #region Delete
+        #region public Delete
         /// <summary>
         ///     删除所有行(不监听更新事件)
         /// </summary>
@@ -656,7 +520,7 @@ namespace Paway.Utils
 
         #endregion
 
-        #region Replace
+        #region public Replace
         /// <summary>
         /// 替换,由insert/Update替代
         /// </summary>
@@ -701,29 +565,185 @@ namespace Paway.Utils
 
         #endregion
 
-        #endregion
-
-        #region Dispose
+        #region protected 执行步骤
         /// <summary>
-        /// 关闭连接
+        ///     打开一个连接
         /// </summary>
-        public void Close()
+        /// <returns></returns>
+        protected DbCommand CommandStart()
         {
-            if (this.Connection != null)
+            return CommandStart(null);
+        }
+
+        /// <summary>
+        ///     打开一个连接
+        ///     返回SqlCommand实例
+        /// </summary>
+        protected DbCommand CommandStart(string sql)
+        {
+            var con = GetCon();
+            var cmd = GetCmd();
+            cmd.CommandText = sql;
+            OnCommandText(cmd);
+            cmd.Connection = con;
+            return cmd;
+        }
+
+        /// <summary>
+        ///     关闭DbCommand实例的连接，并释放
+        /// </summary>
+        /// <param name="cmd"></param>
+        protected virtual void CommandEnd(DbCommand cmd)
+        {
+            try
             {
-                if (this.Connection.State == ConnectionState.Open || this.Connection.State == ConnectionState.Broken)
+                if (cmd != null)
                 {
-                    this.Connection.Close();
+                    if (!ILongConnect && cmd.Connection != null)
+                    {
+                        if (cmd.Connection.State == ConnectionState.Open || cmd.Connection.State == ConnectionState.Broken)
+                        {
+                            cmd.Connection.Close();
+                        }
+                        cmd.Connection.Dispose();
+                    }
+                    cmd.Dispose();
                 }
-                this.Connection.Dispose();
+            }
+            catch (Exception ex)
+            {
+                log.ErrorFormat("CommandEnd.Error[{0}]\r\n{1}", cmd.CommandText, ex);
+                throw;
             }
         }
 
-        private bool disposed;
+        /// <summary>
+        ///     事务处理
+        ///     打开一个连接
+        ///     返回SqlCommand实例
+        /// </summary>
+        /// <returns></returns>
+        protected DbCommand TransStart()
+        {
+            var con = GetCon();
+            var trans = con.BeginTransaction();
+            var cmd = GetCmd();
+            cmd.Connection = con;
+            cmd.Transaction = trans;
+
+            return cmd;
+        }
 
         /// <summary>
-        ///     释放
-        ///     不能在这里关闭连接
+        ///     事务处理.提交事务
+        /// </summary>
+        /// <param name="cmd"></param>
+        protected bool TransCommit(DbCommand cmd)
+        {
+            if (cmd == null || cmd.Connection == null || cmd.Transaction == null) return false;
+            {
+                cmd.Transaction.Commit();
+                return true;
+            }
+        }
+
+        /// <summary>
+        ///     事务处理异常回退
+        ///     关闭DbCommand实例的连接，并释放
+        /// </summary>
+        protected void TransError(DbCommand cmd, Exception e)
+        {
+            if (cmd == null || cmd.Connection == null || cmd.Transaction == null) return;
+            try
+            {
+                log.ErrorFormat("TransError[{0}]\r\n{1}", cmd.CommandText, e);
+                cmd.Transaction.Rollback();
+            }
+            catch (Exception ex)
+            {
+                log.ErrorFormat("TransError.Error{0}\r\n{1}", cmd.CommandText, ex);
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region private 创建对象
+        private DbConnection GetCon()
+        {
+            if (ILongConnect)
+            {
+                if (this.Connection == null)
+                {
+                    this.Connection = InitCon();
+                }
+                if (this.Connection.State == ConnectionState.Closed || this.Connection.State == ConnectionState.Broken)
+                {
+                    this.Connection.Close();
+                    this.Connection.Open();
+                }
+                return this.Connection;
+            }
+            return InitCon();
+        }
+        private DbConnection InitCon()
+        {
+            var con = (DbConnection)Activator.CreateInstance(connType);
+            con.ConnectionString = ConnString;
+            con.Open();
+            return con;
+        }
+        private DbCommand GetCmd()
+        {
+            var cmd = (DbCommand)Activator.CreateInstance(cmdType);
+            cmd.CommandType = CommandType.Text;
+            return cmd;
+        }
+
+        #endregion
+
+        #region IDisposable
+        /// <summary>
+        /// 标识此对象已释放
+        /// </summary>
+        private bool disposed = false;
+        /// <summary>
+        /// 参数为true表示释放所有资源，只能由使用者调用
+        /// 参数为false表示释放非托管资源，只能由垃圾回收器自动调用
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                disposed = true;
+                if (disposing)
+                {
+                    // TODO: 释放托管资源(托管的对象)。
+                }
+                // TODO: 释放未托管资源(未托管的对象)
+                // 关闭连接
+                if (this.Connection != null)
+                {
+                    if (this.Connection.State == ConnectionState.Open || this.Connection.State == ConnectionState.Broken)
+                    {
+                        this.Connection.Close();
+                    }
+                    this.Connection.Dispose();
+                    this.Connection = null;
+                }
+            }
+        }
+        /// <summary>
+        /// 析构，释放非托管资源
+        /// </summary>
+        ~DataBase()
+        {
+            Dispose(false);
+        }
+        /// <summary>
+        /// 释放资源
+        /// 由类的使用者，在外部显示调用，释放类资源
         /// </summary>
         public void Dispose()
         {
@@ -731,31 +751,11 @@ namespace Paway.Utils
             GC.SuppressFinalize(this);
         }
 
-        private void Dispose(bool disposing)
-        {
-            if (!disposed)
-            {
-                if (disposing)
-                {
-                    Close();
-                }
-            }
-            disposed = true;
-        }
-
-        /// <summary>
-        ///     析构
-        /// </summary>
-        ~DataBase()
-        {
-            Dispose(false);
-        }
-
         #endregion
     }
     internal static class DataBaseHelper
     {
-        #region Select
+        #region SQL.Select
         /// <summary>
         ///     将指定类型转为Select语句
         ///     指定查询条件
@@ -794,7 +794,7 @@ namespace Paway.Utils
 
         #endregion
 
-        #region Delete
+        #region SQL.Delete
         /// <summary>
         ///     将指定类型转为Delete语句
         ///     指定删除条件为主列
@@ -817,7 +817,7 @@ namespace Paway.Utils
 
         #endregion
 
-        #region Update
+        #region SQL.Update
         /// <summary>
         ///     将指定类型转为Update语句
         /// </summary>
@@ -858,7 +858,7 @@ namespace Paway.Utils
 
         #endregion
 
-        #region Insert
+        #region SQL.Insert
         /// <summary>
         ///     将指定类型转为Insert语句
         /// </summary>

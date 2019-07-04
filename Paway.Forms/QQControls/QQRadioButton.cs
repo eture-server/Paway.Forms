@@ -229,15 +229,11 @@ namespace Paway.Forms
         {
             if (disposing)
             {
-                if (tick_normalImage != null)
-                    tick_normalImage.Dispose();
-                if (normalImage != null)
-                    normalImage.Dispose();
-                if (tick_highlightImage != null)
-                    tick_highlightImage.Dispose();
-                if (highlightImage != null)
-                    highlightImage.Dispose();
             }
+            if (tick_normalImage != null) tick_normalImage.Dispose();
+            if (normalImage != null) normalImage.Dispose();
+            if (tick_highlightImage != null) tick_highlightImage.Dispose();
+            if (highlightImage != null) highlightImage.Dispose();
             base.Dispose(disposing);
         }
 

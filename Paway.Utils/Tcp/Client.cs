@@ -16,6 +16,15 @@ namespace Paway.Utils
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        #region 字段与属性
+        private string Host;
+        private int Port;
+        private SocketClient client;
+        /// <summary>
+        /// 头部数据长度
+        /// </summary>
+        private readonly int heardLength;
+
         /// <summary>
         /// 连接状态
         /// </summary>
@@ -33,14 +42,9 @@ namespace Paway.Utils
         /// </summary>
         public event Action<object> MessageEvent;
 
-        private string Host;
-        private int Port;
-        private SocketClient client;
-        /// <summary>
-        /// 头部数据长度
-        /// </summary>
-        private readonly int heardLength;
+        #endregion
 
+        #region public method
         /// <summary>
         ///     构造
         /// </summary>
@@ -63,8 +67,6 @@ namespace Paway.Utils
             this.Stop();
             this.Connect();
         }
-
-        #region Test
         /// <summary>
         /// 连接测试
         /// </summary>
@@ -87,10 +89,6 @@ namespace Paway.Utils
                 client.Close();
             }
         }
-
-        #endregion
-
-        #region 连接服务端
         /// <summary>
         /// 停止
         /// </summary>
@@ -136,6 +134,9 @@ namespace Paway.Utils
             this.client.SendSync(buffer, iPackage);
         }
 
+        #endregion
+
+        #region virtual method
         /// <summary>
         /// 接收消息
         /// </summary>
@@ -144,6 +145,9 @@ namespace Paway.Utils
             MessageEvent?.Invoke(sender);
         }
 
+        #endregion
+
+        #region private method
         private void Client_ClientEvent(ServiceEventArgs e)
         {
             try
@@ -196,26 +200,47 @@ namespace Paway.Utils
 
         #endregion
 
-        #region Dispose
+        #region IDisposable
         /// <summary>
-        /// 释放资源
+        /// 标识此对象已释放
+        /// </summary>
+        private bool disposed = false;
+        /// <summary>
+        /// 参数为true表示释放所有资源，只能由使用者调用
+        /// 参数为false表示释放非托管资源，只能由垃圾回收器自动调用
         /// </summary>
         /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (!disposed)
             {
-                if (client != null) client.Dispose();
+                disposed = true;
+                if (disposing)
+                {
+                    // TODO: 释放托管资源(托管的对象)。
+                }
+                // TODO: 释放未托管资源(未托管的对象)
+                if (client != null)
+                {
+                    client.Dispose();
+                    client = null;
+                }
             }
         }
         /// <summary>
+        /// 析构，释放非托管资源
+        /// </summary>
+        ~Client()
+        {
+            Dispose(false);
+        }
+        /// <summary>
         /// 释放资源
+        /// 由类的使用者，在外部显示调用，释放类资源
         /// </summary>
         public void Dispose()
         {
-            // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
             Dispose(true);
-            // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
             GC.SuppressFinalize(this);
         }
 

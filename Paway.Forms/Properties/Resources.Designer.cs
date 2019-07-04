@@ -445,7 +445,7 @@ namespace Paway.Forms.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap toolBar_toolbar_hover {
             get {
-                object obj = ResourceManager.GetObject("toolBar_toolbar_hover", resourceCulture);
+                object obj = ResourceManager.GetObject("toolbar_toolbar_hover", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -455,7 +455,7 @@ namespace Paway.Forms.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap toolBar_toolbar_normal {
             get {
-                object obj = ResourceManager.GetObject("toolBar_toolbar_normal", resourceCulture);
+                object obj = ResourceManager.GetObject("toolbar_toolbar_normal", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -465,7 +465,7 @@ namespace Paway.Forms.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap toolBar_toolbar_pushed {
             get {
-                object obj = ResourceManager.GetObject("toolBar_toolbar_pushed", resourceCulture);
+                object obj = ResourceManager.GetObject("toolbar_toolbar_pushed", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

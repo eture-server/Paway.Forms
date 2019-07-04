@@ -391,8 +391,15 @@ namespace Paway.Forms
         {
             if (disposing)
             {
-                if (toolTop != null) toolTop.Dispose();
-                if (skin != null) skin.Dispose();
+            }
+            if (toolTop != null)
+            {
+                toolTop.Dispose();
+            }
+            if (skin != null)
+            {
+                skin.Dispose();
+                skin = null;
             }
             base.Dispose(disposing);
         }

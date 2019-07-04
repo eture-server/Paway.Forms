@@ -525,11 +525,31 @@ namespace Paway.Forms
         {
             if (disposing)
             {
-                if (contextMenuStrip1 != null) contextMenuStrip1.Dispose();
-                if (toolSave != null) toolSave.Dispose();
-                if (toolReset != null) toolReset.Dispose();
-                if (toolStripSeparator1 != null) toolStripSeparator1.Dispose();
-                if (components != null) components.Dispose();
+            }
+            if (contextMenuStrip1 != null)
+            {
+                contextMenuStrip1.Dispose();
+                contextMenuStrip1 = null;
+            }
+            if (toolSave != null)
+            {
+                toolSave.Dispose();
+                toolSave = null;
+            }
+            if (toolReset != null)
+            {
+                toolReset.Dispose();
+                toolReset = null;
+            }
+            if (toolStripSeparator1 != null)
+            {
+                toolStripSeparator1.Dispose();
+                toolStripSeparator1 = null;
+            }
+            if (components != null)
+            {
+                components.Dispose();
+                components = null;
             }
             base.Dispose(disposing);
         }

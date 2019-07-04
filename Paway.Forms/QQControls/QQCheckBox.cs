@@ -260,19 +260,13 @@ namespace Paway.Forms
         {
             if (disposing)
             {
-                if (normalImage != null)
-                    normalImage.Dispose();
-                if (tick_normalImage != null)
-                    tick_normalImage.Dispose();
-                if (tick_highlightImage != null)
-                    tick_highlightImage.Dispose();
-                if (hightlightImage != null)
-                    hightlightImage.Dispose();
-                if (_tick_normalImage != null)
-                    _tick_normalImage.Dispose();
-                if (_tick_highlightImage != null)
-                    _tick_highlightImage.Dispose();
             }
+            if (normalImage != null) normalImage.Dispose();
+            if (tick_normalImage != null) tick_normalImage.Dispose();
+            if (tick_highlightImage != null) tick_highlightImage.Dispose();
+            if (hightlightImage != null) hightlightImage.Dispose();
+            if (_tick_normalImage != null) _tick_normalImage.Dispose();
+            if (_tick_highlightImage != null) _tick_highlightImage.Dispose();
             base.Dispose(disposing);
         }
 

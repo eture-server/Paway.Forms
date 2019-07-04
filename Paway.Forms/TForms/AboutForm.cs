@@ -10,7 +10,7 @@ namespace Paway.Forms
     public partial class AboutForm : QQForm
     {
         private bool m_showing = true;
-        private Timer timer;
+        private readonly Timer timer;
 
         /// <summary>
         /// </summary>
@@ -22,6 +22,7 @@ namespace Paway.Forms
             this.TMouseMove(lbCopyright);
             lbDesc.Text = "Welcome";
             this.TextShow = string.Empty;
+            timer = new Timer();
         }
 
         /// <summary>
@@ -61,7 +62,6 @@ namespace Paway.Forms
         {
             base.OnShown(e);
 
-            timer = new Timer();
             timer.Tick += Timer_Tick;
             Opacity = 0.0;
             Activate();

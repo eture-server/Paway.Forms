@@ -430,16 +430,38 @@ namespace Paway.Forms
         /// </summary>
         protected override void Dispose(bool disposing)
         {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
             if (disposing)
             {
                 screen = null;
-
-                if (contextMenuStrip1 != null) contextMenuStrip1.Dispose();
-                if (toolAuto != null) toolAuto.Dispose();
-                if (toolNormal != null) toolNormal.Dispose();
-                if (toolStripSeparator1 != null) toolStripSeparator1.Dispose();
-                if (toolSave != null) toolSave.Dispose();
-                if (components != null) components.Dispose();
+            }
+            if (contextMenuStrip1 != null)
+            {
+                contextMenuStrip1.Dispose();
+                contextMenuStrip1 = null;
+            }
+            if (toolAuto != null)
+            {
+                toolAuto.Dispose();
+                toolAuto = null;
+            }
+            if (toolNormal != null)
+            {
+                toolNormal.Dispose();
+                toolNormal = null;
+            }
+            if (toolStripSeparator1 != null)
+            {
+                toolStripSeparator1.Dispose();
+                toolStripSeparator1 = null;
+            }
+            if (toolSave != null)
+            {
+                toolSave.Dispose();
+                toolSave = null;
             }
             base.Dispose(disposing);
         }

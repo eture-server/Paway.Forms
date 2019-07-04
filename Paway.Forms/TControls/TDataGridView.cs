@@ -1143,18 +1143,21 @@ namespace Paway.Forms
         {
             if (disposing)
             {
-                if (_headerCheckBox != null)
-                    _headerCheckBox.Dispose();
-                if (timer != null)
-                {
-                    timer.Stop();
-                    timer.Dispose();
-                }
-                if (pictureBox1 != null)
-                {
-                    pictureBox1.Image = null;
-                    pictureBox1.Dispose();
-                }
+            }
+            if (_headerCheckBox != null)
+            {
+                _headerCheckBox.Dispose();
+                _headerCheckBox = null;
+            }
+            if (timer != null)
+            {
+                timer.Stop();
+                timer.Dispose();
+            }
+            if (pictureBox1 != null)
+            {
+                pictureBox1.Image = null;
+                pictureBox1.Dispose();
             }
             base.Dispose(disposing);
         }

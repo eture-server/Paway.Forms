@@ -13,7 +13,7 @@ namespace Paway.Test
 {
     public partial class Form4 : QQForm
     {
-        private Timer timer = new Timer();
+        private readonly Timer timer = new Timer();
         public Form4()
         {
             InitializeComponent();

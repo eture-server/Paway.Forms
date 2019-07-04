@@ -12,6 +12,7 @@ namespace Paway.Helper
     /// <typeparam name="T">接口</typeparam>
     public class IPCClient<T> : IDisposable where T : class
     {
+        #region 字段与属性
         private IpcChannel channel;
 
         /// <summary>
@@ -24,6 +25,9 @@ namespace Paway.Helper
         /// </summary>
         public bool IConnected { get; private set; }
 
+        #endregion
+
+        #region public method
         /// <summary>
         ///     创建一个IPC信道。
         /// </summary>
@@ -60,47 +64,52 @@ namespace Paway.Helper
             {
                 ChannelServices.UnregisterChannel(channel);
                 channel.StopListening(null);
+                channel = null;
             }
-            channel = null;
             Obj = null;
             IConnected = false;
         }
 
-        #region Dispose
+        #endregion
 
+        #region IDisposable
         /// <summary>
-        ///     Disposes the instance of SocketClient.
+        /// 标识此对象已释放
         /// </summary>
-        public bool Disposed;
-
+        private bool disposed = false;
         /// <summary>
-        ///     释放
+        /// 参数为true表示释放所有资源，只能由使用者调用
+        /// 参数为false表示释放非托管资源，只能由垃圾回收器自动调用
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                disposed = true;
+                if (disposing)
+                {
+                    // TODO: 释放托管资源(托管的对象)。
+                }
+                // TODO: 释放未托管资源(未托管的对象)
+                Stop();
+            }
+        }
+        /// <summary>
+        /// 析构，释放非托管资源
+        /// </summary>
+        ~IPCClient()
+        {
+            Dispose(false);
+        }
+        /// <summary>
+        /// 释放资源
+        /// 由类的使用者，在外部显示调用，释放类资源
         /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (!Disposed)
-            {
-                Disposed = true;
-                if (disposing)
-                {
-                    Stop();
-                }
-            }
-            Disposed = true;
-        }
-
-        /// <summary>
-        ///     析构
-        /// </summary>
-        ~IPCClient()
-        {
-            Dispose(false);
         }
 
         #endregion

@@ -1041,17 +1041,12 @@ namespace Paway.Forms
         {
             if (disposing)
             {
-                if (add != null)
-                    add.Dispose();
-                if (less != null)
-                    less.Dispose();
-                if (check_normal != null)
-                    check_normal.Dispose();
-                if (check_tick != null)
-                    check_tick.Dispose();
-                if (check_hight != null)
-                    check_hight.Dispose();
             }
+            if (add != null) add.Dispose();
+            if (less != null) less.Dispose();
+            if (check_normal != null) check_normal.Dispose();
+            if (check_tick != null) check_tick.Dispose();
+            if (check_hight != null) check_hight.Dispose();
             base.Dispose(disposing);
         }
 

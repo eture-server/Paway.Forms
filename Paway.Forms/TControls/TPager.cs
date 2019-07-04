@@ -263,7 +263,7 @@ namespace Paway.Forms
         /// <summary>
         ///     必需的设计器变量。
         /// </summary>
-        private readonly IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         ///     清理所有正在使用的资源。
@@ -273,22 +273,56 @@ namespace Paway.Forms
         {
             if (disposing)
             {
-                if (toolFirst != null)
-                    toolFirst.Dispose();
-                if (toolEnd != null)
-                    toolEnd.Dispose();
-                if (toolNext != null)
-                    toolNext.Dispose();
-                if (toolLast != null)
-                    toolLast.Dispose();
-                if (lblPageInfo != null)
-                    lblPageInfo.Dispose();
-                if (txtCurrentPage != null)
-                    txtCurrentPage.Dispose();
-                if (lbDesc != null) lbDesc.Dispose();
-                if (tControl1 != null) tControl1.Dispose();
-                if (tControl2 != null) tControl2.Dispose();
-                if (components != null) components.Dispose();
+            }
+            if (toolFirst != null)
+            {
+                toolFirst.Dispose();
+                toolFirst = null;
+            }
+            if (toolEnd != null)
+            {
+                toolEnd.Dispose();
+                toolEnd = null;
+            }
+            if (toolNext != null)
+            {
+                toolNext.Dispose();
+                toolNext = null;
+            }
+            if (toolLast != null)
+            {
+                toolLast.Dispose();
+                toolLast = null;
+            }
+            if (lblPageInfo != null)
+            {
+                lblPageInfo.Dispose();
+                lblPageInfo = null;
+            }
+            if (txtCurrentPage != null)
+            {
+                txtCurrentPage.Dispose();
+                txtCurrentPage = null;
+            }
+            if (lbDesc != null)
+            {
+                lbDesc.Dispose();
+                lbDesc = null;
+            }
+            if (tControl1 != null)
+            {
+                tControl1.Dispose();
+                tControl1 = null;
+            }
+            if (tControl2 != null)
+            {
+                tControl2.Dispose();
+                tControl2 = null;
+            }
+            if (components != null)
+            {
+                components.Dispose();
+                components = null;
             }
             base.Dispose(disposing);
         }

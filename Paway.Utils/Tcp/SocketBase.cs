@@ -18,7 +18,21 @@ namespace Paway.Utils
         /// </summary>
         internal static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        #region 外部数据与事件
+        #region 字段与属性
+        /// <summary>
+        /// 头部数据长度
+        /// </summary>
+        protected int heardLength = 2;
+
+        /// <summary>
+        ///     线程通知，停止运行。
+        /// </summary>
+        internal volatile bool SendStop;
+
+        /// <summary>
+        ///     数据发送服务类
+        /// </summary>
+        internal SendDataService SendDataService { get; set; }
 
         /// <summary>
         ///     客户端数据
@@ -31,23 +45,6 @@ namespace Paway.Utils
         public object Tag { get; set; }
 
         /// <summary>
-        ///     外部事件
-        /// </summary>
-        public event Action<EventArgs> ChangeEvent;
-
-        /// <summary>
-        ///     引发外部事件方法
-        /// </summary>
-        public void OnChange(EventArgs e)
-        {
-            ChangeEvent?.Invoke(e);
-        }
-
-        #endregion
-
-        #region fields
-
-        /// <summary>
         ///     获取远程终结点
         /// </summary>
         public IPEndPoint IPPoint { get; internal set; }
@@ -58,16 +55,6 @@ namespace Paway.Utils
         public Socket Socket { get; internal set; }
 
         /// <summary>
-        ///     数据发送服务类
-        /// </summary>
-        internal SendDataService SendDataService { get; set; }
-
-        /// <summary>
-        ///     线程通知，停止运行。
-        /// </summary>
-        internal volatile bool SendStop;
-
-        /// <summary>
         ///     连接时间
         /// </summary>
         public DateTime ConnectTime { get; internal set; }
@@ -76,6 +63,14 @@ namespace Paway.Utils
         ///     是否连接客户端
         /// </summary>
         public bool IConnected { get { return Socket != null && Socket.Connected; } }
+
+        #endregion
+
+        #region 事件
+        /// <summary>
+        ///     外部事件
+        /// </summary>
+        public event Action<EventArgs> ChangeEvent;
 
         /// <summary>
         ///     客户端事件
@@ -89,12 +84,172 @@ namespace Paway.Utils
 
         #endregion
 
-        #region private methord
+        #region public methord
         /// <summary>
-        /// 头部数据长度
+        ///     缓冲发送内部数据的接口
         /// </summary>
-        protected int heardLength = 2;
+        /// <param name="message"></param>
+        public void Send(object message)
+        {
+            Send(message, true);
+        }
+        /// <summary>
+        ///     缓冲发送内部数据的接口
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="ithrow">失败是否抛出异常</param>
+        public void Send(object message, bool ithrow)
+        {
+            if (ithrow && !IConnected)
+            {
+                throw new PawayException("Not Connected");
+            }
+            if (SendDataService != null && message != null)
+            {
+                var byteData = message is byte[]? message as byte[] : StructHelper.GetByteFromObject(message);
+                SendDataService.SendData(byteData);
+            }
+            else if (ithrow)
+            {
+                if (SendDataService == null)
+                    throw new PawayException("Send Service is null");
+                if (message == null)
+                    throw new ArgumentNullException("message");
+            }
+        }
+        /// <summary>
+        ///     从主机断开
+        /// </summary>
+        public void Disconnect()
+        {
+            if (IConnected)
+            {
+                Socket.Disconnect(false);
+            }
+        }
+        /// <summary>
+        ///     引发外部事件方法
+        /// </summary>
+        public void OnChange(EventArgs e)
+        {
+            ChangeEvent?.Invoke(e);
+        }
 
+        #endregion
+
+        #region virtual methord
+        /// <summary>
+        ///     触发socker异常事件->断开
+        /// </summary>
+        internal virtual void OnDisConnectEvent(SocketError type)
+        {
+            try
+            {
+                var msg = new ServiceEventArgs(ServiceType.DisConnect)
+                {
+                    SocketError = type,
+                    Message = type.ToString(),
+                    Ip = IPPoint.Address.ToString(),
+                    Port = IPPoint.Port
+                };
+                ClientEvent?.Invoke(msg);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+        }
+
+        #endregion
+
+        #region internal methord
+        /// <summary>
+        ///     等待客户端发送过来的数据
+        /// </summary>
+        internal void WaitForData(AsynSocketArg state)
+        {
+            try
+            {
+                if (state != null && state.WorkSocket.Connected)
+                {
+                    state.InitializeState();
+                    state.WorkSocket.BeginReceive(state.GetBuffer(), 0, state.AutoBufferSize, 0, ReceiveCallback, state);
+                }
+            }
+            catch (SocketException e)
+            {
+                OnSocketException(e.SocketErrorCode);
+            }
+        }
+
+        /// <summary>
+        ///     触发socker异常事件
+        /// </summary>
+        internal void OnSocketException(SocketError type)
+        {
+            if (disposed) return;
+            OnDisConnectEvent(type);
+        }
+
+        /// <summary>
+        ///     触发客户端日志
+        /// </summary>
+        /// <param name="message"></param>
+        internal void OnClientEvent(string message)
+        {
+            try
+            {
+                var msg = new ServiceEventArgs(ServiceType.Client)
+                {
+                    Ip = IPPoint.ToString(),
+                    Port = IPPoint.Port,
+                    Message = message
+                };
+                ClientEvent?.Invoke(msg);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+        }
+        /// <summary>
+        /// 同步
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="iPackage">true=封装</param>
+        internal void SendSync(byte[] buffer, bool iPackage = true)
+        {
+            if (!IConnected) throw new PawayException("Not Connected");
+            if (iPackage) SendData(buffer);
+            else if (!SendStop) Socket.Send(buffer);
+        }
+
+        /// <summary>
+        ///     直接发送消息对象
+        /// </summary>
+        internal void SendData(byte[] buffer)
+        {
+            try
+            {
+                //检查连接作相应处理
+                if (IConnected)
+                {
+                    SendMessage(buffer);
+                }
+                else
+                {
+                    OnSocketException(SocketError.NotConnected);
+                }
+            }
+            catch (SocketException)
+            {
+                Disconnect();
+            }
+        }
+
+        #endregion
+
+        #region private methord
         /// <summary>
         ///     异步执行接受数据函数
         /// </summary>
@@ -204,207 +359,53 @@ namespace Paway.Utils
 
         #endregion
 
-        #region abstract methord
-
+        #region IDisposable
         /// <summary>
-        ///     触发socker异常事件
+        /// 标识此对象已释放
         /// </summary>
-        internal void OnSocketException(SocketError type)
-        {
-            if (Disposed) return;
-            OnDisConnectEvent(type);
-        }
-
+        private bool disposed = false;
         /// <summary>
-        ///     触发客户端日志
+        /// 参数为true表示释放所有资源，只能由使用者调用
+        /// 参数为false表示释放非托管资源，只能由垃圾回收器自动调用
         /// </summary>
-        /// <param name="message"></param>
-        internal void OnClientEvent(string message)
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
         {
-            try
+            if (!disposed)
             {
-                var msg = new ServiceEventArgs(ServiceType.Client)
+                disposed = true;
+                if (disposing)
                 {
-                    Ip = IPPoint.ToString(),
-                    Port = IPPoint.Port,
-                    Message = message
-                };
-                ClientEvent?.Invoke(msg);
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-        }
-        /// <summary>
-        ///     触发socker异常事件->断开
-        /// </summary>
-        internal virtual void OnDisConnectEvent(SocketError type)
-        {
-            try
-            {
-                var msg = new ServiceEventArgs(ServiceType.DisConnect)
+                    // TODO: 释放托管资源(托管的对象)。
+                }
+                // TODO: 释放未托管资源(未托管的对象)
+                if (SendDataService != null)
                 {
-                    SocketError = type,
-                    Message = type.ToString(),
-                    Ip = IPPoint.Address.ToString(),
-                    Port = IPPoint.Port
-                };
-                ClientEvent?.Invoke(msg);
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-        }
-
-        #endregion
-
-        #region public methord
-
-        /// <summary>
-        ///     等待客户端发送过来的数据
-        /// </summary>
-        internal void WaitForData(AsynSocketArg state)
-        {
-            try
-            {
-                if (state != null && state.WorkSocket.Connected)
+                    SendDataService.Dispose();
+                    SendDataService = null;
+                }
+                if (IConnected && Socket != null)
                 {
-                    state.InitializeState();
-                    state.WorkSocket.BeginReceive(state.GetBuffer(), 0, state.AutoBufferSize, 0, ReceiveCallback, state);
+                    Socket.Close();
+                    Socket = null;
                 }
             }
-            catch (SocketException e)
-            {
-                OnSocketException(e.SocketErrorCode);
-            }
         }
-
         /// <summary>
-        ///     缓冲发送内部数据的接口
+        /// 析构，释放非托管资源
         /// </summary>
-        /// <param name="message"></param>
-        public void Send(object message)
+        ~SocketBase()
         {
-            Send(message, true);
+            Dispose(false);
         }
         /// <summary>
-        ///     缓冲发送内部数据的接口
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="ithrow">失败是否抛出异常</param>
-        public void Send(object message, bool ithrow)
-        {
-            if (ithrow && !IConnected)
-            {
-                throw new PawayException("Not Connected");
-            }
-            if (SendDataService != null && message != null)
-            {
-                var byteData = message is byte[]? message as byte[] : StructHelper.GetByteFromObject(message);
-                SendDataService.SendData(byteData);
-            }
-            else if (ithrow)
-            {
-                if (SendDataService == null)
-                    throw new PawayException("Send Service is null");
-                if (message == null)
-                    throw new ArgumentNullException("message");
-            }
-        }
-        /// <summary>
-        /// 同步
-        /// </summary>
-        /// <param name="buffer"></param>
-        /// <param name="iPackage">true=封装</param>
-        internal void SendSync(byte[] buffer, bool iPackage = true)
-        {
-            if (!IConnected) throw new PawayException("Not Connected");
-            if (iPackage) SendData(buffer);
-            else if (!SendStop) Socket.Send(buffer);
-        }
-
-        /// <summary>
-        ///     直接发送消息对象
-        /// </summary>
-        internal void SendData(byte[] buffer)
-        {
-            try
-            {
-                //检查连接作相应处理
-                if (IConnected)
-                {
-                    SendMessage(buffer);
-                }
-                else
-                {
-                    OnSocketException(SocketError.NotConnected);
-                }
-            }
-            catch (SocketException)
-            {
-                Disconnect();
-            }
-        }
-
-        /// <summary>
-        ///     从主机断开
-        /// </summary>
-        public void Disconnect()
-        {
-            if (IConnected)
-            {
-                Socket.Disconnect(false);
-            }
-        }
-
-        #endregion
-
-        #region Dispose
-
-        /// <summary>
-        ///     Disposes the instance of SocketClient.
-        /// </summary>
-        internal bool Disposed;
-
-        /// <summary>
-        ///     释放
+        /// 释放资源
+        /// 由类的使用者，在外部显示调用，释放类资源
         /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (!Disposed)
-            {
-                Disposed = true;
-                if (disposing)
-                {
-                    if (IConnected)
-                    {
-                        Socket.Close();
-                    }
-                    if (SendDataService != null)
-                    {
-                        SendDataService.Dispose();
-                    }
-                    Socket = null;
-                    SendDataService = null;
-                }
-            }
-            Disposed = true;
-        }
-
-        /// <summary>
-        ///     析构
-        /// </summary>
-        ~SocketBase()
-        {
-            Dispose(false);
         }
 
         #endregion

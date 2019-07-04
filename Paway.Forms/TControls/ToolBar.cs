@@ -116,7 +116,7 @@ namespace Paway.Forms
         /// <summary>
         ///     悬停窗口
         /// </summary>
-        private readonly ToolTip _toolTop;
+        private ToolTip _toolTop;
 
         /// <summary>
         ///     按下抬起项是否相同中用的过度项
@@ -2664,67 +2664,125 @@ namespace Paway.Forms
         {
             if (disposing)
             {
-                if (_backGround != null)
-                    _backGround.Dispose();
-                if (_lineColor != null)
-                    _lineColor.Dispose();
-                if (_change != null)
-                    _change.Dispose();
-                if (_desc != null)
-                    _desc.Dispose();
                 _downImage = null;
-                if (_downImage2 != null)
-                    _downImage2.Dispose();
-                if (_endDesc != null)
-                    _endDesc.Dispose();
-                if (_headDesc != null)
-                    _headDesc.Dispose();
-                if (_hScroll != null)
-                    _hScroll.Dispose();
                 _moveImage = null;
-                if (_moveImage2 != null)
-                    _moveImage2.Dispose();
                 _normalImage = null;
-                if (_normalImage2 != null)
-                    _normalImage2.Dispose();
-                if (_selectedItem != null)
-                    _selectedItem.Dispose();
                 _selectImage = null;
-                if (_selectImage2 != null)
-                    _selectImage2.Dispose();
-                if (_text != null)
-                    _text.Dispose();
-                if (_textSencond != null)
-                    _textSencond.Dispose();
-                if (_toolTop != null)
-                    _toolTop.Dispose();
-                if (_vScroll != null)
-                    _vScroll.Dispose();
-                if (_vScroll2 != null)
-                    _vScroll2.Dispose();
+            }
+            if (_backGround != null)
+            {
+                _backGround.Dispose();
+                _backGround = null;
+            }
+            if (_lineColor != null)
+            {
+                _lineColor.Dispose();
+                _lineColor = null;
+            }
+            if (_change != null)
+            {
+                _change.Dispose();
+                _change = null;
+            }
+            if (_desc != null)
+            {
+                _desc.Dispose();
+                _desc = null;
+            }
+            if (_downImage2 != null)
+            {
+                _downImage2.Dispose();
+            }
+            if (_endDesc != null)
+            {
+                _endDesc.Dispose();
+                _endDesc = null;
+            }
+            if (_headDesc != null)
+            {
+                _headDesc.Dispose();
+                _headDesc = null;
+            }
+            if (_hScroll != null)
+            {
+                _hScroll.Dispose();
+                _hScroll = null;
+            }
+            if (_moveImage2 != null)
+            {
+                _moveImage2.Dispose();
+            }
+            if (_normalImage2 != null)
+            {
+                _normalImage2.Dispose();
+            }
+            if (_selectedItem != null)
+            {
+                _selectedItem.Dispose();
+                _selectedItem = null;
+            }
+            if (_selectImage2 != null)
+            {
+                _selectImage2.Dispose();
+            }
+            if (_text != null)
+            {
+                _text.Dispose();
+                _text = null;
+            }
+            if (_textSencond != null)
+            {
+                _textSencond.Dispose();
+                _textSencond = null;
+            }
+            if (_toolTop != null)
+            {
+                _toolTop.Dispose();
+                _toolTop = null;
+            }
+            if (_vScroll != null)
+            {
+                _vScroll.Dispose();
+                _vScroll = null;
+            }
+            if (_vScroll2 != null)
+            {
+                _vScroll2.Dispose();
+                _vScroll2 = null;
+            }
 
-                _image = null;
-                if (_tDynamic != null)
-                {
-                    _tDynamic.Stop();
-                    _tDynamic.Dispose();
-                }
-                if (_pictureBox1 != null)
-                {
-                    _pictureBox1.Image = null;
-                    _pictureBox1.Dispose();
-                }
-                if (_tChange != null)
-                {
-                    _tChange.Stop();
-                    _tChange.Dispose();
-                }
-                if (_panelScroll != null)
-                    _panelScroll.Dispose();
-                if (MoveItem != null)
-                    MoveItem.Dispose();
-                if (_items != null)
-                    _items.Dispose();
+            _image = null;
+            if (_tDynamic != null)
+            {
+                _tDynamic.Stop();
+                _tDynamic.Dispose();
+            }
+            if (_pictureBox1 != null)
+            {
+                _pictureBox1.Image = null;
+                _pictureBox1.Dispose();
+                _pictureBox1 = null;
+            }
+            if (_tChange != null)
+            {
+                _tChange.Stop();
+                _tChange.Dispose();
+            }
+            if (_panelScroll != null)
+            {
+                _panelScroll.Dispose();
+                _panelScroll = null;
+            }
+            if (MoveItem != null)
+            {
+                MoveItem.Dispose();
+                MoveItem = null;
+            }
+            if (_items != null)
+            {
+                Suspend();
+                _items.Dispose();
+                _items = null;
             }
             base.Dispose(disposing);
         }

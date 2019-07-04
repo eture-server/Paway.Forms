@@ -20,6 +20,7 @@ namespace Paway.Utils
         /// </summary>
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        #region 字段与属性
         /// <summary>
         ///     允许线程通过发信号互相通信。通常，此通信涉及一个线程在其他线程进行之前必须完成的任务。
         /// </summary>
@@ -55,15 +56,22 @@ namespace Paway.Utils
         /// </summary>
         public int HeartTime { get; set; } = 3000;
 
+        #endregion
+
+        #region 事件
         /// <summary>
         /// 服务端事件
         /// </summary>
         public event Action<ServiceEventArgs> SystemEvent;
+
         /// <summary>
         /// 客户端连接事件
         /// </summary>
         public event Action<SocketPackage> ClientEvent;
 
+        #endregion
+
+        #region public methord
         /// <summary>
         ///     开始监听
         /// </summary>
@@ -93,6 +101,33 @@ namespace Paway.Utils
             ForceStop = true;
         }
 
+        #endregion
+
+        #region virtual methord
+        /// <summary>
+        ///     抛出连接完成事件
+        /// </summary>
+        protected virtual void ClientFinished(IPEndPoint point)
+        {
+            var msg = new ServiceEventArgs(ServiceType.Connect)
+            {
+                Ip = point.Address.ToString(),
+                Port = point.Port
+            };
+            OnSystemEvent(msg);
+        }
+
+        /// <summary>
+        ///     抛出单个连接对象，用于消息发送
+        /// </summary>
+        protected virtual void OnClientConnect(SocketPackage client)
+        {
+            ClientEvent?.Invoke(client);
+        }
+
+        #endregion
+
+        #region private Method
         /// <summary>
         ///     发送到所有连接对象
         /// </summary>
@@ -111,8 +146,6 @@ namespace Paway.Utils
                 }
             }
         }
-
-        #region Method
 
         /// <summary>
         ///     心跳监听服务
@@ -245,27 +278,6 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     抛出连接完成事件
-        /// </summary>
-        protected virtual void ClientFinished(IPEndPoint point)
-        {
-            var msg = new ServiceEventArgs(ServiceType.Connect)
-            {
-                Ip = point.Address.ToString(),
-                Port = point.Port
-            };
-            OnSystemEvent(msg);
-        }
-
-        /// <summary>
-        ///     抛出单个连接对象，用于消息发送
-        /// </summary>
-        protected virtual void OnClientConnect(SocketPackage client)
-        {
-            ClientEvent?.Invoke(client);
-        }
-
-        /// <summary>
         ///     客户端事件与断开连接事件
         /// </summary>
         /// <param name="e"></param>
@@ -276,27 +288,51 @@ namespace Paway.Utils
 
         #endregion
 
-        #region Dispose
+        #region IDisposable
         /// <summary>
-        /// 释放资源
+        /// 标识此对象已释放
+        /// </summary>
+        private bool disposed = false;
+        /// <summary>
+        /// 参数为true表示释放所有资源，只能由使用者调用
+        /// 参数为false表示释放非托管资源，只能由垃圾回收器自动调用
         /// </summary>
         /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (!disposed)
             {
-                if (allDone != null) allDone.Dispose();
-                if (socketListener != null) socketListener.Dispose();
+                disposed = true;
+                if (disposing)
+                {
+                    // TODO: 释放托管资源(托管的对象)。
+                }
+                // TODO: 释放未托管资源(未托管的对象)
+                if (allDone != null)
+                {
+                    allDone.Dispose();
+                }
+                if (socketListener != null)
+                {
+                    socketListener.Dispose();
+                    socketListener = null;
+                }
             }
         }
         /// <summary>
+        /// 析构，释放非托管资源
+        /// </summary>
+        ~Service()
+        {
+            Dispose(false);
+        }
+        /// <summary>
         /// 释放资源
+        /// 由类的使用者，在外部显示调用，释放类资源
         /// </summary>
         public void Dispose()
         {
-            // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
             Dispose(true);
-            // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
             GC.SuppressFinalize(this);
         }
 

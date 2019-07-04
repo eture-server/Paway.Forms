@@ -30,7 +30,7 @@ namespace Paway.Forms
         /// <summary>
         ///     控制窗口动画效果
         /// </summary>
-        private Timer Timer;
+        private readonly Timer Timer = new Timer();
 
         /// <summary>
         ///     当前类的实例
@@ -230,8 +230,6 @@ namespace Paway.Forms
         {
             if (Notify == null)
                 Notify = new NotifyForm();
-            if (Timer == null)
-                Timer = new Timer();
             if (!string.IsNullOrEmpty(caption)) Notify.TextShow = caption;
             if (!string.IsNullOrEmpty(text)) Notify.NotifyText = text;
             Timer.Interval = 100;
@@ -405,11 +403,19 @@ namespace Paway.Forms
         {
             if (disposing)
             {
-                if (Timer != null) Timer.Dispose();
-                if (_backImage != null) _backImage.Dispose();
-                if (_splitImage != null) _splitImage.Dispose();
-                if (_notifyFont != null) _notifyFont.Dispose();
-                if (Notify != null) Notify.Dispose();
+            }
+            if (Timer != null) Timer.Dispose();
+            if (_backImage != null) _backImage.Dispose();
+            if (_splitImage != null) _splitImage.Dispose();
+            if (_notifyFont != null)
+            {
+                _notifyFont.Dispose();
+                _notifyFont = null;
+            }
+            if (Notify != null)
+            {
+                Notify.Dispose();
+                Notify = null;
             }
             base.Dispose(disposing);
         }

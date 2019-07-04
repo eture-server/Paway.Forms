@@ -12,15 +12,30 @@ namespace Paway.Forms
     /// </summary>
     public sealed class Progress : IDisposable
     {
+        #region 字段与属性
         private readonly ProgressState _state = null;
-
         private readonly static ProgressStates states = new ProgressStates();
         private volatile static bool IStop = true;
+        /// <summary>
+        /// 正在显示的进度条数量
+        /// </summary>
+        public static int Count { get { return states.Count; } }
+        /// <summary>
+        /// 是否取消
+        /// </summary>
+        public bool ICancel { get { return this._state.ICancel; } }
+
+        #endregion
+
+        #region 事件
         /// <summary>
         /// 取消事件
         /// </summary>
         public event Func<bool> CancelEvent;
 
+        #endregion
+
+        #region public method
         /// <summary>
         /// 初始化线程
         /// </summary>
@@ -52,11 +67,10 @@ namespace Paway.Forms
             states.Clear();
             IStop = true;
         }
-        /// <summary>
-        /// 正在显示的进度条数量
-        /// </summary>
-        public static int Count { get { return states.Count; } }
 
+        #endregion
+
+        #region public method
         /// <summary>
         /// 初始化实例
         /// </summary>
@@ -113,10 +127,6 @@ namespace Paway.Forms
             this._state.Value = value;
         }
         /// <summary>
-        /// 是否取消
-        /// </summary>
-        public bool ICancel { get { return this._state.ICancel; } }
-        /// <summary>
         /// 重置
         /// </summary>
         public void Reset()
@@ -124,6 +134,8 @@ namespace Paway.Forms
             this._state.Max = 0;
             this._state.NoValue = true;
         }
+
+        #endregion
     }
 }
 

@@ -13,7 +13,19 @@ namespace Paway.Forms
     /// </summary>
     public class ToolItem : IDisposable
     {
-        #region 属性
+        #region 字段与属性
+        /// <summary>
+        ///     描述信息的鼠标状态
+        /// </summary>
+        internal TMouseState TMouseState { get; set; }
+
+        /// <summary>
+        ///     Item 当前的鼠标状态
+        /// </summary>
+        [Browsable(false), Description("Item 当前的鼠标状态")]
+        [DefaultValue(TMouseState.Normal)]
+        internal TMouseState MouseState { get; set; }
+
         /// <summary>
         ///     拥有者
         /// </summary>
@@ -193,18 +205,6 @@ namespace Paway.Forms
         [Browsable(false)]
         public Rectangle Rectangle { get; internal set; }
 
-        /// <summary>
-        ///     描述信息的鼠标状态
-        /// </summary>
-        internal TMouseState TMouseState { get; set; }
-
-        /// <summary>
-        ///     Item 当前的鼠标状态
-        /// </summary>
-        [Browsable(false), Description("Item 当前的鼠标状态")]
-        [DefaultValue(TMouseState.Normal)]
-        internal TMouseState MouseState { get; set; }
-
         private bool _enable = true;
         /// <summary>
         ///     Item 当前启用状态
@@ -284,23 +284,19 @@ namespace Paway.Forms
             }
         }
 
-        #region 构造
+        #endregion
 
+        #region 构造
         /// <summary>
         ///     构造
         /// </summary>
-        public ToolItem()
-        {
-        }
+        public ToolItem() { }
 
         /// <summary>
         ///     构造
         /// </summary>
         /// <param name="text"></param>
-        public ToolItem(string text)
-            : this(text, null)
-        {
-        }
+        public ToolItem(string text) : this(text, null) { }
 
         /// <summary>
         ///     构造
@@ -324,10 +320,11 @@ namespace Paway.Forms
 
         #endregion
 
-        #endregion
-
-        #region IDisposable Support
-        private bool disposed = false; // 要检测冗余调用
+        #region IDisposable
+        /// <summary>
+        /// 标识此对象已释放
+        /// </summary>
+        private bool disposed = false;
 
         /// <summary>
         /// 参数为true表示释放所有资源，只能由使用者调用
@@ -341,38 +338,39 @@ namespace Paway.Forms
             // 这个判断主要用了防止对象被多次释放
             if (!disposed)
             {
+                // 标识此对象已释放
+                disposed = true;
                 if (disposing)
                 {
-                    // TODO: 释放托管状态(托管对象)。
-                    // 释放托管资源
+                    // TODO: 释放托管资源(托管的对象)。
                     _image = null;
                     Tag = null;
                     Owner = null;
                 }
 
-                // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。
+                // TODO: 释放未托管资源(未托管的对象)并在以下内容中替代终结器。
                 // TODO: 将大型字段设置为 null。
-                // 释放非托管资源
-                // 非托管资源：　
+                // 未托管资源有：　
                 // ApplicationContext, Brush, Component, ComponentDesigner, Container, Context, Cursor, 
                 // FileStream, Font, Icon, Image, Matrix, Object, OdbcDataReader, OleDBDataReader, Pen, 
                 // Regex, Socket, StreamWriter, Timer, Tooltip, 文件句柄, GDI资源, 数据库连接等等资源。
-                if (_color != null) _color.Dispose();
-
-                // 标识此对象已释放
-                disposed = true;
+                if (_color != null)
+                {
+                    _color.Dispose();
+                    _color = null;
+                }
             }
         }
 
         /// <summary>
-        /// TODO: 仅当以上 Dispose(bool disposing) 拥有用于释放未托管资源的代码时才替代终结器。
-        /// 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
-        /// 释放非托管资源
-        /// 注意，不能在析构函数中释放托管资源，
-        /// 因为析构函数是有垃圾回收器调用的，可能在析构函数调用之前，类包含的托管资源已经被回收了，从而导致无法预知的结果。
+        /// 析构，释放非托管资源
         /// </summary>
         ~ToolItem()
         {
+            // TODO: 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
+            // TODO: 仅当以上 Dispose(bool disposing) 拥有用于释放未托管资源的代码时才替代终结器。
+            // 注意，不能在析构函数中释放托管资源，
+            // 因为析构函数是有垃圾回收器调用的，可能在析构函数调用之前，类包含的托管资源已经被回收了，从而导致无法预知的结果。
             Dispose(false);
         }
 
@@ -383,10 +381,10 @@ namespace Paway.Forms
         public void Dispose()
         {
             // 释放托管和非托管资源
-            // TODO: 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
             Dispose(true);
             // 将对象从垃圾回收器链表中移除，
             // 从而在垃圾回收器工作时，只释放托管资源，而不执行此对象的析构函数
+            // TODO: 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
             // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
             GC.SuppressFinalize(this);
         }

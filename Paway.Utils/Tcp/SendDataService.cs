@@ -12,6 +12,7 @@ namespace Paway.Utils
     /// </summary>
     internal class SendDataService : IDisposable
     {
+        #region 字段与属性
         /// <summary>
         ///     发送数据间隔(ms)
         /// </summary>
@@ -32,6 +33,9 @@ namespace Paway.Utils
         /// </summary>
         private SocketBase Socket;
 
+        #endregion
+
+        #region public method
         /// <summary>
         ///     传入Socket实例初始化 数据发送类
         /// </summary>
@@ -53,10 +57,13 @@ namespace Paway.Utils
             MessageQueue.Enqueue(byteData);
         }
 
+        #endregion
+
+        #region private method
         /// <summary>
         ///     线程发送消息
         /// </summary>
-        protected void IntervalSendData(object state)
+        private void IntervalSendData(object state)
         {
             if (state == null) return;
             SocketConfig.ThreadList.TryAdd(Thread.CurrentThread.ManagedThreadId, state.ToString());
@@ -78,44 +85,55 @@ namespace Paway.Utils
             SocketConfig.ThreadList.TryRemove(Thread.CurrentThread.ManagedThreadId, out _);
         }
 
-        #region Dispose
+        #endregion
 
+        #region IDisposable
         /// <summary>
-        ///     Disposes the instance of SocketClient.
+        /// 标识此对象已释放
         /// </summary>
-        private bool disposed;
-
+        private bool disposed = false;
         /// <summary>
-        ///     释放资源
+        /// 参数为true表示释放所有资源，只能由使用者调用
+        /// 参数为false表示释放非托管资源，只能由垃圾回收器自动调用
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                disposed = true;
+                if (disposing)
+                {
+                    // TODO: 释放托管资源(托管的对象)。
+                }
+                // TODO: 释放未托管资源(未托管的对象)
+                SendStop = true;
+                if (Socket != null)
+                {
+                    Socket.SendStop = true;
+                    Socket = null;
+                }
+                if (MessageQueue != null)
+                {
+                    MessageQueue = null;
+                }
+            }
+        }
+        /// <summary>
+        /// 析构，释放非托管资源
+        /// </summary>
+        ~SendDataService()
+        {
+            Dispose(false);
+        }
+        /// <summary>
+        /// 释放资源
+        /// 由类的使用者，在外部显示调用，释放类资源
         /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (!disposed)
-            {
-                if (disposing)
-                {
-                    Socket.SendStop = true;
-                    SendStop = true;
-
-                    MessageQueue = null;
-                    Socket = null;
-                }
-            }
-            disposed = true;
-        }
-
-        /// <summary>
-        ///     析构
-        /// </summary>
-        ~SendDataService()
-        {
-            Dispose(false);
         }
 
         #endregion

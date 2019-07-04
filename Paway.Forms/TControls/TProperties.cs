@@ -13,6 +13,13 @@ namespace Paway.Forms
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class TProperties : IDisposable
     {
+        #region 字段与属性
+        internal int HeightNormal;
+        internal int HeightMove;
+        internal int HeightDown;
+        internal StringFormat StringFormat = new StringFormat();
+        internal TextFormatFlags TextFormat;
+
         private Color _cDown = Color.Empty;
 
         private Color _cMove = Color.Empty;
@@ -29,21 +36,6 @@ namespace Paway.Forms
 
         private StringAlignment _stringVertical = StringAlignment.Near;
         private readonly MethodBase parent;
-
-        /// <summary>
-        ///     构造
-        ///     初始化
-        /// </summary>
-        public TProperties(MethodBase parent = null)
-        {
-            this.parent = parent;
-            HeightNormal = InitHeight(FontNormal);
-            HeightMove = InitHeight(FontMove);
-            HeightDown = InitHeight(FontDown);
-            StringFormat.Alignment = _stringVertical;
-            StringFormat.LineAlignment = _stringHorizontal;
-            TextFormat = InitTextFormat(StringFormat);
-        }
 
         /// <summary>
         ///     默认字体
@@ -141,31 +133,6 @@ namespace Paway.Forms
                 OnValueChange(value);
             }
         }
-        /// <summary>
-        /// 清空颜色
-        /// </summary>
-        public void Clear()
-        {
-            Reset(Color.Empty);
-        }
-        /// <summary>
-        /// 重置颜色
-        /// </summary>
-        public void Reset(Color color, int value = 30)
-        {
-            _cNormal = color;
-            if (color == Color.Empty)
-            {
-                _cMove = Color.Empty;
-                _cDown = Color.Empty;
-            }
-            else
-            {
-                _cMove = BitmapHelper.RGBAddLight(color, value);
-                _cDown = BitmapHelper.RGBAddLight(color, -value);
-            }
-            OnValueChange(value);
-        }
 
         /// <summary>
         ///     鼠标移过时的颜色
@@ -236,9 +203,49 @@ namespace Paway.Forms
         /// </summary>
         public event EventHandler ValueChange;
 
-        private void OnValueChange(object value)
+        #endregion
+
+        #region public method
+        /// <summary>
+        ///     构造
+        ///     初始化
+        /// </summary>
+        public TProperties(MethodBase parent = null)
         {
-            ValueChange?.Invoke(value, EventArgs.Empty);
+            this.parent = parent;
+            HeightNormal = InitHeight(FontNormal);
+            HeightMove = InitHeight(FontMove);
+            HeightDown = InitHeight(FontDown);
+            StringFormat.Alignment = _stringVertical;
+            StringFormat.LineAlignment = _stringHorizontal;
+            TextFormat = InitTextFormat(StringFormat);
+        }
+
+        /// <summary>
+        /// 清空颜色
+        /// </summary>
+        public void Clear()
+        {
+            Reset(Color.Empty);
+        }
+
+        /// <summary>
+        /// 重置颜色
+        /// </summary>
+        public void Reset(Color color, int value = 30)
+        {
+            _cNormal = color;
+            if (color == Color.Empty)
+            {
+                _cMove = Color.Empty;
+                _cDown = Color.Empty;
+            }
+            else
+            {
+                _cMove = BitmapHelper.RGBAddLight(color, value);
+                _cDown = BitmapHelper.RGBAddLight(color, -value);
+            }
+            OnValueChange(value);
         }
 
         /// <summary>
@@ -250,24 +257,23 @@ namespace Paway.Forms
             return null;
         }
 
-        #region 内部初始化字体单行高度
+        #endregion
 
-        internal int HeightNormal;
-        internal int HeightMove;
-        internal int HeightDown;
-
+        #region private method
+        private void OnValueChange(object value)
+        {
+            ValueChange?.Invoke(value, EventArgs.Empty);
+        }
+        /// <summary>
+        /// 内部初始化字体单行高度
+        /// </summary>
         private int InitHeight(Font font)
         {
             return TextRenderer.MeasureText("你好", font).Height;
         }
-
-        #endregion
-
-        #region 内部初始化文本布局
-
-        internal StringFormat StringFormat = new StringFormat();
-        internal TextFormatFlags TextFormat;
-
+        /// <summary>
+        /// 内部初始化文本布局
+        /// </summary>
         private TextFormatFlags InitTextFormat(StringFormat format)
         {
             var text = TextFormatFlags.EndEllipsis;
@@ -300,21 +306,26 @@ namespace Paway.Forms
 
         #endregion
 
-        #region IDisposable Support
-        private bool disposed = false; // 要检测冗余调用
+        #region IDisposable
         /// <summary>
+        /// 标识此对象已释放
         /// </summary>
+        private bool disposed = false;
+        /// <summary>
+        /// 参数为true表示释放所有资源，只能由使用者调用
+        /// 参数为false表示释放非托管资源，只能由垃圾回收器自动调用
+        /// </summary>
+        /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
             if (!disposed)
             {
+                disposed = true;
                 if (disposing)
                 {
-                    // TODO: 释放托管状态(托管对象)。
+                    // TODO: 释放托管资源(托管的对象)。
                 }
-
-                // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。
-                // TODO: 将大型字段设置为 null。
+                // TODO: 释放未托管资源(未托管的对象)
                 if (_fDown != null)
                 {
                     _fDown.Dispose();
@@ -335,28 +346,22 @@ namespace Paway.Forms
                     StringFormat.Dispose();
                     StringFormat = null;
                 }
-
-                disposed = true;
             }
         }
-
         /// <summary>
-        /// TODO: 仅当以上 Dispose(bool disposing) 拥有用于释放未托管资源的代码时才替代终结器。
+        /// 析构，释放非托管资源
         /// </summary>
         ~TProperties()
         {
             Dispose(false);
         }
-
         /// <summary>
         /// 释放资源
+        /// 由类的使用者，在外部显示调用，释放类资源
         /// </summary>
-        // 添加此代码以正确实现可处置模式。
         public void Dispose()
         {
-            // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
             Dispose(true);
-            // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
             GC.SuppressFinalize(this);
         }
 

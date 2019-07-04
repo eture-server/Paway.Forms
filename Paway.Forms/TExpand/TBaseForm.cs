@@ -109,7 +109,11 @@ namespace Paway.Forms
         {
             if (disposing)
             {
-                if (panel1 != null) panel1.Dispose();
+            }
+            if (panel1 != null)
+            {
+                panel1.Dispose();
+                panel1 = null;
             }
             base.Dispose(disposing);
         }

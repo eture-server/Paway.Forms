@@ -186,7 +186,11 @@ namespace Paway.Forms
         {
             if (disposing)
             {
-                if (timer != null) timer.Dispose();
+            }
+            if (timer != null)
+            {
+                timer.Stop();
+                timer.Dispose();
             }
             base.Dispose(disposing);
         }

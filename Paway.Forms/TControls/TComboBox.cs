@@ -190,13 +190,14 @@ namespace Paway.Forms
         {
             if (disposing)
             {
-                if (moveImage != null)
-                    moveImage.Dispose();
-                if (tComboBox1 != null)
-                    tComboBox1.Dispose();
-                if (_borderImage != null)
-                    _borderImage.Dispose();
             }
+            if (moveImage != null) moveImage.Dispose();
+            if (tComboBox1 != null)
+            {
+                tComboBox1.Dispose();
+                tComboBox1 = null;
+            }
+            if (_borderImage != null) _borderImage.Dispose();
             base.Dispose(disposing);
         }
 

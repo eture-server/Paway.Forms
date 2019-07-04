@@ -32,6 +32,7 @@ namespace Paway.Forms
                 ControlStyles.SupportsTransparentBackColor, true);
             SetStyle(ControlStyles.Opaque, false);
             UpdateStyles();
+            sTimer = new Timer();
             InitShow();
 
             ForeColor = Color.Black;
@@ -372,7 +373,7 @@ namespace Paway.Forms
         #endregion
 
         #region 按指定方向显示移动特效
-        private Timer sTimer;
+        private readonly Timer sTimer;
         private int intervel;
         private DockStyle dock;
         private Size size;
@@ -387,10 +388,7 @@ namespace Paway.Forms
 
         private void InitShow()
         {
-            sTimer = new Timer()
-            {
-                Interval = 45
-            };
+            sTimer.Interval = 45;
             sTimer.Tick += STimer_Tick;
         }
 
@@ -469,6 +467,7 @@ namespace Paway.Forms
             if (sTimer.Enabled)
             {
                 sTimer.Stop();
+                sTimer.Dispose();
             }
             else return;
             Size = size;
@@ -873,15 +872,21 @@ namespace Paway.Forms
                 image = null;
                 TranImage = null;
                 TranLaterImage = null;
-                if (_tBrush != null)
-                    _tBrush.Dispose();
-                if (sTimer != null)
-                {
-                    sTimer.Stop();
-                    sTimer.Dispose();
-                }
-                if (alpha != null)
-                    alpha.Dispose();
+            }
+            if (_tBrush != null)
+            {
+                _tBrush.Dispose();
+                _tBrush = null;
+            }
+            if (sTimer != null)
+            {
+                sTimer.Stop();
+                sTimer.Dispose();
+            }
+            if (alpha != null)
+            {
+                alpha.Dispose();
+                alpha = null;
             }
             base.Dispose(disposing);
         }

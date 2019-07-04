@@ -854,16 +854,25 @@ namespace Paway.Forms
         {
             if (disposing)
             {
-                if (_borderImage != null)
-                    _borderImage.Dispose();
-                if (_moveImage != null)
-                    _moveImage.Dispose();
-                if (_error != null)
-                    _error.Dispose();
                 _icon = null;
-                if (BaseText != null)
-                    BaseText.Dispose();
-                if (components != null) components.Dispose();
+            }
+            if (_borderImage != null) _borderImage.Dispose();
+            if (_moveImage != null) _moveImage.Dispose();
+            if (_error != null)
+            {
+                _error.Dispose();
+                _error = null;
+            }
+            if (BaseText != null)
+            {
+                BaseText.Dispose();
+                //会出现异常
+                //BaseText = null;
+            }
+            if (components != null)
+            {
+                components.Dispose();
+                components = null;
             }
             base.Dispose(disposing);
         }

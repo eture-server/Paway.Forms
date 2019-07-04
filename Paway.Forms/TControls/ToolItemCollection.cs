@@ -9,16 +9,11 @@ namespace Paway.Forms
     [ListBindable(false)]
     public class ToolItemCollection : BindingList<ToolItem>, IDisposable
     {
-        #region 构造函数
-
+        #region public method
         /// <summary>
         ///     初始化 Paway.Forms.ToolItemCollection 新的实例。
         /// </summary>
         public ToolItemCollection() { }
-
-        #endregion
-
-        #region 方法
 
         /// <summary>
         ///     返回该项在集合中的索引值
@@ -41,44 +36,47 @@ namespace Paway.Forms
 
         #endregion
 
-        #region IDisposable Support
-        private bool disposedValue = false; // 要检测冗余调用
+        #region IDisposable
         /// <summary>
+        /// 标识此对象已释放
         /// </summary>
+        private bool disposed = false;
+        /// <summary>
+        /// 参数为true表示释放所有资源，只能由使用者调用
+        /// 参数为false表示释放非托管资源，只能由垃圾回收器自动调用
+        /// </summary>
+        /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!disposed)
             {
+                disposed = true;
                 if (disposing)
                 {
-                    // TODO: 释放托管状态(托管对象)。
-                    for (var i = 0; i < Count; i++)
-                    {
-                        base[i].Dispose();
-                    }
+                    // TODO: 释放托管资源(托管的对象)。
                 }
-
-                // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。
-                // TODO: 将大型字段设置为 null。
-
-                disposedValue = true;
+                // TODO: 释放未托管资源(未托管的对象)
+                for (var i = 0; i < Count; i++)
+                {
+                    base[i].Dispose();
+                }
+                Clear();
             }
         }
-
-        // TODO: 仅当以上 Dispose(bool disposing) 拥有用于释放未托管资源的代码时才替代终结器。
-        // ~TProperties() {
-        //   // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
-        //   Dispose(false);
-        // }
-
+        /// <summary>
+        /// 析构，释放非托管资源
+        /// </summary>
+        ~ToolItemCollection()
+        {
+            Dispose(false);
+        }
         /// <summary>
         /// 释放资源
+        /// 由类的使用者，在外部显示调用，释放类资源
         /// </summary>
         public void Dispose()
         {
-            // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
             Dispose(true);
-            // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
             GC.SuppressFinalize(this);
         }
 

@@ -1356,8 +1356,12 @@ namespace Paway.Forms
         {
             if (disposing)
             {
-                if (_borderImage != null) _borderImage.Dispose();
-                if (_tBrush != null) _tBrush.Dispose();
+            }
+            if (_borderImage != null) _borderImage.Dispose();
+            if (_tBrush != null)
+            {
+                _tBrush.Dispose();
+                _tBrush = null;
             }
             base.Dispose(disposing);
         }
