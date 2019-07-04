@@ -122,7 +122,6 @@
             this.tbName.Location = new System.Drawing.Point(0, 3);
             this.tbName.MaxLength = 16;
             this.tbName.Name = "tbName";
-            this.tbName.Regex = "";
             this.tbName.RegexType = Paway.Helper.RegexType.Normal;
             this.tbName.Size = new System.Drawing.Size(153, 29);
             this.tbName.TabIndex = 60;

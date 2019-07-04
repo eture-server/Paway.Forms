@@ -57,7 +57,7 @@ namespace Paway.Helper
         public static string[] GetNetCardMacAddressArray()
         {
             var macAddress = GetNetCardMacAddress();
-            if (macAddress == "")
+            if (macAddress == string.Empty)
             {
                 macAddress = "54:04:A6:C2:7B:9A";
             }
@@ -95,7 +95,7 @@ namespace Paway.Helper
             using (var mc = new ManagementClass("Win32_NetworkAdapterConfiguration"))
             {
                 var moc = mc.GetInstances();
-                var str = "";
+                var str = string.Empty;
                 foreach (ManagementObject mo in moc)
                 {
                     if ((bool)mo["IPEnabled"])

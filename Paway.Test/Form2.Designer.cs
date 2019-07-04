@@ -140,7 +140,6 @@
             toolItem18.TColor.ColorNormal = System.Drawing.Color.Red;
             toolItem18.TColor.StringVertical = System.Drawing.StringAlignment.Center;
             toolItem18.Text = "白酒";
-            toolItem19.EndDesc = "";
             toolItem19.HeadDesc = "呵呵";
             toolItem19.IChange = true;
             toolItem19.Text = "头部";

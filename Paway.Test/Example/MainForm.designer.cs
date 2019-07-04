@@ -84,7 +84,6 @@
             this.toolSet.IImageShow = true;
             this.toolSet.ImageSize = new System.Drawing.Size(17, 17);
             toolItem2.Image = global::Paway.Test.Properties.Resources.about;
-            toolItem2.Tag = "";
             toolItem2.Text = "关于";
             toolItem3.Text = "设置";
             this.toolSet.Items.Add(toolItem2);

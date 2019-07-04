@@ -10,7 +10,6 @@ namespace Paway.Forms
     /// <summary>
     ///     扩展属性
     /// </summary>
-    [Serializable]
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class TProperties : IDisposable
     {
@@ -266,7 +265,6 @@ namespace Paway.Forms
 
         #region 内部初始化文本布局
 
-        [NonSerialized]
         internal StringFormat StringFormat = new StringFormat();
         internal TextFormatFlags TextFormat;
 
@@ -303,38 +301,52 @@ namespace Paway.Forms
         #endregion
 
         #region IDisposable Support
-        private bool disposedValue = false; // 要检测冗余调用
+        private bool disposed = false; // 要检测冗余调用
         /// <summary>
         /// </summary>
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!disposed)
             {
                 if (disposing)
                 {
                     // TODO: 释放托管状态(托管对象)。
-                    if (_fDown != null) _fDown.Dispose();
-                    _fDown = null;
-                    if (_fMove != null) _fMove.Dispose();
-                    _fMove = null;
-                    if (_fNormal != null) _fNormal.Dispose();
-                    _fNormal = null;
-                    StringFormat.Dispose();
-                    StringFormat = null;
                 }
 
                 // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。
                 // TODO: 将大型字段设置为 null。
+                if (_fDown != null)
+                {
+                    _fDown.Dispose();
+                    _fDown = null;
+                }
+                if (_fMove != null)
+                {
+                    _fMove.Dispose();
+                    _fMove = null;
+                }
+                if (_fNormal != null)
+                {
+                    _fNormal.Dispose();
+                    _fNormal = null;
+                }
+                if (StringFormat != null)
+                {
+                    StringFormat.Dispose();
+                    StringFormat = null;
+                }
 
-                disposedValue = true;
+                disposed = true;
             }
         }
 
-        // TODO: 仅当以上 Dispose(bool disposing) 拥有用于释放未托管资源的代码时才替代终结器。
-        // ~TProperties() {
-        //   // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
-        //   Dispose(false);
-        // }
+        /// <summary>
+        /// TODO: 仅当以上 Dispose(bool disposing) 拥有用于释放未托管资源的代码时才替代终结器。
+        /// </summary>
+        ~TProperties()
+        {
+            Dispose(false);
+        }
 
         /// <summary>
         /// 释放资源

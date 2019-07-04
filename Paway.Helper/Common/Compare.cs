@@ -52,7 +52,7 @@ namespace Paway.Helper
             {
                 if (char.IsDigit(arr1[i]) && char.IsDigit(arr2[j]))
                 {
-                    string s1 = "", s2 = "";
+                    string s1 = string.Empty, s2 = string.Empty;
                     while (i < arr1.Length && char.IsDigit(arr1[i]))
                     {
                         s1 += arr1[i];

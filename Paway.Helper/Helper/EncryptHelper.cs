@@ -283,7 +283,7 @@ namespace Paway.Helper
         private static string GetMD5String(byte[] hash_byte)
         {
             var resule = BitConverter.ToString(hash_byte);
-            resule = resule.Replace("-", "");
+            resule = resule.Replace("-", string.Empty);
             return resule;
         }
 

@@ -194,7 +194,7 @@ namespace Paway.Helper
         public static string ToSpell(this object obj)
         {
             string text = obj.ToStrs();
-            string str = "";
+            string str = string.Empty;
             for (int i = 0; i < text.Length; i++)
             {
                 //取单个汉字
@@ -844,7 +844,7 @@ namespace Paway.Helper
             {
                 if (char.IsDigit(arr1[i]) && char.IsDigit(arr2[j]))
                 {
-                    string s1 = "", s2 = "";
+                    string s1 = string.Empty, s2 = string.Empty;
                     while (i < arr1.Length && char.IsDigit(arr1[i]))
                     {
                         s1 += arr1[i];

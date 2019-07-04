@@ -60,7 +60,6 @@
             this.tbName.Location = new System.Drawing.Point(146, 22);
             this.tbName.MaxLength = 32;
             this.tbName.Name = "tbName";
-            this.tbName.Regex = "";
             this.tbName.RegexType = Paway.Helper.RegexType.Normal;
             this.tbName.RLength = 1;
             this.tbName.Size = new System.Drawing.Size(198, 29);
@@ -113,7 +112,6 @@
             this.tbPad.Location = new System.Drawing.Point(146, 60);
             this.tbPad.MaxLength = 32;
             this.tbPad.Name = "tbPad";
-            this.tbPad.Regex = "";
             this.tbPad.RegexType = Paway.Helper.RegexType.Normal;
             this.tbPad.RLength = 1;
             this.tbPad.Size = new System.Drawing.Size(198, 29);

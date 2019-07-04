@@ -36,7 +36,7 @@ namespace Paway.Helper
                 var tempArray = html.Split(';');
                 for (var i = 0; i < tempArray.Length; i++)
                 {
-                    tempArray[i] = tempArray[i].Replace("\r\n", "");
+                    tempArray[i] = tempArray[i].Replace("\r\n", string.Empty);
                 }
 
                 var year = tempArray[1].Split('=')[1];
@@ -73,7 +73,7 @@ namespace Paway.Helper
                 var html = client.DownloadString(url);
                 if (regex != null && regex.IsMatch(html))
                 {
-                    html = regex.Replace(html, "");
+                    html = regex.Replace(html, string.Empty);
                 }
                 return html;
             }

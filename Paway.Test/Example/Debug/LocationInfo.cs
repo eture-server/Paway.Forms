@@ -55,7 +55,7 @@ namespace Paway.Test
         /// </summary>
         public static void Save()
         {
-            string name = Application.ProductName.Replace("Paway.Test.", "");
+            string name = Application.ProductName.Replace("Paway.Test.", string.Empty);
             switch (name)
             {
                 case "Win":

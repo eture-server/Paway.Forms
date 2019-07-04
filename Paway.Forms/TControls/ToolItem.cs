@@ -327,18 +327,24 @@ namespace Paway.Forms
         #endregion
 
         #region IDisposable Support
-        private bool disposedValue = false; // 要检测冗余调用
+        private bool disposed = false; // 要检测冗余调用
+
         /// <summary>
+        /// 参数为true表示释放所有资源，只能由使用者调用
+        /// 参数为false表示释放非托管资源，只能由垃圾回收器自动调用
+        /// 如果子类有自己的非托管资源，可以重载这个函数，添加自己的非托管资源的释放
+        /// 但是要记住，重载此函数必须保证调用基类的版本，以保证基类的资源正常释放
         /// </summary>
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            // 如果资源未释放
+            // 这个判断主要用了防止对象被多次释放
+            if (!disposed)
             {
                 if (disposing)
                 {
                     // TODO: 释放托管状态(托管对象)。
-                    if (_color != null)
-                        _color.Dispose();
+                    // 释放托管资源
                     _image = null;
                     Tag = null;
                     Owner = null;
@@ -346,25 +352,41 @@ namespace Paway.Forms
 
                 // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。
                 // TODO: 将大型字段设置为 null。
+                // 释放非托管资源
+                // 非托管资源：　
+                // ApplicationContext, Brush, Component, ComponentDesigner, Container, Context, Cursor, 
+                // FileStream, Font, Icon, Image, Matrix, Object, OdbcDataReader, OleDBDataReader, Pen, 
+                // Regex, Socket, StreamWriter, Timer, Tooltip, 文件句柄, GDI资源, 数据库连接等等资源。
+                if (_color != null) _color.Dispose();
 
-                disposedValue = true;
+                // 标识此对象已释放
+                disposed = true;
             }
         }
 
-        // TODO: 仅当以上 Dispose(bool disposing) 拥有用于释放未托管资源的代码时才替代终结器。
-        // ~TProperties() {
-        //   // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
-        //   Dispose(false);
-        // }
+        /// <summary>
+        /// TODO: 仅当以上 Dispose(bool disposing) 拥有用于释放未托管资源的代码时才替代终结器。
+        /// 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
+        /// 释放非托管资源
+        /// 注意，不能在析构函数中释放托管资源，
+        /// 因为析构函数是有垃圾回收器调用的，可能在析构函数调用之前，类包含的托管资源已经被回收了，从而导致无法预知的结果。
+        /// </summary>
+        ~ToolItem()
+        {
+            Dispose(false);
+        }
 
         /// <summary>
         /// 释放资源
+        /// 由类的使用者，在外部显示调用，释放类资源
         /// </summary>
-        // 添加此代码以正确实现可处置模式。
         public void Dispose()
         {
-            // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
+            // 释放托管和非托管资源
+            // TODO: 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
             Dispose(true);
+            // 将对象从垃圾回收器链表中移除，
+            // 从而在垃圾回收器工作时，只释放托管资源，而不执行此对象的析构函数
             // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
             GC.SuppressFinalize(this);
         }

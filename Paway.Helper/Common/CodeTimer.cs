@@ -27,7 +27,7 @@ namespace Paway.Helper
         {
             Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.High;
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
-            Time("", 1, (obj) => { });
+            Time(string.Empty, 1, (obj) => { });
         }
 
         /// <summary>
