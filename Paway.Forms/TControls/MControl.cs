@@ -99,9 +99,9 @@ namespace Paway.Forms
         #region 界面切换控制
 
         /// <summary>
-        ///     基类控件列表
+        /// 列表锁，防止多线程处理
         /// </summary>
-
+        private static object typeObject = new object();
         /// <summary>
         ///     控件列表
         /// </summary>
@@ -162,7 +162,13 @@ namespace Paway.Forms
                 //加载控件
                 if (List.ContainsKey(type))
                 {
-                    if (List[type].ILoad) return control = List[type];
+                    lock (typeObject)
+                    {
+                        if (List.ContainsKey(type))
+                        {
+                            if (List[type].ILoad) return control = List[type];
+                        }
+                    }
                 }
                 //移除旧控件
                 var temp = parent;
@@ -182,7 +188,13 @@ namespace Paway.Forms
                 //加载控件
                 if (List.ContainsKey(type))
                 {
-                    control = List[type];
+                    lock (typeObject)
+                    {
+                        if (List.ContainsKey(type))
+                        {
+                            control = List[type];
+                        }
+                    }
                 }
                 parent.SuspendLayout();
                 //加载控件
@@ -243,7 +255,13 @@ namespace Paway.Forms
                 control.MChild();
                 if (!List.ContainsKey(type))
                 {
-                    List.Add(type, control);
+                    lock (typeObject)
+                    {
+                        if (!List.ContainsKey(type))
+                        {
+                            List.Add(type, control);
+                        }
+                    }
                 }
                 parent.BackgroundImage = null;
                 parent.ResumeLayout();
@@ -271,26 +289,43 @@ namespace Paway.Forms
             var type = control.GetType();
             if (!List.ContainsKey(type))
             {
-                List.Add(type, control);
-                return control;
+                lock (typeObject)
+                {
+                    if (!List.ContainsKey(type))
+                    {
+                        List.Add(type, control);
+                    }
+                }
             }
             return List[type];
         }
-
         /// <summary>
         ///     将指定类型控件加入列表
         /// </summary>
         /// <returns>成功返回列表中的已加入的MControl控件</returns>
         public static MControl Add<T>() where T : MControl
         {
-            Type type = typeof(T);
-            if (!MControl.List.ContainsKey(type))
+            return Add(typeof(T));
+        }
+        /// <summary>
+        ///     将指定类型控件加入列表
+        /// </summary>
+        /// <returns>成功返回列表中的已加入的MControl控件</returns>
+        public static MControl Add(Type type)
+        {
+            if (!List.ContainsKey(type))
             {
-                MControl control = (MControl)Activator.CreateInstance(type);
-                MControl.List.Add(type, control);
-                return control;
+                lock (typeObject)
+                {
+                    if (!List.ContainsKey(type))
+                    {
+                        MControl control = (MControl)Activator.CreateInstance(type);
+                        if (control == null) throw new ArgumentException(string.Format("{0} 不是有效的MControl", type.FullName));
+                        List.Add(type, control);
+                    }
+                }
             }
-            return MControl.List[type];
+            return List[type];
         }
 
         /// <summary>
@@ -315,12 +350,12 @@ namespace Paway.Forms
         public static MControl Get<T>() where T : MControl
         {
             Type type = typeof(T);
-            for (var i = 0; i < MControl.List.Count; i++)
+            for (var i = 0; i < List.Count; i++)
             {
-                var item = MControl.List.Keys.ElementAt(i);
+                var item = List.Keys.ElementAt(i);
                 if (item == type)
                 {
-                    return MControl.List[item];
+                    return List[item];
                 }
             }
             return null;
@@ -329,7 +364,7 @@ namespace Paway.Forms
         /// <summary>
         ///     重置子控件
         /// </summary>
-        public static void ReSet()
+        public static void Reset()
         {
             for (var i = List.Count - 1; i >= 0; i--)
             {
@@ -349,14 +384,14 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     重置控件上所有子控件
+        ///     重置控件上所有子控件（不指定父控件则重置所有）
         /// </summary>
-        public static void ReSet(Control parent)
+        public static void ResetAll(Control parent = null)
         {
             for (var i = List.Count - 1; i >= 0; i--)
             {
                 var item = List.Keys.ElementAt(i);
-                if (List[item].Parent == parent)
+                if (parent == null || List[item].Parent == parent)
                 {
                     if (List[item] == Current)
                     {
@@ -370,24 +405,6 @@ namespace Paway.Forms
                     List.Remove(item);
                 }
             }
-        }
-
-        /// <summary>
-        ///     重置所有子控件
-        /// </summary>
-        public static void ReSetAll()
-        {
-            for (var i = List.Count - 1; i >= 0; i--)
-            {
-                var item = List.Keys.ElementAt(i);
-                if (!List[item].IsDisposed)
-                {
-                    List[item].Dispose();
-                }
-                List[item] = null;
-            }
-            Current = null;
-            List.Clear();
         }
 
         /// <summary>
