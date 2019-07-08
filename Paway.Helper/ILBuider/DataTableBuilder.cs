@@ -41,11 +41,9 @@ namespace Paway.Helper
                 Type dbType = property.PropertyType;
                 if (dbType.IsClass && dbType != typeof(string) && dbType != typeof(byte[]) && dbType != typeof(Image) && dbType != typeof(Bitmap)) continue;
                 Label endIfLabel = generator.DefineLabel();
-                LocalBuilder value = null;
                 if (dbType.IsGenericType)
                 {
                     if (Nullable.GetUnderlyingType(dbType) == null) continue;
-                    value = generator.DeclareLocal(dbType);
                     generator.GetValue(property, type);//获取引用值
                     generator.Emit(OpCodes.Brfalse, endIfLabel);
                 }

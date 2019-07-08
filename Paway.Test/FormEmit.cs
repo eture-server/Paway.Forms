@@ -1,6 +1,7 @@
 ﻿using Paway.Forms;
 using Paway.Helper;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -54,9 +55,33 @@ namespace Paway.Test
 
             Stopwatch sw = new Stopwatch();
             sw.Restart();
-            var list = server.Find<TestInfo>("1=1 limit 20");
+            var list = server.Find<TestInfo>("1=1 limit 100");
             var dt = list.ToDataTable();
             Debug.WriteLine("FindList=>" + sw.ElapsedMilliseconds);
+
+
+            sw.Restart();
+            for (int i = 0; i < 10 * 10000; i++)
+            {
+                var ix = list.Find(c => c.Id == 1014509);
+            }
+            Debug.WriteLine("Find=>" + sw.ElapsedMilliseconds);
+
+            var dict = list.Cast<TestInfo>().ToDictionary(o => o.Id, o => o);
+            sw.Restart();
+            for (int i = 0; i < 10 * 1000; i++)
+            {
+                if (dict.ContainsKey(1014509))
+                {
+                    var ix = dict[1014509];
+                }
+            }
+            Debug.WriteLine("Key=>" + sw.ElapsedMilliseconds);
+            var map = new Hashtable();
+            map.Add(1, list[0]);
+            map.Add("1", list[1]);
+            var b2 = map[1];
+
 
             var list3 = list.Clone(true);
             list.Clone(list3);

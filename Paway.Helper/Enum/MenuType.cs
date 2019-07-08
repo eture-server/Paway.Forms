@@ -8,7 +8,7 @@ namespace Paway.Helper
     /// <summary>
     /// 自定义任务栏右键菜单
     /// </summary>
-    public enum MenuType : int
+    public enum MenuType
     {
         /// <summary>
         /// 横线

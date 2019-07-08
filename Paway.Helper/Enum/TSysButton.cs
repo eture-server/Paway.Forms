@@ -3,7 +3,7 @@
     /// <summary>
     ///     系统控制按钮
     /// </summary>
-    public enum TSysButton : int
+    public enum TSysButton
     {
         /// <summary>
         /// 无

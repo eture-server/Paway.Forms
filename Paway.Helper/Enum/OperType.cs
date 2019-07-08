@@ -8,7 +8,7 @@ namespace Paway.Helper
     /// <summary>
     /// 操作类型
     /// </summary>
-    public enum OperType : int
+    public enum OperType
     {
         /// <summary>
         /// 默认

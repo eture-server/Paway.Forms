@@ -42,10 +42,10 @@ namespace Paway.Helper
             foreach (FieldInfo field in type.GetFields())
             {
                 string name = field.Name;
-                if (string.Equals(name, value, StringComparison.CurrentCultureIgnoreCase))
+                if (name.Equals(value, StringComparison.OrdinalIgnoreCase))
                     return (T)field.GetRawConstantValue();
                 name = GetValue(field);
-                if (string.Equals(name, value, StringComparison.CurrentCultureIgnoreCase))
+                if (name.Equals(value, StringComparison.OrdinalIgnoreCase))
                     return (T)field.GetRawConstantValue();
             }
             return default;

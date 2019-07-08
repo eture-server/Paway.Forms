@@ -21,8 +21,8 @@ namespace Paway.Forms
             }
             set { _caption = value; }
         }
-        public bool ITime { get { return CanCancel && DateTime.Now.Subtract(DateTime).TotalSeconds > 3; } }
         private readonly bool CanCancel;
+        public bool ITime { get { return CanCancel && DateTime.Now.Subtract(DateTime).TotalSeconds > 3; } }
         private bool _iCancel;
         public bool ICancel
         {

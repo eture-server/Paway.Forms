@@ -17,6 +17,7 @@ namespace Paway.Helper
     public abstract class TMethod
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         #region 硬件
         /// <summary>
         /// 获取本机IP地址

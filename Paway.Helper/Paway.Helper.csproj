@@ -69,7 +69,6 @@
     <Compile Include="ILBuider\SQLBuilder.cs" />
     <Compile Include="ILBuider\EntityBuilder.cs" />
     <Compile Include="ILBuider\DataTableBuilder.cs" />
-    <Compile Include="Common\RowComparer.cs" />
     <Compile Include="Common\Compare.cs" />
     <Compile Include="Common\Licence.cs" />
     <Compile Include="Common\TMethod.cs" />

@@ -8,7 +8,7 @@ namespace Paway.Helper
     /// <summary>
     /// 等级
     /// </summary>
-    public enum LeveType : int
+    public enum LeveType
     {
         /// <summary>
         /// 默认

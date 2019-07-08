@@ -81,10 +81,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(87)))), ((int)(((byte)(154)))));
             this.ClientSize = new System.Drawing.Size(677, 367);
             this.Controls.Add(this.testControl1);
             this.Controls.Add(this.tControl1);
             this.Name = "FormEmit";
+            this.ShowIcon = false;
             this.Text = "Form5";
             this.tControl1.ResumeLayout(false);
             this.ResumeLayout(false);
