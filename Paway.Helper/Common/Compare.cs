@@ -78,6 +78,8 @@ namespace Paway.Helper
         /// </summary>
         public int Compare(string x, string y)
         {
+            if (x == null) x = string.Empty;
+            if (y == null) y = string.Empty;
             char[] arr1 = x.ToCharArray();
             char[] arr2 = y.ToCharArray();
             int i = 0, j = 0;
