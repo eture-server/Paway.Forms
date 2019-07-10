@@ -52,9 +52,9 @@ namespace Paway.Utils
 
             var list = new List<string>();
             var sqlList = sql.Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
-            for (var i = 0; i < sqlList.Length; i++)
+            foreach (var item in sqlList)
             {
-                var cmdLine = sqlList[i].Trim();
+                var cmdLine = item.Trim();
                 if (string.IsNullOrEmpty(cmdLine)) continue;
                 list.Add(cmdLine);
             }

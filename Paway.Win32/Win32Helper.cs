@@ -112,9 +112,8 @@ namespace Paway.Win32
         public static void SendMessageAll<T>(string form, int type, T msg)
         {
             var hList = FindWindowEnd(form);
-            for (var i = 0; i < hList.Count; i++)
+            foreach (var hWnd in hList.Keys)
             {
-                var hWnd = hList.Keys.ElementAt(i);
                 if (hWnd != IntPtr.Zero)
                 {
                     UserDataStruct cds;
@@ -170,9 +169,8 @@ namespace Paway.Win32
         public static void SendMessageAll(string form, int type, string msg)
         {
             var hList = FindWindowEnd(form);
-            for (var i = 0; i < hList.Count; i++)
+            foreach (var hWnd in hList.Keys)
             {
-                var hWnd = hList.Keys.ElementAt(i);
                 if (hWnd != IntPtr.Zero)
                 {
                     SendMessage(hWnd, type, msg);
@@ -258,9 +256,9 @@ namespace Paway.Win32
             NativeMethods.EnumWindows(EnumCallBack_StrEnd, ref result);
             var list = new List<string>();
             var data = result.Split(';');
-            for (var i = 1; i < data.Length; i++)
+            foreach (var item in data)
             {
-                list.Add(data[i]);
+                list.Add(item);
             }
             return list;
         }
@@ -288,9 +286,9 @@ namespace Paway.Win32
             NativeMethods.EnumWindows(EnumCallBack_HandleEnd, ref result);
             var list = new List<IntPtr>();
             var data = result.Split(';');
-            for (var i = 1; i < data.Length; i++)
+            foreach (var item in data)
             {
-                list.Add((IntPtr)Convert.ToInt32(data[i]));
+                list.Add((IntPtr)Convert.ToInt32(item));
             }
             return list;
         }

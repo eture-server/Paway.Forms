@@ -174,9 +174,9 @@ namespace Paway.Utils
             try
             {
                 if (iTrans) cmd = TransStart();
-                for (var i = 0; i < sqlList.Count; i++)
+                foreach (var item in sqlList)
                 {
-                    cmd.CommandText = sqlList[i];
+                    cmd.CommandText = item;
                     OnCommandText(cmd);
                     cmd.ExecuteNonQuery();
                 }
@@ -412,9 +412,9 @@ namespace Paway.Utils
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
                 var builder = SQLBuilder.CreateBuilder(list[0].GetType(), paramType, args);
-                for (var i = 0; i < list.Count; i++)
+                foreach (var item in list)
                 {
-                    var pList = builder.Build(list[i]).ToArray();
+                    var pList = builder.Build(item).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
                     cmd.ExecuteNonQuery();
@@ -495,9 +495,9 @@ namespace Paway.Utils
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
                 var builder = SQLBuilder.CreateBuilder(list[0].GetType(), paramType);
-                for (var i = 0; i < list.Count; i++)
+                foreach (var item in list)
                 {
-                    var pList = builder.Build(list[i]).ToArray();
+                    var pList = builder.Build(item).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
                     cmd.ExecuteNonQuery();
@@ -533,10 +533,10 @@ namespace Paway.Utils
 
                 List<T> iList = new List<T>();
                 List<T> uList = new List<T>();
-                for (int i = 0; i < list.Count; i++)
+                foreach (var item in list)
                 {
-                    if (list[i].Id == 0) iList.Add(list[i]);
-                    else uList.Add(list[i]);
+                    if (item.Id == 0) iList.Add(item);
+                    else uList.Add(item);
                 }
                 if (iList.Count > 0) Insert(iList, cmd);
                 if (uList.Count > 0) Update(uList, cmd);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 
@@ -43,7 +44,7 @@ namespace Paway.Utils
         {
             try
             {
-                ArrayList array = new ArrayList();
+                List<SocketBase> list = new List<SocketBase>();
                 lock (Lock)
                 {
                     SocketBase socket = null;
@@ -60,11 +61,10 @@ namespace Paway.Utils
                         }
                         else
                         {
-                            array.Add(socket);
+                            list.Add(socket);
                         }
                     }
-                    for (int i = 0; i < array.Count; i++)
-                        SocketConfig.ClientList.TryAdd((SocketBase)array[i]);
+                    foreach (var item in list) SocketConfig.ClientList.TryAdd(item);
                 }
             }
             catch (Exception ex)
