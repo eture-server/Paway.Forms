@@ -110,7 +110,7 @@ namespace Paway.Test
             for (int i = 0; i < 100; i++)
             {
                 //var list3 = list.Clone2(true);
-                list.Clone2(list3);
+                list.Clone(list3);
             }
             Debug.WriteLine("Clone2=>" + sw.ElapsedMilliseconds);
 
