@@ -8,6 +8,7 @@ using Paway.Helper;
 using System.Threading.Tasks;
 using System.Reflection;
 using Paway.Forms.Properties;
+using System.Diagnostics;
 
 namespace Paway.Forms
 {
@@ -806,19 +807,14 @@ namespace Paway.Forms
             g.TranslateTransform(Offset.X, Offset.Y);
             g.PixelOffsetMode = PixelOffsetMode.HighQuality; //与AntiAlias作用相反
 
-            ////多线程处理(GDI是同一个，占用更多CPU，绘制效率有提升吗)
+            ////并行绘制(GDI是同一个，需要lock，占用更多CPU，效率降低)
             //Parallel.For(0, Items.Count, (i) =>
             //{
             //    DrawItem(g, Items[i]);
             //});
-            //for (var i = 0; i < Items.Count; i++)
-            //{
-            //    DrawItemAysc(g, Items[i]);
-            //}
             for (var i = 0; i < Items.Count; i++)
             {
                 DrawItem(g, Items[i]);
-                DrawItemAysc(g, Items[i]);
             }
             if (_iAdd)
             {
@@ -1023,33 +1019,21 @@ namespace Paway.Forms
         private void DrawItem(Graphics g, ToolItem item)
         {
             var temp = RectangleF.Intersect(g.VisibleClipBounds, item.Rectangle);
-            if (temp != RectangleF.Empty)
-            {
-                if (item.IHeard)
-                {
-                    DrawHeard(g, item);
-                }
-                else
-                {
-                    DrawBackground(g, item);
-                    DrawImage(g, item);
-                    DrawText(g, item);
-                }
-            }
-        }
-        /// <summary>
-        /// 同步绘制
-        /// </summary>
-        private void DrawItemAysc(Graphics g, ToolItem item)
-        {
-            if (item.IHeard) return;
-            RectangleF temp = RectangleF.Intersect(g.VisibleClipBounds, item.Rectangle);
             if (temp == RectangleF.Empty) return;
-
-            if (!item.Enable)
+            if (item.IHeard)
             {
-                item.MouseState = TMouseState.Normal;
-                item.TMouseState = TMouseState.Normal;
+                DrawHeard(g, item);
+            }
+            else
+            {
+                DrawBackground(g, item);
+                DrawImage(g, item);
+                DrawText(g, item);
+                if (!item.Enable)
+                {
+                    item.MouseState = TMouseState.Normal;
+                    item.TMouseState = TMouseState.Normal;
+                }
             }
         }
 
@@ -1058,11 +1042,6 @@ namespace Paway.Forms
         /// </summary>
         private void DrawBackground(Graphics g, ToolItem item)
         {
-            if (!item.Enable)
-            {
-                item.MouseState = TMouseState.Normal;
-                item.TMouseState = TMouseState.Normal;
-            }
             switch (item.MouseState)
             {
                 case TMouseState.Normal:
