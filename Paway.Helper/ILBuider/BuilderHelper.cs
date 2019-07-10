@@ -10,6 +10,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Paway.Helper
 {
@@ -34,23 +35,27 @@ namespace Paway.Helper
         }
         /// <summary>
         /// IL动态代码(Emit)，复制（实体及列表）
+        /// 并行处理列表复制
         /// </summary>
         public static object CloneObject(object obj, bool depth)
         {
             if (obj is IList list)
             {
                 var type = list.GenericType();
-                if (!CloneFunc.TryGetValue(type.FullName + "." + depth, out Delegate func))
+                if (!CloneAction.TryGetValue(type.FullName + "." + depth, out Delegate action))
                 {
-                    func = CloneBuilder.CloneFunc(type, depth);
-                    CloneFunc.Add(type.FullName + "." + depth, func);
+                    action = CloneBuilder.CloneAction(type, depth);
+                    CloneAction.Add(type.FullName + "." + depth, action);
                 }
                 var iList = type.GenericList();
-                var action = (Func<object, object>)func;
-                foreach (var item in list)
+                for (int i = 0; i < list.Count; i++)
                 {
-                    iList.Add(action(item));
+                    iList.Add(Activator.CreateInstance(type));
                 }
+                Parallel.For(0, list.Count, (i) =>
+                {
+                    ((Action<object, object>)action)(list[i], iList[i]);
+                });
                 return iList;
             }
             else if (obj != null)
@@ -74,24 +79,28 @@ namespace Paway.Helper
         }
         /// <summary>
         /// IL动态代码(Emit)，复制（到已有实体及列表）
+        /// 并行处理列表复制
         /// </summary>
         public static void CloneObject(object obj, object copy, bool depth)
         {
             if (obj is IList list)
             {
                 var type = list.GenericType();
-                if (!CloneFunc.TryGetValue(type.FullName + "." + depth, out Delegate func))
+                if (!CloneAction.TryGetValue(type.FullName + "." + depth, out Delegate action))
                 {
-                    func = CloneBuilder.CloneFunc(type, depth);
-                    CloneFunc.Add(type.FullName + "." + depth, func);
+                    action = CloneBuilder.CloneAction(type, depth);
+                    CloneAction.Add(type.FullName + "." + depth, action);
                 }
                 var copyList = copy as IList;
                 copyList.Clear();
-                var action = (Func<object, object>)func;
-                foreach (var item in list)
+                for (int i = 0; i < list.Count; i++)
                 {
-                    copyList.Add(action(item));
+                    copyList.Add(Activator.CreateInstance(type));
                 }
+                Parallel.For(0, list.Count, (i) =>
+                {
+                    ((Action<object, object>)action)(list[i], copyList[i]);
+                });
             }
             else if (obj != null)
             {
@@ -111,21 +120,26 @@ namespace Paway.Helper
         #region ToList
         /// <summary>
         /// IL动态代码(Emit)，DataTable转List
+        /// 并行处理
         /// </summary>
-        public static List<T> ToList<T>(this DataTable table, int? count = null) where T : new()
+        public static List<T> ToList<T>(this DataTable table, int count = 0) where T : new()
         {
             if (table == null) return new List<T>();
 
-            if (count > table.Rows.Count) count = table.Rows.Count;
-            List<T> list = new List<T>(count ?? 0);
-            if (table.Rows.Count > 0)
+            if (count <= 0 || count > table.Rows.Count) count = table.Rows.Count;
+            List<T> list = new List<T>(count);
+            if (count > 0)
             {
-                var builder = EntityBuilder<T>.CreateBuilder(table.Rows[0]);
-                foreach (DataRow dr in table.Rows)
+                var type = typeof(T);
+                for (int i = 0; i < count; i++)
                 {
-                    list.Add(builder.Build(dr));
-                    if (count != null && list.Count == count) break;
+                    list.Add((T)Activator.CreateInstance(type));
                 }
+                var builder = EntityBuilder<T>.CreateBuilderAction(table.Rows[0]);
+                Parallel.For(0, count, (i) =>
+                {
+                    builder.Build(table.Rows[i], list[i]);
+                });
             }
             return list;
         }

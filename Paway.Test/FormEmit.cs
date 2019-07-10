@@ -55,13 +55,29 @@ namespace Paway.Test
 
             Stopwatch sw = new Stopwatch();
             sw.Restart();
-            var list = server.Find<TestInfo>("1=1 limit 100");
-            var dt = list.ToDataTable();
+            var list = server.Find<TestInfo>("1=1 limit 10000");
             Debug.WriteLine("FindList=>" + sw.ElapsedMilliseconds);
+            sw.Restart();
+            //var dt3 = list.ToDataTable();
+            Debug.WriteLine("ToDataTable=>" + sw.ElapsedMilliseconds);
+
+            var type = typeof(TestInfo);
+            sw.Restart();
+            for (int i = 0; i < 10; i++)
+            {
+                var dt4 = list.ToDataTable();
+            }
+            Debug.WriteLine("ToDataTable=>" + sw.ElapsedMilliseconds);
+            sw.Restart();
+            for (int i = 0; i < 10; i++)
+            {
+                //var list4 = dt3.ToList<TestInfo>();
+            }
+            Debug.WriteLine("ToDataTable2=>" + sw.ElapsedMilliseconds);
 
 
             sw.Restart();
-            for (int i = 0; i < 10 * 10000; i++)
+            for (int i = 0; i < 10 * 10; i++)
             {
                 var ix = list.Find(c => c.Id == 1014509);
             }
@@ -69,7 +85,7 @@ namespace Paway.Test
 
             var dict = list.Cast<TestInfo>().ToDictionary(o => o.Id, o => o);
             sw.Restart();
-            for (int i = 0; i < 10 * 1000; i++)
+            for (int i = 0; i < 10 * 10; i++)
             {
                 if (dict.ContainsKey(1014509))
                 {
@@ -84,7 +100,19 @@ namespace Paway.Test
 
 
             var list3 = list.Clone(true);
-            list.Clone(list3);
+            sw.Restart();
+            for (int i = 0; i < 100; i++)
+            {
+                list.Clone(list3);
+            }
+            Debug.WriteLine("Clone=>" + sw.ElapsedMilliseconds);
+            sw.Restart();
+            for (int i = 0; i < 100; i++)
+            {
+                //var list3 = list.Clone2(true);
+                list.Clone2(list3);
+            }
+            Debug.WriteLine("Clone2=>" + sw.ElapsedMilliseconds);
 
             var dt2 = server.FindTable<ITestInfo>("1=1 limit 20");
             var list2 = dt2.ToList<TestInfo>();
