@@ -97,11 +97,6 @@ namespace Paway.Forms
         #endregion
 
         #region 界面切换控制
-
-        /// <summary>
-        /// 列表锁，防止多线程处理
-        /// </summary>
-        private static object typeObject = new object();
         /// <summary>
         ///     控件列表
         /// </summary>
@@ -162,13 +157,7 @@ namespace Paway.Forms
                 //加载控件
                 if (List.ContainsKey(type))
                 {
-                    lock (typeObject)
-                    {
-                        if (List.ContainsKey(type))
-                        {
-                            if (List[type].ILoad) return control = List[type];
-                        }
-                    }
+                    if (List[type].ILoad) return control = List[type];
                 }
                 //移除旧控件
                 var temp = parent;
@@ -188,13 +177,7 @@ namespace Paway.Forms
                 //加载控件
                 if (List.ContainsKey(type))
                 {
-                    lock (typeObject)
-                    {
-                        if (List.ContainsKey(type))
-                        {
-                            control = List[type];
-                        }
-                    }
+                    control = List[type];
                 }
                 parent.SuspendLayout();
                 //加载控件
@@ -255,13 +238,7 @@ namespace Paway.Forms
                 control.MChild();
                 if (!List.ContainsKey(type))
                 {
-                    lock (typeObject)
-                    {
-                        if (!List.ContainsKey(type))
-                        {
-                            List.Add(type, control);
-                        }
-                    }
+                    List.Add(type, control);
                 }
                 parent.BackgroundImage = null;
                 parent.ResumeLayout();
@@ -289,13 +266,7 @@ namespace Paway.Forms
             var type = control.GetType();
             if (!List.ContainsKey(type))
             {
-                lock (typeObject)
-                {
-                    if (!List.ContainsKey(type))
-                    {
-                        List.Add(type, control);
-                    }
-                }
+                List.Add(type, control);
             }
             return List[type];
         }
@@ -315,15 +286,9 @@ namespace Paway.Forms
         {
             if (!List.ContainsKey(type))
             {
-                lock (typeObject)
-                {
-                    if (!List.ContainsKey(type))
-                    {
-                        MControl control = (MControl)Activator.CreateInstance(type);
-                        if (control == null) throw new ArgumentException(string.Format("{0} 不是有效的MControl", type.FullName));
-                        List.Add(type, control);
-                    }
-                }
+                MControl control = (MControl)Activator.CreateInstance(type);
+                if (control == null) throw new ArgumentException(string.Format("{0} 不是有效的MControl", type.FullName));
+                List.Add(type, control);
             }
             return List[type];
         }

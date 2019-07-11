@@ -133,7 +133,6 @@
             // 
             // 
             // 
-            this.gridview1.Edit.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.gridview1.Edit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridview1.Edit.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.gridview1.Edit.Location = new System.Drawing.Point(0, 0);

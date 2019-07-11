@@ -32,6 +32,7 @@ namespace Paway.Forms
         /// <summary>
         ///     分页信息
         /// </summary>
+        [Browsable(false)]
         public PagerInfo PagerInfo
         {
             get

@@ -27,12 +27,14 @@ namespace Paway.Test
     }
     public class TestBase : IId
     {
+        [Property(IShow = false)]
         public long Id { get; set; }
         public virtual string Name { get; set; }
     }
     [Serializable, Table(Table = "Users", Key = "Id")]
     public class TestInfo : TestBase, ITestInfo, IFind<TestInfo>
     {
+        [Property(Text = "名称")]
         public override string Name { get => base.Name; set => base.Name = value; }
 
         [Property(Column = "Pad")]
