@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem5 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem6 = new Paway.Forms.ToolItem();
             this.panel1 = new Paway.Forms.TPanel();
             this.toolbar = new Paway.Forms.ToolBar();
             this.tDataGridViewPager1 = new Paway.Forms.TDataGridViewPager();
@@ -53,21 +53,21 @@
             this.toolbar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolbar.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolbar.IClickEvent = true;
-            toolItem1.Tag = "登陆";
-            toolItem1.Text = "登陆";
-            toolItem2.Tag = "更新密码";
-            toolItem2.TColor.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
-            toolItem2.TColor.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
-            toolItem2.TColor.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(135)))), ((int)(((byte)(239)))));
-            toolItem2.Text = "更新密码";
-            toolItem3.Tag = "语言";
-            toolItem3.TColor.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(110)))), ((int)(((byte)(18)))));
-            toolItem3.TColor.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(77)))), ((int)(((byte)(187)))), ((int)(((byte)(95)))));
-            toolItem3.TColor.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(158)))), ((int)(((byte)(26)))));
-            toolItem3.Text = "Deutsch";
-            this.toolbar.Items.Add(toolItem1);
-            this.toolbar.Items.Add(toolItem2);
-            this.toolbar.Items.Add(toolItem3);
+            toolItem4.Tag = "登陆";
+            toolItem4.Text = "登陆";
+            toolItem5.Tag = "更新密码";
+            toolItem5.TColor.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(94)))), ((int)(((byte)(167)))));
+            toolItem5.TColor.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(171)))), ((int)(((byte)(244)))));
+            toolItem5.TColor.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(135)))), ((int)(((byte)(239)))));
+            toolItem5.Text = "更新密码";
+            toolItem6.Tag = "语言";
+            toolItem6.TColor.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(110)))), ((int)(((byte)(18)))));
+            toolItem6.TColor.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(77)))), ((int)(((byte)(187)))), ((int)(((byte)(95)))));
+            toolItem6.TColor.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(158)))), ((int)(((byte)(26)))));
+            toolItem6.Text = "Deutsch";
+            this.toolbar.Items.Add(toolItem4);
+            this.toolbar.Items.Add(toolItem5);
+            this.toolbar.Items.Add(toolItem6);
             this.toolbar.ItemSize = new System.Drawing.Size(94, 46);
             this.toolbar.ItemSpace = 15;
             this.toolbar.Location = new System.Drawing.Point(0, 0);
@@ -107,7 +107,6 @@
             // 
             // 
             this.tDataGridViewPager1.TPager.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
-            this.tDataGridViewPager1.TPager.Cursor = System.Windows.Forms.Cursors.Hand;
             this.tDataGridViewPager1.TPager.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.tDataGridViewPager1.TPager.Location = new System.Drawing.Point(0, 138);
             this.tDataGridViewPager1.TPager.Name = "pager1";
@@ -118,7 +117,7 @@
             // 
             this.Controls.Add(this.tDataGridViewPager1);
             this.Controls.Add(this.panel1);
-            this.Font = new System.Drawing.Font("微软雅黑", 15F);
+            this.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.Name = "Control1";
             this.Size = new System.Drawing.Size(533, 217);
             this.panel1.ResumeLayout(false);

@@ -48,7 +48,7 @@
             this.button1.Dock = System.Windows.Forms.DockStyle.Top;
             this.button1.Location = new System.Drawing.Point(0, 0);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(834, 40);
+            this.button1.Size = new System.Drawing.Size(743, 36);
             this.button1.TabIndex = 1;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
@@ -58,10 +58,10 @@
             this.tControl1.Controls.Add(this.gridview3);
             this.tControl1.Controls.Add(this.tControl3);
             this.tControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tControl1.Location = new System.Drawing.Point(0, 40);
+            this.tControl1.Location = new System.Drawing.Point(0, 36);
             this.tControl1.Name = "tControl1";
             this.tControl1.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.tControl1.Size = new System.Drawing.Size(834, 365);
+            this.tControl1.Size = new System.Drawing.Size(743, 369);
             this.tControl1.TabIndex = 8;
             // 
             // gridview3
@@ -76,7 +76,7 @@
             this.gridview3.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.gridview3.RowTemplate.Height = 32;
             this.gridview3.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridview3.Size = new System.Drawing.Size(829, 146);
+            this.gridview3.Size = new System.Drawing.Size(738, 150);
             this.gridview3.TabIndex = 9;
             this.gridview3.TextColumn = null;
             // 
@@ -84,10 +84,10 @@
             // 
             this.tControl3.Controls.Add(this.gridview2);
             this.tControl3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tControl3.Location = new System.Drawing.Point(0, 146);
+            this.tControl3.Location = new System.Drawing.Point(0, 150);
             this.tControl3.Name = "tControl3";
             this.tControl3.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.tControl3.Size = new System.Drawing.Size(829, 219);
+            this.tControl3.Size = new System.Drawing.Size(738, 219);
             this.tControl3.TabIndex = 8;
             // 
             // gridview2
@@ -104,11 +104,11 @@
             this.gridview2.Edit.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.gridview2.Edit.RowTemplate.Height = 32;
             this.gridview2.Edit.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridview2.Edit.Size = new System.Drawing.Size(829, 184);
+            this.gridview2.Edit.Size = new System.Drawing.Size(738, 184);
             this.gridview2.Edit.TabIndex = 12;
             this.gridview2.Location = new System.Drawing.Point(0, 5);
             this.gridview2.Name = "gridview2";
-            this.gridview2.Size = new System.Drawing.Size(829, 214);
+            this.gridview2.Size = new System.Drawing.Size(738, 214);
             this.gridview2.TabIndex = 0;
             // 
             // 
@@ -117,7 +117,7 @@
             this.gridview2.TPager.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.gridview2.TPager.Location = new System.Drawing.Point(0, 184);
             this.gridview2.TPager.Name = "pager1";
-            this.gridview2.TPager.Size = new System.Drawing.Size(829, 30);
+            this.gridview2.TPager.Size = new System.Drawing.Size(738, 30);
             this.gridview2.TPager.TabIndex = 11;
             // 
             // tControl2
@@ -127,7 +127,7 @@
             this.tControl2.Location = new System.Drawing.Point(0, 405);
             this.tControl2.Name = "tControl2";
             this.tControl2.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.tControl2.Size = new System.Drawing.Size(834, 167);
+            this.tControl2.Size = new System.Drawing.Size(743, 167);
             this.tControl2.TabIndex = 7;
             // 
             // gridview1
@@ -141,21 +141,21 @@
             this.gridview1.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.gridview1.RowTemplate.Height = 32;
             this.gridview1.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridview1.Size = new System.Drawing.Size(834, 162);
+            this.gridview1.Size = new System.Drawing.Size(743, 162);
             this.gridview1.TabIndex = 0;
             this.gridview1.TColumnImage = "Image";
             this.gridview1.TColumnText = "Name";
             this.gridview1.TProgressImage = global::Paway.Test.Properties.Resources.process;
             // 
-            // TreeForm
+            // FormGridView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(834, 572);
+            this.ClientSize = new System.Drawing.Size(743, 572);
             this.Controls.Add(this.tControl1);
             this.Controls.Add(this.tControl2);
             this.Controls.Add(this.button1);
-            this.Name = "TreeForm";
+            this.Name = "FormGridView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormTree";
             this.tControl1.ResumeLayout(false);

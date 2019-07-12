@@ -119,24 +119,20 @@ namespace Paway.Test
             this.dataGridViewTextBoxColumn39 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewImageColumn8 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewTextBoxColumn40 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tbCat = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.btQQDemo = new System.Windows.Forms.Button();
             this.btTTsRead = new System.Windows.Forms.Button();
             this.btAbout = new System.Windows.Forms.Button();
             this.btSearch = new System.Windows.Forms.Button();
             this.btImage = new System.Windows.Forms.Button();
             this.btQQ = new System.Windows.Forms.Button();
-            this.tControl1 = new Paway.Forms.TPanel();
             this.qqRadioButton1 = new Paway.Forms.QQRadioButton();
             this.qqCheckBox1 = new Paway.Forms.QQCheckBox();
             this.qqTextBox1 = new Paway.Forms.QQTextBox();
             this.toolBar3 = new Paway.Forms.ToolBar();
             this.tNumTestBox1 = new Paway.Forms.TNumTestBox();
-            this.tbPrompt = new Paway.Forms.QQTextBox();
             this.tComboBox21 = new Paway.Forms.TComboBox();
-            this.numEditTestBox2 = new Paway.Forms.TNumTestBox();
+            this.qqRadioButton2 = new Paway.Forms.QQRadioButton();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -625,16 +621,6 @@ namespace Paway.Test
             this.dataGridViewTextBoxColumn40.HeaderText = "名称";
             this.dataGridViewTextBoxColumn40.Name = "dataGridViewTextBoxColumn40";
             // 
-            // tbCat
-            // 
-            this.tbCat.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tbCat.Location = new System.Drawing.Point(21, 215);
-            this.tbCat.MaxLength = 20;
-            this.tbCat.Name = "tbCat";
-            this.tbCat.Size = new System.Drawing.Size(157, 14);
-            this.tbCat.TabIndex = 36;
-            this.tbCat.Text = "hello";
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Location = new System.Drawing.Point(364, 13);
@@ -653,23 +639,11 @@ namespace Paway.Test
             this.pictureBox2.TabIndex = 41;
             this.pictureBox2.TabStop = false;
             // 
-            // btQQDemo
-            // 
-            this.btQQDemo.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.btQQDemo.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btQQDemo.Location = new System.Drawing.Point(233, 150);
-            this.btQQDemo.Name = "btQQDemo";
-            this.btQQDemo.Size = new System.Drawing.Size(109, 28);
-            this.btQQDemo.TabIndex = 45;
-            this.btQQDemo.Text = "QQDemo";
-            this.btQQDemo.UseVisualStyleBackColor = false;
-            // 
             // btTTsRead
             // 
             this.btTTsRead.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.btTTsRead.Font = new System.Drawing.Font("Tahoma", 12F);
             this.btTTsRead.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btTTsRead.Location = new System.Drawing.Point(283, 210);
+            this.btTTsRead.Location = new System.Drawing.Point(47, 126);
             this.btTTsRead.Name = "btTTsRead";
             this.btTTsRead.Size = new System.Drawing.Size(59, 28);
             this.btTTsRead.TabIndex = 39;
@@ -680,9 +654,9 @@ namespace Paway.Test
             // 
             this.btAbout.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.btAbout.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btAbout.Location = new System.Drawing.Point(285, 241);
+            this.btAbout.Location = new System.Drawing.Point(134, 238);
             this.btAbout.Name = "btAbout";
-            this.btAbout.Size = new System.Drawing.Size(57, 28);
+            this.btAbout.Size = new System.Drawing.Size(71, 28);
             this.btAbout.TabIndex = 27;
             this.btAbout.Text = "About";
             this.btAbout.UseVisualStyleBackColor = false;
@@ -691,9 +665,9 @@ namespace Paway.Test
             // 
             this.btSearch.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.btSearch.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btSearch.Location = new System.Drawing.Point(220, 241);
+            this.btSearch.Location = new System.Drawing.Point(134, 204);
             this.btSearch.Name = "btSearch";
-            this.btSearch.Size = new System.Drawing.Size(59, 28);
+            this.btSearch.Size = new System.Drawing.Size(71, 28);
             this.btSearch.TabIndex = 24;
             this.btSearch.Text = "Search";
             this.btSearch.UseVisualStyleBackColor = false;
@@ -702,9 +676,9 @@ namespace Paway.Test
             // 
             this.btImage.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.btImage.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btImage.Location = new System.Drawing.Point(155, 241);
+            this.btImage.Location = new System.Drawing.Point(47, 238);
             this.btImage.Name = "btImage";
-            this.btImage.Size = new System.Drawing.Size(59, 28);
+            this.btImage.Size = new System.Drawing.Size(71, 28);
             this.btImage.TabIndex = 23;
             this.btImage.Text = "Image";
             this.btImage.UseVisualStyleBackColor = false;
@@ -713,40 +687,30 @@ namespace Paway.Test
             // 
             this.btQQ.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.btQQ.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btQQ.Location = new System.Drawing.Point(81, 241);
+            this.btQQ.Location = new System.Drawing.Point(47, 204);
             this.btQQ.Name = "btQQ";
-            this.btQQ.Size = new System.Drawing.Size(59, 28);
+            this.btQQ.Size = new System.Drawing.Size(71, 28);
             this.btQQ.TabIndex = 12;
             this.btQQ.Text = "QQ";
             this.btQQ.UseVisualStyleBackColor = false;
-            // 
-            // tControl1
-            // 
-            this.tControl1.BackColor = System.Drawing.Color.Gainsboro;
-            this.tControl1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.tControl1.Location = new System.Drawing.Point(248, 16);
-            this.tControl1.Name = "tControl1";
-            this.tControl1.Size = new System.Drawing.Size(94, 87);
-            this.tControl1.TabIndex = 68;
             // 
             // qqRadioButton1
             // 
             this.qqRadioButton1.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.qqRadioButton1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.qqRadioButton1.Location = new System.Drawing.Point(118, 153);
+            this.qqRadioButton1.Location = new System.Drawing.Point(182, 25);
             this.qqRadioButton1.Name = "qqRadioButton1";
-            this.qqRadioButton1.Size = new System.Drawing.Size(107, 16);
+            this.qqRadioButton1.Size = new System.Drawing.Size(55, 25);
             this.qqRadioButton1.TabIndex = 67;
             this.qqRadioButton1.TabStop = true;
-            this.qqRadioButton1.Text = "qqRadioButton1";
+            this.qqRadioButton1.Text = "100";
             this.qqRadioButton1.UseVisualStyleBackColor = false;
             // 
             // qqCheckBox1
             // 
             this.qqCheckBox1.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.qqCheckBox1.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.qqCheckBox1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.qqCheckBox1.Location = new System.Drawing.Point(118, 121);
+            this.qqCheckBox1.Location = new System.Drawing.Point(47, 25);
             this.qqCheckBox1.Name = "qqCheckBox1";
             this.qqCheckBox1.Size = new System.Drawing.Size(107, 25);
             this.qqCheckBox1.TabIndex = 66;
@@ -755,13 +719,14 @@ namespace Paway.Test
             // 
             // qqTextBox1
             // 
-            this.qqTextBox1.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.qqTextBox1.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.qqTextBox1.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.qqTextBox1.Lines = new string[0];
-            this.qqTextBox1.Location = new System.Drawing.Point(16, 181);
+            this.qqTextBox1.Lines = new string[] {
+        "Hello你好World"};
+            this.qqTextBox1.Location = new System.Drawing.Point(47, 91);
             this.qqTextBox1.Name = "qqTextBox1";
-            this.qqTextBox1.RegexType = Paway.Helper.RegexType.Password;
-            this.qqTextBox1.Size = new System.Drawing.Size(92, 25);
+            this.qqTextBox1.RegexType = Paway.Helper.RegexType.Normal;
+            this.qqTextBox1.Size = new System.Drawing.Size(267, 29);
             this.qqTextBox1.TabIndex = 47;
             // 
             // toolBar3
@@ -800,83 +765,69 @@ namespace Paway.Test
             // 
             // tNumTestBox1
             // 
-            this.tNumTestBox1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tNumTestBox1.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.tNumTestBox1.Lines = new string[] {
         "9"};
-            this.tNumTestBox1.Location = new System.Drawing.Point(16, 151);
+            this.tNumTestBox1.Location = new System.Drawing.Point(47, 56);
             this.tNumTestBox1.MaxLength = 10;
             this.tNumTestBox1.Name = "tNumTestBox1";
-            this.tNumTestBox1.Size = new System.Drawing.Size(92, 24);
+            this.tNumTestBox1.Size = new System.Drawing.Size(107, 29);
             this.tNumTestBox1.TabIndex = 37;
-            // 
-            // tbPrompt
-            // 
-            this.tbPrompt.BackColor = System.Drawing.Color.White;
-            this.tbPrompt.Enabled = false;
-            this.tbPrompt.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tbPrompt.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.tbPrompt.Lines = new string[0];
-            this.tbPrompt.Location = new System.Drawing.Point(16, 210);
-            this.tbPrompt.Name = "tbPrompt";
-            this.tbPrompt.ReadOnly = true;
-            this.tbPrompt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.tbPrompt.Size = new System.Drawing.Size(261, 24);
-            this.tbPrompt.TabIndex = 35;
             // 
             // tComboBox21
             // 
             // 
             // 
             // 
+            this.tComboBox21.Edit.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.tComboBox21.Edit.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.tComboBox21.Edit.ItemHeight = 21;
             this.tComboBox21.Edit.Items.AddRange(new object[] {
             "dfsewf",
             "wegwe",
             "gwegweg"});
             this.tComboBox21.Edit.Location = new System.Drawing.Point(1, 1);
             this.tComboBox21.Edit.Name = "tComboBox1";
-            this.tComboBox21.Edit.Size = new System.Drawing.Size(103, 23);
+            this.tComboBox21.Edit.Size = new System.Drawing.Size(144, 27);
             this.tComboBox21.Edit.TabIndex = 0;
+            this.tComboBox21.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.tComboBox21.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.tComboBox21.Location = new System.Drawing.Point(118, 180);
+            this.tComboBox21.Location = new System.Drawing.Point(168, 126);
             this.tComboBox21.Name = "tComboBox21";
-            this.tComboBox21.Size = new System.Drawing.Size(105, 25);
+            this.tComboBox21.Size = new System.Drawing.Size(146, 29);
             this.tComboBox21.TabIndex = 31;
             // 
-            // numEditTestBox2
+            // qqRadioButton2
             // 
-            this.numEditTestBox2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.numEditTestBox2.ITrans = true;
-            this.numEditTestBox2.Lines = new string[] {
-        "0"};
-            this.numEditTestBox2.Location = new System.Drawing.Point(16, 123);
-            this.numEditTestBox2.MaxLength = 10;
-            this.numEditTestBox2.Name = "numEditTestBox2";
-            this.numEditTestBox2.Size = new System.Drawing.Size(92, 24);
-            this.numEditTestBox2.TabIndex = 5;
+            this.qqRadioButton2.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.qqRadioButton2.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.qqRadioButton2.Location = new System.Drawing.Point(243, 25);
+            this.qqRadioButton2.Name = "qqRadioButton2";
+            this.qqRadioButton2.Size = new System.Drawing.Size(71, 25);
+            this.qqRadioButton2.TabIndex = 67;
+            this.qqRadioButton2.TabStop = true;
+            this.qqRadioButton2.Text = "Radio";
+            this.qqRadioButton2.UseVisualStyleBackColor = false;
             // 
             // FormDemo
             // 
             this.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.ClientSize = new System.Drawing.Size(560, 289);
-            this.Controls.Add(this.tControl1);
+            this.Controls.Add(this.qqRadioButton2);
             this.Controls.Add(this.qqRadioButton1);
             this.Controls.Add(this.qqCheckBox1);
             this.Controls.Add(this.qqTextBox1);
-            this.Controls.Add(this.btQQDemo);
             this.Controls.Add(this.toolBar3);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btTTsRead);
             this.Controls.Add(this.tNumTestBox1);
-            this.Controls.Add(this.tbCat);
-            this.Controls.Add(this.tbPrompt);
             this.Controls.Add(this.tComboBox21);
             this.Controls.Add(this.btAbout);
             this.Controls.Add(this.btSearch);
             this.Controls.Add(this.btImage);
             this.Controls.Add(this.btQQ);
-            this.Controls.Add(this.numEditTestBox2);
+            this.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.Name = "FormDemo";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -954,7 +905,6 @@ namespace Paway.Test
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn39;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn8;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn40;
-        private Forms.TNumTestBox numEditTestBox2;
         private Button btQQ;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 在线ToolStripMenuItem;
@@ -965,17 +915,14 @@ namespace Paway.Test
         private Button btSearch;
         private Button btAbout;
         private Forms.TComboBox tComboBox21;
-        private System.Windows.Forms.TextBox tbCat;
-        private Forms.QQTextBox tbPrompt;
         private Forms.TNumTestBox tNumTestBox1;
         private Button btTTsRead;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private Forms.ToolBar toolBar3;
-        private Button btQQDemo;
         private Forms.QQTextBox qqTextBox1;
         private Forms.QQCheckBox qqCheckBox1;
         private Forms.QQRadioButton qqRadioButton1;
-        private Paway.Forms.TPanel tControl1;
+        private Forms.QQRadioButton qqRadioButton2;
     }
 }

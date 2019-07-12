@@ -155,11 +155,8 @@ namespace Paway.Test
             base.OnShown(e);
             this.btQQ.Click += delegate { new FormQQ().ShowDialog(this); };
             this.btAbout.Click += btAbout_Click;
-            this.btQQDemo.Click += delegate { new TBaseForm().ShowDialog(this); };
             this.btImage.Click += btImage_Click;
             this.btSearch.Click += btSearch_Click;
-            this.tbCat.MouseEnter += tbCat_MouseEnter;
-            this.tbCat.MouseLeave += tbCat_MouseLeave;
             this.btTTsRead.Click += btTTsRead_Click;
         }
 
@@ -173,17 +170,7 @@ namespace Paway.Test
         {
             SpeechVoiceSpeakFlags spFlags = SpeechVoiceSpeakFlags.SVSFlagsAsync;
             SpVoice voice = new SpVoice();
-            voice.Speak(tbCat.Text, spFlags);
-        }
-
-        void tbCat_MouseLeave(object sender, EventArgs e)
-        {
-            this.tbPrompt.TMouseLeave();
-        }
-
-        void tbCat_MouseEnter(object sender, EventArgs e)
-        {
-            this.tbPrompt.TMouseEnter();
+            voice.Speak(qqTextBox1.Text, spFlags);
         }
 
         void btSearch_Click(object sender, EventArgs e)
@@ -202,11 +189,6 @@ namespace Paway.Test
             //iform.BackColor = Color.Black;
             //iform.ShowDialog(this);
         }
-
-        void qqTextBox1_TextChanged(object sender, EventArgs e)
-        {
-        }
-
         void btImage_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog()
@@ -222,98 +204,15 @@ namespace Paway.Test
                 iform.ShowDialog(this);
             }
         }
-
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
             this.Text = string.Format("{0}", e.Location);
         }
-
-        #region 示例 解析与写入Xml
-        public byte[] CommXml(string function, params object[] pList)
-        {
-            XmlDocument doc = new XmlDocument();
-            XmlDeclaration decl = doc.CreateXmlDeclaration("1.0", "utf-8", null);
-            doc.AppendChild(decl);
-            XmlElement root = doc.CreateElement("packet");
-            {
-                doc.AppendChild(root);
-                root.SetAttribute("type", "type");
-                root.SetAttribute("version", "version");
-            }
-            XmlElement field = doc.CreateElement("FieldList");
-            {
-                root.AppendChild(field);
-                XmlElement fun = doc.CreateElement("Function");
-                field.AppendChild(fun);
-                fun.InnerXml = function;
-            }
-            MemoryStream stream = new MemoryStream();
-            doc.Save(stream);
-            byte[] buffer = new byte[stream.Length];
-            stream.Seek(0, SeekOrigin.Begin);
-            stream.Read(buffer, 0, buffer.Length);
-            return buffer;
-        }
-        public object FromXml(byte[] data, string file)
-        {
-            MemoryStream stream = new MemoryStream(data);
-            XmlDocument doc = new XmlDocument();
-            doc.Load(stream);
-            //doc.Load(file);
-            List<string> list = new List<string>();
-            XmlElement root = doc.DocumentElement;
-            if (root == null || root.Name != "Screen") throw new ArgumentException("脚本文件格式不正确。");
-            XmlNode element = root.FirstChild;
-            while (element != null)
-            {
-                if (element.Name != "Item") throw new ArgumentException("脚本文件格式不正确。");
-                XmlNode item = element.FirstChild;
-                string result = null;
-                while (item != null)
-                {
-                    if (item.Name == "ScreenName")
-                    {
-                        result = Path.Combine(item.InnerXml);
-                    }
-                    if (item.Name == "CreateTime")
-                    {
-                    }
-                    item = item.NextSibling;
-                }
-                list.Add(result);
-                element = element.NextSibling;
-            }
-            return list;
-        }
-
-        #endregion
     }
     public class Data
     {
         public string Name { get; set; }
         public string Value { get; set; }
-    }
-    internal class MyMessager : IMessageFilter
-    {
-        private IntPtr parent = IntPtr.Zero;
-
-        public MyMessager(IntPtr parent)
-        {
-            this.parent = parent;
-        }
-        //截取消息，进行处理
-        public bool PreFilterMessage(ref Message m)
-        {
-            //拦截左键单击事件　
-            if (m.Msg == 516 && m.HWnd == parent)
-            {
-                return true;
-            }
-            else
-            {
-                return false; //返回false则消息未被裁取，系统会处理
-            }
-        }
     }
 }

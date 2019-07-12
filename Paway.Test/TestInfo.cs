@@ -29,6 +29,7 @@ namespace Paway.Test
     }
     public class TestBase : IParent
     {
+        [Property(IShow = false)]
         public long Id { get; set; }
         [Property(IShow = false)]
         public long ParentId { get; set; }
