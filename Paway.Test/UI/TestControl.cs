@@ -28,8 +28,9 @@ namespace Paway.Test
             base.AddDelete();
             base.HaveQuery();
             if (DesignMode) return;
+            gridview1.IPagerInfo = false;
             var server = new SQLiteService();
-            var list = server.Find<TestInfo>("1=1 limit 100");
+            var list = server.Find<TestInfo>("1=1 limit 10000");
             base.InitData(server, list);
         }
     }

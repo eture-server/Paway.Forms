@@ -197,6 +197,15 @@
     <Compile Include="TForms\TForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="TreeGridView\TreeGridCancelEventArgs.cs" />
+    <Compile Include="TreeGridView\TreeGridCell.cs" />
+    <Compile Include="TreeGridView\TreeGridColumn.cs" />
+    <Compile Include="TreeGridView\TreeGridNode.cs" />
+    <Compile Include="TreeGridView\TreeGridNodeCollection.cs" />
+    <Compile Include="TreeGridView\TreeGridEventArgs.cs" />
+    <Compile Include="TreeGridView\TreeGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Paway.Helper\Paway.Helper.csproj">

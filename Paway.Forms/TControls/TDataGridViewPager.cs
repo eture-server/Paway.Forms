@@ -50,14 +50,15 @@ namespace Paway.Forms
         private int Index;
 
         private TPager pager1;
+        private DataGridViewTextBoxColumn Id;
+        private TDataGridView gridview1;
+
         /// <summary>
         ///     导航栏
         /// </summary>
         [Category("Properties"), Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TPager TPager { get { return pager1; } }
-
-        private TDataGridView gridview1;
         /// <summary>
         ///     编辑控件
         /// </summary>
@@ -406,15 +407,30 @@ namespace Paway.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.gridview1 = new Paway.Forms.TDataGridView();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pager1 = new Paway.Forms.TPager();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gridview1 = new Paway.Forms.TDataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.gridview1)).BeginInit();
             this.SuspendLayout();
             // 
+            // pager1
+            // 
+            this.pager1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
+            this.pager1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pager1.Location = new System.Drawing.Point(0, 173);
+            this.pager1.Name = "pager1";
+            this.pager1.Size = new System.Drawing.Size(576, 30);
+            this.pager1.TabIndex = 11;
+            // 
+            // Id
+            // 
+            this.Id.DataPropertyName = "Id";
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            // 
             // gridview1
             // 
-            this.gridview1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.gridview1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id});
             this.gridview1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -428,22 +444,6 @@ namespace Paway.Forms
             this.gridview1.Size = new System.Drawing.Size(576, 173);
             this.gridview1.TabIndex = 12;
             // 
-            // Id
-            // 
-            this.Id.DataPropertyName = "Id";
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
-            // 
-            // pager1
-            // 
-            this.pager1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
-            this.pager1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pager1.Location = new System.Drawing.Point(0, 173);
-            this.pager1.Name = "pager1";
-            this.pager1.Size = new System.Drawing.Size(576, 30);
-            this.pager1.TabIndex = 11;
-            // 
             // TDataGridViewPager
             // 
             this.Controls.Add(this.gridview1);
@@ -456,8 +456,6 @@ namespace Paway.Forms
         }
 
         #endregion
-
-        private DataGridViewTextBoxColumn Id;
 
         #endregion
     }

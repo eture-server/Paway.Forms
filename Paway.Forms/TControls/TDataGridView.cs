@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Design;
 using System.IO;
@@ -52,13 +53,14 @@ namespace Paway.Forms
             timer.Interval = 30;
             timer.Tick += Timer_Tick;
 
+            //设置默认值
             AllowUserToAddRows = false;
             AllowUserToDeleteRows = false;
             AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            ColumnHeadersHeight = 30;
             ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            ColumnHeadersHeight = 30;
             MultiSelect = false;
             RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             RowHeadersVisible = false;
@@ -67,6 +69,13 @@ namespace Paway.Forms
             SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             ReadOnly = true;
             EnableHeadersVisualStyles = false;
+
+            //设置非默认值
+            this.RowTemplate.DefaultCellStyle.ForeColor = Color.Black;
+            this.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.LightBlue;
+            this.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
+            this.RowTemplate.Height = 32;
+            this.RowTemplate.Resizable = DataGridViewTriState.False;
 
             pictureBox1.BackColor = Color.Transparent;
         }
@@ -947,7 +956,6 @@ namespace Paway.Forms
             // TDataGridView
             // 
             Controls.Add(pictureBox1);
-            RowTemplate.Height = 22;
             ((ISupportInitialize)pictureBox1).EndInit();
             ((ISupportInitialize)this).EndInit();
             ResumeLayout(false);

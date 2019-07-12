@@ -77,6 +77,12 @@
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
+    <Compile Include="TreeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TreeForm.Designer.cs">
+      <DependentUpon>TreeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TestInfo.cs" />
     <Compile Include="Example\Data\DataService.cs" />
     <Compile Include="Example\Debug\LocationInfo.cs" />
@@ -281,6 +287,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormBar.resx">
       <DependentUpon>FormBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TreeForm.resx">
+      <DependentUpon>TreeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Control1.resx">
       <DependentUpon>Control1.cs</DependentUpon>
