@@ -383,6 +383,27 @@ namespace Paway.Helper
             return pList;
         }
         /// <summary>
+        /// 获取接口属性（可读、基础类型非空的泛型、值类型（含string、byte[]、Image、Bitmap））
+        /// </summary>
+        public static List<PropertyInfo> PropertiesValue(this Type type)
+        {
+            var properties = type.Properties();
+            var vList = new List<PropertyInfo>();
+            foreach (var property in properties)
+            {
+                if (!property.CanRead) continue;
+                Type dbType = property.PropertyType;
+                if (dbType.IsGenericType)
+                {
+                    if (Nullable.GetUnderlyingType(dbType) == null) continue;
+                    dbType = Nullable.GetUnderlyingType(dbType);
+                }
+                if (dbType.IsClass && dbType != typeof(string) && dbType != typeof(byte[]) && dbType != typeof(Image) && dbType != typeof(Bitmap)) continue;
+                vList.Add(property);
+            }
+            return vList;
+        }
+        /// <summary>
         /// 获取指定名称属性
         /// </summary>
         public static PropertyInfo Property(this Type type, string name)
@@ -424,13 +445,10 @@ namespace Paway.Helper
         public static DataTable CreateTable(this Type type, bool sql = false)
         {
             var table = new DataTable(type.Name);
-            var properties = type.Properties();
-            foreach (var property in properties)
+            foreach (var property in type.PropertiesValue())
             {
                 Type dbType = property.PropertyType;
                 if (dbType.IsGenericType) dbType = Nullable.GetUnderlyingType(dbType);
-                if (dbType == null) continue;
-                if (dbType.IsClass && dbType != typeof(string) && dbType != typeof(byte[]) && dbType != typeof(Image) && dbType != typeof(Bitmap)) continue;
                 if (sql && (dbType == typeof(Image) || dbType == typeof(Bitmap))) dbType = typeof(byte[]);
                 table.Columns.Add(property.Column(), dbType);
             }
@@ -443,14 +461,11 @@ namespace Paway.Helper
         public static DataTable CreateExcelTable(this Type type)
         {
             var table = new DataTable(type.Name);
-            var properties = type.Properties();
-            foreach (var property in properties)
+            foreach (var property in type.PropertiesValue())
             {
                 if (!property.IExcel()) continue;
                 Type dbType = property.PropertyType;
                 if (dbType.IsGenericType) dbType = Nullable.GetUnderlyingType(dbType);
-                if (dbType == null) continue;
-                if (dbType.IsClass && dbType != typeof(string) && dbType != typeof(byte[]) && dbType != typeof(Image) && dbType != typeof(Bitmap)) continue;
                 table.Columns.Add(property.Name, dbType);
             }
             return table;
@@ -573,9 +588,6 @@ namespace Paway.Helper
         public static bool ISelect(this PropertyInfo pro, out string column)
         {
             column = pro.Name;
-            var dbType = pro.PropertyType;
-            if (dbType.IsGenericType && Nullable.GetUnderlyingType(dbType) == null) return false;
-            if (dbType.IsClass && dbType != typeof(string) && dbType != typeof(byte[]) && dbType != typeof(Image) && dbType != typeof(Bitmap)) return false;
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             if (list.Length == 1 && list[0].Column != null)
             {

@@ -121,8 +121,7 @@ namespace Paway.Forms
         /// </summary>
         public void UpdateType(Type type)
         {
-            if (type != null)
-                DataType = type;
+            if (type != null) DataType = type;
         }
         /// <summary>
         /// 外部设置数据
@@ -135,10 +134,6 @@ namespace Paway.Forms
             if (dataSource is IList list)
             {
                 DataType = list.GenericType();
-            }
-            else if (this.DataSource is DataTable)
-            {
-                UpdateType(null);
             }
             if (iRefresh) RefreshData();
         }

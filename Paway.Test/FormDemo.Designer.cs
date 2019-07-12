@@ -125,7 +125,6 @@ namespace Paway.Test
             this.btQQDemo = new System.Windows.Forms.Button();
             this.btTTsRead = new System.Windows.Forms.Button();
             this.btAbout = new System.Windows.Forms.Button();
-            this.btGridView = new System.Windows.Forms.Button();
             this.btSearch = new System.Windows.Forms.Button();
             this.btImage = new System.Windows.Forms.Button();
             this.btQQ = new System.Windows.Forms.Button();
@@ -688,17 +687,6 @@ namespace Paway.Test
             this.btAbout.Text = "About";
             this.btAbout.UseVisualStyleBackColor = false;
             // 
-            // btGridView
-            // 
-            this.btGridView.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.btGridView.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btGridView.Location = new System.Drawing.Point(233, 180);
-            this.btGridView.Name = "btGridView";
-            this.btGridView.Size = new System.Drawing.Size(109, 28);
-            this.btGridView.TabIndex = 26;
-            this.btGridView.Text = "GridView";
-            this.btGridView.UseVisualStyleBackColor = false;
-            // 
             // btSearch
             // 
             this.btSearch.BackColor = System.Drawing.Color.DarkSeaGreen;
@@ -885,7 +873,6 @@ namespace Paway.Test
             this.Controls.Add(this.tbPrompt);
             this.Controls.Add(this.tComboBox21);
             this.Controls.Add(this.btAbout);
-            this.Controls.Add(this.btGridView);
             this.Controls.Add(this.btSearch);
             this.Controls.Add(this.btImage);
             this.Controls.Add(this.btQQ);
@@ -976,7 +963,6 @@ namespace Paway.Test
         private System.Windows.Forms.ToolStripMenuItem 离开ToolStripMenuItem1;
         private Button btImage;
         private Button btSearch;
-        private Button btGridView;
         private Button btAbout;
         private Forms.TComboBox tComboBox21;
         private System.Windows.Forms.TextBox tbCat;

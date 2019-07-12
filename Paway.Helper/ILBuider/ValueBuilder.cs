@@ -36,6 +36,33 @@ namespace Paway.Helper
             return dymMethod.CreateDelegate(typeof(Func<object, object>));
         }
         /// <summary>
+        /// IL动态代码，创建委托（获取所有值）
+        /// </summary>
+        public static Delegate GetValuesFunc(Type type)
+        {
+            var dymMethod = new DynamicMethod(type.Name + nameof(ValueBuilder), typeof(object[]), new Type[] { typeof(object) }, true);
+            ILGenerator generator = dymMethod.GetILGenerator();
+
+            var properties = type.PropertiesValue();
+            LocalBuilder result = generator.DeclareLocal(typeof(object[]));
+            generator.Emit(OpCodes.Ldc_I4, properties.Count);
+            generator.Emit(OpCodes.Newobj, typeof(object[]).GetConstructor(new[] { typeof(int) }));
+            generator.Emit(OpCodes.Stloc, result);
+            int index = 0;
+            foreach (var property in properties)
+            {
+                generator.Emit(OpCodes.Ldloc, result);
+                generator.Emit(OpCodes.Ldc_I4, index);
+                generator.GetValue(property, type);//获取引用值
+                generator.Emit(OpCodes.Stelem_Ref);
+                index++;
+            }
+            generator.Emit(OpCodes.Ldloc, result);
+            generator.Emit(OpCodes.Ret);
+
+            return dymMethod.CreateDelegate(typeof(Func<object, object[]>));
+        }
+        /// <summary>
         /// IL动态代码，创建委托（设置值）
         /// </summary>
         public static Delegate SetValueFunc(Type type, string name)

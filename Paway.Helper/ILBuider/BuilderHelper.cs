@@ -307,6 +307,7 @@ namespace Paway.Helper
 
         #region GetValue、SetValue
         private static Dictionary<string, Delegate> GetValueFunc { set; get; } = new Dictionary<string, Delegate>();
+        private static Dictionary<Type, Delegate> GetValuesFunc { set; get; } = new Dictionary<Type, Delegate>();
         private static Dictionary<string, Delegate> SetValueFunc { set; get; } = new Dictionary<string, Delegate>();
         /// <summary>
         /// IL动态代码(Emit)，获取值
@@ -345,6 +346,33 @@ namespace Paway.Helper
                 SetValueFunc.Add(type.FullName + "." + name, func);
             }
             ((Action<object, object>)func)(obj, value);
+        }
+        /// <summary>
+        /// 泛型查找 
+        /// </summary>
+        public static IList FindAll(this Type type, IList list, string name, long value)
+        {
+            var vList = type.GenericList();
+            for (int i = 0; i < list.Count; i++)
+            {
+                if ((long)type.GetValue(list[i], name) == value)
+                {
+                    vList.Add(list[i]);
+                }
+            }
+            return vList;
+        }
+        /// <summary>
+        /// 泛型值组
+        /// </summary>
+        public static object[] GetValue(this Type type, object obj)
+        {
+            if (!GetValuesFunc.TryGetValue(type, out Delegate func))
+            {
+                func = ValueBuilder.GetValuesFunc(type);
+                GetValuesFunc.Add(type, func);
+            }
+            return ((Func<object, object[]>)func)(obj);
         }
 
         #endregion

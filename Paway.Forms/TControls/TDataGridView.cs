@@ -190,7 +190,7 @@ namespace Paway.Forms
             set
             {
                 source = value;
-                UpdateColumns(value);
+                UpdateData(value);
             }
         }
 
@@ -393,9 +393,9 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     更新列名称
+        /// 更新数据
         /// </summary>
-        private void UpdateColumns(object value)
+        protected virtual void UpdateData(object value)
         {
             if (value == null)
             {
@@ -452,7 +452,7 @@ namespace Paway.Forms
             }
         }
         /// <summary>
-        /// 引发事件
+        /// 设置排序模式并引发事件
         /// </summary>
         internal void OnRefreshChanged(Type type)
         {
@@ -463,6 +463,13 @@ namespace Paway.Forms
                     Columns[i].SortMode = DataGridViewColumnSortMode.Programmatic;
                 }
             }
+            OnRefreshChanged();
+        }
+        /// <summary>
+        /// 引发数据更新后事件
+        /// </summary>
+        internal void OnRefreshChanged()
+        {
             RefreshChanged?.Invoke();
         }
 

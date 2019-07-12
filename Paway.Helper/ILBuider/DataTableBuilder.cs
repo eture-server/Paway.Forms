@@ -34,16 +34,12 @@ namespace Paway.Helper
 
             var dymMethod = new DynamicMethod(type.Name + nameof(DataTableBuilder), null, new Type[] { typeof(object), typeof(DataRow) }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
-            foreach (var property in type.Properties())
+            foreach (var property in type.PropertiesValue())
             {
                 if (iExcel && !property.IExcel()) continue;
-                if (!property.CanRead) continue;
-                Type dbType = property.PropertyType;
-                if (dbType.IsClass && dbType != typeof(string) && dbType != typeof(byte[]) && dbType != typeof(Image) && dbType != typeof(Bitmap)) continue;
                 Label endIfLabel = generator.DefineLabel();
-                if (dbType.IsGenericType)
+                if (property.PropertyType.IsGenericType)
                 {
-                    if (Nullable.GetUnderlyingType(dbType) == null) continue;
                     generator.GetValue(property, type);//获取引用值
                     generator.Emit(OpCodes.Brfalse, endIfLabel);
                 }
@@ -52,7 +48,7 @@ namespace Paway.Helper
 
                 generator.GetValue(property, type);//获取引用值
                 generator.Emit(OpCodes.Callvirt, setValueMethod);
-                if (dbType.IsGenericType)
+                if (property.PropertyType.IsGenericType)
                 {
                     generator.MarkLabel(endIfLabel);
                 }

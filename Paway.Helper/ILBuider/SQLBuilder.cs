@@ -45,9 +45,9 @@ namespace Paway.Helper
             LocalBuilder result = generator.DeclareLocal(valueType);
             generator.Emit(OpCodes.Newobj, valueType.GetConstructor(Type.EmptyTypes));
             generator.Emit(OpCodes.Stloc, result);
-            foreach (var property in type.Properties())
+            foreach (var property in type.PropertiesValue())
             {
-                if (!property.ISelect(out string column) || !property.CanRead) continue;
+                if (!property.ISelect(out string column)) continue;
                 if (args.Length > 0 && key != column && args.FirstOrDefault(c => c == column) == null) continue;
 
                 generator.Emit(OpCodes.Ldloc, result);

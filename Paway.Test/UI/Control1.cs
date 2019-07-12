@@ -35,27 +35,8 @@ namespace Paway.Test
         }
         protected void WaitDrawDataGridView()
         {
-            BindingList<WaitDrawDataGridViewData> list = new BindingList<WaitDrawDataGridViewData>();
-            tDataGridViewPager1.DataSource = new WaitDrawDataGridViewData() { Device = DeviceType.Query };
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "image");
-            for (int i = 0; i < 100; i++)
-            {
-                int index = i % 8;
-                bool a = false, b = false, c = false;
-                if (index > 1) a = true;
-                if (index > 3) b = true;
-                if (index > 5) c = true;
-                WaitDrawDataGridViewData dti = new WaitDrawDataGridViewData
-                {
-                    StatuImage = BitmapHelper.GetBitmapFormFile(string.Format("{0}\\{1}.png", path, index)),
-                    Device = DeviceType.Query,
-                    Product = "Product" + (!b ? 1 : 2),
-                    AppName = "AppName" + (!a ? 1 : (!b ? 2 : (!c ? 3 : 4))),
-                    Index = i,
-                    Progress = i,
-                };
-                list.Add(dti);
-            }
+            var server = new SQLiteService();
+            var list = server.Find<TestInfo>("1=1 limit 100");
             tDataGridViewPager1.DataSource = list;
         }
     }

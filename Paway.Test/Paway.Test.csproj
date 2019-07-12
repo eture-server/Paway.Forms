@@ -77,11 +77,11 @@
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
-    <Compile Include="TreeForm.cs">
+    <Compile Include="FormGridView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TreeForm.Designer.cs">
-      <DependentUpon>TreeForm.cs</DependentUpon>
+    <Compile Include="FormGridView.Designer.cs">
+      <DependentUpon>FormGridView.cs</DependentUpon>
     </Compile>
     <Compile Include="TestInfo.cs" />
     <Compile Include="Example\Data\DataService.cs" />
@@ -142,12 +142,6 @@
     </Compile>
     <Compile Include="FormSql.Designer.cs">
       <DependentUpon>FormSql.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormGridView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormGridView.Designer.cs">
-      <DependentUpon>FormGridView.cs</DependentUpon>
     </Compile>
     <Compile Include="FormQQ.cs">
       <SubType>Form</SubType>
@@ -258,9 +252,6 @@
     <EmbeddedResource Include="FormSql.resx">
       <DependentUpon>FormSql.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormGridView.resx">
-      <DependentUpon>FormGridView.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormQQ.resx">
       <DependentUpon>FormQQ.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -288,8 +279,8 @@
     <EmbeddedResource Include="FormBar.resx">
       <DependentUpon>FormBar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TreeForm.resx">
-      <DependentUpon>TreeForm.cs</DependentUpon>
+    <EmbeddedResource Include="FormGridView.resx">
+      <DependentUpon>FormGridView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Control1.resx">
       <DependentUpon>Control1.cs</DependentUpon>

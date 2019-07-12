@@ -155,7 +155,6 @@ namespace Paway.Test
             base.OnShown(e);
             this.btQQ.Click += delegate { new FormQQ().ShowDialog(this); };
             this.btAbout.Click += btAbout_Click;
-            this.btGridView.Click += delegate { new FormGridView().Show(); };
             this.btQQDemo.Click += delegate { new TBaseForm().ShowDialog(this); };
             this.btImage.Click += btImage_Click;
             this.btSearch.Click += btSearch_Click;

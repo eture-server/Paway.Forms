@@ -779,8 +779,7 @@ namespace Paway.Utils
             {
                 sql = string.Format("{0} Top {1}", sql, count);
             }
-            var properties = type.Properties();
-            foreach (var property in properties)
+            foreach (var property in type.PropertiesValue())
             {
                 if (property.ISelect(out string column))
                 {
@@ -834,8 +833,7 @@ namespace Paway.Utils
             var attr = type.Table();
             var sql = "update [{0}] set";
             sql = string.Format(sql, attr.Table);
-            var properties = type.Properties();
-            foreach (var property in properties)
+            foreach (var property in type.PropertiesValue())
             {
                 if (property.ISelect(out string column))
                 {
@@ -879,8 +877,7 @@ namespace Paway.Utils
         {
             insert = string.Empty;
             value = string.Empty;
-            var properties = type.Properties();
-            foreach (var property in properties)
+            foreach (var property in type.PropertiesValue())
             {
                 if (property.ISelect(out string column))
                 {

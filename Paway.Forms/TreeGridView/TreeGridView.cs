@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Paway.Helper;
+using System;
+using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.CompilerServices;
@@ -35,16 +37,99 @@ namespace Paway.Forms
 
         public TreeGridView()
         {
-            base.EditMode = DataGridViewEditMode.EditProgrammatically;
             this.RowTemplate = new TreeGridNode();
-
-            base.AllowUserToAddRows = false;
-            base.AllowUserToDeleteRows = false;
             this._root = new TreeGridNode(this);
             this._root.IsRoot = true;
             //注释掉会报错
             base.Rows.CollectionChanged += delegate { };
         }
+
+        #region 自动绑定数据
+        /// <summary>
+        /// 设置树形列名称
+        /// </summary>
+        [Browsable(true), Description("自定义树形显示列")]
+        public string TextColumn { get; set; }
+
+        /// <summary>
+        /// 自动设置节点数据
+        /// </summary>
+        protected override void UpdateData(object value)
+        {
+            Nodes.Clear();
+            if (value == null)
+            {
+                base.DataSource = null;
+                return;
+            }
+            Type type;
+            if (value is IList list)
+            {
+                type = list.GenericType();
+                AutoNodes(type, list);
+            }
+            else
+            {
+                type = value.GetType();
+                if (type.IsClass && type != typeof(string))
+                {
+                    var temp = type.GenericList();
+                    temp.Add(value);
+                    AutoNodes(type, temp);
+                }
+            }
+            OnRefreshChanged();
+        }
+        private void AutoNodes(Type type, IList list)
+        {
+            AutoColumns(type);
+            var tempList = type.FindAll(list, nameof(IParent.ParentId), 0);
+            foreach (var temp in tempList)
+            {
+                var node = Nodes.Add(type.GetValue(temp));
+                AddNodes(type, list, node, (long)type.GetValue(temp, nameof(IParent.Id)));
+            }
+        }
+        private void AddNodes(Type type, IList list, TreeGridNode parent, long parentId)
+        {
+            var tempList = type.FindAll(list, nameof(IParent.ParentId), parentId);
+            foreach (var temp in tempList)
+            {
+                var node = parent.Nodes.Add(type.GetValue(temp));
+                AddNodes(type, list, node, (long)type.GetValue(temp, nameof(IParent.Id)));
+            }
+        }
+        private void AutoColumns(Type type)
+        {
+            if (type == null || type == typeof(string) || type.IsValueType) return;
+            Type iType = type.GetInterface(typeof(IParent).FullName);
+            if (iType == null) throw new ArgumentException("数据类型错误，需要实现接口: IParentId");
+
+            Columns.Clear();
+            bool iTree = false;
+            foreach (var property in type.PropertiesValue())
+            {
+                DataGridViewColumn column;
+                if (!iTree && (TextColumn.IsNullOrEmpty() || TextColumn == property.Name))
+                {
+                    iTree = true;
+                    column = new TreeGridColumn();
+                }
+                else
+                {
+                    Type dbType = property.PropertyType;
+                    if (dbType.IsGenericType) dbType = Nullable.GetUnderlyingType(dbType);
+                    if (dbType == typeof(Image) || dbType == typeof(Bitmap))
+                        column = new DataGridViewImageColumn();
+                    else column = new DataGridViewTextBoxColumn();
+                }
+                column.Visible = property.IShow(out string text);
+                column.HeaderText = text;
+                Columns.Add(column);
+            }
+        }
+
+        #endregion
 
         protected internal virtual bool CollapseNode(TreeGridNode node)
         {
@@ -348,19 +433,6 @@ namespace Paway.Forms
             }
         }
 
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
-        public object DataSource
-        {
-            get
-            {
-                return null;
-            }
-            set
-            {
-                throw new NotSupportedException("The TreeGridView does not support databinding");
-            }
-        }
-
         public System.Windows.Forms.ImageList ImageList
         {
             get
@@ -394,7 +466,7 @@ namespace Paway.Forms
         public DataGridViewRowCollection Rows => base.Rows;
 
         [Browsable(true)]
-        [EditorBrowsable(EditorBrowsableState.Never), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public DataGridViewRow RowTemplate
         {
             get

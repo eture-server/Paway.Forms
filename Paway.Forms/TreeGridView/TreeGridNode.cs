@@ -49,6 +49,13 @@ namespace Paway.Forms
             this._isFirstSibling = false;
             this._isLastSibling = false;
             this._imageIndex = -1;
+
+            //设置非默认值
+            this.DefaultCellStyle.ForeColor = Color.Black;
+            this.DefaultCellStyle.SelectionBackColor = Color.LightBlue;
+            this.DefaultCellStyle.SelectionForeColor = Color.Black;
+            this.Height = 32;
+            this.Resizable = DataGridViewTriState.False;
         }
 
         internal TreeGridNode(TreeGridView owner) : this()
@@ -88,11 +95,11 @@ namespace Paway.Forms
                 TreeGridCell element = null;
                 if (e.Element == null)
                 {
-                    foreach (DataGridViewCell cell2 in base.Cells)
+                    foreach (DataGridViewCell cell in base.Cells)
                     {
-                        if (typeof(TreeGridCell).IsInstanceOfType(cell2))
+                        if (typeof(TreeGridCell).IsInstanceOfType(cell))
                         {
-                            element = (TreeGridCell)cell2;
+                            element = (TreeGridCell)cell;
                             break;
                         }
                     }
@@ -261,6 +268,7 @@ namespace Paway.Forms
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public virtual bool HasChildren => ((this.childrenNodes != null) && (this.Nodes.Count > 0));
 
+        [Browsable(false)]
         public System.Drawing.Image Image
         {
             get
@@ -293,6 +301,7 @@ namespace Paway.Forms
             }
         }
 
+        [Browsable(false)]
         [TypeConverter(typeof(ImageIndexConverter)), Category("Appearance"), Editor("System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor)), DefaultValue(-1), Description("...")]
         public int ImageIndex
         {
@@ -387,6 +396,7 @@ namespace Paway.Forms
             }
         }
 
+        [Browsable(false)]
         public TreeGridNodeCollection Nodes
         {
             get
