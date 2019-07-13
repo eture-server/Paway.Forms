@@ -646,7 +646,7 @@ namespace Paway.Test
             this.btTTsRead.Location = new System.Drawing.Point(47, 126);
             this.btTTsRead.Name = "btTTsRead";
             this.btTTsRead.Size = new System.Drawing.Size(59, 28);
-            this.btTTsRead.TabIndex = 39;
+            this.btTTsRead.TabIndex = 41;
             this.btTTsRead.Text = "朗读";
             this.btTTsRead.UseVisualStyleBackColor = false;
             // 
@@ -657,7 +657,7 @@ namespace Paway.Test
             this.btAbout.Location = new System.Drawing.Point(134, 238);
             this.btAbout.Name = "btAbout";
             this.btAbout.Size = new System.Drawing.Size(71, 28);
-            this.btAbout.TabIndex = 27;
+            this.btAbout.TabIndex = 62;
             this.btAbout.Text = "About";
             this.btAbout.UseVisualStyleBackColor = false;
             // 
@@ -668,7 +668,7 @@ namespace Paway.Test
             this.btSearch.Location = new System.Drawing.Point(134, 204);
             this.btSearch.Name = "btSearch";
             this.btSearch.Size = new System.Drawing.Size(71, 28);
-            this.btSearch.TabIndex = 24;
+            this.btSearch.TabIndex = 52;
             this.btSearch.Text = "Search";
             this.btSearch.UseVisualStyleBackColor = false;
             // 
@@ -679,7 +679,7 @@ namespace Paway.Test
             this.btImage.Location = new System.Drawing.Point(47, 238);
             this.btImage.Name = "btImage";
             this.btImage.Size = new System.Drawing.Size(71, 28);
-            this.btImage.TabIndex = 23;
+            this.btImage.TabIndex = 61;
             this.btImage.Text = "Image";
             this.btImage.UseVisualStyleBackColor = false;
             // 
@@ -690,7 +690,7 @@ namespace Paway.Test
             this.btQQ.Location = new System.Drawing.Point(47, 204);
             this.btQQ.Name = "btQQ";
             this.btQQ.Size = new System.Drawing.Size(71, 28);
-            this.btQQ.TabIndex = 12;
+            this.btQQ.TabIndex = 51;
             this.btQQ.Text = "QQ";
             this.btQQ.UseVisualStyleBackColor = false;
             // 
@@ -701,7 +701,7 @@ namespace Paway.Test
             this.qqRadioButton1.Location = new System.Drawing.Point(182, 25);
             this.qqRadioButton1.Name = "qqRadioButton1";
             this.qqRadioButton1.Size = new System.Drawing.Size(55, 25);
-            this.qqRadioButton1.TabIndex = 67;
+            this.qqRadioButton1.TabIndex = 12;
             this.qqRadioButton1.TabStop = true;
             this.qqRadioButton1.Text = "100";
             this.qqRadioButton1.UseVisualStyleBackColor = false;
@@ -713,7 +713,7 @@ namespace Paway.Test
             this.qqCheckBox1.Location = new System.Drawing.Point(47, 25);
             this.qqCheckBox1.Name = "qqCheckBox1";
             this.qqCheckBox1.Size = new System.Drawing.Size(107, 25);
-            this.qqCheckBox1.TabIndex = 66;
+            this.qqCheckBox1.TabIndex = 11;
             this.qqCheckBox1.Text = "你好World";
             this.qqCheckBox1.UseVisualStyleBackColor = false;
             // 
@@ -727,7 +727,7 @@ namespace Paway.Test
             this.qqTextBox1.Name = "qqTextBox1";
             this.qqTextBox1.RegexType = Paway.Helper.RegexType.Normal;
             this.qqTextBox1.Size = new System.Drawing.Size(267, 29);
-            this.qqTextBox1.TabIndex = 47;
+            this.qqTextBox1.TabIndex = 31;
             // 
             // toolBar3
             // 
@@ -772,7 +772,7 @@ namespace Paway.Test
             this.tNumTestBox1.MaxLength = 10;
             this.tNumTestBox1.Name = "tNumTestBox1";
             this.tNumTestBox1.Size = new System.Drawing.Size(107, 29);
-            this.tNumTestBox1.TabIndex = 37;
+            this.tNumTestBox1.TabIndex = 21;
             // 
             // tComboBox21
             // 
@@ -795,7 +795,7 @@ namespace Paway.Test
             this.tComboBox21.Location = new System.Drawing.Point(168, 126);
             this.tComboBox21.Name = "tComboBox21";
             this.tComboBox21.Size = new System.Drawing.Size(146, 29);
-            this.tComboBox21.TabIndex = 31;
+            this.tComboBox21.TabIndex = 42;
             // 
             // qqRadioButton2
             // 
@@ -804,7 +804,7 @@ namespace Paway.Test
             this.qqRadioButton2.Location = new System.Drawing.Point(243, 25);
             this.qqRadioButton2.Name = "qqRadioButton2";
             this.qqRadioButton2.Size = new System.Drawing.Size(71, 25);
-            this.qqRadioButton2.TabIndex = 67;
+            this.qqRadioButton2.TabIndex = 13;
             this.qqRadioButton2.TabStop = true;
             this.qqRadioButton2.Text = "Radio";
             this.qqRadioButton2.UseVisualStyleBackColor = false;

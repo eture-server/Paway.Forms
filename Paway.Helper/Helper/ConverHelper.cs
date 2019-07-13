@@ -43,176 +43,52 @@ namespace Paway.Helper
         /// <summary>
         /// 在指定的字符串列表cnStr中检索符合拼音索引字符串
         /// </summary>
-        /// <param name="cnStr">汉字字符串</param>
+        /// <param name="str">汉字字符串</param>
         /// <param name="args">换行字符</param>
         /// <returns>相对应的汉语拼音首字母串</returns>
-        public static string ToSpellCode(this string cnStr, params string[] args)
+        public static string ToSpell(this string str, params string[] args)
         {
-            if (cnStr.IsNullOrEmpty()) return null;
+            if (str.IsNullOrEmpty()) return string.Empty;
             string strTemp = null;
             bool last = true;
-            for (int i = 0; i < cnStr.Length; i++)
+            for (int i = 0; i < str.Length; i++)
             {
                 string v = null;
-                bool c = GetSpellCode(cnStr.Substring(i, 1), ref v);
-                if ((c || last) && !args.Contains(v))
+                bool c = ToSpell(str.Substring(i, 1), ref v);
+                if ((c || last) && !IContains(v, args))
                 {
+                    if (args.Length > 0) { }
+
                     strTemp += v;
                 }
-                last = c | args.Contains(v);
+                last = c | IContains(v, args);
             }
-            return strTemp;
+            return strTemp.ToLower();
         }
         /// <summary>
-        /// 得到一个汉字的拼音第一个字母，如果是一个英文字母则直接返回小写字母
+        /// 判断非汉字时取值问题
+        /// 参数为空时仅取连续字母或数字的首位
         /// </summary>
-        /// <param name="cnChar">单个汉字</param>
-        /// <param name="result">单个小写字母</param>
-        /// <returns>如果是字母，返回false</returns>
-        private static bool GetSpellCode(string cnChar, ref string result)
+        private static bool IContains(string str, params string[] args)
         {
-            long lenCnChar;
-            byte[] zw = Encoding.Default.GetBytes(cnChar);
-            //如果是字母，则直接返回
-            if (zw.Length == 1)
-            {
-                result = cnChar.ToLower();
-                return false;
-            }
-            else
-            {
-                // get the array of byte from the single char
-                int i1 = zw[0];
-                int i2 = (zw[1]);
-                lenCnChar = i1 * 256 + i2;
-            }
-            // iCnChar match the constant
-            if (lenCnChar >= 45217 && lenCnChar <= 55289)
-            {
-                if (lenCnChar <= 45252)
-                {
-                    result = "a";
-                }
-                else if (lenCnChar <= 45760)
-                {
-                    result = "b";
-                }
-                else if (lenCnChar <= 46317)
-                {
-                    result = "c";
-                }
-                else if (lenCnChar <= 46825)
-                {
-                    result = "d";
-                }
-                else if (lenCnChar <= 47009)
-                {
-                    result = "e";
-                }
-                else if (lenCnChar <= 47296)
-                {
-                    result = "f";
-                }
-                else if (lenCnChar <= 47613)
-                {
-                    result = "g";
-                }
-                else if (lenCnChar <= 48118)
-                {
-                    result = "h";
-                }
-                else if (lenCnChar <= 49061)
-                {
-                    result = "j";
-                }
-                else if (lenCnChar <= 49323)
-                {
-                    result = "k";
-                }
-                else if (lenCnChar <= 49895)
-                {
-                    result = "l";
-                }
-                else if (lenCnChar <= 50370)
-                {
-                    result = "m";
-                }
-                else if (lenCnChar <= 50613)
-                {
-                    result = "n";
-                }
-                else if (lenCnChar <= 50621)
-                {
-                    result = "o";
-                }
-                else if (lenCnChar <= 50905)
-                {
-                    result = "p";
-                }
-                else if (lenCnChar <= 51386)
-                {
-                    result = "q";
-                }
-                else if (lenCnChar <= 51445)
-                {
-                    result = "r";
-                }
-                else if (lenCnChar <= 52217)
-                {
-                    result = "s";
-                }
-                else if (lenCnChar <= 52697)
-                {
-                    result = "t";
-                }
-                else if (lenCnChar <= 52979)
-                {
-                    result = "w";
-                }
-                else if (lenCnChar <= 53640)
-                {
-                    result = "x";
-                }
-                else if (lenCnChar <= 54480)
-                {
-                    result = "y";
-                }
-                else if (lenCnChar >= 54481)
-                {
-                    result = "z";
-                }
-            }
-            else
-            {
-                result = ("?");
-            }
+            if (args.Length > 0) return args.Contains(str);
+            int c = str[0];
+            if (c >= 65 && c <= 90) return false;//A-Z
+            if (c >= 97 && c <= 122) return false;//a-z
+            if (c >= 48 && c <= 57) return false;//0-9
             return true;
-        }
-        /// <summary>
-        ///     拼音转换
-        /// </summary>
-        public static string ToSpell(this object obj)
-        {
-            string text = obj.ToStrs();
-            string str = string.Empty;
-            for (int i = 0; i < text.Length; i++)
-            {
-                //取单个汉字
-                str += GetSpell(text.Substring(i, 1));
-            }
-            return str;
         }
         /// <summary>
         /// 根据一个汉字获得其首拼音
         /// </summary>
-        private static string GetSpell(string chart)
+        private static bool ToSpell(string chart, ref string result)
         {
             //获得其ASSIC码
             byte[] arrCN = Encoding.Default.GetBytes(chart);
             if (arrCN.Length > 1)
             {
-                int area = (short)arrCN[0];
-                int pos = (short)arrCN[1];
+                int area = arrCN[0];
+                int pos = arrCN[1];
 
                 //int code = (area << 8) + pos;
                 int code = area * 256 + pos;
@@ -232,12 +108,14 @@ namespace Paway.Helper
                     if (areacode[i] <= code && code < max)
                     {
                         //转为字母返回
-                        return Encoding.Default.GetString(new byte[] { (byte)(97 + i) });
+                        result = Encoding.Default.GetString(new byte[] { (byte)(97 + i) });
+                        return true;
                     }
                 }
-                return "*";
+                result = "?";
             }
-            else return chart;
+            else result = chart;
+            return false;
         }
 
         #endregion

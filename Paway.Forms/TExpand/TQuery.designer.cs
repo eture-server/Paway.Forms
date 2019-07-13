@@ -35,19 +35,21 @@
             // 
             // gridview1
             // 
+            this.gridview1.AllowUserToResizeColumns = false;
+            this.gridview1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.gridview1.ColumnHeadersVisible = false;
             this.gridview1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id});
             this.gridview1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridview1.GridColor = System.Drawing.SystemColors.ControlDark;
             this.gridview1.Location = new System.Drawing.Point(0, 0);
             this.gridview1.Name = "gridview1";
             this.gridview1.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
             this.gridview1.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
             this.gridview1.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
-            this.gridview1.RowTemplate.Height = 32;
-            this.gridview1.RowTemplate.ReadOnly = true;
+            this.gridview1.RowTemplate.Height = 30;
             this.gridview1.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridview1.Size = new System.Drawing.Size(205, 32);
+            this.gridview1.Size = new System.Drawing.Size(207, 152);
             this.gridview1.TabIndex = 34;
             // 
             // Id
@@ -59,10 +61,9 @@
             // 
             // TQuery
             // 
-            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.gridview1);
             this.Name = "TQuery";
-            this.Size = new System.Drawing.Size(205, 32);
+            this.Size = new System.Drawing.Size(207, 152);
             ((System.ComponentModel.ISupportInitialize)(this.gridview1)).EndInit();
             this.ResumeLayout(false);
 

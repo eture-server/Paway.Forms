@@ -52,7 +52,21 @@ namespace Paway.Test
             pictureBox1.Click += pictureBox1_Click;
             pictureBox2.Click += pictureBox2_Click;
             this.toolBar3.SelectedItemChanged += toolBar3_SelectedItemChanged;
+            Query();
             this.Activate();
+        }
+        private void Query()
+        {
+            var server = new SQLiteService();
+            var list = server.Find<TestInfo>("1=1 limit 100");
+
+            var tQuery = new TQuery<TestInfo>();
+            tQuery.Init(qqTextBox1, list, new { Name = 0, Value = 0 }.GetType());
+            tQuery.SelectedEvent += TQuery_SelectedEvent;
+        }
+        private void TQuery_SelectedEvent(object obj)
+        {
+            qqTextBox1.Text = (obj as TestInfo).Name;
         }
 
         private void InitEnum()
