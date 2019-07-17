@@ -9,14 +9,14 @@ using System.Windows.Forms;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     图像处理类
+    /// 图像处理类
     /// </summary>
     public abstract class BitmapHelper
     {
         #region 获取Gif图片中的各帧
 
         /// <summary>
-        ///     获取Gif图片中的各帧
+        /// 获取Gif图片中的各帧
         /// </summary>
         /// <param name="gPath">图片路径</param>
         /// <param name="sPath">保存路径</param>
@@ -37,7 +37,7 @@ namespace Paway.Helper
         #region 3D左右翻转
 
         /// <summary>
-        ///     矩形图片变换成梯形图片，用于QQ的3D翻转特效
+        /// 矩形图片变换成梯形图片，用于QQ的3D翻转特效
         /// </summary>
         /// <param name="src">原图</param>
         /// <param name="compressH">纵向缩放的比例</param>
@@ -260,7 +260,7 @@ namespace Paway.Helper
         #region 方法
 
         /// <summary>
-        ///     截取屏幕图像
+        /// 截取屏幕图像
         /// </summary>
         /// <returns></returns>
         public static Bitmap GetScreenPic()
@@ -277,7 +277,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     从指定的文件初始化图像，并指定像素格式
+        /// 从指定的文件初始化图像，并指定像素格式
         /// </summary>
         public static Bitmap GetBitmapFormFile(string fileName, PixelFormat format = PixelFormat.Format32bppArgb)
         {
@@ -292,7 +292,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     裁剪指定区域图像
+        /// 裁剪指定区域图像
         /// </summary>
         public static Bitmap CutBitmap(Image image, Rectangle rect)
         {
@@ -305,7 +305,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     高质量缩放图像，默认线性收缩
+        /// 高质量缩放图像，默认线性收缩
         /// </summary>
         public static Image HighImage(Image image, InterpolationMode mode = InterpolationMode.HighQualityBilinear)
         {
@@ -316,7 +316,7 @@ namespace Paway.Helper
             return HighImage(image, new Size(width, width), mode);
         }
         /// <summary>
-        ///     高质量缩放图像，默认线性收缩
+        /// 高质量缩放图像，默认线性收缩
         /// </summary>
         public static Image HighImage(Image image, Size size, InterpolationMode mode = InterpolationMode.HighQualityBilinear)
         {
@@ -343,7 +343,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     替换图像像素点
+        /// 替换图像像素点
         /// </summary>
         /// <param name="image"></param>
         /// <param name="x"></param>
@@ -376,7 +376,7 @@ namespace Paway.Helper
         #region 图片转换
 
         /// <summary>
-        ///     图片转换
+        /// 图片转换
         /// </summary>
         /// <param name="image">原图</param>
         /// <param name="type">转换类型</param>
@@ -491,7 +491,7 @@ namespace Paway.Helper
         #region 左右翻转
 
         /// <summary>
-        ///     左右翻转
+        /// 左右翻转
         /// </summary>
         /// <param name="image">原始图片</param>
         public static Bitmap RevPicLR(Image image)
@@ -533,7 +533,7 @@ namespace Paway.Helper
         #region 上下翻转
 
         /// <summary>
-        ///     上下翻转
+        /// 上下翻转
         /// </summary>
         /// <param name="image">原始图片</param>
         public static Bitmap RevPicUD(Image image)
@@ -570,7 +570,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     顺时针90度
+        /// 顺时针90度
         /// </summary>
         public static Bitmap Rotate90(Image image)
         {
@@ -607,7 +607,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     顺时针270度（逆时针90度）
+        /// 顺时针270度（逆时针90度）
         /// </summary>
         public static Bitmap Rotate270(Image image)
         {
@@ -648,7 +648,7 @@ namespace Paway.Helper
         #region 指定角度旋转
 
         /// <summary>
-        ///     指定角度旋转图片
+        /// 指定角度旋转图片
         /// </summary>
         public static Bitmap RotateImage(Bitmap bmp, float angle, Color bkColor)
         {
@@ -706,7 +706,7 @@ namespace Paway.Helper
         #endregion
 
         /// <summary>
-        ///     检查像素值会不会超出[0, 255]
+        /// 检查像素值会不会超出[0, 255]
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
@@ -722,8 +722,8 @@ namespace Paway.Helper
         #region RGB<->HSB
 
         /// <summary>
-        ///     RGB空间到HSL空间的转换
-        ///     色调-饱和度-亮度(HSB) 转 Color
+        /// RGB空间到HSL空间的转换
+        /// 色调-饱和度-亮度(HSB) 转 Color
         /// </summary>
         public static Color HSLToRGB(double h, double s, double l)
         {
@@ -766,8 +766,8 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     RGB空间到HSL空间的转换
-        ///     Color亮度变化
+        /// RGB空间到HSL空间的转换
+        /// Color亮度变化
         /// </summary>
         public static Color RGBAddLight(Color color, int value)
         {
@@ -776,8 +776,8 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     RGB空间到HSL空间的转换
-        ///     Color 转 色调-饱和度-亮度(HSB)
+        /// RGB空间到HSL空间的转换
+        /// Color 转 色调-饱和度-亮度(HSB)
         /// </summary>
         public static double[] RGBToHSL(double r, double g, double b)
         {

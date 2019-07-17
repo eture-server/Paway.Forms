@@ -14,7 +14,7 @@ using Paway.Forms.Properties;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     窗体的基类，完成一部分共有的功能
+    /// 窗体的基类，完成一部分共有的功能
     /// </summary>
     public class FormBase : TForm
     {
@@ -28,7 +28,7 @@ namespace Paway.Forms
         #region 构造函数
 
         /// <summary>
-        ///     初始化 Paway.Forms.FormBase 类的新实例。
+        /// 初始化 Paway.Forms.FormBase 类的新实例。
         /// </summary>
         public FormBase()
         {
@@ -45,7 +45,7 @@ namespace Paway.Forms
         #region 接口
 
         /// <summary>
-        ///     坐标点是否包含在项中
+        /// 坐标点是否包含在项中
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
@@ -59,57 +59,57 @@ namespace Paway.Forms
         #region 变量
 
         /// <summary>
-        ///     边框图片
+        /// 边框图片
         /// </summary>
         private readonly Image _borderImage = Resources.QQ_FormFrame_fringe_bkg;
 
         /// <summary>
-        ///     系统按钮
+        /// 系统按钮
         /// </summary>
         protected TSysButton _sysButton = TSysButton.Normal;
 
         /// <summary>
-        ///     关闭按钮的鼠标状态
+        /// 关闭按钮的鼠标状态
         /// </summary>
         protected TMouseState _closeState = TMouseState.Normal;
 
         /// <summary>
-        ///     最大化按钮的鼠标状态
+        /// 最大化按钮的鼠标状态
         /// </summary>
         protected TMouseState _maxState = TMouseState.Normal;
 
         /// <summary>
-        ///     最小化按钮的鼠标状态
+        /// 最小化按钮的鼠标状态
         /// </summary>
         protected TMouseState _minState = TMouseState.Normal;
 
         /// <summary>
-        ///     记录窗体Normal大小
+        /// 记录窗体Normal大小
         /// </summary>
         protected Size? _normalSize;
         /// <summary>
-        ///     记录窗体Restore大小
+        /// 记录窗体Restore大小
         /// </summary>
         protected Size? _restoreSize;
 
         /// <summary>
-        ///     记录窗体Normal位置
+        /// 记录窗体Normal位置
         /// </summary>
         protected Point? _normalPoint;
         /// <summary>
-        ///     记录窗体Restore位置
+        /// 记录窗体Restore位置
         /// </summary>
         protected Point? _restorePoint;
 
         /// <summary>
-        ///     是否显示图标
+        /// 是否显示图标
         /// </summary>
         protected bool _showIcon = true;
 
         private Color _tranColor;
 
         /// <summary>
-        ///     绘制背景时自动颜色透明度
+        /// 绘制背景时自动颜色透明度
         /// </summary>
         protected Color TranColor
         {
@@ -133,7 +133,7 @@ namespace Paway.Forms
         private FormWindowState lastState;
 
         /// <summary>
-        ///     指定窗体窗口如何显示
+        /// 指定窗体窗口如何显示
         /// </summary>
         [Description("指定窗体窗口如何显示")]
         [DefaultValue(FormWindowState.Normal)]
@@ -176,14 +176,14 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     是否透明
+        /// 是否透明
         /// </summary>
         [Description("指定窗体是否透明")]
         [DefaultValue(false)]
         public bool ITransfer { get; set; }
 
         /// <summary>
-        ///     窗体大小的最小值
+        /// 窗体大小的最小值
         /// </summary>
         [Description("窗体大小的最小值")]
         [DefaultValue(typeof(Size), "140, 40")]
@@ -194,7 +194,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     是否显示图标
+        /// 是否显示图标
         /// </summary>
         [Description("是否显示图标")]
         [DefaultValue(true)]
@@ -212,7 +212,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     窗体标题文字
+        /// 窗体标题文字
         /// </summary>
         public override string Text
         {
@@ -229,7 +229,7 @@ namespace Paway.Forms
 
         private string _textShow;
         /// <summary>
-        ///     窗体显示的标题文字
+        /// 窗体显示的标题文字
         /// </summary>
         [Browsable(false), Description("窗体显示的标题文字")]
         [DefaultValue(null)]
@@ -247,7 +247,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     系统控制按钮
+        /// 系统控制按钮
         /// </summary>
         [Description("系统控制按钮的显示与隐藏")]
         [DefaultValue(TSysButton.Normal)]
@@ -265,7 +265,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     系统控制按钮区域
+        /// 系统控制按钮区域
         /// </summary>
         [Description("系统控制按钮区域")]
         [DefaultValue(typeof(Rectangle), "Empty")]
@@ -275,7 +275,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     标题栏区域
+        /// 标题栏区域
         /// </summary>
         protected virtual Rectangle TitleBarRect
         {
@@ -283,7 +283,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     关闭按钮区域
+        /// 关闭按钮区域
         /// </summary>
         [Description("关闭按钮区域")]
         [DefaultValue(typeof(Rectangle), "Empty")]
@@ -293,7 +293,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     最小化按钮区域
+        /// 最小化按钮区域
         /// </summary>
         [Description("最小化按钮区域")]
         [DefaultValue(typeof(Rectangle), "Empty")]
@@ -303,7 +303,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     最大化按钮区域
+        /// 最大化按钮区域
         /// </summary>
         [Description("最大化按钮区域")]
         [DefaultValue(typeof(Rectangle), "Empty")]
@@ -313,7 +313,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     标题栏菜单按钮的矩形区域
+        /// 标题栏菜单按钮的矩形区域
         /// </summary>
         [Description("标题栏菜单按钮的矩形区域")]
         [DefaultValue(typeof(Rectangle), "Empty")]
@@ -323,7 +323,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     图标显示区域
+        /// 图标显示区域
         /// </summary>
         [Description("图标显示区域")]
         [DefaultValue(typeof(Rectangle), "4, 4, 16, 16")]
@@ -333,7 +333,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     标题文本显示区域
+        /// 标题文本显示区域
         /// </summary>
         protected virtual Rectangle TextRect
         {
@@ -349,7 +349,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     关闭按钮当前的鼠标状态
+        /// 关闭按钮当前的鼠标状态
         /// </summary>
         [Description("关闭按钮当前的鼠标状态")]
         [DefaultValue(TSysButton.Normal)]
@@ -367,7 +367,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     最大化按钮当前的鼠标状态
+        /// 最大化按钮当前的鼠标状态
         /// </summary>
         [Description("最大化按钮当前的鼠标状态")]
         [DefaultValue(TSysButton.Normal)]
@@ -385,7 +385,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     最小化按钮当前的鼠标状态
+        /// 最小化按钮当前的鼠标状态
         /// </summary>
         [Description("最小化按钮当前的鼠标状态")]
         [DefaultValue(TSysButton.Normal)]
@@ -403,7 +403,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     标题栏菜单按钮的鼠标的状态
+        /// 标题栏菜单按钮的鼠标的状态
         /// </summary>
         [Description("标题栏菜单按钮的鼠标的状态")]
         [DefaultValue(TMouseState.Normal)]
@@ -411,7 +411,7 @@ namespace Paway.Forms
 
         private bool _iBorder;
         /// <summary>
-        ///     是否绘制边框
+        /// 是否绘制边框
         /// </summary>
         [Browsable(true), Description("是否绘制边框")]
         [DefaultValue(false)]
@@ -427,7 +427,7 @@ namespace Paway.Forms
 
         private bool _iRound = true;
         /// <summary>
-        ///     是否剪成圆角
+        /// 是否剪成圆角
         /// </summary>
         [Browsable(true), Description("是否剪成圆角")]
         [DefaultValue(true)]
@@ -443,12 +443,12 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     线性渐变绘制
+        /// 线性渐变绘制
         /// </summary>
         private TProperties _tBrush;
 
         /// <summary>
-        ///     线性渐变绘制
+        /// 线性渐变绘制
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties TBrush
@@ -465,12 +465,12 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     指定线性渐变的方向
+        /// 指定线性渐变的方向
         /// </summary>
         private LinearGradientMode _tBrushMode = LinearGradientMode.Vertical;
 
         /// <summary>
-        ///     指定线性渐变的方向
+        /// 指定线性渐变的方向
         /// </summary>
         [DefaultValue(LinearGradientMode.Vertical)]
         public LinearGradientMode TBrushMode
@@ -488,7 +488,7 @@ namespace Paway.Forms
         #region 重置默认属性值
 
         /// <summary>
-        ///     获取或设置运行时窗体的起始位置。
+        /// 获取或设置运行时窗体的起始位置。
         /// </summary>
         [Description("获取或设置运行时窗体的起始位置")]
         [DefaultValue(FormStartPosition.CenterScreen)]
@@ -499,7 +499,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置控件的自动缩放模式。
+        /// 获取或设置控件的自动缩放模式。
         /// </summary>
         [Description("获取或设置控件的自动缩放模式")]
         [DefaultValue(AutoScaleMode.None)]
@@ -510,7 +510,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置控件的前景色。
+        /// 获取或设置控件的前景色。
         /// </summary>
         [Description("获取或设置控件的前景色")]
         [DefaultValue(typeof(Color), "White")]
@@ -532,7 +532,7 @@ namespace Paway.Forms
         #region 方法
 
         /// <summary>
-        ///     初始化窗口
+        /// 初始化窗口
         /// </summary>
         private void Initialize()
         {
@@ -540,7 +540,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     拖动窗口大小
+        /// 拖动窗口大小
         /// </summary>
         /// <param name="m"></param>
         public override void WmNcHitTest(ref Message m)
@@ -586,7 +586,7 @@ namespace Paway.Forms
                     {
                         base.WndProc(ref m);
                     }
-                    if (m.Result != Consts.TRUE)
+                    if (m.Result != Consts.True)
                     {
                         HideSysMenu();
                     }
@@ -603,7 +603,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     设置图片为窗体，透明区域根据 opacity 的值决定透明度
+        /// 设置图片为窗体，透明区域根据 opacity 的值决定透明度
         /// </summary>
         /// <param name="bitmap">透明位图</param>
         /// <param name="opacity">透明度的值0~255</param>
@@ -704,7 +704,7 @@ namespace Paway.Forms
         #region Override Methods
 
         /// <summary>
-        ///     引发 System.Windows.Forms.Form.Paint 事件。
+        /// 引发 System.Windows.Forms.Form.Paint 事件。
         /// </summary>
         /// <param name="e">包含事件数据的 System.Windows.Forms.PaintEventArgs。</param>
         protected override void OnPaint(PaintEventArgs e)
@@ -721,7 +721,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     填充背景
+        /// 填充背景
         /// </summary>
         protected override void OnPaintBackground(PaintEventArgs e)
         {
@@ -760,7 +760,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     绘制标题文字
+        /// 绘制标题文字
         /// </summary>
         protected void DrawText(Graphics g)
         {
@@ -773,7 +773,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     绘制窗体边框
+        /// 绘制窗体边框
         /// </summary>
         private void DrawFrameBorder(Graphics g)
         {
@@ -826,7 +826,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     引发 System.Windows.Forms.Form.Resize 事件。
+        /// 引发 System.Windows.Forms.Form.Resize 事件。
         /// </summary>
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
         protected override void OnResize(EventArgs e)
@@ -851,7 +851,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     引发 System.Windows.Forms.Form.Load 事件。
+        /// 引发 System.Windows.Forms.Form.Load 事件。
         /// </summary>
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
         protected override void OnLoad(EventArgs e)
@@ -882,7 +882,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     处理 Windows 消息。
+        /// 处理 Windows 消息。
         /// </summary>
         /// <param name="m">要处理的 WindowsMessage。</param>
         protected override void WndProc(ref Message m)
@@ -909,9 +909,9 @@ namespace Paway.Forms
             {
                 if (m.Msg == (int)WindowsMessage.WM_NCACTIVATE)
                 {
-                    if (m.WParam == Win32Helper.False)
+                    if (m.WParam == Consts.False)
                     {
-                        m.Result = Win32Helper.True;
+                        m.Result = Consts.True;
                     }
                 }
             }
@@ -970,7 +970,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     引发 System.Windows.Forms.Form.MouseDown。
+        /// 引发 System.Windows.Forms.Form.MouseDown。
         /// </summary>
         /// <param name="e">包含事件数据的 System.Windows.Forms.MouseEventArgs。</param>
         protected override void OnMouseDown(MouseEventArgs e)
@@ -1002,7 +1002,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     引发 System.Windows.Forms.Form.MouseMove。
+        /// 引发 System.Windows.Forms.Form.MouseMove。
         /// </summary>
         /// <param name="e">包含事件数据的 System.Windows.Forms.MouseEventArgs。</param>
         protected override void OnMouseMove(MouseEventArgs e)
@@ -1072,7 +1072,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     引发 System.Windows.Forms.Form.MouseLeave。
+        /// 引发 System.Windows.Forms.Form.MouseLeave。
         /// </summary>
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
         protected override void OnMouseLeave(EventArgs e)
@@ -1084,7 +1084,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     引发 System.Windows.Forms.Form.MouseUp。
+        /// 引发 System.Windows.Forms.Form.MouseUp。
         /// </summary>
         /// <param name="e">包含事件数据的 System.Windows.Forms.MouseEventArgs。</param>
         protected override void OnMouseUp(MouseEventArgs e)
@@ -1123,7 +1123,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     最大化方法
+        /// 最大化方法
         /// </summary>
         protected void WindowMax()
         {
@@ -1138,7 +1138,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     封装创建控件时所需的信息。
+        /// 封装创建控件时所需的信息。
         /// </summary>
         protected override CreateParams CreateParams
         {
@@ -1176,7 +1176,7 @@ namespace Paway.Forms
         #region 绘制下圆角路径
 
         /// <summary>
-        ///     绘制下圆角路径
+        /// 绘制下圆角路径
         /// </summary>
         /// <param name="control"></param>
         protected void TDrawBelowPath(Control control)
@@ -1196,7 +1196,7 @@ namespace Paway.Forms
         #region 绘制下圆角边框
 
         /// <summary>
-        ///     绘制下圆角边框
+        /// 绘制下圆角边框
         /// </summary>
         /// <param name="control"></param>
         protected void TDrawBelowBorder(Control control)
@@ -1251,7 +1251,7 @@ namespace Paway.Forms
         #region 将控件剪成圆角
         private int ellipse;
         /// <summary>
-        ///     将控件剪成圆角
+        /// 将控件剪成圆角
         /// </summary>
         protected void TDrawRoundRect(Control control, int ellipse)
         {
@@ -1265,7 +1265,7 @@ namespace Paway.Forms
             DrawRoundRect(sender as Control, ellipse);
         }
         /// <summary>
-        ///     将控件剪成圆角
+        /// 将控件剪成圆角
         /// </summary>
         /// <param name="control"></param>
         /// <param name="ellipse"></param>
@@ -1275,7 +1275,7 @@ namespace Paway.Forms
             DrawRoundRect(control, control.ClientRectangle, ellipse);
         }
         /// <summary>
-        ///     将控件剪成圆角
+        /// 将控件剪成圆角
         /// </summary>
         /// <param name="control"></param>
         /// <param name="rect"></param>
@@ -1296,8 +1296,8 @@ namespace Paway.Forms
 
         #region 显示系统菜单
         /// <summary>
-        ///     显示系统菜单
-        ///     改变窗口大小与系统菜单冲突
+        /// 显示系统菜单
+        /// 改变窗口大小与系统菜单冲突
         /// </summary>
         public void ShowSysMenu()
         {
@@ -1334,7 +1334,7 @@ namespace Paway.Forms
             }
         }
         /// <summary>
-        ///     显示系统菜单
+        /// 显示系统菜单
         /// </summary>
         public void HideSysMenu()
         {

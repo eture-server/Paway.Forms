@@ -11,7 +11,7 @@ using System.Windows.Forms;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     异常弹出信息
+    /// 异常弹出信息
     /// </summary>
     public abstract class ExceptionHelper
     {

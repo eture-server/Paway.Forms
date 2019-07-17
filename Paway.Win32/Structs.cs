@@ -5,23 +5,23 @@ using System.Runtime.InteropServices;
 namespace Paway.Win32
 {
     /// <summary>
-    ///     表示在二维平面中定义点的、整数 X 和 Y 坐标的有序对。
+    /// 表示在二维平面中定义点的、整数 X 和 Y 坐标的有序对。
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct POINT
     {
         /// <summary>
-        ///     X 坐标
+        /// X 坐标
         /// </summary>
         public int X;
 
         /// <summary>
-        ///     Y 坐标
+        /// Y 坐标
         /// </summary>
         public int Y;
 
         /// <summary>
-        ///     初始化 Paway.Win32.POINT 结构的新实例。
+        /// 初始化 Paway.Win32.POINT 结构的新实例。
         /// </summary>
         /// <param name="x">x 水平坐标</param>
         /// <param name="y">y 垂直坐标</param>
@@ -33,7 +33,7 @@ namespace Paway.Win32
     }
 
     /// <summary>
-    ///     存储一组整数，共四个，表示一个矩形的位置和大小
+    /// 存储一组整数，共四个，表示一个矩形的位置和大小
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct RECT
@@ -41,22 +41,22 @@ namespace Paway.Win32
         #region 变量
 
         /// <summary>
-        ///     获取此 RECT 结构左边缘的 x 坐标。
+        /// 获取此 RECT 结构左边缘的 x 坐标。
         /// </summary>
         public int Left;
 
         /// <summary>
-        ///     获取此 RECT 结构上边缘的 y 坐标。
+        /// 获取此 RECT 结构上边缘的 y 坐标。
         /// </summary>
         public int Top;
 
         /// <summary>
-        ///     获取 x 坐标，该坐标是此 RECT 结构的 X 与 Width 属性值之和。
+        /// 获取 x 坐标，该坐标是此 RECT 结构的 X 与 Width 属性值之和。
         /// </summary>
         public int Right;
 
         /// <summary>
-        ///     获取 y 坐标，该坐标是此 RECT 结构的 Y 与 Height 属性值之和。
+        /// 获取 y 坐标，该坐标是此 RECT 结构的 Y 与 Height 属性值之和。
         /// </summary>
         public int Bottom;
 
@@ -65,7 +65,7 @@ namespace Paway.Win32
         #region 构造函数
 
         /// <summary>
-        ///     初始化 Paway.Win32.RECT 结构的新实例。
+        /// 初始化 Paway.Win32.RECT 结构的新实例。
         /// </summary>
         /// <param name="left">此 RECT 结构左边缘的 x 坐标。</param>
         /// <param name="top">此 RECT 结构上边缘的 y 坐标。</param>
@@ -80,7 +80,7 @@ namespace Paway.Win32
         }
 
         /// <summary>
-        ///     初始化 Paway.Win32.RECT 结构的新实例。
+        /// 初始化 Paway.Win32.RECT 结构的新实例。
         /// </summary>
         /// <param name="rect">System.Drawing.Rectangle 对象</param>
         public RECT(Rectangle rect)
@@ -96,7 +96,7 @@ namespace Paway.Win32
         #region 属性
 
         /// <summary>
-        ///     获取或设置此 System.Drawing.Rectangle 的区域。
+        /// 获取或设置此 System.Drawing.Rectangle 的区域。
         /// </summary>
         public Rectangle Rect
         {
@@ -104,7 +104,7 @@ namespace Paway.Win32
         }
 
         /// <summary>
-        ///     获取或设置此 RECT 的大小。
+        /// 获取或设置此 RECT 的大小。
         /// </summary>
         public Size Size
         {
@@ -141,39 +141,39 @@ namespace Paway.Win32
     }
 
     /// <summary>
-    ///     鼠标钩子的相关信息
+    /// 鼠标钩子的相关信息
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct MouseHookStruct
     {
         /// <summary>
-        ///     鼠标的屏幕坐标
+        /// 鼠标的屏幕坐标
         /// </summary>
         public POINT Point;
 
         /// <summary>
-        ///     鼠标所按下的键
+        /// 鼠标所按下的键
         /// </summary>
         public int MouseData;
 
         /// <summary>
-        ///     指定事件注入标志
+        /// 指定事件注入标志
         /// </summary>
         public int Flags;
 
         /// <summary>
-        ///     消息的时间戳
+        /// 消息的时间戳
         /// </summary>
         public int Time;
 
         /// <summary>
-        ///     与消息相关联的额外信息
+        /// 与消息相关联的额外信息
         /// </summary>
         public int ExtraInfo;
     }
 
     /// <summary>
-    ///     存储一个有序整数对，通常为矩形的宽度和高度。
+    /// 存储一个有序整数对，通常为矩形的宽度和高度。
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct SIZE
@@ -181,12 +181,12 @@ namespace Paway.Win32
         #region 变量
 
         /// <summary>
-        ///     获取或设置此 SIZE 的水平分量。
+        /// 获取或设置此 SIZE 的水平分量。
         /// </summary>
         public int Width;
 
         /// <summary>
-        ///     获取或设置此 SIZE 的垂直分量。
+        /// 获取或设置此 SIZE 的垂直分量。
         /// </summary>
         public int Height;
 
@@ -195,7 +195,7 @@ namespace Paway.Win32
         #region 构造函数
 
         /// <summary>
-        ///     初始化 Paway.Win32.SIZE 结构的新实例。
+        /// 初始化 Paway.Win32.SIZE 结构的新实例。
         /// </summary>
         /// <param name="width">此 SIZE 的水平分量</param>
         /// <param name="height">此 SIZE 的垂直分量。</param>
@@ -214,28 +214,28 @@ namespace Paway.Win32
     public struct SHFILEINFO
     {
         /// <summary>
-        ///     文件的图标句柄
+        /// 文件的图标句柄
         /// </summary>
         internal IntPtr hIcon;
 
         /// <summary>
-        ///     图标的系统索引号
+        /// 图标的系统索引号
         /// </summary>
         public int iIcon;
 
         /// <summary>
-        ///     文件的属性值
+        /// 文件的属性值
         /// </summary>
         public int dwAttributes;
 
         /// <summary>
-        ///     文件的显示名
+        /// 文件的显示名
         /// </summary>
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
         public string szDisplayName;
 
         /// <summary>
-        ///     文件的类型名
+        /// 文件的类型名
         /// </summary>
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
         public string szTypeName;
@@ -264,34 +264,34 @@ namespace Paway.Win32
     }
 
     /// <summary>
-    ///     ARGB 通道
+    /// ARGB 通道
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct ARGB
     {
         /// <summary>
-        ///     蓝色值
+        /// 蓝色值
         /// </summary>
         public byte Blue;
 
         /// <summary>
-        ///     绿色值
+        /// 绿色值
         /// </summary>
         public byte Green;
 
         /// <summary>
-        ///     红色值
+        /// 红色值
         /// </summary>
         public byte Red;
 
         /// <summary>
-        ///     透明度
+        /// 透明度
         /// </summary>
         public byte Alpha;
     }
 
     /// <summary>
-    ///     CPU的信息结构
+    /// CPU的信息结构
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct CPU_INFO
@@ -338,7 +338,7 @@ namespace Paway.Win32
     }
 
     /// <summary>
-    ///     内存的信息结构
+    /// 内存的信息结构
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct MEMORY_INFO
@@ -377,7 +377,7 @@ namespace Paway.Win32
     }
 
     /// <summary>
-    ///     系统时间的信息结构
+    /// 系统时间的信息结构
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct SYSTEMTIME_INFO
@@ -416,48 +416,48 @@ namespace Paway.Win32
     }
 
     /// <summary>
-    ///     自定义消息发送字段封装
-    ///     一个字符串
+    /// 自定义消息发送字段封装
+    /// 一个字符串
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct CopyDataStruct
     {
         /// <summary>
-        ///     头
+        /// 头
         /// </summary>
         internal IntPtr iData;
 
         /// <summary>
-        ///     长度
+        /// 长度
         /// </summary>
         public int lData;
 
         /// <summary>
-        ///     消息
+        /// 消息
         /// </summary>
         [MarshalAs(UnmanagedType.LPStr)]
         public string mData;
     }
 
     /// <summary>
-    ///     自定义消息发送字段封装
-    ///     算定义类型存放到内存后传递句柄
+    /// 自定义消息发送字段封装
+    /// 算定义类型存放到内存后传递句柄
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct UserDataStruct
     {
         /// <summary>
-        ///     头
+        /// 头
         /// </summary>
         internal IntPtr vData;
 
         /// <summary>
-        ///     流长度
+        /// 流长度
         /// </summary>
         public int lData;
 
         /// <summary>
-        ///     消息句柄
+        /// 消息句柄
         /// </summary>
         internal IntPtr uData;
     }

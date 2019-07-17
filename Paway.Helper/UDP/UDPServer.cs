@@ -7,7 +7,7 @@ using System.Reflection;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     UdpClient 接收数据
+    /// UdpClient 接收数据
     /// </summary>
     public class UDPServer : UDPBase, IDisposable
     {
@@ -46,7 +46,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     启动服务
+        /// 启动服务
         /// </summary>
         public void Start()
         {
@@ -57,7 +57,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     停止服务
+        /// 停止服务
         /// </summary>
         public void Stop()
         {
@@ -74,7 +74,7 @@ namespace Paway.Helper
 
         #region private method
         /// <summary>
-        ///     接收数据的事件
+        /// 接收数据的事件
         /// </summary>
         private void OnDataReceive(IAsyncResult async)
         {
@@ -107,7 +107,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     反序列化并处理消息
+        /// 反序列化并处理消息
         /// </summary>
         private void HandleMessage(byte[] buffer, IPEndPoint ipAddress)
         {

@@ -8,72 +8,24 @@ using Paway.Helper;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     数值编辑:TextBox
-    ///     design by: csust.hulihui(mailto: ehulh@163.com, home at: http://blog.csdn.net/hulihui)
-    ///     creation date: 2007-9-17
-    ///     modified date: 2008-9-29
-    ///     1) ContextMenu delete operator is not captueed
-    ///     2) add property AllowNegative
-    ///     3) call base.OnTextChanged when mouse Paste/Cut/Clear
-    ///     4) bug when cut negative number
-    ///     5) bug when ReadOnly changed, override property ReadOnly.(2008-9-29)
-    ///     6) bug when input 1 0 and 1 but displays 11.(2008-10-23)
-    ///     7) use culture number format. (2008-10-23)
-    ///     8) do not clear value when input minus. (2008-11-14)
+    /// 数值编辑:TextBox
+    /// design by: csust.hulihui(mailto: ehulh@163.com, home at: http://blog.csdn.net/hulihui)
+    /// creation date: 2007-9-17
+    /// modified date: 2008-9-29
+    /// 1) ContextMenu delete operator is not captueed
+    /// 2) add property AllowNegative
+    /// 3) call base.OnTextChanged when mouse Paste/Cut/Clear
+    /// 4) bug when cut negative number
+    /// 5) bug when ReadOnly changed, override property ReadOnly.(2008-9-29)
+    /// 6) bug when input 1 0 and 1 but displays 11.(2008-10-23)
+    /// 7) use culture number format. (2008-10-23)
+    /// 8) do not clear value when input minus. (2008-11-14)
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(TextBox))]
     public class TNumTestBox : QQTextBox
     {
-        #region  class constructor
-
-        /// <summary>
-        /// </summary>
-        public TNumTestBox()
-        {
-            SetStyle(
-                ControlStyles.AllPaintingInWmPaint |
-                ControlStyles.OptimizedDoubleBuffer, true);
-            UpdateStyles();
-
-            base.Text = "0";
-            MaxLength = 10;
-
-            var ci = Thread.CurrentThread.CurrentCulture;
-            m_decimalSeparator = ci.NumberFormat.CurrencyDecimalSeparator[0];
-            m_negativeSign = ci.NumberFormat.NegativeSign[0];
-
-            SetValueFormatStr();
-        }
-
-        #endregion
-
-        #region override public properties
-
-        /// <summary>
-        ///     ??
-        /// </summary>
-        [DefaultValue("0")]
-        public override string Text
-        {
-            get { return base.Text; }
-            set
-            {
-                if (decimal.TryParse(value, out decimal val))
-                {
-                    base.Text = val.ToString(m_valueFormatStr);
-                }
-                else
-                {
-                    base.Text = 0.ToString(m_valueFormatStr);
-                }
-            }
-        }
-
-        #endregion
-
         #region  member fields
-
         private const int m_MaxDecimalLength = 10; // max dot length
         private const int m_MaxValueLength = 27; // decimal can be 28 bits.
 
@@ -92,10 +44,27 @@ namespace Paway.Forms
 
         #endregion
 
-        #region  disabled public properties
-
+        #region 属性
         /// <summary>
-        ///     关闭多行编辑
+        /// </summary>
+        [DefaultValue("0")]
+        public override string Text
+        {
+            get { return base.Text; }
+            set
+            {
+                if (decimal.TryParse(value, out decimal val))
+                {
+                    base.Text = val.ToString(m_valueFormatStr);
+                }
+                else
+                {
+                    base.Text = 0.ToString(m_valueFormatStr);
+                }
+            }
+        }
+        /// <summary>
+        /// 关闭多行编辑
         /// </summary>
         [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
         [DefaultValue(false)]
@@ -103,14 +72,8 @@ namespace Paway.Forms
         {
             get { return base.Multiline; }
             set { base.Multiline = false; }
-        }
-
-        #endregion
-
-        #region  custom public properties
-
-        /// <summary>
-        /// </summary>
+        }/// <summary>
+         /// </summary>
         [Category("Custom")]
         [Description("Set/Get dot length(0 is integer, 10 is maximum).")]
         [DefaultValue(0)]
@@ -184,11 +147,50 @@ namespace Paway.Forms
 
         #endregion
 
-        #region  override events or methods
+        #region 隐藏正则属性
+        /// <summary>
+        /// </summary>
+        [Browsable(false)]
+        public override string Regex
+        {
+            get { return null; }
+        }
 
         /// <summary>
         /// </summary>
-        /// <param name="m"></param>
+        [Browsable(false)]
+        public override RegexType RegexType
+        {
+            get { return RegexType.None; }
+        }
+
+        #endregion
+
+        #region 构造
+        /// <summary>
+        /// </summary>
+        public TNumTestBox()
+        {
+            SetStyle(
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.OptimizedDoubleBuffer, true);
+            UpdateStyles();
+
+            base.Text = "0";
+            MaxLength = 10;
+
+            var ci = Thread.CurrentThread.CurrentCulture;
+            m_decimalSeparator = ci.NumberFormat.CurrencyDecimalSeparator[0];
+            m_negativeSign = ci.NumberFormat.NegativeSign[0];
+
+            SetValueFormatStr();
+        }
+
+        #endregion
+
+        #region 重绘
+        /// <summary>
+        /// </summary>
         protected override void WndProc(ref Message m)
         {
             if (m.Msg == WM_PASTE) // mouse paste
@@ -220,9 +222,6 @@ namespace Paway.Forms
 
         /// <summary>
         /// </summary>
-        /// <param name="msg"></param>
-        /// <param name="keyData"></param>
-        /// <returns></returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == (Keys)Shortcut.CtrlV)
@@ -248,7 +247,6 @@ namespace Paway.Forms
 
         /// <summary>
         /// </summary>
-        /// <param name="e"></param>
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
@@ -271,7 +269,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     repostion SelectionStart, recalculate SelectedLength
+        /// repostion SelectionStart, recalculate SelectedLength
         /// </summary>
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
@@ -402,7 +400,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     reformat the base.Text
+        /// reformat the base.Text
         /// </summary>
         protected override void OnLeave(EventArgs e)
         {
@@ -419,8 +417,7 @@ namespace Paway.Forms
 
         #endregion
 
-        #region  custom private methods
-
+        #region private methods
         private void SetValueFormatStr()
         {
             m_valueFormatStr = "F" + m_decimalLength;
@@ -441,8 +438,8 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     Delete operator will be changed to BackSpace in order to
-        ///     uniformly handle the position of deleted digit.
+        /// Delete operator will be changed to BackSpace in order to
+        /// uniformly handle the position of deleted digit.
         /// </summary>
         private void DeleteText(Keys key)
         {
@@ -532,7 +529,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     clear base.SelectedText
+        /// clear base.SelectedText
         /// </summary>
         private void ClearSelection()
         {
@@ -574,28 +571,6 @@ namespace Paway.Forms
                 return true;
             }
             return false;
-        }
-
-        #endregion
-
-        #region 隐藏正则
-
-        /// <summary>
-        /// </summary>
-        [Browsable(false)]
-        public override string Regex
-        {
-            get { return null; }
-            set { }
-        }
-
-        /// <summary>
-        /// </summary>
-        [Browsable(false)]
-        public override RegexType RegexType
-        {
-            get { return RegexType.None; }
-            set { }
         }
 
         #endregion

@@ -10,15 +10,207 @@ using System.Reflection;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     自定义基控件
+    /// 自定义基控件
     /// </summary>
     [Designer("System.Windows.Forms.Design.ParentControlDesigner, System.Design")]
     public class TControl : UserControl, IControl
     {
-        #region 构造
+        #region 变量
+        /// <summary>
+        /// 加载标记
+        /// </summary>
+        public bool ILoad;
+        private TMDirection _mDirection;
+        private TProperties _tBrush;
+        private LinearGradientMode _tBrushMode = LinearGradientMode.Vertical;
+        private int _trans = 255;
+
+        private readonly Timer sTimer;
+        private int intervel;
+        private DockStyle dock;
+        private Size size;
+        private Point point;
+        private Size step;
+        private TPanel alpha;
+        private int color = 255;
+        private bool i3d;
+        private Image image;
+        private volatile bool iStop = true;
+        private readonly object mdLock = new object();
+
+        #endregion
+
+        #region 重载属性默认值
+        /// <summary>
+        /// 获取或设置在 System.Windows.Forms.ImageLayout 枚举中定义的背景图像布局。
+        /// </summary>
+        [Description("获取或设置在 System.Windows.Forms.ImageLayout 枚举中定义的背景图像布局")]
+        [DefaultValue(ImageLayout.Stretch)]
+        public override ImageLayout BackgroundImageLayout
+        {
+            get { return base.BackgroundImageLayout; }
+            set { base.BackgroundImageLayout = value; }
+        }
 
         /// <summary>
-        ///     构造
+        /// 获取或设置控件的自动缩放模式。
+        /// </summary>
+        [Description("获取或设置控件的自动缩放模式")]
+        [DefaultValue(AutoScaleMode.None)]
+        public new AutoScaleMode AutoScaleMode
+        {
+            get { return base.AutoScaleMode; }
+            set { base.AutoScaleMode = value; }
+        }
+
+        #endregion
+
+        #region 接口属性
+        /// <summary>
+        /// 移动特效方向
+        /// </summary>
+        [Description("移动特效方向")]
+        [DefaultValue(TMDirection.None)]
+        public TMDirection MDirection
+        {
+            get { return _mDirection; }
+            set
+            {
+                MStop();
+                _mDirection = value;
+            }
+        }
+
+        /// <summary>
+        /// 透明过度(旋转前)图片
+        /// </summary>
+        [Browsable(false)]
+        [Description("透明过渡(旋转前)图片")]
+        [DefaultValue(typeof(Image), "null")]
+        public Image TranImage { get; set; }
+
+        /// <summary>
+        /// 旋转后图片
+        /// </summary>
+        [Browsable(false)]
+        [Description("旋转后图片")]
+        [DefaultValue(typeof(Image), "null")]
+        public Image TranLaterImage { get; set; }
+
+        /// <summary>
+        /// 移动特效间隔
+        /// </summary>
+        [Description("移动特效间隔")]
+        [DefaultValue(7)]
+        public int MInterval { get; set; } = 7;
+
+        /// <summary>
+        /// 获取或设置控件的背景色
+        /// </summary>
+        [Description("获取或设置控件的背景色")]
+        [DefaultValue(typeof(Color), "Transparent")]
+        public override Color BackColor
+        {
+            get { return base.BackColor; }
+            set
+            {
+                if (value == Color.Empty || value == SystemColors.Control)
+                {
+                    value = Color.Transparent;
+                }
+                base.BackColor = value;
+            }
+        }
+
+        /// <summary>
+        /// 获取或设置控件的前景色。
+        /// </summary>
+        [Description("获取或设置控件的前景色")]
+        [DefaultValue(typeof(Color), "Black")]
+        public override Color ForeColor
+        {
+            get { return base.ForeColor; }
+            set
+            {
+                if (value == Color.Empty)
+                {
+                    value = Color.Black;
+                }
+                base.ForeColor = value;
+            }
+        }
+
+        /// <summary>
+        /// 线性渐变绘制
+        /// </summary>
+        [Description("线性渐变绘制，从ColorNormal到ColorSpace")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public TProperties TBrush
+        {
+            get
+            {
+                if (_tBrush == null)
+                {
+                    _tBrush = new TProperties(MethodBase.GetCurrentMethod());
+                    _tBrush.ValueChange += delegate { Invalidate(ClientRectangle); };
+                }
+                return _tBrush;
+            }
+        }
+
+        /// <summary>
+        /// 指定线性渐变的方向
+        /// </summary>
+        [Description("指定线性渐变的方向")]
+        [DefaultValue(LinearGradientMode.Vertical)]
+        public LinearGradientMode TBrushMode
+        {
+            get { return _tBrushMode; }
+            set
+            {
+                _tBrushMode = value;
+                Invalidate(ClientRectangle);
+            }
+        }
+
+        /// <summary>
+        /// 控件透明度
+        /// </summary>
+        [Description("透明度")]
+        [DefaultValue(255)]
+        public int Trans
+        {
+            get { return _trans; }
+            set
+            {
+                if (value < 0 || value > 255)
+                {
+                    value = 255;
+                }
+                _trans = value;
+                Invalidate(ClientRectangle);
+            }
+        }
+
+        /// <summary>
+        /// 移动控件父窗体
+        /// </summary>
+        [Description("移动控件父窗体")]
+        [DefaultValue(false)]
+        public bool IMouseMove { get; set; }
+
+        /// <summary>
+        /// 固定窗体背景
+        /// </summary>
+        [Category("Appearance"), Description("固定窗体背景")]
+        [DefaultValue(false)]
+        public bool IFixedBackground { get; set; }
+
+        #endregion
+
+        #region 构造
+        /// <summary>
+        /// 构造
         /// </summary>
         public TControl()
         {
@@ -41,7 +233,7 @@ namespace Paway.Forms
             BackgroundImageLayout = ImageLayout.Stretch;
         }
         /// <summary>
-        ///     返回包含 System.ComponentModel.Component 的名称的 System.String（如果有）
+        /// 返回包含 System.ComponentModel.Component 的名称的 System.String（如果有）
         /// </summary>
         /// <returns></returns>
         public override string ToString()
@@ -51,42 +243,43 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 重载属性默认值
+        #region 公开方法
         /// <summary>
-        ///     获取或设置在 System.Windows.Forms.ImageLayout 枚举中定义的背景图像布局。
+        /// 坐标点是否包含在项中
         /// </summary>
-        [Description("获取或设置在 System.Windows.Forms.ImageLayout 枚举中定义的背景图像布局")]
-        [DefaultValue(ImageLayout.Stretch)]
-        public override ImageLayout BackgroundImageLayout
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public virtual bool Contain(Point p)
         {
-            get { return base.BackgroundImageLayout; }
-            set { base.BackgroundImageLayout = value; }
-        }
-
-        /// <summary>
-        ///     获取或设置控件的自动缩放模式。
-        /// </summary>
-        [Description("获取或设置控件的自动缩放模式")]
-        [DefaultValue(AutoScaleMode.None)]
-        public new AutoScaleMode AutoScaleMode
-        {
-            get { return base.AutoScaleMode; }
-            set { base.AutoScaleMode = value; }
+            return false;
         }
 
         #endregion
 
         #region 事件
         /// <summary>
-        ///     移动特效正常完成事件。
+        /// 移动特效正常完成事件。
         /// </summary>
         public event EventHandler MoveFinished;
 
         #endregion
 
+        #region 内部方法
+        /// <summary>
+        /// 绘制背景时自动颜色透明度
+        /// </summary>
+        internal Color TranColor(Color color)
+        {
+            if (color.A > Trans)
+            {
+                color = Color.FromArgb(Trans, color.R, color.G, color.B);
+            }
+            return color;
+        }
+
         #region 重绘背景
         /// <summary>
-        ///     重绘背景
+        /// 重绘背景
         /// </summary>
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -115,7 +308,7 @@ namespace Paway.Forms
 
         #region 移动窗体
         /// <summary>
-        ///     移动控件父窗体
+        /// 移动控件父窗体
         /// </summary>
         protected override void OnMouseDown(MouseEventArgs e)
         {
@@ -139,191 +332,9 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 变量
-        /// <summary>
-        ///     加载标记
-        /// </summary>
-        public bool ILoad;
-
-        /// <summary>
-        ///     绘制背景时自动颜色透明度
-        /// </summary>
-        protected Color TranColor(Color color)
-        {
-            if (color.A > Trans)
-            {
-                color = Color.FromArgb(Trans, color.R, color.G, color.B);
-            }
-            return color;
-        }
-
-        #endregion
-
-        #region 接口 属性
-        private TMDirection _mDirection;
-        /// <summary>
-        ///     移动特效方向
-        /// </summary>
-        [Description("移动特效方向")]
-        [DefaultValue(TMDirection.None)]
-        public TMDirection MDirection
-        {
-            get { return _mDirection; }
-            set
-            {
-                MStop();
-                _mDirection = value;
-            }
-        }
-
-        /// <summary>
-        ///     透明过度(旋转前)图片
-        /// </summary>
-        [Browsable(false)]
-        [Description("透明过渡(旋转前)图片")]
-        [DefaultValue(typeof(Image), "null")]
-        public Image TranImage { get; set; }
-
-        /// <summary>
-        ///     旋转后图片
-        /// </summary>
-        [Browsable(false)]
-        [Description("旋转后图片")]
-        [DefaultValue(typeof(Image), "null")]
-        public Image TranLaterImage { get; set; }
-
-        private int _mInterval = 7;
-        /// <summary>
-        ///     移动特效间隔
-        /// </summary>
-        [Description("移动特效间隔")]
-        [DefaultValue(7)]
-        public int MInterval
-        {
-            get { return _mInterval; }
-            set { _mInterval = value; }
-        }
-
-        /// <summary>
-        ///     获取或设置控件的背景色
-        /// </summary>
-        [Description("获取或设置控件的背景色")]
-        [DefaultValue(typeof(Color), "Transparent")]
-        public override Color BackColor
-        {
-            get { return base.BackColor; }
-            set
-            {
-                if (value == Color.Empty || value == SystemColors.Control)
-                {
-                    value = Color.Transparent;
-                }
-                base.BackColor = value;
-            }
-        }
-
-        /// <summary>
-        ///     获取或设置控件的前景色。
-        /// </summary>
-        [Description("获取或设置控件的前景色")]
-        [DefaultValue(typeof(Color), "Black")]
-        public override Color ForeColor
-        {
-            get { return base.ForeColor; }
-            set
-            {
-                if (value == Color.Empty)
-                {
-                    value = Color.Black;
-                }
-                base.ForeColor = value;
-            }
-        }
-
-        private TProperties _tBrush;
-        /// <summary>
-        ///     线性渐变绘制
-        /// </summary>
-        [Description("线性渐变绘制，从ColorNormal到ColorSpace")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public TProperties TBrush
-        {
-            get
-            {
-                if (_tBrush == null)
-                {
-                    _tBrush = new TProperties(MethodBase.GetCurrentMethod());
-                    _tBrush.ValueChange += delegate { Invalidate(ClientRectangle); };
-                }
-                return _tBrush;
-            }
-        }
-
-        private LinearGradientMode _tBrushMode = LinearGradientMode.Vertical;
-        /// <summary>
-        ///     指定线性渐变的方向
-        /// </summary>
-        [Description("指定线性渐变的方向")]
-        [DefaultValue(LinearGradientMode.Vertical)]
-        public LinearGradientMode TBrushMode
-        {
-            get { return _tBrushMode; }
-            set
-            {
-                _tBrushMode = value;
-                Invalidate(ClientRectangle);
-            }
-        }
-
-        private int _trans = 255;
-        /// <summary>
-        ///     控件透明度
-        /// </summary>
-        [Description("透明度")]
-        [DefaultValue(255)]
-        public int Trans
-        {
-            get { return _trans; }
-            set
-            {
-                if (value < 0 || value > 255)
-                {
-                    value = 255;
-                }
-                _trans = value;
-                Invalidate(ClientRectangle);
-            }
-        }
-
-        /// <summary>
-        ///     移动控件父窗体
-        /// </summary>
-        [Description("移动控件父窗体")]
-        [DefaultValue(false)]
-        public bool IMouseMove { get; set; }
-
-        /// <summary>
-        ///     坐标点是否包含在项中
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        public virtual bool Contain(Point p)
-        {
-            return false;
-        }
-
-        #endregion
-
         #region 固定窗体背景 - 同TForm
         /// <summary>
-        ///     固定窗体背景
-        /// </summary>
-        [Category("Appearance"), Description("固定窗体背景")]
-        [DefaultValue(false)]
-        public bool IFixedBackground { get; set; }
-
-        /// <summary>
-        ///     处理滚动条事件
+        /// 处理滚动条事件
         /// </summary>
         /// <param name="se"></param>
         protected override void OnScroll(ScrollEventArgs se)
@@ -352,9 +363,8 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     处理鼠标滚轮事件
+        /// 处理鼠标滚轮事件
         /// </summary>
-        /// <param name="e"></param>
         protected override void OnMouseWheel(MouseEventArgs e)
         {
             if (!IsDisposed && IFixedBackground)
@@ -372,20 +382,9 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 按指定方向显示移动特效
-        private readonly Timer sTimer;
-        private int intervel;
-        private DockStyle dock;
-        private Size size;
-        private Point point;
-        private Size step;
-        private TPanel alpha;
-        private int color = 255;
-        private bool i3d;
-        private Image image;
-        private volatile bool iStop = true;
-        private readonly object mdLock = new object();
+        #endregion
 
+        #region 按指定方向显示移动特效
         private void InitShow()
         {
             sTimer.Interval = 45;
@@ -393,7 +392,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     初始化控件位置
+        /// 初始化控件位置
         /// </summary>
         protected override void OnLoad(EventArgs e)
         {
@@ -405,7 +404,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     为标题栏准备
+        /// 为标题栏准备
         /// </summary>
         public void MChild()
         {
@@ -427,7 +426,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     启动特效
+        /// 启动特效
         /// </summary>
         public void MStart(TMDirection dirction, int interval = 0)
         {
@@ -452,7 +451,7 @@ namespace Paway.Forms
             }
         }
         /// <summary>
-        ///     停止特效，并还原
+        /// 停止特效，并还原
         /// </summary>
         public void MStop()
         {
@@ -501,7 +500,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     启动特效
+        /// 启动特效
         /// </summary>
         public void MStart(int interval = 0)
         {

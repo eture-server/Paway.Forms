@@ -16,6 +16,7 @@ namespace Paway.Forms
     /// </summary>
     public class TChart : Chart
     {
+        #region 变量
         private int start;
         private int lastY;
         private int moveInterval = 3;
@@ -27,17 +28,28 @@ namespace Paway.Forms
         private ToolStripMenuItem toolSave;
         private ToolStripMenuItem toolReset;
         private ToolStripSeparator toolStripSeparator1;
+
+        #endregion
+
+        #region 属性
         /// <summary>
         /// 显示格式
         /// </summary>
         [Browsable(false)]
         [DefaultValue("序号：{0}\r\n值：{1}")]
         public string TipText { get; set; } = "序号：{0}\r\n值：{1}";
+
+        #endregion
+
+        #region 事件
         /// <summary>
         /// 当前点击序号
         /// </summary>
         public event Action<int> SelectEvent;
 
+        #endregion
+
+        #region 构造
         /// <summary>
         /// 构造
         /// </summary>
@@ -58,7 +70,55 @@ namespace Paway.Forms
             this.toolSave.Click += ToolSave_Click;
             this.toolReset.Click += delegate { Reset(); };
         }
-        #region 公开方法
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolReset = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolReset,
+            this.toolStripSeparator1,
+            this.toolSave});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(109, 54);
+            // 
+            // toolSave
+            // 
+            this.toolSave.Name = "toolSave";
+            this.toolSave.Size = new System.Drawing.Size(108, 22);
+            this.toolSave.Text = "Save";
+            // 
+            // toolReset
+            // 
+            this.toolReset.Name = "toolReset";
+            this.toolReset.Size = new System.Drawing.Size(108, 22);
+            this.toolReset.Text = "Reset";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(105, 6);
+            // 
+            // TChart
+            // 
+            this.ContextMenuStrip = this.contextMenuStrip1;
+            this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        #region private Method
         private void Reset(bool iReset = true)
         {
             if (this.ChartAreas.Count == 0) return;
@@ -90,6 +150,20 @@ namespace Paway.Forms
             }
             sfd.Dispose();
         }
+        private void UpdateShow()
+        {
+            AxisScaleView view1 = this.ChartAreas[0].AxisX.ScaleView;
+            if (this.Series.Count == 0) return;
+            if (this.Series[0].Points.Count * 1.0 * (view1.ViewMaximum - view1.ViewMinimum) / (this.ChartAreas[0].AxisX.Maximum - this.ChartAreas[0].AxisX.Minimum) / this.Width < 0.03)
+            {
+                this.Series[0].Label = "#VAL";
+            }
+            else this.Series[0].Label = null;
+        }
+
+        #endregion
+
+        #region 公开方法
         /// <summary>
         /// 加载点
         /// </summary>
@@ -147,15 +221,50 @@ namespace Paway.Forms
 
             UpdateShow();
         }
-        private void UpdateShow()
+        /// <summary>
+        /// 自动纵坐标
+        /// </summary>
+        /// <param name="name">新加点曲线名称</param>
+        /// <param name="value">新加点值</param>
+        /// <param name="_max">最大预测值</param>
+        /// <param name="_min">最小预测值</param>
+        /// <param name="_interval">最小间隔</param>
+        public void AutoAxis(string name = null, double value = 0, double _max = 100, double _min = -5, double _interval = 5)
         {
-            AxisScaleView view1 = this.ChartAreas[0].AxisX.ScaleView;
-            if (this.Series.Count == 0) return;
-            if (this.Series[0].Points.Count * 1.0 * (view1.ViewMaximum - view1.ViewMinimum) / (this.ChartAreas[0].AxisX.Maximum - this.ChartAreas[0].AxisX.Minimum) / this.Width < 0.03)
+            double min = _max, max = _min;
+            for (int i = 0; i < this.Series.Count; i++)
             {
-                this.Series[0].Label = "#VAL";
+                var series = this.Series[i];
+                if (series.Name == name && value != 0)
+                {
+                    if (min > value) min = value;
+                    if (max < value) max = value;
+                }
+                for (int j = 0; j < series.Points.Count; j++)
+                {
+                    var temp = series.Points[j].YValues[0];
+                    if (temp == 0) continue;
+                    if (min > temp) min = temp;
+                    if (max < temp) max = temp;
+                }
             }
-            else this.Series[0].Label = null;
+            if (max < min)
+            {
+                max = _max;
+                min = _min;
+            }
+            if (_interval > 0)
+            {
+                var interval = max - min;
+                if (interval < _interval)
+                {
+                    interval = _interval - interval;
+                    max += interval / 2;
+                    min -= interval / 2;
+                }
+            }
+            this.ChartAreas[0].AxisY.Minimum = TMethod.Round(min) - 0.1;
+            this.ChartAreas[0].AxisY.Maximum = TMethod.Round(max) + 0.1;
         }
 
         #endregion
@@ -423,100 +532,7 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 公共方法
-        /// <summary>
-        /// 自动纵坐标
-        /// </summary>
-        /// <param name="name">新加点曲线名称</param>
-        /// <param name="value">新加点值</param>
-        /// <param name="_max">最大预测值</param>
-        /// <param name="_min">最小预测值</param>
-        /// <param name="_interval">最小间隔</param>
-        public void AutoAxis(string name = null, double value = 0, double _max = 100, double _min = -5, double _interval = 5)
-        {
-            double min = _max, max = _min;
-            for (int i = 0; i < this.Series.Count; i++)
-            {
-                var series = this.Series[i];
-                if (series.Name == name && value != 0)
-                {
-                    if (min > value) min = value;
-                    if (max < value) max = value;
-                }
-                for (int j = 0; j < series.Points.Count; j++)
-                {
-                    var temp = series.Points[j].YValues[0];
-                    if (temp == 0) continue;
-                    if (min > temp) min = temp;
-                    if (max < temp) max = temp;
-                }
-            }
-            if (max < min)
-            {
-                max = _max;
-                min = _min;
-            }
-            if (_interval > 0)
-            {
-                var interval = max - min;
-                if (interval < _interval)
-                {
-                    interval = _interval - interval;
-                    max += interval / 2;
-                    min -= interval / 2;
-                }
-            }
-            this.ChartAreas[0].AxisY.Minimum = TMethod.Round(min) - 0.1;
-            this.ChartAreas[0].AxisY.Maximum = TMethod.Round(max) + 0.1;
-        }
-
-        #endregion
-
-        private void InitializeComponent()
-        {
-            this.components = new System.ComponentModel.Container();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolSave = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolReset = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.contextMenuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolReset,
-            this.toolStripSeparator1,
-            this.toolSave});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(109, 54);
-            // 
-            // toolSave
-            // 
-            this.toolSave.Name = "toolSave";
-            this.toolSave.Size = new System.Drawing.Size(108, 22);
-            this.toolSave.Text = "Save";
-            // 
-            // toolReset
-            // 
-            this.toolReset.Name = "toolReset";
-            this.toolReset.Size = new System.Drawing.Size(108, 22);
-            this.toolReset.Text = "Reset";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(105, 6);
-            // 
-            // TChart
-            // 
-            this.ContextMenuStrip = this.contextMenuStrip1;
-            this.contextMenuStrip1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
-            this.ResumeLayout(false);
-
-        }
+        #region Dispose
         /// <summary>
         /// 释放资源
         /// </summary>
@@ -553,5 +569,7 @@ namespace Paway.Forms
             }
             base.Dispose(disposing);
         }
+
+        #endregion
     }
 }

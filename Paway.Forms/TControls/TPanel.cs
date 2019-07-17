@@ -10,14 +10,13 @@ using System.Reflection;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     自定义基控件
+    /// 自定义基控件
     /// </summary>
     public class TPanel : Panel
     {
         #region 构造
-
         /// <summary>
-        ///     构造
+        /// 构造
         /// </summary>
         public TPanel()
         {
@@ -37,7 +36,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     返回包含 System.ComponentModel.Component 的名称的 System.String（如果有）
+        /// 返回包含 System.ComponentModel.Component 的名称的 System.String（如果有）
         /// </summary>
         /// <returns></returns>
         public override string ToString()
@@ -47,9 +46,9 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 接口 属性
+        #region 接口属性
         /// <summary>
-        ///     获取或设置控件的背景色
+        /// 获取或设置控件的背景色
         /// </summary>
         [Description("获取或设置控件的背景色")]
         [DefaultValue(typeof(Color), "Transparent")]
@@ -67,7 +66,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置控件的前景色。
+        /// 获取或设置控件的前景色。
         /// </summary>
         [Description("获取或设置控件的前景色")]
         [DefaultValue(typeof(Color), "Black")]

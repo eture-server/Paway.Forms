@@ -114,7 +114,7 @@
             // tbPad1
             // 
             this.tbPad1.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.tbPad1.IsPasswordChat = '*';
+            this.tbPad1.PasswordChat = '*';
             this.tbPad1.Lines = new string[0];
             this.tbPad1.Location = new System.Drawing.Point(146, 60);
             this.tbPad1.MaxLength = 32;
@@ -138,7 +138,7 @@
             // tbPad
             // 
             this.tbPad.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.tbPad.IsPasswordChat = '*';
+            this.tbPad.PasswordChat = '*';
             this.tbPad.Lines = new string[0];
             this.tbPad.Location = new System.Drawing.Point(146, 22);
             this.tbPad.MaxLength = 32;
@@ -162,7 +162,7 @@
             // tbPad2
             // 
             this.tbPad2.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.tbPad2.IsPasswordChat = '*';
+            this.tbPad2.PasswordChat = '*';
             this.tbPad2.Lines = new string[0];
             this.tbPad2.Location = new System.Drawing.Point(146, 98);
             this.tbPad2.MaxLength = 32;

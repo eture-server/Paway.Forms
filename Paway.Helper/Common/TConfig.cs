@@ -5,9 +5,9 @@ using System.Windows.Forms;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     初始化时的全局变量配置
-    ///     与IControl接口属性对应
-    ///     Global全局
+    /// 初始化时的全局变量配置
+    /// 与IControl接口属性对应
+    /// Global全局
     /// </summary>
     public abstract class TConfig
     {
@@ -25,17 +25,17 @@ namespace Paway.Helper
 
         #region 全局配置
         /// <summary>
-        ///     统一风格颜色（窗体）
+        /// 统一风格颜色（窗体）
         /// </summary>
         public static Color? TBackColor { get; set; } = Color.CornflowerBlue;
 
         /// <summary>
-        ///     颜色透明度且颜色不透明时应用此值
+        /// 颜色透明度且颜色不透明时应用此值
         /// </summary>
         public static int? Trans { get; set; }
 
         /// <summary>
-        ///     移动控件(父)窗体
+        /// 移动控件(父)窗体
         /// </summary>
         public static bool? IMouseMove { get; set; }
 
@@ -43,7 +43,7 @@ namespace Paway.Helper
 
         #region 加载全局属性
         /// <summary>
-        ///     加载IControl全局属性
+        /// 加载IControl全局属性
         /// </summary>
         public static void Init(IControl control)
         {

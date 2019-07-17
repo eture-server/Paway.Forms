@@ -9,31 +9,36 @@ using System.Windows.Forms;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     自定义圆形进度条
+    /// 自定义圆形进度条
     /// </summary>
     public class TProgressBar : TControl
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        #region 变量
 
+        #region 变量
         /// <summary>
-        ///     SizeChanged前的大小
+        /// SizeChanged前的大小
         /// </summary>
         private int last;
 
         /// <summary>
-        ///     防止重复绘制
+        /// 防止重复绘制
         /// </summary>
         private bool iChange = true;
+
+        private int value;
+        private int tWidth = 2;
+
+        private Color tColorNormal = Color.LightGray;
+        private Color tColor = Color.DeepSkyBlue;
+
+        private Font tFont = new Font("微软雅黑", 15f, FontStyle.Regular, GraphicsUnit.Point, 1);
 
         #endregion
 
         #region 属性
-
-        private int value;
-
         /// <summary>
-        ///     当前进度值
+        /// 当前进度值
         /// </summary>
         [Description("当前进度值")]
         [DefaultValue(0)]
@@ -47,10 +52,8 @@ namespace Paway.Forms
             }
         }
 
-        private int tWidth = 2;
-
         /// <summary>
-        ///     进度条宽度
+        /// 进度条宽度
         /// </summary>
         [Description("进度条宽度")]
         [DefaultValue(2)]
@@ -64,10 +67,8 @@ namespace Paway.Forms
             }
         }
 
-        private Color tColorNormal = Color.LightGray;
-
         /// <summary>
-        ///     进度条空颜色
+        /// 进度条空颜色
         /// </summary>
         [Description("进度条空颜色")]
         [DefaultValue(typeof(Color), "LightGray")]
@@ -83,10 +84,8 @@ namespace Paway.Forms
             }
         }
 
-        private Color tColor = Color.DeepSkyBlue;
-
         /// <summary>
-        ///     进度条颜色
+        /// 进度条颜色
         /// </summary>
         [Description("进度条颜色")]
         [DefaultValue(typeof(Color), "DeepSkyBlue")]
@@ -102,10 +101,8 @@ namespace Paway.Forms
             }
         }
 
-        private Font tFont = new Font("微软雅黑", 15f, FontStyle.Regular, GraphicsUnit.Point, 1);
-
         /// <summary>
-        ///     进度条描述字体
+        /// 进度条描述字体
         /// </summary>
         [Description("进度条描述字体")]
         [DefaultValue(typeof(Font), "微软雅黑, 15pt")]
@@ -122,9 +119,8 @@ namespace Paway.Forms
         #endregion
 
         #region 重绘
-
         /// <summary>
-        ///     HandleCreated 事件。
+        /// HandleCreated 事件。
         /// </summary>
         protected override void OnHandleCreated(EventArgs e)
         {
@@ -133,8 +129,8 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     SizeChanged 事件。
-        ///     自动调整宽高，保持一致。
+        /// SizeChanged 事件。
+        /// 自动调整宽高，保持一致。
         /// </summary>
         protected override void OnSizeChanged(EventArgs e)
         {
@@ -163,7 +159,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     绘制进度条
+        /// 绘制进度条
         /// </summary>
         protected override void OnPaint(PaintEventArgs e)
         {

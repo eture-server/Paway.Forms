@@ -8,10 +8,11 @@ using Paway.Helper;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     分页工具栏
+    /// 分页工具栏
     /// </summary>
     public class TPager : TControl
     {
+        #region 变量
         private PagerInfo pagerInfo;
         private ToolBar toolFirst;
         private ToolBar toolLast;
@@ -21,16 +22,17 @@ namespace Paway.Forms
         private Paway.Forms.TPanel tControl2;
         private TNumTestBox txtCurrentPage;
         private Paway.Forms.TPanel tControl1;
-
         /// <summary>
-        ///     页面切换的时候触发
+        /// 必需的设计器变量。
         /// </summary>
-        public event EventHandler PageChanged;
+        private IContainer components = null;
+        private Label lblPageInfo;
 
-        #region 分页信息
+        #endregion
 
+        #region 属性
         /// <summary>
-        ///     分页信息
+        /// 分页信息
         /// </summary>
         [Browsable(false)]
         public PagerInfo PagerInfo
@@ -46,29 +48,37 @@ namespace Paway.Forms
                 return pagerInfo;
             }
         }
-
-        private void PagerInfo_PageInfoChanged(PagerInfo info)
+        /// <summary>
+        /// 获取或设置当鼠标指针位于控件上时显示的光标
+        /// </summary>
+        [Description("获取或设置当鼠标指针位于控件上时显示的光标")]
+        [DefaultValue(typeof(Cursor), "Hand")]
+        public override Cursor Cursor
         {
-            InitPageInfo(info.RecordCount, info.PageSize);
-        }
-        private void PagerInfo_CountChanged(PagerInfo info)
-        {
-            InitPageInfo(true);
+            get { return base.Cursor; }
+            set { base.Cursor = value; }
         }
 
         #endregion
 
-        #region 构造
-
+        #region 事件
         /// <summary>
-        ///     默认构造函数，设置分页初始信息
+        /// 页面切换的时候触发
+        /// </summary>
+        public event EventHandler PageChanged;
+
+        #endregion
+
+        #region 构造
+        /// <summary>
+        /// 默认构造函数，设置分页初始信息
         /// </summary>
         public TPager() : this(0, 20) { }
 
         /// <summary>
-        ///     带参数的构造函数
-        ///     <param name="pageSize">每页记录数</param>
-        ///     <param name="recordCount">总记录数</param>
+        /// 带参数的构造函数
+        /// <param name="pageSize">每页记录数</param>
+        /// <param name="recordCount">总记录数</param>
         /// </summary>
         public TPager(int recordCount, int pageSize)
         {
@@ -87,252 +97,9 @@ namespace Paway.Forms
             toolNext.ItemClick += ToolNext_ItemClick;
             toolEnd.ItemClick += ToolEnd_ItemClick;
         }
-
-        private void TxtCurrentPage_LostFocus(object sender, EventArgs e)
-        {
-            txtCurrentPage.ITrans = true;
-        }
-
-        private void TxtCurrentPage_GotFocus(object sender, EventArgs e)
-        {
-            txtCurrentPage.ITrans = false;
-        }
-
-        #endregion
-
-        #region 属性
         /// <summary>
-        /// 获取或设置当鼠标指针位于控件上时显示的光标
-        /// </summary>
-        [Description("获取或设置当鼠标指针位于控件上时显示的光标")]
-        [DefaultValue(typeof(Cursor), "Hand")]
-        public override Cursor Cursor
-        {
-            get { return base.Cursor; }
-            set { base.Cursor = value; }
-        }
-
-        #endregion
-
-        #region 分页
-
-        /// <summary>
-        ///     引发页面变化处理事件
-        /// </summary>
-        /// <param name="e"></param>
-        protected virtual void OnPageChanged(EventArgs e)
-        {
-            PageChanged?.Invoke(this, e);
-        }
-
-        /// <summary>
-        ///     更新分页信息
-        ///     <param name="pageSize">每页记录数</param>
-        ///     <param name="recordCount">总记录数</param>
-        /// </summary>
-        public void InitPageInfo(int recordCount, int pageSize)
-        {
-            PagerInfo.RecordCount = recordCount;
-            PagerInfo.PageSize = pageSize;
-            InitPageInfo();
-        }
-
-        /// <summary>
-        ///     更新分页信息
-        /// </summary>
-        public void InitPageInfo(bool iTotal = false)
-        {
-            if (PagerInfo.PageSize < 1)
-                PagerInfo.PageSize = 10; //如果每页记录数不正确，即更改为10
-            if (PagerInfo.RecordCount < 0)
-                PagerInfo.RecordCount = 0; //如果记录总数不正确，即更改为0
-
-            //设置当前页
-            if (PagerInfo.CurrentPageIndex > PagerInfo.PageCount)
-            {
-                PagerInfo.CurrentPageIndex = PagerInfo.PageCount;
-            }
-            if (PagerInfo.CurrentPageIndex < 1)
-            {
-                PagerInfo.CurrentPageIndex = 1;
-            }
-
-            //设置按钮的可用性
-            if (!txtCurrentPage.Edit.Focused) lblPageInfo.Focus();
-            toolLast.Enabled = PagerInfo.CurrentPageIndex > 1;
-            toolNext.Enabled = PagerInfo.CurrentPageIndex < PagerInfo.PageCount;
-
-            txtCurrentPage.Text = PagerInfo.CurrentPageIndex.ToString();
-            if (!iTotal) OnPageChanged(EventArgs.Empty);
-            if (PagerInfo.PageSize == int.MaxValue)
-            {
-                tControl1.Visible = false;
-                lblPageInfo.Text = string.Format("共 {0:#,0} 条记录", PagerInfo.RecordCount);
-            }
-            else
-            {
-                tControl1.Visible = true;
-                lblPageInfo.Text = string.Format("共 {0:#,0} 条记录，每页 {1:#,0} 条，共 {2:#,0} 页", PagerInfo.RecordCount, PagerInfo.PageSize, PagerInfo.PageCount);
-            }
-        }
-        /// <summary>
-        /// 更新统计描述
-        /// </summary>
-        public void UpdateDesc(string desc)
-        {
-            lbDesc.Text = desc;
-        }
-
-        #region 当前页更新
-
-        /// <summary>
-        ///     刷新页面数据
-        /// </summary>
-        /// <param name="page">页码</param>
-        public void RefreshData(int page)
-        {
-            PagerInfo.CurrentPageIndex = page;
-        }
-
-        private void ToolFirst_ItemClick(ToolItem item, EventArgs e)
-        {
-            RefreshData(1);
-        }
-
-        private void ToolLast_ItemClick(ToolItem item, EventArgs e)
-        {
-            if (PagerInfo.CurrentPageIndex > 1)
-            {
-                RefreshData(PagerInfo.CurrentPageIndex - 1);
-            }
-            else
-            {
-                RefreshData(1);
-            }
-        }
-
-        private void ToolNext_ItemClick(ToolItem item, EventArgs e)
-        {
-            if (PagerInfo.CurrentPageIndex < PagerInfo.PageCount)
-            {
-                RefreshData(PagerInfo.CurrentPageIndex + 1);
-            }
-            else if (PagerInfo.PageCount < 1)
-            {
-                RefreshData(1);
-            }
-            else
-            {
-                RefreshData(PagerInfo.PageCount);
-            }
-        }
-
-        private void ToolEnd_ItemClick(ToolItem item, EventArgs e)
-        {
-            if (PagerInfo.PageCount > 0)
-            {
-                RefreshData(PagerInfo.PageCount);
-            }
-            else
-            {
-                RefreshData(1);
-            }
-        }
-
-        private void TxtCurrentPage_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                var num = txtCurrentPage.Text.ToInt();
-
-                if (num > PagerInfo.PageCount)
-                    num = PagerInfo.PageCount;
-                if (num < 1)
-                    num = 1;
-
-                RefreshData(num);
-                toolNext.Focus();
-            }
-        }
-
-        #endregion
-
-        #endregion
-
-        #region 设计器支持所需的方法
-
-        /// <summary>
-        ///     必需的设计器变量。
-        /// </summary>
-        private IContainer components = null;
-
-        /// <summary>
-        ///     清理所有正在使用的资源。
-        /// </summary>
-        /// <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-            }
-            if (toolFirst != null)
-            {
-                toolFirst.Dispose();
-                toolFirst = null;
-            }
-            if (toolEnd != null)
-            {
-                toolEnd.Dispose();
-                toolEnd = null;
-            }
-            if (toolNext != null)
-            {
-                toolNext.Dispose();
-                toolNext = null;
-            }
-            if (toolLast != null)
-            {
-                toolLast.Dispose();
-                toolLast = null;
-            }
-            if (lblPageInfo != null)
-            {
-                lblPageInfo.Dispose();
-                lblPageInfo = null;
-            }
-            if (txtCurrentPage != null)
-            {
-                txtCurrentPage.Dispose();
-                txtCurrentPage = null;
-            }
-            if (lbDesc != null)
-            {
-                lbDesc.Dispose();
-                lbDesc = null;
-            }
-            if (tControl1 != null)
-            {
-                tControl1.Dispose();
-                tControl1 = null;
-            }
-            if (tControl2 != null)
-            {
-                tControl2.Dispose();
-                tControl2 = null;
-            }
-            if (components != null)
-            {
-                components.Dispose();
-                components = null;
-            }
-            base.Dispose(disposing);
-        }
-
-        #region 组件设计器生成的代码
-
-        /// <summary>
-        ///     设计器支持所需的方法 - 不要
-        ///     使用代码编辑器修改此方法的内容。
+        /// 设计器支持所需的方法 - 不要
+        /// 使用代码编辑器修改此方法的内容。
         /// </summary>
         private void InitializeComponent()
         {
@@ -533,15 +300,240 @@ namespace Paway.Forms
 
         }
 
+        private void TxtCurrentPage_LostFocus(object sender, EventArgs e)
+        {
+            txtCurrentPage.ITrans = true;
+        }
+
+        private void TxtCurrentPage_GotFocus(object sender, EventArgs e)
+        {
+            txtCurrentPage.ITrans = false;
+        }
+
         #endregion
 
-        private Label lblPageInfo;
+        #region 公开方法
+        /// <summary>
+        /// 刷新页面数据
+        /// </summary>
+        /// <param name="page">页码</param>
+        public void RefreshData(int page)
+        {
+            PagerInfo.CurrentPageIndex = page;
+        }
+
+        #endregion
+
+        #region 分页
+        /// <summary>
+        /// 引发页面变化处理事件
+        /// </summary>
+        /// <param name="e"></param>
+        private void OnPageChanged(EventArgs e)
+        {
+            PageChanged?.Invoke(this, e);
+        }
+        private void PagerInfo_PageInfoChanged(PagerInfo info)
+        {
+            InitPageInfo(info.RecordCount, info.PageSize);
+        }
+        private void PagerInfo_CountChanged(PagerInfo info)
+        {
+            InitPageInfo(true);
+        }
+
+        /// <summary>
+        /// 更新分页信息
+        /// <param name="pageSize">每页记录数</param>
+        /// <param name="recordCount">总记录数</param>
+        /// </summary>
+        public void InitPageInfo(int recordCount, int pageSize)
+        {
+            PagerInfo.RecordCount = recordCount;
+            PagerInfo.PageSize = pageSize;
+            InitPageInfo();
+        }
+
+        /// <summary>
+        /// 更新分页信息
+        /// </summary>
+        public void InitPageInfo(bool iTotal = false)
+        {
+            if (PagerInfo.PageSize < 1)
+                PagerInfo.PageSize = 10; //如果每页记录数不正确，即更改为10
+            if (PagerInfo.RecordCount < 0)
+                PagerInfo.RecordCount = 0; //如果记录总数不正确，即更改为0
+
+            //设置当前页
+            if (PagerInfo.CurrentPageIndex > PagerInfo.PageCount)
+            {
+                PagerInfo.CurrentPageIndex = PagerInfo.PageCount;
+            }
+            if (PagerInfo.CurrentPageIndex < 1)
+            {
+                PagerInfo.CurrentPageIndex = 1;
+            }
+
+            //设置按钮的可用性
+            if (!txtCurrentPage.Edit.Focused) lblPageInfo.Focus();
+            toolLast.Enabled = PagerInfo.CurrentPageIndex > 1;
+            toolNext.Enabled = PagerInfo.CurrentPageIndex < PagerInfo.PageCount;
+
+            txtCurrentPage.Text = PagerInfo.CurrentPageIndex.ToString();
+            if (!iTotal) OnPageChanged(EventArgs.Empty);
+            if (PagerInfo.PageSize == int.MaxValue)
+            {
+                tControl1.Visible = false;
+                lblPageInfo.Text = string.Format("共 {0:#,0} 条记录", PagerInfo.RecordCount);
+            }
+            else
+            {
+                tControl1.Visible = true;
+                lblPageInfo.Text = string.Format("共 {0:#,0} 条记录，每页 {1:#,0} 条，共 {2:#,0} 页", PagerInfo.RecordCount, PagerInfo.PageSize, PagerInfo.PageCount);
+            }
+        }
+        /// <summary>
+        /// 更新统计描述
+        /// </summary>
+        public void UpdateDesc(string desc)
+        {
+            lbDesc.Text = desc;
+        }
+
+        #region 当前页更新
+        private void ToolFirst_ItemClick(ToolItem item, EventArgs e)
+        {
+            RefreshData(1);
+        }
+
+        private void ToolLast_ItemClick(ToolItem item, EventArgs e)
+        {
+            if (PagerInfo.CurrentPageIndex > 1)
+            {
+                RefreshData(PagerInfo.CurrentPageIndex - 1);
+            }
+            else
+            {
+                RefreshData(1);
+            }
+        }
+
+        private void ToolNext_ItemClick(ToolItem item, EventArgs e)
+        {
+            if (PagerInfo.CurrentPageIndex < PagerInfo.PageCount)
+            {
+                RefreshData(PagerInfo.CurrentPageIndex + 1);
+            }
+            else if (PagerInfo.PageCount < 1)
+            {
+                RefreshData(1);
+            }
+            else
+            {
+                RefreshData(PagerInfo.PageCount);
+            }
+        }
+
+        private void ToolEnd_ItemClick(ToolItem item, EventArgs e)
+        {
+            if (PagerInfo.PageCount > 0)
+            {
+                RefreshData(PagerInfo.PageCount);
+            }
+            else
+            {
+                RefreshData(1);
+            }
+        }
+
+        private void TxtCurrentPage_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                var num = txtCurrentPage.Text.ToInt();
+
+                if (num > PagerInfo.PageCount)
+                    num = PagerInfo.PageCount;
+                if (num < 1)
+                    num = 1;
+
+                RefreshData(num);
+                toolNext.Focus();
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Dispose
+        /// <summary>
+        /// 清理所有正在使用的资源。
+        /// </summary>
+        /// <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+            }
+            if (toolFirst != null)
+            {
+                toolFirst.Dispose();
+                toolFirst = null;
+            }
+            if (toolEnd != null)
+            {
+                toolEnd.Dispose();
+                toolEnd = null;
+            }
+            if (toolNext != null)
+            {
+                toolNext.Dispose();
+                toolNext = null;
+            }
+            if (toolLast != null)
+            {
+                toolLast.Dispose();
+                toolLast = null;
+            }
+            if (lblPageInfo != null)
+            {
+                lblPageInfo.Dispose();
+                lblPageInfo = null;
+            }
+            if (txtCurrentPage != null)
+            {
+                txtCurrentPage.Dispose();
+                txtCurrentPage = null;
+            }
+            if (lbDesc != null)
+            {
+                lbDesc.Dispose();
+                lbDesc = null;
+            }
+            if (tControl1 != null)
+            {
+                tControl1.Dispose();
+                tControl1 = null;
+            }
+            if (tControl2 != null)
+            {
+                tControl2.Dispose();
+                tControl2 = null;
+            }
+            if (components != null)
+            {
+                components.Dispose();
+                components = null;
+            }
+            base.Dispose(disposing);
+        }
 
         #endregion
     }
 
     /// <summary>
-    ///     分页属性
+    /// 分页属性
     /// </summary>
     [Serializable]
     [DataContract]
@@ -552,18 +544,17 @@ namespace Paway.Forms
         private int recordCount; //记录总数
 
         /// <summary>
-        ///     在分页属性变动时发生
+        /// 在分页属性变动时发生
         /// </summary>
         public event Action<PagerInfo> PageInfoChanged;
         /// <summary>
-        ///     在分页属性变动时发生
+        /// 在分页属性变动时发生
         /// </summary>
         public event Action<PagerInfo> CountChanged;
 
-        #region 属性变量
-
+        #region 属性
         /// <summary>
-        ///     获取或设置当前页码
+        /// 获取或设置当前页码
         /// </summary>
         [DataMember]
         public int CurrentPageIndex
@@ -581,7 +572,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置每页显示的记录
+        /// 获取或设置每页显示的记录
         /// </summary>
         [DataMember]
         [Description("获取或设置每页显示的记录"), Category("分页")]
@@ -601,7 +592,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置记录总数
+        /// 获取或设置记录总数
         /// </summary>
         [DataMember]
         [Description("获取或设置记录总数"), Category("分页")]
@@ -621,7 +612,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取记录总页数
+        /// 获取记录总页数
         /// </summary>
         [DataMember]
         [Description("获取记录总页数"), Category("分页")]

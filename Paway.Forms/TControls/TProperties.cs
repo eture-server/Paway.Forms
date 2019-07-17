@@ -8,7 +8,7 @@ using System.Windows.Forms;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     扩展属性
+    /// 扩展属性
     /// </summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class TProperties : IDisposable
@@ -38,7 +38,7 @@ namespace Paway.Forms
         private readonly MethodBase parent;
 
         /// <summary>
-        ///     默认字体
+        /// 默认字体
         /// </summary>
         [Description("默认字体")]
         [DefaultValue(typeof(Font), "微软雅黑, 12pt")]
@@ -69,7 +69,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     鼠标移过时的字体
+        /// 鼠标移过时的字体
         /// </summary>
         [Description("鼠标移过时的字体")]
         [DefaultValue(typeof(Font), "微软雅黑, 12pt")]
@@ -88,7 +88,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     鼠标按下时的字体
+        /// 鼠标按下时的字体
         /// </summary>
         [Description("鼠标按下时的字体")]
         [DefaultValue(typeof(Font), "微软雅黑, 12pt")]
@@ -107,7 +107,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     默认颜色
+        /// 默认颜色
         /// </summary>
         [Description("默认颜色")]
         [DefaultValue(typeof(Color), "")]
@@ -135,7 +135,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     鼠标移过时的颜色
+        /// 鼠标移过时的颜色
         /// </summary>
         [Description("鼠标移过时的颜色")]
         [DefaultValue(typeof(Color), "")]
@@ -150,7 +150,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     鼠标按下时的颜色
+        /// 鼠标按下时的颜色
         /// </summary>
         [Description("鼠标按下时的颜色")]
         [DefaultValue(typeof(Color), "")]
@@ -165,7 +165,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     文字水平对齐
+        /// 文字水平对齐
         /// </summary>
         [Description("文字水平对齐")]
         [DefaultValue(StringAlignment.Near)]
@@ -182,7 +182,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     文字垂直对齐
+        /// 文字垂直对齐
         /// </summary>
         [Description("文字垂直对齐")]
         [DefaultValue(StringAlignment.Near)]
@@ -199,7 +199,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     值修改引发事件
+        /// 值修改引发事件
         /// </summary>
         public event EventHandler ValueChange;
 
@@ -207,8 +207,8 @@ namespace Paway.Forms
 
         #region public method
         /// <summary>
-        ///     构造
-        ///     初始化
+        /// 构造
+        /// 初始化
         /// </summary>
         public TProperties(MethodBase parent = null)
         {
@@ -249,7 +249,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     属性值
+        /// 属性值
         /// </summary>
         /// <returns></returns>
         public override string ToString()

@@ -8,14 +8,14 @@ using Paway.Helper;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     通知窗口
+    /// 通知窗口
     /// </summary>
     public class NotifyForm : QQForm
     {
         #region 构造函数
 
         /// <summary>
-        ///     初始化 Paway.Forms.NotifyForm 新的实例
+        /// 初始化 Paway.Forms.NotifyForm 新的实例
         /// </summary>
         public NotifyForm()
         {
@@ -28,22 +28,22 @@ namespace Paway.Forms
         #region 变量
 
         /// <summary>
-        ///     控制窗口动画效果
+        /// 控制窗口动画效果
         /// </summary>
         private readonly Timer Timer = new Timer();
 
         /// <summary>
-        ///     当前类的实例
+        /// 当前类的实例
         /// </summary>
         private NotifyForm Notify;
 
         /// <summary>
-        ///     显示窗口后停留的时间，以“秒”为单位
+        /// 显示窗口后停留的时间，以“秒”为单位
         /// </summary>
         private int ShowInterval = 5;
 
         /// <summary>
-        ///     计算时间
+        /// 计算时间
         /// </summary>
         private int Interval;
 
@@ -52,12 +52,12 @@ namespace Paway.Forms
         #region 资源图片
 
         /// <summary>
-        ///     背景图片
+        /// 背景图片
         /// </summary>
         private readonly Image _backImage = Resources.QQ_SkinMgr_all_inside02_bkg;
 
         /// <summary>
-        ///     分割线
+        /// 分割线
         /// </summary>
         private readonly Image _splitImage = Resources.QQ_FormFrame_ContactFilter_splitter;
 
@@ -66,12 +66,12 @@ namespace Paway.Forms
         #region 属性
 
         /// <summary>
-        ///     窗口大小
+        /// 窗口大小
         /// </summary>
         private readonly Size SIZE = new Size(250, 178);
 
         /// <summary>
-        ///     设置窗口大小的最大值
+        /// 设置窗口大小的最大值
         /// </summary>
         [Description("设置窗口大小的最大值")]
         [DefaultValue(typeof(Size), "250, 178")]
@@ -81,7 +81,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     设置窗口大小的最小值
+        /// 设置窗口大小的最小值
         /// </summary>
         [Description("设置窗口大小的最小值")]
         [DefaultValue(typeof(Size), "250, 178")]
@@ -91,12 +91,12 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     提示文字信息
+        /// 提示文字信息
         /// </summary>
         private string _notifyText = string.Empty;
 
         /// <summary>
-        ///     提示文字信息
+        /// 提示文字信息
         /// </summary>
         [Description("提示文字信息")]
         [DefaultValue(null)]
@@ -114,12 +114,12 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     提示信息的文字颜色
+        /// 提示信息的文字颜色
         /// </summary>
         private Color _notifyForeColor = Color.Black;
 
         /// <summary>
-        ///     提示信息的文字颜色
+        /// 提示信息的文字颜色
         /// </summary>
         [Description("提示信息的文字颜色")]
         [DefaultValue(typeof(Color), "Black")]
@@ -137,12 +137,12 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     提示信息的字体
+        /// 提示信息的字体
         /// </summary>
         private Font _notifyFont = new Font("微软雅黑", 9f, FontStyle.Regular, GraphicsUnit.Point, 1);
 
         /// <summary>
-        ///     提示信息的字体
+        /// 提示信息的字体
         /// </summary>
         [Description("提示信息的字体")]
         [DefaultValue(typeof(Font), "微软雅黑, 9pt")]
@@ -160,7 +160,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     提示信息显示的矩型区域
+        /// 提示信息显示的矩型区域
         /// </summary>
         private Rectangle NotifyTextRect
         {
@@ -175,7 +175,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     控制按钮的区域
+        /// 控制按钮的区域
         /// </summary>
         private Rectangle ControlRect
         {
@@ -194,7 +194,7 @@ namespace Paway.Forms
         #region 方法
 
         /// <summary>
-        ///     将以动画的形式显示窗口，默认存在时间为 5 秒
+        /// 将以动画的形式显示窗口，默认存在时间为 5 秒
         /// </summary>
         public void AnimalShow()
         {
@@ -202,7 +202,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     将以动画的形式显示，默认存在时间为 5 秒
+        /// 将以动画的形式显示，默认存在时间为 5 秒
         /// </summary>
         /// <param name="caption">窗口标题</param>
         public void AnimalShow(string caption)
@@ -211,7 +211,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     将以动画的形式显示，默认存在时间为 5 秒
+        /// 将以动画的形式显示，默认存在时间为 5 秒
         /// </summary>
         /// <param name="caption">窗口标题</param>
         /// <param name="text">窗口内容</param>
@@ -221,7 +221,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     将以动画的形式显示，默认存在时间为 5 秒
+        /// 将以动画的形式显示，默认存在时间为 5 秒
         /// </summary>
         /// <param name="caption">窗口标题</param>
         /// <param name="text">窗口内容</param>
@@ -239,7 +239,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     将以动画的形式显示，默认存在时间为 5 秒
+        /// 将以动画的形式显示，默认存在时间为 5 秒
         /// </summary>
         /// <param name="caption">窗口标题</param>
         /// <param name="text">窗口内容</param>
@@ -251,7 +251,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     执行窗口动画操作
+        /// 执行窗口动画操作
         /// </summary>
         protected void Timer_Tick(object sender, EventArgs e)
         {
@@ -304,7 +304,7 @@ namespace Paway.Forms
         #region Override Methods
 
         /// <summary>
-        ///     在窗口加载时，初始化部分数据
+        /// 在窗口加载时，初始化部分数据
         /// </summary>
         /// <param name="e"></param>
         protected override void OnLoad(EventArgs e)
@@ -327,7 +327,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     绘制描述
+        /// 绘制描述
         /// </summary>
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
@@ -350,7 +350,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     填充背景
+        /// 填充背景
         /// </summary>
         /// <param name="e"></param>
         protected override void OnPaintBackground(PaintEventArgs e)

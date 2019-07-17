@@ -6,7 +6,7 @@ using System.Reflection;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     UDPClient基础类
+    /// UDPClient基础类
     /// </summary>
     public class UDPBase
     {
@@ -15,22 +15,22 @@ namespace Paway.Helper
         /// </summary>
         internal static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         /// <summary>
-        ///     广播地址
+        /// 广播地址
         /// </summary>
         protected readonly IPAddress BroadcastAddress = IPAddress.Parse("224.224.224.224");
 
         /// <summary>
-        ///     标示
+        /// 标示
         /// </summary>
         protected readonly byte Preamble = 0xFA;
 
         /// <summary>
-        ///     通信端口
+        /// 通信端口
         /// </summary>
         protected int Port = 2008;
 
         /// <summary>
-        ///     服务器的地址
+        /// 服务器的地址
         /// </summary>
         protected IPEndPoint ServerAddress
         {
@@ -38,12 +38,12 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     接收到的消息
+        /// 接收到的消息
         /// </summary>
         public event Action<UDPEventArgs> MessageEvent;
 
         /// <summary>
-        ///     抛出异常
+        /// 抛出异常
         /// </summary>
         protected void OnError(string msg, IPEndPoint ipAddress)
         {
@@ -51,7 +51,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     抛出消息
+        /// 抛出消息
         /// </summary>
         protected void OnMessage(object msg, IPEndPoint ipAddress)
         {

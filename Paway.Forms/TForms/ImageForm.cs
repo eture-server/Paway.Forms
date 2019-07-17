@@ -9,14 +9,14 @@ using Paway.Win32;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     图片展示
+    /// 图片展示
     /// </summary>
     public partial class ImageForm : QQForm
     {
         #region 构造
         /// <summary>
-        ///     构造
-        ///     设置窗体Size
+        /// 构造
+        /// 设置窗体Size
         /// </summary>
         /// <param name="screen"></param>
         public ImageForm(Image screen)
@@ -76,47 +76,47 @@ namespace Paway.Forms
         #region 变量
 
         /// <summary>
-        ///     用于展示的图片
+        /// 用于展示的图片
         /// </summary>
         private readonly Image screen;
 
         /// <summary>
-        ///     拖动标记
+        /// 拖动标记
         /// </summary>
         private bool isMove;
 
         /// <summary>
-        ///     图片绘制区域
+        /// 图片绘制区域
         /// </summary>
         private Rectangle rect = Rectangle.Empty;
 
         /// <summary>
-        ///     图片显示大小
+        /// 图片显示大小
         /// </summary>
         private Size size = Size.Empty;
 
         /// <summary>
-        ///     图片宽高比
+        /// 图片宽高比
         /// </summary>
         private readonly double ratio;
 
         /// <summary>
-        ///     图片是否走出窗体容纳
+        /// 图片是否走出窗体容纳
         /// </summary>
         private bool isExceed;
 
         /// <summary>
-        ///     起点
+        /// 起点
         /// </summary>
         private Point pStart = Point.Empty;
 
         /// <summary>
-        ///     放大缩小时定点
+        /// 放大缩小时定点
         /// </summary>
         private Point point = Point.Empty;
 
         /// <summary>
-        ///     放大缩小时比例
+        /// 放大缩小时比例
         /// </summary>
         private double dx, dy;
 
@@ -125,7 +125,7 @@ namespace Paway.Forms
         #region 方法
 
         /// <summary>
-        ///     放大或缩小
+        /// 放大或缩小
         /// </summary>
         /// <param name="steps">鼠标滚轮步进数</param>
         private void Reset(int steps)
@@ -182,7 +182,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     移动图片
+        /// 移动图片
         /// </summary>
         /// <param name="pMove">鼠标落点</param>
         private void Reset(Point pMove)
@@ -218,7 +218,7 @@ namespace Paway.Forms
         #region Override Methods
 
         /// <summary>
-        ///     重绘窗体
+        /// 重绘窗体
         /// </summary>
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
@@ -260,7 +260,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     按下
+        /// 按下
         /// </summary>
         /// <param name="e"></param>
         protected override void OnMouseDown(MouseEventArgs e)
@@ -284,7 +284,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     拖动
+        /// 拖动
         /// </summary>
         /// <param name="e"></param>
         protected override void OnMouseMove(MouseEventArgs e)
@@ -301,7 +301,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     松开
+        /// 松开
         /// </summary>
         /// <param name="e"></param>
         protected override void OnMouseUp(MouseEventArgs e)
@@ -311,7 +311,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     放大缩小
+        /// 放大缩小
         /// </summary>
         /// <param name="e"></param>
         protected override void OnMouseWheel(MouseEventArgs e)
@@ -328,7 +328,7 @@ namespace Paway.Forms
         #region 关于窗体
 
         /// <summary>
-        ///     按键关闭窗体
+        /// 按键关闭窗体
         /// </summary>
         /// <param name="e"></param>
         protected override void OnKeyDown(KeyEventArgs e)
@@ -344,7 +344,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     Size改变时重置控件内空白区域
+        /// Size改变时重置控件内空白区域
         /// </summary>
         /// <param name="e"></param>
         protected override void OnSizeChanged(EventArgs e)
@@ -355,7 +355,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     关闭时激发父窗体
+        /// 关闭时激发父窗体
         /// </summary>
         /// <param name="e"></param>
         protected override void OnFormClosing(FormClosingEventArgs e)

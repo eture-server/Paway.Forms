@@ -5,7 +5,7 @@ using System.Windows.Forms;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     普通数据接口
+    /// 普通数据接口
     /// </summary>
     public interface IInfo : IName, ITime
     {

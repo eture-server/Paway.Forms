@@ -10,31 +10,40 @@ using Paway.Helper;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     多控件切换方法
+    /// 多控件切换方法
     /// </summary>
     public class MControl : TControl
     {
         #region 事件
-
         /// <summary>
-        ///     当控件数据更新时发生
+        /// 当控件数据更新时发生
         /// </summary>
         public event EventHandler ChangeEvent;
 
         #endregion
 
-        #region virtual Method
+        #region 字段与属性
         private Delegate method;
-
         /// <summary>
-        ///     控件数据
+        /// 控件数据
         /// </summary>
         [Description("控件数据")]
         [DefaultValue(null)]
         public EventArgs Args { get; set; }
-
         /// <summary>
-        ///     从其它控件切换过来时重新激活
+        /// 控件列表
+        /// </summary>
+        public static Dictionary<Type, MControl> List { get; } = new Dictionary<Type, MControl>();
+        /// <summary>
+        /// 当前控件
+        /// </summary>
+        public static MControl Current { get; private set; }
+
+        #endregion
+
+        #region virtual Method
+        /// <summary>
+        /// 从其它控件切换过来时重新激活
         /// </summary>
         public virtual void ReLoad()
         {
@@ -42,7 +51,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     移除当前界面时，是否允许移除
+        /// 移除当前界面时，是否允许移除
         /// </summary>
         public virtual bool UnLoad()
         {
@@ -66,12 +75,12 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     刷新数据
+        /// 刷新数据
         /// </summary>
         public virtual bool Refresh(object sender, EventArgs e) { return true; }
 
         /// <summary>
-        ///     调用委托
+        /// 调用委托
         /// </summary>
         /// <param name="method"></param>
         internal void InitDelegate(Delegate method)
@@ -80,8 +89,8 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     引发ChangeEvent事件
-        ///     引发委托事件
+        /// 引发ChangeEvent事件
+        /// 引发委托事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -98,17 +107,7 @@ namespace Paway.Forms
 
         #region 界面切换控制
         /// <summary>
-        ///     控件列表
-        /// </summary>
-        public static Dictionary<Type, MControl> List { get; } = new Dictionary<Type, MControl>();
-
-        /// <summary>
-        ///     当前控件
-        /// </summary>
-        public static MControl Current { get; private set; }
-
-        /// <summary>
-        ///     切换界面控件
+        /// 切换界面控件
         /// </summary>
         public static MControl ReLoad(Control parent, Type type)
         {
@@ -116,7 +115,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     切换界面控件
+        /// 切换界面控件
         /// </summary>
         public static MControl ReLoad(Control parent, Type type, EventArgs e)
         {
@@ -124,7 +123,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     切换界面控件
+        /// 切换界面控件
         /// </summary>
         public static MControl ReLoad(Control parent, Type type, TMDirection direction)
         {
@@ -132,7 +131,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     切换界面控件
+        /// 切换界面控件
         /// </summary>
         public static MControl ReLoad(Control parent, Type type, Delegate method)
         {
@@ -140,9 +139,9 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     切换界面控件
-        ///     如已加载，则调用ReLoad()
-        ///     如调用委托，要求参数：object sender ,EventArgs e
+        /// 切换界面控件
+        /// 如已加载，则调用ReLoad()
+        /// 如调用委托，要求参数：object sender ,EventArgs e
         /// </summary>
         public static MControl ReLoad(Control parent, Type type, EventArgs e, TMDirection direction, Delegate method = null, int intervel = -1)
         {
@@ -257,7 +256,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     将已定义控件加入列表
+        /// 将已定义控件加入列表
         /// </summary>
         /// <param name="control"></param>
         /// <returns>成功返回列表中的已加入的MControl控件</returns>
@@ -271,7 +270,7 @@ namespace Paway.Forms
             return List[type];
         }
         /// <summary>
-        ///     将指定类型控件加入列表
+        /// 将指定类型控件加入列表
         /// </summary>
         /// <returns>成功返回列表中的已加入的MControl控件</returns>
         public static MControl Add<T>() where T : MControl
@@ -279,7 +278,7 @@ namespace Paway.Forms
             return Add(typeof(T));
         }
         /// <summary>
-        ///     将指定类型控件加入列表
+        /// 将指定类型控件加入列表
         /// </summary>
         /// <returns>成功返回列表中的已加入的MControl控件</returns>
         public static MControl Add(Type type)
@@ -294,7 +293,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     返回控件上的当前子控件
+        /// 返回控件上的当前子控件
         /// </summary>
         public static MControl Get(Control parent)
         {
@@ -310,7 +309,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     返回指定类型控件
+        /// 返回指定类型控件
         /// </summary>
         public static MControl Get<T>() where T : MControl
         {
@@ -327,7 +326,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     重置子控件
+        /// 重置子控件
         /// </summary>
         public static void Reset()
         {
@@ -349,7 +348,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     重置控件上所有子控件（不指定父控件则重置所有）
+        /// 重置控件上所有子控件（不指定父控件则重置所有）
         /// </summary>
         public static void ResetAll(Control parent = null)
         {
@@ -373,7 +372,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     刷新所有控件数据（返回false，响应控件可取消/中止）
+        /// 刷新所有控件数据（返回false，响应控件可取消/中止）
         /// </summary>
         public static bool RefreshAll(object sender, EventArgs e)
         {

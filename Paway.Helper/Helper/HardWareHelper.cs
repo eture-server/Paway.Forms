@@ -7,12 +7,12 @@ using System.Text.RegularExpressions;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     硬件信息控制器
+    /// 硬件信息控制器
     /// </summary>
     public abstract class HardWareHandler
     {
         /// <summary>
-        ///     机器CPU内核数
+        /// 机器CPU内核数
         /// </summary>
         public static int CpuCount
         {
@@ -20,7 +20,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     获取本地主机名
+        /// 获取本地主机名
         /// </summary>
         /// <returns></returns>
         public static string GetHostName()
@@ -29,7 +29,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     获取CPU编号
+        /// 获取CPU编号
         /// </summary>
         /// <returns></returns>
         public static string GetCpuId()
@@ -51,7 +51,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     获取网卡地址
+        /// 获取网卡地址
         /// </summary>
         /// <returns></returns>
         public static string[] GetNetCardMacAddressArray()
@@ -87,7 +87,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     获取MAC地址
+        /// 获取MAC地址
         /// </summary>
         /// <returns></returns>
         public static string GetNetCardMacAddress()
@@ -106,7 +106,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     获取主硬盘编号
+        /// 获取主硬盘编号
         /// </summary>
         /// <returns></returns>
         public static string GetMainHardDiskId()
@@ -125,7 +125,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     获取IP地址
+        /// 获取IP地址
         /// </summary>
         /// <returns></returns>
         public static string GetIpAddress()
@@ -143,7 +143,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     获取最大线程数
+        /// 获取最大线程数
         /// </summary>
         /// <returns></returns>
         public static int GetMaxThreads()
@@ -158,7 +158,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     验证服务端IP
+        /// 验证服务端IP
         /// </summary>
         /// <returns></returns>
         public static bool ValidateIpAddress(string ip, out string msg)
@@ -176,7 +176,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     验证端口号
+        /// 验证端口号
         /// </summary>
         /// <param name="intNum"></param>
         /// <param name="msg"></param>

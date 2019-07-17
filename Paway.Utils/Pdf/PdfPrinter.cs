@@ -7,12 +7,12 @@ using iTextSharp.text.pdf;
 namespace Paway.Utils
 {
     /// <summary>
-    ///     PDF打印功能实现类
+    /// PDF打印功能实现类
     /// </summary>
     public class PdfPrinter : PdfPageEventHelper, IPdfPageEvent
     {
         /// <summary>
-        ///     构造函数
+        /// 构造函数
         /// </summary>
         /// <param name="printPath">指定PDF文件导出路径</param>
         public PdfPrinter(string printPath)
@@ -27,7 +27,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     构造函数
+        /// 构造函数
         /// </summary>
         /// <param name="printPath">指定PDF文件导出路径</param>
         /// <param name="paperSize">纸张大小</param>
@@ -44,37 +44,37 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     默认字体：兼容亚洲文字
+        /// 默认字体：兼容亚洲文字
         /// </summary>
         public Font DefaultFont { get; set; }
 
         /// <summary>
-        ///     PDF文件导出路径
+        /// PDF文件导出路径
         /// </summary>
         private string PrintPath { get; set; }
 
         /// <summary>
-        ///     默认纸张大小
+        /// 默认纸张大小
         /// </summary>
         public Rectangle DefaultPageSize { get; set; }
 
         /// <summary>
-        ///     页眉内容集合
+        /// 页眉内容集合
         /// </summary>
         public PdfHeaderContent HeaderContent { get; set; }
 
         /// <summary>
-        ///     内部空白边
+        /// 内部空白边
         /// </summary>
         public Rectangle Rectangle { get; set; }
 
         /// <summary>
-        ///     全局PDF文档对象
+        /// 全局PDF文档对象
         /// </summary>
         public Document Doc { get; set; }
 
         /// <summary>
-        ///     绘制页眉图片
+        /// 绘制页眉图片
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="document"></param>
@@ -90,7 +90,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     初始化文档
+        /// 初始化文档
         /// </summary>
         public void Init()
         {
@@ -115,7 +115,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     保存并释放文档
+        /// 保存并释放文档
         /// </summary>
         public void Close()
         {
@@ -123,7 +123,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     绘制页眉
+        /// 绘制页眉
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="document"></param>
@@ -237,7 +237,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     打印一段文字
+        /// 打印一段文字
         /// </summary>
         /// <param name="text">文字内容</param>
         /// <param name="align">文字对齐 0左、1中、2右</param>
@@ -251,7 +251,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     打印一行表格数据
+        /// 打印一行表格数据
         /// </summary>
         /// <param name="pCells">数据行包含的单元格集合</param>
         /// <param name="cWidth">数据行包含的单元格各自的宽度集合</param>
@@ -272,7 +272,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     打印一个表格数据
+        /// 打印一个表格数据
         /// </summary>
         /// <param name="table">表格</param>
         /// <param name="cWidth">宽度</param>
@@ -311,7 +311,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     换一页
+        /// 换一页
         /// </summary>
         public void NewPage()
         {

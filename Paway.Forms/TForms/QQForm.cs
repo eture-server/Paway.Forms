@@ -11,7 +11,7 @@ namespace Paway.Forms
     {
         #region 方法
         /// <summary>
-        ///     绘画按钮
+        /// 绘画按钮
         /// </summary>
         /// <param name="g">画板</param>
         /// <param name="mouseState">鼠标状态</param>
@@ -118,7 +118,7 @@ namespace Paway.Forms
         #region 属性
 
         /// <summary>
-        ///     最大化按钮区域
+        /// 最大化按钮区域
         /// </summary>
         protected override Rectangle MaxRect
         {
@@ -140,7 +140,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     最小化按钮区域
+        /// 最小化按钮区域
         /// </summary>
         protected override Rectangle MiniRect
         {
@@ -166,7 +166,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     系统控制按钮区域
+        /// 系统控制按钮区域
         /// </summary>
         protected override Rectangle SysBtnRect
         {
@@ -187,7 +187,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     关闭按钮区域
+        /// 关闭按钮区域
         /// </summary>
         protected override Rectangle CloseRect
         {

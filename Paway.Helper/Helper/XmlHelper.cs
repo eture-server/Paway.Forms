@@ -11,12 +11,12 @@ using System.Xml;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     对 XML 操作的辅助类
+    /// 对 XML 操作的辅助类
     /// </summary>
     public abstract class XmlHelper
     {
         /// <summary>
-        ///     返回对应的实体(包含子级)
+        /// 返回对应的实体(包含子级)
         /// </summary>
         public static T Load<T>(string file)
         {

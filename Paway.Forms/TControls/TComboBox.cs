@@ -9,75 +9,32 @@ using Paway.Helper;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     TComboBox+边框
+    /// TComboBox+边框
     /// </summary>
     public class TComboBox : TControl
     {
-        #region override
+        #region 变量
         private readonly Image moveImage = Resources.QQ_TextBox_move;
-        /// <summary>
-        ///     边框图片
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            var g = e.Graphics;
-            g.SmoothingMode = SmoothingMode.HighQuality;
-            switch (_mouseState)
-            {
-                case TMouseState.Move:
-                    DrawHelper.RendererBackground(g, ClientRectangle, moveImage, true);
-                    break;
-            }
-        }
-
-        #endregion
-
-        #region 设计器
-        private void InitializeComponent()
-        {
-            this.tComboBox1 = new Paway.Forms.TComboBoxBase();
-            this.SuspendLayout();
-            // 
-            // tComboBox1
-            // 
-            this.tComboBox1.IntegralHeight = false;
-            this.tComboBox1.Location = new System.Drawing.Point(1, 1);
-            this.tComboBox1.Name = "tComboBox1";
-            this.tComboBox1.Size = new System.Drawing.Size(121, 23);
-            this.tComboBox1.TabIndex = 0;
-            // 
-            // TComboBox
-            // 
-            this.Controls.Add(this.tComboBox1);
-            this.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.Name = "TComboBox";
-            this.Size = new System.Drawing.Size(123, 25);
-            this.ResumeLayout(false);
-        }
+        private TComboBoxBase tComboBox1;
+        private readonly Image _borderImage = Resources.QQ_TextBox_normal;
+        private TMouseState _mouseState = TMouseState.Normal;
 
         #endregion
 
         #region 属性
-        private TComboBoxBase tComboBox1;
         /// <summary>
-        ///     编辑控件
+        /// 编辑控件
         /// </summary>
         [Category("Properties")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TComboBoxBase Edit { get { return tComboBox1; } }
 
-        private readonly Image _borderImage = Resources.QQ_TextBox_normal;
-        private TMouseState _mouseState = TMouseState.Normal;
-
         /// <summary>
-        ///     绘制
+        /// 绘制
         /// </summary>
         [DefaultValue(TMouseState.Normal)]
-        protected virtual TMouseState MouseState
+        private TMouseState MouseState
         {
-            get { return _mouseState; }
             set
             {
                 if (_mouseState != value)
@@ -89,7 +46,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置控件显示的文字的字体
+        /// 获取或设置控件显示的文字的字体
         /// </summary>
         [Description("获取或设置控件显示的文字的字体")]
         [DefaultValue(typeof(Font), "微软雅黑, 9pt")]
@@ -112,7 +69,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     此组件的前景色，用于显示文本
+        /// 此组件的前景色，用于显示文本
         /// </summary>
         [Description("此组件的前景色，用于显示文本。"), Category("外观")]
         [DefaultValue(typeof(Color), "Black")]
@@ -134,7 +91,7 @@ namespace Paway.Forms
 
         #region 构造
         /// <summary>
-        ///     构造
+        /// 构造
         /// </summary>
         public TComboBox()
         {
@@ -142,8 +99,34 @@ namespace Paway.Forms
             Edit.SizeChanged += TComboBox1_SizeChanged;
             InitMove();
         }
+        private void TComboBox1_SizeChanged(object sender, EventArgs e)
+        {
+            Height = Edit.Height + 2;
+            Edit.Width = Width - 2;
+        }
+        private void InitializeComponent()
+        {
+            this.tComboBox1 = new Paway.Forms.TComboBoxBase();
+            this.SuspendLayout();
+            // 
+            // tComboBox1
+            // 
+            this.tComboBox1.IntegralHeight = false;
+            this.tComboBox1.Location = new System.Drawing.Point(1, 1);
+            this.tComboBox1.Name = "tComboBox1";
+            this.tComboBox1.Size = new System.Drawing.Size(121, 23);
+            this.tComboBox1.TabIndex = 0;
+            // 
+            // TComboBox
+            // 
+            this.Controls.Add(this.tComboBox1);
+            this.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.Name = "TComboBox";
+            this.Size = new System.Drawing.Size(123, 25);
+            this.ResumeLayout(false);
+        }
         /// <summary>
-        ///     返回包含 System.ComponentModel.Component 的名称的 System.String（如果有）
+        /// 返回包含 System.ComponentModel.Component 的名称的 System.String（如果有）
         /// </summary>
         /// <returns></returns>
         public override string ToString()
@@ -151,17 +134,31 @@ namespace Paway.Forms
             return string.Format("Value: {0},{1}", this.Edit.SelectedValue, base.ToString());
         }
 
-        private void TComboBox1_SizeChanged(object sender, EventArgs e)
+        #endregion
+
+        #region 重绘
+        /// <summary>
+        /// 边框图片
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnPaint(PaintEventArgs e)
         {
-            Height = Edit.Height + 2;
-            Edit.Width = Width - 2;
+            base.OnPaint(e);
+            var g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.HighQuality;
+            switch (_mouseState)
+            {
+                case TMouseState.Move:
+                    DrawHelper.RendererBackground(g, ClientRectangle, moveImage, true);
+                    break;
+            }
         }
 
         #endregion
 
         #region 鼠标移动时的背影事件
         /// <summary>
-        ///     背影事件
+        /// 背影事件
         /// </summary>
         private void InitMove()
         {

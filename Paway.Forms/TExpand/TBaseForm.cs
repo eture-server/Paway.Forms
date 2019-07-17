@@ -9,7 +9,7 @@ using System.Windows.Forms;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     窗体示例
+    /// 窗体示例
     /// </summary>
     public class TBaseForm : IBaseForm
     {
@@ -49,7 +49,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     底边线颜色
+        /// 底边线颜色
         /// </summary>
         protected override void OnPaint(PaintEventArgs e)
         {

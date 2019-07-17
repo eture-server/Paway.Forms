@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     窗体示例
+    /// 窗体示例
     /// </summary>
     public partial class IBaseForm : QQForm
     {
@@ -67,7 +67,7 @@ namespace Paway.Forms
                 }
         }
         /// <summary>
-        ///     关闭时激发父窗体
+        /// 关闭时激发父窗体
         /// </summary>
         protected override void OnFormClosing(FormClosingEventArgs e)
         {

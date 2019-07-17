@@ -15,7 +15,7 @@ using System.Windows.Forms;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     将一个基本数据类型转换为另一个基本数据类型。
+    /// 将一个基本数据类型转换为另一个基本数据类型。
     /// </summary>
     public static class ConverHelper
     {
@@ -23,7 +23,7 @@ namespace Paway.Helper
 
         #region 关于异常
         /// <summary>
-        ///     获取异常中的所有描述
+        /// 获取异常中的所有描述
         /// </summary>
         public static string InnerMessage(this Exception ex)
         {
@@ -122,7 +122,7 @@ namespace Paway.Helper
 
         #region 数据转换
         /// <summary>
-        ///     Int32转换
+        /// Int32转换
         /// </summary>
         public static int ToInt(this object obj)
         {
@@ -142,7 +142,7 @@ namespace Paway.Helper
             return 0;
         }
         /// <summary>
-        ///     Long转换
+        /// Long转换
         /// </summary>
         public static long ToLong(this object obj)
         {
@@ -153,7 +153,7 @@ namespace Paway.Helper
             return 0;
         }
         /// <summary>
-        ///     Double转换
+        /// Double转换
         /// </summary>
         public static double ToDouble(this object obj)
         {
@@ -163,7 +163,7 @@ namespace Paway.Helper
             return 0;
         }
         /// <summary>
-        ///     float
+        /// float
         /// </summary>
         public static float ToFloat(this object obj)
         {
@@ -173,7 +173,7 @@ namespace Paway.Helper
             return 0;
         }
         /// <summary>
-        ///     decimal
+        /// decimal
         /// </summary>
         public static decimal ToDecimal(this object obj)
         {
@@ -183,7 +183,7 @@ namespace Paway.Helper
             return 0;
         }
         /// <summary>
-        ///     Bool转换
+        /// Bool转换
         /// </summary>
         public static bool ToBool(this object obj)
         {
@@ -196,7 +196,7 @@ namespace Paway.Helper
             return false;
         }
         /// <summary>
-        ///     String转换
+        /// String转换
         /// </summary>
         public static string ToStrs(this object obj)
         {
@@ -205,7 +205,7 @@ namespace Paway.Helper
             return obj.ToString().Trim();
         }
         /// <summary>
-        ///     DateTime转换
+        /// DateTime转换
         /// </summary>
         public static DateTime ToDateTime(this object obj)
         {
@@ -215,7 +215,7 @@ namespace Paway.Helper
             return DateTime.MinValue;
         }
         /// <summary>
-        ///     检测obj,如果为DBNUll或空字符串 返回true
+        /// 检测obj,如果为DBNUll或空字符串 返回true
         /// </summary>
         public static bool IsNullOrEmpty(this object obj)
         {
@@ -333,7 +333,7 @@ namespace Paway.Helper
             return table;
         }
         /// <summary>
-        ///     将指定类型转为DataTable
+        /// 将指定类型转为DataTable
         /// </summary>
         /// <returns></returns>
         public static DataTable CreateExcelTable(this Type type)
@@ -432,7 +432,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     返回特性，检查表名及主键或主列
+        /// 返回特性，检查表名及主键或主列
         /// </summary>
         public static TableAttribute Table(this Type type)
         {
@@ -441,7 +441,7 @@ namespace Paway.Helper
             return attr;
         }
         /// <summary>
-        ///     返回特性，检查表名
+        /// 返回特性，检查表名
         /// </summary>
         public static TableAttribute AttrTable(Type type)
         {
@@ -451,7 +451,7 @@ namespace Paway.Helper
             return attrList[0];
         }
         /// <summary>
-        ///     获取描述
+        /// 获取描述
         /// </summary>
         public static string Description(this MemberInfo type)
         {
@@ -571,14 +571,14 @@ namespace Paway.Helper
 
         #region 泛型
         /// <summary>
-        ///     返回泛型实参数类型
+        /// 返回泛型实参数类型
         /// </summary>
         public static Type GenericType(this IList obj)
         {
             return obj.GetType().GenericType();
         }
         /// <summary>
-        ///     返回泛型实参数类型
+        /// 返回泛型实参数类型
         /// </summary>
         public static Type GenericType(this Type type)
         {
@@ -587,7 +587,7 @@ namespace Paway.Helper
             return null;
         }
         /// <summary>
-        ///     返回泛型实参实例
+        /// 返回泛型实参实例
         /// </summary>
         public static IList GenericList(this Type type)
         {
@@ -603,12 +603,12 @@ namespace Paway.Helper
         private static Size normal = Size.Empty;
         #region private class
         /// <summary>
-        ///     定位属性
+        /// 定位属性
         /// </summary>
         private class LocateInfo
         {
             /// <summary>
-            ///     构造
+            /// 构造
             /// </summary>
             public LocateInfo(Control control, Point point, StringAlignment xLocation, StringAlignment yLocation)
             {
@@ -619,22 +619,22 @@ namespace Paway.Helper
             }
 
             /// <summary>
-            ///     控件
+            /// 控件
             /// </summary>
             public Control Control { get; set; }
 
             /// <summary>
-            ///     原坐标
+            /// 原坐标
             /// </summary>
             public Point Point { get; set; }
 
             /// <summary>
-            ///     x点对齐方式
+            /// x点对齐方式
             /// </summary>
             public StringAlignment XLocation { get; set; }
 
             /// <summary>
-            ///     y点对齐方式
+            /// y点对齐方式
             /// </summary>
             public StringAlignment YLocation { get; set; }
         }
@@ -642,7 +642,7 @@ namespace Paway.Helper
         #endregion
 
         /// <summary>
-        ///     在窗体上固定控件位置
+        /// 在窗体上固定控件位置
         /// </summary>
         public static void AddLocate(this ContainerControl form, Control control)
         {
@@ -650,7 +650,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     在窗体上固定控件位置
+        /// 在窗体上固定控件位置
         /// </summary>
         public static void AddLocate(this ContainerControl form, Control control, StringAlignment lLocation)
         {
@@ -658,7 +658,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     在窗体上固定控件位置
+        /// 在窗体上固定控件位置
         /// </summary>
         public static void AddLocate(this ContainerControl form, Control control, StringAlignment xLocation,
             StringAlignment yLocation)

@@ -12,13 +12,13 @@ using NPOI.XSSF.UserModel;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     Excel文件导入导出DataTable
+    /// Excel文件导入导出DataTable
     /// </summary>
     public abstract class ExcelHelper
     {
         /// <summary>
-        ///     使用OLEDB从Excel导入DataTable
-        ///     HDR=yes 第一行是列名而不是数据
+        /// 使用OLEDB从Excel导入DataTable
+        /// HDR=yes 第一行是列名而不是数据
         /// </summary>
         public static DataTable ImportExcel(string fileName, string sheet, bool hdd = true)
         {
@@ -43,8 +43,8 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     使用OLEDB将DataTable导出到Excel
-        ///     HDR=yes 第一行写入列标题
+        /// 使用OLEDB将DataTable导出到Excel
+        /// HDR=yes 第一行写入列标题
         /// </summary>
         /// <param name="table">数据源</param>
         /// <param name="fileName">excel2003文件名</param>

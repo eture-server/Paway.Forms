@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     IPC通信中的图像转换方法
+    /// IPC通信中的图像转换方法
     /// </summary>
     [Serializable]
     public class RawImage
@@ -18,7 +18,7 @@ namespace Paway.Helper
         private byte[] rawData;
 
         /// <summary>
-        ///     构造初始化图像流
+        /// 构造初始化图像流
         /// </summary>
         public RawImage(Bitmap image)
         {
@@ -32,7 +32,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     图像
+        /// 图像
         /// </summary>
         public Bitmap Image
         {
@@ -45,7 +45,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     图像流
+        /// 图像流
         /// </summary>
         public byte[] ByteData
         {

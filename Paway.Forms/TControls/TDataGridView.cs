@@ -14,10 +14,164 @@ using Paway.Helper;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     表头全选功能的实现
+    /// 表头全选功能的实现
     /// </summary>
     public class TDataGridView : DataGridView
     {
+        #region 变量
+        /// <summary>
+        /// 绘制列数据在源中的序号
+        /// </summary>
+        private int _iCheckBoxIndex = -1;
+
+        /// <summary>
+        /// 要绘制的CheckBox
+        /// </summary>
+        private CheckBox _headerCheckBox;
+
+        /// <summary>
+        /// 文本图片列-文本列索引
+        /// </summary>
+        private int _tColumnIndex = -1;
+
+        private string _iCheckBoxName;
+        /// <summary>
+        /// 原数据源
+        /// </summary>
+        private object source;
+
+        private readonly Timer timer = new Timer();
+        private PictureBox pictureBox1;
+        /// <summary>
+        /// 动态图片行
+        /// </summary>
+        private int pIndex = -1;
+
+        /// <summary>
+        /// 需要2维表头的列
+        /// </summary>
+        private readonly Dictionary<int, SpanInfo> SpanRows = new Dictionary<int, SpanInfo>();
+
+        /// <summary>
+        /// 表头信息
+        /// </summary>
+        private struct SpanInfo
+        {
+            /// <summary>
+            /// 列主标题
+            /// </summary>
+            public readonly string Text;
+
+            /// <summary>
+            /// 位置
+            /// </summary>
+            public readonly StringAlignment Position;
+
+            /// <summary>
+            /// 对应左行
+            /// </summary>
+            public readonly int Left;
+
+            /// <summary>
+            /// 对应右行
+            /// </summary>
+            public readonly int Right;
+
+            public SpanInfo(string Text, StringAlignment Position, int Left, int Right)
+            {
+                this.Text = Text;
+                this.Position = Position;
+                this.Left = Left;
+                this.Right = Right;
+            }
+        }
+
+        /// <summary>
+        /// 合并单元格的列
+        /// </summary>
+        private readonly List<int> SpanColumns = new List<int>();
+
+        #endregion
+
+        #region 属性
+        /// <summary>
+        /// 文本图片列-文本列
+        /// </summary>
+        [Browsable(true), Description("文本图片列-文本列")]
+        [DefaultValue(null)]
+        public string TColumnText { get; set; }
+
+        /// <summary>
+        /// 文本图片列-图片列
+        /// </summary>
+        [Browsable(true), Description("文本图片列-图片列")]
+        [DefaultValue(null)]
+        public string TColumnImage { get; set; }
+
+        /// <summary>
+        /// 是否绘制多行文本
+        /// </summary>
+        [Browsable(true), Description("是否绘制多行文本")]
+        [DefaultValue(false)]
+        public bool IMultiText { get; set; }
+
+        /// <summary>
+        /// CheckBox绘制列列Name
+        /// </summary>
+        [Browsable(true), Description("绘制列列Name")]
+        [DefaultValue(null)]
+        public string ICheckBoxName
+        {
+            get { return _iCheckBoxName; }
+            set
+            {
+                _iCheckBoxName = value;
+                if (_headerCheckBox == null)
+                {
+                    _headerCheckBox = new CheckBox()
+                    {
+                        Size = new Size(15, 15)
+                    };
+                    Controls.Add(_headerCheckBox);
+
+                    _headerCheckBox.KeyUp += HeaderCheckBox_KeyUp;
+                    _headerCheckBox.MouseClick += HeaderCheckBox_MouseClick;
+                    CurrentCellDirtyStateChanged += ComBoxGridView_CurrentCellDirtyStateChanged;
+                }
+                _headerCheckBox.Visible = !_iCheckBoxName.IsNullOrEmpty();
+                Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// 动态文本图片列显示的图片
+        /// </summary>
+        [Browsable(true), Description("动态文本图片列显示的图片")]
+        [DefaultValue(null)]
+        public Image TProgressImage
+        {
+            get { return pictureBox1.Image; }
+            set { pictureBox1.Image = value; }
+        }
+
+        /// <summary>
+        /// 动态文本图片列显示行
+        /// </summary>
+        [Browsable(true), Description("动态文本图片列显示行")]
+        [DefaultValue(-1)]
+        public int TProgressIndex
+        {
+            get { return pIndex; }
+            set
+            {
+                pIndex = value;
+                timer.Enabled = value != -1 && !string.IsNullOrEmpty(TColumnImage) && !string.IsNullOrEmpty(TColumnText);
+            }
+        }
+
+        #endregion
+
+        #region 事件
         /// <summary>
         /// 数据刷新后触发
         /// </summary>
@@ -31,9 +185,11 @@ namespace Paway.Forms
         /// </summary>
         public event Func<int, string, bool> SpanEvent;
 
+        #endregion
+
         #region 构造函数
         /// <summary>
-        ///     构造
+        /// 构造
         /// </summary>
         public TDataGridView()
         {
@@ -79,83 +235,34 @@ namespace Paway.Forms
 
             pictureBox1.BackColor = Color.Transparent;
         }
-
-        #endregion
-
-        #region 变量
-        /// <summary>
-        ///     绘制列数据在源中的序号
-        /// </summary>
-        private int _iCheckBoxIndex = -1;
-
-        /// <summary>
-        ///     要绘制的CheckBox
-        /// </summary>
-        private CheckBox _headerCheckBox;
-
-        /// <summary>
-        ///     文本图片列-文本列索引
-        /// </summary>
-        private int _tColumnIndex = -1;
-
-        #endregion
-
-        #region 属性
-        /// <summary>
-        ///     文本图片列-文本列
-        /// </summary>
-        [Browsable(true), Description("文本图片列-文本列")]
-        [DefaultValue(null)]
-        public string TColumnText { get; set; }
-
-        /// <summary>
-        ///     文本图片列-图片列
-        /// </summary>
-        [Browsable(true), Description("文本图片列-图片列")]
-        [DefaultValue(null)]
-        public string TColumnImage { get; set; }
-
-        /// <summary>
-        ///     是否绘制多行文本
-        /// </summary>
-        [Browsable(true), Description("是否绘制多行文本")]
-        [DefaultValue(false)]
-        public bool IMultiText { get; set; }
-
-        private string _iCheckBoxName;
-        /// <summary>
-        /// CheckBox绘制列列Name
-        /// </summary>
-        [Browsable(true), Description("绘制列列Name")]
-        [DefaultValue(null)]
-        public string ICheckBoxName
+        private void InitializeComponent()
         {
-            get { return _iCheckBoxName; }
-            set
-            {
-                _iCheckBoxName = value;
-                if (_headerCheckBox == null)
-                {
-                    _headerCheckBox = new CheckBox()
-                    {
-                        Size = new Size(15, 15)
-                    };
-                    Controls.Add(_headerCheckBox);
-
-                    _headerCheckBox.KeyUp += HeaderCheckBox_KeyUp;
-                    _headerCheckBox.MouseClick += HeaderCheckBox_MouseClick;
-                    CurrentCellDirtyStateChanged += ComBoxGridView_CurrentCellDirtyStateChanged;
-                }
-                _headerCheckBox.Visible = !_iCheckBoxName.IsNullOrEmpty();
-                Invalidate();
-            }
+            pictureBox1 = new PictureBox();
+            ((ISupportInitialize)pictureBox1).BeginInit();
+            ((ISupportInitialize)this).BeginInit();
+            SuspendLayout();
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Location = new Point(0, 1);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(1, 1);
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            // 
+            // TDataGridView
+            // 
+            Controls.Add(pictureBox1);
+            ((ISupportInitialize)pictureBox1).EndInit();
+            ((ISupportInitialize)this).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion
 
         #region 重载属性默认值
         /// <summary>
-        ///     获取或设置 DataGridView 的背景色。
+        /// 获取或设置 DataGridView 的背景色。
         /// </summary>
         [Description("获取或设置 DataGridView 的背景色")]
         [DefaultValue(typeof(Color), "White")]
@@ -166,7 +273,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置 DataGridView 的边框样式。
+        /// 获取或设置 DataGridView 的边框样式。
         /// </summary>
         [Description("获取或设置 DataGridView 的边框样式")]
         [DefaultValue(BorderStyle.None)]
@@ -177,7 +284,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     设置数据源时设置图片列
+        /// 设置数据源时设置图片列
         /// </summary>
         [Browsable(false)]
         [Description("设置数据源时设置图片列")]
@@ -195,7 +302,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置一个值，该值指示是否向用户显示添加行的选项。
+        /// 获取或设置一个值，该值指示是否向用户显示添加行的选项。
         /// </summary>
         [Description("获取或设置一个值，该值指示是否向用户显示添加行的选项")]
         [DefaultValue(false)]
@@ -206,7 +313,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置一个值，该值指示是否允许用户从 DataGridView 中删除行。
+        /// 获取或设置一个值，该值指示是否允许用户从 DataGridView 中删除行。
         /// </summary>
         [Description("获取或设置一个值，该值指示是否允许用户从 DataGridView 中删除行")]
         [DefaultValue(false)]
@@ -217,7 +324,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置一个值，该值指示如何确定列宽。
+        /// 获取或设置一个值，该值指示如何确定列宽。
         /// </summary>
         [Description("获取或设置一个值，该值指示如何确定列宽")]
         [DefaultValue(DataGridViewAutoSizeColumnsMode.Fill)]
@@ -228,7 +335,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取 DataGridView 的单元格边框样式。
+        /// 获取 DataGridView 的单元格边框样式。
         /// </summary>
         [Description("获取 DataGridView 的单元格边框样式")]
         [DefaultValue(DataGridViewCellBorderStyle.SingleHorizontal)]
@@ -239,7 +346,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取应用于列标题的边框样式。
+        /// 获取应用于列标题的边框样式。
         /// </summary>
         [Description("获取应用于列标题的边框样式")]
         [DefaultValue(DataGridViewHeaderBorderStyle.Single)]
@@ -250,7 +357,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置列标题行的高度（以像素为单位）。
+        /// 获取或设置列标题行的高度（以像素为单位）。
         /// </summary>
         [Description("获取或设置列标题行的高度（以像素为单位）")]
         [DefaultValue(30)]
@@ -261,7 +368,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置一个值，该值指示是否可以调整列标题的高度，以及它是由用户调整还是根据标题的内容自动调整。
+        /// 获取或设置一个值，该值指示是否可以调整列标题的高度，以及它是由用户调整还是根据标题的内容自动调整。
         /// </summary>
         [Description("获取或设置一个值，该值指示是否可以调整列标题的高度，以及它是由用户调整还是根据标题的内容自动调整")]
         [DefaultValue(DataGridViewColumnHeadersHeightSizeMode.DisableResizing)]
@@ -272,7 +379,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置一个值，该值指示是否允许用户一次选择 DataGridView 的多个单元格、行或列。
+        /// 获取或设置一个值，该值指示是否允许用户一次选择 DataGridView 的多个单元格、行或列。
         /// </summary>
         [Description("获取或设置一个值，该值指示是否允许用户一次选择 DataGridView 的多个单元格、行或列")]
         [DefaultValue(false)]
@@ -283,7 +390,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置行标题单元格的边框样式。
+        /// 获取或设置行标题单元格的边框样式。
         /// </summary>
         [Description("获取或设置行标题单元格的边框样式")]
         [DefaultValue(DataGridViewHeaderBorderStyle.Single)]
@@ -294,7 +401,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置一个值，该值指示是否显示包含行标题的列。
+        /// 获取或设置一个值，该值指示是否显示包含行标题的列。
         /// </summary>
         [Description("获取或设置一个值，该值指示是否显示包含行标题的列")]
         [DefaultValue(false)]
@@ -305,7 +412,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置包含行标题的列的宽度（以像素为单位）。
+        /// 获取或设置包含行标题的列的宽度（以像素为单位）。
         /// </summary>
         [Description("获取或设置包含行标题的列的宽度（以像素为单位）")]
         [DefaultValue(21)]
@@ -316,7 +423,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置要在 DataGridView 控件中显示的滚动条的类型。
+        /// 获取或设置要在 DataGridView 控件中显示的滚动条的类型。
         /// </summary>
         [Description("获取或设置要在 DataGridView 控件中显示的滚动条的类型")]
         [DefaultValue(ScrollBars.Both)]
@@ -327,7 +434,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置一个值，该值指示如何选择 DataGridView 的单元格。
+        /// 获取或设置一个值，该值指示如何选择 DataGridView 的单元格。
         /// </summary>
         [Description("获取或设置一个值，该值指示如何选择 DataGridView 的单元格")]
         [DefaultValue(DataGridViewSelectionMode.FullRowSelect)]
@@ -338,7 +445,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取和设置网格线的颜色（自动设置）
+        /// 获取和设置网格线的颜色（自动设置）
         /// </summary>
         [Description("获取和设置网格线的颜色")]
         [Browsable(false), DefaultValue(typeof(Color), "149, 204, 223")]
@@ -349,7 +456,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     该值指示用户是否可以编辑。
+        /// 该值指示用户是否可以编辑。
         /// </summary>
         [Description("该值指示用户是否可以编辑")]
         [DefaultValue(true)]
@@ -373,25 +480,7 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 加载数据
-        /// <summary>
-        ///     原数据源
-        /// </summary>
-        private object source;
-
-        /// <summary>
-        ///     刷新数据
-        /// </summary>
-        public void RefreshData()
-        {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action(RefreshData));
-                return;
-            }
-            DataSource = source;
-        }
-
+        #region 内部方法
         /// <summary>
         /// 更新数据
         /// </summary>
@@ -426,31 +515,6 @@ namespace Paway.Forms
             UpdateColumns(type);
             OnRefreshChanged(type);
         }
-
-        /// <summary>
-        ///     更新列名称
-        /// </summary>
-        public void UpdateColumns(Type type)
-        {
-            if (type == null || type == typeof(string) || type.IsValueType) return;
-
-            _iCheckBoxIndex = -1;
-            for (var i = 0; i < Columns.Count; i++)
-            {
-                if (Columns[i].Name == _iCheckBoxName)
-                {
-                    _iCheckBoxIndex = i;
-                }
-                if (Columns[i].Name == TColumnText)
-                {
-                    _tColumnIndex = i;
-                }
-                var property = type.Property(Columns[i].Name);
-                if (property == null) continue;
-                Columns[i].Visible = property.IShow(out string text);
-                Columns[i].HeaderText = text;
-            }
-        }
         /// <summary>
         /// 设置排序模式并引发事件
         /// </summary>
@@ -475,9 +539,10 @@ namespace Paway.Forms
 
         #endregion
 
+        #region 重绘
         #region 重载单元格绘制
         /// <summary>
-        ///     绘制行号
+        /// 绘制行号
         /// </summary>
         private void TDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
@@ -494,7 +559,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     在单元格需要绘制时发生
+        /// 在单元格需要绘制时发生
         /// </summary>
         /// <param name="e"></param>
         protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
@@ -518,7 +583,7 @@ namespace Paway.Forms
 
         #region 绘制多行文本
         /// <summary>
-        ///     绘制多行文本
+        /// 绘制多行文本
         /// </summary>
         /// <param name="e"></param>
         private void DrawMultiText(DataGridViewCellPaintingEventArgs e)
@@ -690,10 +755,6 @@ namespace Paway.Forms
 
         #region 合并行
         /// <summary>
-        /// 合并单元格的列
-        /// </summary>
-        private readonly List<int> SpanColumns = new List<int>();
-        /// <summary>
         /// 合并行
         /// </summary>
         /// <param name="param"></param>
@@ -702,7 +763,7 @@ namespace Paway.Forms
             SpanColumns.AddRange(param);
         }
         /// <summary>
-        ///     合并单元格
+        /// 合并单元格
         /// </summary>
         private void DrawCell(DataGridViewCellPaintingEventArgs e)
         {
@@ -818,7 +879,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     画字符串
+        /// 画字符串
         /// </summary>
         private void PaintingFont(DataGridViewCellPaintingEventArgs e, int UpRows, int count)
         {
@@ -838,7 +899,7 @@ namespace Paway.Forms
 
         #region 绘制文本图片列
         /// <summary>
-        ///     绘制文本图片列
+        /// 绘制文本图片列
         /// </summary>
         private void DrawImageText(DataGridViewCellPaintingEventArgs e)
         {
@@ -877,7 +938,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     边框
+        /// 边框
         /// </summary>
         private void DrawBounds(Graphics g, Brush brush, Rectangle rect, int index)
         {
@@ -902,40 +963,6 @@ namespace Paway.Forms
         #endregion
 
         #region 动态文本图片列
-        private readonly Timer timer = new Timer();
-        private PictureBox pictureBox1;
-
-        /// <summary>
-        ///     动态图片行
-        /// </summary>
-        private int pIndex = -1;
-
-        /// <summary>
-        ///     动态文本图片列显示的图片
-        /// </summary>
-        [Browsable(true), Description("动态文本图片列显示的图片")]
-        [DefaultValue(null)]
-        public Image TProgressImage
-        {
-            get { return pictureBox1.Image; }
-            set { pictureBox1.Image = value; }
-        }
-
-        /// <summary>
-        ///     动态文本图片列显示行
-        /// </summary>
-        [Browsable(true), Description("动态文本图片列显示行")]
-        [DefaultValue(-1)]
-        public int TProgressIndex
-        {
-            get { return pIndex; }
-            set
-            {
-                pIndex = value;
-                timer.Enabled = value != -1 && !string.IsNullOrEmpty(TColumnImage) && !string.IsNullOrEmpty(TColumnText);
-            }
-        }
-
         private void Timer_Tick(object sender, EventArgs e)
         {
             if (pIndex == -1 || pIndex >= Rows.Count) return;
@@ -945,72 +972,9 @@ namespace Paway.Forms
             InvalidateCell(cell);
         }
 
-        private void InitializeComponent()
-        {
-            pictureBox1 = new PictureBox();
-            ((ISupportInitialize)pictureBox1).BeginInit();
-            ((ISupportInitialize)this).BeginInit();
-            SuspendLayout();
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Location = new Point(0, 1);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(1, 1);
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
-            // 
-            // TDataGridView
-            // 
-            Controls.Add(pictureBox1);
-            ((ISupportInitialize)pictureBox1).EndInit();
-            ((ISupportInitialize)this).EndInit();
-            ResumeLayout(false);
-        }
-
         #endregion
 
         #region 二维表头
-
-        /// <summary>
-        ///     需要2维表头的列
-        /// </summary>
-        private readonly Dictionary<int, SpanInfo> SpanRows = new Dictionary<int, SpanInfo>();
-
-        /// <summary>
-        ///     表头信息
-        /// </summary>
-        private struct SpanInfo
-        {
-            /// <summary>
-            ///     列主标题
-            /// </summary>
-            public readonly string Text;
-
-            /// <summary>
-            ///     位置
-            /// </summary>
-            public readonly StringAlignment Position;
-
-            /// <summary>
-            ///     对应左行
-            /// </summary>
-            public readonly int Left;
-
-            /// <summary>
-            ///     对应右行
-            /// </summary>
-            public readonly int Right;
-
-            public SpanInfo(string Text, StringAlignment Position, int Left, int Right)
-            {
-                this.Text = Text;
-                this.Position = Position;
-                this.Left = Left;
-                this.Right = Right;
-            }
-        }
-
         private void HeaderMerge(DataGridViewCellPaintingEventArgs e)
         {
             if (SpanRows.ContainsKey(e.ColumnIndex)) //被合并的列
@@ -1091,6 +1055,48 @@ namespace Paway.Forms
             for (var i = ColIndex + 1; i < Right; i++) //中间的列
             {
                 SpanRows[i] = new SpanInfo(Text, StringAlignment.Center, ColIndex, Right);
+            }
+        }
+
+        #endregion
+        #endregion
+
+        #region 公开方法-加载数据
+        /// <summary>
+        /// 刷新数据
+        /// </summary>
+        public void RefreshData()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(RefreshData));
+                return;
+            }
+            DataSource = source;
+        }
+
+        /// <summary>
+        /// 更新列名称
+        /// </summary>
+        public void UpdateColumns(Type type)
+        {
+            if (type == null || type == typeof(string) || type.IsValueType) return;
+
+            _iCheckBoxIndex = -1;
+            for (var i = 0; i < Columns.Count; i++)
+            {
+                if (Columns[i].Name == _iCheckBoxName)
+                {
+                    _iCheckBoxIndex = i;
+                }
+                if (Columns[i].Name == TColumnText)
+                {
+                    _tColumnIndex = i;
+                }
+                var property = type.Property(Columns[i].Name);
+                if (property == null) continue;
+                Columns[i].Visible = property.IShow(out string text);
+                Columns[i].HeaderText = text;
             }
         }
 

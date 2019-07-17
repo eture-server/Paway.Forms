@@ -4,7 +4,7 @@ using System.Net.Sockets;
 namespace Paway.Utils
 {
     /// <summary>
-    ///     数据接收方法
+    /// 数据接收方法
     /// </summary>
     internal class AsynSocketArg
     {
@@ -22,12 +22,12 @@ namespace Paway.Utils
         private int heardLength = 2;
 
         /// <summary>
-        ///     接收的Socket实例对象
+        /// 接收的Socket实例对象
         /// </summary>
         public Socket WorkSocket { get; private set; }
 
         /// <summary>
-        ///     自动调节的缓冲区大小
+        /// 自动调节的缓冲区大小
         /// </summary>
         public int AutoBufferSize
         {
@@ -54,7 +54,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     数据长度
+        /// 数据长度
         /// </summary>
         public int ReceiveDataLength
         {
@@ -73,7 +73,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     接收到的数据缓冲区
+        /// 接收到的数据缓冲区
         /// </summary>
         public ArrayList LstBuffer
         {
@@ -87,7 +87,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     数据缓冲区
+        /// 数据缓冲区
         /// </summary>
         public byte[] GetBuffer()
         {
@@ -100,7 +100,7 @@ namespace Paway.Utils
         public bool IServer { get; set; }
 
         /// <summary>
-        ///     向数据缓冲区添加接收到的有效数据
+        /// 向数据缓冲区添加接收到的有效数据
         /// </summary>
         /// <param name="bufferValue"></param>
         /// <param name="valueLength"></param>
@@ -114,7 +114,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     初始化state对象
+        /// 初始化state对象
         /// </summary>
         public void InitializeState()
         {
@@ -124,7 +124,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     初始化state对象
+        /// 初始化state对象
         /// </summary>
         public void InitializeState(Socket socket, int heard, bool iServer)
         {
@@ -136,7 +136,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     重置缓冲区大小
+        /// 重置缓冲区大小
         /// </summary>
         public void ResetBuffer()
         {

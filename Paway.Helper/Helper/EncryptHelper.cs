@@ -9,7 +9,7 @@ using System.Text;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     加密
+    /// 加密
     /// </summary>
     public abstract class EncryptHelper
     {
@@ -28,7 +28,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     Base64(MD5)
+        /// Base64(MD5)
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -52,7 +52,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     取16位MD5码
+        /// 取16位MD5码
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -62,7 +62,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     取8位MD5码
+        /// 取8位MD5码
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -72,7 +72,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     取4位MD5码
+        /// 取4位MD5码
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -82,7 +82,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     加密 Base64(3DES(加密内容))
+        /// 加密 Base64(3DES(加密内容))
         /// </summary>
         /// <param name="content"></param>
         /// <param name="key"></param>
@@ -106,7 +106,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     解密 Base64(3DES(加密内容))
+        /// 解密 Base64(3DES(加密内容))
         /// </summary>
         /// <param name="sourceData"></param>
         /// <param name="key"></param>
@@ -132,7 +132,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     默认密钥向量
+        /// 默认密钥向量
         /// </summary>
         private static readonly byte[] _key1 =
         {
@@ -141,7 +141,7 @@ namespace Paway.Helper
         };
 
         /// <summary>
-        ///     加密AES算法
+        /// 加密AES算法
         /// </summary>
         /// <param name="text">明文字符串</param>
         /// <param name="key">私钥</param>
@@ -154,7 +154,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     AES加密算法
+        /// AES加密算法
         /// </summary>
         /// <param name="data"></param>
         /// <param name="key"></param>
@@ -178,7 +178,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     解密AES
+        /// 解密AES
         /// </summary>
         /// <param name="text">密文字节数组</param>
         /// <param name="key">私钥</param>
@@ -191,7 +191,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     解密AES
+        /// 解密AES
         /// </summary>
         /// <param name="bytes">密文字节数组</param>
         /// <param name="key">私钥</param>
@@ -216,7 +216,7 @@ namespace Paway.Helper
         #region MD5文件与数组加密
 
         /// <summary>
-        ///     实现对一个文件md5的读取，path为文件路径
+        /// 实现对一个文件md5的读取，path为文件路径
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -229,7 +229,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     获取流的 MD5 值
+        /// 获取流的 MD5 值
         /// </summary>
         /// <param name="s">流</param>
         /// <returns>MD5 值</returns>
@@ -244,7 +244,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     获取数组的 MD5 值
+        /// 获取数组的 MD5 值
         /// </summary>
         /// <param name="buffer">数组</param>
         /// <returns>MD5 值</returns>
@@ -259,7 +259,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     获取数组的 MD5 值
+        /// 获取数组的 MD5 值
         /// </summary>
         /// <param name="buffer">数组</param>
         /// <param name="offset">偏移</param>
@@ -276,7 +276,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     获取数组的 MD5 值
+        /// 获取数组的 MD5 值
         /// </summary>
         /// <param name="hash_byte">数组</param>
         /// <returns>MD5 值</returns>
@@ -296,7 +296,7 @@ namespace Paway.Helper
         private static readonly string MSVersions = "Tinn01";
 
         /// <summary>
-        ///     加密AES文件
+        /// 加密AES文件
         /// </summary>
         public static void EncryptFileAES(string encryptFile, string decryptFile)
         {
@@ -331,7 +331,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     获取文件流
+        /// 获取文件流
         /// </summary>
         /// <param name="encryptFile"></param>
         /// <returns></returns>
@@ -352,7 +352,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     解密AES文件
+        /// 解密AES文件
         /// </summary>
         /// <param name="decryptFile">要解密的文件</param>
         /// <param name="encryptFile">解密后存放的路劲</param>

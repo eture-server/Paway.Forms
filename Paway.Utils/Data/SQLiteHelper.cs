@@ -8,18 +8,18 @@ using System.IO;
 namespace Paway.Utils
 {
     /// <summary>
-    ///     SqLite操作基类
+    /// SqLite操作基类
     /// </summary>
     public class SQLiteHelper : DataBase
     {
         #region 初始化
         /// <summary>
-        ///     文件名
+        /// 文件名
         /// </summary>
         protected string FileName { get; private set; }
 
         /// <summary>
-        ///     初始化
+        /// 初始化
         /// </summary>
         public SQLiteHelper() : base(typeof(SQLiteConnection), typeof(SQLiteCommand), typeof(SQLiteParameter))
         {
@@ -27,7 +27,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     初始化连接字符串
+        /// 初始化连接字符串
         /// </summary>
         /// <param name="fileName"></param>
         protected void InitConnect(string fileName)
@@ -42,7 +42,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     根据指定资源sql语句创建数据库
+        /// 根据指定资源sql语句创建数据库
         /// </summary>
         /// <param name="sql"></param>
         /// <returns></returns>
@@ -62,7 +62,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     获取连接字符串
+        /// 获取连接字符串
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
@@ -82,9 +82,9 @@ namespace Paway.Utils
 
         #region 扩展重载
         /// <summary>
-        ///     查找指定查询语句
-        ///     填充 System.Data.DataSet 并返回一个DataTable
-        ///     标记是否使用Limit查找指定数量
+        /// 查找指定查询语句
+        /// 填充 System.Data.DataSet 并返回一个DataTable
+        /// 标记是否使用Limit查找指定数量
         /// </summary>
         protected override DataTable FindTable<T>(string find, int count, bool iLimit, DbCommand cmd = null, params string[] args)
         {

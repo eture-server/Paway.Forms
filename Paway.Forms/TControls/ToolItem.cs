@@ -9,25 +9,25 @@ using System.Windows.Forms;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     表示 ToolBar 控件中的单个项。
+    /// 表示 ToolBar 控件中的单个项。
     /// </summary>
     public class ToolItem : IDisposable
     {
         #region 字段与属性
         /// <summary>
-        ///     描述信息的鼠标状态
+        /// 描述信息的鼠标状态
         /// </summary>
         internal TMouseState TMouseState { get; set; }
 
         /// <summary>
-        ///     Item 当前的鼠标状态
+        /// Item 当前的鼠标状态
         /// </summary>
         [Browsable(false), Description("Item 当前的鼠标状态")]
         [DefaultValue(TMouseState.Normal)]
         internal TMouseState MouseState { get; set; }
 
         /// <summary>
-        ///     拥有者
+        /// 拥有者
         /// </summary>
         [Browsable(false), Description("拥有者")]
         [DefaultValue(typeof(ToolBar), "Tinn")]
@@ -35,7 +35,7 @@ namespace Paway.Forms
 
         private Image _image;
         /// <summary>
-        ///     Item 显示的图片
+        /// Item 显示的图片
         /// </summary>
         [Description("Item 显示的图片")]
         [DefaultValue(typeof(Image), "null")]
@@ -50,13 +50,13 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     当前 Item 图片显示的 Rectangle
+        /// 当前 Item 图片显示的 Rectangle
         /// </summary>
         [Browsable(false)]
         public Rectangle ImageRect { get; internal set; }
 
         /// <summary>
-        ///     获取或设置包含有关控件的数据的对象。
+        /// 获取或设置包含有关控件的数据的对象。
         /// </summary>
         [Description("获取或设置包含有关控件的数据的对象")]
         [DefaultValue(null)]
@@ -64,14 +64,14 @@ namespace Paway.Forms
         public object Tag { get; set; }
 
         /// <summary>
-        ///     首行文字
+        /// 首行文字
         /// </summary>
         [Browsable(false), Description("首行文字")]
         [DefaultValue(null)]
         public string First { get; private set; }
 
         /// <summary>
-        ///     其它行文字
+        /// 其它行文字
         /// </summary>
         [Browsable(false), Description("其它行文字")]
         [DefaultValue(null)]
@@ -79,7 +79,7 @@ namespace Paway.Forms
 
         private string _text = string.Empty;
         /// <summary>
-        ///     Item 上显示的文字信息
+        /// Item 上显示的文字信息
         /// </summary>
         [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
         [DefaultValue("")]
@@ -111,7 +111,7 @@ namespace Paway.Forms
 
         private string _desc;
         /// <summary>
-        ///     Item 上显示的描述信息
+        /// Item 上显示的描述信息
         /// </summary>
         [Description("Item 上显示的描述信息")]
         [DefaultValue(null)]
@@ -125,14 +125,14 @@ namespace Paway.Forms
             }
         }
         /// <summary>
-        ///     Item 上显示的描述信息边框
+        /// Item 上显示的描述信息边框
         /// </summary>
         [Browsable(false)]
         public Rectangle RectDesc { get; internal set; }
 
         private string _headDesc;
         /// <summary>
-        ///     Item 上显示的头部描述信息
+        /// Item 上显示的头部描述信息
         /// </summary>
         [Description("Item 上显示的头部描述信息")]
         [DefaultValue(null)]
@@ -147,14 +147,14 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     Item 上显示的头部描述信息边框
+        /// Item 上显示的头部描述信息边框
         /// </summary>
         [Browsable(false)]
         public Rectangle RectHeadDesc { get; internal set; }
 
         private string _endDesc;
         /// <summary>
-        ///     Item 上显示的尾部描述信息
+        /// Item 上显示的尾部描述信息
         /// </summary>
         [Description("Item 上显示的尾部描述信息")]
         [DefaultValue(null)]
@@ -169,13 +169,13 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     Item 上显示的尾部描述信息边框
+        /// Item 上显示的尾部描述信息边框
         /// </summary>
         [Browsable(false)]
         public Rectangle RectEndDesc { get; internal set; }
 
         /// <summary>
-        ///     Item 上鼠标悬停显示信息
+        /// Item 上鼠标悬停显示信息
         /// </summary>
         [Description("Item 上显示的尾部描述信息")]
         [DefaultValue(null)]
@@ -183,7 +183,7 @@ namespace Paway.Forms
 
         private TProperties _color;
         /// <summary>
-        ///     优先应用于项的背景色
+        /// 优先应用于项的背景色
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties TColor
@@ -200,14 +200,14 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     当前 Item 在 ToolBar 中的 Rectangle
+        /// 当前 Item 在 ToolBar 中的 Rectangle
         /// </summary>
         [Browsable(false)]
         public Rectangle Rectangle { get; internal set; }
 
         private bool _enable = true;
         /// <summary>
-        ///     Item 当前启用状态
+        /// Item 当前启用状态
         /// </summary>
         [Description("Item 当前启用状态")]
         [DefaultValue(true)]
@@ -222,7 +222,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     Item 当前选中状态
+        /// Item 当前选中状态
         /// </summary>
         [Browsable(false), Description("Item 当前选中状态")]
         [DefaultValue(false)]
@@ -238,7 +238,7 @@ namespace Paway.Forms
 
         private int _tRadiu;
         /// <summary>
-        ///     圆角大小
+        /// 圆角大小
         /// </summary>
         [Description("圆角大小")]
         [DefaultValue(0)]
@@ -254,7 +254,7 @@ namespace Paway.Forms
 
         private bool _iHeard;
         /// <summary>
-        ///     头文字
+        /// 头文字
         /// </summary>
         [Description("头文字")]
         [DefaultValue(false)]
@@ -270,7 +270,7 @@ namespace Paway.Forms
 
         private bool _iChange;
         /// <summary>
-        ///     变色项
+        /// 变色项
         /// </summary>
         [Description("变色项")]
         [DefaultValue(false)]
@@ -288,18 +288,18 @@ namespace Paway.Forms
 
         #region 构造
         /// <summary>
-        ///     构造
+        /// 构造
         /// </summary>
         public ToolItem() { }
 
         /// <summary>
-        ///     构造
+        /// 构造
         /// </summary>
         /// <param name="text"></param>
         public ToolItem(string text) : this(text, null) { }
 
         /// <summary>
-        ///     构造
+        /// 构造
         /// </summary>
         /// <param name="text"></param>
         /// <param name="image"></param>

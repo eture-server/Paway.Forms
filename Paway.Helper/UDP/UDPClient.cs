@@ -4,12 +4,12 @@ using System.Net.Sockets;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     UDPClient广播客户端信息
+    /// UDPClient广播客户端信息
     /// </summary>
     public class UDPClient : UDPBase
     {
         /// <summary>
-        ///     广播客户端信息
+        /// 广播客户端信息
         /// </summary>
         public void UPDSendMessage(object message)
         {

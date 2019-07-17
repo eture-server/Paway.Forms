@@ -11,33 +11,33 @@ using Paway.Helper;
 namespace Paway.Utils
 {
     /// <summary>
-    ///     封装Socket通讯服务端
+    /// 封装Socket通讯服务端
     /// </summary>
     public class Service : IDisposable
     {
         /// <summary>
-        ///     错误日志
+        /// 错误日志
         /// </summary>
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         #region 字段与属性
         /// <summary>
-        ///     允许线程通过发信号互相通信。通常，此通信涉及一个线程在其他线程进行之前必须完成的任务。
+        /// 允许线程通过发信号互相通信。通常，此通信涉及一个线程在其他线程进行之前必须完成的任务。
         /// </summary>
         private readonly ManualResetEvent allDone = new ManualResetEvent(false);
 
         /// <summary>
-        ///     线程标记
+        /// 线程标记
         /// </summary>
         private volatile bool ForceStop;
 
         /// <summary>
-        ///     心跳检测时长，默认3
+        /// 心跳检测时长，默认3
         /// </summary>
         private readonly int heartTime = 3;
 
         /// <summary>
-        ///     服务端监听Socket
+        /// 服务端监听Socket
         /// </summary>
         private Socket socketListener;
 
@@ -47,7 +47,7 @@ namespace Paway.Utils
         private int heardLength = 2;
 
         /// <summary>
-        ///     监听端口
+        /// 监听端口
         /// </summary>
         public IPEndPoint IpPort { get; private set; }
 
@@ -73,7 +73,7 @@ namespace Paway.Utils
 
         #region public methord
         /// <summary>
-        ///     开始监听
+        /// 开始监听
         /// </summary>
         /// <param name="host"></param>
         /// <param name="port"></param>
@@ -94,7 +94,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     停止监听
+        /// 停止监听
         /// </summary>
         public void Stop()
         {
@@ -105,7 +105,7 @@ namespace Paway.Utils
 
         #region virtual methord
         /// <summary>
-        ///     抛出连接完成事件
+        /// 抛出连接完成事件
         /// </summary>
         protected virtual void ClientFinished(IPEndPoint point)
         {
@@ -118,7 +118,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     抛出单个连接对象，用于消息发送
+        /// 抛出单个连接对象，用于消息发送
         /// </summary>
         protected virtual void OnClientConnect(SocketPackage client)
         {
@@ -129,7 +129,7 @@ namespace Paway.Utils
 
         #region private Method
         /// <summary>
-        ///     发送到所有连接对象
+        /// 发送到所有连接对象
         /// </summary>
         /// <param name="msg">消息体</param>
         private void SendAll(object msg)
@@ -148,7 +148,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     心跳监听服务
+        /// 心跳监听服务
         /// </summary>
         private void HeartListener(object state)
         {
@@ -172,7 +172,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     监听服务
+        /// 监听服务
         /// </summary>
         private void SocketServerListener(object state)
         {
@@ -197,7 +197,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     接受客户端连接
+        /// 接受客户端连接
         /// </summary>
         private void OnClientConnect(IAsyncResult asyn)
         {
@@ -238,7 +238,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     系统事件
+        /// 系统事件
         /// </summary>
         private void OnSystemEvent(string message)
         {
@@ -246,7 +246,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     系统事件
+        /// 系统事件
         /// </summary>
         private void OnSystemEvent(ServiceType type, string message)
         {
@@ -258,7 +258,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     系统事件
+        /// 系统事件
         /// </summary>
         private void OnSystemEvent(ServiceEventArgs msg)
         {
@@ -278,7 +278,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     客户端事件与断开连接事件
+        /// 客户端事件与断开连接事件
         /// </summary>
         /// <param name="e"></param>
         private void Client_ClientEvent(ServiceEventArgs e)

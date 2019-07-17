@@ -12,7 +12,7 @@ using System.Windows.Forms;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     一些公共方法
+    /// 一些公共方法
     /// </summary>
     public abstract class TMethod
     {

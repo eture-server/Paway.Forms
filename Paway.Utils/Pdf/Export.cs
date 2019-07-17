@@ -8,13 +8,13 @@ using log4net;
 namespace Paway.Utils
 {
     /// <summary>
-    ///     导出类示例
+    /// 导出类示例
     /// </summary>
     public abstract class Export
     {
         /// <summary>
-        ///     导出为PDF
-        ///     Pdf导出导出示例
+        /// 导出为PDF
+        /// Pdf导出导出示例
         /// </summary>
         /// <param name="fileName">导出的pdf文件</param>
         /// <param name="list">需要导出的数据</param>

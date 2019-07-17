@@ -6,20 +6,20 @@ using System.Data;
 namespace Paway.Utils
 {
     /// <summary>
-    ///     MySql操作基类
+    /// MySql操作基类
     /// </summary>
     public class MySqlHelper : DataBase
     {
         /// <summary>
-        ///     连接字符模板
-        ///     Data Source={0};Database={1};User Id={2};Password={3};Persist Security Info=True;pooling=false;CharSet=utf8;port={4}
+        /// 连接字符模板
+        /// Data Source={0};Database={1};User Id={2};Password={3};Persist Security Info=True;pooling=false;CharSet=utf8;port={4}
         /// </summary>
         protected const string DbConnect =
             @"Data Source={0};Database={1};User Id={2};Password={3};Persist Security Info=True;pooling=false;CharSet=utf8;port={4}";
 
         #region 重载
         /// <summary>
-        ///     对sql语句进行过滤
+        /// 对sql语句进行过滤
         /// </summary>
         protected override void OnCommandText(DbCommand cmd)
         {
@@ -31,8 +31,8 @@ namespace Paway.Utils
 
         #region 初始化
         /// <summary>
-        ///     初始化
-        ///     没有
+        /// 初始化
+        /// 没有
         /// </summary>
         public MySqlHelper()
             : base(typeof(MySqlConnection), typeof(MySqlCommand), typeof(MySqlParameter))
@@ -42,7 +42,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     传入连接字符
+        /// 传入连接字符
         /// </summary>
         /// <param name="connect"></param>
         protected void InitConnect(string connect)
@@ -51,7 +51,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     传入连接字符
+        /// 传入连接字符
         /// </summary>
         protected void InitConnect(string host, string database, string user, string pad, int port = 3306)
         {
@@ -62,9 +62,9 @@ namespace Paway.Utils
 
         #region 扩展重载
         /// <summary>
-        ///     查找指定查询语句
-        ///     填充 System.Data.DataSet 并返回一个DataTable
-        ///     标记是否使用Limit查找指定数量
+        /// 查找指定查询语句
+        /// 填充 System.Data.DataSet 并返回一个DataTable
+        /// 标记是否使用Limit查找指定数量
         /// </summary>
         protected override DataTable FindTable<T>(string find, int count, bool iLimit, DbCommand cmd = null, params string[] args)
         {

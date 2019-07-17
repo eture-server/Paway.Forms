@@ -7,7 +7,7 @@ using System.Runtime.Serialization.Formatters;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     IPC客户端
+    /// IPC客户端
     /// </summary>
     /// <typeparam name="T">接口</typeparam>
     public class IPCClient<T> : IDisposable where T : class
@@ -16,12 +16,12 @@ namespace Paway.Helper
         private IpcChannel channel;
 
         /// <summary>
-        ///     接口实例
+        /// 接口实例
         /// </summary>
         public T Obj { get; private set; }
 
         /// <summary>
-        ///     连接状态
+        /// 连接状态
         /// </summary>
         public bool IConnected { get; private set; }
 
@@ -29,7 +29,7 @@ namespace Paway.Helper
 
         #region public method
         /// <summary>
-        ///     创建一个IPC信道。
+        /// 创建一个IPC信道。
         /// </summary>
         public virtual void Connect(string name)
         {
@@ -56,7 +56,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     断开IPC连接
+        /// 断开IPC连接
         /// </summary>
         public virtual void Stop()
         {

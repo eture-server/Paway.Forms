@@ -5,7 +5,7 @@ using System.Windows.Forms;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     关于窗体
+    /// 关于窗体
     /// </summary>
     public partial class AboutForm : QQForm
     {
@@ -26,7 +26,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     重置显示描述
+        /// 重置显示描述
         /// </summary>
         public void Reset(string desc)
         {
@@ -34,7 +34,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     输出软件名称和版本号
+        /// 输出软件名称和版本号
         /// </summary>
         protected override void OnLoad(EventArgs e)
         {
@@ -70,7 +70,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     按下
+        /// 按下
         /// </summary>
         protected override void OnMouseDown(MouseEventArgs e)
         {
@@ -85,7 +85,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     关闭时激发父窗体
+        /// 关闭时激发父窗体
         /// </summary>
         protected override void OnFormClosing(FormClosingEventArgs e)
         {

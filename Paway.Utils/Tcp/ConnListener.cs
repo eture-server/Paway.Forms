@@ -9,8 +9,8 @@ namespace Paway.Utils
     internal static class ConnListener
     {
         /// <summary>
-        ///     Using IOControl code to configue socket KeepAliveValues for line disconnection detection(because default is toooo
-        ///     slow)
+        /// Using IOControl code to configue socket KeepAliveValues for line disconnection detection(because default is toooo
+        /// slow)
         /// </summary>
         /// <param name="socket">TcpClient</param>
         /// <param name="keepAliveTime">The keep alive time. (ms)</param>

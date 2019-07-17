@@ -8,12 +8,12 @@ using System.Text.RegularExpressions;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     网络时间
+    /// 网络时间
     /// </summary>
     public abstract class WebHelper
     {
         /// <summary>
-        ///     获取标准北京时间，读取http://www.beijing-time.org/time.asp
+        /// 获取标准北京时间，读取http://www.beijing-time.org/time.asp
         /// </summary>
         /// <returns>返回网络时间</returns>
         public static DateTime BeijingTime()
@@ -59,7 +59,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     获取网页内容，并过滤
+        /// 获取网页内容，并过滤
         /// </summary>
         public static string Html(string url, Regex regex, Encoding code, params object[] args)
         {

@@ -9,25 +9,14 @@ using System.Windows.Forms;
 namespace Paway.Win32
 {
     /// <summary>
-    ///     Win32API 发送消息与查找窗体
+    /// Win32API 发送消息与查找窗体
     /// </summary>
     public abstract class Win32Helper
     {
-        #region 静态变量
-        /// <summary>
-        /// </summary>
-        public static IntPtr True { get { return (IntPtr)1; } }
-
-        /// <summary>
-        /// </summary>
-        public static IntPtr False { get { return (IntPtr)0; } }
-
-        #endregion
-
         #region 全屏置顶窗体
 
         /// <summary>
-        ///     全屏置顶窗体
+        /// 全屏置顶窗体
         /// </summary>
         /// <param name="hwnd">窗体句柄</param>
         public static void SetWinFullScreen(IntPtr hwnd)
@@ -47,7 +36,7 @@ namespace Paway.Win32
         #region 任务栏
 
         /// <summary>
-        ///     获取任务栏Rectangle
+        /// 获取任务栏Rectangle
         /// </summary>
         /// <returns></returns>
         public static RECT TaskRect()
@@ -59,7 +48,7 @@ namespace Paway.Win32
         }
 
         /// <summary>
-        ///     隐藏任务栏
+        /// 隐藏任务栏
         /// </summary>
         public static void HideTask()
         {
@@ -76,7 +65,7 @@ namespace Paway.Win32
         }
 
         /// <summary>
-        ///     显示任务栏
+        /// 显示任务栏
         /// </summary>
         public static void ShowTask()
         {
@@ -89,7 +78,7 @@ namespace Paway.Win32
         #region SendMessage - 扩展消息
 
         /// <summary>
-        ///     发送跨进程自定义消息
+        /// 发送跨进程自定义消息
         /// </summary>
         public static IntPtr SendMessage<T>(string form, int type, T msg)
         {
@@ -107,7 +96,7 @@ namespace Paway.Win32
         }
 
         /// <summary>
-        ///     发送跨进程自定义消息 到所有指定结尾的窗体
+        /// 发送跨进程自定义消息 到所有指定结尾的窗体
         /// </summary>
         public static void SendMessageAll<T>(string form, int type, T msg)
         {
@@ -126,7 +115,7 @@ namespace Paway.Win32
         }
 
         /// <summary>
-        ///     解析自定义消息 - 形参
+        /// 解析自定义消息 - 形参
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="m"></param>
@@ -143,7 +132,7 @@ namespace Paway.Win32
         #region SendMessage - 自定义消息
 
         /// <summary>
-        ///     发送跨进程自定义消息
+        /// 发送跨进程自定义消息
         /// </summary>
         /// <param name="form">窗体名称</param>
         /// <param name="type">消息类型</param>
@@ -161,7 +150,7 @@ namespace Paway.Win32
         }
 
         /// <summary>
-        ///     发送跨进程自定义消息 到所有指定结尾的窗体
+        /// 发送跨进程自定义消息 到所有指定结尾的窗体
         /// </summary>
         /// <param name="form">窗体名称</param>
         /// <param name="type">消息类型</param>
@@ -179,7 +168,7 @@ namespace Paway.Win32
         }
 
         /// <summary>
-        ///     发送消息到指定句柄的窗体
+        /// 发送消息到指定句柄的窗体
         /// </summary>
         public static void SendMessage(IntPtr hWnd, int type, string msg)
         {
@@ -188,7 +177,7 @@ namespace Paway.Win32
         }
 
         /// <summary>
-        ///     解析自定义消息 - 字符
+        /// 解析自定义消息 - 字符
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
@@ -199,7 +188,7 @@ namespace Paway.Win32
         }
 
         /// <summary>
-        ///     返回自定义消息体
+        /// 返回自定义消息体
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
@@ -219,7 +208,7 @@ namespace Paway.Win32
         #region ActiveForm
 
         /// <summary>
-        ///     激活指定标题窗体
+        /// 激活指定标题窗体
         /// </summary>
         public static IntPtr ActiveForm(string find)
         {
@@ -233,7 +222,7 @@ namespace Paway.Win32
         }
 
         /// <summary>
-        ///     激活指定句柄窗体
+        /// 激活指定句柄窗体
         /// </summary>
         /// <param name="hWnd"></param>
         public static void ActiveForm(IntPtr hWnd)
@@ -246,7 +235,7 @@ namespace Paway.Win32
         #region FindWindowEnd(find)
 
         /// <summary>
-        ///     查找所有指定以 find 结束的窗体
+        /// 查找所有指定以 find 结束的窗体
         /// </summary>
         /// <returns>返回窗体名称列表</returns>
         public static List<string> FindStringEnd(string find)
@@ -276,7 +265,7 @@ namespace Paway.Win32
         }
 
         /// <summary>
-        ///     查找所有指定以 find 结束的窗体
+        /// 查找所有指定以 find 结束的窗体
         /// </summary>
         /// <returns>返回窗体句柄列表</returns>
         public static List<IntPtr> FindHandleEnd(string find)
@@ -306,7 +295,7 @@ namespace Paway.Win32
         }
 
         /// <summary>
-        ///     查找所有指定以 find 结束的窗体
+        /// 查找所有指定以 find 结束的窗体
         /// </summary>
         /// <returns>返回窗体名称、句柄列表</returns>
         public static Dictionary<IntPtr, string> FindWindowEnd(string find)
@@ -340,7 +329,7 @@ namespace Paway.Win32
         #region FindWindow(find)
 
         /// <summary>
-        ///     查找 符合指定标题:find 的第一个窗口。
+        /// 查找 符合指定标题:find 的第一个窗口。
         /// </summary>
         /// <returns>返回句柄</returns>
         public static IntPtr FindWindow(string find)
@@ -371,7 +360,7 @@ namespace Paway.Win32
         #region 隐藏显示光标
 
         /// <summary>
-        ///     显示光标
+        /// 显示光标
         /// </summary>
         public static void CursorShow()
         {
@@ -383,7 +372,7 @@ namespace Paway.Win32
         }
 
         /// <summary>
-        ///     隐藏光标
+        /// 隐藏光标
         /// </summary>
         public static void CursorHide()
         {
@@ -398,9 +387,9 @@ namespace Paway.Win32
 
         #region 结构体-内存
         /// <summary>
-        ///     由结构体分配到内存，返回句柄
-        ///     需指定大小
-        ///     [MarshalAs(UnmanagedType.LPStr, SizeConst = 1024)]
+        /// 由结构体分配到内存，返回句柄
+        /// 需指定大小
+        /// [MarshalAs(UnmanagedType.LPStr, SizeConst = 1024)]
         /// </summary>
         public static IntPtr StructureToByte<T>(T structure)
         {
@@ -419,7 +408,7 @@ namespace Paway.Win32
         }
 
         /// <summary>
-        ///     由句柄转换为结构体
+        /// 由句柄转换为结构体
         /// </summary>
         public static T ByteToStructure<T>(IntPtr allocIntPtr)
         {

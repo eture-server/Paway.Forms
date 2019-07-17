@@ -8,28 +8,28 @@ using System.Reflection;
 namespace Paway.Utils
 {
     /// <summary>
-    ///     数据发送类
+    /// 数据发送类
     /// </summary>
     internal class SendDataService : IDisposable
     {
         #region 字段与属性
         /// <summary>
-        ///     发送数据间隔(ms)
+        /// 发送数据间隔(ms)
         /// </summary>
         private readonly int interval = 5;
 
         /// <summary>
-        ///     发送数据队列
+        /// 发送数据队列
         /// </summary>
         private volatile ConcurrentQueue<byte[]> MessageQueue = new ConcurrentQueue<byte[]>();
 
         /// <summary>
-        ///     强制退出数据发送
+        /// 强制退出数据发送
         /// </summary>
         private volatile bool SendStop;
 
         /// <summary>
-        ///     Socket连接实例
+        /// Socket连接实例
         /// </summary>
         private SocketBase Socket;
 
@@ -37,7 +37,7 @@ namespace Paway.Utils
 
         #region public method
         /// <summary>
-        ///     传入Socket实例初始化 数据发送类
+        /// 传入Socket实例初始化 数据发送类
         /// </summary>
         public SendDataService(SocketBase socket)
         {
@@ -49,7 +49,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     发送数据
+        /// 发送数据
         /// </summary>
         /// <param name="byteData"></param>
         public void SendData(byte[] byteData)
@@ -61,7 +61,7 @@ namespace Paway.Utils
 
         #region private method
         /// <summary>
-        ///     线程发送消息
+        /// 线程发送消息
         /// </summary>
         private void IntervalSendData(object state)
         {

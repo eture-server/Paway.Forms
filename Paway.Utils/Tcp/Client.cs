@@ -10,7 +10,7 @@ using System.Threading;
 namespace Paway.Utils
 {
     /// <summary>
-    ///     封装Socket通讯客户端
+    /// 封装Socket通讯客户端
     /// </summary>
     public class Client : IDisposable
     {
@@ -46,7 +46,7 @@ namespace Paway.Utils
 
         #region public method
         /// <summary>
-        ///     构造
+        /// 构造
         /// </summary>
         /// <param name="host"></param>
         /// <param name="port"></param>

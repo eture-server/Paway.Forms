@@ -5,14 +5,14 @@ using System.Text.RegularExpressions;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     对 字符串 的扩展操作
+    /// 对 字符串 的扩展操作
     /// </summary>
     public abstract class StringHelper
     {
         #region 正则检查
 
         /// <summary>
-        ///     使用正则表达式检查字符串
+        /// 使用正则表达式检查字符串
         /// </summary>
         /// <param name="str"></param>
         /// <param name="type"></param>
@@ -44,7 +44,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     使用正则表达式检查字符串
+        /// 使用正则表达式检查字符串
         /// </summary>
         /// <param name="str"></param>
         /// <param name="pattern"></param>

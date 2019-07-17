@@ -8,14 +8,14 @@ using Paway.Win32;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     窗体自定义基类
+    /// 窗体自定义基类
     /// </summary>
     public class TForm : Form, IControl
     {
         #region 变量
 
         /// <summary>
-        ///     悬停窗口
+        /// 悬停窗口
         /// </summary>
         private readonly ToolTip toolTop;
 
@@ -24,7 +24,7 @@ namespace Paway.Forms
         #region 构造
 
         /// <summary>
-        ///     构造
+        /// 构造
         /// </summary>
         public TForm()
         {
@@ -55,12 +55,12 @@ namespace Paway.Forms
         #region 属性
 
         /// <summary>
-        ///     指定窗体窗口如何显示
+        /// 指定窗体窗口如何显示
         /// </summary>
         protected FormWindowState _windowState = FormWindowState.Normal;
 
         /// <summary>
-        ///     指定窗体窗口如何显示
+        /// 指定窗体窗口如何显示
         /// </summary>
         [Description("指定窗体窗口如何显示")]
         [DefaultValue(FormWindowState.Normal)]
@@ -85,9 +85,9 @@ namespace Paway.Forms
 
         private int _tRadius = 4;
         /// <summary>
-        ///     设置或获取窗体的圆角的大小
-        ///     窗体阴影宽度=value+1
-        ///     最佳值=4
+        /// 设置或获取窗体的圆角的大小
+        /// 窗体阴影宽度=value+1
+        /// 最佳值=4
         /// </summary>
         [Browsable(false)]
         [Category("TForm"), Description("设置或获取窗体的圆角的大小")]
@@ -114,7 +114,7 @@ namespace Paway.Forms
         private Color _tShadowColor = Color.Black;
 
         /// <summary>
-        ///     窗体阴影颜色
+        /// 窗体阴影颜色
         /// </summary>
         [Category("TForm"), Description("窗体阴影颜色")]
         [DefaultValue(typeof(Color), "Black")]
@@ -132,7 +132,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     是否启用窗口淡入淡出
+        /// 是否启用窗口淡入淡出
         /// </summary>
         [Category("TForm"), Description("是否启用窗口淡入淡出")]
         [DefaultValue(false)]
@@ -140,7 +140,7 @@ namespace Paway.Forms
 
         private bool _iShadow = true;
         /// <summary>
-        ///     是否启用窗体阴影
+        /// 是否启用窗体阴影
         /// </summary>
         [Category("Shadow"), Description("是否启用窗体阴影")]
         [DefaultValue(true)]
@@ -151,12 +151,12 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     是否允许改变窗口大小
+        /// 是否允许改变窗口大小
         /// </summary>
         protected bool _iResize = true;
 
         /// <summary>
-        ///     是否允许改变窗口大小
+        /// 是否允许改变窗口大小
         /// </summary>
         [Description("是否允许改变窗口大小")]
         [DefaultValue(true)]
@@ -171,14 +171,14 @@ namespace Paway.Forms
         #region 固定窗体背景
 
         /// <summary>
-        ///     固定窗体背景
+        /// 固定窗体背景
         /// </summary>
         [Category("Appearance"), Description("固定窗体背景")]
         [DefaultValue(false)]
         public bool IFixedBackground { get; set; }
 
         /// <summary>
-        ///     处理滚动条事件
+        /// 处理滚动条事件
         /// </summary>
         /// <param name="se"></param>
         protected override void OnScroll(ScrollEventArgs se)
@@ -207,7 +207,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     处理鼠标滚轮事件
+        /// 处理鼠标滚轮事件
         /// </summary>
         /// <param name="e"></param>
         protected override void OnMouseWheel(MouseEventArgs e)
@@ -230,7 +230,7 @@ namespace Paway.Forms
         #region 移动窗体
 
         /// <summary>
-        ///     移动窗体
+        /// 移动窗体
         /// </summary>
         /// <param name="control"></param>
         protected void TMouseMove(Control control)
@@ -259,7 +259,7 @@ namespace Paway.Forms
         #region 接口
 
         /// <summary>
-        ///     坐标点是否包含在项中
+        /// 坐标点是否包含在项中
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
@@ -271,7 +271,7 @@ namespace Paway.Forms
         private int _trans = 255;
 
         /// <summary>
-        ///     控件透明度
+        /// 控件透明度
         /// </summary>
         [Description("透明度")]
         [DefaultValue(255)]
@@ -290,7 +290,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     移动窗体
+        /// 移动窗体
         /// </summary>
         [Browsable(false), Description("移动窗体")]
         [DefaultValue(true)]
@@ -305,7 +305,7 @@ namespace Paway.Forms
         protected SkinForm skin;
 
         /// <summary>
-        ///     显示阴影
+        /// 显示阴影
         /// </summary>
         /// <param name="e"></param>
         protected override void OnVisibleChanged(EventArgs e)
@@ -354,7 +354,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     拖动窗口大小
+        /// 拖动窗口大小
         /// </summary>
         /// <param name="m"></param>
         public virtual void WmNcHitTest(ref Message m)
@@ -366,7 +366,7 @@ namespace Paway.Forms
         #region ToolTip
 
         /// <summary>
-        ///     表示一个长方形的小弹出窗口，该窗口在用户将指针悬停在一个控件上时显示有关该控件用途的简短说明。
+        /// 表示一个长方形的小弹出窗口，该窗口在用户将指针悬停在一个控件上时显示有关该控件用途的简短说明。
         /// </summary>
         protected void ShowTooTip(string toolTipText)
         {
@@ -375,7 +375,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     弹出窗口不活动
+        /// 弹出窗口不活动
         /// </summary>
         protected void HideToolTip()
         {

@@ -5,12 +5,12 @@ using System.Windows.Forms;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     关于 GDI+ 绘图的辅助类
+    /// 关于 GDI+ 绘图的辅助类
     /// </summary>
     public abstract class DrawHelper
     {
         /// <summary>
-        ///     绘制边框
+        /// 绘制边框
         /// </summary>
         public static void DrawImage(Graphics g, Image image, int x1, int y1, int width1, int height1, int x2, int y2,
             int width2, int height2)
@@ -20,7 +20,7 @@ namespace Paway.Helper
 
         #region 一些默认参数
         /// <summary>
-        ///     计算格式
+        /// 计算格式
         /// </summary>
         public static StringFormat StringCalc
         {
@@ -32,7 +32,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     字符垂直对齐
+        /// 字符垂直对齐
         /// </summary>
         public static StringFormat StringVertical
         {
@@ -44,7 +44,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     字符水平垂直对齐
+        /// 字符水平垂直对齐
         /// </summary>
         public static StringFormat StringCenter
         {
@@ -60,7 +60,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     文本垂直结尾省略
+        /// 文本垂直结尾省略
         /// </summary>
         public static TextFormatFlags TextEnd
         {
@@ -71,7 +71,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     文本靠左垂直
+        /// 文本靠左垂直
         /// </summary>
         public static TextFormatFlags TextLeft
         {
@@ -79,7 +79,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     文本靠右垂直
+        /// 文本靠右垂直
         /// </summary>
         public static TextFormatFlags TextRight
         {
@@ -87,7 +87,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     文本水平垂直
+        /// 文本水平垂直
         /// </summary>
         public static TextFormatFlags TextCenter
         {
@@ -102,7 +102,7 @@ namespace Paway.Helper
         #region RendererBackground 渲染背景图片，使背景图片不失真
 
         /// <summary>
-        ///     渲染背景图片,使背景图片不失真
+        /// 渲染背景图片,使背景图片不失真
         /// </summary>
         /// <param name="g"></param>
         /// <param name="rect"></param>
@@ -126,7 +126,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     渲染背景图片,使背景图片不失真
+        /// 渲染背景图片,使背景图片不失真
         /// </summary>
         /// <param name="g"></param>
         /// <param name="rect"></param>
@@ -168,7 +168,7 @@ namespace Paway.Helper
         #region CreateRoundPath 构建圆角路径
 
         /// <summary>
-        ///     构建圆角路径
+        /// 构建圆角路径
         /// </summary>
         public static GraphicsPath CreateRoundPath(Rectangle rect, int cornerRadius, int line = 0)
         {
@@ -183,7 +183,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     构建下圆角路径
+        /// 构建下圆角路径
         /// </summary>
         public static void CreateBelowPath(Graphics g, Rectangle rect, Color color)
         {
@@ -195,7 +195,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     构建下圆角路径
+        /// 构建下圆角路径
         /// </summary>
         public static GraphicsPath CreateBelowPath(Rectangle rect, int cornerRadius)
         {
@@ -211,7 +211,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     构建圆角路径
+        /// 构建圆角路径
         /// </summary>
         /// <param name="r"></param>
         /// <param name="r1"></param>

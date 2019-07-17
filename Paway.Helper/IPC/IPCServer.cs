@@ -9,7 +9,7 @@ using System.Runtime.Serialization.Formatters;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     服务端
+    /// 服务端
     /// </summary>
     /// <typeparam name="T">子类型</typeparam>
     public class IPCServer<T> : MarshalByRefObject, IDisposable
@@ -17,7 +17,7 @@ namespace Paway.Helper
         #region 字段与属性
         private IpcChannel serverChannel;
         /// <summary>
-        ///     服务状态
+        /// 服务状态
         /// </summary>
         public bool IBusy { get; private set; }
 
@@ -25,8 +25,8 @@ namespace Paway.Helper
 
         #region public method
         /// <summary>
-        ///     启动
-        ///     默认单实例
+        /// 启动
+        /// 默认单实例
         /// </summary>
         public virtual void Start()
         {
@@ -34,7 +34,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     启动
+        /// 启动
         /// </summary>
         public virtual void Start(WellKnownObjectMode mode)
         {
@@ -54,7 +54,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     停止服务
+        /// 停止服务
         /// </summary>
         public virtual void Stop()
         {

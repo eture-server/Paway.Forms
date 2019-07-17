@@ -12,14 +12,14 @@ using Paway.Helper;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     选中与颜色重绘
-    ///     设置Id,ParentId,Root自动添加树节点
-    ///     多列显示[待续]
+    /// 选中与颜色重绘
+    /// 设置Id,ParentId,Root自动添加树节点
+    /// 多列显示[待续]
     /// </summary>
     public class TTreeView : TreeView
     {
         /// <summary>
-        ///     构造
+        /// 构造
         /// </summary>
         public TTreeView()
         {
@@ -40,7 +40,7 @@ namespace Paway.Forms
 
         #region 双击展开
         /// <summary>
-        ///     双击展开项
+        /// 双击展开项
         /// </summary>
         protected override void OnMouseDoubleClick(MouseEventArgs e)
         {
@@ -67,7 +67,7 @@ namespace Paway.Forms
 
         #region 变量
         /// <summary>
-        ///     鼠标上一次移过的项
+        /// 鼠标上一次移过的项
         /// </summary>
         private TreeNode lastnode;
 
@@ -91,7 +91,7 @@ namespace Paway.Forms
         private Color _select = Color.FromArgb(200, 207, 227, 253);
 
         /// <summary>
-        ///     项被选中后的背景颜色(有焦点)
+        /// 项被选中后的背景颜色(有焦点)
         /// </summary>
         [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的背景颜色(有焦点)")]
         [DefaultValue(typeof(Color), "200, 207, 227, 253")]
@@ -104,7 +104,7 @@ namespace Paway.Forms
         private Color _selectLine = Color.FromArgb(125, 162, 206);
 
         /// <summary>
-        ///     项被选中后的边框颜色(有焦点)
+        /// 项被选中后的边框颜色(有焦点)
         /// </summary>
         [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的边框颜色(有焦点)")]
         [DefaultValue(typeof(Color), "125, 162, 206")]
@@ -117,7 +117,7 @@ namespace Paway.Forms
         private Color _selectFore = Color.Black;
 
         /// <summary>
-        ///     项被选中后的字体颜色(有焦点)
+        /// 项被选中后的字体颜色(有焦点)
         /// </summary>
         [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的字体颜色(有焦点)")]
         [DefaultValue(typeof(Color), "Black")]
@@ -130,7 +130,7 @@ namespace Paway.Forms
         private Color _selectNoFocus = Color.FromArgb(200, 242, 242, 242);
 
         /// <summary>
-        ///     项被选中后的背景颜色(无焦点)
+        /// 项被选中后的背景颜色(无焦点)
         /// </summary>
         [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的背景颜色(无焦点)")]
         [DefaultValue(typeof(Color), "200, 242, 242, 242")]
@@ -143,7 +143,7 @@ namespace Paway.Forms
         private Color _selectLineNoFocus = Color.FromArgb(218, 218, 218);
 
         /// <summary>
-        ///     项被选中后的边框颜色(无焦点)
+        /// 项被选中后的边框颜色(无焦点)
         /// </summary>
         [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的边框颜色(无焦点)")]
         [DefaultValue(typeof(Color), "218, 218, 218")]
@@ -156,7 +156,7 @@ namespace Paway.Forms
         private Color _selectForeNoFocus = Color.Black;
 
         /// <summary>
-        ///     项被选中后的字体颜色(无焦点)
+        /// 项被选中后的字体颜色(无焦点)
         /// </summary>
         [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的字体颜色(无焦点)")]
         [DefaultValue(typeof(Color), "Black")]
@@ -169,7 +169,7 @@ namespace Paway.Forms
         private Color _hot = Color.FromArgb(200, 244, 249, 255);
 
         /// <summary>
-        ///     鼠标移过项时的背景颜色
+        /// 鼠标移过项时的背景颜色
         /// </summary>
         [Browsable(true), Category("控件的重绘设置"), Description("鼠标移过项时的背景颜色")]
         [DefaultValue(typeof(Color), "200, 244, 249, 255")]
@@ -182,7 +182,7 @@ namespace Paway.Forms
         private Color _hotFore = Color.Black;
 
         /// <summary>
-        ///     鼠标移过项时的字体颜色
+        /// 鼠标移过项时的字体颜色
         /// </summary>
         [Browsable(true), Category("控件的重绘设置"), Description("鼠标移过项时的字体颜色")]
         [DefaultValue(typeof(Color), "Black")]
@@ -194,7 +194,7 @@ namespace Paway.Forms
 
         private object _tRoot = "0";
         /// <summary>
-        ///     根节点
+        /// 根节点
         /// </summary>
         [TypeConverter(typeof(StringConverter))]
         [Browsable(true), Category("控件的数据设置"), Description("根节点")]
@@ -204,7 +204,7 @@ namespace Paway.Forms
         private object _parentId = "ParentId";
 
         /// <summary>
-        ///     父节点字段
+        /// 父节点字段
         /// </summary>
         [TypeConverter(typeof(StringConverter))]
         [Browsable(true), Category("控件的数据设置"), Description("父节点字段")]
@@ -218,7 +218,7 @@ namespace Paway.Forms
         private object _id = "Id";
 
         /// <summary>
-        ///     子节点字段
+        /// 子节点字段
         /// </summary>
         [TypeConverter(typeof(StringConverter))]
         [Browsable(true), Category("控件的数据设置"), Description("子节点字段")]
@@ -231,7 +231,7 @@ namespace Paway.Forms
 
         private bool _iAutoWidth = false;
         /// <summary>
-        ///     自动调整宽度至整行
+        /// 自动调整宽度至整行
         /// </summary>
         [Browsable(true), Description("自动调整宽度至整行")]
         [DefaultValue(false)]
@@ -254,7 +254,7 @@ namespace Paway.Forms
         private object _dataSource;
 
         /// <summary>
-        ///     数据源
+        /// 数据源
         /// </summary>
         [Browsable(false), Category("控件的数据设置"), Description("数据源")]
         [DefaultValue(null)]
@@ -269,12 +269,12 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     TreeView中的显示项
+        /// TreeView中的显示项
         /// </summary>
         private TreeItemCollection _items;
 
         /// <summary>
-        ///     TreeView中的显示项
+        /// TreeView中的显示项
         /// </summary>
         [Description("TreeView中的显示项"), EditorBrowsable(EditorBrowsableState.Always),
          DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -304,7 +304,7 @@ namespace Paway.Forms
 
         #region 重载属性默认值
         /// <summary>
-        ///     获取或设置树视图控件中每个树节点的高度。
+        /// 获取或设置树视图控件中每个树节点的高度。
         /// </summary>
         [Description("获取或设置树视图控件中每个树节点的高度")]
         [DefaultValue(23)]
@@ -315,7 +315,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置一个值，用以指示选定的树节点是否即使在树视图已失去焦点时仍会保持突出显示。
+        /// 获取或设置一个值，用以指示选定的树节点是否即使在树视图已失去焦点时仍会保持突出显示。
         /// </summary>
         [Description("获取或设置树视图控件中每个树节点的高度")]
         [DefaultValue(false)]
@@ -326,7 +326,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置一个值，用以指示选择突出显示是否跨越树视图控件的整个宽度。
+        /// 获取或设置一个值，用以指示选择突出显示是否跨越树视图控件的整个宽度。
         /// </summary>
         [Description("获取或设置一个值，用以指示选择突出显示是否跨越树视图控件的整个宽度。")]
         [DefaultValue(true)]
@@ -337,7 +337,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置一个值，用以指示当鼠标指针移过树节点标签时，树节点标签是否具有超链接的外观。
+        /// 获取或设置一个值，用以指示当鼠标指针移过树节点标签时，树节点标签是否具有超链接的外观。
         /// </summary>
         [Description("获取或设置一个值，用以指示当鼠标指针移过树节点标签时，树节点标签是否具有超链接的外观。")]
         [DefaultValue(true)]
@@ -348,7 +348,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置树视图控件的边框样式
+        /// 获取或设置树视图控件的边框样式
         /// </summary>
         [Description("获取或设置树视图控件的边框样式。")]
         [DefaultValue(BorderStyle.None)]
@@ -363,7 +363,7 @@ namespace Paway.Forms
         #region 节点添加
 
         /// <summary>
-        ///     刷新数据
+        /// 刷新数据
         /// </summary>
         public void RefreshData()
         {
@@ -396,7 +396,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     刷新Node
+        /// 刷新Node
         /// </summary>
         public void UpdateNode(object id)
         {
@@ -491,7 +491,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     更新Node
+        /// 更新Node
         /// </summary>
         public void UpdateNode(TreeNode node)
         {
@@ -518,7 +518,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     删除Node
+        /// 删除Node
         /// </summary>
         public void DeleteNode(TreeNode node)
         {
@@ -593,7 +593,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     更新列名称
+        /// 更新列名称
         /// </summary>
         public void UpdateColumns(Type type)
         {
@@ -640,7 +640,7 @@ namespace Paway.Forms
             AutoWidth();
         }
         /// <summary>
-        ///     重绘节点
+        /// 重绘节点
         /// </summary>
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
@@ -716,7 +716,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     通过绘制实现多列
+        /// 通过绘制实现多列
         /// </summary>
         private void C_DrawString(Graphics g, TreeNode node, Rectangle rect, Color foreColor)
         {
@@ -762,7 +762,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     +-号绘制
+        /// +-号绘制
         /// </summary>
         private void C_DrawAdd(Graphics g, TreeNode node)
         {
@@ -819,7 +819,7 @@ namespace Paway.Forms
         #region 鼠标移过时
 
         /// <summary>
-        ///     鼠标离开时
+        /// 鼠标离开时
         /// </summary>
         protected override void OnMouseLeave(EventArgs e)
         {
@@ -834,7 +834,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     移过行
+        /// 移过行
         /// </summary>
         protected override void OnMouseMove(MouseEventArgs e)
         {
@@ -857,7 +857,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     整行选中
+        /// 整行选中
         /// </summary>
         /// <param name="e"></param>
         protected override void OnMouseDown(MouseEventArgs e)
@@ -918,7 +918,7 @@ namespace Paway.Forms
             }
         }
         /// <summary>
-        ///     父节点
+        /// 父节点
         /// </summary>
         private void ParentNodeCheck(TreeNode node, bool iInvalidate = false)
         {
@@ -950,7 +950,7 @@ namespace Paway.Forms
             ParentNodeCheck(node.Parent, iInvalidate);
         }
         /// <summary>
-        ///     子节点
+        /// 子节点
         /// </summary>
         private void ChildNodeCheck(TreeNode node, bool iInvalidate = false)
         {
@@ -1053,7 +1053,7 @@ namespace Paway.Forms
         #endregion
     }
     /// <summary>
-    ///     提供树事件数据
+    /// 提供树事件数据
     /// </summary>
     public class TreeEventArgs : EventArgs
     {
@@ -1080,14 +1080,14 @@ namespace Paway.Forms
     }
 
     /// <summary>
-    ///     自定义树节点
+    /// 自定义树节点
     /// </summary>
     [Serializable]
     public class ItemNode : TreeNode
     {
         private DataRow dr;
         /// <summary>
-        ///     DataRow数据
+        /// DataRow数据
         /// </summary>
         public DataRow DataRow
         {
@@ -1096,14 +1096,14 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     默认构造
+        /// 默认构造
         /// </summary>
         public ItemNode()
         {
         }
 
         /// <summary>
-        ///     初始化，加载DataRow数据
+        /// 初始化，加载DataRow数据
         /// </summary>
         /// <param name="dr"></param>
         public ItemNode(DataRow dr)
@@ -1121,7 +1121,7 @@ namespace Paway.Forms
         public bool CheckHight { get; set; }
 
         /// <summary>
-        ///     TreeView中ItemNode的键值
+        /// TreeView中ItemNode的键值
         /// </summary>
         public object this[string key]
         {
@@ -1129,7 +1129,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     TreeView中ItemNode的键值
+        /// TreeView中ItemNode的键值
         /// </summary>
         public object this[int index]
         {
@@ -1138,7 +1138,7 @@ namespace Paway.Forms
     }
 
     /// <summary>
-    ///     代表 TreeView 中项的集合。
+    /// 代表 TreeView 中项的集合。
     /// </summary>
     [ListBindable(false)]
     public class TreeItemCollection : List<TreeItem>
@@ -1146,7 +1146,7 @@ namespace Paway.Forms
         #region 构造函数
 
         /// <summary>
-        ///     初始化 Paway.Forms.TreeItemCollection 新的实例。
+        /// 初始化 Paway.Forms.TreeItemCollection 新的实例。
         /// </summary>
         public TreeItemCollection() { }
 
@@ -1155,7 +1155,7 @@ namespace Paway.Forms
         #region 方法
 
         /// <summary>
-        ///     返回该项在集合中的索引值
+        /// 返回该项在集合中的索引值
         /// </summary>
         public int GetIndexOfRange(TreeItem item)
         {
@@ -1175,36 +1175,36 @@ namespace Paway.Forms
     }
 
     /// <summary>
-    ///     表示 TreeView 控件中的单个显示项。
+    /// 表示 TreeView 控件中的单个显示项。
     /// </summary>
     public class TreeItem
     {
         #region 属性
         /// <summary>
-        ///     项显示的类型
+        /// 项显示的类型
         /// </summary>
         [DefaultValue(TreeItemType.Text)]
         public TreeItemType Type { get; set; }
 
         /// <summary>
-        ///     项上绑定的字段
+        /// 项上绑定的字段
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        ///     项的长度
+        /// 项的长度
         /// </summary>
         [DefaultValue(100)]
         public int Width { get; set; } = 100;
 
         /// <summary>
-        ///     文本显示的位置,左或右
+        /// 文本显示的位置,左或右
         /// </summary>
         [DefaultValue(StringAlignment.Near)]
         public StringAlignment Alignment { get; set; }
 
         /// <summary>
-        ///     当前 Item 在 TreeItem 中的 Rectangle
+        /// 当前 Item 在 TreeItem 中的 Rectangle
         /// </summary>
         [Browsable(false)]
         public Rectangle Rectangle { get; protected set; }

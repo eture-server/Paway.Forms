@@ -4,19 +4,19 @@ using System.ComponentModel;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     代表 ToolBar 中项的集合。
+    /// 代表 ToolBar 中项的集合。
     /// </summary>
     [ListBindable(false)]
     public class ToolItemCollection : BindingList<ToolItem>, IDisposable
     {
         #region public method
         /// <summary>
-        ///     初始化 Paway.Forms.ToolItemCollection 新的实例。
+        /// 初始化 Paway.Forms.ToolItemCollection 新的实例。
         /// </summary>
         public ToolItemCollection() { }
 
         /// <summary>
-        ///     返回该项在集合中的索引值
+        /// 返回该项在集合中的索引值
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>

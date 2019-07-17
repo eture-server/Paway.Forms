@@ -9,12 +9,12 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     结构体-内存
+    /// 结构体-内存
     /// </summary>
     public abstract class StructHelper
     {
         /// <summary>
-        ///     反序列化所提供流中的数据并重新组成对象
+        /// 反序列化所提供流中的数据并重新组成对象
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
@@ -27,7 +27,7 @@ namespace Paway.Helper
             }
         }
         /// <summary>
-        ///     将对象或具有给定根的对象序列化为所提供的流
+        /// 将对象或具有给定根的对象序列化为所提供的流
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
@@ -73,7 +73,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     创建图像并锁定内存，写入byte[]
+        /// 创建图像并锁定内存，写入byte[]
         /// </summary>
         public static Bitmap FromRawData(byte[] rawData, int width, int height, PixelFormat format = PixelFormat.Format32bppArgb)
         {
@@ -92,7 +92,7 @@ namespace Paway.Helper
             return image;
         }
         /// <summary>
-        ///     将图像锁定到内存，复制到byte[]
+        /// 将图像锁定到内存，复制到byte[]
         /// </summary>
         public static byte[] ToRawData(Bitmap image)
         {

@@ -10,23 +10,96 @@ using Paway.Helper;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     CheckBox
+    /// CheckBox
     /// </summary>
     [DefaultProperty("Checked")]
     [ToolboxBitmap(typeof(CheckBox))]
     public class QQCheckBox : CheckBox
     {
         #region 变量
-
         /// <summary>
-        ///     当前的属标状态
+        /// 当前的属标状态
         /// </summary>
         private TMouseState _mouseState = TMouseState.Normal;
+        private readonly Image normalImage = Resources.QQ_CheckBox_normal;
+        private readonly Image tick_normalImage = Resources.QQ_CheckBox_tick_normal;
+        private readonly Image tick_highlightImage = Resources.QQ_CheckBox_tick_highlight;
+        private readonly Image hightlightImage = Resources.QQ_CheckBox_hightlight;
+        private readonly Image _tick_normalImage = Resources.QQ_CheckBox__tick_normal;
+        private readonly Image _tick_highlightImage = Resources.QQ_CheckBox__tick_highlight;
+
+        #endregion
+
+        #region 属性
+        /// <summary>
+        /// 文本区域
+        /// </summary>
+        private Rectangle TextRect
+        {
+            get { return new Rectangle(17, 0, Width - 17, Height); }
+        }
+
+        /// <summary>
+        /// 图片显示区域
+        /// </summary>
+        private Rectangle ImageRect
+        {
+            get { return new Rectangle(0, (Height - 17) / 2, 17, 17); }
+        }
+
+        /// <summary>
+        /// 鼠标状态
+        /// </summary>
+        [Description("鼠标状态")]
+        [DefaultValue(TMouseState.Normal)]
+        private TMouseState MouseState
+        {
+            set
+            {
+                _mouseState = value;
+                Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// 获取或设置控件的背景色
+        /// </summary>
+        [Description("获取或设置控件的背景色")]
+        [DefaultValue(typeof(Color), "Transparent")]
+        public override Color BackColor
+        {
+            get { return base.BackColor; }
+            set
+            {
+                if (value == Color.Empty || value == SystemColors.Control)
+                {
+                    value = Color.Transparent;
+                }
+                base.BackColor = value;
+            }
+        }
+
+        /// <summary>
+        /// 获取或设置控件的前景色。
+        /// </summary>
+        [Description("获取或设置控件的前景色")]
+        [DefaultValue(typeof(Color), "Black")]
+        public override Color ForeColor
+        {
+            get { return base.ForeColor; }
+            set
+            {
+                if (value == Color.Empty)
+                {
+                    value = Color.Black;
+                }
+                base.ForeColor = value;
+            }
+        }
 
         #endregion
 
         #region 构造函数
-
         /// <summary>
         /// </summary>
         public QQCheckBox()
@@ -47,108 +120,10 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 属性
-
+        #region 重绘
         /// <summary>
-        ///     文本区域
+        /// 重绘
         /// </summary>
-        internal Rectangle TextRect
-        {
-            get { return new Rectangle(17, 0, Width - 17, Height); }
-        }
-
-        /// <summary>
-        ///     图片显示区域
-        /// </summary>
-        internal Rectangle ImageRect
-        {
-            get { return new Rectangle(0, (Height - 17) / 2, 17, 17); }
-        }
-
-        /// <summary>
-        ///     鼠标状态
-        /// </summary>
-        [Description("鼠标状态")]
-        [DefaultValue(TMouseState.Normal)]
-        internal TMouseState MouseState
-        {
-            get { return _mouseState; }
-            set
-            {
-                _mouseState = value;
-                Invalidate();
-            }
-        }
-
-        /// <summary>
-        ///     重写CheckBox的Text属性
-        /// </summary>
-        public override string Text
-        {
-            get { return base.Text; }
-            set { base.Text = value; }
-        }
-
-        /// <summary>
-        ///     重载AutoSize属性
-        /// </summary>
-        [DefaultValue(true)]
-        public override bool AutoSize
-        {
-            get { return base.AutoSize; }
-            set { base.AutoSize = value; }
-        }
-
-        /// <summary>
-        ///     获取或设置控件的背景色
-        /// </summary>
-        [Description("获取或设置控件的背景色")]
-        [DefaultValue(typeof(Color), "Transparent")]
-        public override Color BackColor
-        {
-            get { return base.BackColor; }
-            set
-            {
-                if (value == Color.Empty || value == SystemColors.Control)
-                {
-                    value = Color.Transparent;
-                }
-                base.BackColor = value;
-            }
-        }
-
-        /// <summary>
-        ///     获取或设置控件的前景色。
-        /// </summary>
-        [Description("获取或设置控件的前景色")]
-        [DefaultValue(typeof(Color), "Black")]
-        public override Color ForeColor
-        {
-            get { return base.ForeColor; }
-            set
-            {
-                if (value == Color.Empty)
-                {
-                    value = Color.Black;
-                }
-                base.ForeColor = value;
-            }
-        }
-
-        private readonly Image normalImage = Resources.QQ_CheckBox_normal;
-        private readonly Image tick_normalImage = Resources.QQ_CheckBox_tick_normal;
-        private readonly Image tick_highlightImage = Resources.QQ_CheckBox_tick_highlight;
-        private readonly Image hightlightImage = Resources.QQ_CheckBox_hightlight;
-        private readonly Image _tick_normalImage = Resources.QQ_CheckBox__tick_normal;
-        private readonly Image _tick_highlightImage = Resources.QQ_CheckBox__tick_highlight;
-
-        #endregion
-
-        #region Override 方法
-
-        /// <summary>
-        /// </summary>
-        /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
             var g = e.Graphics;
@@ -202,7 +177,7 @@ namespace Paway.Forms
                 }
                 if (CheckState == CheckState.Indeterminate)
                 {
-                    if (MouseState == TMouseState.Down || MouseState == TMouseState.Move)
+                    if (_mouseState == TMouseState.Down || _mouseState == TMouseState.Move)
                     {
                         g.DrawImage(_tick_normalImage, ImageRect);
                     }
@@ -216,7 +191,6 @@ namespace Paway.Forms
 
         /// <summary>
         /// </summary>
-        /// <param name="eventargs"></param>
         protected override void OnMouseEnter(EventArgs eventargs)
         {
             base.OnMouseEnter(eventargs);
@@ -225,7 +199,6 @@ namespace Paway.Forms
 
         /// <summary>
         /// </summary>
-        /// <param name="mevent"></param>
         protected override void OnMouseDown(MouseEventArgs mevent)
         {
             base.OnMouseDown(mevent);
@@ -234,7 +207,6 @@ namespace Paway.Forms
 
         /// <summary>
         /// </summary>
-        /// <param name="eventargs"></param>
         protected override void OnMouseLeave(EventArgs eventargs)
         {
             base.OnMouseLeave(eventargs);
@@ -243,7 +215,6 @@ namespace Paway.Forms
 
         /// <summary>
         /// </summary>
-        /// <param name="mevent"></param>
         protected override void OnMouseUp(MouseEventArgs mevent)
         {
             base.OnMouseUp(mevent);

@@ -12,10 +12,14 @@ namespace Paway.Forms
     /// </summary>
     public sealed class Progress : IDisposable
     {
-        #region 字段与属性
+        #region 变量
         private readonly ProgressState _state = null;
         private readonly static ProgressStates states = new ProgressStates();
         private volatile static bool IStop = true;
+
+        #endregion
+
+        #region 属性
         /// <summary>
         /// 正在显示的进度条数量
         /// </summary>
@@ -35,7 +39,7 @@ namespace Paway.Forms
 
         #endregion
 
-        #region public method
+        #region static method
         /// <summary>
         /// 初始化线程
         /// </summary>

@@ -12,7 +12,7 @@ using System.Linq;
 namespace Paway.Utils
 {
     /// <summary>
-    ///     数据服务基类，不可创建实例
+    /// 数据服务基类，不可创建实例
     /// </summary>
     public abstract class DataBase : IDisposable, IDataService
     {
@@ -31,7 +31,7 @@ namespace Paway.Utils
         /// </summary>
         protected bool ILongConnect;
         /// <summary>
-        ///     连接字符串
+        /// 连接字符串
         /// </summary>
         protected string ConnString { get; set; }
 
@@ -41,7 +41,7 @@ namespace Paway.Utils
         internal DbConnection Connection;
 
         /// <summary>
-        ///     返回最新插入列主键Id
+        /// 返回最新插入列主键Id
         /// </summary>
         internal string GetId { get; set; }
 
@@ -64,7 +64,7 @@ namespace Paway.Utils
 
         #region 构造
         /// <summary>
-        ///     数据类型
+        /// 数据类型
         /// </summary>
         /// <param name="connType">连接类型</param>
         /// <param name="cmdType">执行</param>
@@ -78,7 +78,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     对sql语句进行过滤
+        /// 对sql语句进行过滤
         /// </summary>
         protected virtual void OnCommandText(DbCommand cmd) { }
 
@@ -86,7 +86,7 @@ namespace Paway.Utils
 
         #region public 执行外部Sql
         /// <summary>
-        ///     对连接执行 Transact-SQL 语句并返回受影响的行数。
+        /// 对连接执行 Transact-SQL 语句并返回受影响的行数。
         /// </summary>
         public int ExecuteNonQuery(string sql, DbCommand cmd = null)
         {
@@ -111,7 +111,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     执行查询，并返回查询所返回的结果集中第一行的第一列。忽略其他列或行。
+        /// 执行查询，并返回查询所返回的结果集中第一行的第一列。忽略其他列或行。
         /// </summary>
         public object ExecuteScalar(string sql, DbCommand cmd = null)
         {
@@ -136,7 +136,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     执行查询，并返回查询所返回的DataTable
+        /// 执行查询，并返回查询所返回的DataTable
         /// </summary>
         public DataTable ExecuteDataTable(string sql, DbCommand cmd = null)
         {
@@ -166,7 +166,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     使用事务处理  Transact-SQL 语句列表
+        /// 使用事务处理  Transact-SQL 语句列表
         /// </summary>
         public bool TransExecuteNonQuery(List<string> sqlList, DbCommand cmd = null)
         {
@@ -199,14 +199,14 @@ namespace Paway.Utils
 
         #region public Find
         /// <summary>
-        ///     查找指定主列的数据
+        /// 查找指定主列的数据
         /// </summary>
         public T Find<T>(long id, params string[] args) where T : new()
         {
             return Find<T>(id, null, args);
         }
         /// <summary>
-        ///     查找指定主列的数据
+        /// 查找指定主列的数据
         /// </summary>
         public T Find<T>(long id, DbCommand cmd = null, params string[] args) where T : new()
         {
@@ -217,14 +217,14 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     填充 System.Data.DataSet 并返回一个List列表
+        /// 填充 System.Data.DataSet 并返回一个List列表
         /// </summary>
         public List<T> Find<T>(DbCommand cmd = null, params string[] args) where T : new()
         {
             return Find<T>(null, 0, cmd, args);
         }
         /// <summary>
-        ///     填充 System.Data.DataSet 并返回一个DataTable
+        /// 填充 System.Data.DataSet 并返回一个DataTable
         /// </summary>
         public DataTable FindTable<T>(DbCommand cmd = null, params string[] args)
         {
@@ -232,33 +232,33 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     填充 System.Data.DataSet 并返回一个List列表
-        ///     查找指定查询语句
+        /// 填充 System.Data.DataSet 并返回一个List列表
+        /// 查找指定查询语句
         /// </summary>
         public List<T> Find<T>(string find, params string[] args) where T : new()
         {
             return Find<T>(find, null, args);
         }
         /// <summary>
-        ///     填充 System.Data.DataSet 并返回一个List列表
-        ///     查找指定查询语句
+        /// 填充 System.Data.DataSet 并返回一个List列表
+        /// 查找指定查询语句
         /// </summary>
         public List<T> Find<T>(string find, DbCommand cmd = null, params string[] args) where T : new()
         {
             return Find<T>(find, 0, cmd, args);
         }
         /// <summary>
-        ///     填充 System.Data.DataSet 并返回一个DataTable
-        ///     查找指定查询语句
+        /// 填充 System.Data.DataSet 并返回一个DataTable
+        /// 查找指定查询语句
         /// </summary>
         public DataTable FindTable<T>(string find, DbCommand cmd = null, params string[] args)
         {
             return FindTable<T>(find, 0, false, cmd, args);
         }
         /// <summary>
-        ///     填充 System.Data.DataSet 并返回一个List列表
-        ///     查找指定查询语句
-        ///     指定返回行数
+        /// 填充 System.Data.DataSet 并返回一个List列表
+        /// 查找指定查询语句
+        /// 指定返回行数
         /// </summary>
         public List<T> Find<T>(string find, int count, DbCommand cmd = null, params string[] args) where T : new()
         {
@@ -266,10 +266,10 @@ namespace Paway.Utils
             return table.ToList<T>();
         }
         /// <summary>
-        ///     填充 System.Data.DataSet 并返回一个List列表
-        ///     查找指定查询语句
-        ///     指定返回行数
-        ///     标记是否使用Limit查找指定数量
+        /// 填充 System.Data.DataSet 并返回一个List列表
+        /// 查找指定查询语句
+        /// 指定返回行数
+        /// 标记是否使用Limit查找指定数量
         /// </summary>
         protected virtual DataTable FindTable<T>(string find, int count, bool iLimit, DbCommand cmd = null, params string[] args)
         {
@@ -320,14 +320,14 @@ namespace Paway.Utils
 
         #region public Insert
         /// <summary>
-        ///     插入行
+        /// 插入行
         /// </summary>
         public bool Insert<T>(T t, DbCommand cmd = null, bool Identity = false)
         {
             return Insert(new List<T> { t }, cmd, Identity);
         }
         /// <summary>
-        ///     插入列表
+        /// 插入列表
         /// </summary>
         public bool Insert<T>(List<T> list, DbCommand cmd = null, bool Identity = false)
         {
@@ -378,28 +378,28 @@ namespace Paway.Utils
 
         #region public Update
         /// <summary>
-        ///     更新行
+        /// 更新行
         /// </summary>
         public bool Update<T>(T t, params string[] args)
         {
             return Update(t, null, args);
         }
         /// <summary>
-        ///     更新行
+        /// 更新行
         /// </summary>
         public bool Update<T>(T t, DbCommand cmd = null, params string[] args)
         {
             return Update(new List<T> { t }, cmd, args);
         }
         /// <summary>
-        ///     更新列表
+        /// 更新列表
         /// </summary>
         public bool Update<T>(List<T> list, params string[] args)
         {
             return Update(list, null, args);
         }
         /// <summary>
-        ///     更新列表
+        /// 更新列表
         /// </summary>
         public bool Update<T>(List<T> list, DbCommand cmd = null, params string[] args)
         {
@@ -439,14 +439,14 @@ namespace Paway.Utils
 
         #region public Delete
         /// <summary>
-        ///     删除所有行(不监听更新事件)
+        /// 删除所有行(不监听更新事件)
         /// </summary>
         public int Delete<T>(DbCommand cmd = null)
         {
             return Delete<T>("1=1", cmd);
         }
         /// <summary>
-        ///     删除指定条件下的数据(不监听更新事件)
+        /// 删除指定条件下的数据(不监听更新事件)
         /// </summary>
         public int Delete<T>(string find, DbCommand cmd = null)
         {
@@ -473,7 +473,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     删除行
+        /// 删除行
         /// </summary>
         public bool Delete<T>(T t, DbCommand cmd = null)
         {
@@ -482,7 +482,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     删除列表
+        /// 删除列表
         /// </summary>
         public bool Delete<T>(List<T> list, DbCommand cmd = null)
         {
@@ -567,7 +567,7 @@ namespace Paway.Utils
 
         #region protected 执行步骤
         /// <summary>
-        ///     打开一个连接
+        /// 打开一个连接
         /// </summary>
         /// <returns></returns>
         protected DbCommand CommandStart()
@@ -576,8 +576,8 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     打开一个连接
-        ///     返回SqlCommand实例
+        /// 打开一个连接
+        /// 返回SqlCommand实例
         /// </summary>
         protected DbCommand CommandStart(string sql)
         {
@@ -590,7 +590,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     关闭DbCommand实例的连接，并释放
+        /// 关闭DbCommand实例的连接，并释放
         /// </summary>
         /// <param name="cmd"></param>
         protected virtual void CommandEnd(DbCommand cmd)
@@ -618,9 +618,9 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     事务处理
-        ///     打开一个连接
-        ///     返回SqlCommand实例
+        /// 事务处理
+        /// 打开一个连接
+        /// 返回SqlCommand实例
         /// </summary>
         /// <returns></returns>
         protected DbCommand TransStart()
@@ -635,7 +635,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     事务处理.提交事务
+        /// 事务处理.提交事务
         /// </summary>
         /// <param name="cmd"></param>
         protected bool TransCommit(DbCommand cmd)
@@ -648,8 +648,8 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     事务处理异常回退
-        ///     关闭DbCommand实例的连接，并释放
+        /// 事务处理异常回退
+        /// 关闭DbCommand实例的连接，并释放
         /// </summary>
         protected void TransError(DbCommand cmd, Exception e)
         {
@@ -757,9 +757,9 @@ namespace Paway.Utils
     {
         #region SQL.Select
         /// <summary>
-        ///     将指定类型转为Select语句
-        ///     指定查询条件
-        ///     返回指定行数
+        /// 将指定类型转为Select语句
+        /// 指定查询条件
+        /// 返回指定行数
         /// </summary>
         public static string Select(this Type type, string find, int count, params string[] args)
         {
@@ -795,8 +795,8 @@ namespace Paway.Utils
 
         #region SQL.Delete
         /// <summary>
-        ///     将指定类型转为Delete语句
-        ///     指定删除条件为主列
+        /// 将指定类型转为Delete语句
+        /// 指定删除条件为主列
         /// </summary>
         public static string Delete<T>()
         {
@@ -805,8 +805,8 @@ namespace Paway.Utils
             return sql;
         }
         /// <summary>
-        ///     将指定类型转为Delete语句
-        ///     指定删除条件
+        /// 将指定类型转为Delete语句
+        /// 指定删除条件
         /// </summary>
         public static string Delete<T>(string find)
         {
@@ -818,15 +818,15 @@ namespace Paway.Utils
 
         #region SQL.Update
         /// <summary>
-        ///     将指定类型转为Update语句
+        /// 将指定类型转为Update语句
         /// </summary>
         public static string Update(this Type type, params string[] args)
         {
             return type.Update(false, args);
         }
         /// <summary>
-        ///     将指定类型转为Update语句
-        ///     append=true时为附加,对应Sql语句中的+
+        /// 将指定类型转为Update语句
+        /// append=true时为附加,对应Sql语句中的+
         /// </summary>
         public static string Update(this Type type, bool append = false, params string[] args)
         {
@@ -858,7 +858,7 @@ namespace Paway.Utils
 
         #region SQL.Insert
         /// <summary>
-        ///     将指定类型转为Insert语句
+        /// 将指定类型转为Insert语句
         /// </summary>
         public static string Insert(this Type type, string getId, bool Identity)
         {

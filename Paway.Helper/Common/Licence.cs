@@ -7,13 +7,13 @@ using System.Reflection;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     确定是否授权
+    /// 确定是否授权
     /// </summary>
     public abstract class Licence
     {
         //private static string key = "92f6766f-4b26-40ef-b27c-0b93057d4377";
         /// <summary>
-        ///     确定是否授权
+        /// 确定是否授权
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -25,7 +25,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     获取许可证号
+        /// 获取许可证号
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -36,7 +36,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     获取许可证号
+        /// 获取许可证号
         /// </summary>
         /// <param name="host"></param>
         /// <param name="key"></param>
@@ -47,7 +47,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     检查文件创建日期，过期无效
+        /// 检查文件创建日期，过期无效
         /// </summary>
         public static void Checking(bool ithrow = false)
         {
@@ -55,7 +55,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     检查文件创建日期，过期无效
+        /// 检查文件创建日期，过期无效
         /// </summary>
         public static void Checking(int days, bool ithrow = false)
         {

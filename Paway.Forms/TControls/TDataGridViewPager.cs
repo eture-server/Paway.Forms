@@ -12,62 +12,40 @@ using System.Linq;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     DataGridView分页控件
+    /// DataGridView分页控件
     /// </summary>
     public class TDataGridViewPager : TControl
     {
-        #region 构造
-
+        #region 变量
         /// <summary>
-        ///     构造
+        /// 排序列
         /// </summary>
-        public TDataGridViewPager()
-        {
-            InitializeComponent();
-            TPager.PageChanged += Pager1_PageChanged;
-            this.Edit.CellClick += Gridview1_CellClick;
-            this.Edit.ColumnHeaderMouseClick += Gridview1_ColumnHeaderMouseClick;
-        }
+        private int Index;
+        private TPager pager1;
+        private DataGridViewTextBoxColumn Id;
+        private TDataGridView gridview1;
 
-        #endregion
-
-        #region 事件
-        /// <summary>
-        ///     页面切换前触发
-        /// </summary>
-        public event Func<bool> PageChanging;
-        /// <summary>
-        ///     统计消息
-        /// </summary>
-        public event Func<object, string> TotalEvent;
+        private object dataSource; //数据源
+        private Type _dataType;
 
         #endregion
 
         #region 属性
         /// <summary>
-        /// 排序列
-        /// </summary>
-        private int Index;
-
-        private TPager pager1;
-        private DataGridViewTextBoxColumn Id;
-        private TDataGridView gridview1;
-
-        /// <summary>
-        ///     导航栏
+        /// 导航栏
         /// </summary>
         [Category("Properties"), Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TPager TPager { get { return pager1; } }
         /// <summary>
-        ///     编辑控件
+        /// 编辑控件
         /// </summary>
         [Category("Properties")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TDataGridView Edit { get { return gridview1; } }
 
         /// <summary>
-        ///     分页信息
+        /// 分页信息
         /// </summary>
         [Browsable(false)]
         public PagerInfo PagerInfo
@@ -75,7 +53,7 @@ namespace Paway.Forms
             get { return TPager.PagerInfo; }
         }
         /// <summary>
-        ///     分页信息
+        /// 分页信息
         /// </summary>
         [Category("分页")]
         [Description("显示分页")]
@@ -89,7 +67,7 @@ namespace Paway.Forms
             }
         }
         /// <summary>
-        ///     获取或设置每页显示的记录
+        /// 获取或设置每页显示的记录
         /// </summary>
         [Category("分页")]
         [Description("获取或设置每页显示的记录")]
@@ -100,10 +78,8 @@ namespace Paway.Forms
             set { TPager.PagerInfo.PageSize = value; }
         }
 
-        private object dataSource; //数据源
-
         /// <summary>
-        ///     获取或设置数据源
+        /// 获取或设置数据源
         /// </summary>
         [Browsable(false)]
         [Category("Properties")]
@@ -116,31 +92,9 @@ namespace Paway.Forms
                 UpdateData(value);
             }
         }
-        /// <summary>
-        /// 更新Type
-        /// </summary>
-        public void UpdateType(Type type)
-        {
-            if (type != null) DataType = type;
-        }
-        /// <summary>
-        /// 外部设置数据
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="iRefresh">是否刷新数据，默认True</param>
-        public void UpdateData(object value, bool iRefresh = true)
-        {
-            dataSource = value;
-            if (dataSource is IList list)
-            {
-                DataType = list.GenericType();
-            }
-            if (iRefresh) RefreshData();
-        }
 
-        private Type _dataType;
         /// <summary>
-        ///     数据类型
+        /// 数据类型
         /// </summary>
         private Type DataType
         {
@@ -154,7 +108,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置当前页码
+        /// 获取或设置当前页码
         /// </summary>
         [Browsable(false), Description("获取或设置当前页码")]
         [DefaultValue(1)]
@@ -162,6 +116,85 @@ namespace Paway.Forms
         {
             get { return PagerInfo.CurrentPageIndex; }
             set { PagerInfo.CurrentPageIndex = value; }
+        }
+
+        #endregion
+
+        #region 事件
+        /// <summary>
+        /// 页面切换前触发
+        /// </summary>
+        public event Func<bool> PageChanging;
+        /// <summary>
+        /// 统计消息
+        /// </summary>
+        public event Func<object, string> TotalEvent;
+
+        #endregion
+
+        #region 构造
+        /// <summary>
+        /// 构造
+        /// </summary>
+        public TDataGridViewPager()
+        {
+            InitializeComponent();
+            TPager.PageChanged += Pager1_PageChanged;
+            this.Edit.CellClick += Gridview1_CellClick;
+            this.Edit.ColumnHeaderMouseClick += Gridview1_ColumnHeaderMouseClick;
+        }
+        /// <summary>
+        /// 设计器支持所需的方法 - 不要
+        /// 使用代码编辑器修改此方法的内容。
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.pager1 = new Paway.Forms.TPager();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gridview1 = new Paway.Forms.TDataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.gridview1)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // pager1
+            // 
+            this.pager1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
+            this.pager1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pager1.Location = new System.Drawing.Point(0, 173);
+            this.pager1.Name = "pager1";
+            this.pager1.Size = new System.Drawing.Size(576, 30);
+            this.pager1.TabIndex = 11;
+            // 
+            // Id
+            // 
+            this.Id.DataPropertyName = "Id";
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            // 
+            // gridview1
+            // 
+            this.gridview1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Id});
+            this.gridview1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridview1.Location = new System.Drawing.Point(0, 0);
+            this.gridview1.Name = "gridview1";
+            this.gridview1.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
+            this.gridview1.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
+            this.gridview1.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
+            this.gridview1.RowTemplate.Height = 32;
+            this.gridview1.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridview1.Size = new System.Drawing.Size(576, 173);
+            this.gridview1.TabIndex = 12;
+            // 
+            // TDataGridViewPager
+            // 
+            this.Controls.Add(this.gridview1);
+            this.Controls.Add(this.pager1);
+            this.Name = "TDataGridViewPager";
+            this.Size = new System.Drawing.Size(576, 203);
+            ((System.ComponentModel.ISupportInitialize)(this.gridview1)).EndInit();
+            this.ResumeLayout(false);
+
         }
 
         #endregion
@@ -252,8 +285,32 @@ namespace Paway.Forms
             RefreshData();
         }
 
+        #endregion
+
+        #region 公开方法
         /// <summary>
-        ///     刷新数据(分页加载数据)
+        /// 更新Type
+        /// </summary>
+        public void UpdateType(Type type)
+        {
+            if (type != null) DataType = type;
+        }
+        /// <summary>
+        /// 外部设置数据
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="iRefresh">是否刷新数据，默认True</param>
+        public void UpdateData(object value, bool iRefresh = true)
+        {
+            dataSource = value;
+            if (dataSource is IList list)
+            {
+                DataType = list.GenericType();
+            }
+            if (iRefresh) RefreshData();
+        }
+        /// <summary>
+        /// 刷新数据(分页加载数据)
         /// </summary>
         public virtual void RefreshData()
         {
@@ -302,7 +359,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     切换至指定页
+        /// 切换至指定页
         /// </summary>
         public void ToPage(int index)
         {
@@ -314,16 +371,13 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     切换至最后页
+        /// 切换至最后页
         /// </summary>
         public void ToLastPage()
         {
             PagerInfo.CurrentPageIndex = PagerInfo.PageCount;
         }
 
-        #endregion
-
-        #region 公共方法
         /// <summary>
         /// 自动选中最后焦点
         /// </summary>
@@ -366,9 +420,9 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 组件设计器生成的代码
+        #region Dispose
         /// <summary>
-        ///     清理所有正在使用的资源。
+        /// 清理所有正在使用的资源。
         /// </summary>
         /// <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
         protected override void Dispose(bool disposing)
@@ -393,64 +447,6 @@ namespace Paway.Forms
             }
             base.Dispose(disposing);
         }
-
-        #region 组件设计器生成的代码
-
-        /// <summary>
-        ///     设计器支持所需的方法 - 不要
-        ///     使用代码编辑器修改此方法的内容。
-        /// </summary>
-        private void InitializeComponent()
-        {
-            this.pager1 = new Paway.Forms.TPager();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gridview1 = new Paway.Forms.TDataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.gridview1)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // pager1
-            // 
-            this.pager1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
-            this.pager1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pager1.Location = new System.Drawing.Point(0, 173);
-            this.pager1.Name = "pager1";
-            this.pager1.Size = new System.Drawing.Size(576, 30);
-            this.pager1.TabIndex = 11;
-            // 
-            // Id
-            // 
-            this.Id.DataPropertyName = "Id";
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
-            // 
-            // gridview1
-            // 
-            this.gridview1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Id});
-            this.gridview1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridview1.Location = new System.Drawing.Point(0, 0);
-            this.gridview1.Name = "gridview1";
-            this.gridview1.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
-            this.gridview1.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
-            this.gridview1.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
-            this.gridview1.RowTemplate.Height = 32;
-            this.gridview1.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridview1.Size = new System.Drawing.Size(576, 173);
-            this.gridview1.TabIndex = 12;
-            // 
-            // TDataGridViewPager
-            // 
-            this.Controls.Add(this.gridview1);
-            this.Controls.Add(this.pager1);
-            this.Name = "TDataGridViewPager";
-            this.Size = new System.Drawing.Size(576, 203);
-            ((System.ComponentModel.ISupportInitialize)(this.gridview1)).EndInit();
-            this.ResumeLayout(false);
-
-        }
-
-        #endregion
 
         #endregion
     }

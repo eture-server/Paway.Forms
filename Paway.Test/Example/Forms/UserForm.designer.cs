@@ -111,7 +111,7 @@
             // 
             this.tbPad.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.tbPad.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.tbPad.IsPasswordChat = '*';
+            this.tbPad.PasswordChat = '*';
             this.tbPad.Lines = new string[0];
             this.tbPad.Location = new System.Drawing.Point(146, 62);
             this.tbPad.MaxLength = 32;

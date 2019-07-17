@@ -5,7 +5,7 @@ using System.Reflection;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     枚举属性设置
+    /// 枚举属性设置
     /// </summary>
     public abstract class EntityHelper
     {
@@ -53,7 +53,7 @@ namespace Paway.Helper
     }
 
     /// <summary>
-    ///     特性.字段Sql属性设置
+    /// 特性.字段Sql属性设置
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
@@ -63,8 +63,8 @@ namespace Paway.Helper
         private bool _iShow = true;
 
         /// <summary>
-        ///     是否生成数据列,
-        ///     默认true
+        /// 是否生成数据列,
+        /// 默认true
         /// </summary>
         public bool ISelect
         {
@@ -73,8 +73,8 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     是否显示列(GridView)
-        ///     默认默认true
+        /// 是否显示列(GridView)
+        /// 默认默认true
         /// </summary>
         public bool IShow
         {
@@ -83,17 +83,17 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        ///     列名称
+        /// 列名称
         /// </summary>
         public string Column { get; set; }
 
         /// <summary>
-        ///     文本名称
+        /// 文本名称
         /// </summary>
         public string Text { get; set; }
     }
     /// <summary>
-    ///     特性.不导出Excel
+    /// 特性.不导出Excel
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
@@ -104,7 +104,7 @@ namespace Paway.Helper
         public NoExcelAttribute() { }
     }
     /// <summary>
-    ///     特性.不复制
+    /// 特性.不复制
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
@@ -115,18 +115,18 @@ namespace Paway.Helper
         public NoCloneAttribute() { }
     }
     /// <summary>
-    ///     特性.类Table设置
+    /// 特性.类Table设置
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
     public class TableAttribute : Attribute
     {
         /// <summary>
-        ///     主键名称，不可更新
+        /// 主键名称，不可更新
         /// </summary>
         public string Key { get; set; }
         /// <summary>
-        ///     标识(唯一)列名称，可更新
+        /// 标识(唯一)列名称，可更新
         /// </summary>
         public string Mark { get; set; }
         /// <summary>
@@ -134,7 +134,7 @@ namespace Paway.Helper
         /// </summary>
         public string Keys { get { return Mark ?? Key; } }
         /// <summary>
-        ///     表名称
+        /// 表名称
         /// </summary>
         public string Table { get; set; }
     }

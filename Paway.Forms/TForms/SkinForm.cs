@@ -7,7 +7,7 @@ using Paway.Win32;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     窗体阴影
+    /// 窗体阴影
     /// </summary>
     public class SkinForm : Form
     {
@@ -16,7 +16,7 @@ namespace Paway.Forms
         private readonly Color[] ShadowColors;
 
         /// <summary>
-        ///     构造
+        /// 构造
         /// </summary>
         public SkinForm(TForm main)
         {
@@ -50,7 +50,7 @@ namespace Paway.Forms
         #region 新加 - 移动窗体
 
         /// <summary>
-        ///     移动窗体
+        /// 移动窗体
         /// </summary>
         protected override void OnMouseDown(MouseEventArgs e)
         {
@@ -296,8 +296,8 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     处理 Windows 消息。
-        ///     邮阴影部分手动主窗体
+        /// 处理 Windows 消息。
+        /// 邮阴影部分手动主窗体
         /// </summary>
         /// <param name="m">要处理的 WindowsMessage。</param>
         protected override void WndProc(ref Message m)

@@ -4,7 +4,7 @@ using System.Windows.Forms;
 namespace Paway.Helper
 {
     /// <summary>
-    ///     启动界面接口
+    /// 启动界面接口
     /// </summary>
     public interface ILoadForm
     {

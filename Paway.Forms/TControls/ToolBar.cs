@@ -13,7 +13,7 @@ using System.Diagnostics;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     工具栏
+    /// 工具栏
     /// </summary>
     [DefaultProperty("Items")]
     [DefaultEvent("ItemClick")]
@@ -21,7 +21,7 @@ namespace Paway.Forms
     {
         #region 构造函数
         /// <summary>
-        ///     初始化 Paway.Forms.ToolBar 新的实例。
+        /// 初始化 Paway.Forms.ToolBar 新的实例。
         /// </summary>
         public ToolBar()
         {
@@ -39,12 +39,12 @@ namespace Paway.Forms
 
         #region 资源图片
         /// <summary>
-        ///     默认时的按钮图片
+        /// 默认时的按钮图片
         /// </summary>
         private Image _normalImage;
         private readonly Image _normalImage2 = Resources.toolBar_toolbar_normal;
         /// <summary>
-        ///     默认图片
+        /// 默认图片
         /// </summary>
         [DefaultValue(null)]
         [Description("默认时的按钮图片")]
@@ -59,12 +59,12 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     鼠标按下时的图片
+        /// 鼠标按下时的图片
         /// </summary>
         private Image _downImage;
         private readonly Image _downImage2 = Resources.toolBar_toolbar_hover;
         /// <summary>
-        ///     鼠标按下时的图片
+        /// 鼠标按下时的图片
         /// </summary>
         [DefaultValue(null)]
         [Description("鼠标按下时的图片")]
@@ -79,12 +79,12 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     鼠标划过时的图片
+        /// 鼠标划过时的图片
         /// </summary>
         private Image _moveImage;
         private readonly Image _moveImage2 = Resources.toolBar_toolbar_pushed;
         /// <summary>
-        ///     鼠标划过时的图片
+        /// 鼠标划过时的图片
         /// </summary>
         [DefaultValue(null)]
         [Description("鼠标划过时的图片")]
@@ -99,11 +99,11 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     多选状态下选中时附加的图片
+        /// 多选状态下选中时附加的图片
         /// </summary>
         private Image _selectImage;
         /// <summary>
-        ///     多选状态下选中时附加的图片
+        /// 多选状态下选中时附加的图片
         /// </summary>
         private readonly Image _selectImage2 = Resources.Controls_accept_16;
 
@@ -115,12 +115,12 @@ namespace Paway.Forms
         private bool iLastHeard;
 
         /// <summary>
-        ///     悬停窗口
+        /// 悬停窗口
         /// </summary>
         private ToolTip _toolTop;
 
         /// <summary>
-        ///     按下抬起项是否相同中用的过度项
+        /// 按下抬起项是否相同中用的过度项
         /// </summary>
         private ToolItem _tempItem;
         /// <summary>
@@ -133,11 +133,11 @@ namespace Paway.Forms
         #region 公共属性
         #region Int
         /// <summary>
-        ///     圆角大小
+        /// 圆角大小
         /// </summary>
         private int _tRadiu;
         /// <summary>
-        ///     圆角大小
+        /// 圆角大小
         /// </summary>
         [Description("圆角大小")]
         [DefaultValue(0)]
@@ -152,11 +152,11 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     滚动条宽度
+        /// 滚动条宽度
         /// </summary>
         private int _tScrollHeight = 3;
         /// <summary>
-        ///     滚动条宽度
+        /// 滚动条宽度
         /// </summary>
         [Description("滚动条宽度")]
         [DefaultValue(3)]
@@ -181,18 +181,18 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     头文字总长度(占用总长度/宽度)
+        /// 头文字总长度(占用总长度/宽度)
         /// </summary>
         [Browsable(false), Description("头文字总长度(占用总长度/宽度)")]
         [DefaultValue(0)]
         public int THeardLength { get; private set; }
 
         /// <summary>
-        ///     项文本间的间隔
+        /// 项文本间的间隔
         /// </summary>
         private int _textSpace = 0;
         /// <summary>
-        ///     项文本间的间隔
+        /// 项文本间的间隔
         /// </summary>
         [Description("项文本间的间隔")]
         [DefaultValue(0)]
@@ -207,14 +207,14 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     多行列排列时的行数
+        /// 多行列排列时的行数
         /// </summary>
         [Browsable(false), Description("多行列排列时的行数")]
         [DefaultValue(1)]
         public int TCountLine { get; private set; }
 
         /// <summary>
-        ///     多行列排列时的列数
+        /// 多行列排列时的列数
         /// </summary>
         [Browsable(false), Description("多行列排列时的列数")]
         [DefaultValue(1)]
@@ -225,25 +225,25 @@ namespace Paway.Forms
         #region bool
         private bool _iShowTop = true;
         /// <summary>
-        ///     显示简短说明
+        /// 显示简短说明
         /// </summary>
         [Description("显示简短说明")]
         [DefaultValue(true)]
         public bool IShowTop { get { return _iShowTop; } set { _iShowTop = value; } }
 
         /// <summary>
-        ///     普通项，不响应鼠标绘制，响应事件
+        /// 普通项，不响应鼠标绘制，响应事件
         /// </summary>
         [Description("普通项，不响应鼠标绘制，响应事件")]
         [DefaultValue(false)]
         public bool INormal { get; set; }
 
         /// <summary>
-        ///     补充整行\列
+        /// 补充整行\列
         /// </summary>
         private bool _iAdd;
         /// <summary>
-        ///     补充整行\列
+        /// 补充整行\列
         /// </summary>
         [Description("补充整行\\列")]
         [DefaultValue(false)]
@@ -259,8 +259,8 @@ namespace Paway.Forms
 
         private bool _iClickEvent;
         /// <summary>
-        ///     单击事件开关
-        ///     单击松开后取消选中状态，只有鼠标移入状态
+        /// 单击事件开关
+        /// 单击松开后取消选中状态，只有鼠标移入状态
         /// </summary>
         [Description("单击事件开关")]
         [DefaultValue(false)]
@@ -275,11 +275,11 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     图片显示开关
+        /// 图片显示开关
         /// </summary>
         private bool _iImageShow;
         /// <summary>
-        ///     图片显示开关
+        /// 图片显示开关
         /// </summary>
         [Description("图片显示开关")]
         [DefaultValue(false)]
@@ -295,11 +295,11 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     多选开关
+        /// 多选开关
         /// </summary>
         private bool _iMultiple;
         /// <summary>
-        ///     多选开关
+        /// 多选开关
         /// </summary>
         [Description("多选开关")]
         [DefaultValue(false)]
@@ -315,11 +315,11 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     自动项宽度
+        /// 自动项宽度
         /// </summary>
         private bool _iAutoWidth;
         /// <summary>
-        ///     自动项宽度
+        /// 自动项宽度
         /// </summary>
         [Description("自动项宽度")]
         [DefaultValue(false)]
@@ -337,11 +337,11 @@ namespace Paway.Forms
 
         #region 数据项
         /// <summary>
-        ///     工具栏中的项列表
+        /// 工具栏中的项列表
         /// </summary>
         private ToolItemCollection _items;
         /// <summary>
-        ///     工具栏中的项列表
+        /// 工具栏中的项列表
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Description("工具栏中的项列表"), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -359,11 +359,11 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     项的大小
+        /// 项的大小
         /// </summary>
         private Size _itemSize = new Size(78, 82);
         /// <summary>
-        ///     项的大小
+        /// 项的大小
         /// </summary>
         [Description("项的大小")]
         [DefaultValue(typeof(Size), "78,82")]
@@ -385,11 +385,11 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     项与项之间的间隔
+        /// 项与项之间的间隔
         /// </summary>
         private int _itemSpace = 1;
         /// <summary>
-        ///     项与项之间的间隔
+        /// 项与项之间的间隔
         /// </summary>
         [Description("项与项之间的间隔")]
         [DefaultValue(1)]
@@ -404,15 +404,15 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     项图片的大小
+        /// 项图片的大小
         /// </summary>
         private Size _imageSize = new Size(24, 24);
         /// <summary>
-        ///     项图片显示区域大小
+        /// 项图片显示区域大小
         /// </summary>
         private Size _imageSizeShow = Size.Empty;
         /// <summary>
-        ///     项图片的大小
+        /// 项图片的大小
         /// </summary>
         [Description("项图片的大小")]
         [DefaultValue(typeof(Size), "24,24")]
@@ -428,11 +428,11 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     当前选中项
+        /// 当前选中项
         /// </summary>
         private ToolItem _selectedItem;
         /// <summary>
-        ///     当前选中项
+        /// 当前选中项
         /// </summary>
         [Browsable(false), Description("当前选中项")]
         public ToolItem SelectedItem
@@ -441,18 +441,18 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     当前移入项
+        /// 当前移入项
         /// </summary>
         [Browsable(false), Description("当前移入项")]
         [DefaultValue(null)]
         public ToolItem MoveItem { get; set; }
 
         /// <summary>
-        ///     选中项的索引
+        /// 选中项的索引
         /// </summary>
         private int _selectedIndex;
         /// <summary>
-        ///     选中项的索引
+        /// 选中项的索引
         /// </summary>
         [Browsable(false), Description("选中项的索引")]
         [DefaultValue(0)]
@@ -466,7 +466,7 @@ namespace Paway.Forms
         #region 字体、颜色属性
         private TProperties _change;
         /// <summary>
-        ///     变色项颜色
+        /// 变色项颜色
         /// </summary>
         [Description("变色项颜色")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -485,7 +485,7 @@ namespace Paway.Forms
 
         private TProperties _text;
         /// <summary>
-        ///     文字
+        /// 文字
         /// </summary>
         [Description("首行文字属性")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -504,7 +504,7 @@ namespace Paway.Forms
 
         private TProperties _textSencond;
         /// <summary>
-        ///     文字
+        /// 文字
         /// </summary>
         [Description("从行文字属性")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -523,7 +523,7 @@ namespace Paway.Forms
 
         private TProperties _desc;
         /// <summary>
-        ///     正文描述
+        /// 正文描述
         /// </summary>
         [Description("正文描述属性")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -542,7 +542,7 @@ namespace Paway.Forms
 
         private TProperties _headDesc;
         /// <summary>
-        ///     头部描述
+        /// 头部描述
         /// </summary>
         [Description("头部描述属性")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -561,7 +561,7 @@ namespace Paway.Forms
 
         private TProperties _endDesc;
         /// <summary>
-        ///     尾部描述
+        /// 尾部描述
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TProperties TEndDesc
@@ -579,7 +579,7 @@ namespace Paway.Forms
 
         private TProperties _backGround;
         /// <summary>
-        ///     背景
+        /// 背景
         /// </summary>
         [Description("背景颜色属性")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -598,7 +598,7 @@ namespace Paway.Forms
 
         private TProperties _lineColor;
         /// <summary>
-        ///     边框线颜色属性
+        /// 边框线颜色属性
         /// </summary>
         [Description("边框线颜色属性")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -635,11 +635,11 @@ namespace Paway.Forms
 
         #region 其它
         /// <summary>
-        ///     获取或设置项内的空白
+        /// 获取或设置项内的空白
         /// </summary>
         private Padding _textPading = new Padding(2);
         /// <summary>
-        ///     获取或设置项内的空白
+        /// 获取或设置项内的空白
         /// </summary>
         [Description("获取或设置项内的空白")]
         [DefaultValue(typeof(Padding), "2,2,2,2")]
@@ -654,11 +654,11 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     Item项显示方向
+        /// Item项显示方向
         /// </summary>
         private TDirection _tDirection = TDirection.Level;
         /// <summary>
-        ///     Item项显示方向
+        /// Item项显示方向
         /// </summary>
         [Description("Item项显示方向")]
         [DefaultValue(typeof(TDirection), "Level")]
@@ -673,11 +673,11 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     图片显示位置
+        /// 图片显示位置
         /// </summary>
         private TLocation _tLocation = TLocation.Left;
         /// <summary>
-        ///     图片显示位置
+        /// 图片显示位置
         /// </summary>
         [Description("图片显示位置")]
         [DefaultValue(typeof(TLocation), "Left")]
@@ -692,7 +692,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置控件内的空白。
+        /// 获取或设置控件内的空白。
         /// </summary>
         [Description("获取或设置控件内的空白")]
         [DefaultValue(typeof(Padding), "0, 0, 0, 0")]
@@ -712,11 +712,11 @@ namespace Paway.Forms
 
         #region 事件定义
         /// <summary>
-        ///     当选中项的发生改变时
+        /// 当选中项的发生改变时
         /// </summary>
         public event Action<ToolItem, EventArgs> SelectedItemChanged;
         /// <summary>
-        ///     当选择的 Item 发生改变时激发。
+        /// 当选择的 Item 发生改变时激发。
         /// </summary>
         /// <param name="item"></param>
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
@@ -727,11 +727,11 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     当单击项时事件发生
+        /// 当单击项时事件发生
         /// </summary>
         public event Action<ToolItem, EventArgs> ItemClick;
         /// <summary>
-        ///     当单击项后激发。
+        /// 当单击项后激发。
         /// </summary>
         /// <param name="item"></param>
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
@@ -742,11 +742,11 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     当编辑项时事件发生
+        /// 当编辑项时事件发生
         /// </summary>
         public event Action<ToolItem, EventArgs> EditClick;
         /// <summary>
-        ///     当编辑项时激发。
+        /// 当编辑项时激发。
         /// </summary>
         /// <param name="item"></param>
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
@@ -797,7 +797,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     引发 System.Windows.Forms.Form.Paint 事件。
+        /// 引发 System.Windows.Forms.Form.Paint 事件。
         /// </summary>
         /// <param name="e">包含事件数据的 System.Windows.Forms.PaintEventArgs。</param>
         protected override void OnPaint(PaintEventArgs e)
@@ -823,7 +823,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     计算宽高
+        /// 计算宽高
         /// </summary>
         private void TPaint()
         {
@@ -864,7 +864,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     更新图片区域
+        /// 更新图片区域
         /// </summary>
         private void UpdateImageSize()
         {
@@ -1038,7 +1038,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     绘制背景
+        /// 绘制背景
         /// </summary>
         private void DrawBackground(Graphics g, ToolItem item)
         {
@@ -1086,7 +1086,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     填充Item内部颜色
+        /// 填充Item内部颜色
         /// </summary>
         private void DrawBackground(Graphics g, Color color, Color colorLine, ToolItem item)
         {
@@ -1191,7 +1191,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     绘制鼠标移入时的背景
+        /// 绘制鼠标移入时的背景
         /// </summary>
         private void DrawMoveBack(Graphics g, ToolItem item)
         {
@@ -1208,7 +1208,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     绘制图片
+        /// 绘制图片
         /// </summary>
         private void DrawImage(Graphics g, ToolItem item)
         {
@@ -1235,7 +1235,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     绘制文字
+        /// 绘制文字
         /// </summary>
         private void DrawText(Graphics g, ToolItem item)
         {
@@ -1365,7 +1365,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     绘制正文描述
+        /// 绘制正文描述
         /// </summary>
         /// <param name="item"></param>
         /// <param name="rect"></param>
@@ -1379,7 +1379,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     绘制其它描述
+        /// 绘制其它描述
         /// </summary>
         private void DrawOtherDesc(Graphics g, ToolItem item, TProperties desc, string text, Rectangle rect)
         {
@@ -1387,7 +1387,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     绘制其它描述
+        /// 绘制其它描述
         /// </summary>
         private void DrawOtherDesc(Graphics g, ToolItem item, TProperties desc, string text, Rectangle rect, TMouseState state)
         {
@@ -1427,7 +1427,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     重绘正文描述
+        /// 重绘正文描述
         /// </summary>
         /// <param name="item"></param>
         /// <param name="state"></param>
@@ -1441,7 +1441,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     重绘Item
+        /// 重绘Item
         /// </summary>
         private void InvalidateItem(ToolItem item, TMouseState state)
         {
@@ -1453,7 +1453,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     重绘Item
+        /// 重绘Item
         /// </summary>
         /// <param name="item"></param>
         private void Invalidate(ToolItem item)
@@ -1463,7 +1463,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     引发 System.Windows.Forms.Form.MouseMove 事件。
+        /// 引发 System.Windows.Forms.Form.MouseMove 事件。
         /// </summary>
         /// <param name="e">包含事件数据的 System.Windows.Forms.MouseEventArgs。</param>
         protected override void OnMouseMove(MouseEventArgs e)
@@ -1519,7 +1519,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     引发 System.Windows.Forms.Form.MouseLeave 事件。
+        /// 引发 System.Windows.Forms.Form.MouseLeave 事件。
         /// </summary>
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
         protected override void OnMouseLeave(EventArgs e)
@@ -1548,7 +1548,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     引发 System.Windows.Forms.Form.MouseDown 事件。
+        /// 引发 System.Windows.Forms.Form.MouseDown 事件。
         /// </summary>
         /// <param name="e">包含事件数据的 System.Windows.Forms.MouseEventArgs。</param>
         protected override void OnMouseDown(MouseEventArgs e)
@@ -1610,7 +1610,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     引发 System.Windows.Forms.Form.MouseUp 事件。
+        /// 引发 System.Windows.Forms.Form.MouseUp 事件。
         /// </summary>
         /// <param name="e">包含事件数据的 System.Windows.Forms.MouseEventArgs。</param>
         protected override void OnMouseUp(MouseEventArgs e)
@@ -1677,7 +1677,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     引发 System.Windows.Forms.Form.MouseEnter 事件。
+        /// 引发 System.Windows.Forms.Form.MouseEnter 事件。
         /// </summary>
         /// <param name="e"></param>
         protected override void OnMouseEnter(EventArgs e)
@@ -1690,7 +1690,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     数据源更新-  BindingList提供
+        /// 数据源更新-  BindingList提供
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1732,7 +1732,7 @@ namespace Paway.Forms
 
         #region 对外公共方法
         /// <summary>
-        ///     获取所有选中项
+        /// 获取所有选中项
         /// </summary>
         /// <returns></returns>
         public List<ToolItem> TSelectedItems()
@@ -1749,7 +1749,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     坐标点是否包含在项中
+        /// 坐标点是否包含在项中
         /// </summary>
         /// <param name="point"></param>
         /// <returns></returns>
@@ -1767,7 +1767,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     坐标点是否包含在项描述中
+        /// 坐标点是否包含在项描述中
         /// </summary>
         /// <param name="point"></param>
         /// <returns></returns>
@@ -1829,7 +1829,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     单击第一项
+        /// 单击第一项
         /// </summary>
         public void TClickFirst()
         {
@@ -1858,7 +1858,7 @@ namespace Paway.Forms
             }
         }
         /// <summary>
-        ///     单击项
+        /// 单击项
         /// </summary>
         public void TClickItem(ToolItem item)
         {
@@ -1866,7 +1866,7 @@ namespace Paway.Forms
             TClickItem(index);
         }
         /// <summary>
-        ///     单击项
+        /// 单击项
         /// </summary>
         public void TClickItem(int index)
         {
@@ -1893,7 +1893,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     刷新控件到指定序号Item(仅适合单行)
+        /// 刷新控件到指定序号Item(仅适合单行)
         /// </summary>
         public void TStart(int index = 0)
         {
@@ -1930,7 +1930,7 @@ namespace Paway.Forms
             return true;
         }
         /// <summary>
-        ///     刷新控件到尾部
+        /// 刷新控件到尾部
         /// </summary>
         public void TEnd()
         {
@@ -1947,14 +1947,14 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     自适应高度/宽度
+        /// 自适应高度/宽度
         /// </summary>
         public void TAutoHeight()
         {
             TAutoHeight(0);
         }
         /// <summary>
-        ///     自适应高度/宽度
+        /// 自适应高度/宽度
         /// </summary>
         /// <param name="count">最小行/列</param>
         public void TAutoHeight(int count)
@@ -1972,7 +1972,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     刷新项
+        /// 刷新项
         /// </summary>
         /// <param name="item"></param>
         public void TRefresh(ToolItem item)
@@ -1981,7 +1981,7 @@ namespace Paway.Forms
             TRefresh(index);
         }
         /// <summary>
-        ///     刷新项
+        /// 刷新项
         /// </summary>
         /// <param name="index"></param>
         public void TRefresh(int index)
@@ -1991,7 +1991,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     刷新控件
+        /// 刷新控件
         /// </summary>
         public void TRefresh()
         {
@@ -2079,17 +2079,17 @@ namespace Paway.Forms
         private PictureBox _pictureBox1;
 
         /// <summary>
-        ///     动态项原图片
+        /// 动态项原图片
         /// </summary>
         private Image _image;
 
         /// <summary>
-        ///     动态项
+        /// 动态项
         /// </summary>
         private int progressItemIndex;
 
         /// <summary>
-        ///     项的动态图片
+        /// 项的动态图片
         /// </summary>
         [Description("项的动态图片")]
         [DefaultValue(null)]
@@ -2100,7 +2100,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     初始化动态方法
+        /// 初始化动态方法
         /// </summary>
         private void Progress()
         {
@@ -2109,7 +2109,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     动态显示项的图像
+        /// 动态显示项的图像
         /// </summary>
         /// <param name="text">项文本</param>
         /// <param name="newText">项新文本</param>
@@ -2126,7 +2126,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     动态显示项的图像
+        /// 动态显示项的图像
         /// </summary>
         /// <param name="index">项索引</param>
         /// <param name="newText">项新文本</param>
@@ -2143,7 +2143,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     停止动态显示
+        /// 停止动态显示
         /// </summary>
         /// <param name="image">图片</param>
         /// <param name="text">项文本</param>
@@ -2188,7 +2188,7 @@ namespace Paway.Forms
         private readonly Timer _tChange = new Timer();
 
         /// <summary>
-        ///     动态项
+        /// 动态项
         /// </summary>
         private int index;
 
@@ -2199,7 +2199,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     开始变色
+        /// 开始变色
         /// </summary>
         public void TChangeStart()
         {
@@ -2207,7 +2207,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     停止单项变色
+        /// 停止单项变色
         /// </summary>
         public void TChangeStop(ToolItem item)
         {
@@ -2222,7 +2222,7 @@ namespace Paway.Forms
             _tChange.Enabled = false;
         }
         /// <summary>
-        ///     停止变色
+        /// 停止变色
         /// </summary>
         public void TChangeStop()
         {
@@ -2265,31 +2265,31 @@ namespace Paway.Forms
         /// </summary>
         private TPanel _panelScroll;
         /// <summary>
-        ///     垂直滚动条
+        /// 垂直滚动条
         /// </summary>
         private VScrollBar _vScroll;
 
         /// <summary>
-        ///     水平滚动条
+        /// 水平滚动条
         /// </summary>
         private HScrollBar _hScroll;
 
         /// <summary>
-        ///     隐藏的垂直滚动条，与 水平滚动条 联动，尝试解决平板横向无法滑动。
+        /// 隐藏的垂直滚动条，与 水平滚动条 联动，尝试解决平板横向无法滑动。
         /// </summary>
         private VScrollBar _vScroll2;
 
         /// <summary>
-        ///     隐藏滚动条，实际有滚动效果，自动设置
+        /// 隐藏滚动条，实际有滚动效果，自动设置
         /// </summary>
         private bool iScrollHide;
 
         /// <summary>
-        ///     是否显示滚动条
+        /// 是否显示滚动条
         /// </summary>
         private bool _iScroll = true;
         /// <summary>
-        ///     是否显示滚动条
+        /// 是否显示滚动条
         /// </summary>
         [Description("是否显示滚动条")]
         [DefaultValue(true)]
@@ -2308,7 +2308,7 @@ namespace Paway.Forms
         private bool iMouseStatu;
 
         /// <summary>
-        ///     获取滚动条是否有显示
+        /// 获取滚动条是否有显示
         /// </summary>
         [Browsable(false)]
         [DefaultValue(false)]
@@ -2321,7 +2321,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取当前滚动条的值
+        /// 获取当前滚动条的值
         /// </summary>
         [Browsable(false)]
         [DefaultValue(0)]
@@ -2341,12 +2341,12 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     控件显示偏移坐标
+        /// 控件显示偏移坐标
         /// </summary>
         private Point Offset = Point.Empty;
 
         /// <summary>
-        ///     初始化滚动条
+        /// 初始化滚动条
         /// </summary>
         private void CustomScroll()
         {
@@ -2381,7 +2381,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     将界面坐标转为控件坐标
+        /// 将界面坐标转为控件坐标
         /// </summary>
         public Point Replace(Point point)
         {
@@ -2389,7 +2389,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     重写滚轮滚动
+        /// 重写滚轮滚动
         /// </summary>
         /// <param name="e"></param>
         protected override void OnMouseWheel(MouseEventArgs e)
@@ -2410,7 +2410,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     滚动到指定值位置
+        /// 滚动到指定值位置
         /// </summary>
         /// <param name="value"></param>
         /// <param name="valid">是否需要重绘，默认重绘</param>
@@ -2443,7 +2443,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     大小改变时
+        /// 大小改变时
         /// </summary>
         /// <param name="e"></param>
         protected override void OnResize(EventArgs e)
@@ -2458,7 +2458,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     更新滚动条状态
+        /// 更新滚动条状态
         /// </summary>
         private void UpdateScroll()
         {
@@ -2543,7 +2543,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     水平滚动
+        /// 水平滚动
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -2564,7 +2564,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     垂直滚动
+        /// 垂直滚动
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -2584,7 +2584,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     需要的高度
+        /// 需要的高度
         /// </summary>
         /// <returns></returns>
         private int GetHeight()
@@ -2597,7 +2597,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     需要的宽度
+        /// 需要的宽度
         /// </summary>
         /// <returns></returns>
         private int GetWidth()
@@ -2614,7 +2614,7 @@ namespace Paway.Forms
 
         #region 悬停窗口显示说明
         /// <summary>
-        ///     表示一个长方形的小弹出窗口，该窗口在用户将指针悬停在一个控件上时显示有关该控件用途的简短说明。
+        /// 表示一个长方形的小弹出窗口，该窗口在用户将指针悬停在一个控件上时显示有关该控件用途的简短说明。
         /// </summary>
         private void ShowTooTip(string toolTipText)
         {
@@ -2623,7 +2623,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     弹出窗口不活动
+        /// 弹出窗口不活动
         /// </summary>
         private void HideToolTip()
         {

@@ -7,12 +7,140 @@ using Paway.Helper;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     重绘DrawCombobox
-    ///     当鼠标指针移到该项上时的高亮度颜色
+    /// 重绘DrawCombobox
+    /// 当鼠标指针移到该项上时的高亮度颜色
     /// </summary>
     [DefaultProperty("Items")]
     public class TComboBoxBase : ComboBox
     {
+        #region 变量
+        private Color _colorSelect = Color.PaleTurquoise;
+        private Color _colorFore = Color.Black;
+
+        #endregion
+
+        #region 属性
+        /// <summary>
+        /// 当鼠标指针移到该项上时的高亮度颜色
+        /// </summary>
+        [Browsable(true), Category("控件的重绘设置"), Description("当鼠标指针移到该项上时的高亮度颜色")]
+        [DefaultValue(typeof(Color), "PaleTurquoise")]
+        public Color ColorSelect
+        {
+            get { return _colorSelect; }
+            set
+            {
+                _colorSelect = value;
+                Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// 项被选中后的字体颜色
+        /// </summary>
+        [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的字体颜色")]
+        [DefaultValue(typeof(Color), "Black")]
+        public Color ColorFore
+        {
+            get { return _colorFore; }
+            set
+            {
+                _colorFore = value;
+                Invalidate();
+            }
+        }
+
+        #endregion
+
+        #region 重载属性默认值
+        /// <summary>
+        /// 获取或设置控件的前景色。
+        /// </summary>
+        [Description("获取或设置控件的前景色")]
+        [DefaultValue(typeof(Color), "Black")]
+        public override Color ForeColor
+        {
+            get { return base.ForeColor; }
+            set
+            {
+                if (value == Color.Empty)
+                {
+                    value = Color.Black;
+                }
+                base.ForeColor = value;
+            }
+        }
+
+        /// <summary>
+        /// 获取或设置 System.Windows.Forms.ComboBox 下拉部分的高度（以像素为单位）。
+        /// </summary>
+        [Description("获取或设置 System.Windows.Forms.ComboBox 下拉部分的高度（以像素为单位）")]
+        [DefaultValue(200)]
+        public new int DropDownHeight
+        {
+            get { return base.DropDownHeight; }
+            set { base.DropDownHeight = value; }
+        }
+
+        /// <summary>
+        /// 获取或设置组合框中的某项的高度
+        /// </summary>
+        [Description("获取或设置组合框中的某项的高度")]
+        [DefaultValue(17)]
+        public new int ItemHeight
+        {
+            get { return base.ItemHeight; }
+            set { base.ItemHeight = value; }
+        }
+
+        /// <summary>
+        /// 获取或设置指定组合框样式的值。
+        /// </summary>
+        [Description("获取或设置指定组合框样式的值")]
+        [DefaultValue(ComboBoxStyle.DropDownList)]
+        public new ComboBoxStyle DropDownStyle
+        {
+            get { return base.DropDownStyle; }
+            set { base.DropDownStyle = value; }
+        }
+
+        /// <summary>
+        /// 获取或设置一个值，该值指示是由您的代码还是由操作系统来处理列表中的元素的绘制。。
+        /// </summary>
+        [Description("获取或设置一个值，该值指示是由您的代码还是由操作系统来处理列表中的元素的绘制")]
+        [DefaultValue(DrawMode.OwnerDrawFixed)]
+        public new DrawMode DrawMode
+        {
+            get { return base.DrawMode; }
+            set { base.DrawMode = value; }
+        }
+
+        /// <summary>
+        /// 获取或设置一个值，该值指示是否将格式设置应用于 System.Windows.Forms.ListControl 的
+        /// System.Windows.Forms.ListControl.DisplayMember 属性。
+        /// </summary>
+        [Description("获取或设置一个值，该值指示是否将格式设置应用于 System.Windows.Forms.ListControl 的System.Windows.Forms.ListControl.DisplayMember 属性")]
+        [DefaultValue(true)]
+        public new bool FormattingEnabled
+        {
+            get { return base.FormattingEnabled; }
+            set { base.FormattingEnabled = value; }
+        }
+
+        /// <summary>
+        /// 获取或设置控件绑定到的容器的边缘并确定控件如何随其父级一起调整大小
+        /// </summary>
+        [Description("获取或设置控件绑定到的容器的边缘并确定控件如何随其父级一起调整大小")]
+        [DefaultValue(AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right)]
+        public override AnchorStyles Anchor
+        {
+            get { return base.Anchor; }
+            set { base.Anchor = value; }
+        }
+
+        #endregion
+
+        #region 构造
         /// <summary>
         /// </summary>
         public TComboBoxBase()
@@ -32,7 +160,9 @@ namespace Paway.Forms
             ForeColor = Color.Black;
         }
 
-        #region 方法
+        #endregion
+
+        #region 重绘
         private void DrawCombobox_DrawItem(object sender, DrawItemEventArgs e)
         {
             //如果当前控件为空
@@ -87,129 +217,6 @@ namespace Paway.Forms
             //将绘制聚焦框
             e.DrawFocusRectangle();
             brush.Dispose();
-        }
-
-        #endregion
-
-        #region 属性
-        private Color _colorSelect = Color.PaleTurquoise;
-        /// <summary>
-        ///     当鼠标指针移到该项上时的高亮度颜色
-        /// </summary>
-        [Browsable(true), Category("控件的重绘设置"), Description("当鼠标指针移到该项上时的高亮度颜色")]
-        [DefaultValue(typeof(Color), "PaleTurquoise")]
-        public Color ColorSelect
-        {
-            get { return _colorSelect; }
-            set
-            {
-                _colorSelect = value;
-                Invalidate();
-            }
-        }
-
-        private Color _colorFore = Color.Black;
-        /// <summary>
-        ///     项被选中后的字体颜色
-        /// </summary>
-        [Browsable(true), Category("控件的重绘设置"), Description("项被选中后的字体颜色")]
-        [DefaultValue(typeof(Color), "Black")]
-        public Color ColorFore
-        {
-            get { return _colorFore; }
-            set
-            {
-                _colorFore = value;
-                Invalidate();
-            }
-        }
-
-        /// <summary>
-        ///     获取或设置控件的前景色。
-        /// </summary>
-        [Description("获取或设置控件的前景色")]
-        [DefaultValue(typeof(Color), "Black")]
-        public override Color ForeColor
-        {
-            get { return base.ForeColor; }
-            set
-            {
-                if (value == Color.Empty)
-                {
-                    value = Color.Black;
-                }
-                base.ForeColor = value;
-            }
-        }
-
-        #endregion
-
-        #region 重载属性默认值
-        /// <summary>
-        ///     获取或设置 System.Windows.Forms.ComboBox 下拉部分的高度（以像素为单位）。
-        /// </summary>
-        [Description("获取或设置 System.Windows.Forms.ComboBox 下拉部分的高度（以像素为单位）")]
-        [DefaultValue(200)]
-        public new int DropDownHeight
-        {
-            get { return base.DropDownHeight; }
-            set { base.DropDownHeight = value; }
-        }
-
-        /// <summary>
-        ///     获取或设置组合框中的某项的高度
-        /// </summary>
-        [Description("获取或设置组合框中的某项的高度")]
-        [DefaultValue(17)]
-        public new int ItemHeight
-        {
-            get { return base.ItemHeight; }
-            set { base.ItemHeight = value; }
-        }
-
-        /// <summary>
-        ///     获取或设置指定组合框样式的值。
-        /// </summary>
-        [Description("获取或设置指定组合框样式的值")]
-        [DefaultValue(ComboBoxStyle.DropDownList)]
-        public new ComboBoxStyle DropDownStyle
-        {
-            get { return base.DropDownStyle; }
-            set { base.DropDownStyle = value; }
-        }
-
-        /// <summary>
-        ///     获取或设置一个值，该值指示是由您的代码还是由操作系统来处理列表中的元素的绘制。。
-        /// </summary>
-        [Description("获取或设置一个值，该值指示是由您的代码还是由操作系统来处理列表中的元素的绘制")]
-        [DefaultValue(DrawMode.OwnerDrawFixed)]
-        public new DrawMode DrawMode
-        {
-            get { return base.DrawMode; }
-            set { base.DrawMode = value; }
-        }
-
-        /// <summary>
-        ///     获取或设置一个值，该值指示是否将格式设置应用于 System.Windows.Forms.ListControl 的
-        ///     System.Windows.Forms.ListControl.DisplayMember 属性。
-        /// </summary>
-        [Description("获取或设置一个值，该值指示是否将格式设置应用于 System.Windows.Forms.ListControl 的System.Windows.Forms.ListControl.DisplayMember 属性")]
-        [DefaultValue(true)]
-        public new bool FormattingEnabled
-        {
-            get { return base.FormattingEnabled; }
-            set { base.FormattingEnabled = value; }
-        }
-
-        /// <summary>
-        ///     获取或设置控件绑定到的容器的边缘并确定控件如何随其父级一起调整大小
-        /// </summary>
-        [Description("获取或设置控件绑定到的容器的边缘并确定控件如何随其父级一起调整大小")]
-        [DefaultValue(AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right)]
-        public override AnchorStyles Anchor
-        {
-            get { return base.Anchor; }
-            set { base.Anchor = value; }
         }
 
         #endregion

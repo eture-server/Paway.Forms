@@ -8,92 +8,68 @@ using System.Drawing.Imaging;
 namespace Paway.Forms
 {
     /// <summary>
-    ///     自定PictureBox，添加缩放
+    /// 自定PictureBox，添加缩放
     /// </summary>
     public class TPictureBox : PictureBox
     {
-        #region public
-        /// <summary>
-        ///     获取原图坐标点
-        /// </summary>
-        public Point GetPoint(Point point)
-        {
-            var temp = Point.Empty;
-            if (screen != null)
-            {
-                temp.X = (point.X - rect.X) * screen.Width / size.Width;
-                temp.Y = (point.Y - rect.Y) * screen.Width / size.Width;
-                if (temp.X < 0) temp.X = 0;
-                if (temp.X > screen.Width - 1) temp.X = screen.Width - 1;
-                if (temp.Y < 0) temp.Y = 0;
-                if (temp.Y > screen.Height - 1) temp.Y = screen.Height - 1;
-            }
-            return temp;
-        }
-        /// <summary>
-        ///     获取当前坐标点(原图)
-        /// </summary>
-        public Point ParsePoint(Point point)
-        {
-            var temp = Point.Empty;
-            if (screen != null)
-            {
-                temp.X = point.X * size.Width / screen.Width + rect.X;
-                temp.Y = point.Y * size.Width / screen.Width + rect.Y;
-            }
-            return temp;
-        }
+        #region 变量
+        private System.ComponentModel.IContainer components;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem toolAuto;
+        private ToolStripMenuItem toolNormal;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem toolSave;
 
         #endregion
 
-        #region 属性
+        #region 字段与属性
         /// <summary>
-        ///     用于展示的图片
+        /// 用于展示的图片
         /// </summary>
         private Image screen;
 
         /// <summary>
-        ///     拖动标记
+        /// 拖动标记
         /// </summary>
         private bool isMove;
 
         /// <summary>
-        ///     图片绘制区域
+        /// 图片绘制区域
         /// </summary>
         private Rectangle rect = Rectangle.Empty;
 
         /// <summary>
-        ///     图片显示大小
+        /// 图片显示大小
         /// </summary>
         private Size size = Size.Empty;
 
         /// <summary>
-        ///     图片是否走出窗体容纳
+        /// 图片是否走出窗体容纳
         /// </summary>
         private bool isExceed;
 
         /// <summary>
-        ///     起点
+        /// 起点
         /// </summary>
         private Point pStart = Point.Empty;
 
         /// <summary>
-        ///     放大缩小时定点
+        /// 放大缩小时定点
         /// </summary>
         private Point point = Point.Empty;
 
         /// <summary>
-        ///     图片宽高比
+        /// 图片宽高比
         /// </summary>
         private double ratio;
 
         /// <summary>
-        ///     放大缩小时比例
+        /// 放大缩小时比例
         /// </summary>
         private double dx, dy;
 
         /// <summary>
-        ///     获取或设置由 System.Windows.Forms.PictureBox 显示的图像
+        /// 获取或设置由 System.Windows.Forms.PictureBox 显示的图像
         /// </summary>
         public new Image Image
         {
@@ -131,6 +107,40 @@ namespace Paway.Forms
 
         #endregion
 
+        #region public
+        /// <summary>
+        /// 获取原图坐标点
+        /// </summary>
+        public Point GetPoint(Point point)
+        {
+            var temp = Point.Empty;
+            if (screen != null)
+            {
+                temp.X = (point.X - rect.X) * screen.Width / size.Width;
+                temp.Y = (point.Y - rect.Y) * screen.Width / size.Width;
+                if (temp.X < 0) temp.X = 0;
+                if (temp.X > screen.Width - 1) temp.X = screen.Width - 1;
+                if (temp.Y < 0) temp.Y = 0;
+                if (temp.Y > screen.Height - 1) temp.Y = screen.Height - 1;
+            }
+            return temp;
+        }
+        /// <summary>
+        /// 获取当前坐标点(原图)
+        /// </summary>
+        public Point ParsePoint(Point point)
+        {
+            var temp = Point.Empty;
+            if (screen != null)
+            {
+                temp.X = point.X * size.Width / screen.Width + rect.X;
+                temp.Y = point.Y * size.Width / screen.Width + rect.Y;
+            }
+            return temp;
+        }
+
+        #endregion
+
         #region 构造
         /// <summary>
         /// 构造
@@ -142,6 +152,62 @@ namespace Paway.Forms
             this.toolAuto.Click += ToolAuto_Click;
             this.toolSave.Click += ToolSave_Click;
         }
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolAuto = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolNormal = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolAuto,
+            this.toolNormal,
+            this.toolStripSeparator1,
+            this.toolSave});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(101, 76);
+            // 
+            // toolReset
+            // 
+            this.toolAuto.Name = "toolReset";
+            this.toolAuto.Size = new System.Drawing.Size(100, 22);
+            this.toolAuto.Text = "自动";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(97, 6);
+            // 
+            // toolSave
+            // 
+            this.toolSave.Name = "toolSave";
+            this.toolSave.Size = new System.Drawing.Size(100, 22);
+            this.toolSave.Text = "保存";
+            // 
+            // toolNormal
+            // 
+            this.toolNormal.Name = "toolNormal";
+            this.toolNormal.Size = new System.Drawing.Size(100, 22);
+            this.toolNormal.Text = "原始";
+            // 
+            // TPictureBox
+            // 
+            this.ContextMenuStrip = this.contextMenuStrip1;
+            this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
+            this.ResumeLayout(false);
+
+        }
+        #endregion
+
+        #region private Method
         private void ToolNormal_Click(object sender, EventArgs e)
         {
             if (this.Image == null) return;
@@ -182,9 +248,10 @@ namespace Paway.Forms
             }
             sfd.Dispose();
         }
+
         #endregion
 
-        #region override
+        #region 重绘
         /// <summary>
         /// </summary>
         protected override void OnSizeChanged(EventArgs e)
@@ -194,7 +261,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     重绘绘制方法
+        /// 重绘绘制方法
         /// </summary>
         protected override void OnPaint(PaintEventArgs pe)
         {
@@ -212,7 +279,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     滚动鼠标缩放
+        /// 滚动鼠标缩放
         /// </summary>
         /// <param name="e"></param>
         protected override void OnMouseWheel(MouseEventArgs e)
@@ -225,7 +292,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     停止移动
+        /// 停止移动
         /// </summary>
         protected override void OnMouseUp(MouseEventArgs e)
         {
@@ -234,7 +301,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     移动
+        /// 移动
         /// </summary>
         protected override void OnMouseMove(MouseEventArgs e)
         {
@@ -248,7 +315,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     移动开始点，获取焦点，允许滚动
+        /// 移动开始点，获取焦点，允许滚动
         /// </summary>
         protected override void OnMouseDown(MouseEventArgs e)
         {
@@ -270,9 +337,8 @@ namespace Paway.Forms
         #endregion
 
         #region 缩放与移动
-
         /// <summary>
-        ///     放大或缩小
+        /// 放大或缩小
         /// </summary>
         /// <param name="steps">鼠标滚轮步进数</param>
         private void Reset(int steps)
@@ -328,7 +394,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     移动图片
+        /// 移动图片
         /// </summary>
         /// <param name="pMove">鼠标落点</param>
         private void Reset(Point pMove)
@@ -360,65 +426,6 @@ namespace Paway.Forms
         }
 
         #region 右键
-        private System.ComponentModel.IContainer components;
-        private ContextMenuStrip contextMenuStrip1;
-        private ToolStripMenuItem toolAuto;
-        private ToolStripMenuItem toolNormal;
-        private ToolStripSeparator toolStripSeparator1;
-        private ToolStripMenuItem toolSave;
-        private void InitializeComponent()
-        {
-            this.components = new System.ComponentModel.Container();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolAuto = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolSave = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolNormal = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolAuto,
-            this.toolNormal,
-            this.toolStripSeparator1,
-            this.toolSave});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(101, 76);
-            // 
-            // toolReset
-            // 
-            this.toolAuto.Name = "toolReset";
-            this.toolAuto.Size = new System.Drawing.Size(100, 22);
-            this.toolAuto.Text = "自动";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(97, 6);
-            // 
-            // toolSave
-            // 
-            this.toolSave.Name = "toolSave";
-            this.toolSave.Size = new System.Drawing.Size(100, 22);
-            this.toolSave.Text = "保存";
-            // 
-            // toolNormal
-            // 
-            this.toolNormal.Name = "toolNormal";
-            this.toolNormal.Size = new System.Drawing.Size(100, 22);
-            this.toolNormal.Text = "原始";
-            // 
-            // TPictureBox
-            // 
-            this.ContextMenuStrip = this.contextMenuStrip1;
-            this.contextMenuStrip1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
-            this.ResumeLayout(false);
-
-        }
 
         #endregion
 

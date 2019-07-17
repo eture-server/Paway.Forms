@@ -7,7 +7,7 @@ using System.Reflection;
 namespace Paway.Utils
 {
     /// <summary>
-    ///     Tcp通讯：Socket通讯客户端
+    /// Tcp通讯：Socket通讯客户端
     /// </summary>
     internal class SocketClient : SocketBase
     {
@@ -30,7 +30,7 @@ namespace Paway.Utils
         #region fields
 
         /// <summary>
-        ///     连接完成
+        /// 连接完成
         /// </summary>
         public event Action<IPEndPoint, SocketAsyncEventArgs> ConnectFinished;
 
@@ -55,7 +55,7 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     连接后事件（成功、失败）
+        /// 连接后事件（成功、失败）
         /// </summary>
         /// <param name="e"></param>
         protected virtual void OnConnectEvent(SocketAsyncEventArgs e)
@@ -79,7 +79,7 @@ namespace Paway.Utils
         #region public methord
 
         /// <summary>
-        ///     连接主机
+        /// 连接主机
         /// </summary>
         public void Connect()
         {

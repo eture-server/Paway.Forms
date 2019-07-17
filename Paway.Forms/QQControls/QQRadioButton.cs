@@ -15,15 +15,15 @@ namespace Paway.Forms
     public class QQRadioButton : RadioButton
     {
         #region 变量
-
-        /// <summary>
-        /// </summary>
         private TMouseState _mouseState = TMouseState.Normal;
+        private readonly Image tick_normalImage = Resources.QQ_RadioButton_tick_normal;
+        private readonly Image normalImage = Resources.QQ_RadioButton_normal;
+        private readonly Image tick_highlightImage = Resources.QQ_RadioButton_tick_highlight;
+        private readonly Image highlightImage = Resources.QQ_RadioButton_highlight;
 
         #endregion
 
         #region 构造函数
-
         /// <summary>
         /// </summary>
         public QQRadioButton()
@@ -44,34 +44,13 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 属性
-
-        /// <summary>
-        ///     重写CheckBox的Text属性
-        /// </summary>
-        public override string Text
-        {
-            get { return base.Text; }
-            set { base.Text = value; }
-        }
-
-        /// <summary>
-        ///     重载AutoSize属性
-        /// </summary>
-        [DefaultValue(true)]
-        public override bool AutoSize
-        {
-            get { return base.AutoSize; }
-            set { base.AutoSize = value; }
-        }
-
+        #region 重载属性
         /// <summary>
         /// </summary>
         [Description("鼠标状态")]
         [DefaultValue(TMouseState.Normal)]
-        internal TMouseState MouseState
+        private TMouseState MouseState
         {
-            get { return _mouseState; }
             set
             {
                 _mouseState = value;
@@ -80,23 +59,23 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     文本区域
+        /// 文本区域
         /// </summary>
-        internal Rectangle TextRect
+        private Rectangle TextRect
         {
             get { return new Rectangle(17, 0, Width - 17, Height); }
         }
 
         /// <summary>
-        ///     图片显示区域
+        /// 图片显示区域
         /// </summary>
-        internal Rectangle ImageRect
+        private Rectangle ImageRect
         {
             get { return new Rectangle(0, (Height - 17) / 2, 17, 17); }
         }
 
         /// <summary>
-        ///     获取或设置控件的背景色
+        /// 获取或设置控件的背景色
         /// </summary>
         [Description("获取或设置控件的背景色")]
         [DefaultValue(typeof(Color), "Transparent")]
@@ -114,7 +93,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        ///     获取或设置控件的前景色。
+        /// 获取或设置控件的前景色。
         /// </summary>
         [Description("获取或设置控件的前景色")]
         [DefaultValue(typeof(Color), "Black")]
@@ -131,18 +110,12 @@ namespace Paway.Forms
             }
         }
 
-        private readonly Image tick_normalImage = Resources.QQ_RadioButton_tick_normal;
-        private readonly Image normalImage = Resources.QQ_RadioButton_normal;
-        private readonly Image tick_highlightImage = Resources.QQ_RadioButton_tick_highlight;
-        private readonly Image highlightImage = Resources.QQ_RadioButton_highlight;
-
         #endregion
 
-        #region Override 方法
-
+        #region 重绘
         /// <summary>
+        /// 重绘
         /// </summary>
-        /// <param name="pevent"></param>
         protected override void OnPaint(PaintEventArgs pevent)
         {
             var g = pevent.Graphics;
@@ -154,7 +127,7 @@ namespace Paway.Forms
                         TextFormatFlags.SingleLine;
             TextRenderer.DrawText(g, Text, Font, TextRect, foreColor, flags);
 
-            switch (MouseState)
+            switch (_mouseState)
             {
                 case TMouseState.Leave:
                 case TMouseState.Normal:
@@ -185,7 +158,6 @@ namespace Paway.Forms
 
         /// <summary>
         /// </summary>
-        /// <param name="eventargs"></param>
         protected override void OnMouseEnter(EventArgs eventargs)
         {
             base.OnMouseEnter(eventargs);
@@ -194,7 +166,6 @@ namespace Paway.Forms
 
         /// <summary>
         /// </summary>
-        /// <param name="eventargs"></param>
         protected override void OnMouseLeave(EventArgs eventargs)
         {
             base.OnMouseLeave(eventargs);
@@ -203,7 +174,6 @@ namespace Paway.Forms
 
         /// <summary>
         /// </summary>
-        /// <param name="mevent"></param>
         protected override void OnMouseUp(MouseEventArgs mevent)
         {
             base.OnMouseUp(mevent);
@@ -212,7 +182,6 @@ namespace Paway.Forms
 
         /// <summary>
         /// </summary>
-        /// <param name="mevent"></param>
         protected override void OnMouseDown(MouseEventArgs mevent)
         {
             base.OnMouseDown(mevent);

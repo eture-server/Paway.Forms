@@ -5,12 +5,12 @@ using System.Net.Sockets;
 namespace Paway.Utils
 {
     /// <summary>
-    ///     系统消息
+    /// 系统消息
     /// </summary>
     public class ServiceEventArgs : EventArgs
     {
         /// <summary>
-        ///     事件类型构造
+        /// 事件类型构造
         /// </summary>
         public ServiceEventArgs(ServiceType type)
         {
@@ -18,22 +18,22 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        ///     客户端Ip
+        /// 客户端Ip
         /// </summary>
         public string Ip { get; set; }
 
         /// <summary>
-        ///     客户端Port
+        /// 客户端Port
         /// </summary>
         public int Port { get; set; }
 
         /// <summary>
-        ///     结果
+        /// 结果
         /// </summary>
         public bool Result { get; set; }
 
         /// <summary>
-        ///     消息
+        /// 消息
         /// </summary>
         public string Message { get; set; }
 
@@ -43,7 +43,7 @@ namespace Paway.Utils
         public SocketError SocketError { get; set; }
 
         /// <summary>
-        ///     消息类型
+        /// 消息类型
         /// </summary>
         public ServiceType Type { get; set; }
     }
