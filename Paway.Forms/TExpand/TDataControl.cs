@@ -435,12 +435,16 @@ namespace Paway.Forms
             string name = gridview1.Edit.Columns[e.ColumnIndex].Name;
             OnUpdateCell(name, e);
         }
-        private void Gridview1_CurrentCellChanged(object sender, EventArgs e)
+        /// <summary>
+        /// 单元格切换触发选中行实体更新
+        /// </summary>
+        protected virtual void Gridview1_CurrentCellChanged(object sender, EventArgs e)
         {
-            if (this.gridview1.Edit.CurrentCell != null)
+            TDataGridView gridview = sender as TDataGridView;
+            if (gridview.CurrentCell != null)
             {
-                this.Index = this.gridview1.Edit.CurrentCell.RowIndex;
-                long id = this.gridview1.Edit.Rows[this.Index].Cells["Id"].Value.ToLong();
+                this.Index = gridview.CurrentCell.RowIndex;
+                long id = gridview.Rows[this.Index].Cells[nameof(IId.Id)].Value.ToLong();
                 this.Info = this.List.Find(c => c.Id == id);
                 OnCurrentCellChanged();
             }
@@ -450,11 +454,15 @@ namespace Paway.Forms
                 this.Info = default;
             }
         }
-        private void Gridview1_DoubleClick(object sender, EventArgs e)
+        /// <summary>
+        /// 双击触发编辑方法
+        /// </summary>
+        protected void Gridview1_DoubleClick(object sender, EventArgs e)
         {
             if (e is MouseEventArgs me)
             {
-                var hit = gridview1.Edit.HitTest(me.X, me.Y);
+                TDataGridView gridview = sender as TDataGridView;
+                var hit = gridview.HitTest(me.X, me.Y);
                 if (hit.RowIndex > -1)
                 {
                     toolBar1.TClickItem("编辑");

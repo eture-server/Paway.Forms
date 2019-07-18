@@ -1,4 +1,5 @@
 ﻿using Paway.Forms;
+using Paway.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -50,7 +51,10 @@ namespace Paway.Test
             var list = server.Find<TestInfo>("1=1 limit 100");
 
             gridview3.DataSource = list;
+            gridview3.ExpandAll();
+
             gridview2.DataSource = list;
+
             gridview1.DataSource = list;
         }
     }

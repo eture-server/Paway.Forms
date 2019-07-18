@@ -17,7 +17,7 @@ namespace Paway.Helper
     /// <summary>
     /// 时间搜索接口
     /// </summary>
-    public interface ITime
+    public interface ITime : IId
     {
         /// <summary>
         /// 日期时间

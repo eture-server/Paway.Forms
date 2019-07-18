@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Paway.Helper;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
@@ -57,6 +58,31 @@ namespace Paway.Forms
             this.Height = 32;
             this.Resizable = DataGridViewTriState.False;
         }
+        #region 更新值
+        /// <summary>
+        /// 更新节点
+        /// </summary>
+        /// <param name="obj">泛型实体</param>
+        public void Update(object obj)
+        {
+            var type = obj.GetType();
+            Update(type.GetValue(obj));
+        }
+        internal void Update(params object[] values)
+        {
+            int num = 0;
+            if (values.Length > this.Cells.Count)
+            {
+                throw new ArgumentOutOfRangeException("values");
+            }
+            foreach (object obj2 in values)
+            {
+                this.Cells[num].Value = obj2;
+                num++;
+            }
+        }
+
+        #endregion
 
         internal TreeGridNode(TreeGridView owner) : this()
         {

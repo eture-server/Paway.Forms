@@ -20,16 +20,7 @@ namespace Paway.Forms
         {
             TreeGridNode item = new TreeGridNode();
             this.Add(item);
-            int num = 0;
-            if (values.Length > item.Cells.Count)
-            {
-                throw new ArgumentOutOfRangeException("values");
-            }
-            foreach (object obj2 in values)
-            {
-                item.Cells[num].Value = obj2;
-                num++;
-            }
+            item.Update(values);
             return item;
         }
 

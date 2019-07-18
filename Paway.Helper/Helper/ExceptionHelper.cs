@@ -119,8 +119,9 @@ namespace Paway.Helper
                     }
                     if (obj == null)
                     {
-                        foreach (Form item in Application.OpenForms)
+                        for (int i = Application.OpenForms.Count - 1; i >= 0; i--)
                         {
+                            var item = Application.OpenForms[i];
                             if (item.GetType().Name != "SkinForm")
                             {
                                 obj = item;

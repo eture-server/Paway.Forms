@@ -14,7 +14,7 @@ namespace Paway.Helper
     /// <summary>
     /// 一些公共方法
     /// </summary>
-    public abstract class TMethod
+    public abstract partial class TMethod
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -131,7 +131,7 @@ namespace Paway.Helper
         /// <returns>实例</returns>
         public static T Load<T>()
         {
-            var obj = Activator.CreateInstance<T>();
+            T obj;
             string xml = AppDomain.CurrentDomain.FriendlyName.Replace("exe", "xml");
             if (File.Exists(xml))
             {
@@ -139,6 +139,7 @@ namespace Paway.Helper
             }
             else
             {
+                obj = Activator.CreateInstance<T>();
                 XmlHelper.Save(xml, obj);
             }
             return obj;

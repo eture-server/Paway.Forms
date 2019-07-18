@@ -293,7 +293,7 @@ namespace Paway.Forms
         [DefaultValue(null)]
         public new object DataSource
         {
-            get { return base.DataSource; }
+            get { return base.DataSource ?? source; }
             set
             {
                 source = value;

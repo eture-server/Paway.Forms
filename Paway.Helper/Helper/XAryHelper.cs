@@ -49,8 +49,7 @@ namespace Paway.Helper
             value = Math.Abs(value);
             char[] temp = new char[length];
             for (int i = 0; i < temp.Length; i++) temp[i] = '0';
-            int index = 0;
-            for (index = 0; index < length; index++)
+            for (int index = 0; index < length; index++)
             {
                 if (value == 0) break;
 

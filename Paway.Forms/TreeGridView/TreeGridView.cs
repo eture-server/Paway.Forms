@@ -57,11 +57,7 @@ namespace Paway.Forms
         protected override void UpdateData(object value)
         {
             Nodes.Clear();
-            if (value == null)
-            {
-                base.DataSource = null;
-                return;
-            }
+            if (value == null) return;
             Type type;
             if (value is IList list)
             {
@@ -103,14 +99,15 @@ namespace Paway.Forms
         {
             if (type == null || type == typeof(string) || type.IsValueType) return;
             Type iType = type.GetInterface(typeof(IParent).FullName);
-            if (iType == null) throw new ArgumentException("数据类型错误，需要实现接口: IParentId");
+            if (iType == null) throw new ArgumentException("数据类型错误，未实现接口: IParentId");
 
             Columns.Clear();
             bool iTree = false;
             foreach (var property in type.PropertiesValue())
             {
+                var visible = property.IShow(out string text);
                 DataGridViewColumn column;
-                if (!iTree && (TextColumn.IsNullOrEmpty() || TextColumn == property.Name))
+                if (visible && !iTree && (TextColumn.IsNullOrEmpty() || TextColumn == property.Name))
                 {
                     iTree = true;
                     column = new TreeGridColumn();
@@ -123,9 +120,25 @@ namespace Paway.Forms
                         column = new DataGridViewImageColumn();
                     else column = new DataGridViewTextBoxColumn();
                 }
-                column.Visible = property.IShow(out string text);
+                column.Visible = visible;
                 column.HeaderText = text;
+                column.Name = property.Name;
                 Columns.Add(column);
+            }
+        }
+        /// <summary>
+        /// 展开所有节点
+        /// </summary>
+        public void ExpandAll()
+        {
+            ExpandAll(this.Nodes);
+        }
+        private void ExpandAll(TreeGridNodeCollection nodes)
+        {
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                nodes[i].Expand();
+                ExpandAll(nodes[i].Nodes);
             }
         }
 
