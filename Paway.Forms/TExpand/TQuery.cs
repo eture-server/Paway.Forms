@@ -86,16 +86,16 @@ namespace Paway.Forms
         /// </summary>
         /// <param name="textbox">TextBox</param>
         /// <param name="list">数据源</param>
-        /// <param name="showType">按指定类型名称显示</param>
+        /// <param name="obj">按指定实体名称显示</param>
         /// <param name="showCount">控件按指定数量行高度设置</param>
         /// <param name="totalCount">控件最大显示数量</param>
-        public void Init(QQTextBox textbox, List<T> list, Type showType = null, int showCount = 5, int totalCount = 20)
+        public void Init(QQTextBox textbox, List<T> list, object obj = null, int showCount = 5, int totalCount = 20)
         {
             this.TextBox = textbox;
             this.list = list;
             this.totalCount = totalCount;
             this.showCount = showCount;
-            this.showType = showType ?? typeof(T);
+            this.showType = obj != null ? obj.GetType() : null;
             {
                 textbox.Parent.Controls.Add(this);
                 textbox.Parent.Controls.SetChildIndex(this, 0);
@@ -117,7 +117,7 @@ namespace Paway.Forms
             string value = this.TextBox.Text.ToLower();
             var tempList = list.AsParallel().Where(Activator.CreateInstance<T>().Find(value)).ToList();
             InitData(tempList);
-            this.Visible = !value.IsNullOrEmpty() && tempList.Count() > 0;
+            this.Visible = TextBox.ContainsFocus && !value.IsNullOrEmpty() && tempList.Count() > 0;
         }
         private void InitData(List<T> list)
         {
@@ -129,10 +129,13 @@ namespace Paway.Forms
                 tempList.Add(list[i]);
             }
             this.gridview1.DataSource = tempList;
-            for (int i = 0; i < this.gridview1.Columns.Count; i++)
+            if (showType != null)
             {
-                var property = showType.Property(this.gridview1.Columns[i].Name);
-                this.gridview1.Columns[i].Visible = property != null;
+                for (int i = 0; i < this.gridview1.Columns.Count; i++)
+                {
+                    var property = showType.Property(this.gridview1.Columns[i].Name);
+                    this.gridview1.Columns[i].Visible = property != null && property.IShow(out _);
+                }
             }
 
             if (count > this.showCount) count = this.showCount;

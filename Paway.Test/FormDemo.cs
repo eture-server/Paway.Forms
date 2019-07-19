@@ -61,7 +61,7 @@ namespace Paway.Test
             var list = server.Find<TestInfo>("1=1 limit 100");
 
             var tQuery = new TQuery<TestInfo>();
-            tQuery.Init(qqTextBox1, list, new { Name = 0, Value = 0 }.GetType());
+            tQuery.Init(qqTextBox1, list, new { Name = 0, Value = 0 });
             tQuery.SelectedEvent += TQuery_SelectedEvent;
         }
         private void TQuery_SelectedEvent(object obj)

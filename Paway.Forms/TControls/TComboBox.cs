@@ -75,7 +75,7 @@ namespace Paway.Forms
         [DefaultValue(typeof(Color), "Black")]
         public override Color ForeColor
         {
-            get { return Edit.ForeColor; }
+            get { return base.ForeColor; }
             set
             {
                 if (Edit == null) return;
@@ -83,6 +83,7 @@ namespace Paway.Forms
                 {
                     value = Color.Black;
                 }
+                base.ForeColor = value;
                 Edit.ForeColor = value;
             }
         }
@@ -163,8 +164,8 @@ namespace Paway.Forms
         private void InitMove()
         {
             MouseMove += TComboBox2_MouseMove;
-            Edit.MouseMove += TComboBox2_MouseMove;
             MouseLeave += TComboBox2_MouseLeave;
+            Edit.MouseMove += TComboBox2_MouseMove;
             Edit.MouseLeave += TComboBox2_MouseLeave;
             Edit.DropDownClosed += TComboBox2_MouseLeave;
         }
