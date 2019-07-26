@@ -55,7 +55,6 @@ namespace Paway.Forms
             if (result != null)
             {
                 result.Focus();
-                if (result is QQTextBox textBox) textBox.Reset();
             }
         }
         internal void LbTitle_Paint(object sender, PaintEventArgs e)

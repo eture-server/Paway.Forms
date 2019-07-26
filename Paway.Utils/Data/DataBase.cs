@@ -783,7 +783,9 @@ namespace Paway.Utils
             {
                 if (property.ISelect(out string column))
                 {
-                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) == null) continue;
+                    if (args.Length > 0 &&
+                        args.FirstOrDefault(c => c == column) == null &&
+                        args.FirstOrDefault(c => c == property.Name) == null) continue;
                     sql = string.Format("{0} [{1}],", sql, column);
                 }
             }
@@ -838,7 +840,9 @@ namespace Paway.Utils
                 if (property.ISelect(out string column))
                 {
                     if (column == attr.Key) continue;
-                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) == null) continue;
+                    if (args.Length > 0 &&
+                        args.FirstOrDefault(c => c == column) == null &&
+                        args.FirstOrDefault(c => c == property.Name) == null) continue;
                     if (append)
                     {
                         sql = string.Format("{0} [{1}]=[{1}]+@{1},", sql, column);
@@ -882,7 +886,9 @@ namespace Paway.Utils
                 if (property.ISelect(out string column))
                 {
                     if (column == key) continue;
-                    if (args.Length > 0 && args.FirstOrDefault(c => c == column) == null) continue;
+                    if (args.Length > 0 &&
+                        args.FirstOrDefault(c => c == column) == null &&
+                        args.FirstOrDefault(c => c == property.Name) == null) continue;
                     insert = string.Format("{0}[{1}],", insert, column);
                     value = string.Format("{0}@{1},", value, column);
                 }

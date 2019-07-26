@@ -233,15 +233,16 @@ namespace Paway.Test.Properties {
         ///&quot;Statu&quot;  bit,
         ///&quot;UserType&quot;  int,
         ///&quot;DateTime&quot;  datetime,
-        ///&quot;CreateDate&quot;  datetime
+        ///&quot;CreateDate&quot;  datetime,
+        /// unique(Id asc)
         ///);
+        ///GO
+        ///Create index main.Users_id on Users (Id ASC);
         ///GO
         ///-- ----------------------------
         ///-- Table structure for Admins
         ///-- Date: 2015-12-12
-        ///-- ----------------------------
-        ///CREATE TABLE [Admins](
-        ///&quot;Id&quot;  integer Primary Key AutoIncrement no [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///-- --------------------------- [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string script {
             get {

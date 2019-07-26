@@ -165,7 +165,7 @@ namespace Paway.Helper
         {
             try
             {
-                return Decimal.ToDouble(Math.Round(new Decimal(value.ClearError()), decimals, MidpointRounding.AwayFromZero));
+                return Math.Round(value.ClearError(), decimals, MidpointRounding.AwayFromZero);
             }
             catch (Exception ex)
             {

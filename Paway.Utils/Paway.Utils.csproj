@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Paway.Utils</RootNamespace>
     <AssemblyName>Paway.Utils</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -27,6 +28,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <OutputPath>..\bin\Release\</OutputPath>
@@ -37,6 +39,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="itextsharp">
@@ -44,6 +47,9 @@
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\Root\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MQTTnet">
+      <HintPath>..\Root\MQTTnet.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data">
       <HintPath>..\Root\MySql.Data.dll</HintPath>
@@ -64,6 +70,8 @@
     <Compile Include="Data\DataBase.cs" />
     <Compile Include="Data\SqlHelper.cs" />
     <Compile Include="Data\MySqlHelper.cs" />
+    <Compile Include="MQTT\MQTTClient.cs" />
+    <Compile Include="MQTT\MQTTService.cs" />
     <Compile Include="Pdf\Export.cs" />
     <Compile Include="Data\SQLiteHelper.cs" />
     <Compile Include="Pdf\PdfHeaderContent.cs" />

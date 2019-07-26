@@ -135,7 +135,7 @@ namespace Paway.Helper
                 {
                     list.Add((T)Activator.CreateInstance(type));
                 }
-                var builder = EntityBuilder<T>.CreateBuilderAction(table.Rows[0]);
+                var builder = EntityBuilder<T>.CreateBuilder(table.Rows[0]);
                 Parallel.For(0, count, (i) =>
                 {
                     builder.Build(table.Rows[i], list[i]);

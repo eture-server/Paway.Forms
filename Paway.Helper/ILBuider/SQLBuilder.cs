@@ -48,7 +48,9 @@ namespace Paway.Helper
             foreach (var property in type.PropertiesValue())
             {
                 if (!property.ISelect(out string column)) continue;
-                if (args.Length > 0 && key != column && args.FirstOrDefault(c => c == column) == null) continue;
+                if (args.Length > 0 && key != column &&
+                    args.FirstOrDefault(c => c == column) == null &&
+                    args.FirstOrDefault(c => c == property.Name) == null) continue;
 
                 generator.Emit(OpCodes.Ldloc, result);
                 {//参数

@@ -662,7 +662,10 @@ namespace Paway.Forms
         /// </summary>
         private void BaseText_GotFocus(object sender, EventArgs e)
         {
-            //Reset();
+            if (BaseText.TextLength < RLength)
+            {//仅清除长度限制提示
+                Reset();
+            }
         }
 
         /// <summary>

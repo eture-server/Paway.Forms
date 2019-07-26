@@ -142,6 +142,18 @@ namespace Paway.Helper
             return 0;
         }
         /// <summary>
+        /// Bool转换
+        /// </summary>
+        public static bool ToBool(this object obj)
+        {
+            if (obj == null || obj == DBNull.Value) return false;
+
+            if (obj is int iObj) return iObj != 0;
+            if (obj is string sObj) return sObj != "0";
+            if (bool.TryParse(obj.ToString(), out bool result)) return result;
+            return false;
+        }
+        /// <summary>
         /// Long转换
         /// </summary>
         public static long ToLong(this object obj)
@@ -183,19 +195,6 @@ namespace Paway.Helper
             return 0;
         }
         /// <summary>
-        /// Bool转换
-        /// </summary>
-        public static bool ToBool(this object obj)
-        {
-            if (obj == null || obj == DBNull.Value) return false;
-
-            var value = obj.ToString();
-            if (value == "1") return true;
-            if (value == "0") return false;
-            if (bool.TryParse(value, out bool result)) return result;
-            return false;
-        }
-        /// <summary>
         /// String转换
         /// </summary>
         public static string ToStrs(this object obj)
@@ -230,7 +229,7 @@ namespace Paway.Helper
         {
             try
             {
-                return Decimal.ToDouble(new Decimal(value));
+                return decimal.ToDouble(value.ToDecimal());
             }
             catch (Exception ex)
             {
