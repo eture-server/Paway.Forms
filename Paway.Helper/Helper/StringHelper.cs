@@ -10,7 +10,6 @@ namespace Paway.Helper
     public abstract class StringHelper
     {
         #region 正则检查
-
         /// <summary>
         /// 使用正则表达式检查字符串
         /// </summary>

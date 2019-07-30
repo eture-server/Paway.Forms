@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form3));
-            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
             this.tControl1 = new Paway.Forms.TPanel();
             this.toolBar1 = new Paway.Forms.ToolBar();
             this.btChange = new Paway.Forms.ToolBar();
@@ -50,7 +50,7 @@
             this.toolBar1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolBar1.IClickEvent = true;
             this.toolBar1.IScroll = false;
-            this.toolBar1.Items.Add(toolItem1);
+            this.toolBar1.Items.Add(toolItem3);
             this.toolBar1.ItemSize = new System.Drawing.Size(191, 251);
             this.toolBar1.Location = new System.Drawing.Point(0, 0);
             this.toolBar1.MDirection = Paway.Helper.TMDirection.T3DLeftToRight;
@@ -67,11 +67,11 @@
             this.btChange.Font = new System.Drawing.Font("Tahoma", 15F);
             this.btChange.IClickEvent = true;
             this.btChange.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem2.Text = "Change";
-            this.btChange.Items.Add(toolItem2);
+            toolItem4.Text = "Change";
+            this.btChange.Items.Add(toolItem4);
             this.btChange.ItemSize = new System.Drawing.Size(75, 32);
             this.btChange.ItemSpace = 5;
-            this.btChange.Location = new System.Drawing.Point(280, 147);
+            this.btChange.Location = new System.Drawing.Point(280, 148);
             this.btChange.Name = "btChange";
             this.btChange.Size = new System.Drawing.Size(75, 32);
             this.btChange.TabIndex = 66;
@@ -94,6 +94,7 @@
             this.Controls.Add(this.tControl1);
             this.IRound = false;
             this.Name = "Form3";
+            this.Padding = new System.Windows.Forms.Padding(0);
             this.SysButton = Paway.Helper.TSysButton.Close;
             this.TBrush.ColorDown = System.Drawing.Color.Ivory;
             this.TBrush.ColorMove = System.Drawing.Color.CornflowerBlue;

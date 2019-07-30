@@ -14,8 +14,21 @@ namespace Paway.Helper
     /// <summary>
     /// 一些公共业务方法
     /// </summary>
-    public abstract partial class TMethod
+    public partial class TMethod
     {
+        /// <summary>
+        /// 自动调整图片显示模式(图像比控件大=Zoom,其它=CenterImage)
+        /// </summary>
+        public static void AutoSizeMode(PictureBox pic)
+        {
+            if (pic.Image == null) return;
+
+            if (pic.Image.Width > pic.Width || pic.Image.Height > pic.Height)
+                pic.SizeMode = PictureBoxSizeMode.Zoom;
+            else
+                pic.SizeMode = PictureBoxSizeMode.CenterImage;
+        }
+
         /// <summary>
         /// 根据指定List更新目标List
         /// </summary>
