@@ -26,5 +26,13 @@ namespace Paway.Helper
         /// Delete
         /// </summary>
         Delete,
+        /// <summary>
+        /// Clear+Insert
+        /// </summary>
+        Reset,
+        /// <summary>
+        /// FindAll
+        /// </summary>
+        Query,
     }
 }

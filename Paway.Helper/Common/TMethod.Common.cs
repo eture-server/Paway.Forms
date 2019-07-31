@@ -61,6 +61,10 @@ namespace Paway.Helper
                             tList.Remove(temp);
                     }
                     break;
+                case OperType.Reset:
+                    tList.Clear();
+                    tList.AddRange(fList);
+                    break;
             }
         }
     }

@@ -173,11 +173,7 @@ namespace Paway.Utils
         private void MqttClient_Disconnected(object sender, MqttClientDisconnectedEventArgs e)
         {
             ConnectEvent?.Invoke(false, e.Exception);
-            if (e.Exception is MqttConnectingFailedException code && code.ReturnCode == MqttConnectReturnCode.ConnectionRefusedBadUsernameOrPassword)
-            {
-                this.userId = 0;
-            }
-            if (this.userId > 0 && e.Exception.InnerException is SocketException error)
+            if (e.Exception.InnerException is SocketException error)
             {
                 switch (error.SocketErrorCode)
                 {
@@ -193,7 +189,14 @@ namespace Paway.Utils
                 }
             }
             else Thread.Sleep(125);
-            if (this.userId > 0) Connect(this.host, this.port, this.userId);
+            if (e.Exception is MqttConnectingFailedException code && code.ReturnCode == MqttConnectReturnCode.ConnectionRefusedBadUsernameOrPassword)
+            {
+                this.userId = 0;
+            }
+            else
+            {
+                Connect(this.host, this.port, this.userId);
+            }
         }
         private void MqttClient_ApplicationMessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e)
         {

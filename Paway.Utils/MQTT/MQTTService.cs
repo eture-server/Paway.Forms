@@ -59,8 +59,8 @@ namespace Paway.Utils
             var task = new Task(async () =>
             {
                 string result = await CreateMQTTServer(port);
+                Console.Title = $"0.0.0.0:{port}";
                 StartEvent?.Invoke(result);
-                Console.Title = $"0.0.0.0:{port}({Assembly.GetExecutingAssembly().GetName().Version})";
             });
             task.Start();
         }
