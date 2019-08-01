@@ -27,7 +27,7 @@ namespace Paway.Test
         {
             base.OnLoad(e);
             base.AddItem();
-            base.AddEdit();
+            base.AddUpdate();
             base.AddDelete();
             if (DesignMode) return;
             base.InitData(DataService.Default, Cache.UserList);
@@ -43,7 +43,7 @@ namespace Paway.Test
             }
             return base.OnAdd();
         }
-        protected override Form OnEdit(UserInfo info)
+        protected override Form OnUpdate(UserInfo info)
         {
             UserForm edit = new UserForm();
             edit.Info = info;

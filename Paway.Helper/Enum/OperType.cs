@@ -30,9 +30,5 @@ namespace Paway.Helper
         /// Clear+Insert
         /// </summary>
         Reset,
-        /// <summary>
-        /// FindAll
-        /// </summary>
-        Query,
     }
 }

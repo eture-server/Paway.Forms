@@ -9,7 +9,7 @@ namespace Paway.Helper
     /// <summary>
     /// 硬件信息控制器
     /// </summary>
-    public abstract class HardWareHandler
+    public abstract class HardWareHelper
     {
         /// <summary>
         /// 机器CPU内核数

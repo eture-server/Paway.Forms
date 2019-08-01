@@ -19,7 +19,7 @@ namespace Paway.Helper
         /// <returns></returns>
         public static bool IsLicence(string key)
         {
-            var host = HardWareHandler.GetCpuId();
+            var host = HardWareHelper.GetCpuId();
             var Licence = ConfigurationManager.AppSettings["licence"];
             return Licence != null && Licence == EncryptHelper.EncryptMD5_16(host + key);
         }
@@ -31,7 +31,7 @@ namespace Paway.Helper
         /// <returns></returns>
         public static string GetLicence(string key)
         {
-            var host = HardWareHandler.GetCpuId();
+            var host = HardWareHelper.GetCpuId();
             return GetLicence(host, key);
         }
 

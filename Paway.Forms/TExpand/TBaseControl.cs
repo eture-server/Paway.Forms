@@ -72,7 +72,7 @@ namespace Paway.Forms
         /// <summary>
         /// 异步获取查询参数
         /// </summary>
-        protected virtual object OnFind(object argument) { return null; }
+        protected virtual object OnFind(string find) { return null; }
         /// <summary>
         /// 获取结果
         /// </summary>

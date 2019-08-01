@@ -110,7 +110,7 @@ namespace Paway.Utils
         {
             Thread.Sleep(100);
             Stop();
-            if (string.IsNullOrEmpty(Host)) Host = HardWareHandler.GetIpAddress();
+            if (string.IsNullOrEmpty(Host)) Host = HardWareHelper.GetIpAddress();
             client = new SocketClient(Host, Port, heardLength);
             client.ConnectFinished += Client_ConnectFinished;
             client.ClientEvent += Client_ClientEvent;

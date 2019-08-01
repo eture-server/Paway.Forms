@@ -111,7 +111,7 @@ namespace Paway.Forms
         /// <summary>
         /// 添加编辑按钮
         /// </summary>
-        protected ToolItem AddEdit()
+        protected ToolItem AddUpdate()
         {
             return NewItem("编辑(E)", "编辑", Resources.edit);
         }
@@ -129,7 +129,7 @@ namespace Paway.Forms
         /// <summary>
         /// 查询参数
         /// </summary>
-        protected void InitData(IDataService server, string find = null)
+        protected void InitData(IDataService server = null, string find = null)
         {
             if (this.DesignMode) return;
             this.server = server;
@@ -140,11 +140,18 @@ namespace Paway.Forms
         /// <summary>
         /// 初始化数据
         /// </summary>
+        protected virtual void InitData(List<T> list, bool iAdd = true)
+        {
+            InitData(null, list, iAdd);
+        }
+        /// <summary>
+        /// 初始化数据
+        /// </summary>
         protected virtual void InitData(IDataService server, List<T> list, bool iAdd = true)
         {
             try
             {
-                this.server = server;
+                if (server != null) this.server = server;
                 if (iAdd)
                 {
                     this.List = list as List<T>;
@@ -199,11 +206,11 @@ namespace Paway.Forms
         /// <summary>
         /// 编辑数据
         /// </summary>
-        protected virtual Form OnEdit(T info) { return new Form(); }
+        protected virtual Form OnUpdate(T info) { return new Form(); }
         /// <summary>
         /// 更新数据到数据库
         /// </summary>
-        protected virtual bool OnEditInfo(T info)
+        protected virtual bool OnUpdateInfo(T info)
         {
             return server.Update(info);
         }
@@ -241,7 +248,7 @@ namespace Paway.Forms
                     if (data != null)
                     {
                         if (!OnAddInfo(data)) break;
-                        this.List.Add(data);
+                        if (this.List.Find(c => c.Id == data.Id) == null) this.List.Add(data);
                         if (ToFind())
                         {
                             gridview1.AutoLast();
@@ -263,10 +270,10 @@ namespace Paway.Forms
                         break;
                     }
                     if (this.Info.Id < 0) return;
-                    Form edit = OnEdit(this.Info);
-                    if (edit != null && edit.ShowDialog(this) == DialogResult.OK)
+                    Form update = OnUpdate(this.Info);
+                    if (update != null && update.ShowDialog(this) == DialogResult.OK)
                     {
-                        if (!OnEditInfo(this.Info)) break;
+                        if (!OnUpdateInfo(this.Info)) break;
                         if (ToFind())
                         {
                             gridview1.AutoLast();
@@ -325,7 +332,7 @@ namespace Paway.Forms
         /// <summary>
         /// 查询
         /// </summary>
-        protected virtual List<T> OnFind(string value)
+        protected virtual List<T> OnFilter(string value)
         {
             return this.List.AsParallel().Where((Activator.CreateInstance<T>().Find(value))).ToList();
         }
@@ -350,7 +357,7 @@ namespace Paway.Forms
             string value = tbName.Text.Trim();
             if (!value.IsNullOrEmpty())
             {
-                this.FList = OnFind(tbName.Text);
+                this.FList = OnFilter(tbName.Text);
                 OnFound(this.FList);
                 this.tbName.Focus();
                 return true;
@@ -477,7 +484,7 @@ namespace Paway.Forms
         /// <summary>
         /// 异步查询
         /// </summary>
-        protected override object OnFind(object argument)
+        protected override object OnFind(string find)
         {
             return server.Find<T>(find);
         }
@@ -508,7 +515,7 @@ namespace Paway.Forms
         {
             if (result is List<T> list)
             {
-                InitData(server, list, false);
+                InitData(list, false);
             }
             else
             {

@@ -24,7 +24,7 @@ namespace Paway.Test
         {
             base.OnLoad(e);
             base.AddItem();
-            base.AddEdit();
+            base.AddUpdate();
             base.AddDelete();
             base.HaveQuery();
             if (DesignMode) return;
