@@ -1685,7 +1685,8 @@ namespace Paway.Forms
             base.OnMouseEnter(e);
             if (iScrollHide && ParentForm.ContainsFocus)
             {
-                Focus();
+                //设置焦点也许是为了滚动条，目前并无影响，暂且去掉
+                //Focus();
             }
         }
 

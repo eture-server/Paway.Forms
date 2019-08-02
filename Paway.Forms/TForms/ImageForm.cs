@@ -64,7 +64,7 @@ namespace Paway.Forms
             {
                 Width = SystemInformation.VirtualScreen.Width - task;
             }
-            TextShow = string.Format("{0:F2}", size.Width * 1.0 / screen.Width);
+            TextShow = string.Format("{0:F0}%", size.Width * 100.0 / screen.Width);
             rect = new Rectangle((Width - size.Width) / 2, (Height - size.Height) / 2, size.Width, size.Height);
             StartPosition = FormStartPosition.CenterScreen;
             CenterToScreen();
@@ -131,9 +131,6 @@ namespace Paway.Forms
         private void Reset(int steps)
         {
             if (screen == null) return;
-            if (size.Width / screen.Width > 16 && steps > 0) return;
-            if (screen.Width / size.Width > 20 && steps < 0) return;
-            Invalidate(rect);
             double bit = 1;
             for (var i = 0; i < Math.Abs(steps); i++)
             {
@@ -141,13 +138,29 @@ namespace Paway.Forms
             }
             if (steps > 0)
             {
-                size.Width = (size.Width * bit).ToInt();
-                size.Height = (size.Height * bit).ToInt();
+                int width = (size.Width * bit).ToInt();
+                int height = (size.Height * bit).ToInt();
+                if (width / screen.Width > 16.0)
+                {
+                    width = screen.Width * 16;
+                    height = screen.Height * 16;
+                }
+                if (size.Width == width) return;
+                size.Width = width;
+                size.Height = height;
             }
             else
             {
-                size.Width = (size.Width / bit).ToInt();
-                size.Height = (size.Height / bit).ToInt();
+                int width = (size.Width / bit).ToInt();
+                int height = (size.Height / bit).ToInt();
+                if (screen.Width / width > 20.0)
+                {
+                    width = screen.Width / 20;
+                    height = screen.Height / 20;
+                }
+                if (size.Width == width) return;
+                size.Width = width;
+                size.Height = height;
             }
             if (size.Width < 3)
             {
@@ -159,7 +172,7 @@ namespace Paway.Forms
                 size.Height = 3;
                 size.Width = (size.Height * ratio).ToInt();
             }
-            TextShow = string.Format("{0:F2}", size.Width * 1.0 / screen.Width);
+            TextShow = string.Format("{0:F0}%", size.Width * 100.0 / screen.Width);
 
             rect = new Rectangle((Width - size.Width) / 2, (Height - size.Height) / 2, size.Width, size.Height);
             isExceed = rect.X < 0 || rect.Y < 0;

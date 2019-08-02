@@ -41,24 +41,19 @@ namespace Paway.Helper
             switch (type)
             {
                 case OperType.Insert:
-                    tList.AddRange(fList);
-                    break;
                 case OperType.Update:
                     for (int i = 0; i < fList.Count; i++)
                     {
                         var temp = tList.Find(c => c.Id == fList[i].Id);
-                        if (temp != null)
-                            fList[i].Clone(temp);
-                        else
-                            tList.Add(fList[i]);
+                        if (temp != null) fList[i].Clone(temp);
+                        else tList.Add(fList[i]);
                     }
                     break;
                 case OperType.Delete:
                     for (int i = 0; i < fList.Count; i++)
                     {
                         var temp = tList.Find(c => c.Id == fList[i].Id);
-                        if (temp != null)
-                            tList.Remove(temp);
+                        if (temp != null) tList.Remove(temp);
                     }
                     break;
                 case OperType.Reset:

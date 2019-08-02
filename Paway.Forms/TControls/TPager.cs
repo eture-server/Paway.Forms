@@ -58,6 +58,10 @@ namespace Paway.Forms
             get { return base.Cursor; }
             set { base.Cursor = value; }
         }
+        /// <summary>
+        /// 输入有焦点
+        /// </summary>
+        public bool ITextFocus { get { return txtCurrentPage.ContainsFocus; } }
 
         #endregion
 

@@ -84,14 +84,25 @@ namespace Paway.Forms
                 }
             }
         }
-        public bool ITime
+        public bool ShowCancel
         {
             get
             {
                 lock (this._states)
                 {
                     if (this._states.Count < 1) return false;
-                    return this._states[this._states.Count - 1].ITime;
+                    return this._states[this._states.Count - 1].ShowCancel;
+                }
+            }
+        }
+        public bool IDelay
+        {
+            get
+            {
+                lock (this._states)
+                {
+                    if (this._states.Count < 1) return false;
+                    return this._states[this._states.Count - 1].IDelay;
                 }
             }
         }

@@ -29,7 +29,8 @@ namespace Paway.Forms
         public ProgressState State { get { return this.states.CurrentState; } }
         public IntPtr WindowToWatch { get { return this.states.CurrentHandle; } }
         public string Caption { get { return this.states.CurrentCaption; } }
-        public bool ITime { get { return this.states.ITime; } }
+        public bool ShowCancel { get { return this.states.ShowCancel; } }
+        public bool IDelay { get { return this.states.IDelay; } }
         public ProgressForm(ProgressStates states)
         {
             InitializeComponent();
@@ -68,6 +69,10 @@ namespace Paway.Forms
                         this.Fade(0.0, 0.2);
                     }
                     else if (handle != ProgressStates.False && (handle == IntPtr.Zero || handle != current))
+                    {
+                        this.Fade(0.0, 0.2);
+                    }
+                    else if (IDelay)
                     {
                         this.Fade(0.0, 0.2);
                     }
@@ -131,7 +136,7 @@ namespace Paway.Forms
                         }
                     }
                     lbCaption.Text = this.Caption;
-                    toolCancel.Visible = this.ITime;
+                    toolCancel.Visible = this.ShowCancel;
                     Application.DoEvents();
                 }
             }

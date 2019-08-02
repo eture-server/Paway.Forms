@@ -388,7 +388,7 @@ namespace Paway.Forms
                     break;
                 default:
                     if (panel2.Visible && tbName.ContainsFocus) return false;
-                    if (gridview1.TPager.ContainsFocus) return false;
+                    if (gridview1.TPager.ITextFocus) return false;
                     break;
             }
             switch (key)

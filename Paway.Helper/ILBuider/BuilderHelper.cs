@@ -10,6 +10,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Paway.Helper
@@ -19,6 +20,22 @@ namespace Paway.Helper
     /// </summary>
     public static class BuilderHelper
     {
+        #region 锁
+        private static object _syncRoot;
+        public static object SyncRoot
+        {
+            get
+            {
+                if (_syncRoot == null)
+                {
+                    Interlocked.CompareExchange(ref _syncRoot, new object(), null);
+                }
+                return _syncRoot;
+            }
+        }
+
+        #endregion
+
         #region Clone
         private static Dictionary<string, Delegate> CloneFunc { set; get; } = new Dictionary<string, Delegate>();
         private static Dictionary<string, Delegate> CloneAction { set; get; } = new Dictionary<string, Delegate>();
@@ -42,10 +59,14 @@ namespace Paway.Helper
             if (obj is IList list)
             {
                 var type = list.GenericType();
-                if (!CloneAction.TryGetValue(type.FullName + "." + depth, out Delegate action))
+                Delegate action;
+                lock (SyncRoot)
                 {
-                    action = CloneBuilder.CloneAction(type, depth);
-                    CloneAction.Add(type.FullName + "." + depth, action);
+                    if (!CloneAction.TryGetValue(type.FullName + "." + depth, out action))
+                    {
+                        action = CloneBuilder.CloneAction(type, depth);
+                        CloneAction.Add(type.FullName + "." + depth, action);
+                    }
                 }
                 var iList = type.GenericList();
                 for (int i = 0; i < list.Count; i++)
@@ -61,10 +82,14 @@ namespace Paway.Helper
             else if (obj != null)
             {
                 var type = obj.GetType();
-                if (!CloneFunc.TryGetValue(type.FullName + "." + depth, out Delegate func))
+                Delegate func;
+                lock (SyncRoot)
                 {
-                    func = CloneBuilder.CloneFunc(type, depth);
-                    CloneFunc.Add(type.FullName + "." + depth, func);
+                    if (!CloneFunc.TryGetValue(type.FullName + "." + depth, out func))
+                    {
+                        func = CloneBuilder.CloneFunc(type, depth);
+                        CloneFunc.Add(type.FullName + "." + depth, func);
+                    }
                 }
                 return ((Func<object, object>)func)(obj);
             }
@@ -86,10 +111,14 @@ namespace Paway.Helper
             if (obj is IList list)
             {
                 var type = list.GenericType();
-                if (!CloneAction.TryGetValue(type.FullName + "." + depth, out Delegate action))
+                Delegate action;
+                lock (SyncRoot)
                 {
-                    action = CloneBuilder.CloneAction(type, depth);
-                    CloneAction.Add(type.FullName + "." + depth, action);
+                    if (!CloneAction.TryGetValue(type.FullName + "." + depth, out action))
+                    {
+                        action = CloneBuilder.CloneAction(type, depth);
+                        CloneAction.Add(type.FullName + "." + depth, action);
+                    }
                 }
                 var copyList = copy as IList;
                 copyList.Clear();
@@ -106,10 +135,14 @@ namespace Paway.Helper
             {
                 var type = obj.GetType();
                 if (!type.IsInstanceOfType(copy)) type = copy.GetType();
-                if (!CloneAction.TryGetValue(type.FullName + "." + depth, out Delegate action))
+                Delegate action;
+                lock (SyncRoot)
                 {
-                    action = CloneBuilder.CloneAction(type, depth);
-                    CloneAction.Add(type.FullName + "." + depth, action);
+                    if (!CloneAction.TryGetValue(type.FullName + "." + depth, out action))
+                    {
+                        action = CloneBuilder.CloneAction(type, depth);
+                        CloneAction.Add(type.FullName + "." + depth, action);
+                    }
                 }
                 ((Action<object, object>)action)(obj, copy);
             }

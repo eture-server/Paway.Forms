@@ -28,6 +28,10 @@ namespace Paway.Forms
         /// 是否取消
         /// </summary>
         public bool ICancel { get { return this._state.ICancel; } }
+        /// <summary>
+        /// 超时显示取消按钮(s)
+        /// </summary>
+        public static int Timeout { get; set; } = 30;
 
         #endregion
 
@@ -80,25 +84,33 @@ namespace Paway.Forms
         /// </summary>
         /// <param name="caption">标题</param>
         /// <param name="max">最大值</param>
-        public Progress(string caption = "Loading..", int max = 0) : this(ProgressStates.False, false, caption, max) { }
+        public Progress(string caption = "Loading..", int max = 0) : this(ProgressStates.False, false, caption, 0, max) { }
         /// <summary>
         /// 初始化实例
         /// </summary>
         /// <param name="canCancel">是否可以取消，默认否（设置取消未注册事件，则直接关闭窗体）</param>
         /// <param name="caption">标题</param>
         /// <param name="max">最大值</param>
-        public Progress(bool canCancel, string caption = "Loading..", int max = 0) : this(ProgressStates.False, canCancel, caption, max) { }
+        public Progress(bool canCancel, string caption = "Loading..", int max = 0) : this(ProgressStates.False, canCancel, caption, 0, max) { }
+        /// <summary>
+        /// 初始化实例
+        /// </summary>
+        /// <param name="delay">延迟显示时间(ms)</param>
+        /// <param name="caption">标题</param>
+        /// <param name="max">最大值</param>
+        public Progress(int delay, string caption = "Loading..", int max = 0) : this(ProgressStates.False, false, caption, delay, max) { }
         /// <summary>
         /// 初始化实例
         /// </summary>
         /// <param name="owner">父控件</param>
         /// <param name="canCancel">是否可以取消，默认否（设置取消未注册事件，则直接关闭窗体）</param>
         /// <param name="caption">标题</param>
+        /// <param name="delay">延迟显示时间(ms)</param>
         /// <param name="max">最大值</param>
-        public Progress(IntPtr owner, bool canCancel = false, string caption = "Loading..", int max = 0)
+        public Progress(IntPtr owner, bool canCancel = false, string caption = "Loading..", int delay = 0, int max = 0)
         {
             Application.DoEvents();
-            this._state = new ProgressState(owner, caption, canCancel, max);
+            this._state = new ProgressState(owner, caption, canCancel, delay, max);
             this._state.CancelEvent += State_CancelEvent;
             states.Add(this._state);
         }

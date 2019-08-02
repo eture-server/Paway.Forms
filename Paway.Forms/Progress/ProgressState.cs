@@ -22,14 +22,22 @@ namespace Paway.Forms
             set { _caption = value; }
         }
         private readonly bool CanCancel;
-        public bool ITime
+        /// <summary>
+        /// 指定时间后显示取消按钮
+        /// </summary>
+        public bool ShowCancel
         {
             get
             {
                 var time = DateTime.Now.Subtract(DateTime).TotalSeconds;
-                return (CanCancel && time > 3) || time > 30;
+                return (CanCancel && time > 3) || time > Progress.Timeout;
             }
         }
+        private readonly int delay;
+        /// <summary>
+        /// 指定时间延迟显示
+        /// </summary>
+        public bool IDelay { get { return delay != 0 && DateTime.Now.Subtract(DateTime).TotalSeconds < delay; } }
         private bool _iCancel;
         public bool ICancel
         {
@@ -44,7 +52,7 @@ namespace Paway.Forms
         public int Max { get; set; }
         public int Value { get; set; }
         public DateTime DateTime { get; set; }
-        public ProgressState(IntPtr handle, string caption, bool canCancel, int max)
+        public ProgressState(IntPtr handle, string caption, bool canCancel, int delay, int max)
         {
             this.Handle = handle;
             this.Caption = caption;
@@ -52,6 +60,7 @@ namespace Paway.Forms
             this.Max = max == 0 ? 100 : max;
             this.NoValue = max == 0;
             this.DateTime = DateTime.Now;
+            this.delay = delay;
         }
     }
 }

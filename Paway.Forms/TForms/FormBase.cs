@@ -229,7 +229,7 @@ namespace Paway.Forms
 
         private string _textShow;
         /// <summary>
-        /// 窗体显示的标题文字
+        /// 窗体显示的标题文字(Null=显示Text,String.Empty=不显示)
         /// </summary>
         [Browsable(false), Description("窗体显示的标题文字")]
         [DefaultValue(null)]
