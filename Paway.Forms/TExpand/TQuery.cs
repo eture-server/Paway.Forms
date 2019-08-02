@@ -180,7 +180,7 @@ namespace Paway.Forms
             this.Visible = true;
             IShow();
             this.Focus();
-            gridview1.AutoCell(0);
+            gridview1.AutoCell();
         }
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {

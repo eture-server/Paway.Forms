@@ -50,9 +50,10 @@ namespace Paway.Helper
                     }
                     break;
                 case OperType.Delete:
-                    for (int i = 0; i < fList.Count; i++)
+                    var cList = fList.Clone();
+                    for (int i = 0; i < cList.Count; i++)
                     {
-                        var temp = tList.Find(c => c.Id == fList[i].Id);
+                        var temp = tList.Find(c => c.Id == cList[i].Id);
                         if (temp != null) tList.Remove(temp);
                     }
                     break;

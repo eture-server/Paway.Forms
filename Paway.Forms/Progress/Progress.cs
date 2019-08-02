@@ -68,6 +68,13 @@ namespace Paway.Forms
             progressForm.Close();
         }
         /// <summary>
+        /// 清空
+        /// </summary>
+        public static void Clear()
+        {
+            states.Clear();
+        }
+        /// <summary>
         /// 清空数据，关闭线程
         /// </summary>
         public static void Abort()

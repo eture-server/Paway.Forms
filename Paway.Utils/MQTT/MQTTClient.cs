@@ -21,7 +21,6 @@ namespace Paway.Utils
         #region 变量
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly IMqttClient mqttClient = null;
-        private readonly string ClientId;
         private readonly string topic;
         private readonly int keepAlivePeriod;
         private string host;
@@ -34,6 +33,10 @@ namespace Paway.Utils
         /// 连接状态
         /// </summary>
         public bool IConnected { get { return mqttClient != null && mqttClient.IsConnected; } }
+        /// <summary>
+        /// 客户端ID
+        /// </summary>
+        public readonly string ClientId;
 
         #endregion
 

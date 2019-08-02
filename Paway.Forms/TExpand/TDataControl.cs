@@ -162,7 +162,7 @@ namespace Paway.Forms
                     this.List.AddRange(list);
                 }
                 this.gridview1.UpdateData(this.List, false);
-                RefreshTotal();
+                RefreshData();
             }
             catch (Exception ex)
             {
@@ -249,14 +249,15 @@ namespace Paway.Forms
                     {
                         if (!OnAddInfo(data)) break;
                         if (this.List.Find(c => c.Id == data.Id) == null) this.List.Add(data);
+                        int index = this.Index;
                         if (ToFind())
                         {
-                            gridview1.AutoLast();
+                            gridview1.AutoCell(index);
                         }
                         else
                         {
-                            RefreshTotal();
-                            int index = this.List.FindIndex(c => c.Id == data.Id);
+                            RefreshData();
+                            index = this.List.FindIndex(c => c.Id == data.Id);
                             this.gridview1.CurrentPageIndex = index / this.gridview1.PagerInfo.PageSize + 1;
                             index %= this.gridview1.PagerInfo.PageSize;
                             gridview1.Edit.AutoCell(index);
@@ -274,15 +275,14 @@ namespace Paway.Forms
                     if (update != null && update.ShowDialog(this) == DialogResult.OK)
                     {
                         if (!OnUpdateInfo(this.Info)) break;
+                        int index = this.Index;
                         if (ToFind())
                         {
-                            gridview1.AutoLast();
+                            gridview1.AutoCell(index);
                         }
                         else
                         {
-                            int index = this.Index;
-                            RefreshTotal();
-                            gridview1.Edit.AutoCell(index);
+                            RefreshData();
                         }
                     }
                     break;
@@ -299,21 +299,23 @@ namespace Paway.Forms
                     {
                         if (!OnDeleteInfo(this.Info)) break;
                         this.List.Remove(this.Info);
+                        int index = this.Index;
                         if (ToFind())
                         {
-                            gridview1.AutoLast();
+                            gridview1.AutoCell(index);
                         }
                         else
                         {
-                            int index = this.Index;
-                            RefreshTotal();
-                            gridview1.Edit.AutoCell(index);
+                            RefreshData();
                         }
                     }
                     break;
             }
         }
-        private void RefreshTotal()
+        /// <summary>
+        /// 刷新数据
+        /// </summary>
+        public void RefreshData()
         {
             T data = List.Find(c => c.Id < 0);
             if (data != null) List.Remove(data);
@@ -345,13 +347,13 @@ namespace Paway.Forms
         }
         private void TbName_TextChanged(object sender, EventArgs e)
         {
-            if (!ToFind())
+            if (!ToFind(true))
             {
                 OnFound(this.List);
                 this.tbName.Focus();
             }
         }
-        private bool ToFind()
+        private bool ToFind(bool focus = false)
         {
             if (!panel2.Visible && tbName.IError) return false;
             string value = tbName.Text.Trim();
@@ -359,7 +361,7 @@ namespace Paway.Forms
             {
                 this.FList = OnFilter(tbName.Text);
                 OnFound(this.FList);
-                this.tbName.Focus();
+                if (focus) this.tbName.Focus();
                 return true;
             }
             return false;
