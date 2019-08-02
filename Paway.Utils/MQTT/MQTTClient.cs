@@ -46,6 +46,10 @@ namespace Paway.Utils
         /// 外部登陆
         /// </summary>
         public event Func<Tuple<bool, string, string>> LoginEvent;
+        /// <summary>
+        /// 更多订阅事件
+        /// </summary>
+        public event Func<string[]> TopicEvent;
 
         #endregion
 
@@ -164,10 +168,19 @@ namespace Paway.Utils
         #region private Method
         private void MqttClient_Connected(object sender, MqttClientConnectedEventArgs e)
         {
-            mqttClient.SubscribeAsync(new List<TopicFilter> {
+            var topicList = new List<TopicFilter> {
                 new TopicFilter(this.topic, MqttQualityOfServiceLevel.ExactlyOnce),
                 new TopicFilter(this.topic + "/" + this.ClientId, MqttQualityOfServiceLevel.ExactlyOnce)
-            });
+            };
+            var topics = TopicEvent?.Invoke();
+            if (topics != null)
+            {
+                foreach (var item in topics)
+                {
+                    topicList.Add(new TopicFilter(item, MqttQualityOfServiceLevel.ExactlyOnce));
+                }
+            }
+            mqttClient.SubscribeAsync(topicList);
             ConnectEvent?.Invoke(true, null);
         }
         private void MqttClient_Disconnected(object sender, MqttClientDisconnectedEventArgs e)
