@@ -56,14 +56,19 @@ namespace Paway.Forms
             set
             {
                 if (Edit == null) return;
-                if (value == null)
-                {
-                    value = new Font("微软雅黑", 9f, FontStyle.Regular, GraphicsUnit.Point, 1);
-                }
                 base.Font = value;
                 Edit.Font = value;
-                var hight = TextRenderer.MeasureText("你好", value).Height;
-                Edit.ItemHeight = hight;
+                if (value == null)
+                {
+                    var font = new Font("微软雅黑", 9f, FontStyle.Regular, GraphicsUnit.Point, 1);
+                    var hight = TextRenderer.MeasureText("你好", font).Height;
+                    Edit.ItemHeight = hight;
+                }
+                else
+                {
+                    var hight = TextRenderer.MeasureText("你好", value).Height;
+                    Edit.ItemHeight = hight;
+                }
                 Invalidate();
             }
         }

@@ -149,7 +149,6 @@ namespace Paway.Forms
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer, true);
             UpdateStyles();
-            DrawMode = DrawMode.OwnerDrawFixed;
             DrawItem += DrawCombobox_DrawItem;
             ItemHeight = 17;
             DropDownHeight = 200;
@@ -166,14 +165,13 @@ namespace Paway.Forms
         private void DrawCombobox_DrawItem(object sender, DrawItemEventArgs e)
         {
             //如果当前控件为空
-            if (e.Index < 0)
-                return;
+            if (e.Index < 0) return;
 
             e.DrawBackground();
             //获取表示所绘制项的边界的矩形
             var rect = e.Bounds;
             //定义要绘制到控件中的图标图像
-            Brush brush = new SolidBrush(ForeColor);
+            Color color = ForeColor;
             //获得当前Item的文本
             //绑定字段
             var obj = Items[e.Index];
@@ -200,7 +198,7 @@ namespace Paway.Forms
                 {
                     e.Graphics.FillRectangle(solidBrush, rect);
                 }
-                brush = new SolidBrush(_colorFore);
+                color = _colorFore;
             }
             else
             {
@@ -213,10 +211,13 @@ namespace Paway.Forms
             //g.DrawImage(ico, new Point(rect.Left, rect.Top));
             //在当前项图形表面上划上当前Item的文本
             //g.DrawString(tempString, font, new SolidBrush(Color.Black), rect.Left + ico.Size.Width, rect.Top);
-            e.Graphics.DrawString(str?.ToString(), Font, brush, rect, DrawHelper.StringVertical);
+            var flags = TextFormatFlags.Left |
+                        TextFormatFlags.SingleLine |
+                        TextFormatFlags.VerticalCenter;
+            //e.Graphics.DrawString(str.ToStrs(), Font, brush, rect);
+            TextRenderer.DrawText(e.Graphics, str.ToStrs(), Font, rect, color, flags);
             //将绘制聚焦框
-            e.DrawFocusRectangle();
-            brush.Dispose();
+            //e.DrawFocusRectangle();
         }
 
         #endregion

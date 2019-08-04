@@ -928,7 +928,7 @@ namespace Paway.Forms
                 }
 
                 //画字符串
-                e.Graphics.DrawString(e.Value?.ToString(), e.CellStyle.Font, foreBrush,
+                e.Graphics.DrawString(e.Value.ToStrs(), e.CellStyle.Font, foreBrush,
                 new Rectangle(e.CellBounds.Left + (bitmap == null ? 0 : bitmap.Width) + 10, e.CellBounds.Top,
                     e.CellBounds.Width, e.CellBounds.Height), DrawHelper.StringVertical);
                 foreBrush.Dispose();

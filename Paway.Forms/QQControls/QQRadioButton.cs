@@ -122,9 +122,9 @@ namespace Paway.Forms
             g.SmoothingMode = SmoothingMode.HighQuality;
 
             var foreColor = Enabled ? ForeColor : Color.Gray;
-            var flags = TextFormatFlags.VerticalCenter |
-                        TextFormatFlags.Left |
-                        TextFormatFlags.SingleLine;
+            var flags = TextFormatFlags.Left |
+                        TextFormatFlags.SingleLine |
+                        TextFormatFlags.VerticalCenter;
             TextRenderer.DrawText(g, Text, Font, TextRect, foreColor, flags);
 
             switch (_mouseState)
