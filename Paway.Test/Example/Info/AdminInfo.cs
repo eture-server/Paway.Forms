@@ -23,7 +23,7 @@ namespace Paway.Test
     [Table(Table = "Admins", Key = "Id")]
     public class AdminBaseInfo : IInfo
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
 

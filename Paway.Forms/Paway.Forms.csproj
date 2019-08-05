@@ -242,6 +242,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TExpand\TQuery.resx">
       <DependentUpon>TQuery.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="TControls\TNumTestBox.resx">
       <DependentUpon>TNumTestBox.cs</DependentUpon>

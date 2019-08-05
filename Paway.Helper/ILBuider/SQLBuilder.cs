@@ -75,42 +75,5 @@ namespace Paway.Helper
         }
 
         #endregion
-
-        #region 设置主键值
-        /// <summary>
-        /// 转化（设置主键值）
-        /// </summary>
-        public void Build(object t, long value)
-        {
-            ((Action<object, long>)handler)(t, value);
-        }
-        /// <summary>
-        /// IL动态代码，创建委托（设置主键值）
-        /// </summary>
-        public static SQLBuilder CreateBuilder(Type type)
-        {
-            var key = type.TableKey();
-
-            var dymMethod = new DynamicMethod(type.Name + nameof(SQLBuilder), null, new Type[] { typeof(object), typeof(long) }, true);
-            ILGenerator generator = dymMethod.GetILGenerator();
-            var property = type.Property(key);
-            if (property != null && property.CanWrite)
-            {
-                generator.Emit(OpCodes.Ldarg_0);
-                generator.Emit(OpCodes.Castclass, type);//未使用泛类，要转化为指定type类型
-                generator.Emit(OpCodes.Ldarg_1);
-                //generator.UnBox(property);//引用转值
-                generator.Emit(OpCodes.Callvirt, property.GetSetMethod());
-            }
-            generator.Emit(OpCodes.Ret);
-
-            var builder = new SQLBuilder
-            {
-                handler = dymMethod.CreateDelegate(typeof(Action<object, long>))
-            };
-            return builder;
-        }
-
-        #endregion
     }
 }

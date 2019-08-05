@@ -201,14 +201,14 @@ namespace Paway.Utils
         /// <summary>
         /// 查找指定主列的数据
         /// </summary>
-        public T Find<T>(long id, params string[] args) where T : new()
+        public T Find<T>(int id, params string[] args) where T : new()
         {
             return Find<T>(id, null, args);
         }
         /// <summary>
         /// 查找指定主列的数据
         /// </summary>
-        public T Find<T>(long id, DbCommand cmd = null, params string[] args) where T : new()
+        public T Find<T>(int id, DbCommand cmd = null, params string[] args) where T : new()
         {
             var attr = typeof(T).Table();
             var sql = string.Format("[{0}] = {1}", attr.Keys, id);
@@ -340,7 +340,6 @@ namespace Paway.Utils
                 cmd.CommandText = sql;
                 OnCommandText(cmd);
                 var builder = SQLBuilder.CreateBuilder(list[0].GetType(), paramType);
-                var builder2 = SQLBuilder.CreateBuilder(list[0].GetType());
                 for (var i = 0; i < list.Count; i++)
                 {
                     var pList = builder.Build(list[i]).ToArray();
@@ -350,7 +349,7 @@ namespace Paway.Utils
                     {
                         if (dr.Read())
                         {
-                            builder2.Build(list[i], dr[0].ToLong());
+                            list[i].SetValue(nameof(IId.Id), dr[0].ToInt());
                         }
                         else
                         {

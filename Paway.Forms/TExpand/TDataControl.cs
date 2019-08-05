@@ -35,7 +35,10 @@ namespace Paway.Forms
         /// 当前Info
         /// </summary>
         protected T Info;
-        private string find;
+        /// <summary>
+        /// 数据过滤条件
+        /// </summary>
+        protected string find;
         /// <summary>
         /// 查询开始时间
         /// </summary>
@@ -453,7 +456,7 @@ namespace Paway.Forms
             if (gridview.CurrentCell != null)
             {
                 this.Index = gridview.CurrentCell.RowIndex;
-                long id = gridview.Rows[this.Index].Cells[nameof(IId.Id)].Value.ToLong();
+                var id = gridview.Rows[this.Index].Cells[nameof(IId.Id)].Value.ToInt();
                 this.Info = this.List.Find(c => c.Id == id);
                 OnCurrentCellChanged();
             }
@@ -555,7 +558,7 @@ namespace Paway.Forms
             List<T> list = new List<T>();
             for (int i = 0; i < gridview1.Edit.SelectedRows.Count; i++)
             {
-                long id = gridview1.Edit.SelectedRows[i].Cells[nameof(IId.Id)].Value.ToLong();
+                var id = gridview1.Edit.SelectedRows[i].Cells[nameof(IId.Id)].Value.ToInt();
                 var info = this.List.Find(c => c.Id == id);
                 if (info != null) list.Add(info);
             }

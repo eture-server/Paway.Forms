@@ -10,7 +10,7 @@ namespace Paway.Test
     [Table(Table = "Users", Key = "Id")]
     public interface ITestInfo : IId
     {
-        long ParentId { get; set; }
+        int ParentId { get; set; }
 
         [Property(Column = "Pad")]
         string NewPad { get; set; }
@@ -30,9 +30,9 @@ namespace Paway.Test
     public class TestBase : IParent
     {
         [Property(IShow = false)]
-        public long Id { get; set; }
+        public int Id { get; set; }
         [Property(IShow = false)]
-        public long ParentId { get; set; }
+        public int ParentId { get; set; }
         public virtual string Name { get; set; }
     }
     [Serializable, Table(Table = "Users", Key = "Id")]

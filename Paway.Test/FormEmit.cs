@@ -26,7 +26,7 @@ namespace Paway.Test
             ITestInfo obj = new TestInfo();
             //obj.Id = 1;
             //obj.Image = BitmapHelper.GetBitmapFormFile(@"D:\Tinn\DotNet\House\bin\Debug\Code\110031622_45259-02360-00.png");
-            //server.Update(obj);
+            //server.Insert(obj);
 
             ITestInfo info = server.Find<TestInfo>(1);
             info.FindInfo = new FindInfo() { Id = 100 };

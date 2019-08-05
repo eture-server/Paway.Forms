@@ -41,8 +41,9 @@ namespace Paway.Helper
     {
         /// <summary>
         /// 主键Id
+        /// 当初设置为long的原因未知,现统一全部使用int
         /// </summary>
-        long Id { get; set; }
+        int Id { get; set; }
     }
     /// <summary>
     /// 父接点接口(树控件)
@@ -52,6 +53,6 @@ namespace Paway.Helper
         /// <summary>
         /// 父接点Id
         /// </summary>
-        long ParentId { get; set; }
+        int ParentId { get; set; }
     }
 }

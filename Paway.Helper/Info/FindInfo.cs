@@ -15,7 +15,7 @@ namespace Paway.Helper
         /// <summary>
         /// </summary>
         [Property(IShow = false)]
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// </summary>

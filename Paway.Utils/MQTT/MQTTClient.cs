@@ -28,7 +28,7 @@ namespace Paway.Utils
         /// <summary>
         /// 用户Id
         /// </summary>
-        protected long userId;
+        protected int userId;
         /// <summary>
         /// 连接状态
         /// </summary>
@@ -85,7 +85,7 @@ namespace Paway.Utils
         /// <param name="host">主机</param>
         /// <param name="port">端口</param>
         /// <param name="userId">用户Id</param>
-        public virtual void Connect(string host, int port, long userId)
+        public virtual void Connect(string host, int port, int userId)
         {
             Connect(host, port, userId, null, null);
         }
@@ -108,7 +108,7 @@ namespace Paway.Utils
         /// <param name="userId">用户Id</param>
         /// <param name="userName">用户名</param>
         /// <param name="userPad">用户密码</param>
-        public void Connect(string host, int port, long userId, string userName, string userPad)
+        public void Connect(string host, int port, int userId, string userName, string userPad)
         {
             this.host = host;
             this.port = port;

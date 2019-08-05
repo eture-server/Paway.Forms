@@ -36,7 +36,7 @@ namespace Paway.Test
                     UserList.Remove(temp);
             }
         }
-        public static UserInfo Find(long id)
+        public static UserInfo Find(int id)
         {
             return UserList.Find(c => c.Id == id);
         }
@@ -44,7 +44,7 @@ namespace Paway.Test
         {
             return UserList.Find(c => c.Name == name);
         }
-        public static string Name(long id)
+        public static string Name(int id)
         {
             UserInfo info = UserList.Find(c => c.Id == id);
             return info == null ? string.Empty : info.Name;

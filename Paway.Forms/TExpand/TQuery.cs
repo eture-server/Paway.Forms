@@ -72,7 +72,7 @@ namespace Paway.Forms
             if (gridview1.CurrentCell != null)
             {
                 int index = gridview1.CurrentCell.RowIndex;
-                long id = this.gridview1.Rows[index].Cells[nameof(IId.Id)].Value.ToLong();
+                var id = this.gridview1.Rows[index].Cells[nameof(IId.Id)].Value.ToInt();
                 SelectedEvent?.Invoke(list.Find(c => c.Id == id));
                 IHide();
             }

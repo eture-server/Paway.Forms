@@ -94,9 +94,6 @@ namespace Paway.Test
 
                 var list3 = dt.ToList<TestInfo>();
 
-                var builder = SQLBuilder.CreateBuilder(typeof(TestInfo));
-                builder.Build(data, 12L);
-
                 var descriptors = typeof(ITestInfo).Descriptors();
                 var descriptor = descriptors.Find(c => c.Name == "List");
                 data.SetValue(descriptor, null);

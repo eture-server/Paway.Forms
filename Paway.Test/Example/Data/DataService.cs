@@ -95,7 +95,7 @@ namespace Paway.Test
                 return list[0];
             }
         }
-        public UserInfo Login(long userId)
+        public UserInfo Login(int userId)
         {
             var info = Find<UserInfo>(userId);
             if (info == null)

@@ -83,16 +83,16 @@ namespace Paway.Forms
             foreach (var temp in tempList)
             {
                 var node = Nodes.Add(type.GetValue(temp));
-                AddNodes(type, list, node, (long)type.GetValue(temp, nameof(IParent.Id)));
+                AddNodes(type, list, node, (int)type.GetValue(temp, nameof(IParent.Id)));
             }
         }
-        private void AddNodes(Type type, IList list, TreeGridNode parent, long parentId)
+        private void AddNodes(Type type, IList list, TreeGridNode parent, int parentId)
         {
             var tempList = type.FindAll(list, nameof(IParent.ParentId), parentId);
             foreach (var temp in tempList)
             {
                 var node = parent.Nodes.Add(type.GetValue(temp));
-                AddNodes(type, list, node, (long)type.GetValue(temp, nameof(IParent.Id)));
+                AddNodes(type, list, node, (int)type.GetValue(temp, nameof(IParent.Id)));
             }
         }
         private void AutoColumns(Type type)

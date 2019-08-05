@@ -11,7 +11,7 @@ namespace Paway.Test
     public class UserInfo : IName, IFind<UserInfo>
     {
         [Property(IShow = false)]
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         [Property(Text = "用户名")]
         public string Name { get; set; }

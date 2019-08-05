@@ -257,7 +257,6 @@ namespace Paway.Helper
             if (obj == null || obj == DBNull.Value) return false;
 
             if (obj is int iObj) return iObj != 0;
-            if (obj is string sObj) return sObj != "0";
             if (bool.TryParse(obj.ToString(), out bool result)) return result;
             return false;
         }

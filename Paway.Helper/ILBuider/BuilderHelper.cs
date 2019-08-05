@@ -383,12 +383,12 @@ namespace Paway.Helper
         /// <summary>
         /// 泛型查找 
         /// </summary>
-        public static IList FindAll(this Type type, IList list, string name, long value)
+        public static IList FindAll(this Type type, IList list, string name, int value)
         {
             var vList = type.GenericList();
             for (int i = 0; i < list.Count; i++)
             {
-                if ((long)type.GetValue(list[i], name) == value)
+                if ((int)type.GetValue(list[i], name) == value)
                 {
                     vList.Add(list[i]);
                 }
