@@ -18,8 +18,6 @@ namespace Paway.Test
 {
     public static partial class Method
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         #region MessageBox
         public static bool Ask(string format, params object[] args)
         {

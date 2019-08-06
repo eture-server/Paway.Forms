@@ -10,29 +10,34 @@ namespace Paway.Helper
     /// Loading
     /// </summary>
     [Serializable]
-    public class FindInfo
+    public class FindInfo : IParent
     {
         /// <summary>
         /// </summary>
         [Property(IShow = false)]
         public int Id { get; set; }
+        /// <summary>
+        /// </summary>
+        [Property(IShow = false)]
+        public int ParentId { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(Text = "State")]
-        public string State { get; set; }
+        public string AutoStates { get; set; }
 
         /// <summary>
         /// </summary>
         public FindInfo()
         {
-            this.State = "Loading...";
+            this.Id = 1;
+            this.AutoStates = "Loading...";
         }
         /// <summary>
         /// </summary>
         public FindInfo(string name)
         {
-            this.State = name;
+            this.Id = 1;
+            this.AutoStates = name;
         }
     }
 }

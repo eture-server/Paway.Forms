@@ -75,10 +75,36 @@ namespace Paway.Forms
             tbName.TextChanged += TbName_TextChanged;
             tbName.KeyDown += TbName_KeyDown;
             toolBar1.ItemClick += ToolBar1_ItemClick;
+            gridview1.TotalEvent += UpdateDesc;
+            LoadEvent();
+        }
+        /// <summary>
+        /// 使用树结构
+        /// </summary>
+        public void UserTree(bool iExpandAll = false)
+        {
+            if (!gridview1.UserTree()) return;
+            LoadEvent();
+            if (iExpandAll)
+            {
+                gridview1.Edit.RefreshChanged += Edit_RefreshChanged;
+            }
+        }
+        private void Edit_RefreshChanged()
+        {
+            (gridview1.Edit as TreeGridView).ExpandAll();
+        }
+        private void LoadEvent()
+        {
             gridview1.Edit.CellFormatting += Gridview1_CellFormatting;
             gridview1.Edit.CurrentCellChanged += Gridview1_CurrentCellChanged;
             gridview1.Edit.DoubleClick += Gridview1_DoubleClick;
-            gridview1.TotalEvent += UpdateDesc;
+        }
+        private void UnLoadEvent()
+        {
+            gridview1.Edit.CellFormatting -= Gridview1_CellFormatting;
+            gridview1.Edit.CurrentCellChanged -= Gridview1_CurrentCellChanged;
+            gridview1.Edit.DoubleClick -= Gridview1_DoubleClick;
         }
 
         #region 权限-按钮
@@ -215,7 +241,22 @@ namespace Paway.Forms
         /// </summary>
         protected virtual bool OnUpdateInfo(T info)
         {
-            return server.Update(info);
+            var result = server.Update(info);
+            if (gridview1.Edit is TreeGridView treeView) UpdateNode(treeView.Nodes, info);
+            return result;
+        }
+        private bool UpdateNode(TreeGridNodeCollection nodes, T info)
+        {
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                if (nodes[i].Cells[nameof(IId.Id)].Value.ToInt() == info.Id)
+                {
+                    nodes[i].Update(info);
+                    return true;
+                }
+                if (nodes[i].Nodes.Count > 0) if (UpdateNode(nodes[i].Nodes, info)) return true;
+            }
+            return false;
         }
         /// <summary>
         /// 删除数据
@@ -346,7 +387,17 @@ namespace Paway.Forms
         /// </summary>
         protected virtual void OnFound(List<T> list)
         {
-            this.gridview1.DataSource = list;
+            bool iTree = gridview1.Edit is TreeGridView;
+            try
+            {
+                if (iTree) gridview1.Edit.CurrentCellChanged -= Gridview1_CurrentCellChanged;
+                this.gridview1.DataSource = list;
+            }
+            finally
+            {
+                if (iTree) gridview1.Edit.CurrentCellChanged += Gridview1_CurrentCellChanged;
+            }
+            if (iTree) Gridview1_CurrentCellChanged(gridview1.Edit, EventArgs.Empty);
         }
         private void TbName_TextChanged(object sender, EventArgs e)
         {
@@ -450,7 +501,7 @@ namespace Paway.Forms
         /// <summary>
         /// 单元格切换触发选中行实体更新
         /// </summary>
-        protected virtual void Gridview1_CurrentCellChanged(object sender, EventArgs e)
+        private void Gridview1_CurrentCellChanged(object sender, EventArgs e)
         {
             TDataGridView gridview = sender as TDataGridView;
             if (gridview.CurrentCell != null)
@@ -469,7 +520,7 @@ namespace Paway.Forms
         /// <summary>
         /// 双击触发编辑方法
         /// </summary>
-        protected void Gridview1_DoubleClick(object sender, EventArgs e)
+        private void Gridview1_DoubleClick(object sender, EventArgs e)
         {
             if (e is MouseEventArgs me)
             {

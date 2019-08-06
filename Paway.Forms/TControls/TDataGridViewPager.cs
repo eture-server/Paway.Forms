@@ -333,7 +333,6 @@ namespace Paway.Forms
                 }
                 Edit.DataSource = table;
                 Edit.UpdateColumns(DataType);
-                Edit.OnRefreshChanged(DataType);
                 TPager.UpdateDesc(TotalEvent?.Invoke(dataSource));
             }
             else if (dataSource is IList list)
@@ -416,6 +415,18 @@ namespace Paway.Forms
         public DataGridViewColumn GetColumn(string name)
         {
             return this.Edit.GetColumn(name);
+        }
+        /// <summary>
+        /// 使用树结构
+        /// </summary>
+        public bool UserTree()
+        {
+            if (gridview1 is TreeGridView) return false;
+            this.Controls.Remove(this.gridview1);
+            gridview1 = new TreeGridView();
+            gridview1.Dock = DockStyle.Fill;
+            this.Controls.Add(this.gridview1);
+            return true;
         }
 
         #endregion

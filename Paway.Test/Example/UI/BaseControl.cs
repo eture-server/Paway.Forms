@@ -16,8 +16,6 @@ namespace Paway.Test
 {
     public partial class BaseControl : TBaseControl
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         public BaseControl()
         {
             InitializeComponent();
