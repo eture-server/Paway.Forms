@@ -5,7 +5,6 @@ using System.Data.Common;
 using System.Reflection;
 using log4net;
 using Paway.Helper;
-using System.Drawing;
 using System.ComponentModel;
 using System.Linq;
 
@@ -80,7 +79,7 @@ namespace Paway.Utils
         /// <summary>
         /// 对sql语句进行过滤
         /// </summary>
-        protected virtual void OnCommandText(DbCommand cmd) { }
+        protected virtual string OnCommandText(string sql) { return sql; }
 
         #endregion
 
@@ -94,8 +93,7 @@ namespace Paway.Utils
             try
             {
                 if (iTrans) cmd = CommandStart();
-                cmd.CommandText = sql;
-                OnCommandText(cmd);
+                cmd.CommandText = OnCommandText(sql);
                 return cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -119,8 +117,7 @@ namespace Paway.Utils
             try
             {
                 if (iTrans) cmd = CommandStart();
-                cmd.CommandText = sql;
-                OnCommandText(cmd);
+                cmd.CommandText = OnCommandText(sql);
                 return cmd.ExecuteScalar();
             }
             catch (Exception ex)
@@ -144,8 +141,7 @@ namespace Paway.Utils
             try
             {
                 if (iTrans) cmd = CommandStart();
-                cmd.CommandText = sql;
-                OnCommandText(cmd);
+                cmd.CommandText = OnCommandText(sql);
                 using (var dr = cmd.ExecuteReader())
                 {
                     var table = new DataTable();
@@ -174,10 +170,9 @@ namespace Paway.Utils
             try
             {
                 if (iTrans) cmd = TransStart();
-                foreach (var item in sqlList)
+                foreach (var sql in sqlList)
                 {
-                    cmd.CommandText = item;
-                    OnCommandText(cmd);
+                    cmd.CommandText = OnCommandText(sql);
                     cmd.ExecuteNonQuery();
                 }
                 if (iTrans) return TransCommit(cmd);
@@ -200,15 +195,16 @@ namespace Paway.Utils
         #region public Find
         /// <summary>
         /// 查找指定主列的数据
+        /// 使用long兼容int
         /// </summary>
-        public T Find<T>(int id, params string[] args) where T : new()
+        public T Find<T>(long id, params string[] args) where T : new()
         {
             return Find<T>(id, null, args);
         }
         /// <summary>
         /// 查找指定主列的数据
         /// </summary>
-        public T Find<T>(int id, DbCommand cmd = null, params string[] args) where T : new()
+        public T Find<T>(long id, DbCommand cmd = null, params string[] args) where T : new()
         {
             var attr = typeof(T).Table();
             var sql = string.Format("[{0}] = {1}", attr.Keys, id);
@@ -292,8 +288,7 @@ namespace Paway.Utils
                 {
                     sql = type.Select(find, count, args);
                 }
-                cmd.CommandText = sql;
-                OnCommandText(cmd);
+                cmd.CommandText = OnCommandText(sql);
                 using (var dr = cmd.ExecuteReader())
                 {
                     var table = type.CreateTable(true);
@@ -337,8 +332,7 @@ namespace Paway.Utils
             {
                 if (iTrans) cmd = TransStart();
                 var sql = typeof(T).Insert(GetId, Identity);
-                cmd.CommandText = sql;
-                OnCommandText(cmd);
+                cmd.CommandText = OnCommandText(sql);
                 var builder = SQLBuilder.CreateBuilder(list[0].GetType(), paramType);
                 for (var i = 0; i < list.Count; i++)
                 {
@@ -408,8 +402,7 @@ namespace Paway.Utils
             {
                 if (iTrans) cmd = TransStart();
                 var sql = typeof(T).Update(args);
-                cmd.CommandText = sql;
-                OnCommandText(cmd);
+                cmd.CommandText = OnCommandText(sql);
                 var builder = SQLBuilder.CreateBuilder(list[0].GetType(), paramType, args);
                 foreach (var item in list)
                 {
@@ -455,8 +448,7 @@ namespace Paway.Utils
             {
                 if (iTrans) cmd = CommandStart();
                 sql = DataBaseHelper.Delete<T>(find);
-                cmd.CommandText = sql;
-                OnCommandText(cmd);
+                cmd.CommandText = OnCommandText(sql);
                 return cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -491,8 +483,7 @@ namespace Paway.Utils
             {
                 if (iTrans) cmd = TransStart();
                 var sql = DataBaseHelper.Delete<T>();
-                cmd.CommandText = sql;
-                OnCommandText(cmd);
+                cmd.CommandText = OnCommandText(sql);
                 var builder = SQLBuilder.CreateBuilder(list[0].GetType(), paramType);
                 foreach (var item in list)
                 {
@@ -567,23 +558,12 @@ namespace Paway.Utils
         #region protected 执行步骤
         /// <summary>
         /// 打开一个连接
-        /// </summary>
-        /// <returns></returns>
-        protected DbCommand CommandStart()
-        {
-            return CommandStart(null);
-        }
-
-        /// <summary>
-        /// 打开一个连接
         /// 返回SqlCommand实例
         /// </summary>
-        protected DbCommand CommandStart(string sql)
+        protected DbCommand CommandStart()
         {
             var con = GetCon();
             var cmd = GetCmd();
-            cmd.CommandText = sql;
-            OnCommandText(cmd);
             cmd.Connection = con;
             return cmd;
         }

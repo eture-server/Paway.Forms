@@ -2,6 +2,7 @@
 using System.Data.Common;
 using MySql.Data.MySqlClient;
 using System.Data;
+using System;
 
 namespace Paway.Utils
 {
@@ -21,10 +22,10 @@ namespace Paway.Utils
         /// <summary>
         /// 对sql语句进行过滤
         /// </summary>
-        protected override void OnCommandText(DbCommand cmd)
+        protected override string OnCommandText(string sql)
         {
-            if (cmd.CommandText != null)
-                cmd.CommandText = cmd.CommandText.Replace("[", "`").Replace("]", "`");
+            if (sql == null) throw new ArgumentNullException();
+            return sql.Replace("[", "`").Replace("]", "`");
         }
 
         #endregion

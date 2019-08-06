@@ -9,13 +9,14 @@ using System.Text;
 namespace Paway.Helper
 {
     /// <summary>
-    /// 加密
+    /// 加解密
     /// </summary>
     public abstract class EncryptHelper
     {
         #region 字符加解密
         /// <summary>
         /// sha256加密
+        /// 返回字符串
         /// </summary>
         public static string EncryptSHA256(string str)
         {
@@ -26,12 +27,28 @@ namespace Paway.Helper
                 return Convert.ToBase64String(buffer);
             }
         }
-
         /// <summary>
-        /// Base64(MD5)
+        /// sha1加密
+        /// 返回字节组(长度40)
         /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
+        public static string EncryptSHA1(string str)
+        {
+            var buffer = Encoding.UTF8.GetBytes(str);
+            using (var sha1 = SHA1.Create())
+            {
+                var data = sha1.ComputeHash(buffer);
+                return BitConverter.ToString(data).Replace("-", "").ToLower();
+                //var result = new StringBuilder();
+                //foreach (var item in data)
+                //{
+                //    result.Append(item.ToString("x2"));
+                //}
+                //return result.ToString();
+            }
+        }
+        /// <summary>
+        /// MD5加密
+        /// </summary>
         public static string EncryptMD5(string str)
         {
             string result;
@@ -39,8 +56,6 @@ namespace Paway.Helper
             {
                 var bytes = Encoding.GetEncoding("utf-8").GetBytes(str);
                 var inArray = md.ComputeHash(bytes);
-                //result = System.Convert.ToBase64String(inArray, 0, inArray.Length);
-
                 var sBuilder = new StringBuilder();
                 for (var i = 0; i < inArray.Length; i++)
                 {
@@ -50,43 +65,30 @@ namespace Paway.Helper
             }
             return result;
         }
-
         /// <summary>
-        /// 取16位MD5码
+        /// 取16位MD5码(8,16)
         /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
         public static string EncryptMD5_16(string str)
         {
             return EncryptMD5(str).Substring(8, 16);
         }
-
         /// <summary>
-        /// 取8位MD5码
+        /// 取8位MD5码(8,8)
         /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
         public static string EncryptMD5_8(string str)
         {
             return EncryptMD5(str).Substring(8, 8);
         }
-
         /// <summary>
-        /// 取4位MD5码
+        /// 取4位MD5码(8,4)
         /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
         public static string EncryptMD5_4(string str)
         {
             return EncryptMD5(str).Substring(8, 4);
         }
-
         /// <summary>
-        /// 加密 Base64(3DES(加密内容))
+        /// 3DES加密
         /// </summary>
-        /// <param name="content"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
         public static string Encrypt3DES(string content, string key)
         {
             using (var provider = new TripleDESCryptoServiceProvider())
@@ -104,13 +106,9 @@ namespace Paway.Helper
                 return Convert.ToBase64String(stream.ToArray());
             }
         }
-
         /// <summary>
-        /// 解密 Base64(3DES(加密内容))
+        /// 3DES解密
         /// </summary>
-        /// <param name="sourceData"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
         public static string Decrypt3DES(string sourceData, string key)
         {
             if (sourceData == null) sourceData = string.Empty;
@@ -139,7 +137,6 @@ namespace Paway.Helper
             0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF, 0x12, 0x34, 0x56, 0x78,
             0x90, 0xAB, 0xCD, 0xEF
         };
-
         /// <summary>
         /// 加密AES算法
         /// </summary>
@@ -152,7 +149,6 @@ namespace Paway.Helper
             var bytes = EncryptAES(dtat, key);
             return Convert.ToBase64String(bytes);
         }
-
         /// <summary>
         /// AES加密算法
         /// </summary>
@@ -189,7 +185,6 @@ namespace Paway.Helper
             var decryptBytes = DecryptAES(bytes, key);
             return Encoding.UTF8.GetString(decryptBytes);
         }
-
         /// <summary>
         /// 解密AES
         /// </summary>
@@ -214,7 +209,6 @@ namespace Paway.Helper
         #endregion
 
         #region MD5文件与数组加密
-
         /// <summary>
         /// 实现对一个文件md5的读取，path为文件路径
         /// </summary>

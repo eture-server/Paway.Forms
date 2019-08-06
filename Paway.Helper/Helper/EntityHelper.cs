@@ -132,7 +132,7 @@ namespace Paway.Helper
         /// <summary>
         /// 标识
         /// </summary>
-        public string Keys { get { return Mark ?? Key; } }
+        public string Keys { get { return Mark ?? Key ?? nameof(IId.Id); } }
         /// <summary>
         /// 表名称
         /// </summary>

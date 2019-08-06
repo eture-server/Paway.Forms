@@ -542,15 +542,6 @@ namespace Paway.Helper
         /// </summary>
         public static TableAttribute Table(this Type type)
         {
-            var attr = AttrTable(type);
-            if (attr.Keys == null) throw new ArgumentException("没有指定主键或主列名称");
-            return attr;
-        }
-        /// <summary>
-        /// 返回特性，检查表名
-        /// </summary>
-        public static TableAttribute AttrTable(Type type)
-        {
             var attrList = type.GetCustomAttributes(typeof(TableAttribute), false) as TableAttribute[];
             if (attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", type));
             if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");

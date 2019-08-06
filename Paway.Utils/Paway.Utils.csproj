@@ -54,6 +54,10 @@
     <Reference Include="MySql.Data">
       <HintPath>..\Root\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Oracle.DataAccess, Version=2.112.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Root\Oracle.DataAccess.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data.SQLite">
@@ -70,6 +74,7 @@
     <Compile Include="Data\DataBase.cs" />
     <Compile Include="Data\SqlHelper.cs" />
     <Compile Include="Data\MySqlHelper.cs" />
+    <Compile Include="Data\OracleHelper.cs" />
     <Compile Include="MQTT\MQTTClient.cs" />
     <Compile Include="MQTT\MQTTService.cs" />
     <Compile Include="Pdf\Export.cs" />
