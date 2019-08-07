@@ -333,6 +333,7 @@ namespace Paway.Forms
                 }
                 Edit.DataSource = table;
                 Edit.UpdateColumns(DataType);
+                Edit.OnRefreshChanged(DataType);
                 TPager.UpdateDesc(TotalEvent?.Invoke(dataSource));
             }
             else if (dataSource is IList list)

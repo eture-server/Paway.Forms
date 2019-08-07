@@ -41,7 +41,8 @@ namespace Paway.Helper
     {
         /// <summary>
         /// 主键Id
-        /// 当初设置为long的原因未知,现统一全部使用int
+        /// int64 Id统一全部更换为int32 Id
+        /// 以前使用long是因为sqlite自增主键必须使用INTEGER(long),软件换为int后,sqlite可以继续使用long,兼容使用
         /// </summary>
         int Id { get; set; }
     }
