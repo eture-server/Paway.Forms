@@ -20,7 +20,7 @@ namespace Paway.Test
     /// 管理数据结构
     /// </summary>
     [Serializable]
-    [Table(Table = "Admins", Key = "Id")]
+    [Table(Table = "Admins")]
     public class AdminBaseInfo : IInfo
     {
         public int Id { get; set; }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Paway.Test
 {
-    [Table(Table = "Users", Key = "Id")]
+    [Table(Table = "Users")]
     public interface ITestInfo : IId
     {
         int ParentId { get; set; }
@@ -35,7 +35,7 @@ namespace Paway.Test
         public int ParentId { get; set; }
         public virtual string Name { get; set; }
     }
-    [Serializable, Table(Table = "Users", Key = "Id")]
+    [Serializable, Table(Table = "Users")]
     public class TestInfo : TestBase, ITestInfo, IFind<TestInfo>
     {
         [Property(Text = "名称")]

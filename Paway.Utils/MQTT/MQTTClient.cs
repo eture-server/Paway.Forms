@@ -10,6 +10,7 @@ using MQTTnet.Protocol;
 using MQTTnet.Adapter;
 using System.Collections.Generic;
 using Paway.Helper;
+using System.Threading.Tasks;
 
 namespace Paway.Utils
 {
@@ -20,11 +21,14 @@ namespace Paway.Utils
     {
         #region 变量
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly IMqttClient mqttClient = null;
         private readonly string topic;
         private readonly int keepAlivePeriod;
         private string host;
         private int port;
+        /// <summary>
+        /// 客户端
+        /// </summary>
+        private readonly IMqttClient mqttClient;
         /// <summary>
         /// 用户Id
         /// </summary>
@@ -165,25 +169,36 @@ namespace Paway.Utils
         /// 消息处理
         /// </summary>
         protected virtual void MessageHandle(string data) { }
+        /// <summary>
+        /// 自定义订阅
+        /// reset=true:清除已有订阅
+        /// </summary>
+        public Task SubscribeAsync(bool reset, params string[] args)
+        {
+            var topicList = new List<TopicFilter>();
+            if (!reset)
+            {
+                topicList.Add(new TopicFilter(this.topic, MqttQualityOfServiceLevel.ExactlyOnce));
+                topicList.Add(new TopicFilter(this.topic + "/" + this.ClientId, MqttQualityOfServiceLevel.ExactlyOnce));
+            }
+            if (args != null)
+            {
+                foreach (var item in args)
+                {
+                    topicList.Add(new TopicFilter(item, MqttQualityOfServiceLevel.ExactlyOnce));
+                }
+            }
+            mqttClient.SubscribeAsync(topicList);
+            return Task.CompletedTask;
+        }
 
         #endregion
 
         #region private Method
         private void MqttClient_Connected(object sender, MqttClientConnectedEventArgs e)
         {
-            var topicList = new List<TopicFilter> {
-                new TopicFilter(this.topic, MqttQualityOfServiceLevel.ExactlyOnce),
-                new TopicFilter(this.topic + "/" + this.ClientId, MqttQualityOfServiceLevel.ExactlyOnce)
-            };
             var topics = TopicEvent?.Invoke();
-            if (topics != null)
-            {
-                foreach (var item in topics)
-                {
-                    topicList.Add(new TopicFilter(item, MqttQualityOfServiceLevel.ExactlyOnce));
-                }
-            }
-            mqttClient.SubscribeAsync(topicList);
+            SubscribeAsync(false, topics);
             ConnectEvent?.Invoke(true, null);
         }
         private void MqttClient_Disconnected(object sender, MqttClientDisconnectedEventArgs e)

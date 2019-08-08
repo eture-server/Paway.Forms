@@ -124,7 +124,7 @@ namespace Paway.Helper
         /// <summary>
         /// 主键名称，不可更新
         /// </summary>
-        public string Key { get; set; }
+        public string Key { get; set; } = nameof(IId.Id);
         /// <summary>
         /// 标识(唯一)列名称，可更新
         /// </summary>
@@ -132,7 +132,7 @@ namespace Paway.Helper
         /// <summary>
         /// 标识
         /// </summary>
-        public string Keys { get { return Mark ?? Key ?? nameof(IId.Id); } }
+        public string Keys { get { return Mark ?? Key; } }
         /// <summary>
         /// 表名称
         /// </summary>

@@ -7,7 +7,7 @@ using System.Text;
 namespace Paway.Test
 {
     [Serializable]
-    [Table(Table = "Users", Key = "Id")]
+    [Table(Table = "Users")]
     public class UserInfo : IName, IFind<UserInfo>
     {
         [Property(IShow = false)]

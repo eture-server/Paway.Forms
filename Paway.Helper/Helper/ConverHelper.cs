@@ -585,6 +585,7 @@ namespace Paway.Helper
         }
         /// <summary>
         /// 获取列名
+        /// 兼容视图多表查询、自定义列名
         /// </summary>
         public static string Column(this MemberInfo pro)
         {
@@ -592,8 +593,14 @@ namespace Paway.Helper
             if (list.Length == 1 && list[0].Column != null)
             {
                 var column = list[0].Column;
-                var index = column.IndexOf(".");
-                if (index != -1) column = column.Substring(index + 1);
+                if (column.Contains(" "))
+                {
+                    column = column.Substring(column.LastIndexOf(" ") + 1);
+                }
+                else if (column.Contains("."))
+                {
+                    column = column.Substring(column.LastIndexOf(".") + 1);
+                }
                 return column;
             }
             return pro.Name;
