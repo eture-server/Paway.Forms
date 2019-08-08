@@ -591,7 +591,10 @@ namespace Paway.Helper
             var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
             if (list.Length == 1 && list[0].Column != null)
             {
-                return list[0].Column;
+                var column = list[0].Column;
+                var index = column.IndexOf(".");
+                if (index != -1) column = column.Substring(index + 1);
+                return column;
             }
             return pro.Name;
         }

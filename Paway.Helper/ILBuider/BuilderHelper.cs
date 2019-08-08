@@ -22,6 +22,9 @@ namespace Paway.Helper
     {
         #region 锁
         private static object _syncRoot;
+        /// <summary>
+        /// 原子锁
+        /// </summary>
         public static object SyncRoot
         {
             get
