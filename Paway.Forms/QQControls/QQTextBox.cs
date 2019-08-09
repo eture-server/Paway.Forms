@@ -18,7 +18,6 @@ namespace Paway.Forms
         private readonly Image _moveImage = Resources.QQ_TextBox_move;
         private TMouseState _mouseState = TMouseState.Normal;
         private TMouseState _iconMouseState = TMouseState.Normal;
-        private bool _iconIsButton;
         private ErrorProvider _error;
         private Image _icon;
         private RegexType _regexType;
@@ -377,11 +376,7 @@ namespace Paway.Forms
         /// </summary>
         [Description("文本框的图标是否是按钮"), Category("自定义属性")]
         [DefaultValue(false)]
-        public bool IconIsButton
-        {
-            get { return _iconIsButton; }
-            set { _iconIsButton = value; }
-        }
+        public bool IconIsButton { get; set; }
 
         /// <summary>
         /// </summary>
@@ -454,9 +449,9 @@ namespace Paway.Forms
             }
             BaseText.Size = new Size(Size.Width - 6, Size.Height - 8);
             _iconRect.Y = (Height - _iconRect.Height) / 2;
-            PositionTextBox();
             Invalidate();
             BaseText.Location = new Point(3, 4);
+            PositionTextBox();
         }
         /// <summary>
         /// 设置背景透明
@@ -483,9 +478,7 @@ namespace Paway.Forms
             {
                 var position = 23;
                 BaseText.Width -= position;
-                BaseText.Location = new Point(
-                    position + 3,
-                    BaseText.Location.Y);
+                BaseText.Location = new Point(position + 3, BaseText.Location.Y);
             }
         }
 
@@ -783,7 +776,7 @@ namespace Paway.Forms
             MouseState = TMouseState.Move;
             if (_icon != null && IconRect.Contains(e.Location))
             {
-                if (_iconIsButton)
+                if (IconIsButton)
                     Cursor = Cursors.Hand;
                 else
                     Cursor = Cursors.Default;
@@ -795,7 +788,7 @@ namespace Paway.Forms
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-            if (_icon != null && _iconIsButton)
+            if (_icon != null && IconIsButton)
             {
                 if (e.Button == MouseButtons.Left && IconRect.Contains(e.Location))
                 {
@@ -809,7 +802,7 @@ namespace Paway.Forms
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
-            if (_icon != null && _iconIsButton)
+            if (_icon != null && IconIsButton)
             {
                 IconMouseState = TMouseState.Up;
                 if (e.Button == MouseButtons.Left && IconRect.Contains(e.Location))

@@ -91,7 +91,7 @@
             this.toolBar1.ItemSize = new System.Drawing.Size(0, 32);
             this.toolBar1.Location = new System.Drawing.Point(0, 2);
             this.toolBar1.Name = "toolBar1";
-            this.toolBar1.Size = new System.Drawing.Size(535, 32);
+            this.toolBar1.Size = new System.Drawing.Size(515, 32);
             this.toolBar1.TabIndex = 69;
             this.toolBar1.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))));
             this.toolBar1.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(244)))), ((int)(((byte)(191)))));
@@ -104,10 +104,10 @@
             this.panel2.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panel2.Controls.Add(this.tbName);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(535, 2);
+            this.panel2.Location = new System.Drawing.Point(515, 2);
             this.panel2.Name = "panel2";
             this.panel2.Padding = new System.Windows.Forms.Padding(0, 3, 5, 0);
-            this.panel2.Size = new System.Drawing.Size(158, 32);
+            this.panel2.Size = new System.Drawing.Size(178, 32);
             this.panel2.TabIndex = 68;
             this.panel2.Visible = false;
             // 
@@ -124,7 +124,7 @@
             this.tbName.MaxLength = 16;
             this.tbName.Name = "tbName";
             this.tbName.RegexType = Paway.Helper.RegexType.Normal;
-            this.tbName.Size = new System.Drawing.Size(153, 29);
+            this.tbName.Size = new System.Drawing.Size(173, 29);
             this.tbName.TabIndex = 60;
             this.tbName.WaterText = "Ctrl+F搜索";
             // 
