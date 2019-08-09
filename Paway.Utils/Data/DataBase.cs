@@ -98,7 +98,7 @@ namespace Paway.Utils
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("ExecuteNonQuery.Error[{0}]\r\n{1}", sql, ex);
+                log.ErrorFormat("ExecuteNonQuery.Error[{0}]\r\n{1}", cmd.CommandText, ex);
                 throw;
             }
             finally
@@ -122,7 +122,7 @@ namespace Paway.Utils
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("ExecuteScalar.Error[{0}]\r\n{1}", sql, ex);
+                log.ErrorFormat("ExecuteScalar.Error[{0}]\r\n{1}", cmd.CommandText, ex);
                 throw;
             }
             finally
@@ -151,7 +151,7 @@ namespace Paway.Utils
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("ExecuteDataTable.Error[{0}]\r\n{1}", sql, ex);
+                log.ErrorFormat("ExecuteDataTable.Error[{0}]\r\n{1}", cmd.CommandText, ex);
                 throw;
             }
             finally
@@ -271,7 +271,7 @@ namespace Paway.Utils
         {
             Type type = typeof(T);
             var iTrans = cmd == null;
-            string sql = null;
+            string sql;
             try
             {
                 if (iTrans) cmd = CommandStart();
@@ -301,7 +301,7 @@ namespace Paway.Utils
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("Find.Error[{0}]\r\n{1}", sql, ex);
+                log.ErrorFormat("Find.Error[{0}]\r\n{1}", cmd.CommandText, ex);
                 throw;
             }
             finally
@@ -453,7 +453,7 @@ namespace Paway.Utils
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("Delete.Error[{0}]\r\n{1}", sql, ex);
+                log.ErrorFormat("Delete.Error[{0}]\r\n{1}", cmd.CommandText, ex);
                 throw;
             }
             finally

@@ -320,6 +320,8 @@ namespace Paway.Forms
         private bool _iAutoWidth;
         /// <summary>
         /// 自动项宽度
+        /// 当ItemSize.Width=0时,宽度自动
+        /// 当ItemSize.Width>0时,宽度范围限制在(1/2-1)个Width
         /// </summary>
         [Description("自动项宽度")]
         [DefaultValue(false)]
