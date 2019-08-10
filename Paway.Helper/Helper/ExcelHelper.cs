@@ -219,11 +219,15 @@ namespace Paway.Helper
         /// <param name="fileName"></param>
         /// <param name="heard">显示列名</param>
         /// <param name="heardLine">显示列边框</param>
-        /// <param name="filterAction">外部过滤列方法</param>
-        /// <param name="action">创建单元格后外部处理方法</param>
-        /// <param name="args">列宽</param>
+        /// <param name="heardAction">自定义标题</param>
+        /// <param name="filter">外部过滤列,true:过滤</param>
+        /// <param name="merged">创建单元格后处理(合并单元格)</param>
+        /// <param name="sign">生成完成后处理(签名)</param>
+        /// <param name="args">设置列宽</param>
         public static void ToExcel<T>(List<T> list, string title, string fileName, bool heard = true, bool heardLine = false,
-            Func<string, bool> filterAction = null, Action<List<T>, int, IRow, string> action = null, params int[] args)
+            Func<List<T>, ISheet, int> heardAction = null, Func<List<T>, string, bool> filter = null,
+            Action<List<T>, int, IRow, string> merged = null, Action<ISheet> sign = null,
+            params int[] args)
         {
             if (File.Exists(fileName)) File.Delete(fileName);
             IWorkbook workbook = null;
@@ -243,10 +247,14 @@ namespace Paway.Helper
                 }
                 var type = list.GenericType();
                 var properties = type.Properties();
-                var defaultStyle = GetCellStyle(workbook, CellStyle.Default, HorizontalAlignment.Left);
-                var heardStyle = GetCellStyle(workbook, CellStyle.Default, HorizontalAlignment.Left);
+                var defaultStyle = GetCellStyle(workbook);
+                var heardStyle = GetCellStyle(workbook);
                 SoildStyle(heardStyle);
-                var numberStyle = GetCellStyle(workbook, CellStyle.Number, HorizontalAlignment.Left);
+                var numberStyle = GetCellStyle(workbook, CellStyle.Number);
+                if (heardAction != null)
+                {
+                    count += heardAction.Invoke(list, sheet);
+                }
                 if (heard) //写入DataTable的列名
                 {
                     IRow row = sheet.CreateRow(count++);
@@ -254,7 +262,7 @@ namespace Paway.Helper
                     foreach (var property in properties)
                     {
                         if (!property.IExcel()) continue;
-                        if (filterAction != null && filterAction(property.Name)) continue;
+                        if (filter != null && filter(list, property.Name)) continue;
                         property.IShow(out string text);
                         var index = row.LastCellNum < 0 ? 0 : row.LastCellNum;
                         var cell = row.CreateCell(index);
@@ -283,9 +291,11 @@ namespace Paway.Helper
                     foreach (var property in properties)
                     {
                         if (!property.IExcel()) continue;
-                        if (filterAction != null && filterAction(property.Name)) continue;
+                        if (filter != null && filter(list, property.Name)) continue;
                         var index = row.LastCellNum < 0 ? 0 : row.LastCellNum;
-                        if (property.PropertyType == typeof(double) || property.PropertyType == typeof(int))
+                        var dbType = property.PropertyType;
+                        if (dbType.IsGenericType && Nullable.GetUnderlyingType(dbType) != null) dbType = Nullable.GetUnderlyingType(dbType);
+                        if (dbType == typeof(double) || dbType == typeof(int))
                         {
                             CreateCell(row, index, numberStyle, type.GetValue(list[i], property.Name));
                         }
@@ -293,9 +303,10 @@ namespace Paway.Helper
                         {
                             CreateCell(row, index, defaultStyle, type.GetValue(list[i], property.Name));
                         }
-                        action?.Invoke(list, i, row, property.Name);
+                        merged?.Invoke(list, i, row, property.Name);
                     }
                 }
+                sign?.Invoke(sheet);
                 workbook.Write(fs); //写入到excel
             }
             finally
@@ -353,7 +364,7 @@ namespace Paway.Helper
         /// <returns></returns>
         public static ICell CreateCellDefalut(IRow row, int index, string value)
         {
-            ICellStyle style = GetCellStyle(row.Sheet.Workbook, CellStyle.Default, HorizontalAlignment.Left);
+            ICellStyle style = GetCellStyle(row.Sheet.Workbook);
             return CreateCell(row, index, style, value);
         }
         /// <summary>
@@ -366,7 +377,7 @@ namespace Paway.Helper
         public static ICell CreateCellNumber(IRow row, int index, double value)
         {
             ICell cell = row.CreateCell(index);
-            cell.CellStyle = GetCellStyle(row.Sheet.Workbook, CellStyle.Number, HorizontalAlignment.Left);
+            cell.CellStyle = GetCellStyle(row.Sheet.Workbook, CellStyle.Number);
             cell.SetCellValue(value);
             return cell;
         }
@@ -380,7 +391,7 @@ namespace Paway.Helper
         public static ICell CreateCellNumber(IRow row, int index, int value)
         {
             ICell cell = row.CreateCell(index);
-            cell.CellStyle = GetCellStyle(row.Sheet.Workbook, CellStyle.Number, HorizontalAlignment.Left);
+            cell.CellStyle = GetCellStyle(row.Sheet.Workbook, CellStyle.Number);
             cell.SetCellValue(value);
             return cell;
         }
@@ -394,7 +405,7 @@ namespace Paway.Helper
         public static ICell CreateCellDate(IRow row, int index, DateTime value)
         {
             ICell cell = row.CreateCell(index);
-            cell.CellStyle = GetCellStyle(row.Sheet.Workbook, CellStyle.DateTime, HorizontalAlignment.Left);
+            cell.CellStyle = GetCellStyle(row.Sheet.Workbook, CellStyle.DateTime);
             cell.SetCellValue(value);
             return cell;
         }
@@ -405,7 +416,7 @@ namespace Paway.Helper
         /// <param name="tyle">单元格类型</param>
         /// <param name="_HorizontalAlignment"></param>
         /// <returns></returns>
-        public static ICellStyle GetCellStyle(IWorkbook wb, CellStyle tyle, HorizontalAlignment _HorizontalAlignment)
+        public static ICellStyle GetCellStyle(IWorkbook wb, CellStyle tyle = CellStyle.Default, HorizontalAlignment _HorizontalAlignment = HorizontalAlignment.Left)
         {
             ICellStyle style = wb.CreateCellStyle();
             //定义几种字体  

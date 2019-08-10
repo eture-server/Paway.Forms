@@ -687,6 +687,7 @@ namespace Paway.Forms
                 case RegexType.Custom:
                     result = StringHelper.RegexChecked(BaseText.Text, Regex);
                     break;
+                case RegexType.None: return;
             }
             if (!string.IsNullOrEmpty(result))
             {
