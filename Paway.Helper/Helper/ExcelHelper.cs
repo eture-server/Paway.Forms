@@ -8,6 +8,7 @@ using System.Data.OleDb;
 using System.IO;
 using System.Collections.Generic;
 using NPOI.XSSF.UserModel;
+using NPOI.SS.Util;
 
 namespace Paway.Helper
 {
@@ -145,14 +146,14 @@ namespace Paway.Helper
         /// <param name="fileName">文件名</param>
         /// <param name="excel2003">Excel2003工作簿标记，默认为空可自动判断文件扩展名</param>
         /// <param name="sheetIndex">工作簿序号，默认0</param>
+        /// <param name="heardIndex">标题列位置，默认0</param>
         /// <returns></returns>
-        public static DataTable ToDataTable(string fileName, bool? excel2003 = null, int sheetIndex = 0)
+        public static DataTable ToDataTable(string fileName, bool? excel2003 = null, int sheetIndex = 0, int heardIndex = 0)
         {
             DataTable dt = new DataTable();
             FileStream fs = null;
             try
             {
-                int index = 0;
                 IWorkbook workbook = null;
                 if (excel2003 == null) excel2003 = Path.GetExtension(fileName) == ".xls";
                 if (excel2003 ?? false)
@@ -168,7 +169,7 @@ namespace Paway.Helper
                 ISheet sheet = workbook.GetSheetAt(sheetIndex);
                 if (sheet != null)
                 {
-                    IRow firstRow = sheet.GetRow(0);
+                    IRow firstRow = sheet.GetRow(heardIndex);
                     int cellCount = firstRow.LastCellNum; //一行最后一个cell的编号 即总的列数
 
                     for (int i = firstRow.FirstCellNum; i < cellCount; ++i)
@@ -184,12 +185,12 @@ namespace Paway.Helper
                             }
                         }
                     }
-                    index = sheet.FirstRowNum + 1;
 
                     //最后一列的标号
                     int count = sheet.LastRowNum;
-                    for (int i = index; i <= count; ++i)
+                    for (int i = sheet.FirstRowNum; i <= count; ++i)
                     {
+                        if (i == heardIndex) continue;
                         IRow row = sheet.GetRow(i);
                         if (row == null) continue; //没有数据的行默认是null　　　　　　　
 
@@ -212,21 +213,40 @@ namespace Paway.Helper
         /// <summary>
         /// 导出到Excel
         /// </summary>
-        public static void ToExcel<T>(List<T> list, string fileName, bool heard = true, Func<string, bool> action = null)
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="title">自定义显示标题</param>
+        /// <param name="fileName"></param>
+        /// <param name="heard">显示列名</param>
+        /// <param name="heardLine">显示列边框</param>
+        /// <param name="filterAction">外部过滤列方法</param>
+        /// <param name="action">创建单元格后外部处理方法</param>
+        /// <param name="args">列宽</param>
+        public static void ToExcel<T>(List<T> list, string title, string fileName, bool heard = true, bool heardLine = false,
+            Func<string, bool> filterAction = null, Action<List<T>, int, IRow, string> action = null, params int[] args)
         {
             if (File.Exists(fileName)) File.Delete(fileName);
             IWorkbook workbook = null;
             if (Path.GetExtension(fileName) == ".xls") workbook = new HSSFWorkbook();
             else if (Path.GetExtension(fileName) == ".xlsx") workbook = new XSSFWorkbook();
-            FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            FileStream fs = null;
             try
             {
-                Type type = typeof(T);
-                int index = 0, count = 0;
+                int count = 0;
+                fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                 ISheet sheet = workbook.CreateSheet("Sheet1");
+                if (!title.IsNullOrEmpty())
+                {
+                    IRow row = sheet.CreateRow(count++);
+                    row.Height = 30 * 20;
+                    CreateCellHeader(row, 0, title);
+                }
+                var type = list.GenericType();
                 var properties = type.Properties();
-                var style = Getcellstyle(workbook, CellStyle.Default, HorizontalAlignment.Left);
-                var numberStyle = Getcellstyle(workbook, CellStyle.Number, HorizontalAlignment.Left);
+                var defaultStyle = GetCellStyle(workbook, CellStyle.Default, HorizontalAlignment.Left);
+                var heardStyle = GetCellStyle(workbook, CellStyle.Default, HorizontalAlignment.Left);
+                SoildStyle(heardStyle);
+                var numberStyle = GetCellStyle(workbook, CellStyle.Number, HorizontalAlignment.Left);
                 if (heard) //写入DataTable的列名
                 {
                     IRow row = sheet.CreateRow(count++);
@@ -234,50 +254,67 @@ namespace Paway.Helper
                     foreach (var property in properties)
                     {
                         if (!property.IExcel()) continue;
-                        if (action != null && action(property.Name)) continue;
+                        if (filterAction != null && filterAction(property.Name)) continue;
                         property.IShow(out string text);
-                        var cell = row.CreateCell(index++);
-                        cell.CellStyle = style;
+                        var index = row.LastCellNum < 0 ? 0 : row.LastCellNum;
+                        var cell = row.CreateCell(index);
+                        cell.CellStyle = heardLine ? heardStyle : defaultStyle;
                         cell.SetCellValue(text);
+                        sheet.SetColumnWidth(index, 20 * 256);
                     }
+                    int i = 0;
+                    for (; i < args.Length && i < row.LastCellNum; i++)
+                    {
+                        sheet.SetColumnWidth(i, args[i] * 256);
+                    }
+                    for (; args.Length > 0 && i < row.LastCellNum; i++)
+                    {
+                        sheet.SetColumnWidth(i, args[0] * 256);
+                    }
+                }
+                if (!title.IsNullOrEmpty() && sheet.LastRowNum > 0)
+                {
+                    sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, sheet.GetRow(sheet.LastRowNum).LastCellNum - 1));
                 }
                 for (int i = 0; i < list.Count; ++i)
                 {
-                    index = 0;
                     IRow row = sheet.CreateRow(count++);
+                    row.Height = 16 * 20;
                     foreach (var property in properties)
                     {
                         if (!property.IExcel()) continue;
-                        if (action != null && action(property.Name)) continue;
-                        if (property.PropertyType == typeof(double))
+                        if (filterAction != null && filterAction(property.Name)) continue;
+                        var index = row.LastCellNum < 0 ? 0 : row.LastCellNum;
+                        if (property.PropertyType == typeof(double) || property.PropertyType == typeof(int))
                         {
-                            var cell = row.CreateCell(index++);
-                            cell.CellStyle = numberStyle;
-                            cell.SetCellValue((double)type.GetValue(list[i], property.Name));
-                        }
-                        else if (property.PropertyType == typeof(int))
-                        {
-                            var cell = row.CreateCell(index++);
-                            cell.CellStyle = numberStyle;
-                            cell.SetCellValue((int)type.GetValue(list[i], property.Name));
+                            CreateCell(row, index, numberStyle, type.GetValue(list[i], property.Name));
                         }
                         else
                         {
-                            var cell = row.CreateCell(index++);
-                            cell.CellStyle = style;
-                            cell.SetCellValue(type.GetValue(list[i], property.Name).ToStrs());
+                            CreateCell(row, index, defaultStyle, type.GetValue(list[i], property.Name));
                         }
+                        action?.Invoke(list, i, row, property.Name);
                     }
                 }
-                sheet.SetColumnWidth(2, 20 * 256);
-                sheet.SetColumnWidth(7, 20 * 256);
-                sheet.SetColumnWidth(8, 20 * 256);
                 workbook.Write(fs); //写入到excel
             }
             finally
             { if (fs != null) fs.Close(); }
         }
+        /// <summary>
+        /// 为样式添加黑色边框
+        /// </summary>
+        public static void SoildStyle(ICellStyle style)
+        {
+            style.FillPattern = FillPattern.SolidForeground;
+            style.FillForegroundColor = HSSFColor.White.Index;
+            style.BorderBottom = BorderStyle.Thin;
+            style.BorderLeft = BorderStyle.Thin;
+            style.BorderRight = BorderStyle.Thin;
+            style.BorderTop = BorderStyle.Thin;
+        }
 
+        #region 创建单元格并且赋值
         /// <summary>
         /// 创建单元格并且赋值
         /// </summary>
@@ -286,74 +323,81 @@ namespace Paway.Helper
         /// <param name="style">样式</param>
         /// <param name="value">单元格值</param>
         /// <returns></returns>
-        public static ICell CreateCell(IRow row, int index, ICellStyle style, string value)
+        public static ICell CreateCell(IRow row, int index, ICellStyle style, object value)
         {
             ICell cell = row.CreateCell(index);
             cell.CellStyle = style;
-            cell.SetCellValue(value);
+            if (value is double) cell.SetCellValue((double)value);
+            else if (value is int) cell.SetCellValue((int)value);
+            else cell.SetCellValue(value.ToStrs());
             return cell;
         }
-
         /// <summary>
         /// 创建默认单元格并且赋值
         /// </summary>
-        /// <param name="wb">IWorkbook实例</param>
         /// <param name="row">行对象</param>
         /// <param name="index">单元格索引</param>
         /// <param name="value">单元格值</param>
         /// <returns></returns>
-        public static ICell CreateCellHeader(IWorkbook wb, IRow row, int index, string value)
+        public static ICell CreateCellHeader(IRow row, int index, string value)
         {
-            ICellStyle style = Getcellstyle(wb, CellStyle.Header, HorizontalAlignment.Center);
+            ICellStyle style = GetCellStyle(row.Sheet.Workbook, CellStyle.Header, HorizontalAlignment.Center);
             return CreateCell(row, index, style, value);
         }
-
         /// <summary>
         /// 创建默认单元格并且赋值
         /// </summary>
-        /// <param name="wb">IWorkbook实例</param>
         /// <param name="row">行对象</param>
         /// <param name="index">单元格索引</param>
         /// <param name="value">单元格值</param>
         /// <returns></returns>
-        public static ICell CreateCellDefalut(IWorkbook wb, IRow row, int index, string value)
+        public static ICell CreateCellDefalut(IRow row, int index, string value)
         {
-            ICellStyle style = Getcellstyle(wb, CellStyle.Default, HorizontalAlignment.Left);
+            ICellStyle style = GetCellStyle(row.Sheet.Workbook, CellStyle.Default, HorizontalAlignment.Left);
             return CreateCell(row, index, style, value);
         }
-
         /// <summary>
         /// 创建数字单元格并且赋值
         /// </summary>
-        /// <param name="wb">IWorkbook实例</param>
         /// <param name="row">行对象</param>
         /// <param name="index">单元格索引</param>
         /// <param name="value">单元格值</param>
         /// <returns></returns>
-        public static ICell CreateCellNumber(IWorkbook wb, IRow row, int index, double value)
+        public static ICell CreateCellNumber(IRow row, int index, double value)
         {
             ICell cell = row.CreateCell(index);
-            cell.CellStyle = Getcellstyle(wb, CellStyle.Number, HorizontalAlignment.Left);
+            cell.CellStyle = GetCellStyle(row.Sheet.Workbook, CellStyle.Number, HorizontalAlignment.Left);
             cell.SetCellValue(value);
             return cell;
         }
-
+        /// <summary>
+        /// 创建数字单元格并且赋值
+        /// </summary>
+        /// <param name="row">行对象</param>
+        /// <param name="index">单元格索引</param>
+        /// <param name="value">单元格值</param>
+        /// <returns></returns>
+        public static ICell CreateCellNumber(IRow row, int index, int value)
+        {
+            ICell cell = row.CreateCell(index);
+            cell.CellStyle = GetCellStyle(row.Sheet.Workbook, CellStyle.Number, HorizontalAlignment.Left);
+            cell.SetCellValue(value);
+            return cell;
+        }
         /// <summary>
         /// 创建日期单元格并且赋值
         /// </summary>
-        /// <param name="wb">IWorkbook实例</param>
         /// <param name="row">行对象</param>
         /// <param name="index">单元格索引</param>
         /// <param name="value">单元格值</param>
         /// <returns></returns>
-        public static ICell CreateCellDate(IWorkbook wb, IRow row, int index, DateTime value)
+        public static ICell CreateCellDate(IRow row, int index, DateTime value)
         {
             ICell cell = row.CreateCell(index);
-            cell.CellStyle = Getcellstyle(wb, CellStyle.DateTime, HorizontalAlignment.Left);
+            cell.CellStyle = GetCellStyle(row.Sheet.Workbook, CellStyle.DateTime, HorizontalAlignment.Left);
             cell.SetCellValue(value);
             return cell;
         }
-
         /// <summary>
         /// 单元格格式
         /// </summary>
@@ -361,7 +405,7 @@ namespace Paway.Helper
         /// <param name="tyle">单元格类型</param>
         /// <param name="_HorizontalAlignment"></param>
         /// <returns></returns>
-        public static ICellStyle Getcellstyle(IWorkbook wb, CellStyle tyle, HorizontalAlignment _HorizontalAlignment)
+        public static ICellStyle GetCellStyle(IWorkbook wb, CellStyle tyle, HorizontalAlignment _HorizontalAlignment)
         {
             ICellStyle style = wb.CreateCellStyle();
             //定义几种字体  
@@ -465,5 +509,7 @@ namespace Paway.Helper
             /// </summary>
             Science,
         }
+
+        #endregion
     }
 }
