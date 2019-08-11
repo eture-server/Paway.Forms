@@ -58,13 +58,10 @@ namespace Paway.Forms
         [Category("分页")]
         [Description("显示分页")]
         [DefaultValue(true)]
-        public bool IPagerInfo
+        public bool IGroup
         {
-            get { return TPager.Visible; }
-            set
-            {
-                TPager.PagerInfo.PageSize = value ? 20 : int.MaxValue;
-            }
+            get { return TPager.PagerInfo.IGroup; }
+            set { TPager.PagerInfo.IGroup = value; }
         }
         /// <summary>
         /// 获取或设置每页显示的记录
@@ -327,7 +324,8 @@ namespace Paway.Forms
 
                 var table = dt.Clone();
                 var index = PagerInfo.PageSize * (PagerInfo.CurrentPageIndex - 1);
-                for (var i = index; i < index + PagerInfo.PageSize && i < dt.Rows.Count; i++)
+                int count = PagerInfo.IGroup ? (index + PagerInfo.PageSize) : dt.Rows.Count;
+                for (var i = index; i < count && i < dt.Rows.Count; i++)
                 {
                     table.Rows.Add(dt.Rows[i].ItemArray);
                 }
@@ -342,9 +340,9 @@ namespace Paway.Forms
 
                 var temp = DataType.GenericList();
                 var index = PagerInfo.PageSize * (PagerInfo.CurrentPageIndex - 1);
-                for (var i = index; i < index + PagerInfo.PageSize; i++)
+                int count = PagerInfo.IGroup ? (index + PagerInfo.PageSize) : list.Count;
+                for (var i = index; i < count && i < list.Count; i++)
                 {
-                    if (i >= list.Count) break;
                     temp.Add(list[i]);
                 }
                 Edit.DataSource = temp;

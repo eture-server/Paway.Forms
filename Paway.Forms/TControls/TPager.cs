@@ -385,15 +385,15 @@ namespace Paway.Forms
 
             txtCurrentPage.Text = PagerInfo.CurrentPageIndex.ToString();
             if (!iTotal) OnPageChanged(EventArgs.Empty);
-            if (PagerInfo.PageSize == int.MaxValue)
-            {
-                tControl1.Visible = false;
-                lblPageInfo.Text = string.Format("共 {0:#,0} 条记录", PagerInfo.RecordCount);
-            }
-            else
+            if (PagerInfo.IGroup)
             {
                 tControl1.Visible = true;
                 lblPageInfo.Text = string.Format("共 {0:#,0} 条记录，每页 {1:#,0} 条，共 {2:#,0} 页", PagerInfo.RecordCount, PagerInfo.PageSize, PagerInfo.PageCount);
+            }
+            else
+            {
+                tControl1.Visible = false;
+                lblPageInfo.Text = string.Format("共 {0:#,0} 条记录", PagerInfo.RecordCount);
             }
         }
         /// <summary>
@@ -546,6 +546,7 @@ namespace Paway.Forms
         private int currentPageIndex = 1; //当前页码
         private int pageSize = 20; //每页显示的记录
         private int recordCount; //记录总数
+        private bool iGroup = true; //分页
 
         /// <summary>
         /// 在分页属性变动时发生
@@ -596,6 +597,22 @@ namespace Paway.Forms
         }
 
         /// <summary>
+        /// 分页信息
+        /// </summary>
+        [Category("分页")]
+        [Description("显示分页")]
+        [DefaultValue(true)]
+        public bool IGroup
+        {
+            get { return iGroup; }
+            set
+            {
+                iGroup = value;
+                PageInfoChanged?.Invoke(this);
+            }
+        }
+
+        /// <summary>
         /// 获取或设置记录总数
         /// </summary>
         [DataMember]
@@ -625,8 +642,8 @@ namespace Paway.Forms
         {
             get
             {
-                if (PageSize == 0) PageSize = 1;
-                if (RecordCount % PageSize == 0)
+                if (pageSize == 0) pageSize = 1;
+                if (RecordCount % pageSize == 0)
                 {
                     return RecordCount / pageSize;
                 }

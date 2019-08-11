@@ -302,8 +302,11 @@ namespace Paway.Forms
                         {
                             RefreshData();
                             index = this.List.FindIndex(c => c.Id == data.Id);
-                            this.gridview1.CurrentPageIndex = index / this.gridview1.PagerInfo.PageSize + 1;
-                            index %= this.gridview1.PagerInfo.PageSize;
+                            if (this.gridview1.PagerInfo.IGroup)
+                            {
+                                this.gridview1.CurrentPageIndex = index / this.gridview1.PagerInfo.PageSize + 1;
+                                index %= this.gridview1.PagerInfo.PageSize;
+                            }
                             gridview1.Edit.AutoCell(index);
                         }
                     }
