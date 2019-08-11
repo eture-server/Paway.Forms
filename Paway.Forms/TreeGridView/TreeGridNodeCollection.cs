@@ -19,16 +19,20 @@ namespace Paway.Forms
         public TreeGridNode Add(params object[] values)
         {
             TreeGridNode item = new TreeGridNode();
-            this.Add(item);
-            item.Update(values);
+            this.AddValue(item, values);
             return item;
         }
 
         public void Add(TreeGridNode item)
         {
+            AddValue(item);
+        }
+        public void AddValue(TreeGridNode item, params object[] values)
+        {
             item._grid = this._owner._grid;
             item._owner = this;
             this._list.Add(item);
+            item.Update(values);
             this._owner.AddChildNode(item);
             if (!this._owner.HasChildren && this._owner.IsSited)
             {

@@ -31,6 +31,7 @@ namespace Paway.Test
             gridview1.IGroup = false;
             this.UserTree(true);
             var server = new SQLiteService();
+            base.find = "Id<=927551";
             var list = server.Find<TestInfo>("1=1 limit 10000");
             base.InitData(server, list);
         }
