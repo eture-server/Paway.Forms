@@ -399,6 +399,20 @@ namespace Paway.Helper
             return vList;
         }
         /// <summary>
+        /// 泛型查找 
+        /// </summary>
+        public static object Find(this Type type, IList list, string name, int value)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                if ((int)type.GetValue(list[i], name) == value)
+                {
+                    return list[i];
+                }
+            }
+            return null;
+        }
+        /// <summary>
         /// 泛型值组
         /// </summary>
         public static object[] GetValue(this Type type, object obj)
