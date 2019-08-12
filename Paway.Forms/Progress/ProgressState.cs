@@ -37,7 +37,7 @@ namespace Paway.Forms
         /// <summary>
         /// 指定时间延迟显示
         /// </summary>
-        public bool IDelay { get { return delay != 0 && DateTime.Now.Subtract(DateTime).TotalSeconds < delay; } }
+        public bool IDelay { get { return delay != 0 && DateTime.Now.Subtract(DateTime).TotalMilliseconds < delay; } }
         private bool _iCancel;
         public bool ICancel
         {
