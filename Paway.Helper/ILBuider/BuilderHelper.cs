@@ -25,7 +25,7 @@ namespace Paway.Helper
         /// <summary>
         /// 原子锁
         /// </summary>
-        public static object SyncRoot
+        private static object SyncRoot
         {
             get
             {
@@ -57,7 +57,7 @@ namespace Paway.Helper
         /// IL动态代码(Emit)，复制（实体及列表）
         /// 并行处理列表复制
         /// </summary>
-        public static object CloneObject(object obj, bool depth)
+        internal static object CloneObject(object obj, bool depth)
         {
             if (obj is IList list)
             {
@@ -109,7 +109,7 @@ namespace Paway.Helper
         /// IL动态代码(Emit)，复制（到已有实体及列表）
         /// 并行处理列表复制
         /// </summary>
-        public static void CloneObject(object obj, object copy, bool depth)
+        internal static void CloneObject(object obj, object copy, bool depth)
         {
             if (obj is IList list)
             {
@@ -186,23 +186,9 @@ namespace Paway.Helper
         /// <summary>
         /// IL动态代码(Emit)，List转DataTable
         /// </summary>
-        public static DataTable ToDataTable<T>(this List<T> list)
-        {
-            return typeof(T).ToDataTable(list);
-        }
-        /// <summary>
-        /// IL动态代码(Emit)，List转DataTable
-        /// </summary>
         public static DataTable ToDataTable(this IList list)
         {
             var type = list.GenericType();
-            return type.ToDataTable(list);
-        }
-        /// <summary>
-        /// IL动态代码(Emit)，List转DataTable
-        /// </summary>
-        public static DataTable ToDataTable(this Type type, IList list)
-        {
             var table = type.CreateTable();
             var builder = DataTableBuilder.CreateBuilder(type);
             foreach (var item in list)
@@ -216,15 +202,9 @@ namespace Paway.Helper
         /// <summary>
         /// IL动态代码(Emit)，List转DataTable（Excel）
         /// </summary>
-        public static DataTable ToExcelTable<T>(this List<T> list)
+        public static DataTable ToExcelTable(this IList list)
         {
-            return typeof(T).ToExcelTable(list);
-        }
-        /// <summary>
-        /// IL动态代码(Emit)，List转DataTable（Excel）
-        /// </summary>
-        public static DataTable ToExcelTable(this Type type, IList list)
-        {
+            var type = list.GenericType();
             var table = type.CreateExcelTable();
             var builder = DataTableBuilder.CreateBuilder(type, true);
             foreach (var item in list)
@@ -307,6 +287,67 @@ namespace Paway.Helper
             list.Clear();
             list.AddRange(temp);
         }
+        /// <summary>
+        /// 将值拆箱为Int值以进行比较
+        /// </summary>
+        internal static int TCompareInt(this object obj)
+        {
+            if (obj == null) return 0;
+            Type type = obj.GetType();
+            if (type.IsEnum) type = type.GetEnumUnderlyingType();
+            switch (type.Name)
+            {
+                case nameof(Int32):
+                    return (int)obj;
+                case nameof(Int16):
+                    return (short)obj;
+                case nameof(Byte):
+                    return (byte)obj;
+                case nameof(Boolean):
+                    return (bool)obj ? 1 : 0;
+                case nameof(Image):
+                case nameof(Bitmap):
+                    var image = (Image)obj;
+                    return image.Width * image.Height;
+            }
+            return obj.ToInt();
+        }
+        /// <summary>
+        /// 将值拆箱为Double值以进行比较
+        /// </summary>
+        internal static double TCompareDouble(this object obj)
+        {
+            if (obj == null) return 0;
+            Type type = obj.GetType();
+            switch (type.Name)
+            {
+                case nameof(Double):
+                    return (double)obj;
+                case nameof(Single):
+                    return (float)obj;
+                case nameof(Decimal):
+                    return (double)(decimal)obj;
+                default:
+                    return obj.ToDouble();
+            }
+        }
+        /// <summary>
+        /// 将值拆箱为Long值以进行比较
+        /// </summary>
+        internal static long TCompareLong(this object obj)
+        {
+            if (obj == null) return 0;
+            Type type = obj.GetType();
+            switch (type.Name)
+            {
+                case nameof(Int64):
+                    return (long)obj;
+                case nameof(DateTime):
+                    return ((DateTime)obj).Ticks;
+                default:
+                    return obj.ToLong();
+            }
+        }
 
         #endregion
 
@@ -314,7 +355,7 @@ namespace Paway.Helper
         /// <summary>
         /// 创建SQL参数
         /// </summary>
-        public static DbParameter AddParameter(string column, object value, Type type, Type ptype)
+        internal static DbParameter AddParameter(string column, object value, Type type, Type ptype)
         {
             var param = (DbParameter)Activator.CreateInstance(ptype);
             param.ParameterName = string.Format("@{0}", column);
@@ -365,6 +406,18 @@ namespace Paway.Helper
             return ((Func<object, object>)func)(obj);
         }
         /// <summary>
+        /// 泛型值组
+        /// </summary>
+        public static object[] GetValue(this Type type, object obj)
+        {
+            if (!GetValuesFunc.TryGetValue(type, out Delegate func))
+            {
+                func = ValueBuilder.GetValuesFunc(type);
+                GetValuesFunc.Add(type, func);
+            }
+            return ((Func<object, object[]>)func)(obj);
+        }
+        /// <summary>
         /// IL动态代码(Emit)，设置值
         /// </summary>
         public static void SetValue<T>(this T t, string name, object value)
@@ -411,18 +464,6 @@ namespace Paway.Helper
                 }
             }
             return null;
-        }
-        /// <summary>
-        /// 泛型值组
-        /// </summary>
-        public static object[] GetValue(this Type type, object obj)
-        {
-            if (!GetValuesFunc.TryGetValue(type, out Delegate func))
-            {
-                func = ValueBuilder.GetValuesFunc(type);
-                GetValuesFunc.Add(type, func);
-            }
-            return ((Func<object, object[]>)func)(obj);
         }
 
         #endregion

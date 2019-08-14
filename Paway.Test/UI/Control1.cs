@@ -24,12 +24,12 @@ namespace Paway.Test
             OnChanged(this, e);
             WaitDrawDataGridView();
         }
-        public override void ReLoad()
+        protected override void ReLoad()
         {
             base.ReLoad();
             toolbar.MStart();
         }
-        public override bool UnLoad()
+        protected override bool UnLoad()
         {
             return base.UnLoad();
         }

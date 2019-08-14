@@ -29,7 +29,7 @@ namespace Paway.Forms
         /// </summary>
         [Description("控件数据")]
         [DefaultValue(null)]
-        public EventArgs Args { get; set; }
+        protected EventArgs Args { get; set; }
         /// <summary>
         /// 控件列表
         /// </summary>
@@ -45,7 +45,7 @@ namespace Paway.Forms
         /// <summary>
         /// 从其它控件切换过来时重新激活
         /// </summary>
-        public virtual void ReLoad()
+        protected virtual void ReLoad()
         {
             ILoad = true;
         }
@@ -53,7 +53,7 @@ namespace Paway.Forms
         /// <summary>
         /// 移除当前界面时，是否允许移除
         /// </summary>
-        public virtual bool UnLoad()
+        protected virtual bool UnLoad()
         {
             for (var i = 0; i < Controls.Count; i++)
             {

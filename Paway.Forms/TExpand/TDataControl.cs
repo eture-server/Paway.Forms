@@ -56,7 +56,7 @@ namespace Paway.Forms
         /// <summary>
         /// ReLoad
         /// </summary>
-        public override void ReLoad()
+        protected override void ReLoad()
         {
             base.ReLoad();
             toolBar1.MStart();
@@ -81,7 +81,7 @@ namespace Paway.Forms
         /// <summary>
         /// 使用树结构
         /// </summary>
-        public void UserTree(bool iExpandAll = false)
+        protected void UserTree(bool iExpandAll = false)
         {
             if (!gridview1.UserTree()) return;
             LoadEvent();

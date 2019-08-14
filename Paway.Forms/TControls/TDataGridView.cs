@@ -1065,7 +1065,7 @@ namespace Paway.Forms
         /// <summary>
         /// 刷新数据
         /// </summary>
-        public void RefreshData()
+        protected void RefreshData()
         {
             if (this.InvokeRequired)
             {
