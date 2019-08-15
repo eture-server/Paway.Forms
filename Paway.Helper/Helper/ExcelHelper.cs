@@ -218,15 +218,15 @@ namespace Paway.Helper
         /// <param name="title">自定义显示标题</param>
         /// <param name="fileName"></param>
         /// <param name="heard">显示列名</param>
-        /// <param name="heardLine">显示列边框</param>
+        /// <param name="styleAction">样式处理</param>
         /// <param name="heardAction">自定义标题</param>
         /// <param name="filter">外部过滤列,true:过滤</param>
         /// <param name="merged">创建单元格后处理(合并单元格)</param>
         /// <param name="sign">生成完成后处理(签名)</param>
         /// <param name="args">设置列宽</param>
-        public static void ToExcel<T>(List<T> list, string title, string fileName, bool heard = true, bool heardLine = false,
-            Func<List<T>, ISheet, int> heardAction = null, Func<List<T>, string, bool> filter = null,
-            Action<List<T>, int, IRow, string> merged = null, Action<ISheet> sign = null,
+        public static void ToExcel<T>(List<T> list, string title, string fileName, bool heard = true,
+            Action<ICellStyle, ICellStyle, ICellStyle> styleAction = null, Func<List<T>, ISheet, int> heardAction = null,
+            Func<List<T>, string, bool> filter = null, Action<List<T>, int, IRow, string> merged = null, Action<ISheet> sign = null,
             params int[] args)
         {
             if (File.Exists(fileName)) File.Delete(fileName);
@@ -247,10 +247,10 @@ namespace Paway.Helper
                 }
                 var type = list.GenericType();
                 var properties = type.Properties();
-                var defaultStyle = GetCellStyle(workbook);
                 var heardStyle = GetCellStyle(workbook);
-                SoildStyle(heardStyle);
+                var defaultStyle = GetCellStyle(workbook);
                 var numberStyle = GetCellStyle(workbook, CellStyle.Number);
+                styleAction?.Invoke(heardStyle, defaultStyle, numberStyle);
                 if (heardAction != null)
                 {
                     count += heardAction.Invoke(list, sheet);
@@ -266,7 +266,7 @@ namespace Paway.Helper
                         property.IShow(out string text);
                         var index = row.LastCellNum < 0 ? 0 : row.LastCellNum;
                         var cell = row.CreateCell(index);
-                        cell.CellStyle = heardLine ? heardStyle : defaultStyle;
+                        cell.CellStyle = heardStyle;
                         cell.SetCellValue(text);
                         sheet.SetColumnWidth(index, 20 * 256);
                     }
@@ -317,8 +317,6 @@ namespace Paway.Helper
         /// </summary>
         public static void SoildStyle(ICellStyle style)
         {
-            style.FillPattern = FillPattern.SolidForeground;
-            style.FillForegroundColor = HSSFColor.White.Index;
             style.BorderBottom = BorderStyle.Thin;
             style.BorderLeft = BorderStyle.Thin;
             style.BorderRight = BorderStyle.Thin;
