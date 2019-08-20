@@ -184,7 +184,7 @@ namespace Paway.Forms
             }
             else if (type != typeof(string) && !type.IsValueType)
             {
-                str = type.GetValue(obj, DisplayMember);
+                str = obj.GetValue(DisplayMember);
             }
             else
             {

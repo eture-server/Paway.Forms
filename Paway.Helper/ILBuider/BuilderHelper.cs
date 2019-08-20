@@ -403,15 +403,9 @@ namespace Paway.Helper
         /// <summary>
         /// IL动态代码(Emit)，获取值
         /// </summary>
-        public static object GetValue<T>(this T t, string name)
+        public static object GetValue(this object obj, string name)
         {
-            return typeof(T).GetValue(t, name);
-        }
-        /// <summary>
-        /// IL动态代码(Emit)，获取值
-        /// </summary>
-        public static object GetValue(this Type type, object obj, string name)
-        {
+            var type = obj.GetType();
             if (!GetValueFunc.TryGetValue(type.FullName + "." + name, out Delegate func))
             {
                 func = ValueBuilder.GetValueFunc(type, name);
@@ -433,17 +427,11 @@ namespace Paway.Helper
             return ((Func<object, object[]>)func)(obj);
         }
         /// <summary>
-        /// IL动态代码(Emit)，设置值
-        /// </summary>
-        public static void SetValue<T>(this T t, string name, object value)
-        {
-            typeof(T).SetValue(t, name, value);
-        }
-        /// <summary>
         /// IL动态代码(Emit)，GetValue
         /// </summary>
-        public static void SetValue(this Type type, object obj, string name, object value)
+        public static void SetValue(this object obj, string name, object value)
         {
+            var type = obj.GetType();
             if (!SetValueFunc.TryGetValue(type.FullName + "." + name, out Delegate func))
             {
                 func = ValueBuilder.SetValueFunc(type, name);
@@ -454,12 +442,13 @@ namespace Paway.Helper
         /// <summary>
         /// 泛型查找 
         /// </summary>
-        public static IList FindAll(this Type type, IList list, string name, int value)
+        public static IList FindAll(this IList list, string name, int value)
         {
+            var type = list.GenericType();
             var vList = type.GenericList();
             for (int i = 0; i < list.Count; i++)
             {
-                if ((int)type.GetValue(list[i], name) == value)
+                if ((int)list[i].GetValue(name) == value)
                 {
                     vList.Add(list[i]);
                 }
@@ -469,11 +458,11 @@ namespace Paway.Helper
         /// <summary>
         /// 泛型查找 
         /// </summary>
-        public static object Find(this Type type, IList list, string name, int value)
+        public static object Find(this IList list, string name, int value)
         {
             for (int i = 0; i < list.Count; i++)
             {
-                if ((int)type.GetValue(list[i], name) == value)
+                if ((int)list[i].GetValue(name) == value)
                 {
                     return list[i];
                 }

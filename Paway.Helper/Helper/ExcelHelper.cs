@@ -297,11 +297,11 @@ namespace Paway.Helper
                         if (dbType.IsGenericType && Nullable.GetUnderlyingType(dbType) != null) dbType = Nullable.GetUnderlyingType(dbType);
                         if (dbType == typeof(double) || dbType == typeof(int))
                         {
-                            CreateCell(row, index, numberStyle, type.GetValue(list[i], property.Name));
+                            CreateCell(row, index, numberStyle, list[i].GetValue(property.Name));
                         }
                         else
                         {
-                            CreateCell(row, index, defaultStyle, type.GetValue(list[i], property.Name));
+                            CreateCell(row, index, defaultStyle, list[i].GetValue(property.Name));
                         }
                         merged?.Invoke(list, i, row, property.Name);
                     }

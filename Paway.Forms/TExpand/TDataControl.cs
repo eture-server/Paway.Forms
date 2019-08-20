@@ -303,27 +303,28 @@ namespace Paway.Forms
                                     gridView.AddRow(data);
                                 }
                             }
+                            else if (!IFind())
+                            {
+                                index = this.FList.FindIndex(c => c.Id == data.Id);
+                            }
                             RefreshTotal(true);
                             gridview1.RefreshDesc();
-                            if (index == -1)
-                            {
-                                index = this.List.FindIndex(c => c.Id == data.Id);
-                            }
                             gridview1.Edit.AutoCell(index);
-                        }
-                        else if (IFind())
-                        {
-                            index = this.FList.FindIndex(c => c.Id == data.Id);
-                            ToFind(index: index);
                         }
                         else
                         {
-                            index = this.List.FindIndex(c => c.Id == data.Id);
-                            this.RefreshData();
+                            if (IFind())
                             {
-                                this.gridview1.CurrentPageIndex = index / this.gridview1.PagerInfo.PageSize + 1;
-                                index %= this.gridview1.PagerInfo.PageSize;
+                                index = this.FList.FindIndex(c => c.Id == data.Id);
+                                ToFind();
                             }
+                            else
+                            {
+                                index = this.List.FindIndex(c => c.Id == data.Id);
+                                this.RefreshData();
+                            }
+                            this.gridview1.CurrentPageIndex = index / this.gridview1.PagerInfo.PageSize + 1;
+                            index %= this.gridview1.PagerInfo.PageSize;
                             gridview1.Edit.AutoCell(index);
                         }
                     }
@@ -340,21 +341,23 @@ namespace Paway.Forms
                     {
                         int index = this.Index;
                         if (!OnUpdateInfo(this.Info)) break;
+                        bool iFilter = false;
                         if (IFind())
                         {
                             var fList = new List<T>() { this.Info }.AsParallel().Where(predicate);
-                            if (fList.Count() == 0)
+                            iFilter = fList.Count() == 0;
+                        }
+                        if (gridview1.Edit is TreeGridView treeView)
+                        {
+                            if (iFilter)
                             {
                                 this.FList.Remove(this.Info);
-                                if (gridview1.Edit is TreeGridView treeView)
-                                {
-                                    treeView.DeleteNode(treeView.Nodes, this.Info.Id);
-                                }
+                                treeView.DeleteNode(treeView.Nodes, this.Info.Id);
                             }
-                        }
-                        else if (gridview1.Edit is TreeGridView treeView)
-                        {
-                            treeView.UpdateNode(treeView.Nodes, this.Info, this.Info.Id);
+                            else
+                            {
+                                treeView.UpdateNode(treeView.Nodes, this.Info, this.Info.Id);
+                            }
                         }
                         else if (gridview1.Edit is TDataGridView gridView)
                         {
@@ -447,10 +450,13 @@ namespace Paway.Forms
             {
                 var dt = gridView.DataSource as DataTable;
                 var dr = dt.Rows.Find(data.Id);
-                var drNew = dt.NewRow();
-                drNew.ItemArray = data.ToDataRow().ItemArray;
-                dt.Rows.Remove(dr);
-                dt.Rows.Add(drNew);
+                if (dr != null)
+                {
+                    var drNew = dt.NewRow();
+                    drNew.ItemArray = data.ToDataRow().ItemArray;
+                    dt.Rows.Remove(dr);
+                    dt.Rows.Add(drNew);
+                }
             }
         }
 

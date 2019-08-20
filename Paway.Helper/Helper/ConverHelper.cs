@@ -651,8 +651,8 @@ namespace Paway.Helper
             {
                 if (!property.IClone()) continue;
 
-                var value = parent.GetValue(t, property.Name);
-                var tempValue = parent.GetValue(temp, property.Name);
+                var value = t.GetValue(property.Name);
+                var tempValue = temp.GetValue(property.Name);
                 if (!value.Equals(tempValue)) return false;
                 if (!child) continue;
                 if (value is IList)

@@ -112,20 +112,20 @@ namespace Paway.Forms
         private void AutoNodes(Type type, IList list)
         {
             AutoColumns(type);
-            var tempList = type.FindAll(list, nameof(IParent.ParentId), 0);
+            var tempList = list.FindAll(nameof(IParent.ParentId), 0);
             foreach (var temp in tempList)
             {
                 var node = Nodes.Add(temp.GetValues());
-                AddNodes(type, list, node, (int)type.GetValue(temp, nameof(IParent.Id)));
+                AddNodes(type, list, node, (int)temp.GetValue(nameof(IParent.Id)));
             }
         }
         private void AddNodes(Type type, IList list, TreeGridNode parent, int parentId)
         {
-            var tempList = type.FindAll(list, nameof(IParent.ParentId), parentId);
+            var tempList = list.FindAll(nameof(IParent.ParentId), parentId);
             foreach (var temp in tempList)
             {
                 var node = parent.Nodes.Add(temp.GetValues());
-                AddNodes(type, list, node, (int)type.GetValue(temp, nameof(IParent.Id)));
+                AddNodes(type, list, node, (int)temp.GetValue(nameof(IParent.Id)));
             }
         }
         private void AutoColumns(Type type)

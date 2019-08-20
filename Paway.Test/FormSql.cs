@@ -97,7 +97,7 @@ namespace Paway.Test
                 var descriptors = typeof(ITestInfo).Descriptors();
                 var descriptor = descriptors.Find(c => c.Name == "List");
                 data.SetValue(descriptor, null);
-                typeof(ITestInfo).SetValue(data, "IntValue", null);
+                data.SetValue("IntValue", null);
                 if (descriptor.PropertyType.Name == typeof(List<>).Name)
                 {
                     var type2 = descriptor.PropertyType.GenericType();
