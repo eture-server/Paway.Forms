@@ -392,6 +392,15 @@ namespace Paway.Forms
             PagerInfo.CurrentPageIndex = PagerInfo.PageCount;
         }
         /// <summary>
+        /// 自动选中最后一行
+        /// </summary>
+        public void AutoLast()
+        {
+            ToLastPage();
+            int index = this.Edit.RowCount - 1;
+            AutoCell(index);
+        }
+        /// <summary>
         /// 刷新数据并自动选中焦点
         /// </summary>
         /// <param name="iOffset">保存滚动条位置</param>

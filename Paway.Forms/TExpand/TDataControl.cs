@@ -309,7 +309,7 @@ namespace Paway.Forms
                             }
                             RefreshTotal(true);
                             gridview1.RefreshDesc();
-                            gridview1.Edit.AutoCell(index);
+                            gridview1.AutoCell(index);
                         }
                         else
                         {
@@ -323,9 +323,7 @@ namespace Paway.Forms
                                 index = this.List.FindIndex(c => c.Id == data.Id);
                                 this.RefreshData();
                             }
-                            this.gridview1.CurrentPageIndex = index / this.gridview1.PagerInfo.PageSize + 1;
-                            index %= this.gridview1.PagerInfo.PageSize;
-                            gridview1.Edit.AutoCell(index);
+                            gridview1.AutoLast();
                         }
                     }
                     break;
