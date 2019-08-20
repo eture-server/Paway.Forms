@@ -13,21 +13,13 @@ namespace Paway.Helper
     internal class EntityBuilder<T> where T : new()
     {
         private Delegate handler;
-        private Delegate handlerAction;
         private EntityBuilder() { }
-        /// <summary>
-        /// 转化
-        /// </summary>
-        public T Build(DataRow dr)
-        {
-            return ((Func<DataRow, T>)handler)(dr);
-        }
         /// <summary>
         /// 转化
         /// </summary>
         public void Build(DataRow dr, T t)
         {
-            ((Action<DataRow, T>)handlerAction)(dr, t);
+            ((Action<DataRow, T>)handler)(dr, t);
         }
 
         /// <summary>
@@ -96,7 +88,7 @@ namespace Paway.Helper
 
             var handlerTo = new EntityBuilder<T>
             {
-                handlerAction = dymMethod.CreateDelegate(typeof(Action<DataRow, T>))
+                handler = dymMethod.CreateDelegate(typeof(Action<DataRow, T>))
             };
             return handlerTo;
         }

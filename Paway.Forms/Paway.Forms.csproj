@@ -202,7 +202,6 @@
     <Compile Include="TreeGridView\TreeGridColumn.cs" />
     <Compile Include="TreeGridView\TreeGridNode.cs" />
     <Compile Include="TreeGridView\TreeGridNodeCollection.cs" />
-    <Compile Include="TreeGridView\TreeGridEventArgs.cs" />
     <Compile Include="TreeGridView\TreeGridView.cs">
       <SubType>Component</SubType>
     </Compile>

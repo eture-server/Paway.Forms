@@ -5,6 +5,9 @@ using System.Windows.Forms;
 
 namespace Paway.Forms
 {
+    /// <summary>
+    /// TreeGridCell
+    /// </summary>
     public class TreeGridCell : DataGridViewTextBoxCell
     {
         private int _imageHeight;
@@ -17,6 +20,9 @@ namespace Paway.Forms
         private const int INDENT_WIDTH = 20;
         internal bool IsSited;
 
+        #region 重载与重绘
+        /// <summary>
+        /// </summary>
         public override object Clone()
         {
             TreeGridCell cell1 = (TreeGridCell)base.Clone();
@@ -24,7 +30,8 @@ namespace Paway.Forms
             cell1.calculatedLeftPadding = this.calculatedLeftPadding;
             return cell1;
         }
-
+        /// <summary>
+        /// </summary>
         protected override void OnMouseDown(DataGridViewCellMouseEventArgs e)
         {
             if (e.Location.X > base.InheritedStyle.Padding.Left)
@@ -48,7 +55,8 @@ namespace Paway.Forms
                 }
             }
         }
-
+        /// <summary>
+        /// </summary>
         protected override void OnMouseUp(DataGridViewCellMouseEventArgs e)
         {
             base.OnMouseUp(e);
@@ -58,7 +66,9 @@ namespace Paway.Forms
                 owningNode._grid._inExpandCollapseMouseCapture = false;
             }
         }
-
+        /// <summary>
+        /// 重绘
+        /// </summary>
         protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object value, object formattedValue, string errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
         {
             TreeGridNode owningNode = this.OwningNode;
@@ -71,8 +81,6 @@ namespace Paway.Forms
                 }
                 base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle, paintParts);
                 Rectangle rectangle = new Rectangle(cellBounds.X + this.GlyphMargin, cellBounds.Y, INDENT_WIDTH, cellBounds.Height - 1);
-                int num1 = rectangle.Width / 2;
-                int level = this.Level;
                 if (image != null)
                 {
                     Point point;
@@ -156,20 +164,21 @@ namespace Paway.Forms
             }
         }
 
-        protected internal virtual void Sited()
+        #endregion
+
+        #region 节点Cell状态
+        internal virtual void Sited()
         {
             this.IsSited = true;
             this._previousPadding = base.Style.Padding;
             this.UpdateStyle();
         }
-
-        protected internal virtual void UnSited()
+        internal virtual void UnSited()
         {
             this.IsSited = false;
             base.Style.Padding = this._previousPadding;
         }
-
-        protected internal virtual void UpdateStyle()
+        internal virtual void UpdateStyle()
         {
             if (this.IsSited)
             {
@@ -203,11 +212,11 @@ namespace Paway.Forms
                 this.calculatedLeftPadding = (((level - 1) * this._imageWidth) + this._imageWidth) + INDENT_MARGIN;
             }
         }
-
-        protected virtual int GlyphMargin => (((this.Level - 1) * INDENT_WIDTH) + INDENT_MARGIN);
-
-        protected virtual int GlyphOffset => ((this.Level - 1) * INDENT_WIDTH);
-
+        internal virtual int GlyphMargin => (((this.Level - 1) * INDENT_WIDTH) + INDENT_MARGIN);
+        internal virtual int GlyphOffset => ((this.Level - 1) * INDENT_WIDTH);
+        /// <summary>
+        /// 节点等级
+        /// </summary>
         public int Level
         {
             get
@@ -220,8 +229,12 @@ namespace Paway.Forms
                 return -1;
             }
         }
-
+        /// <summary>
+        /// 所属Node
+        /// </summary>
         public TreeGridNode OwningNode => (base.OwningRow as TreeGridNode);
+
+        #endregion
     }
 }
 

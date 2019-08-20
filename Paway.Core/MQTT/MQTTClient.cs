@@ -9,10 +9,9 @@ using System.Threading;
 using MQTTnet.Protocol;
 using MQTTnet.Adapter;
 using System.Collections.Generic;
-using Paway.Helper;
 using System.Threading.Tasks;
 
-namespace Paway.Utils
+namespace Paway.Core
 {
     /// <summary>
     /// 封装MQTT客户端

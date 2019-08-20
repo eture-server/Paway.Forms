@@ -303,6 +303,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Paway.Core\Paway.Core.csproj">
+      <Project>{60ef9b3d-2c2f-42be-85a2-a47929d500f6}</Project>
+      <Name>Paway.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Paway.Helper\Paway.Helper.csproj">
       <Project>{01826a18-9c4d-4a13-99a1-db29b0d49de9}</Project>
       <Name>Paway.Helper</Name>

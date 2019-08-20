@@ -12,37 +12,67 @@ using System.Windows.Forms.VisualStyles;
 namespace Paway.Forms
 {
     /// <summary>
-    /// 树GridView
+    /// TreeGridView
     /// </summary>
     public class TreeGridView : TDataGridView
     {
+        private readonly TreeGridNode _root;
         private TreeGridColumn _expandableColumn;
-        internal ImageList _imageList;
         private bool _inExpandCollapse;
-        internal bool _inExpandCollapseMouseCapture;
-        private TreeGridNode _root;
         private bool _showLines = true;
         private Control hideScrollBarControl;
+
+        internal ImageList _imageList;
+        internal bool _inExpandCollapseMouseCapture;
         internal VisualStyleRenderer rClosed = new VisualStyleRenderer(VisualStyleElement.TreeView.Glyph.Closed);
         internal VisualStyleRenderer rOpen = new VisualStyleRenderer(VisualStyleElement.TreeView.Glyph.Opened);
 
-        [field: CompilerGenerated]
-        public event Action<object, CollapsedEventArgs> NodeCollapsed;
-
-        [field: CompilerGenerated]
-        public event Action<object, CollapsingEventArgs> NodeCollapsing;
-
-        [field: CompilerGenerated]
-        public event Action<object, ExpandedEventArgs> NodeExpanded;
-
-        [field: CompilerGenerated]
+        #region 事件
+        /// <summary>
+        /// 节点展开开始事件
+        /// </summary>
         public event Action<object, ExpandingEventArgs> NodeExpanding;
+        /// <summary>
+        /// 节点展开完成事件
+        /// </summary>
+        public event Action<object, TreeGridNode> NodeCollapsed;
+        /// <summary>
+        /// 节点关闭开始事件
+        /// </summary>
+        public event Action<object, CollapsingEventArgs> NodeCollapsing;
+        /// <summary>
+        /// 节点关闭完成事件
+        /// </summary>
+        public event Action<object, TreeGridNode> NodeExpanded;
+        private void OnNodeCollapsed(TreeGridNode node)
+        {
+            this.NodeCollapsed?.Invoke(this, node);
+        }
+        private void OnNodeCollapsing(CollapsingEventArgs e)
+        {
+            this.NodeCollapsing?.Invoke(this, e);
+        }
+        private void OnNodeExpanded(TreeGridNode node)
+        {
+            this.NodeExpanded?.Invoke(this, node);
+        }
+        private void OnNodeExpanding(ExpandingEventArgs e)
+        {
+            this.NodeExpanding?.Invoke(this, e);
+        }
 
+        #endregion
+
+        /// <summary>
+        /// 构造
+        /// </summary>
         public TreeGridView()
         {
             this.RowTemplate = new TreeGridNode();
-            this._root = new TreeGridNode(this);
-            this._root.IsRoot = true;
+            this._root = new TreeGridNode(this)
+            {
+                IsRoot = true
+            };
             //注释掉会报错
             base.Rows.CollectionChanged += delegate { };
         }
@@ -204,41 +234,8 @@ namespace Paway.Forms
 
         #endregion
 
-        protected internal virtual bool CollapseNode(TreeGridNode node)
-        {
-            if (!node.IsExpanded)
-            {
-                return false;
-            }
-            CollapsingEventArgs e = new CollapsingEventArgs(node);
-            this.OnNodeCollapsing(e);
-            if (!e.Cancel)
-            {
-                this.LockVerticalScrollBarUpdate(true);
-                base.SuspendLayout();
-                this._inExpandCollapse = true;
-                node.IsExpanded = false;
-                foreach (TreeGridNode node2 in node.Nodes)
-                {
-                    this.UnSiteNode(node2);
-                }
-                CollapsedEventArgs args2 = new CollapsedEventArgs(node);
-                this.OnNodeCollapsed(args2);
-                this._inExpandCollapse = false;
-                this.LockVerticalScrollBarUpdate(false);
-                base.ResumeLayout(true);
-                base.InvalidateCell(node.Cells[0]);
-            }
-            return !e.Cancel;
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(base.Disposing);
-            this.UnSiteAll();
-        }
-
-        protected internal virtual bool ExpandNode(TreeGridNode node)
+        #region 内部
+        internal virtual bool ExpandNode(TreeGridNode node)
         {
             if (node.IsExpanded && !this.VirtualNodes)
             {
@@ -256,8 +253,7 @@ namespace Paway.Forms
                 {
                     this.SiteNode(node2);
                 }
-                ExpandedEventArgs args2 = new ExpandedEventArgs(node);
-                this.OnNodeExpanded(args2);
+                this.OnNodeExpanded(node);
                 this._inExpandCollapse = false;
                 this.LockVerticalScrollBarUpdate(false);
                 base.ResumeLayout(true);
@@ -265,13 +261,32 @@ namespace Paway.Forms
             }
             return !e.Cancel;
         }
-
-        [Description("Returns the TreeGridNode for the given DataGridViewRow")]
-        public TreeGridNode GetNodeForRow(int index) => this.GetNodeForRow(base.Rows[index]);
-
-        [Description("Returns the TreeGridNode for the given DataGridViewRow")]
-        public TreeGridNode GetNodeForRow(DataGridViewRow row) => (row as TreeGridNode);
-
+        internal virtual bool CollapseNode(TreeGridNode node)
+        {
+            if (!node.IsExpanded)
+            {
+                return false;
+            }
+            CollapsingEventArgs e = new CollapsingEventArgs(node);
+            this.OnNodeCollapsing(e);
+            if (!e.Cancel)
+            {
+                this.LockVerticalScrollBarUpdate(true);
+                base.SuspendLayout();
+                this._inExpandCollapse = true;
+                node.IsExpanded = false;
+                foreach (TreeGridNode node2 in node.Nodes)
+                {
+                    this.UnSiteNode(node2);
+                }
+                this.OnNodeCollapsed(node);
+                this._inExpandCollapse = false;
+                this.LockVerticalScrollBarUpdate(false);
+                base.ResumeLayout(true);
+                base.InvalidateCell(node.Cells[0]);
+            }
+            return !e.Cancel;
+        }
         private void LockVerticalScrollBarUpdate(bool lockUpdate)
         {
             if (!this._inExpandCollapse)
@@ -286,122 +301,10 @@ namespace Paway.Forms
                 }
             }
         }
-
-        protected override void OnColumnAdded(DataGridViewColumnEventArgs e)
-        {
-            if (typeof(TreeGridColumn).IsAssignableFrom(e.Column.GetType()) && (this._expandableColumn == null))
-            {
-                this._expandableColumn = (TreeGridColumn)e.Column;
-            }
-            e.Column.SortMode = DataGridViewColumnSortMode.NotSortable;
-            base.OnColumnAdded(e);
-        }
-
-        protected override void OnHandleCreated(EventArgs e)
-        {
-            base.OnHandleCreated(e);
-            this.hideScrollBarControl = new Control();
-            this.hideScrollBarControl.Visible = false;
-            this.hideScrollBarControl.Enabled = false;
-            this.hideScrollBarControl.TabStop = false;
-            base.Controls.Add(this.hideScrollBarControl);
-        }
-
-        protected override void OnKeyDown(KeyEventArgs e)
-        {
-            base.OnKeyDown(e);
-            if (!e.Handled)
-            {
-                if (((e.KeyCode == Keys.F2) && (base.CurrentCellAddress.X > -1)) && (base.CurrentCellAddress.Y > -1))
-                {
-                    if (!base.CurrentCell.Displayed)
-                    {
-                        base.FirstDisplayedScrollingRowIndex = base.CurrentCellAddress.Y;
-                    }
-                    base.SelectionMode = DataGridViewSelectionMode.CellSelect;
-                    this.BeginEdit(true);
-                }
-                else if ((e.KeyCode == Keys.Enter) && !base.IsCurrentCellInEditMode)
-                {
-                    base.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                    base.CurrentCell.OwningRow.Selected = true;
-                }
-            }
-        }
-
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            if (!this._inExpandCollapseMouseCapture)
-            {
-                base.OnMouseMove(e);
-            }
-        }
-
-        protected override void OnMouseUp(MouseEventArgs e)
-        {
-            base.OnMouseUp(e);
-            this._inExpandCollapseMouseCapture = false;
-        }
-
-        protected virtual void OnNodeCollapsed(CollapsedEventArgs e)
-        {
-            if (this.NodeCollapsed != null)
-            {
-                this.NodeCollapsed(this, e);
-            }
-        }
-
-        protected virtual void OnNodeCollapsing(CollapsingEventArgs e)
-        {
-            if (this.NodeCollapsing != null)
-            {
-                this.NodeCollapsing(this, e);
-            }
-        }
-
-        protected virtual void OnNodeExpanded(ExpandedEventArgs e)
-        {
-            if (this.NodeExpanded != null)
-            {
-                this.NodeExpanded(this, e);
-            }
-        }
-
-        protected virtual void OnNodeExpanding(ExpandingEventArgs e)
-        {
-            if (this.NodeExpanding != null)
-            {
-                this.NodeExpanding(this, e);
-            }
-        }
-
-        protected override void OnRowEnter(DataGridViewCellEventArgs e)
-        {
-            base.OnRowEnter(e);
-            if ((base.SelectionMode == DataGridViewSelectionMode.CellSelect) || ((base.SelectionMode == DataGridViewSelectionMode.FullRowSelect) && !base.Rows[e.RowIndex].Selected))
-            {
-                base.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                base.Rows[e.RowIndex].Selected = true;
-            }
-        }
-
-        protected override void OnRowsAdded(DataGridViewRowsAddedEventArgs e)
-        {
-            base.OnRowsAdded(e);
-            for (int i = e.RowCount - 1; i >= 0; i--)
-            {
-                TreeGridNode node = base.Rows[e.RowIndex + i] as TreeGridNode;
-                if (node != null)
-                {
-                    node.Sited();
-                }
-            }
-        }
-
-        protected internal virtual void SiteNode(TreeGridNode node)
+        internal virtual void SiteNode(TreeGridNode node)
         {
             TreeGridNode parent;
-            int index = -1;
+            int index;
             node._grid = this;
             if ((node.Parent != null) && !node.Parent.IsRoot)
             {
@@ -458,8 +361,7 @@ namespace Paway.Forms
                 }
             }
         }
-
-        protected internal virtual void SiteNode(TreeGridNode node, int index)
+        internal virtual void SiteNode(TreeGridNode node, int index)
         {
             if (index < base.Rows.Count)
             {
@@ -470,13 +372,11 @@ namespace Paway.Forms
                 base.Rows.Add(node);
             }
         }
-
-        protected internal void UnSiteAll()
+        internal void UnSiteAll()
         {
             this.UnSiteNode(this._root);
         }
-
-        protected internal virtual void UnSiteNode(TreeGridNode node)
+        internal virtual void UnSiteNode(TreeGridNode node)
         {
             if (node.IsSited || node.IsRoot)
             {
@@ -492,12 +392,126 @@ namespace Paway.Forms
             }
         }
 
+        #endregion
+
+        #region 重载
+        /// <summary>
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(base.Disposing);
+            if (hideScrollBarControl != null) hideScrollBarControl.Dispose();
+            this.UnSiteAll();
+        }
+        /// <summary>
+        /// </summary>
+        protected override void OnColumnAdded(DataGridViewColumnEventArgs e)
+        {
+            if (typeof(TreeGridColumn).IsAssignableFrom(e.Column.GetType()) && (this._expandableColumn == null))
+            {
+                this._expandableColumn = (TreeGridColumn)e.Column;
+            }
+            e.Column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            base.OnColumnAdded(e);
+        }
+        /// <summary>
+        /// </summary>
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            this.hideScrollBarControl = new Control
+            {
+                Visible = false,
+                Enabled = false,
+                TabStop = false
+            };
+            base.Controls.Add(this.hideScrollBarControl);
+        }
+        /// <summary>
+        /// </summary>
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            if (!e.Handled)
+            {
+                if (((e.KeyCode == Keys.F2) && (base.CurrentCellAddress.X > -1)) && (base.CurrentCellAddress.Y > -1))
+                {
+                    if (!base.CurrentCell.Displayed)
+                    {
+                        base.FirstDisplayedScrollingRowIndex = base.CurrentCellAddress.Y;
+                    }
+                    base.SelectionMode = DataGridViewSelectionMode.CellSelect;
+                    this.BeginEdit(true);
+                }
+                else if ((e.KeyCode == Keys.Enter) && !base.IsCurrentCellInEditMode)
+                {
+                    base.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                    base.CurrentCell.OwningRow.Selected = true;
+                }
+            }
+        }
+        /// <summary>
+        /// </summary>
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            if (!this._inExpandCollapseMouseCapture)
+            {
+                base.OnMouseMove(e);
+            }
+        }
+        /// <summary>
+        /// </summary>
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            base.OnMouseUp(e);
+            this._inExpandCollapseMouseCapture = false;
+        }
+        /// <summary>
+        /// </summary>
+        protected override void OnRowEnter(DataGridViewCellEventArgs e)
+        {
+            base.OnRowEnter(e);
+            if ((base.SelectionMode == DataGridViewSelectionMode.CellSelect) || ((base.SelectionMode == DataGridViewSelectionMode.FullRowSelect) && !base.Rows[e.RowIndex].Selected))
+            {
+                base.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                base.Rows[e.RowIndex].Selected = true;
+            }
+        }
+        /// <summary>
+        /// </summary>
+        protected override void OnRowsAdded(DataGridViewRowsAddedEventArgs e)
+        {
+            base.OnRowsAdded(e);
+            for (int i = e.RowCount - 1; i >= 0; i--)
+            {
+                if (base.Rows[e.RowIndex + i] is TreeGridNode node)
+                {
+                    node.Sited();
+                }
+            }
+        }
+
+        #endregion
+
+        #region public
+        /// <summary>
+        /// </summary>
+        [Description("Returns the TreeGridNode for the given DataGridViewRow")]
+        public TreeGridNode GetNodeForRow(int index) => this.GetNodeForRow(base.Rows[index]);
+        /// <summary>
+        /// </summary>
+        [Description("Returns the TreeGridNode for the given DataGridViewRow")]
+        public TreeGridNode GetNodeForRow(DataGridViewRow row) => (row as TreeGridNode);
+        /// <summary>
+        /// </summary>
         public TreeGridNode CurrentNode => this.CurrentRow;
-
-        public TreeGridNode CurrentRow => (base.CurrentRow as TreeGridNode);
-
+        /// <summary>
+        /// </summary>
+        public new TreeGridNode CurrentRow => (base.CurrentRow as TreeGridNode);
+        /// <summary>
+        /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), EditorBrowsable(EditorBrowsableState.Never), Browsable(false)]
-        public object DataMember
+        public new object DataMember
         {
             get => null;
             set
@@ -505,8 +519,9 @@ namespace Paway.Forms
                 throw new NotSupportedException("The TreeGridView does not support databinding");
             }
         }
-
-        public System.Windows.Forms.ImageList ImageList
+        /// <summary>
+        /// </summary>
+        public ImageList ImageList
         {
             get
             {
@@ -517,10 +532,12 @@ namespace Paway.Forms
                 this._imageList = value;
             }
         }
-
+        /// <summary>
+        /// </summary>
         public TreeGridNodeCollection Nodes => this._root.Nodes;
-
-        public int RowCount
+        /// <summary>
+        /// </summary>
+        public new int RowCount
         {
             get
             {
@@ -534,12 +551,14 @@ namespace Paway.Forms
                 }
             }
         }
-
+        /// <summary>
+        /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), EditorBrowsable(EditorBrowsableState.Never), Browsable(false)]
-        public DataGridViewRowCollection Rows => base.Rows;
-
+        public new DataGridViewRowCollection Rows => base.Rows;
+        /// <summary>
+        /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), EditorBrowsable(EditorBrowsableState.Never), Browsable(false)]
-        public DataGridViewRow RowTemplate
+        public new DataGridViewRow RowTemplate
         {
             get
             {
@@ -550,7 +569,8 @@ namespace Paway.Forms
                 base.RowTemplate = value;
             }
         }
-
+        /// <summary>
+        /// </summary>
         [DefaultValue(true)]
         public bool ShowLines
         {
@@ -567,9 +587,10 @@ namespace Paway.Forms
                 }
             }
         }
-
+        /// <summary>
+        /// </summary>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), EditorBrowsable(EditorBrowsableState.Never)]
-        public bool VirtualMode
+        public new bool VirtualMode
         {
             get
             {
@@ -580,9 +601,12 @@ namespace Paway.Forms
                 throw new NotSupportedException("The TreeGridView does not support virtual mode");
             }
         }
-
+        /// <summary>
+        /// </summary>
         [Description("Causes nodes to always show as expandable. Use the NodeExpanding event to add nodes."), DefaultValue(false)]
         public bool VirtualNodes { get; set; }
+
+        #endregion
     }
 }
 

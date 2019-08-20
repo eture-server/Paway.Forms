@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using System.Net.Sockets;
-using Paway.Utils;
-using Paway.Helper;
+using Paway.Core;
 using System.Threading;
 using System.IO;
-using log4net;
 using System.Collections;
 using System.Xml;
 using MQTTnet.Server;
@@ -17,7 +15,7 @@ using MQTTnet.Protocol;
 using MQTTnet;
 using System.ComponentModel;
 
-namespace Paway.Utils
+namespace Paway.Core
 {
     /// <summary>
     /// 封装MQTT服务端

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Paway.Utils</RootNamespace>
     <AssemblyName>Paway.Utils</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -75,8 +75,6 @@
     <Compile Include="Data\SqlHelper.cs" />
     <Compile Include="Data\MySqlHelper.cs" />
     <Compile Include="Data\OracleHelper.cs" />
-    <Compile Include="MQTT\MQTTClient.cs" />
-    <Compile Include="MQTT\MQTTService.cs" />
     <Compile Include="Pdf\Export.cs" />
     <Compile Include="Data\SQLiteHelper.cs" />
     <Compile Include="Pdf\PdfHeaderContent.cs" />

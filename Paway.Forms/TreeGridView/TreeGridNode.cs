@@ -11,6 +11,9 @@ using System.Windows.Forms;
 
 namespace Paway.Forms
 {
+    /// <summary>
+    /// TreeGridNode
+    /// </summary>
     [ToolboxItem(false), DesignTimeVisible(false)]
     public class TreeGridNode : DataGridViewRow
     {
@@ -29,23 +32,17 @@ namespace Paway.Forms
         private TreeGridNodeCollection childrenNodes;
         internal bool IsExpanded;
         internal bool IsRoot;
-        private Random rndSeed;
-        public int UniqueValue;
 
-        [EditorBrowsable(EditorBrowsableState.Advanced), Browsable(false)]
-        [field: CompilerGenerated]
-        public event EventHandler Disposed;
-
+        /// <summary>
+        /// 构造
+        /// </summary>
         public TreeGridNode()
         {
-            this.rndSeed = new Random();
-            this.UniqueValue = -1;
             this.childCellsCreated = false;
             this.Site = null;
             this._index = -1;
             this._level = -1;
             this.IsExpanded = false;
-            this.UniqueValue = this.rndSeed.Next();
             this._isSited = false;
             this._isFirstSibling = false;
             this._isLastSibling = false;
@@ -58,6 +55,7 @@ namespace Paway.Forms
             this.Height = 32;
             this.Resizable = DataGridViewTriState.False;
         }
+
         #region 更新值
         /// <summary>
         /// 更新节点
@@ -83,13 +81,13 @@ namespace Paway.Forms
 
         #endregion
 
+        #region 节点
         internal TreeGridNode(TreeGridView owner) : this()
         {
             this._grid = owner;
             this.IsExpanded = true;
         }
-
-        protected internal virtual bool AddChildNode(TreeGridNode node)
+        internal virtual bool AddChildNode(TreeGridNode node)
         {
             node._parent = this;
             node._grid = this._grid;
@@ -103,8 +101,7 @@ namespace Paway.Forms
             }
             return true;
         }
-
-        protected internal virtual bool AddChildNodes(params TreeGridNode[] nodes)
+        internal virtual bool AddChildNodes(params TreeGridNode[] nodes)
         {
             foreach (TreeGridNode node in nodes)
             {
@@ -112,8 +109,98 @@ namespace Paway.Forms
             }
             return true;
         }
+        internal virtual bool ClearNodes()
+        {
+            if (this.HasChildren)
+            {
+                for (int i = this.Nodes.Count - 1; i >= 0; i--)
+                {
+                    this.Nodes.RemoveAt(i);
+                }
+            }
+            return true;
+        }
+        internal virtual bool InsertChildNode(int index, TreeGridNode node)
+        {
+            node._parent = this;
+            node._grid = this._grid;
+            if (this._grid != null)
+            {
+                this.UpdateChildNodes(node);
+            }
+            if ((this._isSited || this.IsRoot) && this.IsExpanded)
+            {
+                this._grid.SiteNode(node);
+            }
+            return true;
+        }
+        internal virtual bool InsertChildNodes(int index, params TreeGridNode[] nodes)
+        {
+            foreach (TreeGridNode node in nodes)
+            {
+                this.InsertChildNode(index, node);
+            }
+            return true;
+        }
+        internal virtual bool RemoveChildNode(TreeGridNode node)
+        {
+            if ((this.IsRoot || this._isSited) && this.IsExpanded)
+            {
+                this._grid.UnSiteNode(node);
+            }
+            node._grid = null;
+            node._parent = null;
+            return true;
+        }
+        private bool ShouldSerializeImage() => ((this._imageIndex == -1) && (this._image != null));
+        private bool ShouldSerializeImageIndex() => ((this._imageIndex != -1) && (this._image == null));
+        internal virtual void Sited()
+        {
+            this._isSited = true;
+            this.childCellsCreated = true;
+            foreach (DataGridViewCell cell in this.Cells)
+            {
+                if (cell is TreeGridCell tree)
+                {
+                    tree.Sited();
+                }
+            }
+        }
+        internal virtual void UnSited()
+        {
+            foreach (DataGridViewCell cell in this.Cells)
+            {
+                if (cell is TreeGridCell tree)
+                {
+                    tree.UnSited();
+                }
+            }
+            this._isSited = false;
+        }
+        private void UpdateChildNodes(TreeGridNode node)
+        {
+            if (node.HasChildren)
+            {
+                foreach (TreeGridNode node2 in node.Nodes)
+                {
+                    node2._grid = node._grid;
+                    this.UpdateChildNodes(node2);
+                }
+            }
+        }
 
-        private void cells_CollectionChanged(object sender, CollectionChangeEventArgs e)
+        #endregion
+
+        #region 重载
+        /// <summary>
+        /// </summary>
+        protected override DataGridViewCellCollection CreateCellsInstance()
+        {
+            DataGridViewCellCollection collection1 = base.CreateCellsInstance();
+            collection1.CollectionChanged += new CollectionChangeEventHandler(this.Cells_CollectionChanged);
+            return collection1;
+        }
+        private void Cells_CollectionChanged(object sender, CollectionChangeEventArgs e)
         {
             if ((this._treeCell == null) && ((e.Action == CollectionChangeAction.Add) || (e.Action == CollectionChangeAction.Refresh)))
             {
@@ -139,23 +226,11 @@ namespace Paway.Forms
                 }
             }
         }
-
-        protected internal virtual bool ClearNodes()
-        {
-            if (this.HasChildren)
-            {
-                for (int i = this.Nodes.Count - 1; i >= 0; i--)
-                {
-                    this.Nodes.RemoveAt(i);
-                }
-            }
-            return true;
-        }
-
+        /// <summary>
+        /// </summary>
         public override object Clone()
         {
             TreeGridNode node = (TreeGridNode)base.Clone();
-            node.UniqueValue = -1;
             node._level = this._level;
             node._grid = this._grid;
             node._parent = this.Parent;
@@ -167,78 +242,8 @@ namespace Paway.Forms
             node.IsExpanded = this.IsExpanded;
             return node;
         }
-
-        public virtual bool Collapse() => this._grid.CollapseNode(this);
-
-        protected override DataGridViewCellCollection CreateCellsInstance()
-        {
-            DataGridViewCellCollection collection1 = base.CreateCellsInstance();
-            collection1.CollectionChanged += new CollectionChangeEventHandler(this.cells_CollectionChanged);
-            return collection1;
-        }
-
-        public virtual bool Expand()
-        {
-            if (this._grid != null)
-            {
-                return this._grid.ExpandNode(this);
-            }
-            this.IsExpanded = true;
-            return true;
-        }
-
-        protected internal virtual bool InsertChildNode(int index, TreeGridNode node)
-        {
-            node._parent = this;
-            node._grid = this._grid;
-            if (this._grid != null)
-            {
-                this.UpdateChildNodes(node);
-            }
-            if ((this._isSited || this.IsRoot) && this.IsExpanded)
-            {
-                this._grid.SiteNode(node);
-            }
-            return true;
-        }
-
-        protected internal virtual bool InsertChildNodes(int index, params TreeGridNode[] nodes)
-        {
-            foreach (TreeGridNode node in nodes)
-            {
-                this.InsertChildNode(index, node);
-            }
-            return true;
-        }
-
-        protected internal virtual bool RemoveChildNode(TreeGridNode node)
-        {
-            if ((this.IsRoot || this._isSited) && this.IsExpanded)
-            {
-                this._grid.UnSiteNode(node);
-            }
-            node._grid = null;
-            node._parent = null;
-            return true;
-        }
-
-        private bool ShouldSerializeImage() => ((this._imageIndex == -1) && (this._image != null));
-
-        private bool ShouldSerializeImageIndex() => ((this._imageIndex != -1) && (this._image == null));
-
-        protected internal virtual void Sited()
-        {
-            this._isSited = true;
-            this.childCellsCreated = true;
-            foreach (DataGridViewCell cell in this.Cells)
-            {
-                if (cell is TreeGridCell tree)
-                {
-                    tree.Sited();
-                }
-            }
-        }
-
+        /// <summary>
+        /// </summary>
         public override string ToString()
         {
             StringBuilder builder1 = new StringBuilder(0x24);
@@ -248,32 +253,29 @@ namespace Paway.Forms
             return builder1.ToString();
         }
 
-        protected internal virtual void UnSited()
-        {
-            foreach (DataGridViewCell cell in this.Cells)
-            {
-                if (cell is TreeGridCell tree)
-                {
-                    tree.UnSited();
-                }
-            }
-            this._isSited = false;
-        }
+        #endregion
 
-        private void UpdateChildNodes(TreeGridNode node)
+        #region 公开方法
+        /// <summary>
+        /// 关闭节点
+        /// </summary>
+        public virtual bool Collapse() => this._grid.CollapseNode(this);
+        /// <summary>
+        /// 展开节点
+        /// </summary>
+        public virtual bool Expand()
         {
-            if (node.HasChildren)
+            if (this._grid != null)
             {
-                foreach (TreeGridNode node2 in node.Nodes)
-                {
-                    node2._grid = node._grid;
-                    this.UpdateChildNodes(node2);
-                }
+                return this._grid.ExpandNode(this);
             }
+            this.IsExpanded = true;
+            return true;
         }
-
+        /// <summary>
+        /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
-        public DataGridViewCellCollection Cells
+        public new DataGridViewCellCollection Cells
         {
             get
             {
@@ -289,12 +291,14 @@ namespace Paway.Forms
                 return base.Cells;
             }
         }
-
+        /// <summary>
+        /// </summary>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public virtual bool HasChildren => ((this.childrenNodes != null) && (this.Nodes.Count > 0));
-
+        /// <summary>
+        /// </summary>
         [Browsable(false)]
-        public System.Drawing.Image Image
+        public Image Image
         {
             get
             {
@@ -325,7 +329,8 @@ namespace Paway.Forms
                 }
             }
         }
-
+        /// <summary>
+        /// </summary>
         [Browsable(false)]
         [TypeConverter(typeof(ImageIndexConverter)), Category("Appearance"), Editor("System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor)), DefaultValue(-1), Description("...")]
         public int ImageIndex
@@ -352,7 +357,8 @@ namespace Paway.Forms
                 }
             }
         }
-
+        /// <summary>
+        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never), Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public System.Windows.Forms.ImageList ImageList
         {
@@ -365,9 +371,10 @@ namespace Paway.Forms
                 return null;
             }
         }
-
+        /// <summary>
+        /// </summary>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int Index
+        public new int Index
         {
             get
             {
@@ -382,10 +389,12 @@ namespace Paway.Forms
                 this._index = value;
             }
         }
-
+        /// <summary>
+        /// </summary>
         [Browsable(false)]
         public bool IsFirstSibling => (this.Index == 0);
-
+        /// <summary>
+        /// </summary>
         [Browsable(false)]
         public bool IsLastSibling
         {
@@ -399,10 +408,12 @@ namespace Paway.Forms
                 return true;
             }
         }
-
+        /// <summary>
+        /// </summary>
         [Browsable(false)]
         public bool IsSited => this._isSited;
-
+        /// <summary>
+        /// </summary>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Level
         {
@@ -420,7 +431,8 @@ namespace Paway.Forms
                 return this._level;
             }
         }
-
+        /// <summary>
+        /// </summary>
         [Browsable(false)]
         public TreeGridNodeCollection Nodes
         {
@@ -433,15 +445,21 @@ namespace Paway.Forms
                 return this.childrenNodes;
             }
         }
-
+        /// <summary>
+        /// </summary>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public TreeGridNode Parent => this._parent;
-
+        /// <summary>
+        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Description("Represents the index of this row in the Grid. Advanced usage."), Browsable(false)]
         public int RowIndex => base.Index;
-
+        /// <summary>
+        /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
         public ISite Site { get; set; }
+
+        #endregion
+
     }
 }
 
