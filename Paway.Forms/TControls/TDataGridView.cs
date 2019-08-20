@@ -503,7 +503,6 @@ namespace Paway.Forms
             }
             else if (value is DataTable dt)
             {
-                dt.PrimaryKey = new DataColumn[] { dt.Columns[type.TableKey()] };
                 base.DataSource = dt;
                 if (dt.Rows.Count == 0) ClearBox();
             }

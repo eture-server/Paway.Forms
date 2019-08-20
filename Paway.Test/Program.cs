@@ -57,9 +57,10 @@ namespace Paway.Test
                 log.InfoFormat("{0} v{1} ({2})", attrTitle.Title, assembly.GetName().Version, Environment.MachineName);
 
                 Progress.Initialize();
+                TConfig.IAutoHideScroll = true;
                 Application.ThreadException += Application_ThreadException;
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-                Application.Run(new FormEmit());
+                Application.Run(new Form2());
             }
             catch (Exception e)
             {

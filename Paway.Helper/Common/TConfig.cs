@@ -39,6 +39,11 @@ namespace Paway.Helper
         /// </summary>
         public static bool? IMouseMove { get; set; }
 
+        /// <summary>
+        /// ToolBar滚动条自动隐藏
+        /// </summary>
+        public static bool IAutoHideScroll { get; set; }
+
         #endregion
 
         #region 加载全局属性

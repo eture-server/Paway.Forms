@@ -178,7 +178,7 @@ namespace Paway.Forms
         /// <summary>
         /// 添加节点
         /// </summary>
-        public int AddNode(TreeGridNodeCollection nodes, object info)
+        internal int AddNode(TreeGridNodeCollection nodes, object info)
         {
             int parentId = (int)info.GetValue(nameof(IParent.ParentId));
             if (parentId == 0)
@@ -189,10 +189,12 @@ namespace Paway.Forms
             {
                 if (nodes[i].Cells[nameof(IParent.Id)].Value.ToInt() == parentId)
                 {
+                    if (!nodes[i].IsExpanded) nodes[i].Expand();
                     return nodes[i].Nodes.Add(info.GetValues()).RowIndex;
                 }
                 if (nodes[i].Nodes.Count > 0)
                 {
+                    if (!nodes[i].IsExpanded) nodes[i].Expand();
                     var index = AddNode(nodes[i].Nodes, info);
                     if (index > -1) return index;
                 }
@@ -202,7 +204,7 @@ namespace Paway.Forms
         /// <summary>
         /// 更新节点
         /// </summary>
-        public bool UpdateNode(TreeGridNodeCollection nodes, object info, int id)
+        internal bool UpdateNode(TreeGridNodeCollection nodes, object info, int id)
         {
             for (int i = 0; i < nodes.Count; i++)
             {
@@ -211,14 +213,14 @@ namespace Paway.Forms
                     nodes[i].Update(info);
                     return true;
                 }
-                if (nodes[i].Nodes.Count > 0) if (UpdateNode(nodes[i].Nodes, info, id)) return true;
+                if (nodes[i].IsExpanded && nodes[i].Nodes.Count > 0) if (UpdateNode(nodes[i].Nodes, info, id)) return true;
             }
             return false;
         }
         /// <summary>
         /// 删除节点
         /// </summary>
-        public bool DeleteNode(TreeGridNodeCollection nodes, int id)
+        internal bool DeleteNode(TreeGridNodeCollection nodes, int id)
         {
             for (int i = 0; i < nodes.Count; i++)
             {
@@ -227,7 +229,7 @@ namespace Paway.Forms
                     nodes.RemoveAt(i);
                     return true;
                 }
-                if (nodes[i].Nodes.Count > 0) if (DeleteNode(nodes[i].Nodes, id)) return true;
+                if (nodes[i].IsExpanded && nodes[i].Nodes.Count > 0) if (DeleteNode(nodes[i].Nodes, id)) return true;
             }
             return false;
         }
