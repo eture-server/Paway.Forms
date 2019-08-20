@@ -719,7 +719,7 @@ namespace Paway.Test
             // 
             // qqTextBox1
             // 
-            this.qqTextBox1.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.qqTextBox1.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.qqTextBox1.ForeColor = System.Drawing.SystemColors.WindowText;
             this.qqTextBox1.Lines = new string[] {
         "Hello你好World"};
@@ -765,7 +765,7 @@ namespace Paway.Test
             // 
             // tNumTestBox1
             // 
-            this.tNumTestBox1.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.tNumTestBox1.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.tNumTestBox1.Lines = new string[] {
         "9"};
             this.tNumTestBox1.Location = new System.Drawing.Point(47, 56);
@@ -779,7 +779,7 @@ namespace Paway.Test
             // 
             // 
             // 
-            this.tComboBox21.Edit.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.tComboBox21.Edit.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.tComboBox21.Edit.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tComboBox21.Edit.ItemHeight = 21;
             this.tComboBox21.Edit.Items.AddRange(new object[] {
@@ -790,7 +790,7 @@ namespace Paway.Test
             this.tComboBox21.Edit.Name = "tComboBox1";
             this.tComboBox21.Edit.Size = new System.Drawing.Size(144, 27);
             this.tComboBox21.Edit.TabIndex = 0;
-            this.tComboBox21.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.tComboBox21.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.tComboBox21.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tComboBox21.Location = new System.Drawing.Point(168, 126);
             this.tComboBox21.Name = "tComboBox21";
@@ -827,7 +827,7 @@ namespace Paway.Test
             this.Controls.Add(this.btSearch);
             this.Controls.Add(this.btImage);
             this.Controls.Add(this.btQQ);
-            this.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.Name = "FormDemo";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

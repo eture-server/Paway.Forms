@@ -54,7 +54,7 @@
             // 
             // tbName
             // 
-            this.tbName.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.tbName.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.tbName.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tbName.Lines = new string[0];
             this.tbName.Location = new System.Drawing.Point(146, 22);
@@ -105,7 +105,7 @@
             // 
             // tbPad
             // 
-            this.tbPad.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.tbPad.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.tbPad.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tbPad.PasswordChat = '*';
             this.tbPad.Lines = new string[0];

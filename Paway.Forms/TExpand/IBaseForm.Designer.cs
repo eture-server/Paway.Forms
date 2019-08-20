@@ -49,7 +49,7 @@ namespace Paway.Forms
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
             this.ClientSize = new System.Drawing.Size(443, 299);
             this.Controls.Add(this.lbTitle);
-            this.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.IResize = false;
             this.Name = "IBaseForm";
             this.Padding = new System.Windows.Forms.Padding(0);
