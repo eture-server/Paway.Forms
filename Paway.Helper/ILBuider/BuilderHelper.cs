@@ -200,6 +200,20 @@ namespace Paway.Helper
             return table;
         }
         /// <summary>
+        /// IL动态代码(Emit)，T转DataRow
+        /// </summary>
+        public static DataRow ToDataRow(this object obj)
+        {
+            var type = obj.GetType();
+            var table = type.CreateTable();
+            var builder = DataTableBuilder.CreateBuilder(type);
+            {
+                var dr = table.NewRow();
+                builder.Build(obj, dr);
+                return dr;
+            }
+        }
+        /// <summary>
         /// IL动态代码(Emit)，List转DataTable（Excel）
         /// </summary>
         public static DataTable ToExcelTable(this IList list)
@@ -408,8 +422,9 @@ namespace Paway.Helper
         /// <summary>
         /// 泛型值组
         /// </summary>
-        public static object[] GetValue(this Type type, object obj)
+        public static object[] GetValues(this object obj)
         {
+            var type = obj.GetType();
             if (!GetValuesFunc.TryGetValue(type, out Delegate func))
             {
                 func = ValueBuilder.GetValuesFunc(type);

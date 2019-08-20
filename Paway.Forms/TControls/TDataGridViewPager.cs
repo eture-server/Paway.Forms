@@ -320,8 +320,6 @@ namespace Paway.Forms
             if (dataSource is DataTable)
             {
                 var dt = dataSource as DataTable;
-                PagerInfo.RecordCount = dt.Rows.Count;
-
                 var table = dt.Clone();
                 var index = PagerInfo.PageSize * (PagerInfo.CurrentPageIndex - 1);
                 int count = PagerInfo.IGroup ? (index + PagerInfo.PageSize) : dt.Rows.Count;
@@ -332,12 +330,9 @@ namespace Paway.Forms
                 Edit.DataSource = table;
                 Edit.UpdateColumns(DataType);
                 Edit.OnRefreshChanged(DataType);
-                TPager.UpdateDesc(TotalEvent?.Invoke(dataSource));
             }
             else if (dataSource is IList list)
             {
-                PagerInfo.RecordCount = list.Count;
-
                 var temp = DataType.GenericList();
                 var index = PagerInfo.PageSize * (PagerInfo.CurrentPageIndex - 1);
                 int count = PagerInfo.IGroup ? (index + PagerInfo.PageSize) : list.Count;
@@ -346,12 +341,33 @@ namespace Paway.Forms
                     temp.Add(list[i]);
                 }
                 Edit.DataSource = temp;
+            }
+            else
+            {
+                Edit.DataSource = dataSource;
+            }
+            RefreshDesc();
+        }
+        /// <summary>
+        /// 仅更新描述、引发统计事件
+        /// </summary>
+        internal void RefreshDesc()
+        {
+            if (dataSource == null) return;
+            if (dataSource is DataTable)
+            {
+                var dt = dataSource as DataTable;
+                PagerInfo.RecordCount = dt.Rows.Count;
+                TPager.UpdateDesc(TotalEvent?.Invoke(dataSource));
+            }
+            else if (dataSource is IList list)
+            {
+                PagerInfo.RecordCount = list.Count;
                 TPager.UpdateDesc(TotalEvent?.Invoke(dataSource));
             }
             else
             {
-                PagerInfo.RecordCount = 0;
-                Edit.DataSource = dataSource;
+                PagerInfo.RecordCount = 1;
                 TPager.UpdateDesc(null);
             }
         }
@@ -375,37 +391,25 @@ namespace Paway.Forms
         {
             PagerInfo.CurrentPageIndex = PagerInfo.PageCount;
         }
-
         /// <summary>
-        /// 自动选中最后焦点
+        /// 刷新数据并自动选中焦点
         /// </summary>
-        public void AutoLast()
-        {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action(AutoLast));
-                return;
-            }
-            ToLastPage();
-            int index = this.Edit.RowCount - 1;
-            AutoCell(index);
-        }
-        /// <summary>
-        /// 自动选中焦点
-        /// </summary>
-        public void AutoCell()
+        /// <param name="iOffset">保存滚动条位置</param>
+        public void AutoCell(bool iOffset = false)
         {
             int index = 0;
             if (this.Edit.CurrentCell != null)
                 index = this.Edit.CurrentCell.RowIndex;
+            var offset = this.Edit.FirstDisplayedScrollingRowIndex;
+            this.RefreshData();
             AutoCell(index);
+            if (iOffset) this.Edit.FirstDisplayedScrollingRowIndex = offset;
         }
         /// <summary>
         /// 自动选中焦点
         /// </summary>
         public void AutoCell(int index)
         {
-            this.RefreshData();
             this.Edit.AutoCell(index);
         }
         /// <summary>
@@ -425,6 +429,8 @@ namespace Paway.Forms
             gridview1 = new TreeGridView();
             gridview1.Dock = DockStyle.Fill;
             this.Controls.Add(this.gridview1);
+            this.Controls.SetChildIndex(this.gridview1, 0);
+            IGroup = false;
             return true;
         }
 

@@ -11,6 +11,9 @@ using System.Windows.Forms.VisualStyles;
 
 namespace Paway.Forms
 {
+    /// <summary>
+    /// 树GridView
+    /// </summary>
     public class TreeGridView : TDataGridView
     {
         private TreeGridColumn _expandableColumn;
@@ -82,7 +85,7 @@ namespace Paway.Forms
             var tempList = type.FindAll(list, nameof(IParent.ParentId), 0);
             foreach (var temp in tempList)
             {
-                var node = Nodes.Add(type.GetValue(temp));
+                var node = Nodes.Add(temp.GetValues());
                 AddNodes(type, list, node, (int)type.GetValue(temp, nameof(IParent.Id)));
             }
         }
@@ -91,7 +94,7 @@ namespace Paway.Forms
             var tempList = type.FindAll(list, nameof(IParent.ParentId), parentId);
             foreach (var temp in tempList)
             {
-                var node = parent.Nodes.Add(type.GetValue(temp));
+                var node = parent.Nodes.Add(temp.GetValues());
                 AddNodes(type, list, node, (int)type.GetValue(temp, nameof(IParent.Id)));
             }
         }
@@ -140,6 +143,63 @@ namespace Paway.Forms
                 nodes[i].Expand();
                 ExpandAll(nodes[i].Nodes);
             }
+        }
+
+        /// <summary>
+        /// 添加节点
+        /// </summary>
+        public int AddNode(TreeGridNodeCollection nodes, object info)
+        {
+            int parentId = (int)info.GetValue(nameof(IParent.ParentId));
+            if (parentId == 0)
+            {
+                return nodes.Add(info.GetValues()).RowIndex;
+            }
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                if (nodes[i].Cells[nameof(IParent.Id)].Value.ToInt() == parentId)
+                {
+                    return nodes[i].Nodes.Add(info.GetValues()).RowIndex;
+                }
+                if (nodes[i].Nodes.Count > 0)
+                {
+                    var index = AddNode(nodes[i].Nodes, info);
+                    if (index > -1) return index;
+                }
+            }
+            return -1;
+        }
+        /// <summary>
+        /// 更新节点
+        /// </summary>
+        public bool UpdateNode(TreeGridNodeCollection nodes, object info, int id)
+        {
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                if (nodes[i].Cells[nameof(IId.Id)].Value.ToInt() == id)
+                {
+                    nodes[i].Update(info);
+                    return true;
+                }
+                if (nodes[i].Nodes.Count > 0) if (UpdateNode(nodes[i].Nodes, info, id)) return true;
+            }
+            return false;
+        }
+        /// <summary>
+        /// 删除节点
+        /// </summary>
+        public bool DeleteNode(TreeGridNodeCollection nodes, int id)
+        {
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                if (nodes[i].Cells[nameof(IId.Id)].Value.ToInt() == id)
+                {
+                    nodes.RemoveAt(i);
+                    return true;
+                }
+                if (nodes[i].Nodes.Count > 0) if (DeleteNode(nodes[i].Nodes, id)) return true;
+            }
+            return false;
         }
 
         #endregion

@@ -29,10 +29,10 @@ namespace Paway.Test
             base.HaveQuery();
             if (DesignMode) return;
             gridview1.IGroup = false;
-            this.UserTree(true);
+            //this.UserTree(true);
             var server = new SQLiteService();
-            base.find = "Id<=927551";
-            var list = server.Find<TestInfo>("1=1 limit 10000");
+            base.find = "Id<=917551";
+            var list = server.Find<TestInfo>("1=1 limit 1000");
             base.InitData(server, list);
         }
     }

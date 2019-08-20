@@ -47,7 +47,7 @@ namespace Paway.Forms
 
             timer = new Timer()
             {
-                Interval = 40
+                Interval = 10
             };
             timer.Tick += new EventHandler(Timer_Tick);
             timer.Start();

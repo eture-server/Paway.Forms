@@ -65,8 +65,7 @@ namespace Paway.Forms
         /// <param name="obj">泛型实体</param>
         public void Update(object obj)
         {
-            var type = obj.GetType();
-            Update(type.GetValue(obj));
+            Update(obj.GetValues());
         }
         internal void Update(params object[] values)
         {

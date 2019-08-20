@@ -138,7 +138,7 @@ namespace Paway.Forms
                     if (state.Value > state.Max)
                     {
                         index++;
-                        if (index < state.Max * 12 / 100)
+                        if (index < state.Max * 9 / 100)
                         {//停留
                             state.Value = state.Max;
                         }

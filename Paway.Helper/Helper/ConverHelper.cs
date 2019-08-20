@@ -543,7 +543,7 @@ namespace Paway.Helper
         public static TableAttribute Table(this Type type)
         {
             var attrList = type.GetCustomAttributes(typeof(TableAttribute), false) as TableAttribute[];
-            if (attrList.Length != 1) throw new ArgumentException(string.Format("类型 {0} 特性错误", type));
+            if (attrList.Length != 1) return new TableAttribute();
             if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
             return attrList[0];
         }

@@ -57,7 +57,7 @@ namespace Paway.Forms
             this.Handle = handle;
             this.Caption = caption;
             this.CanCancel = canCancel;
-            this.Max = max == 0 ? 100 : max;
+            this.Max = max == 0 ? 400 : max;
             this.NoValue = max == 0;
             this.DateTime = DateTime.Now;
             this.delay = delay;

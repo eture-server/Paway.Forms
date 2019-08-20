@@ -28,6 +28,10 @@ namespace Paway.Forms
         /// </summary>
         protected List<T> FList;
         /// <summary>
+        /// 查询过滤器
+        /// </summary>
+        private Func<T, bool> predicate;
+        /// <summary>
         /// 当前选中序号
         /// </summary>
         protected int Index;
@@ -191,7 +195,7 @@ namespace Paway.Forms
                     this.List.AddRange(list);
                 }
                 this.gridview1.UpdateData(this.List, false);
-                RefreshData();
+                this.RefreshData();
             }
             catch (Exception ex)
             {
@@ -220,7 +224,7 @@ namespace Paway.Forms
         /// 数据统计
         /// </summary>
         /// <returns></returns>
-        protected virtual T OnTotal() { return default; }
+        protected virtual T OnTotal(List<T> list) { return default; }
         /// <summary>
         /// 添加数据
         /// </summary>
@@ -241,22 +245,7 @@ namespace Paway.Forms
         /// </summary>
         protected virtual bool OnUpdateInfo(T info)
         {
-            var result = server.Update(info);
-            if (gridview1.Edit is TreeGridView treeView) UpdateNode(treeView.Nodes, info);
-            return result;
-        }
-        private bool UpdateNode(TreeGridNodeCollection nodes, T info)
-        {
-            for (int i = 0; i < nodes.Count; i++)
-            {
-                if (nodes[i].Cells[nameof(IId.Id)].Value.ToInt() == info.Id)
-                {
-                    nodes[i].Update(info);
-                    return true;
-                }
-                if (nodes[i].Nodes.Count > 0) if (UpdateNode(nodes[i].Nodes, info)) return true;
-            }
-            return false;
+            return server.Update(info);
         }
         /// <summary>
         /// 删除数据
@@ -291,18 +280,46 @@ namespace Paway.Forms
                     T data = OnAdd();
                     if (data != null)
                     {
+                        int index = -1;
                         if (!OnAddInfo(data)) break;
                         if (this.List.Find(c => c.Id == data.Id) == null) this.List.Add(data);
-                        int index = this.Index;
-                        if (ToFind())
+                        bool iFilter = false;
+                        if (IFind())
                         {
-                            gridview1.AutoCell(index);
+                            var fList = new List<T>() { data }.AsParallel().Where(predicate);
+                            iFilter = fList.Count() > 0;
+                            if (iFilter) this.FList.Add(data);
+                        }
+                        if (!gridview1.IGroup)
+                        {
+                            if (!IFind() || iFilter)
+                            {
+                                if (gridview1.Edit is TreeGridView treeView)
+                                {
+                                    index = treeView.AddNode(treeView.Nodes, data);
+                                }
+                                else if (gridview1.Edit is TDataGridView gridView)
+                                {
+                                    gridView.AddRow(data);
+                                }
+                            }
+                            RefreshTotal(true);
+                            gridview1.RefreshDesc();
+                            if (index == -1)
+                            {
+                                index = this.List.FindIndex(c => c.Id == data.Id);
+                            }
+                            gridview1.Edit.AutoCell(index);
+                        }
+                        else if (IFind())
+                        {
+                            index = this.FList.FindIndex(c => c.Id == data.Id);
+                            ToFind(index: index);
                         }
                         else
                         {
-                            RefreshData();
                             index = this.List.FindIndex(c => c.Id == data.Id);
-                            if (this.gridview1.PagerInfo.IGroup)
+                            this.RefreshData();
                             {
                                 this.gridview1.CurrentPageIndex = index / this.gridview1.PagerInfo.PageSize + 1;
                                 index %= this.gridview1.PagerInfo.PageSize;
@@ -321,16 +338,30 @@ namespace Paway.Forms
                     Form update = OnUpdate(this.Info);
                     if (update != null && update.ShowDialog(this) == DialogResult.OK)
                     {
-                        if (!OnUpdateInfo(this.Info)) break;
                         int index = this.Index;
-                        if (ToFind())
+                        if (!OnUpdateInfo(this.Info)) break;
+                        if (IFind())
                         {
-                            gridview1.AutoCell(index);
+                            var fList = new List<T>() { this.Info }.AsParallel().Where(predicate);
+                            if (fList.Count() == 0)
+                            {
+                                this.FList.Remove(this.Info);
+                                if (gridview1.Edit is TreeGridView treeView)
+                                {
+                                    treeView.DeleteNode(treeView.Nodes, this.Info.Id);
+                                }
+                            }
                         }
-                        else
+                        else if (gridview1.Edit is TreeGridView treeView)
                         {
-                            RefreshData();
+                            treeView.UpdateNode(treeView.Nodes, this.Info, this.Info.Id);
                         }
+                        else if (gridview1.Edit is TDataGridView gridView)
+                        {
+                            gridView.UpdateRow(this.Info, this.Info.Id);
+                        }
+                        RefreshTotal(true);
+                        gridview1.RefreshDesc();
                     }
                     break;
                 case "删除":
@@ -344,16 +375,35 @@ namespace Paway.Forms
                     DialogResult result = MessageBox.Show(this, delete.Item2, delete.Item1, MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
                     if (result == DialogResult.OK)
                     {
-                        if (!OnDeleteInfo(this.Info)) break;
-                        this.List.Remove(this.Info);
+                        var info = this.Info.Clone();
                         int index = this.Index;
-                        if (ToFind())
+                        if (!OnDeleteInfo(this.Info)) break;
+                        if (!gridview1.IGroup)
                         {
-                            gridview1.AutoCell(index);
+                            if (gridview1.Edit is TreeGridView treeView)
+                            {
+                                treeView.DeleteNode(treeView.Nodes, info.Id);
+                            }
+                            else if (gridview1.Edit is TDataGridView gridView)
+                            {
+                                gridView.DeleteRow(info.Id);
+                            }
                         }
-                        else
+                        this.List.Remove(info);
+                        if (IFind())
                         {
-                            RefreshData();
+                            info = this.FList.Find(c => c.Id == info.Id);
+                            this.FList.Remove(info);
+                        }
+                        if (!gridview1.IGroup)
+                        {
+                            RefreshTotal(true);
+                            gridview1.RefreshDesc();
+                            gridview1.Edit.AutoCell(iRefresh: false);
+                        }
+                        else if (!ToFind(index: index))
+                        {
+                            this.RefreshData(true);
                         }
                     }
                     break;
@@ -362,17 +412,46 @@ namespace Paway.Forms
         /// <summary>
         /// 刷新数据
         /// </summary>
-        public void RefreshData()
+        /// <param name="iOffset">保存滚动条位置</param>
+        public void RefreshData(bool iOffset = false)
+        {
+            RefreshTotal();
+            this.gridview1.AutoCell(iOffset);
+        }
+        /// <summary>
+        /// 刷新数据
+        /// </summary>
+        /// <param name="iUpdate">直接更新</param>
+        private void RefreshTotal(bool iUpdate = false)
         {
             T data = List.Find(c => c.Id < 0);
             if (data != null) List.Remove(data);
-            data = OnTotal();
+            data = OnTotal(List);
             if (data != null)
             {
                 data.Id = -1;
                 List.Add(data);
             }
-            this.gridview1.AutoCell();
+            if (IFind())
+            {
+                data = FList.Find(c => c.Id < 0);
+                if (data != null) FList.Remove(data);
+                data = OnTotal(FList);
+                if (data != null)
+                {
+                    data.Id = -1;
+                    FList.Add(data);
+                }
+            }
+            if (data != null && iUpdate && gridview1.Edit is TDataGridView gridView)
+            {
+                var dt = gridView.DataSource as DataTable;
+                var dr = dt.Rows.Find(data.Id);
+                var drNew = dt.NewRow();
+                drNew.ItemArray = data.ToDataRow().ItemArray;
+                dt.Rows.Remove(dr);
+                dt.Rows.Add(drNew);
+            }
         }
 
         #endregion
@@ -383,7 +462,8 @@ namespace Paway.Forms
         /// </summary>
         protected virtual List<T> OnFilter(string value)
         {
-            return this.List.AsParallel().Where((Activator.CreateInstance<T>().Find(value))).ToList();
+            this.predicate = Activator.CreateInstance<T>().Find(value);
+            return this.List.AsParallel().Where(predicate).ToList();
         }
         /// <summary>
         /// 查询完成
@@ -410,18 +490,21 @@ namespace Paway.Forms
                 this.tbName.Focus();
             }
         }
-        private bool ToFind(bool focus = false)
+        private bool IFind()
         {
-            if (!panel2.Visible && tbName.IError) return false;
-            string value = tbName.Text.Trim();
-            if (!value.IsNullOrEmpty())
-            {
-                this.FList = OnFilter(tbName.Text);
-                OnFound(this.FList);
-                if (focus) this.tbName.Focus();
-                return true;
-            }
-            return false;
+            return panel2.Visible && !tbName.IError && !tbName.Text.Trim().IsNullOrEmpty();
+        }
+        private bool ToFind(bool focus = false, int index = 0)
+        {
+            if (!IFind()) return false;
+            this.FList = OnFilter(tbName.Text.Trim());
+            RefreshTotal();
+            var offset = gridview1.Edit.FirstDisplayedScrollingRowIndex;
+            OnFound(this.FList);
+            gridview1.AutoCell(index);
+            if (index > 0) gridview1.Edit.FirstDisplayedScrollingRowIndex = offset;
+            if (focus) this.tbName.Focus();
+            return true;
         }
         private void TbName_KeyDown(object sender, KeyEventArgs e)
         {
@@ -445,7 +528,8 @@ namespace Paway.Forms
                 case (Keys)Shortcut.CtrlF:
                     this.tbName.Focus();
                     break;
-                default:
+                case (Keys)Shortcut.CtrlA:
+                case (Keys)Shortcut.CtrlC:
                     if (panel2.Visible && tbName.ContainsFocus) return false;
                     if (gridview1.TPager.ITextFocus) return false;
                     break;

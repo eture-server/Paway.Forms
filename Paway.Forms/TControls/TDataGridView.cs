@@ -496,11 +496,14 @@ namespace Paway.Forms
             if (value is IList list)
             {
                 type = list.GenericType();
-                base.DataSource = list.ToDataTable();
+                var dt = list.ToDataTable();
+                dt.PrimaryKey = new DataColumn[] { dt.Columns[type.TableKey()] };
+                base.DataSource = dt;
                 if (list.Count == 0) ClearBox();
             }
             else if (value is DataTable dt)
             {
+                dt.PrimaryKey = new DataColumn[] { dt.Columns[type.TableKey()] };
                 base.DataSource = dt;
                 if (dt.Rows.Count == 0) ClearBox();
             }
@@ -535,6 +538,34 @@ namespace Paway.Forms
         internal void OnRefreshChanged()
         {
             RefreshChanged?.Invoke();
+        }
+        /// <summary>
+        /// 添加行
+        /// </summary>
+        internal void AddRow(object info)
+        {
+            var dt = this.DataSource as DataTable;
+            var dr = dt.NewRow();
+            dr.ItemArray = info.ToDataRow().ItemArray;
+            dt.Rows.Add(dr);
+        }
+        /// <summary>
+        /// 更新行
+        /// </summary>
+        internal void UpdateRow(object info, int id)
+        {
+            var dt = this.DataSource as DataTable;
+            var dr = dt.Rows.Find(id);
+            dr.ItemArray = info.ToDataRow().ItemArray;
+        }
+        /// <summary>
+        /// 删除行
+        /// </summary>
+        internal void DeleteRow(int id)
+        {
+            var dt = this.DataSource as DataTable;
+            var dr = dt.Rows.Find(id);
+            if (dr != null) dt.Rows.Remove(dr);
         }
 
         #endregion
@@ -1118,15 +1149,19 @@ namespace Paway.Forms
             return new DataGridViewColumn();
         }
         /// <summary>
-        /// 自动选中焦点
+        /// 刷新数据并自动选中焦点
         /// </summary>
-        public void AutoCell()
+        /// <param name="iOffset">保存滚动条位置</param>
+        /// <param name="iRefresh">刷新数据</param>
+        public void AutoCell(bool iOffset = false, bool iRefresh = true)
         {
             int index = 0;
             if (this.CurrentCell != null)
                 index = this.CurrentCell.RowIndex;
-            this.RefreshData();
+            var offset = this.FirstDisplayedScrollingRowIndex;
+            if (iRefresh) this.RefreshData();
             AutoCell(index);
+            if (iOffset) this.FirstDisplayedScrollingRowIndex = offset;
         }
         /// <summary>
         /// 自动选中焦点
@@ -1144,11 +1179,15 @@ namespace Paway.Forms
             {
                 index = this.RowCount - 1;
             }
+            var id = this.Rows[index].Cells[nameof(IId.Id)].Value.ToInt();
+            if (id == -1) index--;
+            if (index < 0) index = 0;
             for (int i = 0; i < this.Columns.Count; i++)
             {
                 if (this.Columns[i].Visible)
                 {
                     this.CurrentCell = this[i, index];
+                    this.Rows[index].Selected = true;
                     break;
                 }
             }

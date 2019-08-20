@@ -62,8 +62,12 @@ namespace Paway.Forms
                 {
                     progressForm.Text = string.Format("Progress.{0}.{1}", progressForm.Handle, progressForm.WindowToWatch);
                     Application.DoEvents();
+                    Thread.Sleep(10);
                 }
-                Thread.Sleep(40);
+                else
+                {
+                    Thread.Sleep(40);
+                }
             }
             progressForm.Close();
         }
