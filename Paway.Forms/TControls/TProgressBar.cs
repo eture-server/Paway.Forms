@@ -1,5 +1,4 @@
-﻿using log4net;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -13,8 +12,6 @@ namespace Paway.Forms
     /// </summary>
     public class TProgressBar : TControl
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         #region 变量
         /// <summary>
         /// SizeChanged前的大小
@@ -163,7 +160,6 @@ namespace Paway.Forms
         /// </summary>
         protected override void OnPaint(PaintEventArgs e)
         {
-            try
             {
                 e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
                 e.Graphics.CompositingQuality = CompositingQuality.HighQuality;
@@ -179,10 +175,6 @@ namespace Paway.Forms
                 {
                     e.Graphics.DrawString(value.ToString(), tFont, solidBrush, point);
                 }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
             }
         }
 

@@ -14,6 +14,10 @@ namespace Paway.Forms
         private readonly Color[] CornerColors;
         private readonly TForm Main;
         private readonly Color[] ShadowColors;
+        /// <summary>
+        /// 背景阴影透明度
+        /// </summary>
+        private const int alpha = 24;
 
         /// <summary>
         /// 构造
@@ -28,8 +32,8 @@ namespace Paway.Forms
                 ControlStyles.Selectable |
                 ControlStyles.SupportsTransparentBackColor, true);
             UpdateStyles();
-            ShadowColors = new[] { Color.FromArgb(60, Color.Black), Color.Transparent };
-            CornerColors = new[] { Color.FromArgb(180, Color.Black), Color.Transparent };
+            ShadowColors = new[] { Color.FromArgb(alpha, Color.Black), Color.Transparent };
+            CornerColors = new[] { Color.FromArgb(alpha * 3, Color.Black), Color.Transparent };
             Main = main;
             InitializeComponent();
             Init();
@@ -177,8 +181,8 @@ namespace Paway.Forms
 
         private void DrawShadow(Graphics g)
         {
-            ShadowColors[0] = Color.FromArgb(60, Main.TShadowColor);
-            CornerColors[0] = Color.FromArgb(180, Main.TShadowColor);
+            ShadowColors[0] = Color.FromArgb(alpha, Main.TShadowColor);
+            CornerColors[0] = Color.FromArgb(alpha * 3, Main.TShadowColor);
             var corSize = new Size(Main.TRadius + 1 + Main.TRadius, Main.TRadius + 1 + Main.TRadius);
             var size2 = new Size(Main.TRadius + 1, Size.Height - corSize.Height * 2);
             var size4 = new Size(Size.Width - corSize.Width * 2, Main.TRadius + 1);

@@ -19,7 +19,6 @@ namespace Paway.Helper
     /// </summary>
     public static class ConverHelper
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         /// <summary>
         /// 五笔编码字符
         /// </summary>
@@ -334,15 +333,7 @@ namespace Paway.Helper
         /// </summary>
         public static double ClearError(this double value)
         {
-            try
-            {
-                return decimal.ToDouble(value.ToDecimal());
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-                return value;
-            }
+            return decimal.ToDouble(value.ToDecimal());
         }
 
         #endregion

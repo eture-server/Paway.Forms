@@ -16,8 +16,6 @@ namespace Paway.Helper
     /// </summary>
     public abstract partial class TMethod
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         #region 硬件
         /// <summary>
         /// 获取本机IP地址
@@ -163,15 +161,8 @@ namespace Paway.Helper
         /// </summary>
         public static double Round(double value, int decimals = 2)
         {
-            try
-            {
-                return Math.Round(value.ClearError(), decimals, MidpointRounding.AwayFromZero);
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-                return value;
-            }
+            return Math.Round(value.ClearError(), decimals, MidpointRounding.AwayFromZero);
+
         }
         /// <summary>
         /// 关于数字格式化

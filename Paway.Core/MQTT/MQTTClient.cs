@@ -2,7 +2,6 @@
 using System.Text;
 using System.Reflection;
 using System.Net.Sockets;
-using log4net;
 using MQTTnet.Client;
 using MQTTnet;
 using System.Threading;
@@ -19,7 +18,6 @@ namespace Paway.Core
     public partial class MQTTClient
     {
         #region 变量
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly string topic;
         private readonly int keepAlivePeriod;
         private string host;
@@ -230,16 +228,9 @@ namespace Paway.Core
         }
         private void MqttClient_ApplicationMessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e)
         {
-            try
-            {
-                var buffer = e.ApplicationMessage.Payload;
-                string data = Encoding.GetEncoding("utf-8").GetString(buffer);
-                MessageHandle(data);
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
+            var buffer = e.ApplicationMessage.Payload;
+            string data = Encoding.GetEncoding("utf-8").GetString(buffer);
+            MessageHandle(data);
         }
 
         #endregion

@@ -55,14 +55,7 @@ namespace Paway.Helper
         /// </summary>
         protected void OnMessage(object msg, IPEndPoint ipAddress)
         {
-            try
-            {
-                MessageEvent?.Invoke(new UDPEventArgs(true, msg, ipAddress));
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
+            MessageEvent?.Invoke(new UDPEventArgs(true, msg, ipAddress));
         }
     }
 }
