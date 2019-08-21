@@ -214,15 +214,15 @@ namespace Paway.Forms
         /// 获取或设置控件显示的文字的字体
         /// </summary>
         [Description("获取或设置控件显示的文字的字体")]
-        [AmbientValue(null)]
+        [DefaultValue(typeof(Font), "微软雅黑, 11pt")]
         public override Font Font
         {
             get { return base.Font; }
             set
             {
-                if (BaseText == null) return;
                 if (value == null) return;
                 base.Font = value;
+                if (BaseText == null) return;
                 BaseText.Font = value;
                 UpdateHeight();
             }
@@ -444,7 +444,7 @@ namespace Paway.Forms
         {
             if (!Multiline)
             {
-                var hight = TextRenderer.MeasureText("你好", Font).Height;
+                var hight = TextRenderer.MeasureText(TConfig.Loading, Font).Height;
                 Height = hight + 8;
             }
             BaseText.Size = new Size(Size.Width - 6, Size.Height - 8);
@@ -520,6 +520,7 @@ namespace Paway.Forms
             // _error
             // 
             this._error.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this._error.ContainerControl = this;
             this._error.Icon = ((System.Drawing.Icon)(resources.GetObject("_error.Icon")));
             // 
             // BaseText
@@ -530,15 +531,14 @@ namespace Paway.Forms
             this.BaseText.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.BaseText.Location = new System.Drawing.Point(3, 4);
             this.BaseText.Name = "BaseText";
-            this.BaseText.Size = new System.Drawing.Size(100, 16);
+            this.BaseText.Size = new System.Drawing.Size(100, 20);
             this.BaseText.TabIndex = 0;
             // 
             // QQTextBox
             // 
             this.Controls.Add(this.BaseText);
-            this.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.Name = "QQTextBox";
-            this.Size = new System.Drawing.Size(166, 24);
+            this.Size = new System.Drawing.Size(166, 28);
             ((System.ComponentModel.ISupportInitialize)(this._error)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

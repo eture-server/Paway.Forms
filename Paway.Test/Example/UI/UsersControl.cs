@@ -15,10 +15,7 @@ namespace Paway.Test
     /// </summary>
     public partial class UsersControl : UsersControlBase
     {
-        public UsersControl()
-        {
-            InitializeComponent();
-        }
+        public UsersControl() { }
     }
     public partial class UsersControlBase : TDataControl<UserInfo>
     {

@@ -74,9 +74,9 @@ namespace Paway.Forms
         {
             this.components = new System.ComponentModel.Container();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolSave = new System.Windows.Forms.ToolStripMenuItem();
             this.toolReset = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolSave = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
@@ -90,12 +90,6 @@ namespace Paway.Forms
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(109, 54);
             // 
-            // toolSave
-            // 
-            this.toolSave.Name = "toolSave";
-            this.toolSave.Size = new System.Drawing.Size(108, 22);
-            this.toolSave.Text = "Save";
-            // 
             // toolReset
             // 
             this.toolReset.Name = "toolReset";
@@ -106,6 +100,12 @@ namespace Paway.Forms
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(105, 6);
+            // 
+            // toolSave
+            // 
+            this.toolSave.Name = "toolSave";
+            this.toolSave.Size = new System.Drawing.Size(108, 22);
+            this.toolSave.Text = "Save";
             // 
             // TChart
             // 

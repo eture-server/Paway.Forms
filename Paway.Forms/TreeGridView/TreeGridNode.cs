@@ -52,6 +52,7 @@ namespace Paway.Forms
             this.DefaultCellStyle.ForeColor = Color.Black;
             this.DefaultCellStyle.SelectionBackColor = Color.LightBlue;
             this.DefaultCellStyle.SelectionForeColor = Color.Black;
+            this.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.Height = 32;
             this.Resizable = DataGridViewTriState.False;
         }

@@ -2162,24 +2162,25 @@ namespace Paway.Forms
 
         private void InitializeComponent()
         {
-            _pictureBox1 = new PictureBox();
-            ((ISupportInitialize)_pictureBox1).BeginInit();
-            SuspendLayout();
+            this._pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this._pictureBox1)).BeginInit();
+            this.SuspendLayout();
             // 
-            // pictureBox1
+            // _pictureBox1
             // 
-            _pictureBox1.Location = new Point(0, 0);
-            _pictureBox1.Name = "pictureBox1";
-            _pictureBox1.Size = new Size(1, 1);
-            _pictureBox1.TabIndex = 0;
-            _pictureBox1.TabStop = false;
+            this._pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this._pictureBox1.Name = "_pictureBox1";
+            this._pictureBox1.Size = new System.Drawing.Size(1, 1);
+            this._pictureBox1.TabIndex = 0;
+            this._pictureBox1.TabStop = false;
             // 
             // ToolBar
             // 
-            Controls.Add(_pictureBox1);
-            Name = "ToolBar";
-            ((ISupportInitialize)_pictureBox1).EndInit();
-            ResumeLayout(false);
+            this.Controls.Add(this._pictureBox1);
+            this.Name = "ToolBar";
+            ((System.ComponentModel.ISupportInitialize)(this._pictureBox1)).EndInit();
+            this.ResumeLayout(false);
+
         }
 
         #endregion

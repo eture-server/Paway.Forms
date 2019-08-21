@@ -212,16 +212,17 @@ namespace Paway.Forms
 
         private void InitializeComponent()
         {
-            SuspendLayout();
+            this.SuspendLayout();
             // 
             // SkinForm
             // 
-            BackgroundImageLayout = ImageLayout.None;
-            ClientSize = new Size(259, 271);
-            Name = "SkinForm";
-            Text = "SkinForm";
-            TopMost = true;
-            ResumeLayout(false);
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ClientSize = new System.Drawing.Size(259, 271);
+            this.Name = "SkinForm";
+            this.Text = "SkinForm";
+            this.TopMost = true;
+            this.ResumeLayout(false);
+
         }
 
         private void Main_LocationChanged(object sender, EventArgs e)

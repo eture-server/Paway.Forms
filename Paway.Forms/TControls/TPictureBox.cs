@@ -157,9 +157,9 @@ namespace Paway.Forms
             this.components = new System.ComponentModel.Container();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolAuto = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolNormal = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolSave = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolNormal = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
@@ -174,11 +174,17 @@ namespace Paway.Forms
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(101, 76);
             // 
-            // toolReset
+            // toolAuto
             // 
-            this.toolAuto.Name = "toolReset";
+            this.toolAuto.Name = "toolAuto";
             this.toolAuto.Size = new System.Drawing.Size(100, 22);
             this.toolAuto.Text = "自动";
+            // 
+            // toolNormal
+            // 
+            this.toolNormal.Name = "toolNormal";
+            this.toolNormal.Size = new System.Drawing.Size(100, 22);
+            this.toolNormal.Text = "原始";
             // 
             // toolStripSeparator1
             // 
@@ -190,12 +196,6 @@ namespace Paway.Forms
             this.toolSave.Name = "toolSave";
             this.toolSave.Size = new System.Drawing.Size(100, 22);
             this.toolSave.Text = "保存";
-            // 
-            // toolNormal
-            // 
-            this.toolNormal.Name = "toolNormal";
-            this.toolNormal.Size = new System.Drawing.Size(100, 22);
-            this.toolNormal.Text = "原始";
             // 
             // TPictureBox
             // 

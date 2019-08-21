@@ -90,7 +90,6 @@ namespace Paway.Forms
             this.BackColor = System.Drawing.Color.Transparent;
             this.ClientSize = new System.Drawing.Size(443, 299);
             this.Controls.Add(this.panel1);
-            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "TBaseForm";
             this.Padding = new System.Windows.Forms.Padding(1, 80, 1, 2);
             this.TBrush.ColorDown = System.Drawing.Color.Ivory;

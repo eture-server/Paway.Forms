@@ -150,7 +150,6 @@
             // FormGridView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(743, 572);
             this.Controls.Add(this.tControl1);
             this.Controls.Add(this.tControl2);

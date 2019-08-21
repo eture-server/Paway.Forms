@@ -212,9 +212,6 @@
     <Compile Include="Example\UI\UsersControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Example\UI\UsersControl.Designer.cs">
-      <DependentUpon>UsersControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Example\UI\WaitControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -284,9 +281,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Example\UI\SetControl.resx">
       <DependentUpon>SetControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Example\UI\UsersControl.resx">
-      <DependentUpon>UsersControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Example\UI\WaitControl.resx">
       <DependentUpon>WaitControl.cs</DependentUpon>

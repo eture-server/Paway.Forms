@@ -70,7 +70,6 @@
             // testControl1
             // 
             this.testControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.testControl1.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.testControl1.Location = new System.Drawing.Point(1, 74);
             this.testControl1.MInterval = 6;
             this.testControl1.Name = "testControl1";
@@ -80,7 +79,6 @@
             // FormEmit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(87)))), ((int)(((byte)(154)))));
             this.ClientSize = new System.Drawing.Size(677, 367);
             this.Controls.Add(this.testControl1);

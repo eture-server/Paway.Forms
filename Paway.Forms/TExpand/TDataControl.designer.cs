@@ -29,10 +29,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem5 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem6 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem7 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem8 = new Paway.Forms.ToolItem();
             this.panel3 = new Paway.Forms.TPanel();
             this.panel1 = new Paway.Forms.TPanel();
             this.toolBar1 = new Paway.Forms.ToolBar();
@@ -68,26 +68,25 @@
             // toolBar1
             // 
             this.toolBar1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.toolBar1.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.toolBar1.IAutoWidth = true;
             this.toolBar1.IClickEvent = true;
             this.toolBar1.IImageShow = true;
-            toolItem1.Image = global::Paway.Forms.Properties.Resources.refresh;
-            toolItem1.Tag = "刷新";
-            toolItem1.Text = "刷新(F5)";
-            toolItem2.Image = global::Paway.Forms.Properties.Resources.add;
-            toolItem2.Tag = "添加";
-            toolItem2.Text = "添加(A)";
-            toolItem3.Image = global::Paway.Forms.Properties.Resources.edit;
-            toolItem3.Tag = "编辑";
-            toolItem3.Text = "编辑(E)";
-            toolItem4.Image = global::Paway.Forms.Properties.Resources.close;
-            toolItem4.Tag = "删除";
-            toolItem4.Text = "删除(D)";
-            this.toolBar1.Items.Add(toolItem1);
-            this.toolBar1.Items.Add(toolItem2);
-            this.toolBar1.Items.Add(toolItem3);
-            this.toolBar1.Items.Add(toolItem4);
+            toolItem5.Image = global::Paway.Forms.Properties.Resources.refresh;
+            toolItem5.Tag = "刷新";
+            toolItem5.Text = "刷新(F5)";
+            toolItem6.Image = global::Paway.Forms.Properties.Resources.add;
+            toolItem6.Tag = "添加";
+            toolItem6.Text = "添加(A)";
+            toolItem7.Image = global::Paway.Forms.Properties.Resources.edit;
+            toolItem7.Tag = "编辑";
+            toolItem7.Text = "编辑(E)";
+            toolItem8.Image = global::Paway.Forms.Properties.Resources.close;
+            toolItem8.Tag = "删除";
+            toolItem8.Text = "删除(D)";
+            this.toolBar1.Items.Add(toolItem5);
+            this.toolBar1.Items.Add(toolItem6);
+            this.toolBar1.Items.Add(toolItem7);
+            this.toolBar1.Items.Add(toolItem8);
             this.toolBar1.ItemSize = new System.Drawing.Size(0, 32);
             this.toolBar1.Location = new System.Drawing.Point(0, 2);
             this.toolBar1.Name = "toolBar1";
@@ -114,7 +113,6 @@
             // tbName
             // 
             this.tbName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbName.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.tbName.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tbName.Icon = global::Paway.Forms.Properties.Resources.search;
             this.tbName.IconIsButton = true;
@@ -164,7 +162,6 @@
             this.Controls.Add(this.gridview1);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
-            this.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.MInterval = 6;
             this.Name = "TDataControl";
             this.Size = new System.Drawing.Size(693, 237);

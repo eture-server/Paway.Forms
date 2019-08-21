@@ -237,25 +237,27 @@ namespace Paway.Forms
         }
         private void InitializeComponent()
         {
-            pictureBox1 = new PictureBox();
-            ((ISupportInitialize)pictureBox1).BeginInit();
-            ((ISupportInitialize)this).BeginInit();
-            SuspendLayout();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
+            this.SuspendLayout();
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(0, 1);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(1, 1);
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 1);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(1, 1);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // TDataGridView
             // 
-            Controls.Add(pictureBox1);
-            ((ISupportInitialize)pictureBox1).EndInit();
-            ((ISupportInitialize)this).EndInit();
-            ResumeLayout(false);
+            this.Controls.Add(this.pictureBox1);
+            this.RowTemplate.Height = 23;
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
+            this.ResumeLayout(false);
+
         }
 
         #endregion

@@ -180,6 +180,7 @@ namespace Paway.Forms
             // toolNext
             // 
             this.toolNext.Dock = System.Windows.Forms.DockStyle.Left;
+            this.toolNext.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.toolNext.IClickEvent = true;
             toolItem2.Hit = "Next";
             toolItem2.Text = ">";
@@ -216,7 +217,7 @@ namespace Paway.Forms
             // txtCurrentPage
             // 
             this.txtCurrentPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtCurrentPage.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.txtCurrentPage.Font = new System.Drawing.Font("微软雅黑", 10F);
             this.txtCurrentPage.ITrans = true;
             this.txtCurrentPage.Lines = new string[] {
         "0"};
@@ -230,6 +231,7 @@ namespace Paway.Forms
             // toolLast
             // 
             this.toolLast.Dock = System.Windows.Forms.DockStyle.Left;
+            this.toolLast.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.toolLast.IClickEvent = true;
             toolItem3.Hit = "Last";
             toolItem3.Text = "<";
@@ -256,6 +258,7 @@ namespace Paway.Forms
             // toolFirst
             // 
             this.toolFirst.Dock = System.Windows.Forms.DockStyle.Left;
+            this.toolFirst.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.toolFirst.IClickEvent = true;
             toolItem4.Hit = "First";
             toolItem4.Text = "|<";

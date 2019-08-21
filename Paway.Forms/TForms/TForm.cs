@@ -40,6 +40,7 @@ namespace Paway.Forms
             SetStyle(ControlStyles.Opaque, false);
             UpdateStyles();
             toolTop = new ToolTip();
+            InitializeComponent();
         }
         /// <summary>
         /// 应用配置
@@ -402,6 +403,19 @@ namespace Paway.Forms
                 skin = null;
             }
             base.Dispose(disposing);
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // TForm
+            // 
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.Name = "TForm";
+            this.ResumeLayout(false);
+
         }
     }
 }

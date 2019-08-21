@@ -231,6 +231,7 @@ namespace Paway.Forms
             BackColor = Color.Transparent;
             AutoScaleMode = AutoScaleMode.None;
             BackgroundImageLayout = ImageLayout.Stretch;
+            InitializeComponent();
         }
         /// <summary>
         /// 返回包含 System.ComponentModel.Component 的名称的 System.String（如果有）
@@ -891,5 +892,17 @@ namespace Paway.Forms
         }
 
         #endregion
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // TControl
+            // 
+            this.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.Name = "TControl";
+            this.ResumeLayout(false);
+
+        }
     }
 }

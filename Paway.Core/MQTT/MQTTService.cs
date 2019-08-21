@@ -101,6 +101,7 @@ namespace Paway.Core
         }
         /// <summary>
         /// 消息处理
+        /// </summary>
         protected virtual void MessageHandle(MqttApplicationMessageReceivedEventArgs e) { }
 
         #endregion

@@ -10,7 +10,7 @@ namespace Paway.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.lbCaption = new System.Windows.Forms.Label();
             this.toolCancel = new Paway.Forms.ToolBar();
@@ -26,10 +26,10 @@ namespace Paway.Forms
             // 
             // lbCaption
             // 
-            this.lbCaption.Font = new System.Drawing.Font("Î¢ÈíÑÅºÚ", 9F);
-            this.lbCaption.Location = new System.Drawing.Point(24, 12);
+            this.lbCaption.Font = new System.Drawing.Font("Î¢ÈíÑÅºÚ", 10F);
+            this.lbCaption.Location = new System.Drawing.Point(23, 10);
             this.lbCaption.Name = "lbCaption";
-            this.lbCaption.Size = new System.Drawing.Size(366, 16);
+            this.lbCaption.Size = new System.Drawing.Size(366, 20);
             this.lbCaption.TabIndex = 6;
             this.lbCaption.Text = "label1";
             this.lbCaption.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -37,13 +37,13 @@ namespace Paway.Forms
             // toolCancel
             // 
             this.toolCancel.IClickEvent = true;
-            toolItem1.Text = "Cancel";
-            this.toolCancel.Items.Add(toolItem1);
-            this.toolCancel.ItemSize = new System.Drawing.Size(62, 16);
+            toolItem2.Text = "Cancel";
+            this.toolCancel.Items.Add(toolItem2);
+            this.toolCancel.ItemSize = new System.Drawing.Size(62, 20);
             this.toolCancel.ItemSpace = 0;
-            this.toolCancel.Location = new System.Drawing.Point(390, 12);
+            this.toolCancel.Location = new System.Drawing.Point(390, 8);
             this.toolCancel.Name = "toolCancel";
-            this.toolCancel.Size = new System.Drawing.Size(62, 16);
+            this.toolCancel.Size = new System.Drawing.Size(62, 20);
             this.toolCancel.TabIndex = 45;
             this.toolCancel.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.toolCancel.TBackGround.ColorMove = System.Drawing.Color.Transparent;

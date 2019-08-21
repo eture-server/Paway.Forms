@@ -30,10 +30,9 @@
         {
             this.SuspendLayout();
             // 
-            // BaseControl
+            // TBaseControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.Name = "BaseControl";
+            this.Name = "TBaseControl";
             this.ResumeLayout(false);
 
         }

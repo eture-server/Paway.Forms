@@ -156,6 +156,7 @@ namespace Paway.Forms
             // 
             this.pager1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
             this.pager1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pager1.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.pager1.Location = new System.Drawing.Point(0, 173);
             this.pager1.Name = "pager1";
             this.pager1.Size = new System.Drawing.Size(576, 30);
@@ -175,6 +176,7 @@ namespace Paway.Forms
             this.gridview1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridview1.Location = new System.Drawing.Point(0, 0);
             this.gridview1.Name = "gridview1";
+            this.gridview1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.gridview1.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
             this.gridview1.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
             this.gridview1.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;

@@ -43,7 +43,6 @@
             // 
             this.lbDesc.AutoSize = true;
             this.lbDesc.BackColor = System.Drawing.Color.Transparent;
-            this.lbDesc.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.lbDesc.ForeColor = System.Drawing.Color.White;
             this.lbDesc.Location = new System.Drawing.Point(20, 72);
             this.lbDesc.Name = "lbDesc";
@@ -94,8 +93,8 @@
             this.Controls.Add(this.lbCopyright);
             this.Controls.Add(this.lbVersion);
             this.Controls.Add(this.lbDesc);
-            this.IRound = false;
             this.IResize = false;
+            this.IRound = false;
             this.IShadow = false;
             this.ITransfer = true;
             this.Name = "AboutForm";

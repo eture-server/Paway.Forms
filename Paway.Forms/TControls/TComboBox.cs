@@ -49,22 +49,16 @@ namespace Paway.Forms
         /// 获取或设置控件显示的文字的字体
         /// </summary>
         [Description("获取或设置控件显示的文字的字体")]
-        [DefaultValue(typeof(Font), "微软雅黑, 9pt")]
+        [DefaultValue(typeof(Font), "微软雅黑, 11pt")]
         public override Font Font
         {
             get { return base.Font; }
             set
             {
-                if (Edit == null) return;
                 base.Font = value;
+                if (Edit == null) return;
                 Edit.Font = value;
-                if (value == null)
-                {
-                    var font = new Font("微软雅黑", 9f, FontStyle.Regular, GraphicsUnit.Point, 1);
-                    var hight = TextRenderer.MeasureText("你好", font).Height;
-                    Edit.ItemHeight = hight;
-                }
-                else
+                if (value != null)
                 {
                     var hight = TextRenderer.MeasureText("你好", value).Height;
                     Edit.ItemHeight = hight;
@@ -126,10 +120,10 @@ namespace Paway.Forms
             // TComboBox
             // 
             this.Controls.Add(this.tComboBox1);
-            this.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.Name = "TComboBox";
             this.Size = new System.Drawing.Size(123, 25);
             this.ResumeLayout(false);
+
         }
         /// <summary>
         /// 返回包含 System.ComponentModel.Component 的名称的 System.String（如果有）
