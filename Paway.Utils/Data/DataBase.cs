@@ -206,8 +206,8 @@ namespace Paway.Utils
         /// </summary>
         public T Find<T>(long id, DbCommand cmd = null, params string[] args) where T : new()
         {
-            var attr = typeof(T).Table();
-            var sql = string.Format("[{0}] = {1}", attr.Keys, id);
+            var keys = typeof(T).TableKey();
+            var sql = string.Format("[{0}] = {1}", keys, id);
             var list = Find<T>(sql, cmd, args);
             return list.Count == 1 ? list[0] : default;
         }
@@ -742,9 +742,9 @@ namespace Paway.Utils
         /// </summary>
         public static string Select(this Type type, string find, int count, params string[] args)
         {
-            var attr = type.Table();
+            var tableName = type.TableName();
             var sql = type.Select(count, args);
-            sql = string.Format("{0} from [{1}]", sql, attr.Table);
+            sql = string.Format("{0} from [{1}]", sql, tableName);
             if (find != null)
             {
                 sql = string.Format("{0} where {1}", sql, find);

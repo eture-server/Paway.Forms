@@ -533,8 +533,9 @@ namespace Paway.Helper
         /// </summary>
         public static string TableKey(this Type type)
         {
-            var attr = type.Table();
-            return attr.Keys;
+            var attrList = type.GetCustomAttributes(typeof(TableAttribute), false) as TableAttribute[];
+            if (attrList.Length == 0) return new TableAttribute().Keys;
+            return attrList[0].Keys;
         }
 
         /// <summary>
@@ -543,7 +544,7 @@ namespace Paway.Helper
         public static TableAttribute Table(this Type type)
         {
             var attrList = type.GetCustomAttributes(typeof(TableAttribute), false) as TableAttribute[];
-            if (attrList.Length != 1) return new TableAttribute();
+            if (attrList.Length == 0) return new TableAttribute();
             if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
             return attrList[0];
         }

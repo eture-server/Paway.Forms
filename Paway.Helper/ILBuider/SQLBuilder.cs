@@ -35,7 +35,7 @@ namespace Paway.Helper
         public static SQLBuilder CreateBuilder(Type type, Type ptype, params string[] args)
         {
             var valueType = typeof(List<DbParameter>);
-            var key = type.TableKey();
+            var key = type.Table().Key;
             var addParameter = typeof(BuilderHelper).GetMethod(nameof(BuilderHelper.AddParameter),
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static, null,
                 new Type[] { typeof(string), typeof(object), typeof(Type), typeof(Type) }, null);
