@@ -29,16 +29,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Paway.Forms.ToolItem toolItem5 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem6 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem7 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem8 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel3 = new Paway.Forms.TPanel();
             this.panel1 = new Paway.Forms.TPanel();
             this.toolBar1 = new Paway.Forms.ToolBar();
             this.panel2 = new Paway.Forms.TPanel();
-            this.tbName = new Paway.Forms.QQTextBox();
             this.gridview1 = new Paway.Forms.TDataGridViewPager();
+            this.tbName = new Paway.Forms.QQTextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridview1.Edit)).BeginInit();
@@ -71,22 +74,22 @@
             this.toolBar1.IAutoWidth = true;
             this.toolBar1.IClickEvent = true;
             this.toolBar1.IImageShow = true;
-            toolItem5.Image = global::Paway.Forms.Properties.Resources.refresh;
-            toolItem5.Tag = "刷新";
-            toolItem5.Text = "刷新(F5)";
-            toolItem6.Image = global::Paway.Forms.Properties.Resources.add;
-            toolItem6.Tag = "添加";
-            toolItem6.Text = "添加(A)";
-            toolItem7.Image = global::Paway.Forms.Properties.Resources.edit;
-            toolItem7.Tag = "编辑";
-            toolItem7.Text = "编辑(E)";
-            toolItem8.Image = global::Paway.Forms.Properties.Resources.close;
-            toolItem8.Tag = "删除";
-            toolItem8.Text = "删除(D)";
-            this.toolBar1.Items.Add(toolItem5);
-            this.toolBar1.Items.Add(toolItem6);
-            this.toolBar1.Items.Add(toolItem7);
-            this.toolBar1.Items.Add(toolItem8);
+            toolItem1.Image = global::Paway.Forms.Properties.Resources.refresh;
+            toolItem1.Tag = "刷新";
+            toolItem1.Text = "刷新(F5)";
+            toolItem2.Image = global::Paway.Forms.Properties.Resources.add;
+            toolItem2.Tag = "添加";
+            toolItem2.Text = "添加(A)";
+            toolItem3.Image = global::Paway.Forms.Properties.Resources.edit;
+            toolItem3.Tag = "编辑";
+            toolItem3.Text = "编辑(E)";
+            toolItem4.Image = global::Paway.Forms.Properties.Resources.close;
+            toolItem4.Tag = "删除";
+            toolItem4.Text = "删除(D)";
+            this.toolBar1.Items.Add(toolItem1);
+            this.toolBar1.Items.Add(toolItem2);
+            this.toolBar1.Items.Add(toolItem3);
+            this.toolBar1.Items.Add(toolItem4);
             this.toolBar1.ItemSize = new System.Drawing.Size(0, 32);
             this.toolBar1.Location = new System.Drawing.Point(0, 2);
             this.toolBar1.Name = "toolBar1";
@@ -110,6 +113,64 @@
             this.panel2.TabIndex = 68;
             this.panel2.Visible = false;
             // 
+            // gridview1
+            // 
+            this.gridview1.Dock = System.Windows.Forms.DockStyle.Fill;
+            // 
+            // 
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 11F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridview1.Edit.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 11F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridview1.Edit.DefaultCellStyle = dataGridViewCellStyle2;
+            this.gridview1.Edit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridview1.Edit.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            this.gridview1.Edit.Location = new System.Drawing.Point(0, 0);
+            this.gridview1.Edit.Name = "tDataGridView1";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 11F);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridview1.Edit.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.gridview1.Edit.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.gridview1.Edit.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
+            this.gridview1.Edit.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
+            this.gridview1.Edit.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
+            this.gridview1.Edit.RowTemplate.Height = 32;
+            this.gridview1.Edit.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridview1.Edit.Size = new System.Drawing.Size(683, 173);
+            this.gridview1.Edit.TabIndex = 12;
+            this.gridview1.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.gridview1.Location = new System.Drawing.Point(0, 34);
+            this.gridview1.Name = "gridview1";
+            this.gridview1.Size = new System.Drawing.Size(683, 203);
+            this.gridview1.TabIndex = 69;
+            // 
+            // 
+            // 
+            this.gridview1.TPager.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
+            this.gridview1.TPager.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.gridview1.TPager.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.gridview1.TPager.Location = new System.Drawing.Point(0, 173);
+            this.gridview1.TPager.Name = "pager1";
+            this.gridview1.TPager.Size = new System.Drawing.Size(683, 30);
+            this.gridview1.TPager.TabIndex = 11;
+            // 
             // tbName
             // 
             this.tbName.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -125,37 +186,6 @@
             this.tbName.Size = new System.Drawing.Size(173, 29);
             this.tbName.TabIndex = 60;
             this.tbName.WaterText = "Ctrl+F搜索";
-            // 
-            // gridview1
-            // 
-            this.gridview1.Dock = System.Windows.Forms.DockStyle.Fill;
-            // 
-            // 
-            // 
-            this.gridview1.Edit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridview1.Edit.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.gridview1.Edit.Location = new System.Drawing.Point(0, 0);
-            this.gridview1.Edit.Name = "tDataGridView1";
-            this.gridview1.Edit.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
-            this.gridview1.Edit.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
-            this.gridview1.Edit.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
-            this.gridview1.Edit.RowTemplate.Height = 32;
-            this.gridview1.Edit.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridview1.Edit.Size = new System.Drawing.Size(683, 173);
-            this.gridview1.Edit.TabIndex = 12;
-            this.gridview1.Location = new System.Drawing.Point(0, 34);
-            this.gridview1.Name = "gridview1";
-            this.gridview1.Size = new System.Drawing.Size(683, 203);
-            this.gridview1.TabIndex = 69;
-            // 
-            // 
-            // 
-            this.gridview1.TPager.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
-            this.gridview1.TPager.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.gridview1.TPager.Location = new System.Drawing.Point(0, 173);
-            this.gridview1.TPager.Name = "pager1";
-            this.gridview1.TPager.Size = new System.Drawing.Size(683, 30);
-            this.gridview1.TPager.TabIndex = 11;
             // 
             // TDataControl
             // 

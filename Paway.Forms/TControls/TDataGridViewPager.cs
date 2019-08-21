@@ -156,7 +156,6 @@ namespace Paway.Forms
             // 
             this.pager1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
             this.pager1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pager1.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.pager1.Location = new System.Drawing.Point(0, 173);
             this.pager1.Name = "pager1";
             this.pager1.Size = new System.Drawing.Size(576, 30);
