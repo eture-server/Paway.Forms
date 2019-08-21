@@ -317,6 +317,17 @@ namespace Paway.Forms
             if (this.Owner != null)
                 this.Owner.TRefresh(this);
         }
+        /// <summary>
+        /// </summary>
+        public override string ToString()
+        {
+            var desc = Text;
+            if (IHeard) desc += ",IHeard";
+            if (_desc != null) desc += ",desc:" + _desc;
+            if (_headDesc != null) desc += ",headDesc:" + _headDesc;
+            if (_endDesc != null) desc += ",_endDesc:" + _endDesc;
+            return desc;
+        }
 
         #endregion
 

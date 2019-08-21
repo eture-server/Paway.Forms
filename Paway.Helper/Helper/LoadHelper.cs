@@ -29,7 +29,7 @@ namespace Paway.Helper
         /// <param name="load2">静态大图</param>
         /// <param name="desc">描述</param>
         /// <returns>启动窗体实例</returns>
-        public static Form ShowForm<T>(string title, Image load2 = null, string desc = "Loading...") where T : ILoadForm
+        public static Form ShowForm<T>(string title, Image load2 = null, string desc = TConfig.Loading) where T : ILoadForm
         {
             var form = (Form)Activator.CreateInstance(typeof(T));
             LoadHelper.form = (ILoadForm)form;

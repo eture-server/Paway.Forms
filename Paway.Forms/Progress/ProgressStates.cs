@@ -3,6 +3,7 @@ using System.Collections;
 using System.Reflection;
 using System.Threading;
 using System.Collections.Generic;
+using Paway.Helper;
 
 namespace Paway.Forms
 {
@@ -79,7 +80,7 @@ namespace Paway.Forms
             {
                 lock (this._states)
                 {
-                    if (this._states.Count < 1) return "Loading..";
+                    if (this._states.Count < 1) return TConfig.Loading;
                     return this._states[this._states.Count - 1].Caption;
                 }
             }

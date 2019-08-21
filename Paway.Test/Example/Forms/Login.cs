@@ -34,7 +34,7 @@ namespace Paway.Test
         {
             if (tbName.IError) return false;
             if (tbPad.IError) return false;
-            toolOk.Items[0].Text = "Loading...";
+            toolOk.Items[0].Text = Config.Loading;
             toolOk.TRefresh();
             Application.DoEvents();
             Config.User = DataService.Default.EncryptLogin(tbName.Text, tbPad.Text);

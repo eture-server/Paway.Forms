@@ -23,21 +23,22 @@ namespace Paway.Helper
 
         /// <summary>
         /// </summary>
-        public string AutoStates { get; set; }
+        [Property(Text = TConfig.Loading)]
+        public string LoadState { get; set; }
 
         /// <summary>
         /// </summary>
         public FindInfo()
         {
             this.Id = 1;
-            this.AutoStates = "Loading...";
+            this.LoadState = TConfig.Loading;
         }
         /// <summary>
         /// </summary>
         public FindInfo(string name)
         {
             this.Id = 1;
-            this.AutoStates = name;
+            this.LoadState = name;
         }
     }
 }

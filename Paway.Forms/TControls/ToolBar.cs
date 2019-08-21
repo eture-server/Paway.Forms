@@ -2402,7 +2402,34 @@ namespace Paway.Forms
                     FixScroll(value);
                     break;
                 case TDirection.Vertical:
-                    value = _vScroll2.Value - e.Delta * (ItemSize.Width + ItemSpace) / 120;
+                    var width = ItemSize.Width;
+                    if (width == 0)
+                    {
+                        if (e.Delta < 0)
+                        {
+                            for (int i = 0; i < Items.Count; i++)
+                            {
+                                if (Items[i].Rectangle.Left >= _vScroll2.Value)
+                                {
+                                    width = Items[i].Rectangle.Width;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int i = Items.Count - 1; i >= 0; i--)
+                            {
+                                if (Items[i].Rectangle.Left <= _vScroll2.Value)
+                                {
+                                    width = Items[i].Rectangle.Width;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (width == 0) width = 100;
+                    value = _vScroll2.Value - e.Delta * (width + ItemSpace) / 120;
                     FixScroll(value);
                     break;
             }

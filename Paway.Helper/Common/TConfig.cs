@@ -20,6 +20,10 @@ namespace Paway.Helper
         /// 后辍
         /// </summary>
         public const string Suffix = "MobotaA*";
+        /// <summary>
+        /// Loading...
+        /// </summary>
+        public const string Loading = "Loading...";
 
         #endregion
 
