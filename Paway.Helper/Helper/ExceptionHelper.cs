@@ -13,7 +13,7 @@ namespace Paway.Helper
     /// <summary>
     /// 异常弹出信息
     /// </summary>
-    public abstract class ExceptionHelper
+    public static class ExceptionHelper
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static string text;
@@ -30,56 +30,56 @@ namespace Paway.Helper
         /// <summary>
         /// 弹出
         /// </summary>
-        public static void Show(object ex, bool sync = true)
+        public static void Show(this object ex, bool sync = true)
         {
-            Show(null, null, ex, LeveType.None, sync);
+            Show(ex, null, null, LeveType.None, sync);
         }
         /// <summary>
         /// 弹出
         /// </summary>
-        public static void Show(string msg, LeveType type, bool sync = true)
+        public static void Show(this string msg, LeveType type, bool sync = true)
         {
-            Show(null, null, msg, type, sync);
+            Show(msg, null, null, type, sync);
         }
         /// <summary>
         /// 弹出
         /// </summary>
-        public static void Show(string title, object ex, bool sync = true)
+        public static void Show(this object ex, string title, bool sync = true)
         {
-            Show(null, title, ex, LeveType.None, sync);
+            Show(ex, null, title, LeveType.None, sync);
         }
         /// <summary>
         /// 弹出
         /// </summary>
-        public static void Show(string title, object ex, LeveType type, bool sync = true)
+        public static void Show(this object ex, string title, LeveType type, bool sync = true)
         {
-            Show(null, title, ex, type, sync);
+            Show(ex, null, title, type, sync);
         }
         /// <summary>
         /// 弹出
         /// </summary>
-        public static void Show(Control obj, object ex, bool sync = true)
+        public static void Show(this object ex, Control obj, bool sync = true)
         {
-            Show(obj, null, ex, LeveType.None, sync);
+            Show(ex, obj, null, LeveType.None, sync);
         }
         /// <summary>
         /// 弹出
         /// </summary>
-        public static void Show(Control obj, string msg, LeveType type, bool sync = true)
+        public static void Show(this string msg, Control obj, LeveType type, bool sync = true)
         {
-            Show(obj, null, msg, type, sync);
+            Show(msg, obj, null, type, sync);
         }
         /// <summary>
         /// 弹出
         /// </summary>
-        public static void Show(Control obj, string title, object ex, bool sync = true)
+        public static void Show(this object ex, Control obj, string title, bool sync = true)
         {
-            Show(obj, title, ex, LeveType.None, sync);
+            Show(ex, obj, title, LeveType.None, sync);
         }
         /// <summary>
         /// 弹出
         /// </summary>
-        public static void Show(Control obj, string title, object ex, LeveType type, bool sync = true)
+        public static void Show(this object ex, Control obj, string title, LeveType type, bool sync = true)
         {
             if (ex == null) return;
             string msg = ex.ToString();

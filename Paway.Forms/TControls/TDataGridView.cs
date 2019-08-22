@@ -597,7 +597,7 @@ namespace Paway.Forms
         protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
         {
             base.OnCellPainting(e);
-            GridColor = BitmapHelper.RGBAddLight(RowTemplate.DefaultCellStyle.SelectionBackColor, -15);
+            GridColor = RowTemplate.DefaultCellStyle.SelectionBackColor.AddLight(-15);
             if (e.RowIndex == -1)
             {
                 if (!_iCheckBoxName.IsNullOrEmpty()) DrawCombox(e);
@@ -676,8 +676,8 @@ namespace Paway.Forms
         }
         private void ComBoxGridView_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
-            var blackColor = BitmapHelper.RGBAddLight(RowTemplate.DefaultCellStyle.SelectionBackColor, 27);
-            var selectionBackColor = BitmapHelper.RGBAddLight(RowTemplate.DefaultCellStyle.SelectionBackColor, -10);
+            var blackColor = RowTemplate.DefaultCellStyle.SelectionBackColor.AddLight(27);
+            var selectionBackColor = RowTemplate.DefaultCellStyle.SelectionBackColor.AddLight(-10);
             CellMouseColor(e, blackColor, selectionBackColor);
         }
         private void CellMouseColor(DataGridViewCellEventArgs e, Color blackColor, Color selectionBackColor)
@@ -714,7 +714,7 @@ namespace Paway.Forms
         {
             if (e.RowIndex < 0 && e.ColumnIndex != -1)
             {
-                var selectionBackColor = BitmapHelper.RGBAddLight(RowTemplate.DefaultCellStyle.SelectionBackColor, -10);
+                var selectionBackColor = RowTemplate.DefaultCellStyle.SelectionBackColor.AddLight( -10);
                 Columns[e.ColumnIndex].HeaderCell.Style.BackColor = selectionBackColor;
             }
         }
@@ -722,7 +722,7 @@ namespace Paway.Forms
         {
             if (e.RowIndex < 0 && e.ColumnIndex != -1)
             {
-                var blackColor = BitmapHelper.RGBAddLight(RowTemplate.DefaultCellStyle.SelectionBackColor, 27);
+                var blackColor = RowTemplate.DefaultCellStyle.SelectionBackColor.AddLight( 27);
                 Columns[e.ColumnIndex].HeaderCell.Style.BackColor = blackColor;
             }
         }

@@ -60,11 +60,11 @@ namespace Paway.Test
                 TConfig.IAutoHideScroll = true;
                 Application.ThreadException += Application_ThreadException;
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-                Application.Run(new FormEmit());
+                Application.Run(new Form3());
             }
             catch (Exception e)
             {
-                ExceptionHelper.Show("软件出现未处理的异常，即将退出。", e, false);
+                e.Show("软件出现未处理的异常，即将退出。", false);
             }
             finally
             {
@@ -74,11 +74,11 @@ namespace Paway.Test
         }
         private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
-            ExceptionHelper.Show("软件出现未被捕获的线程异常。", e.Exception, false);
+            e.Exception.Show("软件出现未被捕获的线程异常。", false);
         }
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            ExceptionHelper.Show("软件出现未被捕获的异常，即将退出。", e.ExceptionObject, false);
+            e.ExceptionObject.Show("软件出现未被捕获的异常，即将退出。", false);
         }
     }
 }

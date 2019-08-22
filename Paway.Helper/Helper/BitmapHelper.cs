@@ -720,12 +720,11 @@ namespace Paway.Helper
         #endregion
 
         #region RGB<->HSB
-
         /// <summary>
         /// RGB空间到HSL空间的转换
         /// 色调-饱和度-亮度(HSB) 转 Color
         /// </summary>
-        public static Color HSLToRGB(double h, double s, double l)
+        internal static Color HSLToRGB(double h, double s, double l)
         {
             if (l < 0) l = 0;
             if (l > 1) l = 1;
@@ -754,7 +753,6 @@ namespace Paway.Helper
             var b = B.ToInt();
             return Color.FromArgb(r, g, b);
         }
-
         private static double Hue2RGB(double v1, double v2, double vH)
         {
             if (vH < 0) vH += 1;
@@ -764,22 +762,11 @@ namespace Paway.Helper
             if (3.0 * vH < 2) return v1 + (v2 - v1) * (2.0 / 3.0 - vH) * 6.0;
             return v1;
         }
-
-        /// <summary>
-        /// RGB空间到HSL空间的转换
-        /// Color亮度变化
-        /// </summary>
-        public static Color RGBAddLight(Color color, int value)
-        {
-            var result = RGBToHSL(color.R / 255.0, color.G / 255.0, color.B / 255.0);
-            return HSLToRGB(result[0], result[1], result[2] + value * 1.0 / 240);
-        }
-
         /// <summary>
         /// RGB空间到HSL空间的转换
         /// Color 转 色调-饱和度-亮度(HSB)
         /// </summary>
-        public static double[] RGBToHSL(double r, double g, double b)
+        internal static double[] RGBToHSL(double r, double g, double b)
         {
             double Max, Min, delR, delG, delB, delMax;
 

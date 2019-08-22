@@ -92,7 +92,6 @@
             this.ClientSize = new System.Drawing.Size(384, 346);
             this.Controls.Add(this.btChange);
             this.Controls.Add(this.tControl1);
-            this.IRound = false;
             this.Name = "Form3";
             this.Padding = new System.Windows.Forms.Padding(0);
             this.SysButton = Paway.Helper.TSysButton.Close;

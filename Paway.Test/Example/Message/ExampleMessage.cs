@@ -11,7 +11,7 @@ namespace Paway.Test
         public string Types { get; set; }
         public MType Type
         {
-            get { return EntityHelper.Parse<MType>(Types); }
+            get { return Types.Parse<MType>(); }
         }
         public bool Result { get; set; }
         public string IpPort { get; set; }

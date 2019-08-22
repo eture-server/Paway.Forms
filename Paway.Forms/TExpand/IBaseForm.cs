@@ -59,11 +59,11 @@ namespace Paway.Forms
         }
         internal void LbTitle_Paint(object sender, PaintEventArgs e)
         {
-            if (lbTitle.Visible)
-                using (var pen = new Pen(BitmapHelper.RGBAddLight(lbTitle.BackColor, -40)))
-                {
-                    e.Graphics.DrawLine(pen, 0, lbTitle.Height - 1, lbTitle.Width, lbTitle.Height - 1);
-                }
+            if (!lbTitle.Visible) return;
+            using (var pen = new Pen(lbTitle.BackColor.AddLight(-40)))
+            {
+                e.Graphics.DrawLine(pen, 0, lbTitle.Height - 1, lbTitle.Width, lbTitle.Height - 1);
+            }
         }
         /// <summary>
         /// 关闭时激发父窗体
@@ -172,7 +172,7 @@ namespace Paway.Forms
             }
             catch (Exception ex)
             {
-                ExceptionHelper.Show(this, ex);
+                ex.Show(this);
             }
         }
         /// <summary>
@@ -192,7 +192,7 @@ namespace Paway.Forms
             catch (Exception ex)
             {
                 OnFailed();
-                ExceptionHelper.Show(this, ex);
+                ex.Show(this);
             }
         }
         /// <summary>
@@ -211,7 +211,7 @@ namespace Paway.Forms
             }
             catch (Exception ex)
             {
-                ExceptionHelper.Show(this, ex);
+                ex.Show(this);
             }
         }
 

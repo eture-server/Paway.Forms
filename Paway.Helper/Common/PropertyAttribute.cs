@@ -5,82 +5,23 @@ using System.Reflection;
 namespace Paway.Helper
 {
     /// <summary>
-    /// 枚举属性设置
-    /// </summary>
-    public abstract class EntityHelper
-    {
-        /// <summary>
-        /// 获取指定枚举特性值
-        /// </summary>
-        public static string GetValue(Enum e)
-        {
-            var value = string.Empty;
-            if (e == null) return value;
-
-            value = e.ToString();
-            var members = e.GetType().GetMember(value);
-            if (members != null && members.Length == 1)
-            {
-                return members[0].Description() ?? value;
-            }
-            return value;
-        }
-        /// <summary>
-        /// 获取指定字段特性值
-        /// </summary>
-        public static string GetValue(FieldInfo field)
-        {
-            return field.Description() ?? field.Name;
-        }
-        /// <summary>
-        /// 将枚举常数的名称或数字值的字符串表示转换成等效的枚举对象
-        /// </summary>
-        /// <returns></returns>
-        public static T Parse<T>(string value)
-        {
-            Type type = typeof(T);
-            foreach (FieldInfo field in type.GetFields())
-            {
-                string name = field.Name;
-                if (name.Equals(value, StringComparison.OrdinalIgnoreCase))
-                    return (T)field.GetRawConstantValue();
-                name = GetValue(field);
-                if (name.Equals(value, StringComparison.OrdinalIgnoreCase))
-                    return (T)field.GetRawConstantValue();
-            }
-            return default;
-        }
-    }
-
-    /// <summary>
     /// 特性.字段Sql属性设置
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
     public class PropertyAttribute : Attribute
     {
-        private bool _iSelect = true;
-        private bool _iShow = true;
-
         /// <summary>
         /// 是否生成数据列,
         /// 默认true
         /// </summary>
-        public bool ISelect
-        {
-            get { return _iSelect; }
-            set { _iSelect = value; }
-        }
+        public bool ISelect { get; set; } = true;
 
         /// <summary>
         /// 是否显示列(GridView)
         /// 默认默认true
         /// </summary>
-        public bool IShow
-        {
-            get { return _iShow; }
-            set { _iShow = value; }
-        }
+        public bool IShow { get; set; } = true;
 
         /// <summary>
         /// 列名称

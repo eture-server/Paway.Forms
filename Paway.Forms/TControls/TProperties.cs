@@ -121,8 +121,8 @@ namespace Paway.Forms
                 {
                     if (parent == null)
                     {
-                        if (_cMove == Color.Empty) _cMove = BitmapHelper.RGBAddLight(value, 30);
-                        if (_cDown == Color.Empty) _cDown = BitmapHelper.RGBAddLight(value, -30);
+                        if (_cMove == Color.Empty) _cMove = value.AddLight(30);
+                        if (_cDown == Color.Empty) _cDown = value.AddLight(-30);
                     }
                     else if (parent.Name.Contains(nameof(ToolBar.TLineColor)))
                     {
@@ -242,8 +242,8 @@ namespace Paway.Forms
             }
             else
             {
-                _cMove = BitmapHelper.RGBAddLight(color, value);
-                _cDown = BitmapHelper.RGBAddLight(color, -value);
+                _cMove = color.AddLight(value);
+                _cDown = color.AddLight(-value);
             }
             OnValueChange(value);
         }

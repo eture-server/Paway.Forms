@@ -11,7 +11,7 @@ namespace Paway.Test
         public string FromTypes { get; set; }
         public MType FromType
         {
-            get { return EntityHelper.Parse<MType>(FromTypes); }
+            get { return FromTypes.Parse<MType>(); }
         }
         public string Message { get; set; }
 

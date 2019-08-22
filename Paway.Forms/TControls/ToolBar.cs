@@ -1107,7 +1107,7 @@ namespace Paway.Forms
                 if (colorLine != Color.Empty && _linePading.Left > 0)
                 {
                     var temp = colorLine;
-                    if (temp == Color.Transparent) temp = BitmapHelper.RGBAddLight(color == Color.Empty ? Color.LightGray : color, -15);
+                    if (temp == Color.Transparent) temp = (color == Color.Empty ? Color.LightGray : color).AddLight(-15);
                     else temp = TranColor(colorLine);
                     if (radiu == this.ItemSize.Width && radiu == this.ItemSize.Height)
                     {
@@ -1143,7 +1143,7 @@ namespace Paway.Forms
                 {
                     var rect = item.Rectangle;
                     var temp = colorLine;
-                    if (temp == Color.Transparent) temp = BitmapHelper.RGBAddLight(color == Color.Empty ? Color.LightGray : color, -15);
+                    if (temp == Color.Transparent) temp = (color == Color.Empty ? Color.LightGray : color).AddLight(-15);
                     else temp = TranColor(colorLine);
                     if (_linePading.All == 1)
                     {
