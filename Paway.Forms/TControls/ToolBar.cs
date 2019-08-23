@@ -2477,6 +2477,7 @@ namespace Paway.Forms
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
+            if (_vScroll == null) return;
             _vScroll.Visible = false;
             _hScroll.Visible = false;
             _vScroll2.Visible = false;

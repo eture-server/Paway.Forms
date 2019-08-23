@@ -24,6 +24,42 @@ namespace Paway.Helper
         /// </summary>
         private static readonly List<string> wbList = new List<string>(26);
 
+        #region 枚举
+        /// <summary>
+        /// 获取枚举描述
+        /// </summary>
+        public static string Description(this Enum e)
+        {
+            if (e == null) return string.Empty;
+
+            var value = e.ToString();
+            var members = e.GetType().GetMember(value);
+            if (members != null && members.Length == 1)
+            {
+                return members[0].Description() ?? value;
+            }
+            return value;
+        }
+        /// <summary>
+        /// 将枚举常数的名称或数字值的字符串表示转换成等效的枚举对象
+        /// </summary>
+        public static T Parse<T>(this string value)
+        {
+            Type type = typeof(T);
+            foreach (FieldInfo field in type.GetFields())
+            {
+                string name = field.Name;
+                if (name.Equals(value, StringComparison.OrdinalIgnoreCase))
+                    return (T)field.GetRawConstantValue();
+                name = field.Description() ?? field.Name;
+                if (name.Equals(value, StringComparison.OrdinalIgnoreCase))
+                    return (T)field.GetRawConstantValue();
+            }
+            return default;
+        }
+
+        #endregion
+
         #region 颜色亮度变化
         /// <summary>
         /// RGB空间与HSL空间的转换(Color亮度变化)
@@ -631,39 +667,6 @@ namespace Paway.Helper
             if (list.Length > 0)
                 return ((DescriptionAttribute)list[0]).Description;
             return null;
-        }
-        /// <summary>
-        /// 获取枚举描述
-        /// </summary>
-        public static string Description(this Enum e)
-        {
-            if (e == null) return string.Empty;
-
-            var value = e.ToString();
-            var members = e.GetType().GetMember(value);
-            if (members != null && members.Length == 1)
-            {
-                return members[0].Description() ?? value;
-            }
-            return value;
-        }
-        /// <summary>
-        /// 将枚举常数的名称或数字值的字符串表示转换成等效的枚举对象
-        /// </summary>
-        /// <returns></returns>
-        public static T Parse<T>(this string value)
-        {
-            Type type = typeof(T);
-            foreach (FieldInfo field in type.GetFields())
-            {
-                string name = field.Name;
-                if (name.Equals(value, StringComparison.OrdinalIgnoreCase))
-                    return (T)field.GetRawConstantValue();
-                name = field.Description() ?? field.Name;
-                if (name.Equals(value, StringComparison.OrdinalIgnoreCase))
-                    return (T)field.GetRawConstantValue();
-            }
-            return default;
         }
 
         #endregion

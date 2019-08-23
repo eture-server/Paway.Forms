@@ -23,7 +23,7 @@ namespace Paway.Helper
 
         /// <summary>
         /// </summary>
-        [Property(Text = TConfig.Loading)]
+        [Property(Text = "State")]
         public string LoadState { get; set; }
 
         /// <summary>
