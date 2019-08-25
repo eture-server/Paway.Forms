@@ -97,7 +97,7 @@
             // 
             this.btLess.Location = new System.Drawing.Point(60, 144);
             this.btLess.Name = "btLess";
-            this.btLess.Size = new System.Drawing.Size(39, 23);
+            this.btLess.Size = new System.Drawing.Size(39, 28);
             this.btLess.TabIndex = 66;
             this.btLess.Text = "-";
             this.btLess.UseVisualStyleBackColor = true;
@@ -106,16 +106,16 @@
             // 
             this.btAdd.Location = new System.Drawing.Point(15, 144);
             this.btAdd.Name = "btAdd";
-            this.btAdd.Size = new System.Drawing.Size(39, 23);
+            this.btAdd.Size = new System.Drawing.Size(39, 28);
             this.btAdd.TabIndex = 65;
             this.btAdd.Text = "+";
             this.btAdd.UseVisualStyleBackColor = true;
             // 
             // btChange
             // 
-            this.btChange.Location = new System.Drawing.Point(14, 186);
+            this.btChange.Location = new System.Drawing.Point(15, 202);
             this.btChange.Name = "btChange";
-            this.btChange.Size = new System.Drawing.Size(60, 23);
+            this.btChange.Size = new System.Drawing.Size(60, 27);
             this.btChange.TabIndex = 64;
             this.btChange.Text = "换色";
             this.btChange.UseVisualStyleBackColor = true;
@@ -123,43 +123,44 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 31);
+            this.label2.ForeColor = System.Drawing.Color.Black;
+            this.label2.Location = new System.Drawing.Point(10, 31);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 12);
+            this.label2.Size = new System.Drawing.Size(54, 20);
             this.label2.TabIndex = 63;
             this.label2.Text = "透明度";
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(60, 27);
+            this.textBox1.Location = new System.Drawing.Point(66, 27);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(59, 21);
+            this.textBox1.Size = new System.Drawing.Size(59, 27);
             this.textBox1.TabIndex = 62;
             this.textBox1.Text = "0";
             // 
             // btSave
             // 
-            this.btSave.Location = new System.Drawing.Point(15, 228);
+            this.btSave.Location = new System.Drawing.Point(15, 235);
             this.btSave.Name = "btSave";
-            this.btSave.Size = new System.Drawing.Size(60, 23);
+            this.btSave.Size = new System.Drawing.Size(60, 27);
             this.btSave.TabIndex = 61;
             this.btSave.Text = "保存";
             this.btSave.UseVisualStyleBackColor = true;
             // 
             // btnBrush
             // 
-            this.btnBrush.Location = new System.Drawing.Point(15, 286);
+            this.btnBrush.Location = new System.Drawing.Point(15, 301);
             this.btnBrush.Name = "btnBrush";
-            this.btnBrush.Size = new System.Drawing.Size(73, 23);
+            this.btnBrush.Size = new System.Drawing.Size(73, 27);
             this.btnBrush.TabIndex = 60;
             this.btnBrush.Text = "渐变透明";
             this.btnBrush.UseVisualStyleBackColor = true;
             // 
             // btClear
             // 
-            this.btClear.Location = new System.Drawing.Point(15, 257);
+            this.btClear.Location = new System.Drawing.Point(15, 269);
             this.btClear.Name = "btClear";
-            this.btClear.Size = new System.Drawing.Size(60, 23);
+            this.btClear.Size = new System.Drawing.Size(60, 27);
             this.btClear.TabIndex = 60;
             this.btClear.Text = "清除";
             this.btClear.UseVisualStyleBackColor = true;
@@ -175,7 +176,7 @@
             // 
             this.btColor.Location = new System.Drawing.Point(15, 91);
             this.btColor.Name = "btColor";
-            this.btColor.Size = new System.Drawing.Size(60, 23);
+            this.btColor.Size = new System.Drawing.Size(60, 27);
             this.btColor.TabIndex = 58;
             this.btColor.Text = "取色";
             this.btColor.UseVisualStyleBackColor = true;
@@ -218,6 +219,7 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(153)))), ((int)(((byte)(188)))));
             this.ClientSize = new System.Drawing.Size(554, 371);
             this.Controls.Add(this.splitContainer1);
+            this.ForeColor = System.Drawing.Color.Black;
             this.Name = "FormImage";
             this.Text = "FormImage";
             this.splitContainer1.Panel1.ResumeLayout(false);

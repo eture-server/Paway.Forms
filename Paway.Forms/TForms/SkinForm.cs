@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using Paway.Helper;
 using Paway.Win32;
 
 namespace Paway.Forms
@@ -242,6 +243,32 @@ namespace Paway.Forms
             if (!IsDisposed) Visible = Main.Visible;
         }
 
+        private void DrawDot(Bitmap image)
+        {
+            var bitmap = new Bitmap(Main.Width, Main.Height);
+            Main.DrawToBitmap(bitmap, new Rectangle(0, 0, Width, Height));
+            int radiu = Main.TRadius + 1;
+            var color = bitmap.GetPixel(0, 0);
+            DrawDot(image, color, 0, 0, radiu, 1, 1);
+
+            color = bitmap.GetPixel(bitmap.Width - 1, 0);
+            DrawDot(image, color, image.Width - 1, 0, radiu, -1, 1);
+
+            color = bitmap.GetPixel(0, bitmap.Height - 1);
+            DrawDot(image, color, 0, image.Height - 1, radiu, 1, -1);
+
+            color = bitmap.GetPixel(bitmap.Width - 1, bitmap.Height - 1);
+            DrawDot(image, color, image.Width - 1, image.Height - 1, radiu, -1, -1);
+        }
+        private void DrawDot(Bitmap image, Color color, int width, int hight, int radiu, int xModul, int yModul)
+        {
+            image.SetPixel(width + (radiu + 2) * xModul, hight + radiu * yModul, Color.FromArgb(180, color));
+            image.SetPixel(width + (radiu + 3) * xModul, hight + radiu * yModul, Color.FromArgb(200, color));
+            image.SetPixel(width + radiu * xModul, hight + (radiu + 2) * yModul, Color.FromArgb(180, color));
+            image.SetPixel(width + radiu * xModul, hight + (radiu + 3) * yModul, Color.FromArgb(200, color));
+            image.SetPixel(width + (radiu + 1) * xModul, hight + radiu * yModul, Color.FromArgb(25, Color.Black));
+            image.SetPixel(width + radiu * xModul, hight + (radiu + 1) * yModul, Color.FromArgb(25, Color.Black));
+        }
         /// <summary>
         /// </summary>
         public void SetBits()
@@ -252,6 +279,7 @@ namespace Paway.Forms
                 g.SmoothingMode = SmoothingMode.HighQuality;
                 g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 DrawShadow(g);
+                DrawDot(image);
                 if (Image.IsCanonicalPixelFormat(image.PixelFormat) && Image.IsAlphaPixelFormat(image.PixelFormat))
                 {
                     var screenDc = NativeMethods.GetDC(IntPtr.Zero);

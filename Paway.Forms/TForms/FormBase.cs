@@ -843,6 +843,7 @@ namespace Paway.Forms
             if (!this.Visible) return;
             //调用API，将窗体剪成圆角
             var ellipse = _iRound ? TRadius : 0;
+            if (ellipse > 0) ellipse += 1;
             var rgn = NativeMethods.CreateRoundRectRgn(0, 0, Width + 1, Height + 1, ellipse, ellipse);
             if (!IsDisposed)
             {

@@ -309,7 +309,7 @@ namespace Paway.Forms
             {
                 Reset(e.Location);
                 pStart = e.Location;
-                return;
+                //return;
             }
             base.OnMouseMove(e);
         }
@@ -328,7 +328,7 @@ namespace Paway.Forms
                     pStart = e.Location;
                 }
             }
-            if (!isMove)
+            //if (!isMove)
             {
                 base.OnMouseDown(e);
             }
@@ -344,6 +344,7 @@ namespace Paway.Forms
         private void Reset(int steps)
         {
             if (screen == null) return;
+            Invalidate(rect);
             double bit = 1;
             for (var i = 0; i < Math.Abs(steps); i++)
             {

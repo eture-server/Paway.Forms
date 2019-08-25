@@ -84,7 +84,7 @@ namespace Paway.Forms
             }
         }
 
-        private int _tRadius = 4;
+        private int _tRadius = 5;
         /// <summary>
         /// 设置或获取窗体的圆角的大小
         /// 窗体阴影宽度=value+1
