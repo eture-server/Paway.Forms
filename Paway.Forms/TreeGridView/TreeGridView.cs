@@ -204,6 +204,13 @@ namespace Paway.Forms
         /// <summary>
         /// 更新节点
         /// </summary>
+        public bool UpdateNode(object info)
+        {
+            return UpdateNode(this.Nodes, info, (int)info.GetValue(nameof(IId.Id)));
+        }
+        /// <summary>
+        /// 更新节点
+        /// </summary>
         internal bool UpdateNode(TreeGridNodeCollection nodes, object info, int id)
         {
             for (int i = 0; i < nodes.Count; i++)
