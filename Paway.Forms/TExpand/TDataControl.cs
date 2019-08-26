@@ -534,6 +534,7 @@ namespace Paway.Forms
                     break;
                 case (Keys)Shortcut.CtrlA:
                 case (Keys)Shortcut.CtrlC:
+                case Keys.Enter:
                     if (panel2.Visible && tbName.ContainsFocus) return false;
                     if (gridview1.TPager.ITextFocus) return false;
                     break;

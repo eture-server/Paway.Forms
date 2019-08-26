@@ -209,7 +209,7 @@ namespace Paway.Forms
             this.tControl2.Dock = System.Windows.Forms.DockStyle.Left;
             this.tControl2.Location = new System.Drawing.Point(80, 0);
             this.tControl2.Name = "tControl2";
-            this.tControl2.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
+            this.tControl2.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.tControl2.Size = new System.Drawing.Size(43, 30);
             this.tControl2.TabIndex = 22;
             // 
@@ -220,10 +220,10 @@ namespace Paway.Forms
             this.txtCurrentPage.ITrans = true;
             this.txtCurrentPage.Lines = new string[] {
         "0"};
-            this.txtCurrentPage.Location = new System.Drawing.Point(0, 4);
+            this.txtCurrentPage.Location = new System.Drawing.Point(0, 2);
             this.txtCurrentPage.MaxLength = 10;
             this.txtCurrentPage.Name = "txtCurrentPage";
-            this.txtCurrentPage.Size = new System.Drawing.Size(43, 26);
+            this.txtCurrentPage.Size = new System.Drawing.Size(43, 28);
             this.txtCurrentPage.TabIndex = 27;
             this.txtCurrentPage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -452,17 +452,25 @@ namespace Paway.Forms
 
         private void TxtCurrentPage_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            switch (e.KeyCode)
             {
-                var num = txtCurrentPage.Text.ToInt();
+                case Keys.Enter:
+                    var num = txtCurrentPage.Text.ToInt();
 
-                if (num > PagerInfo.PageCount)
-                    num = PagerInfo.PageCount;
-                if (num < 1)
-                    num = 1;
+                    if (num > PagerInfo.PageCount)
+                        num = PagerInfo.PageCount;
+                    if (num < 1)
+                        num = 1;
 
-                RefreshData(num);
-                toolNext.Focus();
+                    txtCurrentPage.Text = num.ToString();
+                    txtCurrentPage.SelectionStart = txtCurrentPage.Text.Length;
+                    RefreshData(num);
+                    toolNext.Focus();
+                    break;
+                case Keys.Escape:
+                    txtCurrentPage.Text = PagerInfo.CurrentPageIndex.ToString();
+                    lblPageInfo.Focus();
+                    break;
             }
         }
 

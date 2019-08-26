@@ -28,7 +28,7 @@ namespace Paway.Test
             base.AddDelete();
             base.HaveQuery();
             if (DesignMode) return;
-            gridview1.IGroup = false;
+            //gridview1.IGroup = false;
             //this.UserTree(true);
             var server = new SQLiteService();
             base.find = "Id<=917551";

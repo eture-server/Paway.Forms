@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -549,6 +550,22 @@ namespace Paway.Helper
                     break;
                 case nameof(String):
                     pro.SetValue(obj, value.ToStrs());
+                    break;
+                case nameof(Point):
+                    var regex = new Regex(@"{X=(?<x>\d+).+Y=(?<y>\d+)}", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+                    var match = regex.Match(value.ToStrs());
+                    if (match.Success)
+                    {
+                        pro.SetValue(obj, new Point(match.Groups["x"].ToInt(), match.Groups["y"].ToInt()));
+                    }
+                    break;
+                case nameof(Size):
+                    regex = new Regex(@"{Width=(?<w>\d+).+Height=(?<h>\d+)}", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+                    match = regex.Match(value.ToStrs());
+                    if (match.Success)
+                    {
+                        pro.SetValue(obj, new Size(match.Groups["w"].ToInt(), match.Groups["h"].ToInt()));
+                    }
                     break;
                 default:
                     pro.SetValue(obj, value);
