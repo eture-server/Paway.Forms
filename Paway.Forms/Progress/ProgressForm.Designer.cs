@@ -36,6 +36,7 @@ namespace Paway.Forms
             // 
             // toolCancel
             // 
+            this.toolCancel.Font = new System.Drawing.Font("Î¢ÈíÑÅºÚ", 11F);
             this.toolCancel.IClickEvent = true;
             toolItem1.Text = "Cancel";
             this.toolCancel.Items.Add(toolItem1);
@@ -68,6 +69,7 @@ namespace Paway.Forms
             this.Controls.Add(this.lbCaption);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.IRound = false;
+            this.IShadow = false;
             this.Name = "ProgressForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "frmProgress";
