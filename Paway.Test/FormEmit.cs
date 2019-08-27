@@ -19,6 +19,7 @@ namespace Paway.Test
         {
             InitializeComponent();
             toolBar1.ItemClick += ToolBar1_ItemClick;
+            this.TMouseMove(tControl1);
         }
         private void ToolBar1_ItemClick(ToolItem arg1, EventArgs arg2)
         {

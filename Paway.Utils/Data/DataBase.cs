@@ -103,8 +103,7 @@ namespace Paway.Utils
             }
             finally
             {
-                if (iTrans) CommandEnd(cmd);
-                else cmd.CommandText = string.Empty;
+                CommandEnd(cmd, iTrans);
             }
         }
 
@@ -127,8 +126,7 @@ namespace Paway.Utils
             }
             finally
             {
-                if (iTrans) CommandEnd(cmd);
-                else cmd.CommandText = string.Empty;
+                CommandEnd(cmd, iTrans);
             }
         }
 
@@ -156,8 +154,7 @@ namespace Paway.Utils
             }
             finally
             {
-                if (iTrans) CommandEnd(cmd);
-                else cmd.CommandText = string.Empty;
+                CommandEnd(cmd, iTrans);
             }
         }
 
@@ -185,8 +182,7 @@ namespace Paway.Utils
             }
             finally
             {
-                if (iTrans) CommandEnd(cmd);
-                else cmd.CommandText = string.Empty;
+                CommandEnd(cmd, iTrans);
             }
         }
 
@@ -206,10 +202,28 @@ namespace Paway.Utils
         /// </summary>
         public T Find<T>(long id, DbCommand cmd = null, params string[] args) where T : new()
         {
-            var keys = typeof(T).TableKey();
-            var sql = string.Format("[{0}] = {1}", keys, id);
-            var list = Find<T>(sql, cmd, args);
-            return list.Count == 1 ? list[0] : default;
+            var iTrans = cmd == null;
+            try
+            {
+                if (iTrans) cmd = CommandStart();
+
+                var keys = typeof(T).TableKey();
+                cmd.Parameters.Clear();
+                var param = AddParameters(keys, id);
+                cmd.Parameters.Add(param);
+                var sql = string.Format("[{0}] = {1}", keys, param.ParameterName);
+                var list = Find<T>(sql, cmd, args);
+                return list.Count == 1 ? list[0] : default;
+            }
+            catch (Exception ex)
+            {
+                log.ErrorFormat("ExecuteNonQuery.Error[{0}]\r\n{1}", cmd.CommandText, ex);
+                throw;
+            }
+            finally
+            {
+                CommandEnd(cmd, iTrans);
+            }
         }
 
         /// <summary>
@@ -306,8 +320,7 @@ namespace Paway.Utils
             }
             finally
             {
-                if (iTrans) CommandEnd(cmd);
-                else cmd.CommandText = string.Empty;
+                CommandEnd(cmd, iTrans);
             }
         }
 
@@ -362,8 +375,7 @@ namespace Paway.Utils
             }
             finally
             {
-                if (iTrans) CommandEnd(cmd);
-                else cmd.CommandText = string.Empty;
+                CommandEnd(cmd, iTrans);
             }
         }
 
@@ -422,8 +434,7 @@ namespace Paway.Utils
             }
             finally
             {
-                if (iTrans) CommandEnd(cmd);
-                else cmd.CommandText = string.Empty;
+                CommandEnd(cmd, iTrans);
             }
         }
 
@@ -435,7 +446,7 @@ namespace Paway.Utils
         /// </summary>
         public int Delete<T>(DbCommand cmd = null)
         {
-            return Delete<T>("1=1", cmd);
+            return Delete<T>(string.Empty, cmd);
         }
         /// <summary>
         /// 删除指定条件下的数据(不监听更新事件)
@@ -443,11 +454,10 @@ namespace Paway.Utils
         public int Delete<T>(string find, DbCommand cmd = null)
         {
             var iTrans = cmd == null;
-            string sql = null;
             try
             {
                 if (iTrans) cmd = CommandStart();
-                sql = DataBaseHelper.Delete<T>(find);
+                var sql = DataBaseHelper.Delete<T>(find);
                 cmd.CommandText = OnCommandText(sql);
                 return cmd.ExecuteNonQuery();
             }
@@ -458,8 +468,7 @@ namespace Paway.Utils
             }
             finally
             {
-                if (iTrans) CommandEnd(cmd);
-                else cmd.CommandText = string.Empty;
+                CommandEnd(cmd, iTrans);
             }
         }
 
@@ -503,8 +512,7 @@ namespace Paway.Utils
             }
             finally
             {
-                if (iTrans) CommandEnd(cmd);
-                else cmd.CommandText = string.Empty;
+                CommandEnd(cmd, iTrans);
             }
         }
 
@@ -540,8 +548,7 @@ namespace Paway.Utils
             }
             finally
             {
-                if (iTrans) CommandEnd(cmd);
-                else cmd.CommandText = string.Empty;
+                CommandEnd(cmd, iTrans);
             }
         }
         /// <summary>
@@ -556,6 +563,15 @@ namespace Paway.Utils
         #endregion
 
         #region protected 执行步骤
+        private DbParameter AddParameters(string name, object value)
+        {
+            var asmb = Assembly.GetAssembly(paramType);
+            var param = asmb.CreateInstance(paramType.FullName) as DbParameter;
+            param.ParameterName = string.Format("@{0}", name);
+            param.Value = value;
+            return param;
+        }
+
         /// <summary>
         /// 打开一个连接
         /// 返回SqlCommand实例
@@ -571,11 +587,15 @@ namespace Paway.Utils
         /// <summary>
         /// 关闭DbCommand实例的连接，并释放
         /// </summary>
-        /// <param name="cmd"></param>
-        protected virtual void CommandEnd(DbCommand cmd)
+        protected virtual void CommandEnd(DbCommand cmd, bool iTrans = false)
         {
             try
             {
+                if (!iTrans)
+                {
+                    cmd.CommandText = string.Empty;
+                    return;
+                }
                 if (cmd != null)
                 {
                     if (!ILongConnect && cmd.Connection != null)
@@ -792,7 +812,12 @@ namespace Paway.Utils
         public static string Delete<T>(string find)
         {
             var attr = typeof(T).Table();
-            return string.Format("delete from [{0}] where {1}", attr.Table, find);
+            var sql = string.Format("delete from [{0}]", attr.Table);
+            if (!find.IsNullOrEmpty())
+            {
+                sql = string.Format("{0} where {1}", sql, find);
+            }
+            return sql;
         }
 
         #endregion

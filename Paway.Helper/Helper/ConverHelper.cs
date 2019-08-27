@@ -70,6 +70,23 @@ namespace Paway.Helper
             var result = BitmapHelper.RGBToHSL(color.R / 255.0, color.G / 255.0, color.B / 255.0);
             return BitmapHelper.HSLToRGB(result[0], result[1], result[2] + value * 1.0 / 240);
         }
+        /// <summary>
+        /// 混合颜色
+        /// </summary>
+        /// <param name="color">原颜色</param>
+        /// <param name="mixColor">混合颜色</param>
+        /// <param name="percent">原颜色比例</param>
+        public static Color AddColor(this Color color, Color mixColor, int percent = 90)
+        {
+            decimal percentA = 1 - percent / 100m;
+
+            decimal R = color.R - (color.R - mixColor.R) * percentA;
+            decimal G = color.G - (color.G - mixColor.G) * percentA;
+            decimal B = color.B - (color.B - mixColor.B) * percentA;
+
+            Color target = Color.FromArgb((int)R, (int)G, (int)B);
+            return target;
+        }
 
         #endregion
 

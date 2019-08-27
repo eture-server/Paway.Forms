@@ -315,7 +315,6 @@ namespace Paway.Forms
         }
         private void DrawDot(Bitmap image)
         {
-            if (Main.TRadius == 0) return;
             var bitmap = new Bitmap(Main.Width, Main.Height);
             Main.DrawToBitmap(bitmap, new Rectangle(0, 0, Width, Height));
             int radiu = Main.TRadius + 1;
@@ -333,12 +332,23 @@ namespace Paway.Forms
         }
         private void DrawDot(Bitmap image, Color color, int width, int hight, int radiu, int xModul, int yModul)
         {
-            image.SetPixel(width + (radiu + 2) * xModul, hight + radiu * yModul, Color.FromArgb(180, color));
-            image.SetPixel(width + (radiu + 3) * xModul, hight + radiu * yModul, Color.FromArgb(200, color));
-            image.SetPixel(width + radiu * xModul, hight + (radiu + 2) * yModul, Color.FromArgb(180, color));
-            image.SetPixel(width + radiu * xModul, hight + (radiu + 3) * yModul, Color.FromArgb(200, color));
-            image.SetPixel(width + (radiu + 1) * xModul, hight + radiu * yModul, Color.FromArgb(50, color.AddLight(-60)));
-            image.SetPixel(width + radiu * xModul, hight + (radiu + 1) * yModul, Color.FromArgb(50, color.AddLight(-60)));
+            if (radiu == 1)
+            {
+                color = image.GetPixel(width, hight + yModul);
+                image.SetPixel(width, hight, color);
+                return;
+            }
+            image.SetPixel(width + (radiu + 1) * xModul, hight + (radiu + 1) * yModul, Color.FromArgb(180, color));
+
+            image.SetPixel(width + (radiu + 3) * xModul, hight + radiu * yModul, Color.FromArgb(200, color.AddColor(Main.TShadowColor, 99)));
+            image.SetPixel(width + (radiu + 2) * xModul, hight + radiu * yModul, Color.FromArgb(190, color.AddColor(Main.TShadowColor, 97)));
+            image.SetPixel(width + (radiu + 1) * xModul, hight + radiu * yModul, Color.FromArgb(80, color.AddColor(Main.TShadowColor, 80)));
+
+            image.SetPixel(width + radiu * xModul, hight + (radiu + 3) * yModul, Color.FromArgb(200, color.AddColor(Main.TShadowColor, 99)));
+            image.SetPixel(width + radiu * xModul, hight + (radiu + 2) * yModul, Color.FromArgb(190, color.AddColor(Main.TShadowColor, 97)));
+            image.SetPixel(width + radiu * xModul, hight + (radiu + 1) * yModul, Color.FromArgb(80, color.AddColor(Main.TShadowColor, 80)));
+
+            image.SetPixel(width + radiu * xModul, hight + radiu * yModul, Color.FromArgb(30, color.AddColor(Main.TShadowColor, 50)));
         }
 
         #endregion

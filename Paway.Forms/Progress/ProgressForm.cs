@@ -56,87 +56,86 @@ namespace Paway.Forms
         }
         private void Timer_Tick(object sender, EventArgs e)
         {
+            lock (this.states)
             {
-                lock (this.states)
+                Timer();
+                Application.DoEvents();
+            }
+        }
+        private void Timer()
+        {
+            IntPtr handle = this.WindowToWatch;
+            IntPtr current = NativeMethods.GetForegroundWindow();
+            if (handle == ProgressStates.False && Control.FromHandle(current) == null)
+            {
+                this.Fade(0.0, 0.2);
+            }
+            else if (handle != ProgressStates.False && (handle == IntPtr.Zero || handle != current))
+            {
+                this.Fade(0.0, 0.2);
+            }
+            else if (IDelay)
+            {
+                this.Fade(0.0, 0.2);
+            }
+            else
+            {//显示进度条
+                this.Fade(1.0, 0.2);
+                this.progressBar1.Maximum = this.states.Max;
+                this.progressBar1.Value = this.states.Value;
+            }
+            if (base.Opacity != this._targetOpacity)
+            {
+                double num = base.Opacity + this._opacitySpeed;
+                if ((this._opacitySpeed > 0.0 && num > this._targetOpacity) || (this._opacitySpeed < 0.0 && num < this._targetOpacity))
                 {
-                    IntPtr handle = this.WindowToWatch;
-                    IntPtr current = NativeMethods.GetForegroundWindow();
-                    if (handle == ProgressStates.False && Control.FromHandle(current) == null)
-                    {
-                        this.Fade(0.0, 0.2);
-                    }
-                    else if (handle != ProgressStates.False && (handle == IntPtr.Zero || handle != current))
-                    {
-                        this.Fade(0.0, 0.2);
-                    }
-                    else if (IDelay)
-                    {
-                        this.Fade(0.0, 0.2);
-                    }
-                    else
-                    {//显示进度条
-                        this.Fade(1.0, 0.2);
-                        this.progressBar1.Maximum = this.states.Max;
-                        this.progressBar1.Value = this.states.Value;
-                    }
-                    if (base.Opacity != this._targetOpacity)
-                    {
-                        double num = base.Opacity + this._opacitySpeed;
-                        if ((this._opacitySpeed > 0.0 && num > this._targetOpacity) || (this._opacitySpeed < 0.0 && num < this._targetOpacity))
-                        {
-                            num = this._targetOpacity;
-                        }
-                        base.Opacity = num;
-                        if (num > 0.0)
-                        {
-                            if (this._opacitySpeed > 0)
-                            {
-                                RECT rect = new RECT();
-                                bool result = false;
-                                if (handle == ProgressStates.False)
-                                {
-                                    if (Control.FromHandle(current) != null)
-                                    {
-                                        result = NativeMethods.GetWindowRect(current, ref rect);
-                                    }
-                                }
-                                else
-                                {
-                                    result = NativeMethods.GetWindowRect(handle, ref rect);
-                                }
-                                //成功获取父窗体区域
-                                if (result)
-                                {
-                                    Win32Helper.ShowWindow(base.Handle);
-                                    this.Location = new Point(
-                                        rect.Left + (rect.Right - rect.Left) / 2 - this.Width / 2,
-                                        rect.Top + (rect.Bottom - rect.Top) / 2 - this.Height / 2);
-                                }
-                            }
-                            else if (this._opacitySpeed < 0)
-                            {
-                                Win32Helper.ShowWindow(base.Handle);
-                            }
-                            else THide();
-                        }
-                        else THide();
-                    }
-                    else if (handle == ProgressStates.False)
+                    num = this._targetOpacity;
+                }
+                base.Opacity = num;
+                if (num > 0.0)
+                {
+                    if (this._opacitySpeed > 0)
                     {
                         RECT rect = new RECT();
-                        if (Control.FromHandle(current) != null)
+                        bool result = false;
+                        if (handle == ProgressStates.False)
                         {
-                            if (NativeMethods.GetWindowRect(current, ref rect))
+                            if (Control.FromHandle(current) != null)
                             {
-                                Win32Helper.ShowWindow(base.Handle);
+                                result = NativeMethods.GetWindowRect(current, ref rect);
                             }
                         }
+                        else
+                        {
+                            result = NativeMethods.GetWindowRect(handle, ref rect);
+                        }
+                        //成功获取父窗体区域
+                        if (result)
+                        {
+                            Win32Helper.ShowWindow(base.Handle);
+                            this.Location = new Point(
+                                rect.Left + (rect.Right - rect.Left) / 2 - this.Width / 2,
+                                rect.Top + (rect.Bottom - rect.Top) / 2 - this.Height / 2);
+                        }
                     }
-                    lbCaption.Text = this.Caption;
-                    toolCancel.Visible = this.ShowCancel;
-                    Application.DoEvents();
+                    else if (this._opacitySpeed < 0)
+                    {
+                        Win32Helper.ShowWindow(base.Handle);
+                    }
+                    else THide();
+                }
+                else THide();
+            }
+            else if (handle == ProgressStates.False)
+            {
+                RECT rect = new RECT();
+                if (Control.FromHandle(current) != null && NativeMethods.GetWindowRect(current, ref rect))
+                {
+                    Win32Helper.ShowWindow(base.Handle);
                 }
             }
+            lbCaption.Text = this.Caption;
+            toolCancel.Visible = this.ShowCancel;
         }
         private void THide()
         {
