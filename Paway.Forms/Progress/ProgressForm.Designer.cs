@@ -10,7 +10,7 @@ namespace Paway.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.lbCaption = new System.Windows.Forms.Label();
             this.toolCancel = new Paway.Forms.ToolBar();
@@ -37,8 +37,8 @@ namespace Paway.Forms
             // toolCancel
             // 
             this.toolCancel.IClickEvent = true;
-            toolItem2.Text = "Cancel";
-            this.toolCancel.Items.Add(toolItem2);
+            toolItem1.Text = "Cancel";
+            this.toolCancel.Items.Add(toolItem1);
             this.toolCancel.ItemSize = new System.Drawing.Size(62, 20);
             this.toolCancel.ItemSpace = 0;
             this.toolCancel.Location = new System.Drawing.Point(390, 8);
@@ -67,6 +67,7 @@ namespace Paway.Forms
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.lbCaption);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.IRound = false;
             this.Name = "ProgressForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "frmProgress";

@@ -425,19 +425,17 @@ namespace Paway.Forms
             }
         }
 
-        private bool _iRound = true;
         /// <summary>
         /// 是否剪成圆角
         /// </summary>
         [Browsable(true), Description("是否剪成圆角")]
         [DefaultValue(true)]
-        public bool IRound
+        public override bool IRound
         {
-            get { return _iRound; }
+            get { return base.IRound; }
             set
             {
-                _iRound = value;
-                TRadius = value ? 4 : 0;
+                base.IRound = value;
                 DrawRound();
             }
         }
@@ -842,7 +840,7 @@ namespace Paway.Forms
         {
             if (!this.Visible) return;
             //调用API，将窗体剪成圆角
-            var ellipse = _iRound ? TRadius : 0;
+            var ellipse = IRound ? TRadius : 0;
             if (ellipse > 0) ellipse += 1;
             var rgn = NativeMethods.CreateRoundRectRgn(0, 0, Width + 1, Height + 1, ellipse, ellipse);
             if (!IsDisposed)

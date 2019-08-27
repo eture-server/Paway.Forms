@@ -39,6 +39,7 @@
             // 
             this.tControl1.Controls.Add(this.toolBar1);
             this.tControl1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tControl1.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.tControl1.Location = new System.Drawing.Point(1, 26);
             this.tControl1.Name = "tControl1";
             this.tControl1.Size = new System.Drawing.Size(675, 48);
@@ -78,7 +79,6 @@
             // 
             // FormEmit
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(87)))), ((int)(((byte)(154)))));
             this.ClientSize = new System.Drawing.Size(677, 367);
             this.Controls.Add(this.testControl1);

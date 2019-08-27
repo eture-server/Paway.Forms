@@ -245,6 +245,7 @@ namespace Paway.Forms
 
         private void DrawDot(Bitmap image)
         {
+            if (Main.TRadius == 0) return;
             var bitmap = new Bitmap(Main.Width, Main.Height);
             Main.DrawToBitmap(bitmap, new Rectangle(0, 0, Width, Height));
             int radiu = Main.TRadius + 1;
@@ -266,8 +267,8 @@ namespace Paway.Forms
             image.SetPixel(width + (radiu + 3) * xModul, hight + radiu * yModul, Color.FromArgb(200, color));
             image.SetPixel(width + radiu * xModul, hight + (radiu + 2) * yModul, Color.FromArgb(180, color));
             image.SetPixel(width + radiu * xModul, hight + (radiu + 3) * yModul, Color.FromArgb(200, color));
-            image.SetPixel(width + (radiu + 1) * xModul, hight + radiu * yModul, Color.FromArgb(25, Color.Black));
-            image.SetPixel(width + radiu * xModul, hight + (radiu + 1) * yModul, Color.FromArgb(25, Color.Black));
+            image.SetPixel(width + (radiu + 1) * xModul, hight + radiu * yModul, Color.FromArgb(50, color.AddLight(-60)));
+            image.SetPixel(width + radiu * xModul, hight + (radiu + 1) * yModul, Color.FromArgb(50, color.AddLight(-60)));
         }
         /// <summary>
         /// </summary>

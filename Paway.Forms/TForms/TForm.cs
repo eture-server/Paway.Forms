@@ -92,7 +92,7 @@ namespace Paway.Forms
         /// </summary>
         [Browsable(false)]
         [Category("TForm"), Description("设置或获取窗体的圆角的大小")]
-        [DefaultValue(4)]
+        [DefaultValue(5)]
         internal int TRadius
         {
             get
@@ -109,6 +109,22 @@ namespace Paway.Forms
                     OnResize(EventArgs.Empty);
                     //base.Invalidate();
                 }
+            }
+        }
+
+        private bool _iRound = true;
+        /// <summary>
+        /// 是否剪成圆角
+        /// </summary>
+        [Browsable(true), Description("是否剪成圆角")]
+        [DefaultValue(true)]
+        public virtual bool IRound
+        {
+            get { return _iRound; }
+            set
+            {
+                _iRound = value;
+                TRadius = value ? 5 : 0;
             }
         }
 
@@ -139,17 +155,12 @@ namespace Paway.Forms
         [DefaultValue(false)]
         public bool ISpecial { get; set; }
 
-        private bool _iShadow = true;
         /// <summary>
         /// 是否启用窗体阴影
         /// </summary>
         [Category("Shadow"), Description("是否启用窗体阴影")]
         [DefaultValue(true)]
-        public bool IShadow
-        {
-            get { return _iShadow; }
-            set { _iShadow = value; }
-        }
+        public bool IShadow { get; set; } = true;
 
         /// <summary>
         /// 是否允许改变窗口大小
@@ -318,7 +329,7 @@ namespace Paway.Forms
                     NativeMethods.AnimateWindow(Handle, 300, 0xa0000);
                     Update();
                 }
-                if (!IsDisposed && !DesignMode && _iShadow)
+                if (!IsDisposed && !DesignMode && IShadow)
                 {
                     if (skin != null)
                     {
