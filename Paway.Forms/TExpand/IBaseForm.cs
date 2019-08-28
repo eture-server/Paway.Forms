@@ -33,7 +33,11 @@ namespace Paway.Forms
             this.TextShow = string.Empty;
             this.TMouseMove(this.lbTitle);
             lbTitle.Paint += LbTitle_Paint;
-            if (TConfig.TBackColor != null) lbTitle.BackColor = TConfig.TBackColor ?? Color.Empty;
+            if (TConfig.TBackColor != null)
+            {
+                this.TBrush.ColorMove = TConfig.TBackColor ?? Color.Empty;
+                this.TBrush.ColorDown = Color.Ivory;
+            }
         }
 
         #region 其它

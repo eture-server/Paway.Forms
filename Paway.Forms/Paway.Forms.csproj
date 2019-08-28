@@ -229,6 +229,9 @@
     <EmbeddedResource Include="TControls\TPager.resx">
       <DependentUpon>TPager.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TExpand\TBaseForm.resx">
+      <DependentUpon>TBaseForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TExpand\TDataControl.resx">
       <DependentUpon>TDataControl.cs</DependentUpon>
     </EmbeddedResource>

@@ -11,28 +11,25 @@ namespace Paway.Forms
         private void InitializeComponent()
         {
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
+            this.tControl1 = new Paway.Forms.TControl();
+            this.toolCancel = new Paway.Forms.ToolBar();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.lbCaption = new System.Windows.Forms.Label();
-            this.toolCancel = new Paway.Forms.ToolBar();
+            this.tControl1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // progressBar1
+            // tControl1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(24, 29);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(429, 21);
-            this.progressBar1.TabIndex = 7;
-            this.progressBar1.Value = 10;
-            // 
-            // lbCaption
-            // 
-            this.lbCaption.Font = new System.Drawing.Font("Î¢ÈíÑÅºÚ", 10F);
-            this.lbCaption.Location = new System.Drawing.Point(23, 10);
-            this.lbCaption.Name = "lbCaption";
-            this.lbCaption.Size = new System.Drawing.Size(366, 20);
-            this.lbCaption.TabIndex = 6;
-            this.lbCaption.Text = "label1";
-            this.lbCaption.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tControl1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tControl1.Controls.Add(this.toolCancel);
+            this.tControl1.Controls.Add(this.progressBar1);
+            this.tControl1.Controls.Add(this.lbCaption);
+            this.tControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tControl1.Font = new System.Drawing.Font("Î¢ÈíÑÅºÚ", 11F);
+            this.tControl1.Location = new System.Drawing.Point(1, 1);
+            this.tControl1.Name = "tControl1";
+            this.tControl1.Size = new System.Drawing.Size(474, 63);
+            this.tControl1.TabIndex = 0;
             // 
             // toolCancel
             // 
@@ -42,10 +39,10 @@ namespace Paway.Forms
             this.toolCancel.Items.Add(toolItem1);
             this.toolCancel.ItemSize = new System.Drawing.Size(62, 20);
             this.toolCancel.ItemSpace = 0;
-            this.toolCancel.Location = new System.Drawing.Point(390, 8);
+            this.toolCancel.Location = new System.Drawing.Point(389, 11);
             this.toolCancel.Name = "toolCancel";
             this.toolCancel.Size = new System.Drawing.Size(62, 20);
-            this.toolCancel.TabIndex = 45;
+            this.toolCancel.TabIndex = 48;
             this.toolCancel.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.toolCancel.TBackGround.ColorMove = System.Drawing.Color.Transparent;
             this.toolCancel.TBackGround.ColorNormal = System.Drawing.Color.Transparent;
@@ -59,28 +56,47 @@ namespace Paway.Forms
             this.toolCancel.TextSencond.StringVertical = System.Drawing.StringAlignment.Center;
             this.toolCancel.Visible = false;
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(23, 32);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(429, 21);
+            this.progressBar1.TabIndex = 47;
+            this.progressBar1.Value = 10;
+            // 
+            // lbCaption
+            // 
+            this.lbCaption.Font = new System.Drawing.Font("Î¢ÈíÑÅºÚ", 10F);
+            this.lbCaption.Location = new System.Drawing.Point(22, 11);
+            this.lbCaption.Name = "lbCaption";
+            this.lbCaption.Size = new System.Drawing.Size(366, 20);
+            this.lbCaption.TabIndex = 46;
+            this.lbCaption.Text = "label1";
+            this.lbCaption.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // ProgressForm
             // 
-            this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(476, 63);
+            this.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.ClientSize = new System.Drawing.Size(476, 65);
             this.ControlBox = false;
-            this.Controls.Add(this.toolCancel);
-            this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.lbCaption);
+            this.Controls.Add(this.tControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.IRound = false;
             this.IShadow = false;
             this.Name = "ProgressForm";
+            this.Padding = new System.Windows.Forms.Padding(1);
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "frmProgress";
+            this.tControl1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
+        private TControl tControl1;
+        private ToolBar toolCancel;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label lbCaption;
-        private ToolBar toolCancel;
     }
 }

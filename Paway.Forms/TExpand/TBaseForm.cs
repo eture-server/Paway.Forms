@@ -26,7 +26,6 @@ namespace Paway.Forms
             this.TMouseMove(this.panel1);
             lbTitle.Paint -= LbTitle_Paint;
             lbTitle.TextChanged += delegate { this.OnSizeChanged(EventArgs.Empty); };
-            if (TConfig.TBackColor != null) this.TBrush.ColorMove = TConfig.TBackColor ?? Color.Empty;
         }
         /// <summary>
         /// 激活第一个控件焦点
@@ -45,21 +44,6 @@ namespace Paway.Forms
             {
                 var size = TextRenderer.MeasureText(lbTitle.Text, lbTitle.Font);
                 this.lbTitle.Location = new Point((this.Width - size.Width) / 2, (this.Padding.Top - size.Height * 2 / 3) / 2);
-            }
-        }
-
-        /// <summary>
-        /// 底边线颜色
-        /// </summary>
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            if (panel1.Visible)
-            {
-                using (var pen = new Pen(panel1.BackColor))
-                {
-                    e.Graphics.DrawLine(pen, 2, Height - 2, Width - 3, Height - 2);
-                }
             }
         }
 
@@ -82,7 +66,7 @@ namespace Paway.Forms
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(1, 80);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(441, 217);
+            this.panel1.Size = new System.Drawing.Size(441, 218);
             this.panel1.TabIndex = 5;
             // 
             // TBaseForm
@@ -91,7 +75,7 @@ namespace Paway.Forms
             this.ClientSize = new System.Drawing.Size(443, 299);
             this.Controls.Add(this.panel1);
             this.Name = "TBaseForm";
-            this.Padding = new System.Windows.Forms.Padding(1, 80, 1, 2);
+            this.Padding = new System.Windows.Forms.Padding(1, 80, 1, 1);
             this.TBrush.ColorDown = System.Drawing.Color.Ivory;
             this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(84)))), ((int)(((byte)(74)))));
             this.Controls.SetChildIndex(this.lbTitle, 0);

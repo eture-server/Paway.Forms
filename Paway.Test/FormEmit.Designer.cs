@@ -71,6 +71,7 @@
             // testControl1
             // 
             this.testControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.testControl1.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.testControl1.Location = new System.Drawing.Point(1, 74);
             this.testControl1.MInterval = 6;
             this.testControl1.Name = "testControl1";

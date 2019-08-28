@@ -41,6 +41,7 @@ namespace Paway.Forms
             this.TMouseMove(this);
             this.TMouseMove(lbCaption);
             this.TMouseMove(progressBar1);
+            this.TMouseMove(tControl1);
             this.toolCancel.ItemClick += ToolCancel_ItemClick;
 
             timer = new Timer()
