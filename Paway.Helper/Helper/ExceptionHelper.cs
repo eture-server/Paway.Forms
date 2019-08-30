@@ -16,16 +16,22 @@ namespace Paway.Helper
     public static class ExceptionHelper
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static string text;
-        private static Form form;
+        /// <summary>
+        /// 主窗口
+        /// </summary>
+        public static Form Form { get; private set; }
+        /// <summary>
+        /// 主标题
+        /// </summary>
+        public static string Text { get; private set; }
 
         /// <summary>
         /// 初始化
         /// </summary>
         public static void Init(Form form, string text)
         {
-            ExceptionHelper.form = form;
-            ExceptionHelper.text = text;
+            Form = form;
+            Text = text;
         }
         /// <summary>
         /// 弹出
@@ -99,37 +105,8 @@ namespace Paway.Helper
             }
             try
             {
-                title = text;
-                while (obj is Control && !(obj is Form))
-                {
-                    if (obj.Parent == null) break;
-                    obj = obj.Parent;
-                }
-                if (obj == null || !obj.Visible || obj.IsDisposed || !(obj is Form))
-                {
-                    obj = LoadHelper.Form;
-                }
-                if (obj == null || !obj.Visible || obj.IsDisposed || !(obj is Form))
-                {
-                    obj = form;
-                    if (obj == null)
-                    {
-                        IntPtr handle = NativeMethods.GetForegroundWindow();
-                        obj = Control.FromChildHandle(handle);
-                    }
-                    if (obj == null)
-                    {
-                        for (int i = Application.OpenForms.Count - 1; i >= 0; i--)
-                        {
-                            var item = Application.OpenForms[i];
-                            if (item.GetType().Name != "SkinForm")
-                            {
-                                obj = item;
-                                break;
-                            }
-                        }
-                    }
-                }
+                obj = TMethod.TopForm(obj);
+                title = Text;
                 if (title.IsNullOrEmpty() && obj != null && !obj.IsDisposed) title = obj.Text;
                 if (sync)
                     new Action<Control, string, string, LeveType>(Show).BeginInvoke(obj, title, msg, type, null, null);

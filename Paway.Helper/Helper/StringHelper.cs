@@ -51,8 +51,7 @@ namespace Paway.Helper
         public static string RegexChecked(string str, string pattern)
         {
             if (pattern == null) return null;
-            var regex = new Regex(pattern, RegexOptions.Singleline);
-            var match = regex.Match(str);
+            var match = str.Regex(pattern, RegexOptions.Singleline);
             if (!match.Success)
             {
                 return "检查错误,请重新输入";

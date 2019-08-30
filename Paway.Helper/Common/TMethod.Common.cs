@@ -1,4 +1,5 @@
 ﻿using log4net;
+using Paway.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +17,7 @@ namespace Paway.Helper
     /// </summary>
     public partial class TMethod
     {
+        #region 公共业务相关
         /// <summary>
         /// 自动调整图片显示模式(图像比控件大=Zoom,其它=CenterImage)
         /// </summary>
@@ -63,5 +65,72 @@ namespace Paway.Helper
                     break;
             }
         }
+
+        #endregion
+
+        #region MessageBox.Ask
+        /// <summary>
+        /// 弹出Warning对话框
+        /// </summary>
+        public static bool Ask(string format, params object[] args)
+        {
+            return Ask(null, format, args);
+        }
+        /// <summary>
+        /// 弹出Warning对话框
+        /// </summary>
+        public static bool Ask(Control obj, string format, params object[] args)
+        {
+            return Dialog(obj, string.Format(format, args), MessageBoxIcon.Warning) == DialogResult.OK;
+        }
+        /// <summary>
+        /// 弹出对话框
+        /// </summary>
+        public static DialogResult Dialog(Control obj, string msg, MessageBoxIcon icon)
+        {
+            obj = TopForm(obj);
+            var text = ExceptionHelper.Text;
+            if (text.IsNullOrEmpty() && obj != null && !obj.IsDisposed) text = obj.Text;
+            return MessageBox.Show(obj, msg, text, MessageBoxButtons.OKCancel, icon);
+        }
+        /// <summary>
+        /// 获取顶层窗体
+        /// </summary>
+        public static Control TopForm(Control obj)
+        {
+            while (obj is Control && !(obj is Form))
+            {
+                if (obj.Parent == null) break;
+                obj = obj.Parent;
+            }
+            if (obj == null || !obj.Visible || obj.IsDisposed || !(obj is Form))
+            {
+                obj = LoadHelper.Form;
+            }
+            if (obj == null || !obj.Visible || obj.IsDisposed || !(obj is Form))
+            {
+                obj = ExceptionHelper.Form;
+                if (obj == null)
+                {
+                    IntPtr handle = NativeMethods.GetForegroundWindow();
+                    obj = Control.FromChildHandle(handle);
+                }
+                if (obj == null)
+                {
+                    for (int i = Application.OpenForms.Count - 1; i >= 0; i--)
+                    {
+                        var item = Application.OpenForms[i];
+                        if (item.GetType().Name != "SkinForm")
+                        {
+                            obj = item;
+                            break;
+                        }
+                    }
+                }
+            }
+            return obj;
+        }
+
+        #endregion
     }
 }

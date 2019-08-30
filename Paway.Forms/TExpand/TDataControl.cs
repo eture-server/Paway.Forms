@@ -48,6 +48,10 @@ namespace Paway.Forms
         /// </summary>
         private DateTime start;
         private IDataService server;
+        /// <summary>
+        /// 展开树标记
+        /// </summary>
+        private bool iExpandAll;
 
         /// <summary>
         /// 构造
@@ -88,27 +92,66 @@ namespace Paway.Forms
         protected void UserTree(bool iExpandAll = false)
         {
             if (!gridview1.UserTree()) return;
+            this.iExpandAll = iExpandAll;
             LoadEvent();
-            if (iExpandAll)
-            {
-                gridview1.Edit.RefreshChanged += Edit_RefreshChanged;
-            }
-        }
-        private void Edit_RefreshChanged()
-        {
-            (gridview1.Edit as TreeGridView).ExpandAll();
         }
         private void LoadEvent()
         {
+            gridview1.Edit.CellFormatting -= Gridview1_CellFormatting;
+            gridview1.Edit.CurrentCellChanged -= Gridview1_CurrentCellChanged;
+            gridview1.Edit.DoubleClick -= Gridview1_DoubleClick;
+            gridview1.Edit.RefreshChanged -= Gridview1_RefreshChanged;
+            gridview1.Edit.CellEndEdit -= TDataGridView_CellEndEdit;
+            gridview1.Edit.CheckedChanged -= TDataGridView_CheckedChanged;
+
             gridview1.Edit.CellFormatting += Gridview1_CellFormatting;
             gridview1.Edit.CurrentCellChanged += Gridview1_CurrentCellChanged;
             gridview1.Edit.DoubleClick += Gridview1_DoubleClick;
+            gridview1.Edit.RefreshChanged += Gridview1_RefreshChanged;
+            gridview1.Edit.CellEndEdit += TDataGridView_CellEndEdit;
+            gridview1.Edit.CheckedChanged += TDataGridView_CheckedChanged;
         }
         private void UnLoadEvent()
         {
             gridview1.Edit.CellFormatting -= Gridview1_CellFormatting;
             gridview1.Edit.CurrentCellChanged -= Gridview1_CurrentCellChanged;
             gridview1.Edit.DoubleClick -= Gridview1_DoubleClick;
+        }
+        private void Gridview1_RefreshChanged()
+        {
+            if (iExpandAll && gridview1.Edit is TreeGridView treeView)
+            {
+                treeView.ExpandAll();
+            }
+            if (!gridview1.Edit.ICheckBoxName.IsNullOrEmpty())
+            {
+                gridview1.Edit.ReadOnly = false;
+                for (int i = 0; i < gridview1.Edit.Columns.Count; i++)
+                {
+                    gridview1.Edit.Columns[i].ReadOnly = gridview1.Edit.Columns[i].Name != gridview1.Edit.ICheckBoxName;
+                }
+            }
+        }
+        private void TDataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (gridview1.Edit.Columns[e.ColumnIndex].Name == gridview1.Edit.ICheckBoxName)
+            {
+                var id = (int)gridview1.Edit.Rows[e.RowIndex].Cells[nameof(IId.Id)].Value;
+                var info = List.Find(c => c.Id == id);
+                if (info != null)
+                {
+                    var result = (bool)((DataGridViewCheckBoxCell)gridview1.Edit.Rows[e.RowIndex].Cells[e.ColumnIndex]).Value;
+                    info.SetValue(gridview1.Edit.ICheckBoxName, result);
+                }
+            }
+        }
+        private void TDataGridView_CheckedChanged(bool obj)
+        {
+            var aList = GetAll();
+            for (int i = 0; i < aList.Count; i++)
+            {
+                aList[i].SetValue(gridview1.Edit.ICheckBoxName, obj);
+            }
         }
 
         #region 权限-按钮
@@ -698,6 +741,11 @@ namespace Paway.Forms
         protected virtual List<T> GetSelect()
         {
             var aList = GetAll();
+            if (!gridview1.Edit.ICheckBoxName.IsNullOrEmpty())
+            {
+                var iList = aList.FindAll(gridview1.Edit.ICheckBoxName, true);
+                if (iList.Count > 0) return iList as List<T>;
+            }
             List<T> list = new List<T>();
             for (int i = 0; i < gridview1.Edit.SelectedRows.Count; i++)
             {

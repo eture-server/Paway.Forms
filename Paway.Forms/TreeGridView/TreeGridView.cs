@@ -180,7 +180,7 @@ namespace Paway.Forms
         /// </summary>
         internal int AddNode(TreeGridNodeCollection nodes, object info)
         {
-            int parentId = (int)info.GetValue(nameof(IParent.ParentId));
+            var parentId = (int)info.GetValue(nameof(IParent.ParentId));
             if (parentId == 0)
             {
                 return nodes.Add(info.GetValues()).RowIndex;

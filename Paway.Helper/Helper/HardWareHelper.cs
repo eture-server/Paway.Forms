@@ -166,8 +166,8 @@ namespace Paway.Helper
             msg = string.Empty;
             var strReg =
                 @"^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$";
-            var regex = new Regex(strReg);
-            if (!regex.IsMatch(ip))
+            var match = ip.Regex(strReg);
+            if (!match.Success)
             {
                 msg = "配置的IP地址格式不正确!";
                 return false;
@@ -186,8 +186,8 @@ namespace Paway.Helper
             msg = string.Empty;
             var strReg =
                 @"^([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$";
-            var regex = new Regex(strReg);
-            if (!regex.IsMatch(intNum.ToString()))
+            var match = intNum.ToString().Regex(strReg);
+            if (!match.Success)
             {
                 msg = "服务端口请输入0到65535的整数";
                 return false;

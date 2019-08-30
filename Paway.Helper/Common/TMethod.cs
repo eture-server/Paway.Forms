@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Windows.Forms;
@@ -18,20 +19,13 @@ namespace Paway.Helper
     {
         #region 硬件
         /// <summary>
-        /// 获取本机IP地址
+        /// 获取本机IP地址(局域网地址)
         /// </summary>
-        public static string GetIpAddress()
+        public static IPAddress GetInternalIP()
         {
-            IPAddress[] ips = Dns.GetHostAddresses(Dns.GetHostName());
-            if (ips != null && ips.Length > 0)
-            {
-                foreach (IPAddress ip in ips)
-                {
-                    if (ip.AddressFamily.ToString().Equals("InterNetwork"))
-                        return ip.ToString();
-                }
-            }
-            return string.Empty;
+            IPHostEntry entry = Dns.GetHostEntry(Dns.GetHostName());
+            var ip = entry.AddressList.FirstOrDefault(e => e.AddressFamily.ToString().Equals("InterNetwork"));
+            return ip;
         }
 
         #endregion

@@ -442,13 +442,13 @@ namespace Paway.Helper
         /// <summary>
         /// 泛型查找 
         /// </summary>
-        public static IList FindAll(this IList list, string name, int value)
+        public static IList FindAll(this IList list, string name, object value)
         {
             var type = list.GenericType();
             var vList = type.GenericList();
             for (int i = 0; i < list.Count; i++)
             {
-                if ((int)list[i].GetValue(name) == value)
+                if (list[i].GetValue(name).Equals(value))
                 {
                     vList.Add(list[i]);
                 }
@@ -458,11 +458,11 @@ namespace Paway.Helper
         /// <summary>
         /// 泛型查找 
         /// </summary>
-        public static object Find(this IList list, string name, int value)
+        public static object Find(this IList list, string name, object value)
         {
             for (int i = 0; i < list.Count; i++)
             {
-                if ((int)list[i].GetValue(name) == value)
+                if (list[i].GetValue(name).Equals(value))
                 {
                     return list[i];
                 }

@@ -714,7 +714,7 @@ namespace Paway.Forms
         {
             if (e.RowIndex < 0 && e.ColumnIndex != -1)
             {
-                var selectionBackColor = RowTemplate.DefaultCellStyle.SelectionBackColor.AddLight( -10);
+                var selectionBackColor = RowTemplate.DefaultCellStyle.SelectionBackColor.AddLight(-10);
                 Columns[e.ColumnIndex].HeaderCell.Style.BackColor = selectionBackColor;
             }
         }
@@ -722,7 +722,7 @@ namespace Paway.Forms
         {
             if (e.RowIndex < 0 && e.ColumnIndex != -1)
             {
-                var blackColor = RowTemplate.DefaultCellStyle.SelectionBackColor.AddLight( 27);
+                var blackColor = RowTemplate.DefaultCellStyle.SelectionBackColor.AddLight(27);
                 Columns[e.ColumnIndex].HeaderCell.Style.BackColor = blackColor;
             }
         }

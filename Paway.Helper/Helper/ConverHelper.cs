@@ -189,6 +189,14 @@ namespace Paway.Helper
             else result = chart;
             return new Tuple<bool, string>(false, result);
         }
+        /// <summary>
+        /// 正则解析字符串
+        /// </summary>
+        public static Match Regex(this string text, string pattern, RegexOptions options = RegexOptions.Singleline | RegexOptions.IgnoreCase)
+        {
+            var regex = new Regex(pattern, options);
+            return regex.Match(text);
+        }
 
         #endregion
 
@@ -569,16 +577,14 @@ namespace Paway.Helper
                     pro.SetValue(obj, value.ToStrs());
                     break;
                 case nameof(Point):
-                    var regex = new Regex(@"{X=(?<x>\d+).+Y=(?<y>\d+)}", RegexOptions.Singleline | RegexOptions.IgnoreCase);
-                    var match = regex.Match(value.ToStrs());
+                    var match = value.ToStrs().Regex(@"{X=(?<x>\d+).+Y=(?<y>\d+)}");
                     if (match.Success)
                     {
                         pro.SetValue(obj, new Point(match.Groups["x"].ToInt(), match.Groups["y"].ToInt()));
                     }
                     break;
                 case nameof(Size):
-                    regex = new Regex(@"{Width=(?<w>\d+).+Height=(?<h>\d+)}", RegexOptions.Singleline | RegexOptions.IgnoreCase);
-                    match = regex.Match(value.ToStrs());
+                    match = value.ToStrs().Regex(@"{Width=(?<w>\d+).+Height=(?<h>\d+)}");
                     if (match.Success)
                     {
                         pro.SetValue(obj, new Size(match.Groups["w"].ToInt(), match.Groups["h"].ToInt()));
