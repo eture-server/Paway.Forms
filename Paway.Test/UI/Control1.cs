@@ -29,7 +29,7 @@ namespace Paway.Test
             base.ReLoad();
             toolbar.MStart();
         }
-        protected override bool UnLoad()
+        public override bool UnLoad()
         {
             return base.UnLoad();
         }

@@ -53,7 +53,7 @@ namespace Paway.Forms
         /// <summary>
         /// 移除当前界面时，是否允许移除
         /// </summary>
-        protected virtual bool UnLoad()
+        public virtual bool UnLoad()
         {
             for (var i = 0; i < Controls.Count; i++)
             {
