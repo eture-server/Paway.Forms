@@ -671,7 +671,14 @@ namespace Paway.Forms
             string result = null;
             if (BaseText.TextLength < RLength)
             {
-                Reset(string.Format("请输入不少于{0}位字符", RLength));
+                if (BaseText.TextLength == 0 && !WaterText.IsNullOrEmpty())
+                {
+                    Reset(WaterText);
+                }
+                else
+                {
+                    Reset(string.Format("请输入不少于{0}位字符", RLength));
+                }
                 return;
             }
             if (string.IsNullOrEmpty(BaseText.Text)) return;
