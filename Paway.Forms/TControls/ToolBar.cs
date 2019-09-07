@@ -167,16 +167,7 @@ namespace Paway.Forms
             {
                 if (value < 0) value = 0;
                 _tScrollHeight = value;
-                if (_hScroll != null)
-                {
-                    _hScroll.Height = value;
-                    _panelScroll.Height = value;
-                }
-                if (_vScroll != null)
-                {
-                    _vScroll.Width = value;
-                    _panelScroll.Width = value;
-                }
+                UpdateScroll();
             }
         }
 
@@ -375,14 +366,8 @@ namespace Paway.Forms
             set
             {
                 _itemSize = value;
-                _vScroll.Visible = false;
-                _hScroll.Visible = false;
-                _vScroll2.Visible = false;
-                _panelScroll.Visible = false;
-                TPaint();
+                TRefresh();
                 UpdateImageSize();
-                UpdateScroll();
-                Invalidate();
             }
         }
 
@@ -795,7 +780,7 @@ namespace Paway.Forms
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            UpdateScroll();
+            TRefresh();
         }
 
         /// <summary>
@@ -1998,6 +1983,7 @@ namespace Paway.Forms
         /// </summary>
         public void TRefresh()
         {
+            if (_vScroll == null) return;
             _vScroll.Visible = false;
             _hScroll.Visible = false;
             _vScroll2.Visible = false;
@@ -2477,13 +2463,7 @@ namespace Paway.Forms
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            if (_vScroll == null) return;
-            _vScroll.Visible = false;
-            _hScroll.Visible = false;
-            _vScroll2.Visible = false;
-            _panelScroll.Visible = false;
-            TPaint();
-            UpdateScroll();
+            TRefresh();
         }
 
         /// <summary>
@@ -2507,8 +2487,8 @@ namespace Paway.Forms
                         _panelScroll.Width = _tScrollHeight;
                         _panelScroll.Dock = DockStyle.Right;
                         _panelScroll.Visible = ILoad & _iScroll;
-                        _vScroll.Size = new Size(_panelScroll.Width, _panelScroll.Height + 17 * 2 + 1);
-                        _vScroll.Location = new Point(0, -17);
+                        _vScroll.Size = new Size(_panelScroll.Width + 2, _panelScroll.Height + 17 * 2 + 1);
+                        _vScroll.Location = new Point(-1, -17);
                     }
                     else if (_vScroll.Value >= 0)
                     {
@@ -2525,8 +2505,8 @@ namespace Paway.Forms
                         _panelScroll.Height = _tScrollHeight;
                         _panelScroll.Dock = DockStyle.Bottom;
                         _panelScroll.Visible = ILoad & _iScroll;
-                        _hScroll.Size = new Size(_panelScroll.Width + 17 * 2 + 1, _panelScroll.Height);
-                        _hScroll.Location = new Point(-17, 0);
+                        _hScroll.Size = new Size(_panelScroll.Width + 17 * 2 + 1, _panelScroll.Height + 2);
+                        _hScroll.Location = new Point(-17, -1);
                     }
                     else if (_vScroll2.Value >= 0)
                     {
