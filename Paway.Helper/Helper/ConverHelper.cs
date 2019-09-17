@@ -456,12 +456,11 @@ namespace Paway.Helper
         /// </summary>
         public static PropertyInfo Property(this Type type, string name)
         {
-            var property = type.GetProperty(name);
+            var properties = type.Properties();
+            var property = properties.Find(c => c.Name == name);
             if (property == null)
             {
-                var properties = type.Properties();
-                property = properties.Find(c => c.Name == name);
-                if (property == null) property = properties.Find(c => c.Column() == name);
+                property = properties.Find(c => c.Column() == name);
             }
             return property;
         }
