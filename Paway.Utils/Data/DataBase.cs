@@ -98,7 +98,7 @@ namespace Paway.Utils
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("ExecuteNonQuery.Error[{0}]\r\n{1}", cmd.CommandText, ex);
+                log.ErrorFormat("ExecuteNonQuery.Error[{0}]\r\n{1}", cmd?.CommandText, ex);
                 throw;
             }
             finally
@@ -121,7 +121,7 @@ namespace Paway.Utils
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("ExecuteScalar.Error[{0}]\r\n{1}", cmd.CommandText, ex);
+                log.ErrorFormat("ExecuteScalar.Error[{0}]\r\n{1}", cmd?.CommandText, ex);
                 throw;
             }
             finally
@@ -149,7 +149,7 @@ namespace Paway.Utils
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("ExecuteDataTable.Error[{0}]\r\n{1}", cmd.CommandText, ex);
+                log.ErrorFormat("ExecuteDataTable.Error[{0}]\r\n{1}", cmd?.CommandText, ex);
                 throw;
             }
             finally
@@ -217,7 +217,7 @@ namespace Paway.Utils
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("ExecuteNonQuery.Error[{0}]\r\n{1}", cmd.CommandText, ex);
+                log.ErrorFormat("ExecuteNonQuery.Error[{0}]\r\n{1}", cmd?.CommandText, ex);
                 throw;
             }
             finally
@@ -315,7 +315,7 @@ namespace Paway.Utils
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("Find.Error[{0}]\r\n{1}", cmd.CommandText, ex);
+                log.ErrorFormat("Find.Error[{0}]\r\n{1}", cmd?.CommandText, ex);
                 throw;
             }
             finally
@@ -463,7 +463,7 @@ namespace Paway.Utils
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("Delete.Error[{0}]\r\n{1}", cmd.CommandText, ex);
+                log.ErrorFormat("Delete.Error[{0}]\r\n{1}", cmd?.CommandText, ex);
                 throw;
             }
             finally
@@ -591,27 +591,25 @@ namespace Paway.Utils
         {
             try
             {
+                if (cmd == null) return;
                 if (!iTrans)
                 {
                     cmd.CommandText = string.Empty;
                     return;
                 }
-                if (cmd != null)
+                if (!ILongConnect && cmd.Connection != null)
                 {
-                    if (!ILongConnect && cmd.Connection != null)
+                    if (cmd.Connection.State == ConnectionState.Open || cmd.Connection.State == ConnectionState.Broken)
                     {
-                        if (cmd.Connection.State == ConnectionState.Open || cmd.Connection.State == ConnectionState.Broken)
-                        {
-                            cmd.Connection.Close();
-                        }
-                        cmd.Connection.Dispose();
+                        cmd.Connection.Close();
                     }
-                    cmd.Dispose();
+                    cmd.Connection.Dispose();
                 }
+                cmd.Dispose();
             }
             catch (Exception ex)
             {
-                log.ErrorFormat("CommandEnd.Error[{0}]\r\n{1}", cmd.CommandText, ex);
+                log.ErrorFormat("CommandEnd.Error[{0}]\r\n{1}", cmd?.CommandText, ex);
                 throw;
             }
         }
