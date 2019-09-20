@@ -143,14 +143,14 @@ namespace Paway.Core
         /// <summary>
         /// 发送消息
         /// </summary>
-        public void Send(string data, MqttQualityOfServiceLevel level, string topic = null)
+        public Task Send(string data, MqttQualityOfServiceLevel level, string topic = null)
         {
-            Send(Encoding.GetEncoding("utf-8").GetBytes(data), level, topic);
+            return Send(Encoding.GetEncoding("utf-8").GetBytes(data), level, topic);
         }
         /// <summary>
         /// 发送消息
         /// </summary>
-        public void Send(byte[] buffer, MqttQualityOfServiceLevel level, string topic = null)
+        public Task Send(byte[] buffer, MqttQualityOfServiceLevel level, string topic = null)
         {
             //开始发布消息
             var appMsg = new MqttApplicationMessage()
@@ -160,7 +160,7 @@ namespace Paway.Core
                 QualityOfServiceLevel = level,
                 Retain = false
             };
-            mqttClient.PublishAsync(appMsg);
+            return mqttClient.PublishAsync(appMsg);
         }
         /// <summary>
         /// 消息处理

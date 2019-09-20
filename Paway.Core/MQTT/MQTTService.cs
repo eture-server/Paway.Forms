@@ -79,16 +79,16 @@ namespace Paway.Core
         /// <summary>
         /// 发布消息
         /// </summary>
-        public void Publish(string topic, string data, MqttQualityOfServiceLevel level)
+        public Task Publish(string topic, string data, MqttQualityOfServiceLevel level)
         {
-            if (topic == null || data == null) return;
+            if (topic == null || data == null) return Task.CompletedTask;
             var message = new MqttApplicationMessage()
             {
                 Topic = topic,
                 Payload = Encoding.GetEncoding("utf-8").GetBytes(data),
                 QualityOfServiceLevel = level,
             };
-            mqttServer.PublishAsync(message);
+            return mqttServer.PublishAsync(message);
         }
         /// <summary>
         /// 响应消息
