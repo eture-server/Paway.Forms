@@ -235,6 +235,9 @@
     <EmbeddedResource Include="TExpand\TDataControl.resx">
       <DependentUpon>TDataControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TForms\ImageForm.resx">
+      <DependentUpon>ImageForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\load.jpg" />

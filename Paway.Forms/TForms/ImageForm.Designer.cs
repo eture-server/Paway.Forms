@@ -36,6 +36,7 @@
             this.ClientSize = new System.Drawing.Size(350, 448);
             this.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ForeColor = System.Drawing.Color.Red;
+            this.IRound = false;
             this.ITransfer = true;
             this.Name = "ImageForm";
             this.ShowIcon = false;

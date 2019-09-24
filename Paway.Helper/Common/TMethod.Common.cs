@@ -17,6 +17,53 @@ namespace Paway.Helper
     /// </summary>
     public partial class TMethod
     {
+        #region EventHelper
+        /// <summary>
+        /// 判断事件是否已注册
+        /// </summary>
+        public static bool Exist(Delegate handler, Delegate del)
+        {
+            if (handler == null) return false;
+            foreach (Delegate item in handler.GetInvocationList())
+            {
+                if (item.Equals(del))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        /// <summary>
+        /// 移除事件所有已注册
+        /// </summary>
+        public static void Clear<T>(T t, string eventName)
+        {
+            var invokeList = GetObjectEventList(t, eventName);
+            foreach (Delegate del in invokeList)
+            {
+                typeof(T).GetEvent(eventName).RemoveEventHandler(t, del);
+            }
+        }
+        /// <summary>
+        /// 获取对象事件
+        /// </summary>
+        /// <param name="obj">对象</param>
+        /// <param name="eventName">事件名</param>
+        /// <returns></returns>
+        private static Delegate[] GetObjectEventList(object obj, string eventName)
+        {
+            FieldInfo field = obj.GetType().GetField(eventName, BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static);
+            if (field == null) return null;
+            object fieldValue = field.GetValue(obj);
+            if (fieldValue != null && fieldValue is Delegate)
+            {
+                return ((Delegate)fieldValue).GetInvocationList();
+            }
+            return null;
+        }
+
+        #endregion
+
         #region 公共业务相关
         /// <summary>
         /// 自动调整图片显示模式(图像比控件大=Zoom,其它=CenterImage)

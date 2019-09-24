@@ -376,6 +376,11 @@ namespace Paway.Forms
                 size.Width = width;
                 size.Height = height;
             }
+            if (screen.Width * 1.0 / size.Width > 0.9 && screen.Width * 1.0 / size.Width < 1.1)
+            {
+                size.Width = screen.Width;
+                size.Height = screen.Height;
+            }
             if (size.Width < 3)
             {
                 size.Width = 3;
