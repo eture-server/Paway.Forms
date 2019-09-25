@@ -86,9 +86,9 @@ namespace Paway.Utils
         /// 填充 System.Data.DataSet 并返回一个DataTable
         /// 标记是否使用Limit查找指定数量
         /// </summary>
-        protected override DataTable FindTable<T>(string find, int count, bool iLimit, DbCommand cmd = null, params string[] args)
+        protected override DataTable FindTable(Type type, string find, int count, bool iLimit, DbCommand cmd = null, params string[] args)
         {
-            return base.FindTable<T>(find, count, true, cmd, args);
+            return base.FindTable(type, find, count, true, cmd, args);
         }
 
         #endregion

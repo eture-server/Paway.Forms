@@ -179,6 +179,30 @@ namespace Paway.Helper
             }
             return list;
         }
+        /// <summary>
+        /// IL动态代码(Emit)，DataTable转List(非泛型)
+        /// 并行处理
+        /// </summary>
+        public static IList ToList(this DataTable table, Type type, int count = 0)
+        {
+            var list = type.GenericList();
+            if (table == null) return list;
+
+            if (count <= 0 || count > table.Rows.Count) count = table.Rows.Count;
+            if (count > 0)
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    list.Add(Activator.CreateInstance(type));
+                }
+                var builder = EntityBuilder.CreateBuilder(type, table.Rows[0]);
+                Parallel.For(0, count, (i) =>
+                {
+                    builder.Build(table.Rows[i], list[i]);
+                });
+            }
+            return list;
+        }
 
         #endregion
 

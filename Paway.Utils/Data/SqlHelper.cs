@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
@@ -55,9 +56,9 @@ namespace Paway.Utils
         /// 填充 System.Data.DataSet 并返回一个DataTable
         /// 标记是否使用Limit查找指定数量
         /// </summary>
-        protected override DataTable FindTable<T>(string find, int count, bool iLimit, DbCommand cmd = null, params string[] args)
+        protected override DataTable FindTable(Type type, string find, int count, bool iLimit, DbCommand cmd = null, params string[] args)
         {
-            return base.FindTable<T>(find, count, false, cmd, args);
+            return base.FindTable(type, find, count, false, cmd, args);
         }
 
         #endregion

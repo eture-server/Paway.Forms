@@ -5,11 +5,14 @@
 -- ----------------------------
 CREATE TABLE [Users](
 "Id"  integer Primary Key AutoIncrement not null,
+"ParentId" integer,
 "Name"  nvarchar NULL,
 "Pad"  nvarchar NULL,
 "Statu"  bit,
 "UserType"  int,
+"Value" int,
 "DateTime"  datetime,
+"Image"  blob,
 "CreateDate"  datetime,
  unique(Id asc)
 );

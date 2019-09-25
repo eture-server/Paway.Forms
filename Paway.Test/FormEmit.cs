@@ -29,7 +29,7 @@ namespace Paway.Test
             //obj.Image = BitmapHelper.GetBitmapFormFile(@"D:\Tinn\DotNet\House\bin\Debug\Code\110031622_45259-02360-00.png");
             //server.Insert(obj);
 
-            ITestInfo info = server.Find<TestInfo>(7);
+            ITestInfo info = server.Find<TestInfo>(1);
             info.FindInfo = new FindInfo() { Id = 100 };
             info.List.Add(new FindInfo());
             info.List2 = new List<FindInfo>();
@@ -117,6 +117,7 @@ namespace Paway.Test
 
             var dt2 = server.FindTable<ITestInfo>("1=1 limit 20");
             var list2 = dt2.ToList<TestInfo>();
+            var list21 = dt2.ToList(type);
 
             sw.Restart();
             list.Sort(nameof(TestInfo.UserType));

@@ -19,7 +19,6 @@ using System.Data.Common;
 using System.Threading;
 using System.Reflection;
 using log4net;
-using System.Data.SQLite;
 using System.Collections;
 
 namespace Paway.Test
