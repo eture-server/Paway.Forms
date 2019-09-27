@@ -321,7 +321,7 @@ namespace Paway.Helper
         /// <summary>
         /// 解压字符串(Base64数字编码的等效字符串)
         /// </summary>
-        public static string Decompress(string str)
+        public static string Decompress(this string str)
         {
             var buffer = Convert.FromBase64String(str);
             return Decompress(buffer);
@@ -329,7 +329,7 @@ namespace Paway.Helper
         /// <summary>
         /// 解压字节流
         /// </summary>
-        public static string Decompress(byte[] buffer)
+        public static string Decompress(this byte[] buffer)
         {
             var temp = DecompressBuffer(buffer);
             string result = Encoding.UTF8.GetString(temp);
