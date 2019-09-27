@@ -145,14 +145,15 @@ namespace Paway.Core
         /// </summary>
         public Task Send(string data, MqttQualityOfServiceLevel level, string topic = null)
         {
-            return Send(Encoding.GetEncoding("utf-8").GetBytes(data), level, topic);
+            if (data == null) return Task.CompletedTask;
+            return Send(Encoding.UTF8.GetBytes(data), level, topic);
         }
         /// <summary>
-        /// 发送消息
+        /// 发布消息
         /// </summary>
         public Task Send(byte[] buffer, MqttQualityOfServiceLevel level, string topic = null)
         {
-            //开始发布消息
+            if (buffer == null) return Task.CompletedTask;
             var appMsg = new MqttApplicationMessage()
             {
                 Topic = topic ?? this.topic + "/" + this.ClientId,
@@ -165,7 +166,7 @@ namespace Paway.Core
         /// <summary>
         /// 消息处理
         /// </summary>
-        protected virtual void MessageHandle(string data) { }
+        protected virtual void MessageHandle(byte[] buffer) { }
         /// <summary>
         /// 自定义订阅
         /// reset=true:清除已有订阅
@@ -228,9 +229,7 @@ namespace Paway.Core
         }
         private void MqttClient_ApplicationMessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e)
         {
-            var buffer = e.ApplicationMessage.Payload;
-            string data = Encoding.GetEncoding("utf-8").GetString(buffer);
-            MessageHandle(data);
+            MessageHandle(e.ApplicationMessage.Payload);
         }
 
         #endregion

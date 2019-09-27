@@ -29,7 +29,7 @@ namespace Paway.Helper
         {
             var getValueMethod = typeof(DataRow).GetMethod("get_Item", new Type[] { typeof(int) });
             var isDBNullMethod = typeof(DataRow).GetMethod(nameof(DataRow.IsNull), new Type[] { typeof(int) });
-            var toImage = typeof(StructHelper).GetMethod(nameof(StructHelper.BytesToImage), new Type[] { typeof(byte[]) });
+            var toImage = typeof(StructHelper).GetMethod(nameof(StructHelper.DeserializeImage), new Type[] { typeof(byte[]) });
             var toDouble = typeof(decimal).GetMethod(nameof(Decimal.ToDouble), new Type[] { typeof(decimal) });
             var toBool = typeof(ConverHelper).GetMethod(nameof(ConverHelper.ToBool), new Type[] { typeof(object) });
 
@@ -115,7 +115,7 @@ namespace Paway.Helper
         {
             var getValueMethod = typeof(DataRow).GetMethod("get_Item", new Type[] { typeof(int) });
             var isDBNullMethod = typeof(DataRow).GetMethod(nameof(DataRow.IsNull), new Type[] { typeof(int) });
-            var toImage = typeof(StructHelper).GetMethod(nameof(StructHelper.BytesToImage), new Type[] { typeof(byte[]) });
+            var toImage = typeof(StructHelper).GetMethod(nameof(StructHelper.DeserializeImage), new Type[] { typeof(byte[]) });
             var toDouble = typeof(decimal).GetMethod(nameof(Decimal.ToDouble), new Type[] { typeof(decimal) });
             var toBool = typeof(ConverHelper).GetMethod(nameof(ConverHelper.ToBool), new Type[] { typeof(object) });
 

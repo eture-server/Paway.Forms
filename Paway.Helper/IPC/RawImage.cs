@@ -27,7 +27,7 @@ namespace Paway.Helper
                 width = image.Width;
                 height = image.Height;
                 format = image.PixelFormat;
-                ByteData = StructHelper.ToRawData(image);
+                ByteData = StructHelper.ImageRawData(image);
             }
         }
 
@@ -39,7 +39,7 @@ namespace Paway.Helper
             get
             {
                 if (_Image == null && width > 0 && height > 0)
-                    _Image = StructHelper.FromRawData(rawData, width, height, format);
+                    _Image = StructHelper.ImageRawData(rawData, width, height, format);
                 return _Image;
             }
         }

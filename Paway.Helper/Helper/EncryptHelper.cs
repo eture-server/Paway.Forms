@@ -54,7 +54,7 @@ namespace Paway.Helper
             string result;
             using (MD5 md = new MD5CryptoServiceProvider())
             {
-                var bytes = Encoding.GetEncoding("utf-8").GetBytes(str);
+                var bytes = Encoding.UTF8.GetBytes(str);
                 var inArray = md.ComputeHash(bytes);
                 var sBuilder = new StringBuilder();
                 for (var i = 0; i < inArray.Length; i++)
@@ -93,8 +93,8 @@ namespace Paway.Helper
         {
             using (var provider = new TripleDESCryptoServiceProvider())
             {
-                var buffer3 = Encoding.GetEncoding("utf-8").GetBytes(content);
-                provider.Key = Encoding.GetEncoding("utf-8").GetBytes(key);
+                var buffer3 = Encoding.UTF8.GetBytes(content);
+                provider.Key = Encoding.UTF8.GetBytes(key);
                 provider.Mode = CipherMode.ECB;
                 var stream = new MemoryStream();
                 var transform = provider.CreateEncryptor();
@@ -115,7 +115,7 @@ namespace Paway.Helper
             using (var des = new TripleDESCryptoServiceProvider())
             {
                 var content = Convert.FromBase64String(sourceData);
-                des.Key = Encoding.GetEncoding("utf-8").GetBytes(key);
+                des.Key = Encoding.UTF8.GetBytes(key);
                 des.Mode = CipherMode.ECB;
                 var transform = des.CreateDecryptor();
                 var ms = new MemoryStream();
@@ -124,7 +124,7 @@ namespace Paway.Helper
                     cs.Write(content, 0, content.Length);
                     cs.FlushFinalBlock();
                     var b = ms.ToArray();
-                    return Encoding.GetEncoding("utf-8").GetString(b, 0, b.Length);
+                    return Encoding.UTF8.GetString(b, 0, b.Length);
                 }
             }
         }

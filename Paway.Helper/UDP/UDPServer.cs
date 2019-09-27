@@ -114,7 +114,7 @@ namespace Paway.Helper
             object message;
             try
             {
-                message = StructHelper.GetObjectFromByte(buffer);
+                message = StructHelper.DeserializeObject(buffer);
             }
             catch (Exception ex)
             {

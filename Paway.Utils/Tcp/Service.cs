@@ -158,7 +158,7 @@ namespace Paway.Utils
                 while (!ForceStop)
                 {
                     Thread.Sleep(heartTime * HeartTime);
-                    SendAll(Encoding.GetEncoding("utf-8").GetBytes("Hello"));
+                    SendAll(Encoding.UTF8.GetBytes("Hello"));
                 }
             }
             catch (Exception ex)

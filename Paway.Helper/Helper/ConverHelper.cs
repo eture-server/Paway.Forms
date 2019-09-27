@@ -536,7 +536,7 @@ namespace Paway.Helper
                 case nameof(Image):
                     if (value is byte[] buffer)
                     {
-                        pro.SetValue(obj, StructHelper.BytesToImage(buffer));
+                        pro.SetValue(obj, StructHelper.DeserializeImage(buffer));
                     }
                     else if (value is Image image)
                     {

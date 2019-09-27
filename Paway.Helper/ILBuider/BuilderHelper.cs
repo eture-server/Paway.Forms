@@ -407,7 +407,7 @@ namespace Paway.Helper
                     break;
                 case nameof(Image):
                 case nameof(Bitmap):
-                    param.Value = StructHelper.ImageToBytes((Image)value);
+                    param.Value = StructHelper.SerializeImage((Image)value);
                     param.DbType = DbType.Binary;
                     break;
                 default:

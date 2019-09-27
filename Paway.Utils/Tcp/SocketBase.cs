@@ -106,7 +106,7 @@ namespace Paway.Utils
             }
             if (SendDataService != null && message != null)
             {
-                var byteData = message is byte[]? message as byte[] : StructHelper.GetByteFromObject(message);
+                var byteData = message is byte[]? message as byte[] : StructHelper.SerializeObject(message);
                 SendDataService.SendData(byteData);
             }
             else if (ithrow)
@@ -316,14 +316,14 @@ namespace Paway.Utils
             object message;
             try
             {
-                if (buffer.Length == 5 && Encoding.GetEncoding("utf-8").GetString(buffer) == "Hello")
+                if (buffer.Length == 5 && Encoding.UTF8.GetString(buffer) == "Hello")
                 {//心跳，客户端需要回复
                     if (!iServer) Send(buffer);
                     return;
                 }
                 try
                 {
-                    if (SocketConfig.IStruct) message = StructHelper.GetObjectFromByte(buffer);
+                    if (SocketConfig.IStruct) message = StructHelper.DeserializeObject(buffer);
                     else message = buffer;
                 }
                 catch (Exception ex)

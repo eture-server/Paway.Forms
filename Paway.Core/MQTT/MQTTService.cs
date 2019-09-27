@@ -81,11 +81,19 @@ namespace Paway.Core
         /// </summary>
         public Task Publish(string topic, string data, MqttQualityOfServiceLevel level)
         {
-            if (topic == null || data == null) return Task.CompletedTask;
+            if (data == null) return Task.CompletedTask;
+            return Publish(topic, Encoding.UTF8.GetBytes(data), level);
+        }
+        /// <summary>
+        /// 发布消息
+        /// </summary>
+        public Task Publish(string topic, byte[] buffer, MqttQualityOfServiceLevel level)
+        {
+            if (topic == null || buffer == null) return Task.CompletedTask;
             var message = new MqttApplicationMessage()
             {
                 Topic = topic,
-                Payload = Encoding.GetEncoding("utf-8").GetBytes(data),
+                Payload = buffer,
                 QualityOfServiceLevel = level,
             };
             return mqttServer.PublishAsync(message);
@@ -96,7 +104,15 @@ namespace Paway.Core
         protected void Response(MqttApplicationMessageReceivedEventArgs e, string data, MqttQualityOfServiceLevel level)
         {
             if (data == null) return;
-            e.ApplicationMessage.Payload = Encoding.GetEncoding("utf-8").GetBytes(data);
+            Response(e, Encoding.UTF8.GetBytes(data), level);
+        }
+        /// <summary>
+        /// 响应消息
+        /// </summary>
+        protected void Response(MqttApplicationMessageReceivedEventArgs e, byte[] buffer, MqttQualityOfServiceLevel level)
+        {
+            if (buffer == null) return;
+            e.ApplicationMessage.Payload = buffer;
             e.ApplicationMessage.QualityOfServiceLevel = level;
         }
         /// <summary>
