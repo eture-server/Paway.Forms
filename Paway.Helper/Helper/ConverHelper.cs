@@ -6,6 +6,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.Drawing;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -294,6 +296,89 @@ namespace Paway.Helper
                 if (c[i] > 65280 && c[i] < 65375) c[i] = (char)(c[i] - 65248);
             }
             return new string(c);
+        }
+
+        #endregion
+
+        #region 解压缩
+        /// <summary>
+        /// 压缩字符串(返回Base64数字编码的等效字符串)
+        /// </summary>
+        public static string CompressBase64(this string str)
+        {
+            var buffer = Compress(str);
+            string result = Convert.ToBase64String(buffer);
+            return result;
+        }
+        /// <summary>
+        /// 压缩字符串(返回字节流)
+        /// </summary>
+        public static byte[] Compress(this string str)
+        {
+            var buffer = Encoding.UTF8.GetBytes(str);
+            return CompressBuffer(buffer);
+        }
+        /// <summary>
+        /// 解压字符串(Base64数字编码的等效字符串)
+        /// </summary>
+        public static string Decompress(string str)
+        {
+            var buffer = Convert.FromBase64String(str);
+            return Decompress(buffer);
+        }
+        /// <summary>
+        /// 解压字节流
+        /// </summary>
+        public static string Decompress(byte[] buffer)
+        {
+            var temp = DecompressBuffer(buffer);
+            string result = Encoding.UTF8.GetString(temp);
+            return result;
+        }
+        /// <summary>
+        /// 压缩字节流
+        /// </summary>
+        private static byte[] CompressBuffer(byte[] data)
+        {
+            using (var ms = new MemoryStream())
+            {
+                using (var zip = new GZipStream(ms, CompressionMode.Compress, true))
+                {
+                    zip.Write(data, 0, data.Length);
+                }
+                var buffer = new byte[ms.Length];
+                ms.Position = 0;
+                ms.Read(buffer, 0, buffer.Length);
+                return buffer;
+            }
+        }
+        /// <summary>
+        /// 解压字节流
+        /// </summary>
+        private static byte[] DecompressBuffer(byte[] data)
+        {
+            using (var ms = new MemoryStream(data))
+            {
+                using (var zip = new GZipStream(ms, CompressionMode.Decompress, true))
+                {
+                    using (var msreader = new MemoryStream())
+                    {
+                        var buffer = new byte[0x1000];
+                        while (true)
+                        {
+                            var reader = zip.Read(buffer, 0, buffer.Length);
+                            if (reader <= 0)
+                            {
+                                break;
+                            }
+                            msreader.Write(buffer, 0, reader);
+                        }
+                        msreader.Position = 0;
+                        buffer = msreader.ToArray();
+                        return buffer;
+                    }
+                }
+            }
         }
 
         #endregion
