@@ -344,6 +344,7 @@ namespace Paway.Forms
                                 else if (gridview1.Edit is TDataGridView gridView)
                                 {
                                     gridView.AddRow(data);
+                                    index = this.List.Count - 1;
                                 }
                             }
                             else if (!IFind())

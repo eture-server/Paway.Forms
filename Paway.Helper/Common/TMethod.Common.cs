@@ -52,14 +52,23 @@ namespace Paway.Helper
         /// <returns></returns>
         private static Delegate[] GetObjectEventList(object obj, string eventName)
         {
-            FieldInfo field = obj.GetType().GetField(eventName, BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static);
-            if (field == null) return null;
-            object fieldValue = field.GetValue(obj);
-            if (fieldValue != null && fieldValue is Delegate)
+            var flags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static;
+            var type = obj.GetType();
+            FieldInfo field = type.GetField(eventName, flags);
+            while (field == null && type.BaseType != null)
             {
-                return ((Delegate)fieldValue).GetInvocationList();
+                type = type.BaseType;
+                field = type.GetField(eventName, flags);
             }
-            return null;
+            if (field != null)
+            {
+                object fieldValue = field.GetValue(obj);
+                if (fieldValue != null && fieldValue is Delegate)
+                {
+                    return ((Delegate)fieldValue).GetInvocationList();
+                }
+            }
+            return new Delegate[0];
         }
 
         #endregion
