@@ -789,10 +789,15 @@ namespace Paway.Forms
         /// <summary>
         /// 合并行
         /// </summary>
-        /// <param name="param"></param>
-        public void AddSpanColumns(params int[] param)
+        public void AddSpanColumns(Type type, params string[] param)
         {
-            SpanColumns.AddRange(param);
+            if (param == null) return;
+            SpanColumns.Clear();
+            var properties = type.Properties();
+            for (int i = 0; i < properties.Count; i++)
+            {
+                if (param.Contains(properties[i].Name)) SpanColumns.Add(i);
+            }
         }
         /// <summary>
         /// 合并单元格
@@ -1071,22 +1076,33 @@ namespace Paway.Forms
         /// <summary>
         /// 合并列
         /// </summary>
-        /// <param name="ColIndex">列的索引</param>
-        /// <param name="ColCount">需要合并的列数</param>
-        /// <param name="Text">合并列后的文本</param>
-        public void AddSpanHeader(int ColIndex, int ColCount, string Text)
+        /// <param name="type">类型</param>
+        /// <param name="colIndexName">索引列的名称</param>
+        /// <param name="colCount">需要合并的列数</param>
+        /// <param name="text">合并列后的文本</param>
+        public void AddSpanHeader(Type type, string colIndexName, int colCount, string text)
         {
-            if (ColCount < 2)
+            if (colCount < 2)
             {
                 throw new ArgumentException("行宽应大于1。");
             }
-            //将这些列加入列表
-            var Right = ColIndex + ColCount - 1; //同一大标题下的最后一列的索引
-            SpanRows[ColIndex] = new SpanInfo(Text, StringAlignment.Near, ColIndex, Right); //添加标题下的最左列
-            SpanRows[Right] = new SpanInfo(Text, StringAlignment.Far, ColIndex, Right); //添加该标题下的最右列
-            for (var i = ColIndex + 1; i < Right; i++) //中间的列
+            var colIndex = 0;
+            var properties = type.Properties();
+            for (int i = 0; i < properties.Count; i++)
             {
-                SpanRows[i] = new SpanInfo(Text, StringAlignment.Center, ColIndex, Right);
+                if (properties[i].Name == colIndexName)
+                {
+                    colIndex = i;
+                    break;
+                }
+            }
+            //将这些列加入列表
+            var Right = colIndex + colCount - 1; //同一大标题下的最后一列的索引
+            SpanRows[colIndex] = new SpanInfo(text, StringAlignment.Near, colIndex, Right); //添加标题下的最左列
+            SpanRows[Right] = new SpanInfo(text, StringAlignment.Far, colIndex, Right); //添加该标题下的最右列
+            for (var i = colIndex + 1; i < Right; i++) //中间的列
+            {
+                SpanRows[i] = new SpanInfo(text, StringAlignment.Center, colIndex, Right);
             }
         }
 
