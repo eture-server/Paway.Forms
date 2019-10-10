@@ -540,7 +540,10 @@ namespace Paway.Forms
         }
         private bool IFind()
         {
-            return panel2.Visible && !tbName.IError && !tbName.Text.Trim().IsNullOrEmpty();
+            return (bool)this.Invoke(new Func<bool>(() =>
+            {
+                return panel2.Visible && !tbName.IError && !tbName.Text.Trim().IsNullOrEmpty();
+            }));
         }
         private bool ToFind(bool focus = false, int index = 0)
         {

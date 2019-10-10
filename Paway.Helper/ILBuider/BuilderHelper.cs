@@ -430,10 +430,14 @@ namespace Paway.Helper
         public static object GetValue(this object obj, string name)
         {
             var type = obj.GetType();
-            if (!GetValueFunc.TryGetValue(type.FullName + "." + name, out Delegate func))
+            Delegate func;
+            lock (SyncRoot)
             {
-                func = ValueBuilder.GetValueFunc(type, name);
-                GetValueFunc.Add(type.FullName + "." + name, func);
+                if (!GetValueFunc.TryGetValue(type.FullName + "." + name, out func))
+                {
+                    func = ValueBuilder.GetValueFunc(type, name);
+                    GetValueFunc.Add(type.FullName + "." + name, func);
+                }
             }
             return ((Func<object, object>)func)(obj);
         }
@@ -443,10 +447,14 @@ namespace Paway.Helper
         public static object[] GetValues(this object obj)
         {
             var type = obj.GetType();
-            if (!GetValuesFunc.TryGetValue(type, out Delegate func))
+            Delegate func;
+            lock (SyncRoot)
             {
-                func = ValueBuilder.GetValuesFunc(type);
-                GetValuesFunc.Add(type, func);
+                if (!GetValuesFunc.TryGetValue(type, out func))
+                {
+                    func = ValueBuilder.GetValuesFunc(type);
+                    GetValuesFunc.Add(type, func);
+                }
             }
             return ((Func<object, object[]>)func)(obj);
         }
@@ -456,10 +464,14 @@ namespace Paway.Helper
         public static void SetValue(this object obj, string name, object value)
         {
             var type = obj.GetType();
-            if (!SetValueFunc.TryGetValue(type.FullName + "." + name, out Delegate func))
+            Delegate func;
+            lock (SyncRoot)
             {
-                func = ValueBuilder.SetValueFunc(type, name);
-                SetValueFunc.Add(type.FullName + "." + name, func);
+                if (!SetValueFunc.TryGetValue(type.FullName + "." + name, out func))
+                {
+                    func = ValueBuilder.SetValueFunc(type, name);
+                    SetValueFunc.Add(type.FullName + "." + name, func);
+                }
             }
             ((Action<object, object>)func)(obj, value);
         }
@@ -510,14 +522,17 @@ namespace Paway.Helper
         /// </summary>
         public static Type GetType(this Type type, string name)
         {
-            if (!GetTypeFunc.TryGetValue(type.FullName + "." + name, out Type propertyType))
+            lock (SyncRoot)
             {
-                var property = type.Property(name);
-                if (property == null) propertyType = null;
-                else propertyType = property.PropertyType;
-                GetTypeFunc.Add(type.FullName + "." + name, propertyType);
+                if (!GetTypeFunc.TryGetValue(type.FullName + "." + name, out Type propertyType))
+                {
+                    var property = type.Property(name);
+                    if (property == null) propertyType = null;
+                    else propertyType = property.PropertyType;
+                    GetTypeFunc.Add(type.FullName + "." + name, propertyType);
+                }
+                return propertyType;
             }
-            return propertyType;
         }
 
         #endregion
