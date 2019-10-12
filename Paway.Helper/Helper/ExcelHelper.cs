@@ -218,27 +218,29 @@ namespace Paway.Helper
         /// <param name="title">自定义显示标题</param>
         /// <param name="fileName"></param>
         /// <param name="heard">显示列名</param>
-        /// <param name="styleAction">样式处理</param>
+        /// <param name="style">样式处理</param>
+        /// <param name="lineStyle">行样式处理</param>
         /// <param name="heardAction">自定义标题</param>
         /// <param name="filter">外部过滤列,true:过滤</param>
         /// <param name="merged">创建单元格后处理(合并单元格)</param>
         /// <param name="sign">生成完成后处理(签名)</param>
         /// <param name="args">设置列宽</param>
         public static void ToExcel<T>(List<T> list, string title, string fileName, bool heard = true,
-            Action<ICellStyle, ICellStyle, ICellStyle> styleAction = null, Func<List<T>, ISheet, int> heardAction = null,
+            Action<ICellStyle, ICellStyle, ICellStyle> style = null, Func<List<T>, ISheet, int> heardAction = null,
+            Func<T, IWorkbook, Tuple<ICellStyle, ICellStyle>> lineStyle = null,
             Func<List<T>, string, bool> filter = null, Action<List<T>, int, IRow, string> merged = null, Action<ISheet> sign = null,
             params int[] args)
         {
             if (File.Exists(fileName)) File.Delete(fileName);
-            IWorkbook workbook = null;
-            if (Path.GetExtension(fileName) == ".xls") workbook = new HSSFWorkbook();
-            else if (Path.GetExtension(fileName) == ".xlsx") workbook = new XSSFWorkbook();
+            IWorkbook weekBook = null;
+            if (Path.GetExtension(fileName) == ".xls") weekBook = new HSSFWorkbook();
+            else if (Path.GetExtension(fileName) == ".xlsx") weekBook = new XSSFWorkbook();
             FileStream fs = null;
             try
             {
                 int count = 0;
                 fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-                ISheet sheet = workbook.CreateSheet("Sheet1");
+                ISheet sheet = weekBook.CreateSheet("Sheet1");
                 if (!title.IsNullOrEmpty())
                 {
                     IRow row = sheet.CreateRow(count++);
@@ -247,10 +249,10 @@ namespace Paway.Helper
                 }
                 var type = list.GenericType();
                 var properties = type.Properties();
-                var heardStyle = GetCellStyle(workbook);
-                var defaultStyle = GetCellStyle(workbook);
-                var numberStyle = GetCellStyle(workbook, CellStyle.Number);
-                styleAction?.Invoke(heardStyle, defaultStyle, numberStyle);
+                var heardStyle = GetCellStyle(weekBook);
+                var defaultStyle = GetCellStyle(weekBook);
+                var numberStyle = GetCellStyle(weekBook, CellStyle.Number);
+                style?.Invoke(heardStyle, defaultStyle, numberStyle);
                 if (heardAction != null)
                 {
                     count += heardAction.Invoke(list, sheet);
@@ -270,14 +272,13 @@ namespace Paway.Helper
                         cell.SetCellValue(text);
                         sheet.SetColumnWidth(index, 20 * 256);
                     }
-                    int i = 0;
-                    for (; i < args.Length && i < row.LastCellNum; i++)
+                    if (args.Length > 0)
                     {
-                        sheet.SetColumnWidth(i, args[i] * 256);
-                    }
-                    for (; args.Length > 0 && i < row.LastCellNum; i++)
-                    {
-                        sheet.SetColumnWidth(i, args[0] * 256);
+                        for (int i = 0, j = 0; i < row.LastCellNum; i++, j++)
+                        {
+                            if (j >= args.Length) j = 0;
+                            sheet.SetColumnWidth(i, args[j] * 256);
+                        }
                     }
                 }
                 if (!title.IsNullOrEmpty() && sheet.LastRowNum > 0)
@@ -295,19 +296,20 @@ namespace Paway.Helper
                         var index = row.LastCellNum < 0 ? 0 : row.LastCellNum;
                         var dbType = property.PropertyType;
                         if (dbType.IsGenericType && Nullable.GetUnderlyingType(dbType) != null) dbType = Nullable.GetUnderlyingType(dbType);
+                        var tuple = lineStyle?.Invoke(list[i], weekBook);
                         if (dbType == typeof(double) || dbType == typeof(int))
                         {
-                            CreateCell(row, index, numberStyle, list[i].GetValue(property.Name));
+                            CreateCell(row, index, tuple?.Item2 ?? numberStyle, list[i].GetValue(property.Name));
                         }
                         else
                         {
-                            CreateCell(row, index, defaultStyle, list[i].GetValue(property.Name));
+                            CreateCell(row, index, tuple?.Item1 ?? defaultStyle, list[i].GetValue(property.Name));
                         }
                         merged?.Invoke(list, i, row, property.Name);
                     }
                 }
                 sign?.Invoke(sheet);
-                workbook.Write(fs); //写入到excel
+                weekBook.Write(fs); //写入到excel
             }
             finally
             { if (fs != null) fs.Close(); }

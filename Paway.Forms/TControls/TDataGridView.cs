@@ -1032,6 +1032,10 @@ namespace Paway.Forms
                     case StringAlignment.Far:
                         right -= 2;
                         break;
+                    case (StringAlignment)3:
+                        right -= 2;
+                        left += 2;
+                        break;
                 }
 
                 using (var fontBrush = new SolidBrush(e.CellStyle.ForeColor))
@@ -1053,16 +1057,29 @@ namespace Paway.Forms
                     //写小标题
                     g.DrawString(string.Format("{0}", e.Value), e.CellStyle.Font, fontBrush,
                         new Rectangle(left, (top + bottom) / 2, right - left, (bottom - top) / 2), DrawHelper.StringCenter);
-                    left = GetColumnDisplayRectangle(SpanRows[e.ColumnIndex].Left, true).Left - 2;
-
-                    if (left < 0) left = GetCellDisplayRectangle(-1, -1, true).Width;
-                    right = GetColumnDisplayRectangle(SpanRows[e.ColumnIndex].Right, true).Right - 2;
-                    if (right < 0) right = Width;
-
-                    g.DrawString(SpanRows[e.ColumnIndex].Text, e.CellStyle.Font, fontBrush,
-                        new Rectangle(left, top, right - left, (bottom - top) / 2), DrawHelper.StringCenter);
+                    left = GetColumnDisplayRectangle(SpanRows[e.ColumnIndex].Left, false).Left - 2;
+                    if (left >= 0)
+                    {
+                        right = GetColumnDisplayRectangle(SpanRows[e.ColumnIndex].Right, false).Right - 2;
+                        if (right >= 0)
+                        {
+                            g.DrawString(SpanRows[e.ColumnIndex].Text, e.CellStyle.Font, fontBrush,
+                                new Rectangle(left, top, right - left, (bottom - top) / 2), DrawHelper.StringCenter);
+                        }
+                    }
                     e.Handled = true;
                 }
+            }
+        }
+        /// <summary>
+        /// 水平滚动时刷新二维表头
+        /// </summary>
+        protected override void OnScroll(ScrollEventArgs e)
+        {
+            base.OnScroll(e);
+            if (SpanRows.Count > 0 && e.ScrollOrientation == ScrollOrientation.HorizontalScroll)
+            {
+                this.Invalidate(new Rectangle(this.Location, new Size(this.Width, this.ColumnHeadersHeight)));
             }
         }
 
@@ -1082,10 +1099,6 @@ namespace Paway.Forms
         /// <param name="text">合并列后的文本</param>
         public void AddSpanHeader(Type type, string colIndexName, int colCount, string text)
         {
-            if (colCount < 2)
-            {
-                throw new ArgumentException("行宽应大于1。");
-            }
             var colIndex = 0;
             var properties = type.Properties();
             for (int i = 0; i < properties.Count; i++)
@@ -1104,6 +1117,8 @@ namespace Paway.Forms
             {
                 SpanRows[i] = new SpanInfo(text, StringAlignment.Center, colIndex, Right);
             }
+            //添加单列标题
+            if (colCount == 1) SpanRows[colIndex] = new SpanInfo(text, (StringAlignment)3, colIndex, Right);
         }
 
         #endregion
