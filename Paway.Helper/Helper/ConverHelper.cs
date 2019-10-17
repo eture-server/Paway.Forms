@@ -116,7 +116,7 @@ namespace Paway.Helper
         #region 字符串转换
         #region 中文转拼音(取汉字、数字、字母，其它自动过滤)
         /// <summary>
-        /// 在指定的字符串列表cnStr中检索符合拼音索引字符串
+        /// 在指定的字符串列表cnStr中检索符合拼音索引字符串(仅取一级汉字共3755个)
         /// </summary>
         /// <param name="str">汉字字符串</param>
         /// <param name="args">换格字符</param>
@@ -173,13 +173,12 @@ namespace Paway.Helper
                 int[] areacode = {45217, 45253, 45761, 46318, 46826, 47010, 47297,
                                     47614, 48119, 48119, 49062, 49324, 49896, 50371,
                                     50614, 50622, 50906, 51387, 51446, 52218,
-                                    52698, 52698, 52698, 52980, 53689, 54481 };
+                                    52698, 52698, 52698, 52980, 53689, 54481,55290 };
                 //判断其值在那2个数字之间
-                for (int i = 0; i < areacode.Length; i++)
+                for (int i = 0; i < areacode.Length - 1; i++)
                 {
                     //最后一个汉字的值
-                    int max = 55290;
-                    if (i != 25) max = areacode[i + 1];
+                    int max = areacode[i + 1];
                     if (areacode[i] <= code && code < max)
                     {
                         //转为字母返回
