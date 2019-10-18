@@ -865,8 +865,7 @@ namespace Paway.Forms
                         if (width < 0)
                         {
                             _imageSizeShow.Width = _itemSize.Width - _textPading.Left - _textPading.Right;
-                            _imageSizeShow.Height =
-                                (_imageSizeShow.Width * _imageSize.Height * 1.0 / _imageSize.Width).ToInt();
+                            _imageSizeShow.Height = (_imageSizeShow.Width * _imageSize.Height * 1.0 / _imageSize.Width).ToInt();
                         }
                         break;
                     case TLocation.Left:
@@ -874,8 +873,7 @@ namespace Paway.Forms
                         if (height < 0)
                         {
                             _imageSizeShow.Height = _itemSize.Height - _textPading.Top - _textPading.Bottom;
-                            _imageSizeShow.Width =
-                                (_imageSizeShow.Height * _imageSize.Width * 1.0 / _imageSize.Height).ToInt();
+                            _imageSizeShow.Width = (_imageSizeShow.Height * _imageSize.Width * 1.0 / _imageSize.Height).ToInt();
                         }
                         break;
                 }
@@ -914,7 +912,7 @@ namespace Paway.Forms
             SizeF size1 = TextRenderer.MeasureText(item.First, TextFirst.FontNormal, item.Rectangle.Size);
             SizeF size2 = TextRenderer.MeasureText(item.Sencond, TextSencond.FontNormal, item.Rectangle.Size);
             int width = Math.Max(size1.Width, size2.Width).ToInt() + _textPading.Left + _textPading.Right;
-            if (IImageShow && item.Image != null) width += ImageSize.Width + _textPading.Left + _textPading.Right;
+            if (IImageShow && item.Image != null) width += ImageSize.Width;
             if (_iAutoWidth)
             {
                 if (_itemSize.Width > 0)
@@ -1241,14 +1239,12 @@ namespace Paway.Forms
                     switch (_tLocation)
                     {
                         case TLocation.Up:
-                            textRect.Y += _imageSizeShow.Height + _textPading.Top;
-                            textRect.Height = item.Rectangle.Height - _imageSizeShow.Height - _textPading.Top * 2 -
-                                              _textPading.Bottom;
+                            textRect.Y += _imageSizeShow.Height;
+                            textRect.Height -= _imageSizeShow.Height;
                             break;
                         case TLocation.Left:
-                            textRect.X += _imageSizeShow.Width + _textPading.Left;
-                            textRect.Width = item.Rectangle.Width - _imageSizeShow.Width - _textPading.Left * 2 -
-                                             _textPading.Right;
+                            textRect.X += _imageSizeShow.Width;
+                            textRect.Width -= _imageSizeShow.Width;
                             break;
                     }
                 }
