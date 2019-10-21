@@ -128,7 +128,7 @@ namespace Paway.Helper
         private static string ToCode(Func<string, Tuple<bool, string>> action, string str, params string[] args)
         {
             if (str.IsNullOrEmpty()) return string.Empty;
-            string strTemp = null;
+            string strTemp = string.Empty;
             bool last = true;
             for (int i = 0; i < str.Length; i++)
             {
