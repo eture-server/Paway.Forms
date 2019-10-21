@@ -224,7 +224,7 @@
             this.toolUp.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolUp.TextFirst.ColorNormal = System.Drawing.Color.Black;
             this.toolUp.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
-            this.toolUp.TRadiu = 90;
+            this.toolUp.TRadiu = new System.Windows.Forms.Padding(90);
             this.toolUp.Trans = 150;
             // 
             // Form2

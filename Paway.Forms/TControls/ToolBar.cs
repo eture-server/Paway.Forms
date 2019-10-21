@@ -135,13 +135,13 @@ namespace Paway.Forms
         /// <summary>
         /// 圆角大小
         /// </summary>
-        private int _tRadiu;
+        private Padding _tRadiu = new Padding(0);
         /// <summary>
         /// 圆角大小
         /// </summary>
         [Description("圆角大小")]
-        [DefaultValue(0)]
-        public int TRadiu
+        [DefaultValue(typeof(Padding), "0,0,0,0")]
+        public Padding TRadiu
         {
             get { return _tRadiu; }
             set
@@ -1075,13 +1075,21 @@ namespace Paway.Forms
         /// </summary>
         private void DrawBackground(Graphics g, Color color, Color colorLine, ToolItem item)
         {
-            var radiu = item.TRadiu > _tRadiu ? item.TRadiu : _tRadiu;
-            if (radiu > 0)
+            var radiu = _tRadiu;
+            if (item.TRadiu.All != 0)
+            {
+                if (item.TRadiu.Top != _tRadiu.Top || item.TRadiu.Right != _tRadiu.Right ||
+                item.TRadiu.Bottom != _tRadiu.Bottom || item.TRadiu.Left != _tRadiu.Left)
+                {
+                    radiu = item.TRadiu;
+                }
+            }
+            if (radiu.All != 0)
             {
                 var rect = item.Rectangle;
                 if (color != Color.Empty)
                 {
-                    using (var path = DrawHelper.CreateRoundPath(rect, radiu))
+                    using (var path = DrawHelper.CreateRoundPath(rect, radiu, new Padding(0)))
                     using (var solidBrush = new SolidBrush(color))
                     {
                         g.FillPath(solidBrush, path);
@@ -1092,7 +1100,7 @@ namespace Paway.Forms
                     var temp = colorLine;
                     if (temp == Color.Transparent) temp = (color == Color.Empty ? Color.LightGray : color).AddLight(-15);
                     else temp = TranColor(colorLine);
-                    if (radiu == this.ItemSize.Width && radiu == this.ItemSize.Height)
+                    if (radiu.All == this.ItemSize.Width && radiu.All == this.ItemSize.Height)
                     {
                         //g.PixelOffsetMode = PixelOffsetMode.Default;
                         using (var pen = new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Left))
@@ -1105,7 +1113,7 @@ namespace Paway.Forms
                     }
                     else
                     {
-                        using (var path = DrawHelper.CreateRoundPath(rect, radiu, _linePading.Left))
+                        using (var path = DrawHelper.CreateRoundPath(rect, radiu, _linePading))
                         using (var pen = new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Left))
                         {
                             g.DrawPath(pen, path);

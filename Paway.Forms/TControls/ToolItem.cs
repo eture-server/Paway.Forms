@@ -236,13 +236,13 @@ namespace Paway.Forms
             }
         }
 
-        private int _tRadiu;
+        private Padding _tRadiu = new Padding(0);
         /// <summary>
         /// 圆角大小
         /// </summary>
         [Description("圆角大小")]
-        [DefaultValue(0)]
-        public int TRadiu
+        [DefaultValue(typeof(Padding), "0,0,0,0")]
+        public Padding TRadiu
         {
             get { return _tRadiu; }
             set

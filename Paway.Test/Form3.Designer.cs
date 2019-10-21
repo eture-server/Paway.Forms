@@ -83,9 +83,9 @@
             this.btChange.TextFirst.ColorMove = System.Drawing.Color.White;
             this.btChange.TextFirst.ColorNormal = System.Drawing.Color.Black;
             this.btChange.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
-            this.btChange.TLineColor.ColorDown = System.Drawing.Color.Transparent;
-            this.btChange.TLineColor.ColorMove = System.Drawing.Color.Transparent;
-            this.btChange.TLineColor.ColorNormal = System.Drawing.Color.Transparent;
+            this.btChange.TLineColor.ColorDown = System.Drawing.Color.Red;
+            this.btChange.TLineColor.ColorMove = System.Drawing.Color.Red;
+            this.btChange.TLineColor.ColorNormal = System.Drawing.Color.Red;
             this.btChange.Trans = 150;
             // 
             // Form3

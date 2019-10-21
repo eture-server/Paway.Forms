@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
@@ -170,14 +171,33 @@ namespace Paway.Helper
         /// <summary>
         /// 构建圆角路径
         /// </summary>
-        public static GraphicsPath CreateRoundPath(Rectangle rect, int cornerRadius, int line = 0)
+        public static GraphicsPath CreateRoundPath(Rectangle rect, Padding cornerRadius, Padding _linePading)
         {
             var roundedRect = new GraphicsPath();
-            var line2 = line / 2f;
-            roundedRect.AddArc(rect.X + line2, rect.Y + line2, cornerRadius - line, cornerRadius - line, 180, 90);
-            roundedRect.AddArc(rect.Right - cornerRadius + line2, rect.Y + line2, cornerRadius - line, cornerRadius - line, 270, 90);
-            roundedRect.AddArc(rect.Right - cornerRadius + line2, rect.Bottom - cornerRadius + line2, cornerRadius - line, cornerRadius - line, 0, 90);
-            roundedRect.AddArc(rect.X + line2, rect.Bottom - cornerRadius + line2, cornerRadius - line, cornerRadius - line, 90, 90);
+            var line2 = _linePading.Top / 2f;
+            int top = cornerRadius.Top - _linePading.Top;
+            if (top > 0) roundedRect.AddArc(rect.X + line2, rect.Y + line2, top, top, 180, 90);
+            else roundedRect.AddLine(rect.X + line2, rect.Y + line2,
+                rect.X + line2, rect.Y + line2);
+
+            line2 = _linePading.Right / 2f;
+            var line3 = Math.Abs(cornerRadius.Right - line2);
+            int right = cornerRadius.Right - _linePading.Right;
+            if (right > 0) roundedRect.AddArc(rect.Right - line3, rect.Y + line2, right, right, 270, 90);
+            else roundedRect.AddLine(rect.Right - line3, rect.Y + line2, rect.Right - line3, rect.Y + line2);
+
+            line2 = _linePading.Bottom / 2f;
+            line3 = Math.Abs(cornerRadius.Bottom - line2);
+            int bottom = cornerRadius.Bottom - _linePading.Bottom;
+            if (bottom > 0) roundedRect.AddArc(rect.Right - line3, rect.Bottom - line3, bottom, bottom, 0, 90);
+            else roundedRect.AddLine(rect.Right - line3, rect.Bottom - line3, rect.Right - line3, rect.Bottom - line3);
+
+            line2 = _linePading.Left / 2f;
+            line3 = Math.Abs(cornerRadius.Left - line2);
+            int left = cornerRadius.Left - _linePading.Left;
+            if (left > 0) roundedRect.AddArc(rect.X + line2, rect.Bottom - line3, left, left, 90, 90);
+            else roundedRect.AddLine(rect.X + line2, rect.Bottom - line3, rect.X + line2, rect.Bottom - line3);
+
             roundedRect.CloseFigure();
             return roundedRect;
         }
