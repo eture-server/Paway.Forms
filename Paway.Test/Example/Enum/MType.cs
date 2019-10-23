@@ -9,7 +9,7 @@ namespace Paway.Test
 {
     public enum MType
     {
-        [Description("None")]
+        [Description(TConfig.None)]
         None,
         Error,
         Wait,

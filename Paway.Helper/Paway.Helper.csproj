@@ -100,6 +100,7 @@
     <Compile Include="Helper\XmlHelper.cs" />
     <Compile Include="ILBuider\SortBuilder.cs" />
     <Compile Include="Info\FindInfo.cs" />
+    <Compile Include="Info\MultipleInfo.cs" />
     <Compile Include="Interface\IDataService.cs" />
     <Compile Include="Interface\IFind.cs" />
     <Compile Include="Interface\IInfo.cs" />

@@ -9,7 +9,7 @@ namespace Paway.Test
 {
     public enum UserType
     {
-        [Description("None")]
+        [Description(TConfig.None)]
         None = 0,
         User2 = 2,
         User3 = 3,

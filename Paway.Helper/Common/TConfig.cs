@@ -24,6 +24,14 @@ namespace Paway.Helper
         /// Loading...
         /// </summary>
         public const string Loading = "Loading...";
+        /// <summary>
+        /// None
+        /// </summary>
+        public const string None = "None";
+        /// <summary>
+        /// All
+        /// </summary>
+        public static string All = "All";
 
         #endregion
 

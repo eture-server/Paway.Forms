@@ -96,6 +96,12 @@
     <Compile Include="TExpand\TBaseControl.designer.cs">
       <DependentUpon>TBaseControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="TExpand\TMultipleEnum.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TExpand\TMultipleEnum.designer.cs">
+      <DependentUpon>TMultipleEnum.cs</DependentUpon>
+    </Compile>
     <Compile Include="TExpand\TQuery.cs">
       <SubType>UserControl</SubType>
     </Compile>
