@@ -646,8 +646,7 @@ namespace Paway.Utils
         #region protected 执行步骤
         private DbParameter AddParameters(string name, object value)
         {
-            var asmb = Assembly.GetAssembly(paramType);
-            var param = asmb.CreateInstance(paramType.FullName) as DbParameter;
+            var param = (DbParameter)Activator.CreateInstance(paramType);
             param.ParameterName = string.Format("@{0}", name);
             param.Value = value;
             return param;
