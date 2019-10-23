@@ -771,13 +771,15 @@ namespace Paway.Forms
             if (e.RowIndex != -1) return;
             if (_iCheckBoxName.IsNullOrEmpty()) return;
             _headerCheckBox.Visible = _iCheckBoxIndex != -1;
-            if (e.ColumnIndex == _iCheckBoxIndex)
+            var oRectangle = GetCellDisplayRectangle(_iCheckBoxIndex, e.RowIndex, true);
+            if (e.ColumnIndex == _iCheckBoxIndex || oRectangle.Width == 0)
             {
-                var oRectangle = GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+                var width = this.Columns[_iCheckBoxIndex].Width;
+                var x = oRectangle.X + oRectangle.Width - width;
                 var oPoint = new Point()
                 {
-                    X = oRectangle.Location.X + (oRectangle.Width - _headerCheckBox.Width) / 2 + 1,
-                    Y = oRectangle.Location.Y + (oRectangle.Height - _headerCheckBox.Height) / 2 + 1
+                    X = x + (width - _headerCheckBox.Width) / 2,
+                    Y = oRectangle.Y + (oRectangle.Height - _headerCheckBox.Height) / 2 + 1
                 };
                 _headerCheckBox.Location = oPoint;
             }
@@ -1057,16 +1059,26 @@ namespace Paway.Forms
                     //写小标题
                     g.DrawString(string.Format("{0}", e.Value), e.CellStyle.Font, fontBrush,
                         new Rectangle(left, (top + bottom) / 2, right - left, (bottom - top) / 2), DrawHelper.StringCenter);
+
+                    //计算表头位置并绘制
                     left = GetColumnDisplayRectangle(SpanRows[e.ColumnIndex].Left, false).Left - 2;
-                    if (left >= 0)
+                    //实际宽度
+                    var width = 0;
+                    //显示宽度
+                    var showWidth = 0;
+                    for (int i = SpanRows[e.ColumnIndex].Left; i <= SpanRows[e.ColumnIndex].Right; i++)
                     {
-                        right = GetColumnDisplayRectangle(SpanRows[e.ColumnIndex].Right, false).Right - 2;
-                        if (right >= 0)
+                        var rectangle = GetColumnDisplayRectangle(i, false);
+                        if (Columns[i].Visible)
                         {
-                            g.DrawString(SpanRows[e.ColumnIndex].Text, e.CellStyle.Font, fontBrush,
-                                new Rectangle(left, top, right - left, (bottom - top) / 2), DrawHelper.StringCenter);
+                            if (showWidth <= 0) left += rectangle.Width - Columns[i].Width;
+                            showWidth += rectangle.Width;
+                            width += Columns[i].Width;
                         }
                     }
+                    g.DrawString(SpanRows[e.ColumnIndex].Text, e.CellStyle.Font, fontBrush,
+                        new Rectangle(left, top, width, (bottom - top) / 2), DrawHelper.StringCenter);
+
                     e.Handled = true;
                 }
             }
