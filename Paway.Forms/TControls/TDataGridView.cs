@@ -929,8 +929,15 @@ namespace Paway.Forms
             {
                 format = DrawHelper.TextCenter;
             }
+            var y = e.CellBounds.Y - cellheight * (UpRows - 1);
+            var height = cellheight * count;
+            if (y < this.ColumnHeadersHeight)
+            {
+                height += (y - this.ColumnHeadersHeight) * 2;
+                y = this.ColumnHeadersHeight;
+            }
             TextRenderer.DrawText(e.Graphics, value, e.CellStyle.Font,
-                new Rectangle(e.CellBounds.X, e.CellBounds.Y - cellheight * (UpRows - 1), e.CellBounds.Width, cellheight * count),
+                new Rectangle(e.CellBounds.X, y, e.CellBounds.Width, height),
                 e.CellStyle.ForeColor, format);
         }
 
