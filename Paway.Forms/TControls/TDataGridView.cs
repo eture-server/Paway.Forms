@@ -1220,7 +1220,7 @@ namespace Paway.Forms
         public void SetOffsetRowIndex(int offset)
         {
             if (offset > this.RowCount - 1) offset = this.RowCount - 1;
-            this.FirstDisplayedScrollingRowIndex = offset;
+            if (offset != -1) this.FirstDisplayedScrollingRowIndex = offset;
         }
         /// <summary>
         /// 自动选中焦点
