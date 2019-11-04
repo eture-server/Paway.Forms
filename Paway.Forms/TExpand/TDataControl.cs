@@ -540,6 +540,7 @@ namespace Paway.Forms
         }
         private bool IFind()
         {
+            if (!this.ILoad) return false;
             return (bool)this.Invoke(new Func<bool>(() =>
             {
                 return panel2.Visible && !tbName.IError && !tbName.Text.Trim().IsNullOrEmpty();
@@ -553,7 +554,7 @@ namespace Paway.Forms
             var offset = gridview1.Edit.FirstDisplayedScrollingRowIndex;
             OnFound(this.FList);
             gridview1.AutoCell(index);
-            if (index > 0) gridview1.Edit.FirstDisplayedScrollingRowIndex = offset;
+            if (index > 0) gridview1.Edit.SetOffsetRowIndex(offset);
             if (focus) this.tbName.Focus();
             return true;
         }

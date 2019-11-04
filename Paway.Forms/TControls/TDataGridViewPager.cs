@@ -413,7 +413,7 @@ namespace Paway.Forms
             var offset = this.Edit.FirstDisplayedScrollingRowIndex;
             this.RefreshData();
             AutoCell(index);
-            if (iOffset) this.Edit.FirstDisplayedScrollingRowIndex = offset;
+            if (iOffset) this.Edit.SetOffsetRowIndex(offset);
         }
         /// <summary>
         /// 自动选中焦点

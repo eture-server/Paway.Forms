@@ -1212,7 +1212,15 @@ namespace Paway.Forms
             var offset = this.FirstDisplayedScrollingRowIndex;
             if (iRefresh) this.RefreshData();
             AutoCell(index);
-            if (iOffset) this.FirstDisplayedScrollingRowIndex = offset;
+            if (iOffset) SetOffsetRowIndex(offset);
+        }
+        /// <summary>
+        /// 设置显示行
+        /// </summary>
+        public void SetOffsetRowIndex(int offset)
+        {
+            if (offset > this.RowCount - 1) offset = this.RowCount - 1;
+            this.FirstDisplayedScrollingRowIndex = offset;
         }
         /// <summary>
         /// 自动选中焦点
