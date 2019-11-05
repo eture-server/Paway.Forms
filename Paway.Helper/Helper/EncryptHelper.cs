@@ -13,374 +13,344 @@ namespace Paway.Helper
     /// </summary>
     public abstract class EncryptHelper
     {
-        #region 字符加解密
+        #region 密钥
+        /// <summary>
+        /// 默认密钥向量(AES)
+        /// </summary>
+        private static readonly byte[] _key1 =
+        {
+            0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF, 0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF
+        };
+        private static readonly byte[] _key2 =
+        {
+            0x37, 0x67, 0xF6, 0x4F, 0x24, 0x63, 0xA7, 0x1E
+        };
+        private static readonly string _key3 = "ningboyichang@#$"; //密钥,128位
+
+        #endregion
+
+        #region SHA
         /// <summary>
         /// sha256加密
-        /// 返回字符串
         /// </summary>
-        public static string EncryptSHA256(string str)
+        /// <returns>返回字符串长度64(以十六进制字符串表示形式)</returns>
+        public static string EncryptSHA256(string content)
         {
-            byte[] key = Encoding.UTF8.GetBytes(str);
+            byte[] data = Encoding.UTF8.GetBytes(content);
             using (var Sha256 = new SHA256Managed())
             {
-                byte[] buffer = Sha256.ComputeHash(key);
-                return Convert.ToBase64String(buffer);
+                byte[] buffer = Sha256.ComputeHash(data);
+                return BitConverter.ToString(buffer).Replace("-", string.Empty);
             }
         }
         /// <summary>
-        /// sha1加密
-        /// 返回字节组(长度40)
+        /// sha1加密，返回字节组
         /// </summary>
-        public static string EncryptSHA1(string str)
+        /// <returns>返回字符串长度40(以十六进制字符串表示形式)</returns>
+        public static string EncryptSHA1(string content)
         {
-            var buffer = Encoding.UTF8.GetBytes(str);
+            var data = Encoding.UTF8.GetBytes(content);
             using (var sha1 = SHA1.Create())
             {
-                var data = sha1.ComputeHash(buffer);
-                return BitConverter.ToString(data).Replace("-", "").ToLower();
-                //var result = new StringBuilder();
-                //foreach (var item in data)
-                //{
-                //    result.Append(item.ToString("x2"));
-                //}
-                //return result.ToString();
+                var buffer = sha1.ComputeHash(data);
+                return BitConverter.ToString(buffer).Replace("-", string.Empty);
             }
         }
+
+        #endregion
+
+        #region DES
         /// <summary>
-        /// MD5加密
+        /// DES加密
         /// </summary>
-        public static string EncryptMD5(string str)
+        /// <returns>返回字符串(以十六进制字符串表示形式)</returns>
+        public static string EncryptDES(string content, string key)
         {
-            string result;
-            using (MD5 md = new MD5CryptoServiceProvider())
+            if (key == null || key.Length < 4) throw new ArgumentException("key长度错误");
+            var bKey = new byte[8];
+            Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
+            using (var des = new DESCryptoServiceProvider())
             {
-                var bytes = Encoding.UTF8.GetBytes(str);
-                var inArray = md.ComputeHash(bytes);
-                var sBuilder = new StringBuilder();
-                for (var i = 0; i < inArray.Length; i++)
+                des.Key = bKey;
+                des.IV = _key2;
+                byte[] buffer = Encoding.Default.GetBytes(content);
+                var ms = new MemoryStream();
+                using (var cs = new CryptoStream(ms, des.CreateEncryptor(), CryptoStreamMode.Write))
                 {
-                    sBuilder.Append(inArray[i].ToString("x2"));
+                    cs.Write(buffer, 0, buffer.Length);
+                    cs.FlushFinalBlock();
                 }
-                result = sBuilder.ToString();
+                return BitConverter.ToString(ms.ToArray()).Replace("-", string.Empty);
             }
-            return result;
         }
         /// <summary>
-        /// 取16位MD5码(8,16)
+        /// DES解密
         /// </summary>
-        public static string EncryptMD5_16(string str)
+        public static string DecryptDES(string content, string key)
         {
-            return EncryptMD5(str).Substring(8, 16);
+            if (key == null || key.Length < 4) throw new ArgumentException("key长度错误");
+            var bKey = new byte[8];
+            Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
+            using (var des = new DESCryptoServiceProvider())
+            {
+                byte[] buffer = new byte[content.Length / 2];
+                for (int x = 0; x < buffer.Length; x++)
+                {
+                    int i = Convert.ToInt32(content.Substring(x * 2, 2), 16);
+                    buffer[x] = (byte)i;
+                }
+                des.Key = bKey;
+                des.IV = _key2;
+                var ms = new MemoryStream();
+                using (var cs = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Write))
+                {
+                    cs.Write(buffer, 0, buffer.Length);
+                    cs.FlushFinalBlock();
+                }
+                return Encoding.UTF8.GetString(ms.ToArray());
+            }
         }
-        /// <summary>
-        /// 取8位MD5码(8,8)
-        /// </summary>
-        public static string EncryptMD5_8(string str)
-        {
-            return EncryptMD5(str).Substring(8, 8);
-        }
-        /// <summary>
-        /// 取4位MD5码(8,4)
-        /// </summary>
-        public static string EncryptMD5_4(string str)
-        {
-            return EncryptMD5(str).Substring(8, 4);
-        }
+
+        #endregion
+
+        #region 3DES
         /// <summary>
         /// 3DES加密
         /// </summary>
+        /// <returns>返回字符串(以十六进制字符串表示形式)</returns>
         public static string Encrypt3DES(string content, string key)
         {
+            if (key == null || key.Length < 8) throw new ArgumentException("key长度错误");
+            var bKey = new byte[24];
+            Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
             using (var provider = new TripleDESCryptoServiceProvider())
             {
-                var buffer3 = Encoding.UTF8.GetBytes(content);
-                provider.Key = Encoding.UTF8.GetBytes(key);
+                provider.Key = bKey;
                 provider.Mode = CipherMode.ECB;
-                var stream = new MemoryStream();
-                var transform = provider.CreateEncryptor();
-                using (var stream2 = new CryptoStream(stream, transform, CryptoStreamMode.Write))
+                var buffer = Encoding.UTF8.GetBytes(content);
+                var ms = new MemoryStream();
+                using (var cs = new CryptoStream(ms, provider.CreateEncryptor(), CryptoStreamMode.Write))
                 {
-                    stream2.Write(buffer3, 0, buffer3.Length);
-                    stream2.FlushFinalBlock();
+                    cs.Write(buffer, 0, buffer.Length);
+                    cs.FlushFinalBlock();
                 }
-                return Convert.ToBase64String(stream.ToArray());
+                return BitConverter.ToString(ms.ToArray()).Replace("-", string.Empty);
             }
         }
         /// <summary>
         /// 3DES解密
         /// </summary>
-        public static string Decrypt3DES(string sourceData, string key)
+        public static string Decrypt3DES(string content, string key)
         {
-            if (sourceData == null) sourceData = string.Empty;
+            if (key == null || key.Length < 8) throw new ArgumentException("key长度错误");
+            var bKey = new byte[24];
+            Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
             using (var des = new TripleDESCryptoServiceProvider())
             {
-                var content = Convert.FromBase64String(sourceData);
-                des.Key = Encoding.UTF8.GetBytes(key);
-                des.Mode = CipherMode.ECB;
-                var transform = des.CreateDecryptor();
-                var ms = new MemoryStream();
-                using (var cs = new CryptoStream(ms, transform, CryptoStreamMode.Write))
+                byte[] buffer = new byte[content.Length / 2];
+                for (int x = 0; x < buffer.Length; x++)
                 {
-                    cs.Write(content, 0, content.Length);
+                    int i = Convert.ToInt32(content.Substring(x * 2, 2), 16);
+                    buffer[x] = (byte)i;
+                }
+                des.Key = bKey;
+                des.Mode = CipherMode.ECB;
+                var ms = new MemoryStream();
+                using (var cs = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Write))
+                {
+                    cs.Write(buffer, 0, buffer.Length);
                     cs.FlushFinalBlock();
-                    var b = ms.ToArray();
-                    return Encoding.UTF8.GetString(b, 0, b.Length);
+                    return Encoding.UTF8.GetString(ms.ToArray());
                 }
             }
         }
 
-        /// <summary>
-        /// 默认密钥向量
-        /// </summary>
-        private static readonly byte[] _key1 =
-        {
-            0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF, 0x12, 0x34, 0x56, 0x78,
-            0x90, 0xAB, 0xCD, 0xEF
-        };
+        #endregion
+
+        #region AES
         /// <summary>
         /// 加密AES算法
         /// </summary>
-        /// <param name="text">明文字符串</param>
+        /// <param name="content">明文字符串</param>
         /// <param name="key">私钥</param>
-        /// <returns>返回加密后的密文字符串</returns>
-        public static string EncryptAES(string text, string key)
+        /// <returns>返回字符串(以十六进制字符串表示形式)</returns>
+        public static string EncryptAES(string content, string key)
         {
-            var dtat = Encoding.UTF8.GetBytes(text); //得到需要加密的字节数组	
-            var bytes = EncryptAES(dtat, key);
-            return Convert.ToBase64String(bytes);
+            var data = Encoding.UTF8.GetBytes(content); //得到需要加密的字节数组	
+            var buffer = EncryptAES(data, key);
+            return BitConverter.ToString(buffer).Replace("-", string.Empty);
         }
         /// <summary>
         /// AES加密算法
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="key"></param>
-        /// <returns>返回加密后的密文字节数组</returns>
         public static byte[] EncryptAES(byte[] data, string key)
         {
+            if (key == null || key.Length < 8) throw new ArgumentException("key长度错误");
+            var bKey = new byte[32];
+            Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
             //分组加密算法
             using (var des = Rijndael.Create())
             {
                 //设置密钥及密钥向量
-                des.Key = Encoding.UTF8.GetBytes(key);
+                des.Key = bKey;
                 des.IV = _key1;
                 var ms = new MemoryStream();
-                var cs = new CryptoStream(ms, des.CreateEncryptor(), CryptoStreamMode.Write);
-                cs.Write(data, 0, data.Length);
-                cs.FlushFinalBlock();
-                var bytes = ms.ToArray(); //得到加密后的字节数组
-                cs.Close();
-                return bytes;
+                using (var cs = new CryptoStream(ms, des.CreateEncryptor(), CryptoStreamMode.Write))
+                {
+                    cs.Write(data, 0, data.Length);
+                    cs.FlushFinalBlock();
+                    return ms.ToArray(); //得到加密后的字节数组
+                }
             }
         }
 
         /// <summary>
         /// 解密AES
         /// </summary>
-        /// <param name="text">密文字节数组</param>
+        /// <param name="content">密文字节数组</param>
         /// <param name="key">私钥</param>
         /// <returns>返回解密后的字符串</returns>
-        public static string DecryptAES(string text, string key)
+        public static string DecryptAES(string content, string key)
         {
-            var bytes = Convert.FromBase64String(text);
-            var decryptBytes = DecryptAES(bytes, key);
+            byte[] buffer = new byte[content.Length / 2];
+            for (int x = 0; x < buffer.Length; x++)
+            {
+                int i = Convert.ToInt32(content.Substring(x * 2, 2), 16);
+                buffer[x] = (byte)i;
+            }
+            var decryptBytes = DecryptAES(buffer, key);
             return Encoding.UTF8.GetString(decryptBytes);
         }
         /// <summary>
         /// 解密AES
         /// </summary>
-        /// <param name="bytes">密文字节数组</param>
-        /// <param name="key">私钥</param>
-        /// <returns>返回解密后的字符串</returns>
-        public static byte[] DecryptAES(byte[] bytes, string key)
+        public static byte[] DecryptAES(byte[] data, string key)
         {
+            if (key == null || key.Length < 8) throw new ArgumentException("key长度错误");
+            var bKey = new byte[32];
+            Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
             using (var des = Rijndael.Create())
             {
-                des.Key = Encoding.UTF8.GetBytes(key);
+                des.Key = bKey;
                 des.IV = _key1;
-                var decryptBytes = new byte[bytes.Length];
-                var ms = new MemoryStream(bytes);
-                var cs = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Read);
-                cs.Read(decryptBytes, 0, decryptBytes.Length);
-                cs.Close();
-                return decryptBytes;
+                var buffer = new byte[data.Length];
+                var ms = new MemoryStream(data);
+                using (var cs = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Read))
+                {
+                    int length = cs.Read(buffer, 0, buffer.Length);
+                    byte[] result = new byte[length];
+                    Array.Copy(buffer, 0, result, 0, length);
+                    return result;
+                }
             }
         }
 
         #endregion
 
-        #region MD5文件与数组加密
+        #region MD5
         /// <summary>
-        /// 实现对一个文件md5的读取，path为文件路径
+        /// 获取字符串MD5检验码
         /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public static string GetMD5(string path)
+        /// <returns>返回字符串(以十六进制字符串表示形式)</returns>
+        public static string MD5(string content)
         {
-            using (Stream file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                return GetMD5(file);
-            }
-        }
-
-        /// <summary>
-        /// 获取流的 MD5 值
-        /// </summary>
-        /// <param name="s">流</param>
-        /// <returns>MD5 值</returns>
-        public static string GetMD5(Stream s)
-        {
-            byte[] hash_byte;
             using (var md5 = new MD5CryptoServiceProvider())
             {
-                hash_byte = md5.ComputeHash(s);
+                var data = Encoding.UTF8.GetBytes(content);
+                var buffer = md5.ComputeHash(data);
+                return BitConverter.ToString(buffer).Replace("-", string.Empty);
             }
-            return GetMD5String(hash_byte);
         }
-
         /// <summary>
-        /// 获取数组的 MD5 值
+        /// 取16位MD5码(8,16)
         /// </summary>
-        /// <param name="buffer">数组</param>
-        /// <returns>MD5 值</returns>
-        public static string GetMD5(byte[] buffer)
+        public static string MD5_16(string str)
         {
-            byte[] hash_byte;
+            return MD5(str).Substring(8, 16);
+        }
+        /// <summary>
+        /// 取8位MD5码(8,8)
+        /// </summary>
+        public static string MD5_8(string str)
+        {
+            return MD5(str).Substring(8, 8);
+        }
+        /// <summary>
+        /// byte数组MD5值
+        /// </summary>
+        public static string MD5(byte[] data, int offset = 0, int count = 0)
+        {
+            if (count == 0) count = data.Length;
             using (var md5 = new MD5CryptoServiceProvider())
             {
-                hash_byte = md5.ComputeHash(buffer);
+                var buffer = md5.ComputeHash(data, offset, count);
+                return BitConverter.ToString(buffer).Replace("-", string.Empty);
             }
-            return GetMD5String(hash_byte);
         }
-
         /// <summary>
-        /// 获取数组的 MD5 值
+        /// 文件MD5校验码
         /// </summary>
-        /// <param name="buffer">数组</param>
-        /// <param name="offset">偏移</param>
-        /// <param name="count">长度</param>
-        /// <returns>MD5 值</returns>
-        public static string GetMD5(byte[] buffer, int offset, int count)
+        public static string FileMD5(string file)
         {
-            byte[] hash_byte;
-            using (var md5 = new MD5CryptoServiceProvider())
+            using (var fs = new FileStream(file, FileMode.Open))
             {
-                hash_byte = md5.ComputeHash(buffer, offset, count);
+                using (var md5 = new MD5CryptoServiceProvider())
+                {
+                    byte[] buffer = md5.ComputeHash(fs);
+                    return BitConverter.ToString(buffer).Replace("-", string.Empty);
+                }
             }
-            return GetMD5String(hash_byte);
-        }
-
-        /// <summary>
-        /// 获取数组的 MD5 值
-        /// </summary>
-        /// <param name="hash_byte">数组</param>
-        /// <returns>MD5 值</returns>
-        private static string GetMD5String(byte[] hash_byte)
-        {
-            var resule = BitConverter.ToString(hash_byte);
-            resule = resule.Replace("-", string.Empty);
-            return resule;
         }
 
         #endregion
 
-        #region 文件加解密
-
-        private static readonly object fileLock = new object();
-        private static readonly string keys = "ningboyichang@#$"; //密钥,128位
-        private static readonly string MSVersions = "Tinn01";
-
+        #region 文件加解密(AES)
         /// <summary>
         /// 加密AES文件
         /// </summary>
-        public static void EncryptFileAES(string encryptFile, string decryptFile)
+        public static void FileEncryptAES(string encryptFile, string decryptFile)
         {
-            lock (fileLock)
+            var data = GetFileData(encryptFile);
+            if (data.Length == 0) throw new ArgumentException("数据文件不存在");
+            var buffer = EncryptAES(data, _key3);
+            using (var fs = File.Create(decryptFile))
             {
-                var data = GetFileData(encryptFile);
-                if (data.Length == 0) throw new ArgumentException("需要加密的文件不存在");
-
-                var encryptBytes = EncryptAES(data, keys);
-                var listData = new List<byte>(encryptBytes);
-                var versionsData = Encoding.UTF8.GetBytes(MSVersions);
-                for (var i = 0; i < versionsData.Length; i++)
-                {
-                    listData.Add(versionsData[i]);
-                }
-
-                FileStream fs1 = null;
-                try
-                {
-                    fs1 = File.Create(decryptFile);
-                    fs1.Write(listData.ToArray(), 0, listData.Count);
-                }
-                finally
-                {
-                    if (fs1 != null)
-                    {
-                        fs1.Close();
-                        fs1 = null;
-                    }
-                }
+                fs.Write(buffer, 0, buffer.Length);
+                fs.Flush();
             }
         }
-
         /// <summary>
         /// 获取文件流
         /// </summary>
-        /// <param name="encryptFile"></param>
+        /// <param name="file"></param>
         /// <returns></returns>
-        private static byte[] GetFileData(string encryptFile)
+        private static byte[] GetFileData(string file)
         {
-            if (File.Exists(encryptFile))
+            if (File.Exists(file))
             {
-                var fs = File.OpenRead(encryptFile);
-                var data = new byte[fs.Length];
-                fs.Read(data, 0, data.Length);
-                if (fs != null)
+                using (var fs = File.OpenRead(file))
                 {
-                    fs.Close();
+                    var data = new byte[fs.Length];
+                    fs.Read(data, 0, data.Length);
+                    return data;
                 }
-                return data;
             }
             return new byte[0];
         }
-
         /// <summary>
         /// 解密AES文件
         /// </summary>
         /// <param name="decryptFile">要解密的文件</param>
         /// <param name="encryptFile">解密后存放的路劲</param>
-        public static void DecryptFileAES(string decryptFile, string encryptFile)
+        public static void FileDecryptAES(string decryptFile, string encryptFile)
         {
-            lock (fileLock)
+            var data = GetFileData(decryptFile);
+            if (data.Length == 0) throw new ArgumentException("数据文件不存在");
+            var buffer = DecryptAES(data, _key3);
+            using (var fs = File.Create(encryptFile))
             {
-                var listData = new List<byte>(GetFileData(decryptFile));
-                var num = Encoding.UTF8.GetBytes(MSVersions).Length;
-                for (var i = 0; i < num; i++)
-                {
-                    var j = listData.Count - 1;
-                    listData.RemoveAt(j);
-                }
-                var data = listData.ToArray();
-                if (data.Length == 0) throw new ArgumentException("数据文件不存在");
-
-                var decryptBytes = DecryptAES(data, keys);
-                if (!File.Exists(encryptFile)) throw new ArgumentException("数据文件不存在");
-
-                FileStream fs1 = null;
-                try
-                {
-                    fs1 = File.OpenWrite(encryptFile);
-                    fs1.Write(decryptBytes, 0, decryptBytes.Length);
-                }
-                finally
-                {
-                    if (fs1 != null)
-                    {
-                        fs1.Close();
-                        fs1 = null;
-                    }
-                }
+                fs.Write(buffer, 0, buffer.Length);
+                fs.Flush();
             }
         }
 

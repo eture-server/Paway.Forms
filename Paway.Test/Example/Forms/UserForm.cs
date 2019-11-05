@@ -46,7 +46,7 @@ namespace Paway.Test
             this.Info.Name = tbName.Text;
             if (!this.tbPad.Text.IsNullOrEmpty())
             {
-                this.Info.Pad = EncryptHelper.EncryptMD5(this.tbPad.Text + Config.Suffix);
+                this.Info.Pad = EncryptHelper.MD5(this.tbPad.Text + Config.Suffix);
             }
         }
 

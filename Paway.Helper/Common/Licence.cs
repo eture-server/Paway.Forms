@@ -21,7 +21,7 @@ namespace Paway.Helper
         {
             var host = HardWareHelper.GetCpuId();
             var Licence = ConfigurationManager.AppSettings["licence"];
-            return Licence != null && Licence == EncryptHelper.EncryptMD5_16(host + key);
+            return Licence != null && Licence == EncryptHelper.MD5_16(host + key);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Paway.Helper
         /// <returns></returns>
         public static string GetLicence(string host, string key)
         {
-            return EncryptHelper.EncryptMD5_16(host + key);
+            return EncryptHelper.MD5_16(host + key);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Paway.Helper
         /// </summary>
         public static void Checking(int days, bool ithrow = false)
         {
-            EncryptHelper.EncryptMD5(days.ToString());
+            EncryptHelper.MD5(days.ToString());
             var file = new FileInfo(Assembly.GetExecutingAssembly().Location);
             var ts = DateTime.Now.Subtract(file.LastWriteTime);
             //全球时间24小时以内

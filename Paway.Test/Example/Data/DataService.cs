@@ -33,7 +33,7 @@ namespace Paway.Test
             {
                 UserInfo info = new UserInfo();
                 info.Name = "admin";
-                info.Pad = EncryptHelper.EncryptMD5("admin" + Config.Suffix);
+                info.Pad = EncryptHelper.MD5("admin" + Config.Suffix);
                 Insert(info);
             }
         }
@@ -77,7 +77,7 @@ namespace Paway.Test
         #region Logon
         public UserInfo EncryptLogin(string name, string pad)
         {
-            return Login(name, EncryptHelper.EncryptMD5("admin" + Config.Suffix));
+            return Login(name, EncryptHelper.MD5("admin" + Config.Suffix));
         }
         public UserInfo Login(string name, string pad)
         {
@@ -114,9 +114,9 @@ namespace Paway.Test
         {
             if (Config.User == null) throw new WarningException("用户尚未登陆");
             if (newPad != newPad2) throw new WarningException("两次输入密码不一致");
-            if (Config.User.Pad != EncryptHelper.EncryptMD5(pad + Config.Suffix)) throw new WarningException("用户密码错误");
+            if (Config.User.Pad != EncryptHelper.MD5(pad + Config.Suffix)) throw new WarningException("用户密码错误");
             Config.User.DateTime = DateTime.Now;
-            Config.User.Pad = EncryptHelper.EncryptMD5(newPad + Config.Suffix);
+            Config.User.Pad = EncryptHelper.MD5(newPad + Config.Suffix);
             Update(Config.User, nameof(UserInfo.DateTime), nameof(UserInfo.Pad));
         }
 
