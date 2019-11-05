@@ -24,7 +24,6 @@ namespace Paway.Forms
         private double _targetOpacity;
         private readonly Timer timer = null;
         private readonly ProgressStates states;
-        public ProgressState State { get { return this.states.CurrentState; } }
         public IntPtr WindowToWatch { get { return this.states.CurrentHandle; } }
         public string Caption { get { return this.states.CurrentCaption; } }
         public bool ShowCancel { get { return this.states.ShowCancel; } }

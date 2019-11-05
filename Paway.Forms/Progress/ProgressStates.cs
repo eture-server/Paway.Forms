@@ -52,17 +52,6 @@ namespace Paway.Forms
                 }
             }
         }
-        public ProgressState CurrentState
-        {
-            get
-            {
-                lock (this._states)
-                {
-                    if (this._states.Count < 1) return null;
-                    return this._states[this._states.Count - 1];
-                }
-            }
-        }
         public IntPtr CurrentHandle
         {
             get

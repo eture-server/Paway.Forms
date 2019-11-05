@@ -152,7 +152,7 @@ namespace Paway.Helper
         /// <summary>
         /// 获取顶层窗体
         /// </summary>
-        public static Control TopForm(Control obj)
+        public static Control TopForm(Control obj = null)
         {
             while (obj is Control && !(obj is Form))
             {

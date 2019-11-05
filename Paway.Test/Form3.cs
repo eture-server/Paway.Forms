@@ -12,6 +12,7 @@ using System.Text;
 using System.Windows.Forms;
 using Paway.Helper;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Paway.Test
 {
@@ -39,13 +40,16 @@ namespace Paway.Test
             toolBar1.TranImage = iChange ? Resources.i1 : Resources.noon;
             toolBar1.TranLaterImage = iChange ? Resources.noon : Resources.i1;
             toolBar1.MStart();
-            using (var progress = new Progress(Config.Loading, 700))
+            using (var progress = new Progress(Config.Loading))
             {
-                for (int i = 0; i < 15 * 10; i++)
+                Task.Run(() =>
                 {
-                    if (progress.ICancel) return;
-                    Thread.Sleep(100);
-                }
+                    for (int i = 0; i < 15 * 10; i++)
+                    {
+                        if (progress.ICancel) return;
+                        Thread.Sleep(100);
+                    }
+                }).Wait();
             }
         }
     }

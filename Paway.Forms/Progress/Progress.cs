@@ -121,7 +121,6 @@ namespace Paway.Forms
         /// <param name="max">最大值</param>
         public Progress(IntPtr owner, bool canCancel = false, string caption = TConfig.Loading, int delay = 0, int max = 0)
         {
-            Application.DoEvents();
             this._state = new ProgressState(owner, caption, canCancel, delay, max);
             this._state.CancelEvent += State_CancelEvent;
             states.Add(this._state);
