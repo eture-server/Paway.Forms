@@ -22,6 +22,11 @@
         /// <summary>
         /// 关闭按钮，最小化
         /// </summary>
-        Close_Mini
+        Close_Mini,
+
+        /// <summary>
+        /// 关闭按钮，最大化
+        /// </summary>
+        Close_Max,
     }
 }

@@ -994,7 +994,7 @@ namespace Paway.Forms
                 MinState = TMouseState.Down;
             else if (MaxRect.Contains(point))
                 MaxState = TMouseState.Down;
-            if (_sysButton == TSysButton.Normal && e.Clicks == 2)
+            if ((_sysButton == TSysButton.Normal || _sysButton == TSysButton.Close_Max) && e.Clicks == 2)
             {
                 WindowMax();
             }
@@ -1150,7 +1150,7 @@ namespace Paway.Forms
                 {
                     param.ExStyle = (int)WindowStyle.WS_SYSMENU;
                 }
-                if (_sysButton != TSysButton.Close)
+                if (_sysButton == TSysButton.Normal || _sysButton == TSysButton.Close_Mini)
                 {
                     param.Style |= (int)WindowStyle.WS_MINIMIZEBOX; // 允许最小化操作
                 }
@@ -1322,13 +1322,22 @@ namespace Paway.Forms
                     NativeMethods.InsertMenu(menu, 0, (this.WindowState == FormWindowState.Maximized) ? 2 : 0, (IntPtr)MenuType.MaxSize, "最大化");
                     break;
                 //关闭按钮
+                case TSysButton.None:
                 case TSysButton.Close:
-                    NativeMethods.InsertMenu(menu, 0, 0, (IntPtr)MenuType.About, "关于");
                     NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_MINIMIZE, 0x0);
+                    NativeMethods.InsertMenu(menu, 0, 0, (IntPtr)MenuType.About, "关于");
                     break;
                 //关闭按钮，最小化
                 case TSysButton.Close_Mini:
                     NativeMethods.InsertMenu(menu, (int)WindowStyle.SC_MINIMIZE, 0, (IntPtr)MenuType.About, "关于");
+                    NativeMethods.InsertMenu(menu, (int)WindowStyle.SC_MINIMIZE, 0, (IntPtr)MenuType.None, null);
+                    break;
+                case TSysButton.Close_Max:
+                    NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_MINIMIZE, 0x0);
+                    NativeMethods.InsertMenu(menu, 0, 0, (IntPtr)MenuType.About, "关于");
+                    NativeMethods.InsertMenu(menu, 0, 0, (IntPtr)MenuType.None, null);
+                    NativeMethods.InsertMenu(menu, 0, (this.WindowState == FormWindowState.Maximized) ? 0 : 2, (IntPtr)MenuType.Restore, "还原");
+                    NativeMethods.InsertMenu(menu, 0, (this.WindowState == FormWindowState.Maximized) ? 2 : 0, (IntPtr)MenuType.MaxSize, "最大化");
                     break;
             }
         }

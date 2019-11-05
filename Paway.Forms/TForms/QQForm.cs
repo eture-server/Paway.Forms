@@ -96,17 +96,24 @@ namespace Paway.Forms
                 {
                     case TSysButton.Normal:
                         DrawButton(g, MinState, MiniRect, "mini");
-                        DrawButton(g, CloseState, CloseRect, "close");
                         if (WindowState == FormWindowState.Maximized)
                             DrawButton(g, MaxState, MaxRect, "restore");
                         else
                             DrawButton(g, MaxState, MaxRect, "max");
+                        DrawButton(g, CloseState, CloseRect, "close");
                         break;
                     case TSysButton.Close:
                         DrawButton(g, CloseState, CloseRect, "close");
                         break;
                     case TSysButton.Close_Mini:
                         DrawButton(g, MinState, MiniRect, "mini");
+                        DrawButton(g, CloseState, CloseRect, "close");
+                        break;
+                    case TSysButton.Close_Max:
+                        if (WindowState == FormWindowState.Maximized)
+                            DrawButton(g, MaxState, MaxRect, "restore");
+                        else
+                            DrawButton(g, MaxState, MaxRect, "max");
                         DrawButton(g, CloseState, CloseRect, "close");
                         break;
                 }
@@ -129,6 +136,7 @@ namespace Paway.Forms
                 switch (SysButton)
                 {
                     case TSysButton.Normal:
+                    case TSysButton.Close_Max:
                         x = Width - CloseRect.Width - width;
                         break;
                     default:
@@ -146,7 +154,7 @@ namespace Paway.Forms
         {
             get
             {
-                var x = 0;
+                int x;
                 var width = 28;
                 switch (SysButton)
                 {
@@ -156,7 +164,7 @@ namespace Paway.Forms
                     case TSysButton.Close_Mini:
                         x = Width - width - CloseRect.Width;
                         break;
-                    case TSysButton.Close:
+                    default:
                         x = -1 * width;
                         break;
                 }
@@ -179,6 +187,7 @@ namespace Paway.Forms
                     case TSysButton.Close:
                         return CloseRect;
                     case TSysButton.Close_Mini:
+                    case TSysButton.Close_Max:
                         return new Rectangle(Width - 28 - 39, 0, 39 + 28, 20);
                     default:
                         return Rectangle.Empty;
@@ -191,7 +200,16 @@ namespace Paway.Forms
         /// </summary>
         protected override Rectangle CloseRect
         {
-            get { return new Rectangle(Width - 39, -1, 39, 20); }
+            get
+            {
+                switch (SysButton)
+                {
+                    case TSysButton.None:
+                        return Rectangle.Empty;
+                    default:
+                        return new Rectangle(Width - 39, -1, 39, 20);
+                }
+            }
         }
 
         #endregion
