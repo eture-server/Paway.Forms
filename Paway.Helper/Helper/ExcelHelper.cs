@@ -18,6 +18,11 @@ namespace Paway.Helper
     public abstract class ExcelHelper
     {
         /// <summary>
+        /// 标题字体设置事件
+        /// </summary>
+        public static event Action<IFont> HeaderFontEvent;
+
+        /// <summary>
         /// 使用OLEDB从Excel导入DataTable
         /// HDR=yes 第一行是列名而不是数据
         /// </summary>
@@ -228,7 +233,9 @@ namespace Paway.Helper
         public static void ToExcel<T>(List<T> list, string title, string fileName, bool heard = true,
             Action<ICellStyle, ICellStyle, ICellStyle> style = null, Func<List<T>, ISheet, int> heardAction = null,
             Func<T, IWorkbook, Tuple<ICellStyle, ICellStyle>> lineStyle = null,
-            Func<List<T>, string, bool> filter = null, Action<List<T>, int, IRow, string> merged = null, Action<ISheet> sign = null,
+            Func<List<T>, string, bool> filter = null,
+            Action<List<T>, int, IRow, string, ICellStyle> merged = null,
+            Action<ISheet> sign = null,
             params int[] args)
         {
             if (File.Exists(fileName)) File.Delete(fileName);
@@ -244,7 +251,7 @@ namespace Paway.Helper
                 if (!title.IsNullOrEmpty())
                 {
                     IRow row = sheet.CreateRow(count++);
-                    row.Height = 30 * 20;
+                    row.Height = 42 * 20;
                     CreateCellHeader(row, 0, title);
                 }
                 var type = list.GenericType();
@@ -300,12 +307,13 @@ namespace Paway.Helper
                         if (dbType == typeof(double) || dbType == typeof(int))
                         {
                             CreateCell(row, index, tuple?.Item2 ?? numberStyle, list[i].GetValue(property.Name));
+                            merged?.Invoke(list, i, row, property.Name, tuple?.Item2 ?? numberStyle);
                         }
                         else
                         {
                             CreateCell(row, index, tuple?.Item1 ?? defaultStyle, list[i].GetValue(property.Name));
+                            merged?.Invoke(list, i, row, property.Name, tuple?.Item1 ?? defaultStyle);
                         }
-                        merged?.Invoke(list, i, row, property.Name);
                     }
                 }
                 sign?.Invoke(sheet);
@@ -460,6 +468,7 @@ namespace Paway.Helper
                     IFont header = wb.CreateFont();
                     header.FontName = "微软雅黑";
                     header.FontHeightInPoints = 12;//字体大小
+                    HeaderFontEvent?.Invoke(header);
                     style.SetFont(header);
                     break;
                 case CellStyle.Number:
