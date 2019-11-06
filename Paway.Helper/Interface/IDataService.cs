@@ -13,7 +13,7 @@ namespace Paway.Helper
     {
         /// <summary>
         /// </summary>
-        List<T> Find<T>(string find, params string[] args) where T : new();
+        List<T> Find<T>(string find = null, object param = null, params string[] args) where T : new();
         /// <summary>
         /// </summary>
         bool Insert<T>(T t, DbCommand cmd = null, bool Identity = false);

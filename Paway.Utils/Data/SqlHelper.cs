@@ -49,18 +49,5 @@ namespace Paway.Utils
         }
 
         #endregion
-
-        #region 扩展重载
-        /// <summary>
-        /// 查找指定查询语句
-        /// 填充 System.Data.DataSet 并返回一个DataTable
-        /// 标记是否使用Limit查找指定数量
-        /// </summary>
-        protected override DataTable FindTable(Type type, string find, int count, bool iLimit, DbCommand cmd = null, params string[] args)
-        {
-            return base.FindTable(type, find, count, false, cmd, args);
-        }
-
-        #endregion
     }
 }

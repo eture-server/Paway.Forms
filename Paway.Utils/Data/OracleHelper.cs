@@ -31,16 +31,5 @@ namespace Paway.Utils
         }
 
         #endregion
-
-        #region 扩展重载
-        /// <summary>
-        /// oracle取指定数量方法：where Rownum 小于 1，本方法未兼容，请自行处理
-        /// </summary>
-        protected override DataTable FindTable(Type type, string find, int count, bool iLimit, DbCommand cmd = null, params string[] args)
-        {
-            return base.FindTable(type, find, count, false, cmd, args);
-        }
-
-        #endregion
     }
 }

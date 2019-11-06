@@ -45,8 +45,8 @@ namespace Paway.Test
             try
             {
                 cmd = TransStart();
-                string find = string.Format("Name = '{0}'", name);
-                List<AdminBaseInfo> list = Find<AdminBaseInfo>(find, cmd);
+                string find = "Name = @name";
+                List<AdminBaseInfo> list = Find<AdminBaseInfo>(find, new { name }, cmd);
                 if (list.Count == 0)
                 {
                     AdminBaseInfo info = new AdminBaseInfo() { Name = name, Value = value.ToString(), DateTime = DateTime.Now };

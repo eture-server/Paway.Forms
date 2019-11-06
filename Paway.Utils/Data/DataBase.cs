@@ -88,13 +88,14 @@ namespace Paway.Utils
         /// <summary>
         /// 对连接执行 Transact-SQL 语句并返回受影响的行数。
         /// </summary>
-        public int ExecuteNonQuery(string sql, DbCommand cmd = null)
+        public int ExecuteNonQuery(string sql, object param = null, DbCommand cmd = null)
         {
             var iTrans = cmd == null;
             try
             {
                 if (iTrans) cmd = CommandStart();
                 cmd.CommandText = OnCommandText(sql);
+                AddParameters(param, cmd);
                 return cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -111,13 +112,14 @@ namespace Paway.Utils
         /// <summary>
         /// 执行查询，并返回查询所返回的结果集中第一行的第一列。忽略其他列或行。
         /// </summary>
-        public object ExecuteScalar(string sql, DbCommand cmd = null)
+        public object ExecuteScalar(string sql, object param = null, DbCommand cmd = null)
         {
             var iTrans = cmd == null;
             try
             {
                 if (iTrans) cmd = CommandStart();
                 cmd.CommandText = OnCommandText(sql);
+                AddParameters(param, cmd);
                 return cmd.ExecuteScalar();
             }
             catch (Exception ex)
@@ -134,13 +136,14 @@ namespace Paway.Utils
         /// <summary>
         /// 执行查询，并返回查询所返回的DataTable
         /// </summary>
-        public DataTable ExecuteDataTable(string sql, DbCommand cmd = null)
+        public DataTable ExecuteDataTable(string sql, object param = null, DbCommand cmd = null)
         {
             var iTrans = cmd == null;
             try
             {
                 if (iTrans) cmd = CommandStart();
                 cmd.CommandText = OnCommandText(sql);
+                AddParameters(param, cmd);
                 using (var dr = cmd.ExecuteReader())
                 {
                     var table = new DataTable();
@@ -201,7 +204,7 @@ namespace Paway.Utils
         /// <summary>
         /// 查找指定主列的数据
         /// </summary>
-        public T Find<T>(long id, DbCommand cmd = null, params string[] args) where T : new()
+        public T Find<T>(long id, DbCommand cmd, params string[] args) where T : new()
         {
             var iTrans = cmd == null;
             try
@@ -213,7 +216,7 @@ namespace Paway.Utils
                 var param = AddParameters(keys, id);
                 cmd.Parameters.Add(param);
                 var sql = string.Format("[{0}] = {1}", keys, param.ParameterName);
-                var list = Find<T>(sql, cmd, args);
+                var list = Find<T>(sql, null, cmd, 0, args);
                 return list.Count == 1 ? list[0] : default;
             }
             catch (Exception ex)
@@ -230,50 +233,34 @@ namespace Paway.Utils
         /// <summary>
         /// 填充 System.Data.DataSet 并返回一个List列表
         /// </summary>
-        public List<T> Find<T>(DbCommand cmd = null, params string[] args) where T : new()
+        public List<T> Find<T>(DbCommand cmd, params string[] args) where T : new()
         {
-            return Find<T>(null, 0, cmd, args);
-        }
-        /// <summary>
-        /// 填充 System.Data.DataSet 并返回一个DataTable
-        /// </summary>
-        public DataTable FindTable<T>(DbCommand cmd = null, params string[] args)
-        {
-            return FindTable(typeof(T), null, 0, false, cmd, args);
-        }
-
-        /// <summary>
-        /// 填充 System.Data.DataSet 并返回一个List列表
-        /// 查找指定查询语句
-        /// </summary>
-        public List<T> Find<T>(string find, params string[] args) where T : new()
-        {
-            return Find<T>(find, null, args);
+            return Find<T>(null, null, cmd, 0, args);
         }
         /// <summary>
         /// 填充 System.Data.DataSet 并返回一个List列表
         /// 查找指定查询语句
         /// </summary>
-        public List<T> Find<T>(string find, DbCommand cmd = null, params string[] args) where T : new()
+        public List<T> Find<T>(string find = null, object param = null, params string[] args) where T : new()
         {
-            return Find<T>(find, 0, cmd, args);
+            return Find<T>(find, param, null, 0, args);
         }
         /// <summary>
-        /// 填充 System.Data.DataSet 并返回一个DataTable
+        /// 填充 System.Data.DataSet 并返回一个List列表
         /// 查找指定查询语句
         /// </summary>
-        public DataTable FindTable<T>(string find, DbCommand cmd = null, params string[] args)
+        public List<T> Find<T>(string find, object param, DbCommand cmd, params string[] args) where T : new()
         {
-            return FindTable(typeof(T), find, 0, false, cmd, args);
+            return Find<T>(find, param, cmd, 0, args);
         }
         /// <summary>
         /// 填充 System.Data.DataSet 并返回一个List列表
         /// 查找指定查询语句
         /// 指定返回行数
         /// </summary>
-        public List<T> Find<T>(string find, int count, DbCommand cmd = null, params string[] args) where T : new()
+        public List<T> Find<T>(string find, object param, DbCommand cmd, int count, params string[] args) where T : new()
         {
-            var table = FindTable(typeof(T), find, count, false, cmd, args);
+            var table = FindTable(typeof(T), find, param, cmd, count, false, args);
             return table.ToList<T>();
         }
         /// <summary>
@@ -281,10 +268,25 @@ namespace Paway.Utils
         /// 查找指定查询语句
         /// 指定返回行数
         /// </summary>
-        public IList Find(Type type, string find, int count, DbCommand cmd = null, params string[] args)
+        public IList Find(Type type, string find = null, object param = null, DbCommand cmd = null, int count = 0, params string[] args)
         {
-            var table = FindTable(type, find, count, false, cmd, args);
+            var table = FindTable(type, find, param, cmd, count, false, args);
             return table.ToList(type);
+        }
+        /// <summary>
+        /// 填充 System.Data.DataSet 并返回一个DataTable
+        /// </summary>
+        public DataTable FindTable<T>(DbCommand cmd, params string[] args)
+        {
+            return FindTable(typeof(T), null, null, cmd, 0, false, args);
+        }
+        /// <summary>
+        /// 填充 System.Data.DataSet 并返回一个DataTable
+        /// 查找指定查询语句
+        /// </summary>
+        public DataTable FindTable<T>(string find = null, object param = null, DbCommand cmd = null, int count = 0, params string[] args)
+        {
+            return FindTable(typeof(T), find, param, cmd, count, false, args);
         }
         /// <summary>
         /// 填充 System.Data.DataSet 并返回一个List列表
@@ -292,7 +294,7 @@ namespace Paway.Utils
         /// 指定返回行数
         /// 标记是否使用Limit查找指定数量
         /// </summary>
-        protected virtual DataTable FindTable(Type type, string find, int count, bool iLimit, DbCommand cmd = null, params string[] args)
+        protected virtual DataTable FindTable(Type type, string find = null, object param = null, DbCommand cmd = null, int count = 0, bool iLimit = false, params string[] args)
         {
             var iTrans = cmd == null;
             string sql;
@@ -313,6 +315,7 @@ namespace Paway.Utils
                     sql = type.Select(find, count, args);
                 }
                 cmd.CommandText = OnCommandText(sql);
+                AddParameters(param, cmd);
                 using (var dr = cmd.ExecuteReader())
                 {
                     var table = type.CreateTable(true);
@@ -513,12 +516,12 @@ namespace Paway.Utils
         /// </summary>
         public int Delete<T>(DbCommand cmd = null)
         {
-            return Delete<T>(string.Empty, cmd);
+            return Delete<T>(string.Empty, null, cmd);
         }
         /// <summary>
         /// 删除指定条件下的数据(不监听更新事件)
         /// </summary>
-        public int Delete<T>(string find, DbCommand cmd = null)
+        public int Delete<T>(string find, object param = null, DbCommand cmd = null)
         {
             var iTrans = cmd == null;
             try
@@ -526,6 +529,7 @@ namespace Paway.Utils
                 if (iTrans) cmd = CommandStart();
                 var sql = typeof(T).Delete(find);
                 cmd.CommandText = OnCommandText(sql);
+                AddParameters(param, cmd);
                 return cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -536,6 +540,18 @@ namespace Paway.Utils
             finally
             {
                 CommandEnd(cmd, iTrans);
+            }
+        }
+        private void AddParameters(object param, DbCommand cmd)
+        {
+            if (param == null) return;
+            cmd.Parameters.Clear();
+            var type = param.GetType();
+            foreach (var item in type.Properties())
+            {
+                var value = item.GetValue(param, null);
+                var paramItem = AddParameters(item.Name, value);
+                cmd.Parameters.Add(paramItem);
             }
         }
 
