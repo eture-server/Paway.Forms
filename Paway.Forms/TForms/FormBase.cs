@@ -548,8 +548,8 @@ namespace Paway.Forms
                 var wparam = m.LParam.ToInt32();
 
                 var point = new Point(
-                    NativeMethods.LOWORD(wparam),
-                    NativeMethods.HIWORD(wparam));
+                    NativeMethods.LowerWord(wparam),
+                    NativeMethods.HightWord(wparam));
 
                 point = PointToClient(point);
                 if (_iResize)

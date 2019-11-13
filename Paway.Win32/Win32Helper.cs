@@ -14,7 +14,6 @@ namespace Paway.Win32
     public abstract class Win32Helper
     {
         #region 全屏置顶窗体
-
         /// <summary>
         /// 全屏置顶窗体
         /// </summary>
@@ -33,8 +32,7 @@ namespace Paway.Win32
 
         #endregion
 
-        #region 任务栏
-
+        #region 任务栏/显示窗体
         /// <summary>
         /// 获取任务栏Rectangle
         /// </summary>
@@ -46,7 +44,6 @@ namespace Paway.Win32
             NativeMethods.GetWindowRect(hWnd, ref rc);
             return rc;
         }
-
         /// <summary>
         /// 隐藏任务栏
         /// </summary>
@@ -55,15 +52,6 @@ namespace Paway.Win32
             var hWnd = NativeMethods.FindWindow("Shell_TrayWnd", null);
             NativeMethods.ShowWindow(hWnd, WindowShowStyle.Hide);
         }
-
-        /// <summary>
-        /// 显示窗体
-        /// </summary>
-        public static void ShowWindow(IntPtr handle)
-        {
-            NativeMethods.ShowWindow(handle, WindowShowStyle.ShowNormalNoActivate);
-        }
-
         /// <summary>
         /// 显示任务栏
         /// </summary>
@@ -73,10 +61,24 @@ namespace Paway.Win32
             NativeMethods.ShowWindow(hWnd, WindowShowStyle.Show);
         }
 
+        /// <summary>
+        /// 显示窗体
+        /// </summary>
+        public static void ShowWindow(IntPtr handle)
+        {
+            NativeMethods.ShowWindow(handle, WindowShowStyle.ShowNormalNoActivate);
+        }
+        /// <summary>
+        /// 隐藏窗体
+        /// </summary>
+        public static void HideWindow(IntPtr handle)
+        {
+            NativeMethods.ShowWindow(handle, WindowShowStyle.Hide);
+        }
+
         #endregion
 
         #region SendMessage - 扩展消息
-
         /// <summary>
         /// 发送跨进程自定义消息
         /// </summary>
@@ -94,7 +96,6 @@ namespace Paway.Win32
             }
             return IntPtr.Zero;
         }
-
         /// <summary>
         /// 发送跨进程自定义消息 到所有指定结尾的窗体
         /// </summary>
@@ -113,7 +114,6 @@ namespace Paway.Win32
                 }
             }
         }
-
         /// <summary>
         /// 解析自定义消息 - 形参
         /// </summary>
@@ -130,7 +130,6 @@ namespace Paway.Win32
         #endregion
 
         #region SendMessage - 自定义消息
-
         /// <summary>
         /// 发送跨进程自定义消息
         /// </summary>
@@ -148,7 +147,6 @@ namespace Paway.Win32
             }
             return IntPtr.Zero;
         }
-
         /// <summary>
         /// 发送跨进程自定义消息 到所有指定结尾的窗体
         /// </summary>
@@ -166,7 +164,6 @@ namespace Paway.Win32
                 }
             }
         }
-
         /// <summary>
         /// 发送消息到指定句柄的窗体
         /// </summary>
@@ -175,7 +172,6 @@ namespace Paway.Win32
             var cds = GetStruct(msg);
             NativeMethods.SendMessage(hWnd, (int)WindowsMessage.WM_COPYDATA, type, ref cds);
         }
-
         /// <summary>
         /// 解析自定义消息 - 字符
         /// </summary>
@@ -206,7 +202,6 @@ namespace Paway.Win32
         #endregion
 
         #region ActiveForm
-
         /// <summary>
         /// 激活指定标题窗体
         /// </summary>
@@ -220,7 +215,6 @@ namespace Paway.Win32
             }
             return IntPtr.Zero;
         }
-
         /// <summary>
         /// 激活指定句柄窗体
         /// </summary>
@@ -233,7 +227,6 @@ namespace Paway.Win32
         #endregion
 
         #region FindWindowEnd(find)
-
         /// <summary>
         /// 查找所有指定以 find 结束的窗体
         /// </summary>
@@ -251,7 +244,6 @@ namespace Paway.Win32
             }
             return list;
         }
-
         private static bool EnumCallBack_StrEnd(IntPtr hWnd, ref string lParam)
         {
             var sb = new StringBuilder(0x200);
@@ -263,7 +255,6 @@ namespace Paway.Win32
             }
             return true;
         }
-
         /// <summary>
         /// 查找所有指定以 find 结束的窗体
         /// </summary>
@@ -281,7 +272,6 @@ namespace Paway.Win32
             }
             return list;
         }
-
         private static bool EnumCallBack_HandleEnd(IntPtr hWnd, ref string lParam)
         {
             var sb = new StringBuilder(0x200);
@@ -293,7 +283,6 @@ namespace Paway.Win32
             }
             return true;
         }
-
         /// <summary>
         /// 查找所有指定以 find 结束的窗体
         /// </summary>
@@ -311,7 +300,6 @@ namespace Paway.Win32
             }
             return list;
         }
-
         private static bool EnumCallBack_End(IntPtr hWnd, ref string lParam)
         {
             var sb = new StringBuilder(0x200);
@@ -327,7 +315,6 @@ namespace Paway.Win32
         #endregion
 
         #region FindWindow(find)
-
         /// <summary>
         /// 查找 符合指定标题:find 的第一个窗口。
         /// </summary>
@@ -341,7 +328,6 @@ namespace Paway.Win32
             }
             return IntPtr.Zero;
         }
-
         private static bool EnumCallBack(IntPtr hWnd, ref IntPtr lParam)
         {
             var sb = new StringBuilder(0x200);
@@ -358,7 +344,6 @@ namespace Paway.Win32
         #endregion
 
         #region 隐藏显示光标
-
         /// <summary>
         /// 显示光标
         /// </summary>
@@ -370,7 +355,6 @@ namespace Paway.Win32
                 if (count > 0) break;
             }
         }
-
         /// <summary>
         /// 隐藏光标
         /// </summary>
@@ -406,7 +390,6 @@ namespace Paway.Win32
             }
             return bufferIntPtr;
         }
-
         /// <summary>
         /// 由句柄转换为结构体
         /// </summary>
