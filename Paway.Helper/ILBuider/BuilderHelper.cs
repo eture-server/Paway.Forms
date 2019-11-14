@@ -442,6 +442,22 @@ namespace Paway.Helper
             return ((Func<object, object>)func)(obj);
         }
         /// <summary>
+        /// IL动态代码(Emit)，尝试获取值，字段不存在时返回null
+        /// </summary>
+        public static bool TryGetValue(this object obj, string name, out object value)
+        {
+            try
+            {
+                value = obj.GetValue(name);
+                return true;
+            }
+            catch
+            {
+                value = null;
+                return false;
+            }
+        }
+        /// <summary>
         /// 泛型值组
         /// </summary>
         public static object[] GetValues(this object obj)

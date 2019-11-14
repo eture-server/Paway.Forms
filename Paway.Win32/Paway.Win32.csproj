@@ -53,6 +53,9 @@
   <ItemGroup>
     <Compile Include="Consts.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="Hooks\KeyHook.cs" />
+    <Compile Include="Hooks\MouseEventExtArgs.cs" />
+    <Compile Include="Hooks\MouseHook.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\AssemblyVersion.cs">

@@ -337,5 +337,94 @@ namespace Paway.Win32
         public static extern IntPtr GetCurrentThread();
 
         #endregion
+
+        #region 钩子Hook
+        /// <summary>
+        /// <para>该函数将一个应用程序定义的挂钩处理过程安装到挂钩链中去,您可以</para>
+        /// <para>通过安装挂钩处理过程来对系统的某些类型事件进行监控,这些事件与</para>
+        /// <para>某个特定的线程或系统中的所有事件相关.</para>
+        /// <para>返回值:若此函数执行成功,则返回值就是该挂钩处理过程的句柄;</para>
+        /// <para>若此函数执行失败,则返回值为NULL(0).</para>
+        /// </summary>
+        /// <param name="idHook">指示准备被安装的挂钩处理过程之类型，(详细：)</param>
+        /// <param name="lpfn">
+        /// <para>指向相应的挂钩处理过程.若参数dwThreadId为0或者指示了一个其他进程</para>
+        /// <para>创建的线程之标识符,则参数lpfn必须指向一个动态链接中的挂钩处理过</para>
+        /// <para>程.否则,参数lpfn可以指向一个与当前进程相关的代码中定义的挂钩处理过程</para>
+        /// </param>
+        /// <param name="hInstance">
+        /// <para>指示了一个动态链接的句柄,该动态连接库包含了参数lpfn 所指向的挂钩</para>
+        /// <para>处理过程.若参数dwThreadId指示的线程由当前进程创建,并且相应的挂钩处</para>
+        /// <para>理过程定义于当前进程相关的代码中,则参数hMod必须被设置为NULL(0).</para>
+        /// </param>
+        /// <param name="threadId">
+        /// <para>指示了一个线程标识符,挂钩处理过程与线程相关.</para>
+        /// <para>若此参数值为0,则该挂钩处理过程与所有现存的线程相关.</para>
+        /// </param>
+        [DllImport("user32.dll")]
+        internal static extern int SetWindowsHookEx(HookType idHook, HookProc lpfn, IntPtr hInstance, int threadId);
+        /// <summary>
+        /// 挂钩处理委托
+        /// </summary>
+        /// <param name="nCode"></param>
+        /// <param name="wParam"></param>
+        /// <param name="lParam"></param>
+        /// <returns></returns>
+        internal delegate int HookProc(int nCode, int wParam, IntPtr lParam);
+        /// <summary>
+        /// 获取一个应用程序或动态链接库的模块句柄
+        /// </summary>
+        /// <param name="name">指定模块名，这通常是与模块的文件名相同的一个名字。例如，NOTEPAD.EXE程序的模块文件名就叫作NOTEPAD</param>
+        [DllImport("kernel32.dll")]
+        internal static extern IntPtr GetModuleHandle(string name);
+        /// <summary>
+        /// 卸载钩子
+        /// <para>返回值：如果函数成功，返回值为非零值。</para>
+        /// <para>如果函数失败，返回值为零。</para>
+        /// </summary>
+        /// <param name="idHook">要删除的钩子的句柄。这个参数是上一个函数SetWindowsHookEx的返回值.</param>
+        [DllImport("user32.dll")]
+        internal static extern int UnhookWindowsHookEx(int idHook);
+
+        /// <summary>
+        /// 欲测试的虚拟键键码。对字母、数字字符（A-Z、a-z、0-9），用它们实际的ASCII值
+        /// </summary>
+        [DllImport("user32.dll", EntryPoint = "GetKeyState")]
+        internal static extern int GetKeyState(int nVirtKey);
+        /// <summary>
+        /// pbKeyState：指向一个256字节的数组，数组用于接收每个虚拟键的状态。
+        /// 返回值：若函数调用成功，则返回非0值。若函数调用不成功，则返回值为0。若要获得更多的错误信息，可以调用GetLastError函数。
+        /// </summary>
+        /// <param name="pbKeyState"></param>
+        /// <returns></returns>
+        [DllImport("user32", EntryPoint = "GetKeyboardState")]
+        internal static extern int GetKeyboardState(byte[] pbKeyState);
+        /// <summary>
+        /// 该函数将指定的虚拟键码和键盘状态翻译为相应的字符或字符串。
+        /// 该函数使用由给定的键盘布局句柄标识的物理键盘布局和输入语言来翻译代码。
+        /// </summary>
+        [DllImport("user32", EntryPoint = "ToAscii")]
+        internal static extern bool ToAscii(int VirtualKey, int ScanCode, byte[] lpKeySate, ref uint lpChar, int uFlags);
+
+        /// <summary>
+        /// 检索当前双击鼠标的时间
+        /// </summary>
+        /// <returns></returns>
+        [DllImport("user32.dll")]
+        internal static extern int GetDoubleClickTime();
+
+        /// <summary>
+        /// <para>调用下一个钩子</para>
+        /// <para>会返回下一个钩子执行后的返回值; 0 表示失败</para>
+        /// </summary>
+        /// <param name="idHook">当前钩子的句柄</param>
+        /// <param name="nCode">钩子代码; 就是给下一个钩子要交待的</param>
+        /// <param name="wParam">要传递的参数; 由钩子类型决定是什么参数</param>
+        /// <param name="lParam">要传递的参数; 由钩子类型决定是什么参数</param>
+        /// <returns></returns>
+        [DllImport("user32.dll")]
+        internal static extern int CallNextHookEx(int idHook, int nCode, int wParam, IntPtr lParam);
+
+        #endregion
     }
 }

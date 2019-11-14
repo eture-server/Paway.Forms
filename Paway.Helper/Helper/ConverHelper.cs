@@ -207,12 +207,20 @@ namespace Paway.Helper
             return new Tuple<bool, string>(false, result);
         }
         /// <summary>
-        /// 正则解析字符串
+        /// 在字符串中搜索正则表达式的第一个匹配项
         /// </summary>
-        public static Match Regex(this string text, string pattern, RegexOptions options = RegexOptions.Singleline | RegexOptions.IgnoreCase)
+        public static Match Regex(this string text, string pattern, RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Singleline)
         {
             var regex = new Regex(pattern, options);
             return regex.Match(text);
+        }
+        /// <summary>
+        /// 在字符串中搜索正则表达式的所有匹配项
+        /// </summary>
+        public static MatchCollection Regexs(this string text, string pattern, RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Singleline)
+        {
+            var regex = new Regex(pattern, options);
+            return regex.Matches(text);
         }
 
         #endregion
@@ -489,6 +497,7 @@ namespace Paway.Helper
         {
             if (obj == null || obj == DBNull.Value || obj.ToString() == string.Empty) return DateTime.MinValue;
 
+            if (obj is DateTime time) return time;
             if (DateTime.TryParse(obj.ToString(), out DateTime result)) return result;
             return DateTime.MinValue;
         }
