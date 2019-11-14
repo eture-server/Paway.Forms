@@ -159,16 +159,15 @@ namespace Paway.Helper
             FileStream fs = null;
             try
             {
+                fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
                 IWorkbook workbook = null;
                 if (excel2003 == null) excel2003 = Path.GetExtension(fileName) == ".xls";
                 if (excel2003 ?? false)
                 {
-                    fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
                     workbook = new HSSFWorkbook(fs);
                 }
                 else
                 {
-                    fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
                     workbook = new XSSFWorkbook(fs);
                 }
                 ISheet sheet = workbook.GetSheetAt(sheetIndex);
@@ -197,7 +196,8 @@ namespace Paway.Helper
                     {
                         if (i == heardIndex) continue;
                         IRow row = sheet.GetRow(i);
-                        if (row == null) continue; //没有数据的行默认是null　　　　　　　
+                        if (row == null) continue; //没有数据的行默认是null　　
+                        if (row.FirstCellNum < 0) continue; //xls、xlsx都可能取到空行，但xlsxrow.GetCell(-1)会抛出异常　　　　　
 
                         DataRow dataRow = dt.NewRow();
                         for (int j = row.FirstCellNum; j < cellCount; ++j)
