@@ -936,9 +936,11 @@ namespace Paway.Forms
                 height += (y - this.ColumnHeadersHeight) * 2;
                 y = this.ColumnHeadersHeight;
             }
-            TextRenderer.DrawText(e.Graphics, value, e.CellStyle.Font,
-                new Rectangle(e.CellBounds.X, y, e.CellBounds.Width, height),
-                e.CellStyle.ForeColor, format);
+            var rect = new Rectangle(e.CellBounds.X, y, e.CellBounds.Width, height);
+            //TextRenderer.DrawText(e.Graphics, value, e.CellStyle.Font, rect, e.CellStyle.ForeColor, format);
+            //允许分行显示
+            using (var brush = new SolidBrush(e.CellStyle.ForeColor))
+                e.Graphics.DrawString(value, e.CellStyle.Font, brush, rect, DrawHelper.StringVertical);
         }
 
         #endregion

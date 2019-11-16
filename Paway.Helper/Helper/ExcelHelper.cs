@@ -223,6 +223,9 @@ namespace Paway.Helper
         /// <param name="title">自定义显示标题</param>
         /// <param name="fileName"></param>
         /// <param name="heard">显示列名</param>
+        /// <param name="titleHeight">标题行高</param>
+        /// <param name="heardHeight">列标题行高</param>
+        /// <param name="lineHeight">内容行高</param>
         /// <param name="style">样式处理</param>
         /// <param name="lineStyle">行样式处理</param>
         /// <param name="heardAction">自定义标题</param>
@@ -231,6 +234,7 @@ namespace Paway.Helper
         /// <param name="sign">生成完成后处理(签名)</param>
         /// <param name="args">设置列宽</param>
         public static void ToExcel<T>(List<T> list, string title, string fileName, bool heard = true,
+            short titleHeight = 42, short heardHeight = 20, short lineHeight = 16,
             Action<ICellStyle, ICellStyle, ICellStyle> style = null, Func<List<T>, ISheet, int> heardAction = null,
             Func<T, IWorkbook, Tuple<ICellStyle, ICellStyle>> lineStyle = null,
             Func<List<T>, string, bool> filter = null,
@@ -251,7 +255,7 @@ namespace Paway.Helper
                 if (!title.IsNullOrEmpty())
                 {
                     IRow row = sheet.CreateRow(count++);
-                    row.Height = 42 * 20;
+                    row.Height = (short)(titleHeight * 20);
                     CreateCellHeader(row, 0, title);
                 }
                 var type = list.GenericType();
@@ -267,7 +271,7 @@ namespace Paway.Helper
                 if (heard) //写入DataTable的列名
                 {
                     IRow row = sheet.CreateRow(count++);
-                    row.Height = 20 * 20;
+                    row.Height = (short)(heardHeight * 20);
                     foreach (var property in properties)
                     {
                         if (!property.IExcel()) continue;
@@ -295,7 +299,7 @@ namespace Paway.Helper
                 for (int i = 0; i < list.Count; ++i)
                 {
                     IRow row = sheet.CreateRow(count++);
-                    row.Height = 16 * 20;
+                    row.Height = (short)(lineHeight * 20);
                     foreach (var property in properties)
                     {
                         if (!property.IExcel()) continue;
