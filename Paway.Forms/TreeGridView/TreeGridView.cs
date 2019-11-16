@@ -140,7 +140,7 @@ namespace Paway.Forms
             {
                 var visible = property.IShow(out string text);
                 DataGridViewColumn column;
-                if (visible && !iTree && (TextColumn.IsNullOrEmpty() || TextColumn == property.Name))
+                if (visible && !iTree && (TextColumn.IsNullOrEmpty() || TextColumn.Equals(property.Name, StringComparison.OrdinalIgnoreCase)))
                 {
                     iTree = true;
                     column = new TreeGridColumn();

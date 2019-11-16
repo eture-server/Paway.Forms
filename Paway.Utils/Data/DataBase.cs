@@ -134,9 +134,25 @@ namespace Paway.Utils
         }
 
         /// <summary>
+        /// 执行查询，并返回泛型列表
+        /// </summary>
+        public List<T> ExecuteList<T>(string sql, object param = null, DbCommand cmd = null) where T : new()
+        {
+            var table = ExecuteDataTable(sql, param, cmd, typeof(T));
+            return table.ToList<T>();
+        }
+        /// <summary>
+        /// 执行查询，并返回泛型列表
+        /// </summary>
+        public IList ExecuteList(Type type, string sql, object param = null, DbCommand cmd = null)
+        {
+            var table = ExecuteDataTable(sql, param, cmd, type);
+            return table.ToList(type);
+        }
+        /// <summary>
         /// 执行查询，并返回查询所返回的DataTable
         /// </summary>
-        public DataTable ExecuteDataTable(string sql, object param = null, DbCommand cmd = null)
+        public DataTable ExecuteDataTable(string sql, object param = null, DbCommand cmd = null, Type type = null)
         {
             var iTrans = cmd == null;
             try
@@ -146,7 +162,7 @@ namespace Paway.Utils
                 AddParameters(param, cmd);
                 using (var dr = cmd.ExecuteReader())
                 {
-                    var table = new DataTable();
+                    var table = type == null ? new DataTable() : type.CreateTable(true);
                     table.Load(dr);
                     return table;
                 }
@@ -665,6 +681,7 @@ namespace Paway.Utils
             var param = (DbParameter)Activator.CreateInstance(paramType);
             param.ParameterName = string.Format("@{0}", name);
             param.Value = value;
+            if (param.Value == null) param.Value = DBNull.Value;
             return param;
         }
 

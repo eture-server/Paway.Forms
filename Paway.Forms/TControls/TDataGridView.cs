@@ -1122,7 +1122,7 @@ namespace Paway.Forms
             var properties = type.Properties();
             for (int i = 0; i < properties.Count; i++)
             {
-                if (properties[i].Name == colIndexName)
+                if (properties[i].Name.Equals(colIndexName, StringComparison.OrdinalIgnoreCase))
                 {
                     colIndex = i;
                     break;
@@ -1165,6 +1165,7 @@ namespace Paway.Forms
             if (type == null || type == typeof(string) || type.IsValueType) return;
 
             _iCheckBoxIndex = -1;
+            var properties = type.Properties();
             for (var i = 0; i < Columns.Count; i++)
             {
                 if (Columns[i].Name == _iCheckBoxName)
@@ -1175,7 +1176,7 @@ namespace Paway.Forms
                 {
                     _tColumnIndex = i;
                 }
-                var property = type.Property(Columns[i].Name);
+                var property = properties.Property(Columns[i].Name);
                 if (property == null) continue;
                 Columns[i].Visible = property.IShow(out string text);
                 Columns[i].HeaderText = text;

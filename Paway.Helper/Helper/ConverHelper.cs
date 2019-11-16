@@ -566,10 +566,17 @@ namespace Paway.Helper
         public static PropertyInfo Property(this Type type, string name)
         {
             var properties = type.Properties();
-            var property = properties.Find(c => c.Name == name);
+            return Property(properties, name);
+        }
+        /// <summary>
+        /// 获取指定名称属性
+        /// </summary>
+        public static PropertyInfo Property(this List<PropertyInfo> properties, string name)
+        {
+            var property = properties.Find(c => c.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
             if (property == null)
             {
-                property = properties.Find(c => c.Column() == name);
+                property = properties.Find(c => c.Column().Equals(name, StringComparison.OrdinalIgnoreCase));
             }
             return property;
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Paway.Helper;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -95,9 +96,11 @@ namespace Paway.Helper
             //LocalBuilder result = generator.DeclareLocal(type);
             //generator.Emit(OpCodes.Newobj, type.GetConstructor(Type.EmptyTypes));
             //generator.Emit(OpCodes.Stloc, result);
+            var properties = type.Properties();
             for (int i = 0; i < dataRecord.ItemArray.Length; i++)
             {
-                PropertyInfo property = type.Property(dataRecord.Table.Columns[i].ColumnName);
+                PropertyInfo property = properties.Property(dataRecord.Table.Columns[i].ColumnName);
+                if (property == null) continue;
                 Type dbType = property.PropertyType;
                 if (dbType.IsGenericType)
                 {
