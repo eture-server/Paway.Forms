@@ -728,37 +728,41 @@ namespace Paway.Helper
         }
         /// <summary>
         /// 获取主键(Key.Mark.Id)
+        /// <para>优先取Key</para>
+        /// <para>不存在Key，存在Mark时取Mark</para>
+        /// <para>否则默认Id</para>
         /// </summary>
         public static string TableKeys(this Type type)
         {
             var properties = type.Properties();
             foreach (var property in properties)
             {
-                if (property.IKey())
-                {
-                    return property.ColumnName();
-                }
-                if (property.IMark())
-                {
-                    return property.ColumnName();
-                }
+                if (property.IKey()) return property.ColumnName();
+            }
+            foreach (var property in properties)
+            {
+                if (property.IMark()) return property.ColumnName();
             }
             return nameof(IId.Id);
         }
         /// <summary>
-        /// 获取自更新唯一主键(Key)
+        /// 获取自更新唯一主键(Key.null.Id)
+        /// <para>取Key</para>
+        /// <para>不存在Key，存在Mark时返回null</para>
+        /// <para>否则默认Id</para>
         /// </summary>
         public static string TableKey(this Type type)
         {
             var properties = type.Properties();
             foreach (var property in properties)
             {
-                if (property.IKey())
-                {
-                    return property.ColumnName();
-                }
+                if (property.IKey()) return property.ColumnName();
             }
-            return null;
+            foreach (var property in properties)
+            {
+                if (property.IMark()) return null;
+            }
+            return nameof(IId.Id);
         }
         /// <summary>
         /// 显示属性
