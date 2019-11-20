@@ -603,7 +603,7 @@ namespace Paway.Forms
                 var properties = type.Properties();
                 foreach (var property in properties)
                 {
-                    if (property.IShow(out string text))
+                    if (property.IShow())
                     {
                         Items.Add(new TreeItem());
                     }

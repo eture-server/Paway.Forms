@@ -1180,8 +1180,8 @@ namespace Paway.Forms
                 }
                 var property = properties.Property(Columns[i].Name);
                 if (property == null) continue;
-                Columns[i].Visible = property.IShow(out string text);
-                Columns[i].HeaderText = text;
+                Columns[i].Visible = property.IShow();
+                Columns[i].HeaderText = property.TextName();
             }
         }
 

@@ -7,12 +7,12 @@ using System.Text;
 
 namespace Paway.Test
 {
-    [Table(Table = "Users")]
+    [Table("Users")]
     public interface ITestInfo : IId
     {
         int ParentId { get; set; }
 
-        [Property(Column = "Pad")]
+        [Column("Pad")]
         string NewPad { get; set; }
 
         bool Statu { get; set; }
@@ -29,19 +29,19 @@ namespace Paway.Test
     }
     public class TestBase : IParent
     {
-        [Property(IShow = false)]
+        [NoShow]
         public int Id { get; set; }
-        [Property(IShow = false)]
+        [NoShow]
         public int ParentId { get; set; }
         public virtual string Name { get; set; }
     }
-    [Serializable, Table(Table = "Users")]
+    [Serializable, Table("Users")]
     public class TestInfo : TestBase, ITestInfo, IFind<TestInfo>
     {
-        [Property(Text = "名称")]
+        [Text("名称")]
         public override string Name { get => base.Name; set => base.Name = value; }
 
-        [Property(Column = "Pad")]
+        [Column("Pad")]
         public string NewPad { get; set; }
 
         public bool Statu { get; set; }

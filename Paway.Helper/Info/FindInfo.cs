@@ -14,16 +14,16 @@ namespace Paway.Helper
     {
         /// <summary>
         /// </summary>
-        [Property(IShow = false)]
+        [NoShow]
         public int Id { get; set; }
         /// <summary>
         /// </summary>
-        [Property(IShow = false)]
+        [NoShow]
         public int ParentId { get; set; }
 
         /// <summary>
         /// </summary>
-        [Property(Text = "State")]
+        [Text("State")]
         public string LoadState { get; set; }
 
         /// <summary>

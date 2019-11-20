@@ -63,7 +63,7 @@ namespace Paway.Forms
             base.OnLoad(e);
             gridview1.DoubleClick += Gridview1_DoubleClick;
             this.Validated += TQuery_Validated;
-            InitData(list);
+            InitData();
         }
 
         #region 双击选择
@@ -114,19 +114,20 @@ namespace Paway.Forms
         }
         private void TextBox_TextChanged(object sender, EventArgs e)
         {
-            string value = this.TextBox.Text.ToLower();
-            var tempList = list.AsParallel().Where(Activator.CreateInstance<T>().Find(value)).ToList();
-            InitData(tempList);
-            this.Visible = TextBox.ContainsFocus && !value.IsNullOrEmpty() && tempList.Count() > 0;
+            var value = this.TextBox.Text.ToLower();
+            var count = InitData();
+            this.Visible = TextBox.ContainsFocus && !value.IsNullOrEmpty() && count > 0;
         }
-        private void InitData(List<T> list)
+        private int InitData()
         {
+            string value = this.TextBox.Text.ToLower();
+            var searchList = this.list.AsParallel().Where(Activator.CreateInstance<T>().Find(value)).ToList();
             var tempList = new List<T>();
-            int count = list.Count;
+            int count = searchList.Count;
             if (count > this.totalCount) count = this.totalCount;
             for (int i = 0; i < count; i++)
             {
-                tempList.Add(list[i]);
+                tempList.Add(searchList[i]);
             }
             this.gridview1.DataSource = tempList;
             if (showType != null)
@@ -135,12 +136,13 @@ namespace Paway.Forms
                 for (int i = 0; i < this.gridview1.Columns.Count; i++)
                 {
                     var property = properties.Property(this.gridview1.Columns[i].Name);
-                    this.gridview1.Columns[i].Visible = property != null && property.IShow(out _);
+                    this.gridview1.Columns[i].Visible = property != null && property.IShow();
                 }
             }
 
             if (count > this.showCount) count = this.showCount;
             this.Height = this.gridview1.RowTemplate.Height * count + (count == 0 ? 0 : 3);
+            return searchList.Count;
         }
 
         #endregion
@@ -155,7 +157,7 @@ namespace Paway.Forms
         {
             if (this.Visible && this.Height == 0)
             {
-                InitData(list);
+                InitData();
             }
         }
         private void TextBox_LostFocus(object sender, EventArgs e)

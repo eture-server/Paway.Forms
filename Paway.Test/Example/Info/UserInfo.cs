@@ -7,28 +7,28 @@ using System.Text;
 namespace Paway.Test
 {
     [Serializable]
-    [Table(Table = "Users")]
+    [Table("Users")]
     public class UserInfo : IName, IFind<UserInfo>
     {
-        [Property(IShow = false)]
+        [NoShow]
         public int Id { get; set; }
 
-        [Property(Text = "用户名")]
+        [Text("用户名")]
         public string Name { get; set; }
 
-        [Property(IShow = false)]
+        [NoShow]
         public string Pad { get; set; }
 
-        [Property(IShow = false)]
+        [NoShow]
         public bool Statu { get; set; }
 
-        [Property(IShow = false)]
+        [NoShow]
         public UserType UserType { get; set; }
 
-        [Property(Text = "最后登陆")]
+        [Text("最后登陆")]
         public DateTime DateTime { get; set; }
 
-        [Property(IShow = false)]
+        [NoShow]
         public DateTime CreateDate { get; set; }
 
         public UserInfo()

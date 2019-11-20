@@ -213,14 +213,14 @@ namespace Paway.Utils
         /// 查找指定主列的数据
         /// 使用long兼容int
         /// </summary>
-        public T Find<T>(long id, params string[] args) where T : new()
+        public T Find<T>(object id, params string[] args) where T : new()
         {
             return Find<T>(id, null, args);
         }
         /// <summary>
         /// 查找指定主列的数据
         /// </summary>
-        public T Find<T>(long id, DbCommand cmd, params string[] args) where T : new()
+        public T Find<T>(object id, DbCommand cmd, params string[] args) where T : new()
         {
             var iTrans = cmd == null;
             try
@@ -401,6 +401,7 @@ namespace Paway.Utils
                 var sql = type.Insert(GetId, Identity);
                 cmd.CommandText = OnCommandText(sql);
                 var builder = SQLBuilder.CreateBuilder(list[0].GetType(), paramType);
+                var tableKey = type.TableKey();
                 for (var i = 0; i < list.Count; i++)
                 {
                     var pList = builder.Build(list[i]).ToArray();
@@ -410,7 +411,7 @@ namespace Paway.Utils
                     {
                         if (dr.Read())
                         {
-                            list[i].SetValue(nameof(IId.Id), dr[0].ToInt());
+                            list[i].SetValue(tableKey, dr[tableKey]);
                         }
                         else
                         {
@@ -891,8 +892,9 @@ namespace Paway.Utils
             }
             foreach (var property in type.PropertiesValue())
             {
-                if (property.ISelect(out string column))
+                if (property.ISelect())
                 {
+                    var column = property.ColumnName();
                     if (args.Length > 0 &&
                         args.FirstOrDefault(c => c == column) == null &&
                         args.FirstOrDefault(c => c == property.Name) == null) continue;
@@ -912,8 +914,7 @@ namespace Paway.Utils
         /// </summary>
         public static string Delete(this Type type)
         {
-            var attr = type.Table();
-            var sql = string.Format("delete from [{0}] where [{1}]=@{1}", attr.Table, attr.Keys);
+            var sql = string.Format("delete from [{0}] where [{1}]=@{1}", type.TableName(), type.TableKey());
             return sql;
         }
         /// <summary>
@@ -922,8 +923,7 @@ namespace Paway.Utils
         /// </summary>
         public static string Delete(this Type type, string find)
         {
-            var attr = type.Table();
-            var sql = string.Format("delete from [{0}]", attr.Table);
+            var sql = string.Format("delete from [{0}]", type.TableName());
             if (!find.IsNullOrEmpty())
             {
                 sql = string.Format("{0} where {1}", sql, find);
@@ -947,14 +947,15 @@ namespace Paway.Utils
         /// </summary>
         public static string Update(this Type type, bool append = false, params string[] args)
         {
-            var attr = type.Table();
+            var tableKey = type.TableKey();
             var sql = "update [{0}] set";
-            sql = string.Format(sql, attr.Table);
+            sql = string.Format(sql, type.TableName());
             foreach (var property in type.PropertiesValue())
             {
-                if (property.ISelect(out string column))
+                if (property.ISelect())
                 {
-                    if (column == attr.Key) continue;
+                    var column = property.ColumnName();
+                    if (column == tableKey) continue;
                     if (args.Length > 0 &&
                         args.FirstOrDefault(c => c == column) == null &&
                         args.FirstOrDefault(c => c == property.Name) == null) continue;
@@ -969,7 +970,7 @@ namespace Paway.Utils
                 }
             }
             sql = sql.TrimEnd(',');
-            sql = string.Format("{0} where [{1}]=@{1}", sql, attr.Keys);
+            sql = string.Format("{0} where [{1}]=@{1}", sql, tableKey);
             return sql;
         }
 
@@ -981,14 +982,13 @@ namespace Paway.Utils
         /// </summary>
         public static string Insert(this Type type, string getId, bool Identity)
         {
-            var attr = type.Table();
-
-            type.Insert(attr.Key, out string insert, out string value);
-            var sql = string.Format("insert into [{0}]({1}) values({2})", attr.Table, insert, value);
+            var tableName = type.TableName();
+            type.Insert(type.TableKey(), out string insert, out string value);
+            var sql = string.Format("insert into [{0}]({1}) values({2})", tableName, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
             if (Identity)
             {
-                sql = string.Format("SET IDENTITY_INSERT [{0}] ON;{1}", attr.Table, sql);
+                sql = string.Format("SET IDENTITY_INSERT [{0}] ON;{1}", tableName, sql);
             }
             return sql;
         }
@@ -998,8 +998,9 @@ namespace Paway.Utils
             value = string.Empty;
             foreach (var property in type.PropertiesValue())
             {
-                if (property.ISelect(out string column))
+                if (property.ISelect())
                 {
+                    var column = property.ColumnName();
                     if (column == key) continue;
                     if (args.Length > 0 &&
                         args.FirstOrDefault(c => c == column) == null &&

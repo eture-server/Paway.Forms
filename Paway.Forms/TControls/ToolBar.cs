@@ -280,7 +280,6 @@ namespace Paway.Forms
             set
             {
                 _iImageShow = value;
-                UpdateImageSize();
                 Invalidate();
             }
         }
@@ -367,7 +366,6 @@ namespace Paway.Forms
             {
                 _itemSize = value;
                 TRefresh();
-                UpdateImageSize();
             }
         }
 
@@ -395,10 +393,6 @@ namespace Paway.Forms
         /// </summary>
         private Size _imageSize = new Size(24, 24);
         /// <summary>
-        /// 项图片显示区域大小
-        /// </summary>
-        private Size _imageSizeShow = Size.Empty;
-        /// <summary>
         /// 项图片的大小
         /// </summary>
         [Description("项图片的大小")]
@@ -409,7 +403,6 @@ namespace Paway.Forms
             set
             {
                 _imageSize = value;
-                UpdateImageSize();
                 Invalidate();
             }
         }
@@ -850,36 +843,6 @@ namespace Paway.Forms
             }
         }
 
-        /// <summary>
-        /// 更新图片区域
-        /// </summary>
-        private void UpdateImageSize()
-        {
-            if (_iImageShow)
-            {
-                _imageSizeShow = _imageSize;
-                switch (_tLocation)
-                {
-                    case TLocation.Up:
-                        var width = (_itemSize.Width - _imageSize.Width - _textPading.Left - _textPading.Right) / 2;
-                        if (width < 0)
-                        {
-                            _imageSizeShow.Width = _itemSize.Width - _textPading.Left - _textPading.Right;
-                            _imageSizeShow.Height = (_imageSizeShow.Width * _imageSize.Height * 1.0 / _imageSize.Width).ToInt();
-                        }
-                        break;
-                    case TLocation.Left:
-                        var height = (_itemSize.Height - _imageSize.Height - _textPading.Top - _textPading.Bottom) / 2;
-                        if (height < 0)
-                        {
-                            _imageSizeShow.Height = _itemSize.Height - _textPading.Top - _textPading.Bottom;
-                            _imageSizeShow.Width = (_imageSizeShow.Height * _imageSize.Width * 1.0 / _imageSize.Height).ToInt();
-                        }
-                        break;
-                }
-            }
-        }
-
         private void DrawHeard(Graphics g, ToolItem item)
         {
             if (!string.IsNullOrEmpty(item.Text))
@@ -911,7 +874,7 @@ namespace Paway.Forms
             item.Rectangle = new Rectangle(xPos, yPos, _itemSize.Width, _itemSize.Height);
             SizeF size1 = TextRenderer.MeasureText(item.First, TextFirst.FontNormal, item.Rectangle.Size);
             SizeF size2 = TextRenderer.MeasureText(item.Sencond, TextSencond.FontNormal, item.Rectangle.Size);
-            int width = Math.Max(size1.Width, size2.Width).ToInt() + _textPading.Left + _textPading.Right;
+            int width = Math.Max(size1.Width, size2.Width).ToInt() + ItemPadding(item).Left + ItemPadding(item).Right;
             if (IImageShow && item.Image != null) width += ImageSize.Width;
             if (_iAutoWidth)
             {
@@ -999,6 +962,11 @@ namespace Paway.Forms
                     break;
             }
             iLastHeard = item.IHeard;
+        }
+        private Padding ItemPadding(ToolItem item)
+        {
+            if (item.TextPading.All != 0) return item.TextPading;
+            return _textPading;
         }
 
         private void DrawItem(Graphics g, ToolItem item)
@@ -1207,24 +1175,57 @@ namespace Paway.Forms
         {
             if (_iImageShow && item.Image != null)
             {
+                var padding = ItemPadding(item);
+                var _imageSizeShow = UpdateImageSize(padding);
                 var imageRect = Rectangle.Empty;
                 switch (_tLocation)
                 {
                     case TLocation.Up:
-                        var width = (_itemSize.Width - _imageSizeShow.Width - _textPading.Left - _textPading.Right) / 2;
-                        imageRect.X = item.Rectangle.X + _textPading.Left + width;
-                        imageRect.Y = item.Rectangle.Y + _textPading.Top;
+                        var width = (_itemSize.Width - _imageSizeShow.Width - padding.Left - padding.Right) / 2;
+                        imageRect.X = item.Rectangle.X + padding.Left + width;
+                        imageRect.Y = item.Rectangle.Y + padding.Top;
                         break;
                     case TLocation.Left:
-                        var height = (_itemSize.Height - _imageSizeShow.Height - _textPading.Top - _textPading.Bottom) / 2;
-                        imageRect.X = item.Rectangle.X + _textPading.Left;
-                        imageRect.Y = item.Rectangle.Y + _textPading.Top + height;
+                        var height = (_itemSize.Height - _imageSizeShow.Height - padding.Top - padding.Bottom) / 2;
+                        imageRect.X = item.Rectangle.X + padding.Left;
+                        imageRect.Y = item.Rectangle.Y + padding.Top + height;
                         break;
                 }
                 imageRect.Size = _imageSizeShow;
                 item.ImageRect = imageRect;
                 g.DrawImage(item.Image, imageRect);
             }
+        }
+        /// <summary>
+        /// 更新图片区域
+        /// </summary>
+        private Size UpdateImageSize(Padding padding)
+        {
+            if (_iImageShow)
+            {
+                var _imageSizeShow = _imageSize;
+                switch (_tLocation)
+                {
+                    case TLocation.Up:
+                        var width = (_itemSize.Width - _imageSize.Width - padding.Left - padding.Right) / 2;
+                        if (width < 0)
+                        {
+                            _imageSizeShow.Width = _itemSize.Width - padding.Left - padding.Right;
+                            _imageSizeShow.Height = (_imageSizeShow.Width * _imageSize.Height * 1.0 / _imageSize.Width).ToInt();
+                        }
+                        break;
+                    case TLocation.Left:
+                        var height = (_itemSize.Height - _imageSize.Height - padding.Top - padding.Bottom) / 2;
+                        if (height < 0)
+                        {
+                            _imageSizeShow.Height = _itemSize.Height - padding.Top - padding.Bottom;
+                            _imageSizeShow.Width = (_imageSizeShow.Height * _imageSize.Width * 1.0 / _imageSize.Height).ToInt();
+                        }
+                        break;
+                }
+                return _imageSizeShow;
+            }
+            return Size.Empty;
         }
 
         /// <summary>
@@ -1235,24 +1236,25 @@ namespace Paway.Forms
             Rectangle textRect;
             if (string.IsNullOrEmpty(item.Text)) item.Text = string.Empty;
             {
+                var padding = ItemPadding(item);
                 textRect = new Rectangle
                 {
-                    X = item.Rectangle.X + _textPading.Left,
-                    Y = item.Rectangle.Y + _textPading.Top,
-                    Width = item.Rectangle.Width - _textPading.Left - _textPading.Right,
-                    Height = item.Rectangle.Height - _textPading.Top - _textPading.Bottom
+                    X = item.Rectangle.X + padding.Left,
+                    Y = item.Rectangle.Y + padding.Top,
+                    Width = item.Rectangle.Width - padding.Left - padding.Right,
+                    Height = item.Rectangle.Height - padding.Top - padding.Bottom
                 };
                 if (_iImageShow && item.Image != null)
                 {
                     switch (_tLocation)
                     {
                         case TLocation.Up:
-                            textRect.Y += _imageSizeShow.Height;
-                            textRect.Height -= _imageSizeShow.Height;
+                            textRect.Y += item.ImageRect.Height;
+                            textRect.Height -= item.ImageRect.Height;
                             break;
                         case TLocation.Left:
-                            textRect.X += _imageSizeShow.Width;
-                            textRect.Width -= _imageSizeShow.Width;
+                            textRect.X += item.ImageRect.Width;
+                            textRect.Width -= item.ImageRect.Width;
                             break;
                     }
                 }

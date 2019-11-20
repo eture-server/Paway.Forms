@@ -56,6 +56,12 @@ namespace Paway.Forms
         public Rectangle ImageRect { get; internal set; }
 
         /// <summary>
+        /// 当前 Item 在 ToolBar 中的 Rectangle
+        /// </summary>
+        [Browsable(false)]
+        public Rectangle Rectangle { get; internal set; }
+
+        /// <summary>
         /// 获取或设置包含有关控件的数据的对象。
         /// </summary>
         [Description("获取或设置包含有关控件的数据的对象")]
@@ -199,12 +205,6 @@ namespace Paway.Forms
             }
         }
 
-        /// <summary>
-        /// 当前 Item 在 ToolBar 中的 Rectangle
-        /// </summary>
-        [Browsable(false)]
-        public Rectangle Rectangle { get; internal set; }
-
         private bool _enable = true;
         /// <summary>
         /// Item 当前启用状态
@@ -280,6 +280,25 @@ namespace Paway.Forms
             set
             {
                 _iChange = value;
+                TRefresh();
+            }
+        }
+
+        /// <summary>
+        /// 获取或设置项内的空白
+        /// </summary>
+        private Padding _textPading = new Padding(0);
+        /// <summary>
+        /// 获取或设置项内的空白
+        /// </summary>
+        [Description("获取或设置项内的空白")]
+        [DefaultValue(typeof(Padding), "0,0,0,0")]
+        public Padding TextPading
+        {
+            get { return _textPading; }
+            set
+            {
+                _textPading = value;
                 TRefresh();
             }
         }

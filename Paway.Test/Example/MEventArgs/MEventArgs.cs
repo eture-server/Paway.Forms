@@ -8,13 +8,13 @@ namespace Paway.Test
 {
     public class MEventArgs : EventArgs
     {
-        [Property(IShow = false)]
+        [NoShow]
         public bool Result { get; set; }
 
-        [Property(IShow = false)]
+        [NoShow]
         public MType MType { get; set; }
 
-        [Property(IShow = false)]
+        [NoShow]
         public string Message { get; set; }
 
         public MEventArgs() { }

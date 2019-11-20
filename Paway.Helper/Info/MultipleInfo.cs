@@ -17,12 +17,12 @@ namespace Paway.Helper
         /// <summary>
         /// 主键Id
         /// </summary>
-        [Property(IShow = false)]
+        [NoShow]
         public int Id { get; set; }
         /// <summary>
         /// 多选字段
         /// </summary>
-        [Property(IShow = false)]
+        [NoShow]
         public bool Selected { get; set; }
         /// <summary>
         /// 显示图片

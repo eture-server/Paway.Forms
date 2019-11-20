@@ -576,7 +576,7 @@ namespace Paway.Helper
             var property = properties.Find(c => c.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
             if (property == null)
             {
-                property = properties.Find(c => c.Column().Equals(name, StringComparison.OrdinalIgnoreCase));
+                property = properties.Find(c => c.ColumnName().Equals(name, StringComparison.OrdinalIgnoreCase));
             }
             return property;
         }
@@ -613,7 +613,7 @@ namespace Paway.Helper
                 Type dbType = property.PropertyType;
                 if (dbType.IsGenericType) dbType = Nullable.GetUnderlyingType(dbType);
                 if (sql && (dbType == typeof(Image) || dbType == typeof(Bitmap))) dbType = typeof(byte[]);
-                table.Columns.Add(property.Column(), dbType);
+                table.Columns.Add(property.ColumnName(), dbType);
             }
             return table;
         }
@@ -719,63 +719,50 @@ namespace Paway.Helper
         /// </summary>
         public static string TableName(this Type type)
         {
-            return type.Table().Table;
+            var list = type.GetCustomAttributes(typeof(Table), false) as Table[];
+            if (list.Length == 1 && list[0].Name != null)
+            {
+                return list[0].Name;
+            }
+            throw new ArgumentException("没有指定表名称");
         }
         /// <summary>
         /// 获取主键
         /// </summary>
         public static string TableKey(this Type type)
         {
-            var attrList = type.GetCustomAttributes(typeof(TableAttribute), false) as TableAttribute[];
-            if (attrList.Length == 0) return new TableAttribute().Keys;
-            return attrList[0].Keys;
-        }
-        /// <summary>
-        /// 返回特性，检查表名及主键或主列
-        /// </summary>
-        public static TableAttribute Table(this Type type)
-        {
-            var attrList = type.GetCustomAttributes(typeof(TableAttribute), false) as TableAttribute[];
-            if (attrList.Length == 0) return new TableAttribute();
-            if (attrList[0].Table == null) throw new ArgumentException("没有指定表名称");
-            return attrList[0];
-        }
-        /// <summary>
-        /// 生成数据列标记
-        /// </summary>
-        public static bool ISelect(this PropertyInfo pro, out string column)
-        {
-            column = pro.Name;
-            var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            if (list.Length == 1 && list[0].Column != null)
+            var properties = type.Properties();
+            foreach (var property in properties)
             {
-                column = list[0].Column;
+                if (property.IKey())
+                {
+                    return property.ColumnName();
+                }
+                if (property.IMark())
+                {
+                    return property.ColumnName();
+                }
             }
-            return list.Length == 0 || list[0].ISelect;
+            return nameof(IId.Id);
         }
         /// <summary>
-        /// 显示列标记
+        /// 显示属性
         /// </summary>
-        public static bool IShow(this MemberInfo pro, out string text)
+        public static bool IBrowsable(this MemberInfo pro)
         {
-            text = pro.Name;
-            var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            if (list.Length == 1 && list[0].Text != null)
-            {
-                text = list[0].Text;
-            }
-            return list.Length == 0 || list[0].IShow;
+            var list = pro.GetCustomAttributes(typeof(BrowsableAttribute), false) as BrowsableAttribute[];
+            return list.Length == 0 || list[0].Browsable;
         }
         /// <summary>
-        /// 获取列名
+        /// 自定义特性-数据库列名称
         /// 兼容视图多表查询、自定义列名
         /// </summary>
-        public static string Column(this MemberInfo pro)
+        public static string ColumnName(this MemberInfo pro)
         {
-            var list = pro.GetCustomAttributes(typeof(PropertyAttribute), false) as PropertyAttribute[];
-            if (list.Length == 1 && list[0].Column != null)
+            var list = pro.GetCustomAttributes(typeof(Column), false) as Column[];
+            if (list.Length == 1 && list[0].Name != null)
             {
-                var column = list[0].Column;
+                var column = list[0].Name;
                 if (column.Contains(" "))
                 {
                     column = column.Substring(column.LastIndexOf(" ") + 1);
@@ -789,27 +776,63 @@ namespace Paway.Helper
             return pro.Name;
         }
         /// <summary>
-        /// 显示属性
+        /// 自定义特性-文本名称
         /// </summary>
-        public static bool IBrowsable(this MemberInfo pro)
+        public static string TextName(this PropertyInfo pro)
         {
-            var list = pro.GetCustomAttributes(typeof(BrowsableAttribute), false) as BrowsableAttribute[];
-            return list.Length == 0 || list[0].Browsable;
+            var list = pro.GetCustomAttributes(typeof(Text), false) as Text[];
+            if (list.Length == 1 && list[0].Name != null)
+            {
+                return list[0].Name;
+            }
+            return pro.Name;
         }
         /// <summary>
-        /// 生成到ExcelTable标记
+        /// 自定义特性-标识列
         /// </summary>
-        public static bool IExcel(this MemberInfo pro)
+        public static bool IMark(this MemberInfo pro)
         {
-            var list = pro.GetCustomAttributes(typeof(NoExcelAttribute), false) as NoExcelAttribute[];
+            var list = pro.GetCustomAttributes(typeof(Mark), false) as Mark[];
+            return list.Length == 1;
+        }
+        /// <summary>
+        /// 自定义特性-主键列
+        /// </summary>
+        public static bool IKey(this MemberInfo pro)
+        {
+            var list = pro.GetCustomAttributes(typeof(Key), false) as Key[];
+            return list.Length == 1;
+        }
+        /// <summary>
+        /// 自定义特性-不显示列
+        /// </summary>
+        public static bool IShow(this MemberInfo pro)
+        {
+            var list = pro.GetCustomAttributes(typeof(NoShow), false) as NoShow[];
             return list.Length == 0;
         }
         /// <summary>
-        /// 自定义不复制列标记
+        /// 自定义特性-不生成数据列
+        /// </summary>
+        public static bool ISelect(this MemberInfo pro)
+        {
+            var list = pro.GetCustomAttributes(typeof(NoSelect), false) as NoSelect[];
+            return list.Length == 0;
+        }
+        /// <summary>
+        /// 自定义特性-不生成ExcelTable列
+        /// </summary>
+        public static bool IExcel(this MemberInfo pro)
+        {
+            var list = pro.GetCustomAttributes(typeof(NoExcel), false) as NoExcel[];
+            return list.Length == 0;
+        }
+        /// <summary>
+        /// 自定义特性-不复制列
         /// </summary>
         public static bool IClone(this MemberInfo pro)
         {
-            var list = pro.GetCustomAttributes(typeof(NoCloneAttribute), false) as NoCloneAttribute[];
+            var list = pro.GetCustomAttributes(typeof(NoClone), false) as NoClone[];
             return list.Length == 0;
         }
 

@@ -138,7 +138,7 @@ namespace Paway.Forms
             bool iTree = false;
             foreach (var property in type.PropertiesValue())
             {
-                var visible = property.IShow(out string text);
+                var visible = property.IShow();
                 DataGridViewColumn column;
                 if (visible && !iTree && (TextColumn.IsNullOrEmpty() || TextColumn.Equals(property.Name, StringComparison.OrdinalIgnoreCase)))
                 {
@@ -154,7 +154,7 @@ namespace Paway.Forms
                     else column = new DataGridViewTextBoxColumn();
                 }
                 column.Visible = visible;
-                column.HeaderText = text;
+                column.HeaderText = property.TextName();
                 column.Name = property.Name;
                 Columns.Add(column);
             }

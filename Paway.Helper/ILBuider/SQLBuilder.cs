@@ -35,7 +35,7 @@ namespace Paway.Helper
         public static SQLBuilder CreateBuilder(Type type, Type ptype, params string[] args)
         {
             var valueType = typeof(List<DbParameter>);
-            var key = type.Table().Key;
+            var key = type.TableKey();
             var addParameter = typeof(BuilderHelper).GetMethod(nameof(BuilderHelper.AddParameter),
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static, null,
                 new Type[] { typeof(string), typeof(object), typeof(Type), typeof(Type) }, null);
@@ -49,7 +49,8 @@ namespace Paway.Helper
             generator.Emit(OpCodes.Stloc, result);
             foreach (var property in type.PropertiesValue())
             {
-                if (!property.ISelect(out string column)) continue;
+                if (!property.ISelect()) continue;
+                var column = property.ColumnName();
                 if (args.Length > 0 && key != column &&
                     args.FirstOrDefault(c => c == column) == null &&
                     args.FirstOrDefault(c => c == property.Name) == null) continue;

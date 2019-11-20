@@ -5,78 +5,96 @@ using System.Reflection;
 namespace Paway.Helper
 {
     /// <summary>
-    /// 特性.字段Sql属性设置
-    /// </summary>
-    [Serializable]
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
-    public class PropertyAttribute : Attribute
-    {
-        /// <summary>
-        /// 是否生成数据列,
-        /// 默认true
-        /// </summary>
-        public bool ISelect { get; set; } = true;
-
-        /// <summary>
-        /// 是否显示列(GridView)
-        /// 默认默认true
-        /// </summary>
-        public bool IShow { get; set; } = true;
-
-        /// <summary>
-        /// 列名称
-        /// </summary>
-        public string Column { get; set; }
-
-        /// <summary>
-        /// 文本名称
-        /// </summary>
-        public string Text { get; set; }
-    }
-    /// <summary>
-    /// 特性.不导出Excel
-    /// </summary>
-    [Serializable]
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
-    public class NoExcelAttribute : Attribute
-    {
-        /// <summary>
-        /// </summary>
-        public NoExcelAttribute() { }
-    }
-    /// <summary>
-    /// 特性.不复制
+    /// 特性.列名称(对应数据库列)
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public class NoCloneAttribute : Attribute
+    public class Column : Attribute
     {
         /// <summary>
+        /// 列名称
         /// </summary>
-        public NoCloneAttribute() { }
+        public string Name { get; set; }
+        /// <summary>
+        /// 列名称(对应数据库列)
+        /// </summary>
+        public Column(string name)
+        {
+            this.Name = name;
+        }
     }
     /// <summary>
-    /// 特性.类Table设置
+    /// 特性.文本名称(GridView)
+    /// </summary>
+    [Serializable]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    public class Text : Attribute
+    {
+        /// <summary>
+        /// 文本名称
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// 显示文本名称(GridView)
+        /// </summary>
+        public Text(string name)
+        {
+            this.Name = name;
+        }
+    }
+    /// <summary>
+    /// 特性.不显示列(GridView)
+    /// </summary>
+    [Serializable]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    public class NoShow : Attribute { }
+    /// <summary>
+    /// 特性.不生成数据列
+    /// </summary>
+    [Serializable]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    public class NoSelect : Attribute { }
+    /// <summary>
+    /// 特性.不生成ExcelTable列
+    /// </summary>
+    [Serializable]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    public class NoExcel : Attribute { }
+    /// <summary>
+    /// 特性.不复制列
+    /// </summary>
+    [Serializable]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    public class NoClone : Attribute { }
+    /// <summary>
+    /// 特性.主键列
+    /// </summary>
+    [Serializable]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    public class Key : Attribute { }
+    /// <summary>
+    /// 特性.标识(唯一)列.可更新
+    /// </summary>
+    [Serializable]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    public class Mark : Attribute { }
+    /// <summary>
+    /// 特性.数据库表名称
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
-    public class TableAttribute : Attribute
+    public class Table : Attribute
     {
         /// <summary>
-        /// 主键名称，不可更新
+        /// 数据库表名称
         /// </summary>
-        public string Key { get; set; } = nameof(IId.Id);
+        public string Name { get; set; }
         /// <summary>
-        /// 标识(唯一)列名称，可更新
+        /// 数据库表名称
         /// </summary>
-        public string Mark { get; set; }
-        /// <summary>
-        /// 标识
-        /// </summary>
-        public string Keys { get { return Mark ?? Key; } }
-        /// <summary>
-        /// 表名称
-        /// </summary>
-        public string Table { get; set; }
+        public Table(string name)
+        {
+            this.Name = name;
+        }
     }
 }

@@ -276,11 +276,10 @@ namespace Paway.Helper
                     {
                         if (!property.IExcel()) continue;
                         if (filter != null && filter(list, property.Name)) continue;
-                        property.IShow(out string text);
                         var index = row.LastCellNum < 0 ? 0 : row.LastCellNum;
                         var cell = row.CreateCell(index);
                         cell.CellStyle = heardStyle;
-                        cell.SetCellValue(text);
+                        cell.SetCellValue(property.TextName());
                         sheet.SetColumnWidth(index, 20 * 256);
                     }
                     if (args.Length > 0)
