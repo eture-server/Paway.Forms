@@ -544,7 +544,7 @@ namespace Paway.Helper
         /// </summary>
         public static List<PropertyInfo> PropertiesValue(this Type type)
         {
-            var properties = type.Properties();
+            var properties = type.PropertiesCache();
             var vList = new List<PropertyInfo>();
             foreach (var property in properties)
             {
@@ -565,7 +565,7 @@ namespace Paway.Helper
         /// </summary>
         public static PropertyInfo Property(this Type type, string name)
         {
-            var properties = type.Properties();
+            var properties = type.PropertiesCache();
             return Property(properties, name);
         }
         /// <summary>
@@ -734,7 +734,7 @@ namespace Paway.Helper
         /// </summary>
         public static string TableKeys(this Type type)
         {
-            var properties = type.Properties();
+            var properties = type.PropertiesCache();
             foreach (var property in properties)
             {
                 if (property.IKey()) return property.ColumnName();
@@ -753,7 +753,7 @@ namespace Paway.Helper
         /// </summary>
         public static string TableKey(this Type type)
         {
-            var properties = type.Properties();
+            var properties = type.PropertiesCache();
             foreach (var property in properties)
             {
                 if (property.IKey()) return property.ColumnName();
@@ -882,7 +882,7 @@ namespace Paway.Helper
         /// </summary>
         private static bool TEquals(this Type parent, object t, object temp, bool child)
         {
-            var properties = parent.Properties();
+            var properties = parent.PropertiesCache();
             foreach (var property in properties)
             {
                 if (!property.IClone()) continue;

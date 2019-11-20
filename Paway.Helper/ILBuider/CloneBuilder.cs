@@ -29,7 +29,7 @@ namespace Paway.Helper
             generator.Emit(OpCodes.Newobj, type.GetConstructor(Type.EmptyTypes));
             generator.Emit(OpCodes.Stloc, result);
 
-            foreach (var property in type.Properties().FindAll(c => c.CanRead))
+            foreach (var property in type.PropertiesCache().FindAll(c => c.CanRead))
             {
                 if (!property.IClone()) continue;
                 Type dbType = property.PropertyType;
@@ -117,7 +117,7 @@ namespace Paway.Helper
             var dymMethod = new DynamicMethod(type.Name + nameof(CloneBuilder), null, new Type[] { typeof(object), typeof(object) }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
 
-            foreach (var property in type.Properties().FindAll(c => c.CanRead))
+            foreach (var property in type.PropertiesCache().FindAll(c => c.CanRead))
             {
                 if (!property.IClone()) continue;
                 Type dbType = property.PropertyType;

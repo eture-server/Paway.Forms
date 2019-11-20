@@ -600,7 +600,7 @@ namespace Paway.Forms
             if (type == null || type == typeof(string) || type.IsValueType) return;
             if (Items.Count == 0)
             {
-                var properties = type.Properties();
+                var properties = type.PropertiesCache();
                 foreach (var property in properties)
                 {
                     if (property.IShow())

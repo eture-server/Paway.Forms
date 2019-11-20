@@ -105,7 +105,7 @@ namespace Paway.Helper
         }
         private static void Save<T>(XmlDocument doc, XmlElement root, T info, Type type, bool allowEmpty = false)
         {
-            var properties = type.Properties();
+            var properties = type.PropertiesCache();
             foreach (PropertyInfo property in properties)
             {
                 if (!property.IBrowsable()) continue;

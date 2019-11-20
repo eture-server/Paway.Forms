@@ -524,9 +524,10 @@ namespace Paway.Helper
 
         #endregion
 
-        #region 静态
+        #region 静态缓存
         private static Dictionary<string, Type> GetTypeFunc { set; get; } = new Dictionary<string, Type>();
         private static Dictionary<string, PropertyInfo> GetPropertyFunc { set; get; } = new Dictionary<string, PropertyInfo>();
+        private static Dictionary<Type, List<PropertyInfo>> GetPropertiesFunc { set; get; } = new Dictionary<Type, List<PropertyInfo>>();
         /// <summary>
         /// 缓存反射类型
         /// </summary>
@@ -563,6 +564,21 @@ namespace Paway.Helper
                     GetPropertyFunc.Add(type.FullName + "." + name, property);
                 }
                 return property;
+            }
+        }
+        /// <summary>
+        /// 缓存类型反射属性列表
+        /// </summary>
+        public static List<PropertyInfo> PropertiesCache(this Type type)
+        {
+            lock (SyncRoot)
+            {
+                if (!GetPropertiesFunc.TryGetValue(type, out List<PropertyInfo> properties))
+                {
+                    properties = type.Properties();
+                    GetPropertiesFunc.Add(type, properties);
+                }
+                return properties;
             }
         }
 

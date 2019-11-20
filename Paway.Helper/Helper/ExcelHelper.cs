@@ -259,7 +259,7 @@ namespace Paway.Helper
                     CreateCellHeader(row, 0, title);
                 }
                 var type = list.GenericType();
-                var properties = type.Properties();
+                var properties = type.PropertiesCache();
                 var heardStyle = GetCellStyle(weekBook);
                 var defaultStyle = GetCellStyle(weekBook);
                 var numberStyle = GetCellStyle(weekBook, CellStyle.Number);

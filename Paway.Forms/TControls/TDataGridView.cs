@@ -795,7 +795,7 @@ namespace Paway.Forms
         {
             if (param == null) return;
             SpanColumns.Clear();
-            var properties = type.Properties();
+            var properties = type.PropertiesCache();
             for (int i = 0; i < properties.Count; i++)
             {
                 if (param.Contains(properties[i].Name)) SpanColumns.Add(i);
@@ -1121,7 +1121,7 @@ namespace Paway.Forms
         public void AddSpanHeader(Type type, string colIndexName, int colCount, string text)
         {
             var colIndex = 0;
-            var properties = type.Properties();
+            var properties = type.PropertiesCache();
             for (int i = 0; i < properties.Count; i++)
             {
                 if (properties[i].Name.Equals(colIndexName, StringComparison.OrdinalIgnoreCase))
@@ -1167,7 +1167,7 @@ namespace Paway.Forms
             if (type == null || type == typeof(string) || type.IsValueType) return;
 
             _iCheckBoxIndex = -1;
-            var properties = type.Properties();
+            var properties = type.PropertiesCache();
             for (var i = 0; i < Columns.Count; i++)
             {
                 if (Columns[i].Name == _iCheckBoxName)

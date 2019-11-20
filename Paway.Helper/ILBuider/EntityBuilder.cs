@@ -96,7 +96,7 @@ namespace Paway.Helper
             //LocalBuilder result = generator.DeclareLocal(type);
             //generator.Emit(OpCodes.Newobj, type.GetConstructor(Type.EmptyTypes));
             //generator.Emit(OpCodes.Stloc, result);
-            var properties = type.Properties();
+            var properties = type.PropertiesCache();
             for (int i = 0; i < dataRecord.ItemArray.Length; i++)
             {
                 PropertyInfo property = properties.Property(dataRecord.Table.Columns[i].ColumnName);

@@ -573,7 +573,7 @@ namespace Paway.Utils
             if (param == null) return;
             cmd.Parameters.Clear();
             var type = param.GetType();
-            foreach (var item in type.Properties())
+            foreach (var item in type.PropertiesCache())
             {
                 var value = item.GetValue(param, null);
                 var paramItem = AddParameters(item.Name, value);

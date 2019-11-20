@@ -132,7 +132,7 @@ namespace Paway.Forms
             this.gridview1.DataSource = tempList;
             if (showType != null)
             {
-                var properties = showType.Properties();
+                var properties = showType.PropertiesCache();
                 for (int i = 0; i < this.gridview1.Columns.Count; i++)
                 {
                     var property = properties.Property(this.gridview1.Columns[i].Name);
