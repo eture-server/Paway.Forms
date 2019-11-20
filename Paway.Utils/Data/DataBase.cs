@@ -227,7 +227,7 @@ namespace Paway.Utils
             {
                 if (iTrans) cmd = CommandStart();
 
-                var keys = typeof(T).TableKey();
+                var keys = typeof(T).TableKeys();
                 cmd.Parameters.Clear();
                 var param = AddParameters(keys, id);
                 cmd.Parameters.Add(param);
@@ -402,6 +402,7 @@ namespace Paway.Utils
                 cmd.CommandText = OnCommandText(sql);
                 var builder = SQLBuilder.CreateBuilder(list[0].GetType(), paramType);
                 var tableKey = type.TableKey();
+                var property = type.PropertyCache(tableKey);
                 for (var i = 0; i < list.Count; i++)
                 {
                     var pList = builder.Build(list[i]).ToArray();
@@ -409,9 +410,17 @@ namespace Paway.Utils
                     cmd.Parameters.AddRange(pList);
                     using (var dr = cmd.ExecuteReader())
                     {
+                        if (property == null) continue;
                         if (dr.Read())
                         {
-                            list[i].SetValue(tableKey, dr[tableKey]);
+                            if (property.PropertyType == typeof(long))
+                            {
+                                list[i].SetValue(nameof(IId.Id), dr[tableKey].ToLong());
+                            }
+                            else
+                            {
+                                list[i].SetValue(nameof(IId.Id), dr[tableKey].ToInt());
+                            }
                         }
                         else
                         {
@@ -914,7 +923,7 @@ namespace Paway.Utils
         /// </summary>
         public static string Delete(this Type type)
         {
-            var sql = string.Format("delete from [{0}] where [{1}]=@{1}", type.TableName(), type.TableKey());
+            var sql = string.Format("delete from [{0}] where [{1}]=@{1}", type.TableName(), type.TableKeys());
             return sql;
         }
         /// <summary>
@@ -947,7 +956,7 @@ namespace Paway.Utils
         /// </summary>
         public static string Update(this Type type, bool append = false, params string[] args)
         {
-            var tableKey = type.TableKey();
+            var tableKey = type.TableKeys();
             var sql = "update [{0}] set";
             sql = string.Format(sql, type.TableName());
             foreach (var property in type.PropertiesValue())
@@ -983,7 +992,7 @@ namespace Paway.Utils
         public static string Insert(this Type type, string getId, bool Identity)
         {
             var tableName = type.TableName();
-            type.Insert(type.TableKey(), out string insert, out string value);
+            type.Insert(type.TableKeys(), out string insert, out string value);
             var sql = string.Format("insert into [{0}]({1}) values({2})", tableName, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
             if (Identity)

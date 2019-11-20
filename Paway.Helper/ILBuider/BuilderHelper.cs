@@ -295,7 +295,7 @@ namespace Paway.Helper
             var item = sort.ElementAt(0);
             var type = list[0].GetType();
             var builder = SortBuilder.CreateBuilder(type, item.Key, out bool iString);
-            var property = type.Property(item.Key);
+            var property = type.PropertyCache(item.Key);
             OrderedParallelQuery<T> orderBy;
             if (iString)
             {
@@ -310,7 +310,7 @@ namespace Paway.Helper
             {
                 item = sort.ElementAt(i);
                 var builder2 = SortBuilder.CreateBuilder(type, item.Key, out iString);
-                property = type.Property(item.Key);
+                property = type.PropertyCache(item.Key);
                 if (iString)
                 {
                     orderBy = item.Value ? orderBy.ThenBy(c => builder2.Build(c) as string, new StringComparer()) :
@@ -526,6 +526,7 @@ namespace Paway.Helper
 
         #region 静态
         private static Dictionary<string, Type> GetTypeFunc { set; get; } = new Dictionary<string, Type>();
+        private static Dictionary<string, PropertyInfo> GetPropertyFunc { set; get; } = new Dictionary<string, PropertyInfo>();
         /// <summary>
         /// 缓存反射类型
         /// </summary>
@@ -542,12 +543,26 @@ namespace Paway.Helper
             {
                 if (!GetTypeFunc.TryGetValue(type.FullName + "." + name, out Type propertyType))
                 {
-                    var property = type.Property(name);
-                    if (property == null) propertyType = null;
-                    else propertyType = property.PropertyType;
+                    var property = type.PropertyCache(name);
+                    propertyType = property?.PropertyType;
                     GetTypeFunc.Add(type.FullName + "." + name, propertyType);
                 }
                 return propertyType;
+            }
+        }
+        /// <summary>
+        /// 缓存反射属性
+        /// </summary>
+        public static PropertyInfo PropertyCache(this Type type, string name)
+        {
+            lock (SyncRoot)
+            {
+                if (!GetPropertyFunc.TryGetValue(type.FullName + "." + name, out PropertyInfo property))
+                {
+                    property = type.Property(name);
+                    GetPropertyFunc.Add(type.FullName + "." + name, property);
+                }
+                return property;
             }
         }
 

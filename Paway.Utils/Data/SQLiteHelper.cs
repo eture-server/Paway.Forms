@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Paway.Helper;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -23,7 +24,7 @@ namespace Paway.Utils
         /// </summary>
         public SQLiteHelper() : base(typeof(SQLiteConnection), typeof(SQLiteCommand), typeof(SQLiteParameter))
         {
-            GetId = "select LAST_INSERT_ROWID() Id";
+            GetId = "select LAST_INSERT_ROWID() " + nameof(IId.Id);
         }
 
         /// <summary>

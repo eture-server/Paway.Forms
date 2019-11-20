@@ -3,6 +3,7 @@ using System.Data.Common;
 using MySql.Data.MySqlClient;
 using System.Data;
 using System;
+using Paway.Helper;
 
 namespace Paway.Utils
 {
@@ -38,7 +39,7 @@ namespace Paway.Utils
         public MySqlHelper()
             : base(typeof(MySqlConnection), typeof(MySqlCommand), typeof(MySqlParameter))
         {
-            base.GetId = "SELECT LAST_INSERT_ID() Id";
+            base.GetId = "SELECT LAST_INSERT_ID() " + nameof(IId.Id);
             base.ILongConnect = true;
         }
 

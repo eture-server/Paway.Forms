@@ -25,7 +25,7 @@ namespace Paway.Helper
         {
             var dymMethod = new DynamicMethod(type.Name + nameof(ValueBuilder), typeof(object), new Type[] { typeof(object) }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
-            var property = type.Property(name);
+            var property = type.PropertyCache(name);
             if (property == null) throw new ArgumentNullException(name);
             if (!property.CanRead) throw new ArgumentException("无法读取值");
             {
@@ -69,7 +69,7 @@ namespace Paway.Helper
         {
             var dymMethod = new DynamicMethod(type.Name + nameof(ValueBuilder), null, new Type[] { typeof(object), typeof(object) }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
-            var property = type.Property(name);
+            var property = type.PropertyCache(name);
             if (property != null && property.CanWrite)
             {
                 generator.Emit(OpCodes.Ldarg_0);
@@ -90,7 +90,7 @@ namespace Paway.Helper
         {
             var dymMethod = new DynamicMethod(type.Name + nameof(ValueBuilder), typeof(Type), new Type[] { }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
-            var property = type.Property(name);
+            var property = type.PropertyCache(name);
             if (property == null) throw new ArgumentNullException(name);
             {
                 generator.Emit(OpCodes.Ldtoken, property.PropertyType);

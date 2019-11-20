@@ -499,7 +499,7 @@ namespace Paway.Forms
             {
                 type = list.GenericType();
                 var dt = list.ToDataTable();
-                dt.PrimaryKey = new DataColumn[] { dt.Columns[type.TableKey()] };
+                dt.PrimaryKey = new DataColumn[] { dt.Columns[type.TableKeys()] };
                 base.DataSource = dt;
                 if (list.Count == 0) ClearBox();
             }

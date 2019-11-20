@@ -727,9 +727,9 @@ namespace Paway.Helper
             throw new ArgumentException("没有指定表名称");
         }
         /// <summary>
-        /// 获取主键
+        /// 获取主键(Key.Mark.Id)
         /// </summary>
-        public static string TableKey(this Type type)
+        public static string TableKeys(this Type type)
         {
             var properties = type.Properties();
             foreach (var property in properties)
@@ -744,6 +744,21 @@ namespace Paway.Helper
                 }
             }
             return nameof(IId.Id);
+        }
+        /// <summary>
+        /// 获取自更新唯一主键(Key)
+        /// </summary>
+        public static string TableKey(this Type type)
+        {
+            var properties = type.Properties();
+            foreach (var property in properties)
+            {
+                if (property.IKey())
+                {
+                    return property.ColumnName();
+                }
+            }
+            return null;
         }
         /// <summary>
         /// 显示属性
@@ -788,7 +803,7 @@ namespace Paway.Helper
             return pro.Name;
         }
         /// <summary>
-        /// 自定义特性-标识列
+        /// 自定义特性-标识列(非自增)
         /// </summary>
         public static bool IMark(this MemberInfo pro)
         {
@@ -796,7 +811,7 @@ namespace Paway.Helper
             return list.Length == 1;
         }
         /// <summary>
-        /// 自定义特性-主键列
+        /// 自定义特性-主键列(自增)
         /// </summary>
         public static bool IKey(this MemberInfo pro)
         {

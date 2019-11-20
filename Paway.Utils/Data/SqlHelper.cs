@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Paway.Helper;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -27,7 +28,7 @@ namespace Paway.Utils
         public SqlHelper()
             : base(typeof(SqlConnection), typeof(SqlCommand), typeof(SqlParameter))
         {
-            GetId = "select @@IDENTITY Id";
+            GetId = "select @@IDENTITY " + nameof(IId.Id);
         }
 
         /// <summary>
