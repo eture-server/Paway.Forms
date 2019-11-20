@@ -719,7 +719,7 @@ namespace Paway.Helper
         /// </summary>
         public static string TableName(this Type type)
         {
-            var list = type.GetCustomAttributes(typeof(Table), false) as Table[];
+            var list = type.GetCustomAttributes(typeof(TableAttribute), false) as TableAttribute[];
             if (list.Length == 1 && list[0].Name != null)
             {
                 return list[0].Name;
@@ -778,7 +778,7 @@ namespace Paway.Helper
         /// </summary>
         public static string ColumnName(this MemberInfo pro)
         {
-            var list = pro.GetCustomAttributes(typeof(Column), false) as Column[];
+            var list = pro.GetCustomAttributes(typeof(ColumnAttribute), false) as ColumnAttribute[];
             if (list.Length == 1 && list[0].Name != null)
             {
                 var column = list[0].Name;
@@ -799,7 +799,7 @@ namespace Paway.Helper
         /// </summary>
         public static string TextName(this PropertyInfo pro)
         {
-            var list = pro.GetCustomAttributes(typeof(Text), false) as Text[];
+            var list = pro.GetCustomAttributes(typeof(TextAttribute), false) as TextAttribute[];
             if (list.Length == 1 && list[0].Name != null)
             {
                 return list[0].Name;
@@ -811,7 +811,7 @@ namespace Paway.Helper
         /// </summary>
         public static bool IMark(this MemberInfo pro)
         {
-            var list = pro.GetCustomAttributes(typeof(Mark), false) as Mark[];
+            var list = pro.GetCustomAttributes(typeof(MarkAttribute), false) as MarkAttribute[];
             return list.Length == 1;
         }
         /// <summary>
@@ -819,7 +819,7 @@ namespace Paway.Helper
         /// </summary>
         public static bool IKey(this MemberInfo pro)
         {
-            var list = pro.GetCustomAttributes(typeof(Key), false) as Key[];
+            var list = pro.GetCustomAttributes(typeof(KeyAttribute), false) as KeyAttribute[];
             return list.Length == 1;
         }
         /// <summary>
@@ -827,7 +827,7 @@ namespace Paway.Helper
         /// </summary>
         public static bool IShow(this MemberInfo pro)
         {
-            var list = pro.GetCustomAttributes(typeof(NoShow), false) as NoShow[];
+            var list = pro.GetCustomAttributes(typeof(NoShowAttribute), false) as NoShowAttribute[];
             return list.Length == 0;
         }
         /// <summary>
@@ -835,7 +835,7 @@ namespace Paway.Helper
         /// </summary>
         public static bool ISelect(this MemberInfo pro)
         {
-            var list = pro.GetCustomAttributes(typeof(NoSelect), false) as NoSelect[];
+            var list = pro.GetCustomAttributes(typeof(NoSelectAttribute), false) as NoSelectAttribute[];
             return list.Length == 0;
         }
         /// <summary>
@@ -843,7 +843,7 @@ namespace Paway.Helper
         /// </summary>
         public static bool IExcel(this MemberInfo pro)
         {
-            var list = pro.GetCustomAttributes(typeof(NoExcel), false) as NoExcel[];
+            var list = pro.GetCustomAttributes(typeof(NoExcelAttribute), false) as NoExcelAttribute[];
             return list.Length == 0;
         }
         /// <summary>
@@ -851,7 +851,7 @@ namespace Paway.Helper
         /// </summary>
         public static bool IClone(this MemberInfo pro)
         {
-            var list = pro.GetCustomAttributes(typeof(NoClone), false) as NoClone[];
+            var list = pro.GetCustomAttributes(typeof(NoCloneAttribute), false) as NoCloneAttribute[];
             return list.Length == 0;
         }
 

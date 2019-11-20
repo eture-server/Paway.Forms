@@ -9,7 +9,7 @@ namespace Paway.Helper
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public class Column : Attribute
+    public class ColumnAttribute : Attribute
     {
         /// <summary>
         /// 列名称
@@ -18,7 +18,7 @@ namespace Paway.Helper
         /// <summary>
         /// 列名称(对应数据库列)
         /// </summary>
-        public Column(string name)
+        public ColumnAttribute(string name)
         {
             this.Name = name;
         }
@@ -28,7 +28,7 @@ namespace Paway.Helper
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public class Text : Attribute
+    public class TextAttribute : Attribute
     {
         /// <summary>
         /// 文本名称
@@ -37,7 +37,7 @@ namespace Paway.Helper
         /// <summary>
         /// 显示文本名称(GridView)
         /// </summary>
-        public Text(string name)
+        public TextAttribute(string name)
         {
             this.Name = name;
         }
@@ -47,43 +47,43 @@ namespace Paway.Helper
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public class NoShow : Attribute { }
+    public class NoShowAttribute : Attribute { }
     /// <summary>
     /// 特性.不生成数据列
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public class NoSelect : Attribute { }
+    public class NoSelectAttribute : Attribute { }
     /// <summary>
     /// 特性.不生成ExcelTable列
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public class NoExcel : Attribute { }
+    public class NoExcelAttribute : Attribute { }
     /// <summary>
     /// 特性.不复制列
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public class NoClone : Attribute { }
+    public class NoCloneAttribute : Attribute { }
     /// <summary>
     /// 特性.主键列
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public class Key : Attribute { }
+    public class KeyAttribute : Attribute { }
     /// <summary>
     /// 特性.标识(唯一)列.可更新
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public class Mark : Attribute { }
+    public class MarkAttribute : Attribute { }
     /// <summary>
     /// 特性.数据库表名称
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
-    public class Table : Attribute
+    public class TableAttribute : Attribute
     {
         /// <summary>
         /// 数据库表名称
@@ -92,7 +92,7 @@ namespace Paway.Helper
         /// <summary>
         /// 数据库表名称
         /// </summary>
-        public Table(string name)
+        public TableAttribute(string name)
         {
             this.Name = name;
         }
