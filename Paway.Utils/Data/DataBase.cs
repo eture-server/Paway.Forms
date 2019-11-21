@@ -8,6 +8,7 @@ using Paway.Helper;
 using System.ComponentModel;
 using System.Linq;
 using System.Collections;
+using System.Diagnostics;
 
 namespace Paway.Utils
 {
@@ -20,6 +21,7 @@ namespace Paway.Utils
         /// 日志
         /// </summary>
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly Stopwatch sw = new Stopwatch();
 
         #region 字段与属性
         private readonly Type connType;
@@ -55,7 +57,7 @@ namespace Paway.Utils
         /// <summary>
         /// SQL执行记录事件
         /// </summary>
-        public event Action<string, DbParameterCollection> ExecuteEvent;
+        public event Action<long, string, DbParameterCollection> ExecuteEvent;
         /// <summary>
         /// 引发更新事件
         /// </summary>
@@ -68,7 +70,7 @@ namespace Paway.Utils
         /// </summary>
         protected virtual void OnExecute(DbCommand cmd)
         {
-            ExecuteEvent?.Invoke(cmd.CommandText, cmd.Parameters);
+            ExecuteEvent?.Invoke(sw.ElapsedMilliseconds, cmd.CommandText, cmd.Parameters); ;
         }
 
         #endregion
@@ -750,6 +752,7 @@ namespace Paway.Utils
                     cmd.Connection.Dispose();
                 }
                 cmd.Dispose();
+                sw.Stop();
             }
             catch (Exception ex)
             {
@@ -838,6 +841,7 @@ namespace Paway.Utils
         {
             var cmd = (DbCommand)Activator.CreateInstance(cmdType);
             cmd.CommandType = CommandType.Text;
+            sw.Restart();
             return cmd;
         }
         private void AddParameters(DbCommand cmd, object param)
