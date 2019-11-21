@@ -49,16 +49,27 @@ namespace Paway.Utils
 
         #region 事件
         /// <summary>
-        /// 抛出事件
+        /// 更新事件(直接执行的SQL语句不引发事件)
+        /// </summary>
+        public event Action<Type, OperType, object> UpdateEvent;
+        /// <summary>
+        /// SQL执行记录事件
+        /// </summary>
+        public event Action<string, DbParameterCollection> ExecuteEvent;
+        /// <summary>
+        /// 引发更新事件
         /// </summary>
         protected virtual void OnUpdate(DbCommand cmd, IList list, OperType type)
         {
             UpdateEvent?.Invoke(list.GenericType(), type, list);
         }
         /// <summary>
-        /// 更新事件
+        /// 引发SQL执行记录事件
         /// </summary>
-        public event Action<Type, OperType, object> UpdateEvent;
+        protected virtual void OnExecute(DbCommand cmd)
+        {
+            ExecuteEvent?.Invoke(cmd.CommandText, cmd.Parameters);
+        }
 
         #endregion
 
@@ -87,6 +98,7 @@ namespace Paway.Utils
         #region public 执行外部Sql
         /// <summary>
         /// 对连接执行 Transact-SQL 语句并返回受影响的行数。
+        /// <para>不引发UpdateEvent</para>
         /// </summary>
         public int ExecuteNonQuery(string sql, object param = null, DbCommand cmd = null)
         {
@@ -95,8 +107,10 @@ namespace Paway.Utils
             {
                 if (iTrans) cmd = CommandStart();
                 cmd.CommandText = OnCommandText(sql);
-                AddParameters(param, cmd);
-                return cmd.ExecuteNonQuery();
+                AddParameters(cmd, param);
+                var result = cmd.ExecuteNonQuery();
+                OnExecute(cmd);
+                return result;
             }
             catch (Exception ex)
             {
@@ -119,8 +133,10 @@ namespace Paway.Utils
             {
                 if (iTrans) cmd = CommandStart();
                 cmd.CommandText = OnCommandText(sql);
-                AddParameters(param, cmd);
-                return cmd.ExecuteScalar();
+                AddParameters(cmd, param);
+                var obj = cmd.ExecuteScalar();
+                OnExecute(cmd);
+                return obj;
             }
             catch (Exception ex)
             {
@@ -159,9 +175,10 @@ namespace Paway.Utils
             {
                 if (iTrans) cmd = CommandStart();
                 cmd.CommandText = OnCommandText(sql);
-                AddParameters(param, cmd);
+                AddParameters(cmd, param);
                 using (var dr = cmd.ExecuteReader())
                 {
+                    OnExecute(cmd);
                     var table = type == null ? new DataTable() : type.CreateTable(true);
                     table.Load(dr);
                     return table;
@@ -180,20 +197,23 @@ namespace Paway.Utils
 
         /// <summary>
         /// 使用事务处理  Transact-SQL 语句列表
+        /// <para>不引发UpdateEvent</para>
         /// </summary>
-        public bool TransExecuteNonQuery(List<string> sqlList, DbCommand cmd = null)
+        public int ExecuteNonQuery(List<string> sqlList, DbCommand cmd = null)
         {
             var iTrans = cmd == null;
             try
             {
                 if (iTrans) cmd = TransStart();
+                int result = 0;
                 foreach (var sql in sqlList)
                 {
                     cmd.CommandText = OnCommandText(sql);
-                    cmd.ExecuteNonQuery();
+                    result += cmd.ExecuteNonQuery();
+                    OnExecute(cmd);
                 }
-                if (iTrans) return TransCommit(cmd);
-                else return true;
+                if (iTrans) TransCommit(cmd);
+                return result;
             }
             catch (Exception ex)
             {
@@ -331,14 +351,12 @@ namespace Paway.Utils
                     sql = type.Select(find, count, args);
                 }
                 cmd.CommandText = OnCommandText(sql);
-                AddParameters(param, cmd);
+                AddParameters(cmd, param);
                 using (var dr = cmd.ExecuteReader())
                 {
+                    OnExecute(cmd);
                     var table = type.CreateTable(true);
                     table.Load(dr);
-                    //未知处理
-                    //table.PrimaryKey = new DataColumn[] { table.Columns[type.TableKey()] };
-                    //table.PrimaryKey = null;
                     return table;
                 }
             }
@@ -359,7 +377,7 @@ namespace Paway.Utils
         /// <summary>
         /// 插入行
         /// </summary>
-        public bool Insert<T>(T t, DbCommand cmd = null, bool Identity = false)
+        public int Insert<T>(T t, DbCommand cmd = null, bool Identity = false)
         {
             IList list = new List<T> { t };
             return InsertList(list, cmd, Identity);
@@ -367,7 +385,7 @@ namespace Paway.Utils
         /// <summary>
         /// 插入行
         /// </summary>
-        public bool Insert(object t, DbCommand cmd = null, bool Identity = false)
+        public int Insert(object t, DbCommand cmd = null, bool Identity = false)
         {
             var list = t.GetType().GenericList();
             list.Add(t);
@@ -376,23 +394,23 @@ namespace Paway.Utils
         /// <summary>
         /// 插入列表
         /// </summary>
-        public bool Insert<T>(List<T> list, DbCommand cmd = null, bool Identity = false)
+        public int Insert<T>(List<T> list, DbCommand cmd = null, bool Identity = false)
         {
             return InsertList(list, cmd, Identity);
         }
         /// <summary>
         /// 插入列表
         /// </summary>
-        public bool Insert(IList list, DbCommand cmd = null, bool Identity = false)
+        public int Insert(IList list, DbCommand cmd = null, bool Identity = false)
         {
             return InsertList(list, cmd, Identity);
         }
         /// <summary>
         /// 插入列表
         /// </summary>
-        private bool InsertList(IList list, DbCommand cmd = null, bool Identity = false)
+        private int InsertList(IList list, DbCommand cmd = null, bool Identity = false)
         {
-            if (list.Count == 0) return false;
+            if (list.Count == 0) return 0;
             var iTrans = cmd == null;
             try
             {
@@ -403,6 +421,7 @@ namespace Paway.Utils
                 var builder = SQLBuilder.CreateBuilder(list[0].GetType(), paramType);
                 var tableKey = type.TableKey();
                 var property = type.PropertyCache(tableKey);
+                int result = 0;
                 for (var i = 0; i < list.Count; i++)
                 {
                     var pList = builder.Build(list[i]).ToArray();
@@ -410,6 +429,8 @@ namespace Paway.Utils
                     cmd.Parameters.AddRange(pList);
                     using (var dr = cmd.ExecuteReader())
                     {
+                        result++;
+                        OnExecute(cmd);
                         if (property == null) continue;
                         if (dr.Read())
                         {
@@ -429,8 +450,8 @@ namespace Paway.Utils
                     }
                 }
                 OnUpdate(cmd, list, OperType.Insert);
-                if (iTrans) return TransCommit(cmd);
-                else return true;
+                if (iTrans) TransCommit(cmd);
+                return result;
             }
             catch (Exception ex)
             {
@@ -449,14 +470,14 @@ namespace Paway.Utils
         /// <summary>
         /// 更新行
         /// </summary>
-        public bool Update<T>(T t, params string[] args)
+        public int Update<T>(T t, params string[] args)
         {
             return Update(t, null, args);
         }
         /// <summary>
         /// 更新行
         /// </summary>
-        public bool Update<T>(T t, DbCommand cmd = null, params string[] args)
+        public int Update<T>(T t, DbCommand cmd = null, params string[] args)
         {
             IList list = new List<T> { t };
             return UpdateList(list, cmd, args);
@@ -464,7 +485,7 @@ namespace Paway.Utils
         /// <summary>
         /// 更新行
         /// </summary>
-        public bool Update(object t, DbCommand cmd = null, params string[] args)
+        public int Update(object t, DbCommand cmd = null, params string[] args)
         {
             var list = t.GetType().GenericList();
             list.Add(t);
@@ -473,37 +494,37 @@ namespace Paway.Utils
         /// <summary>
         /// 更新列表
         /// </summary>
-        public bool Update<T>(List<T> list, params string[] args)
+        public int Update<T>(List<T> list, params string[] args)
         {
             return UpdateList(list, null, args);
         }
         /// <summary>
         /// 更新列表
         /// </summary>
-        public bool Update(IList list, params string[] args)
+        public int Update(IList list, params string[] args)
         {
             return UpdateList(list, null, args);
         }
         /// <summary>
         /// 更新列表
         /// </summary>
-        public bool Update<T>(List<T> list, DbCommand cmd = null, params string[] args)
+        public int Update<T>(List<T> list, DbCommand cmd = null, params string[] args)
         {
             return UpdateList(list, cmd, args);
         }
         /// <summary>
         /// 更新列表
         /// </summary>
-        public bool Update(IList list, DbCommand cmd = null, params string[] args)
+        public int Update(IList list, DbCommand cmd = null, params string[] args)
         {
             return UpdateList(list, cmd, args);
         }
         /// <summary>
         /// 更新列表
         /// </summary>
-        private bool UpdateList(IList list, DbCommand cmd = null, params string[] args)
+        private int UpdateList(IList list, DbCommand cmd = null, params string[] args)
         {
-            if (list.Count == 0) return false;
+            if (list.Count == 0) return 0;
             var iTrans = cmd == null;
             try
             {
@@ -512,16 +533,18 @@ namespace Paway.Utils
                 var sql = type.Update(args);
                 cmd.CommandText = OnCommandText(sql);
                 var builder = SQLBuilder.CreateBuilder(list[0].GetType(), paramType, args);
+                int result = 0;
                 foreach (var item in list)
                 {
                     var pList = builder.Build(item).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
-                    cmd.ExecuteNonQuery();
+                    result += cmd.ExecuteNonQuery();
+                    OnExecute(cmd);
                 }
                 OnUpdate(cmd, list, OperType.Update);
-                if (iTrans) return TransCommit(cmd);
-                else return true;
+                if (iTrans) TransCommit(cmd);
+                return result;
             }
             catch (Exception ex)
             {
@@ -540,23 +563,31 @@ namespace Paway.Utils
         /// <summary>
         /// 删除所有行(不监听更新事件)
         /// </summary>
-        public int Delete<T>(DbCommand cmd = null)
+        public int Delete<T>(DbCommand cmd = null) where T : new()
         {
             return Delete<T>(string.Empty, null, cmd);
         }
         /// <summary>
         /// 删除指定条件下的数据(不监听更新事件)
         /// </summary>
-        public int Delete<T>(string find, object param = null, DbCommand cmd = null)
+        public int Delete<T>(string find, object param = null, DbCommand cmd = null) where T : new()
         {
             var iTrans = cmd == null;
             try
             {
                 if (iTrans) cmd = CommandStart();
+                List<T> list = null;
+                if (UpdateEvent != null)
+                {
+                    list = Find<T>(find, param, cmd);
+                }
                 var sql = typeof(T).Delete(find);
                 cmd.CommandText = OnCommandText(sql);
-                AddParameters(param, cmd);
-                return cmd.ExecuteNonQuery();
+                AddParameters(cmd, param);
+                var result = cmd.ExecuteNonQuery();
+                OnExecute(cmd);
+                if (list != null) OnUpdate(cmd, list, OperType.Delete);
+                return result;
             }
             catch (Exception ex)
             {
@@ -568,23 +599,11 @@ namespace Paway.Utils
                 CommandEnd(cmd, iTrans);
             }
         }
-        private void AddParameters(object param, DbCommand cmd)
-        {
-            if (param == null) return;
-            cmd.Parameters.Clear();
-            var type = param.GetType();
-            foreach (var item in type.PropertiesCache())
-            {
-                var value = item.GetValue(param, null);
-                var paramItem = AddParameters(item.Name, value);
-                cmd.Parameters.Add(paramItem);
-            }
-        }
 
         /// <summary>
         /// 删除行
         /// </summary>
-        public bool Delete<T>(T t, DbCommand cmd = null)
+        public int Delete<T>(T t, DbCommand cmd = null)
         {
             IList list = new List<T> { t };
             return DeleteList(list, cmd);
@@ -592,23 +611,23 @@ namespace Paway.Utils
         /// <summary>
         /// 删除列表
         /// </summary>
-        public bool Delete<T>(List<T> list, DbCommand cmd = null)
+        public int Delete<T>(List<T> list, DbCommand cmd = null)
         {
             return DeleteList(list, cmd);
         }
         /// <summary>
         /// 删除列表
         /// </summary>
-        public bool Delete(IList list, DbCommand cmd = null)
+        public int Delete(IList list, DbCommand cmd = null)
         {
             return DeleteList(list, cmd);
         }
         /// <summary>
         /// 删除列表
         /// </summary>
-        private bool DeleteList(IList list, DbCommand cmd = null)
+        private int DeleteList(IList list, DbCommand cmd = null)
         {
-            if (list.Count == 0) return false;
+            if (list.Count == 0) return 0;
             var iTrans = cmd == null;
             try
             {
@@ -617,16 +636,18 @@ namespace Paway.Utils
                 var sql = type.Delete();
                 cmd.CommandText = OnCommandText(sql);
                 var builder = SQLBuilder.CreateBuilder(list[0].GetType(), paramType);
+                int result = 0;
                 foreach (var item in list)
                 {
                     var pList = builder.Build(item).ToArray();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddRange(pList);
-                    cmd.ExecuteNonQuery();
+                    result += cmd.ExecuteNonQuery();
+                    OnExecute(cmd);
                 }
                 OnUpdate(cmd, list, OperType.Delete);
-                if (iTrans) return TransCommit(cmd);
-                else return true;
+                if (iTrans) TransCommit(cmd);
+                return result;
             }
             catch (Exception ex)
             {
@@ -818,6 +839,18 @@ namespace Paway.Utils
             var cmd = (DbCommand)Activator.CreateInstance(cmdType);
             cmd.CommandType = CommandType.Text;
             return cmd;
+        }
+        private void AddParameters(DbCommand cmd, object param)
+        {
+            if (param == null) return;
+            cmd.Parameters.Clear();
+            var type = param.GetType();
+            foreach (var item in type.PropertiesCache())
+            {
+                var value = item.GetValue(param, null);
+                var paramItem = AddParameters(item.Name, value);
+                cmd.Parameters.Add(paramItem);
+            }
         }
 
         #endregion

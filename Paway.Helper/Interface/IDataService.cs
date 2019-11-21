@@ -16,12 +16,12 @@ namespace Paway.Helper
         List<T> Find<T>(string find = null, object param = null, params string[] args) where T : new();
         /// <summary>
         /// </summary>
-        bool Insert<T>(T t, DbCommand cmd = null, bool Identity = false);
+        int Insert<T>(T t, DbCommand cmd = null, bool Identity = false);
         /// <summary>
         /// </summary>
-        bool Update<T>(T t, params string[] args);
+        int Update<T>(T t, params string[] args);
         /// <summary>
         /// </summary>
-        bool Delete<T>(T t, DbCommand cmd = null);
+        int Delete<T>(T t, DbCommand cmd = null);
     }
 }

@@ -303,6 +303,33 @@ namespace Paway.Forms
             }
         }
 
+        /// <summary>
+        /// 首行文字属性更新标记
+        /// </summary>
+        internal bool ITextFirst;
+        private TProperties _textFirst;
+        /// <summary>
+        /// 首行文字属性
+        /// </summary>
+        [Description("首行文字属性")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public TProperties TextFirst
+        {
+            get
+            {
+                if (_textFirst == null)
+                {
+                    _textFirst = new TProperties();
+                    _textFirst.ValueChange += delegate (bool result)
+                    {
+                        ITextFirst = result;
+                        TRefresh();
+                    };
+                }
+                return _textFirst;
+            }
+        }
+
         #endregion
 
         #region 构造

@@ -465,7 +465,7 @@ namespace Paway.Forms
 
         private TProperties _text;
         /// <summary>
-        /// 文字
+        /// 首行文字属性
         /// </summary>
         [Description("首行文字属性")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -480,6 +480,11 @@ namespace Paway.Forms
                 }
                 return _text;
             }
+        }
+        private TProperties GetTextFirst(ToolItem item)
+        {
+            if (item.ITextFirst) return item.TextFirst;
+            return TextFirst;
         }
 
         private TProperties _textSencond;
@@ -872,7 +877,7 @@ namespace Paway.Forms
         {
             // 当前 Item 所在的矩型区域
             item.Rectangle = new Rectangle(xPos, yPos, _itemSize.Width, _itemSize.Height);
-            SizeF size1 = TextRenderer.MeasureText(item.First, TextFirst.FontNormal, item.Rectangle.Size);
+            SizeF size1 = TextRenderer.MeasureText(item.First, GetTextFirst(item).FontNormal, item.Rectangle.Size);
             SizeF size2 = TextRenderer.MeasureText(item.Sencond, TextSencond.FontNormal, item.Rectangle.Size);
             int width = Math.Max(size1.Width, size2.Width).ToInt() + ItemPadding(item).Left + ItemPadding(item).Right;
             if (IImageShow && item.Image != null) width += ImageSize.Width;
@@ -1293,7 +1298,7 @@ namespace Paway.Forms
                     var text = item.Text.Split(new[] { "\r\n", "&&" }, StringSplitOptions.RemoveEmptyEntries);
                     if (text.Length > 0)
                     {
-                        var fHight = HeightFont(item.MouseState, TextFirst);
+                        var fHight = HeightFont(item.MouseState, GetTextFirst(item));
                         var sHight = HeightFont(item.MouseState, TextSencond);
                         var height = textRect.Height - fHight;
                         height -= (text.Length - 1) * sHight;
@@ -1307,7 +1312,7 @@ namespace Paway.Forms
                             Width = textRect.Width,
                             Height = fHight
                         };
-                        DrawOtherDesc(g, item, TextFirst, text[0], rect);
+                        DrawOtherDesc(g, item, GetTextFirst(item), text[0], rect);
                         for (var i = 1; i < text.Length; i++)
                         {
                             rect = new Rectangle

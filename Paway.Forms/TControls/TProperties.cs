@@ -64,7 +64,7 @@ namespace Paway.Forms
                     _fDown = value;
                 }
                 HeightNormal = InitHeight(value);
-                OnValueChange(value);
+                OnValueChange();
             }
         }
 
@@ -84,6 +84,7 @@ namespace Paway.Forms
             {
                 _fMove = value;
                 HeightMove = InitHeight(value);
+                OnValueChange();
             }
         }
 
@@ -103,6 +104,7 @@ namespace Paway.Forms
             {
                 _fDown = value;
                 HeightDown = InitHeight(value);
+                OnValueChange();
             }
         }
 
@@ -130,7 +132,7 @@ namespace Paway.Forms
                         if (_cDown == Color.Empty) _cDown = value;
                     }
                 }
-                OnValueChange(value);
+                OnValueChange();
             }
         }
 
@@ -145,7 +147,7 @@ namespace Paway.Forms
             set
             {
                 _cMove = value;
-                OnValueChange(value);
+                OnValueChange();
             }
         }
 
@@ -160,7 +162,7 @@ namespace Paway.Forms
             set
             {
                 _cDown = value;
-                OnValueChange(value);
+                OnValueChange();
             }
         }
 
@@ -177,7 +179,7 @@ namespace Paway.Forms
                 _stringVertical = value;
                 StringFormat.Alignment = value;
                 TextFormat = InitTextFormat(StringFormat);
-                OnValueChange(value);
+                OnValueChange();
             }
         }
 
@@ -194,14 +196,14 @@ namespace Paway.Forms
                 _stringHorizontal = value;
                 StringFormat.LineAlignment = value;
                 TextFormat = InitTextFormat(StringFormat);
-                OnValueChange(value);
+                OnValueChange();
             }
         }
 
         /// <summary>
         /// 值修改引发事件
         /// </summary>
-        public event EventHandler ValueChange;
+        public event Action<bool> ValueChange;
 
         #endregion
 
@@ -245,7 +247,7 @@ namespace Paway.Forms
                 _cMove = color.AddLight(value);
                 _cDown = color.AddLight(-value);
             }
-            OnValueChange(value);
+            OnValueChange();
         }
 
         /// <summary>
@@ -260,9 +262,20 @@ namespace Paway.Forms
         #endregion
 
         #region private method
-        private void OnValueChange(object value)
+        private void OnValueChange()
         {
-            ValueChange?.Invoke(value, EventArgs.Empty);
+            var result = _fNormal == null || _fNormal.Name != "微软雅黑" || _fNormal.Size != 12f ||
+                _fNormal.Style != FontStyle.Regular || _fNormal.Unit != GraphicsUnit.Point || _fNormal.GdiCharSet != 1;
+            if (!result) result = _fMove == null || _fMove.Name != "微软雅黑" || _fMove.Size != 12f ||
+                  _fMove.Style != FontStyle.Regular || _fMove.Unit != GraphicsUnit.Point || _fMove.GdiCharSet != 1;
+            if (!result) result = _fDown == null || _fDown.Name != "微软雅黑" || _fDown.Size != 12f ||
+                  _fDown.Style != FontStyle.Regular || _fDown.Unit != GraphicsUnit.Point || _fDown.GdiCharSet != 1;
+            if (!result) result = _cNormal != Color.Empty;
+            if (!result) result = _cMove != Color.Empty;
+            if (!result) result = _cDown != Color.Empty;
+            if (!result) result = _stringHorizontal != StringAlignment.Near;
+            if (!result) result = _stringVertical != StringAlignment.Near;
+            ValueChange?.Invoke(result);
         }
         /// <summary>
         /// 内部初始化字体单行高度

@@ -277,7 +277,7 @@ namespace Paway.Forms
         /// </summary>
         protected virtual bool OnAddInfo(T info)
         {
-            return server.Insert(info);
+            return server.Insert(info) > 0;
         }
         /// <summary>
         /// 编辑数据
@@ -288,7 +288,7 @@ namespace Paway.Forms
         /// </summary>
         protected virtual bool OnUpdateInfo(T info)
         {
-            return server.Update(info);
+            return server.Update(info) > 0;
         }
         /// <summary>
         /// 删除数据
@@ -299,7 +299,7 @@ namespace Paway.Forms
         /// </summary>
         protected virtual bool OnDeleteInfo(T info)
         {
-            return server.Delete(info);
+            return server.Delete(info) > 0;
         }
 
         #endregion
