@@ -132,7 +132,7 @@ namespace Paway.Utils
             WorkSocket = socket;
             heardLength = heard;
             this.IServer = iServer;
-            socket.SetSocketKeepAliveValues(1000, 1000);
+            socket.SetSocketKeepAlive(1000, 1000);
         }
 
         /// <summary>

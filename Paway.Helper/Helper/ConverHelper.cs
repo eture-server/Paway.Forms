@@ -513,7 +513,7 @@ namespace Paway.Helper
         /// <summary>
         /// 消除算术计算误差(double转decimal)
         /// </summary>
-        public static double ClearError(this double value)
+        internal static double ClearError(this double value)
         {
             return decimal.ToDouble(value.ToDecimal());
         }
@@ -563,6 +563,13 @@ namespace Paway.Helper
         /// <summary>
         /// 获取指定名称属性
         /// </summary>
+        public static PropertyInfo Property<T>(this T t, string name)
+        {
+            return t.GetType().Property(name);
+        }
+        /// <summary>
+        /// 获取指定名称属性
+        /// </summary>
         public static PropertyInfo Property(this Type type, string name)
         {
             var properties = type.PropertiesCache();
@@ -583,7 +590,7 @@ namespace Paway.Helper
         /// <summary>
         /// 获取接口所有属性
         /// </summary>
-        public static List<PropertyDescriptor> Descriptors(this Type type)
+        internal static List<PropertyDescriptor> Descriptors(this Type type)
         {
             var list = new List<Type> { type };
             if (type.IsInterface)
@@ -637,7 +644,7 @@ namespace Paway.Helper
         /// <summary>
         /// 赋值（string数据转指定类型）
         /// </summary>
-        public static void SetValue<T>(this T obj, PropertyDescriptor pro, object value)
+        internal static void SetValue<T>(this T obj, PropertyDescriptor pro, object value)
         {
             if (value == null || value == DBNull.Value)
             {
@@ -797,7 +804,7 @@ namespace Paway.Helper
         /// <summary>
         /// 自定义特性-文本名称
         /// </summary>
-        public static string TextName(this PropertyInfo pro)
+        public static string TextName(this MemberInfo pro)
         {
             var list = pro.GetCustomAttributes(typeof(TextAttribute), false) as TextAttribute[];
             if (list.Length == 1 && list[0].Name != null)

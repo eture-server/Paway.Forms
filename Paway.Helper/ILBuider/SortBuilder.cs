@@ -43,7 +43,7 @@ namespace Paway.Helper
         public static SortBuilder CreateBuilder(Type type, string name, out bool iString)
         {
             iString = false;
-            var property = type.PropertyCache(name);
+            var property = type.Property(name);
             if (property == null) throw new ArgumentNullException(name);
             if (!property.CanRead) throw new ArgumentException("无法读取值");
 

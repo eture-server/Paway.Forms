@@ -77,8 +77,9 @@ namespace Paway.Test
                 data.SetValue("IntValue", 33);
                 var id = data.GetValue("IntValue");
 
-                var propertyType = data.GetType("Id2");
-                propertyType = typeof(ITestInfo).GetType("IntValue");
+                var property = data.Property("Id2");
+                var propertyType = property.PropertyType;
+                propertyType = typeof(ITestInfo).Property("IntValue").PropertyType;
 
                 var d2 = data.Clone();
                 ITestInfo data2 = new TestInfo();
@@ -92,19 +93,6 @@ namespace Paway.Test
                 list2.Sort("V2");
 
                 var list3 = dt.ToList<TestInfo>();
-
-                var descriptors = typeof(ITestInfo).Descriptors();
-                var descriptor = descriptors.Find(c => c.Name == "List");
-                data.SetValue(descriptor, null);
-                data.SetValue("IntValue", null);
-                if (descriptor.PropertyType.Name == typeof(List<>).Name)
-                {
-                    var type2 = descriptor.PropertyType.GenericType();
-                    var list = type2.GenericList();
-                    data.SetValue(descriptor, list);
-                    var obj2 = (DbConnection)Activator.CreateInstance(type2);
-                    list.Add(obj2);
-                }
 
                 service.Insert(list2);
             }

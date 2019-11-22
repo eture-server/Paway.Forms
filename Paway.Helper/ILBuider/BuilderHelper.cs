@@ -295,7 +295,7 @@ namespace Paway.Helper
             var item = sort.ElementAt(0);
             var type = list[0].GetType();
             var builder = SortBuilder.CreateBuilder(type, item.Key, out bool iString);
-            var property = type.PropertyCache(item.Key);
+            var property = type.Property(item.Key);
             OrderedParallelQuery<T> orderBy;
             if (iString)
             {
@@ -310,7 +310,7 @@ namespace Paway.Helper
             {
                 item = sort.ElementAt(i);
                 var builder2 = SortBuilder.CreateBuilder(type, item.Key, out iString);
-                property = type.PropertyCache(item.Key);
+                property = type.Property(item.Key);
                 if (iString)
                 {
                     orderBy = item.Value ? orderBy.ThenBy(c => builder2.Build(c) as string, new StringComparer()) :
@@ -525,47 +525,7 @@ namespace Paway.Helper
         #endregion
 
         #region 静态缓存
-        private static Dictionary<string, Type> GetTypeFunc { set; get; } = new Dictionary<string, Type>();
-        private static Dictionary<string, PropertyInfo> GetPropertyFunc { set; get; } = new Dictionary<string, PropertyInfo>();
         private static Dictionary<Type, List<PropertyInfo>> GetPropertiesFunc { set; get; } = new Dictionary<Type, List<PropertyInfo>>();
-        /// <summary>
-        /// 缓存反射类型
-        /// </summary>
-        public static Type GetType<T>(this T t, string name)
-        {
-            return t.GetType().GetType(name);
-        }
-        /// <summary>
-        /// 缓存反射类型
-        /// </summary>
-        public static Type GetType(this Type type, string name)
-        {
-            lock (SyncRoot)
-            {
-                if (!GetTypeFunc.TryGetValue(type.FullName + "." + name, out Type propertyType))
-                {
-                    var property = type.PropertyCache(name);
-                    propertyType = property?.PropertyType;
-                    GetTypeFunc.Add(type.FullName + "." + name, propertyType);
-                }
-                return propertyType;
-            }
-        }
-        /// <summary>
-        /// 缓存反射属性
-        /// </summary>
-        public static PropertyInfo PropertyCache(this Type type, string name)
-        {
-            lock (SyncRoot)
-            {
-                if (!GetPropertyFunc.TryGetValue(type.FullName + "." + name, out PropertyInfo property))
-                {
-                    property = type.Property(name);
-                    GetPropertyFunc.Add(type.FullName + "." + name, property);
-                }
-                return property;
-            }
-        }
         /// <summary>
         /// 缓存类型反射属性列表
         /// </summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 
@@ -15,7 +16,7 @@ namespace Paway.Utils
         /// <param name="socket">TcpClient</param>
         /// <param name="keepAliveTime">The keep alive time. (ms)</param>
         /// <param name="keepAliveInterval">The keep alive interval. (ms)</param>
-        public static void SetSocketKeepAliveValues(this Socket socket, int keepAliveTime, int keepAliveInterval)
+        public static void SetSocketKeepAlive(this Socket socket, int keepAliveTime, int keepAliveInterval)
         {
             //KeepAliveTime: default value is 2hr
             //KeepAliveInterval: default value is 1s and Detect 5 times
@@ -37,6 +38,24 @@ namespace Paway.Utils
             // .net 3.5 type
             if (socket != null)
                 socket.IOControl(IOControlCode.KeepAliveValues, inOptionValues, null);
+        }
+        /// <summary>
+        /// 通过系统本身的连接来判断连接状态
+        /// </summary>
+        public static bool IsClientConnected(Socket socket)
+        {
+            IPGlobalProperties ipProperties = IPGlobalProperties.GetIPGlobalProperties();
+            TcpConnectionInformation[] tcpConnections = ipProperties.GetActiveTcpConnections();
+            foreach (TcpConnectionInformation c in tcpConnections)
+            {
+                TcpState stateOfConnection = c.State;
+                if (socket == null) continue;
+                if (c.LocalEndPoint.Equals(socket.LocalEndPoint) && c.RemoteEndPoint.Equals(socket.RemoteEndPoint))
+                {
+                    return stateOfConnection == TcpState.Established;
+                }
+            }
+            return false;
         }
     }
 }

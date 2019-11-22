@@ -555,10 +555,10 @@ namespace Paway.Forms
             DataRow[] dr;
             if (TRoot == null)
             {
-                var propertyType = type.GetType(TParentId.ToString());
-                if (propertyType != null && !propertyType.IsValueType && propertyType != typeof(string))
+                var property = type.Property(TParentId.ToString());
+                if (property != null && !property.PropertyType.IsValueType && property.PropertyType != typeof(string))
                 {
-                    TRoot = Activator.CreateInstance(propertyType);
+                    TRoot = Activator.CreateInstance(property.PropertyType);
                 }
             }
             if (TRoot != null)

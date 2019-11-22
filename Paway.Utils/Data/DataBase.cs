@@ -422,7 +422,7 @@ namespace Paway.Utils
                 cmd.CommandText = OnCommandText(sql);
                 var builder = SQLBuilder.CreateBuilder(list[0].GetType(), paramType);
                 var tableKey = type.TableKey();
-                var property = type.PropertyCache(tableKey);
+                var property = type.Property(tableKey);
                 int result = 0;
                 for (var i = 0; i < list.Count; i++)
                 {
@@ -910,6 +910,9 @@ namespace Paway.Utils
 
         #endregion
     }
+    /// <summary>
+    /// 生成SQL语句
+    /// </summary>
     internal static class DataBaseHelper
     {
         #region SQL.Select
@@ -918,7 +921,7 @@ namespace Paway.Utils
         /// 指定查询条件
         /// 返回指定行数
         /// </summary>
-        public static string Select(this Type type, string find, int count, params string[] args)
+        public static string Select(this Type type, string find = null, int count = 0, params string[] args)
         {
             var tableName = type.TableName();
             var sql = type.Select(count, args);
@@ -991,7 +994,7 @@ namespace Paway.Utils
         /// 将指定类型转为Update语句
         /// append=true时为附加,对应Sql语句中的+
         /// </summary>
-        public static string Update(this Type type, bool append = false, params string[] args)
+        private static string Update(this Type type, bool append = false, params string[] args)
         {
             var tableKey = type.TableKeys();
             var sql = "update [{0}] set";
