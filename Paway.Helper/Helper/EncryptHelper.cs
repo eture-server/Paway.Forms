@@ -40,7 +40,7 @@ namespace Paway.Helper
             using (var Sha256 = new SHA256Managed())
             {
                 byte[] buffer = Sha256.ComputeHash(data);
-                return BitConverter.ToString(buffer).Replace("-", string.Empty);
+                return Encrypt(buffer);
             }
         }
         /// <summary>
@@ -53,8 +53,28 @@ namespace Paway.Helper
             using (var sha1 = SHA1.Create())
             {
                 var buffer = sha1.ComputeHash(data);
-                return BitConverter.ToString(buffer).Replace("-", string.Empty);
+                return Encrypt(buffer);
             }
+        }
+        /// <summary>
+        /// 加密后生成字符串
+        /// </summary>
+        private static string Encrypt(byte[] buffer)
+        {
+            return BitConverter.ToString(buffer).Replace("-", string.Empty);
+        }
+        /// <summary>
+        /// 解析加密字符串
+        /// </summary>
+        private static byte[] Decrypt(string content)
+        {
+            byte[] buffer = new byte[content.Length / 2];
+            for (int x = 0; x < buffer.Length; x++)
+            {
+                int i = Convert.ToInt32(content.Substring(x * 2, 2), 16);
+                buffer[x] = (byte)i;
+            }
+            return buffer;
         }
 
         #endregion
@@ -62,11 +82,12 @@ namespace Paway.Helper
         #region DES
         /// <summary>
         /// DES加密
+        /// <para>密钥：8位</para>
         /// </summary>
         /// <returns>返回字符串(以十六进制字符串表示形式)</returns>
         public static string EncryptDES(string content, string key)
         {
-            if (key == null || key.Length < 4) throw new ArgumentException("key长度错误");
+            if (key == null || key.Length < 8) throw new ArgumentException("key长度错误");
             var bKey = new byte[8];
             Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
             using (var des = new DESCryptoServiceProvider())
@@ -80,25 +101,21 @@ namespace Paway.Helper
                     cs.Write(buffer, 0, buffer.Length);
                     cs.FlushFinalBlock();
                 }
-                return BitConverter.ToString(ms.ToArray()).Replace("-", string.Empty);
+                return Encrypt(ms.ToArray());
             }
         }
         /// <summary>
         /// DES解密
+        /// <para>密钥：8位</para>
         /// </summary>
         public static string DecryptDES(string content, string key)
         {
-            if (key == null || key.Length < 4) throw new ArgumentException("key长度错误");
+            if (key == null || key.Length < 8) throw new ArgumentException("key长度错误");
             var bKey = new byte[8];
             Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
             using (var des = new DESCryptoServiceProvider())
             {
-                byte[] buffer = new byte[content.Length / 2];
-                for (int x = 0; x < buffer.Length; x++)
-                {
-                    int i = Convert.ToInt32(content.Substring(x * 2, 2), 16);
-                    buffer[x] = (byte)i;
-                }
+                byte[] buffer = Decrypt(content);
                 des.Key = bKey;
                 des.IV = _key2;
                 var ms = new MemoryStream();
@@ -116,12 +133,13 @@ namespace Paway.Helper
         #region 3DES
         /// <summary>
         /// 3DES加密
+        /// <para>密钥：16/24位</para>
         /// </summary>
         /// <returns>返回字符串(以十六进制字符串表示形式)</returns>
         public static string Encrypt3DES(string content, string key)
         {
             if (key == null || key.Length < 8) throw new ArgumentException("key长度错误");
-            var bKey = new byte[24];
+            var bKey = new byte[key.Length <= 16 ? 16 : 24];
             Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
             using (var provider = new TripleDESCryptoServiceProvider())
             {
@@ -134,25 +152,21 @@ namespace Paway.Helper
                     cs.Write(buffer, 0, buffer.Length);
                     cs.FlushFinalBlock();
                 }
-                return BitConverter.ToString(ms.ToArray()).Replace("-", string.Empty);
+                return Encrypt(ms.ToArray());
             }
         }
         /// <summary>
         /// 3DES解密
+        /// <para>密钥：16/24位</para>
         /// </summary>
         public static string Decrypt3DES(string content, string key)
         {
             if (key == null || key.Length < 8) throw new ArgumentException("key长度错误");
-            var bKey = new byte[24];
+            var bKey = new byte[key.Length <= 16 ? 16 : 24];
             Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
             using (var des = new TripleDESCryptoServiceProvider())
             {
-                byte[] buffer = new byte[content.Length / 2];
-                for (int x = 0; x < buffer.Length; x++)
-                {
-                    int i = Convert.ToInt32(content.Substring(x * 2, 2), 16);
-                    buffer[x] = (byte)i;
-                }
+                byte[] buffer = Decrypt(content);
                 des.Key = bKey;
                 des.Mode = CipherMode.ECB;
                 var ms = new MemoryStream();
@@ -170,23 +184,23 @@ namespace Paway.Helper
         #region AES
         /// <summary>
         /// 加密AES算法
+        /// <para>密钥：16/24/32位</para>
         /// </summary>
-        /// <param name="content">明文字符串</param>
-        /// <param name="key">私钥</param>
         /// <returns>返回字符串(以十六进制字符串表示形式)</returns>
         public static string EncryptAES(string content, string key)
         {
             var data = Encoding.UTF8.GetBytes(content); //得到需要加密的字节数组	
             var buffer = EncryptAES(data, key);
-            return BitConverter.ToString(buffer).Replace("-", string.Empty);
+            return Encrypt(buffer);
         }
         /// <summary>
         /// AES加密算法
+        /// <para>密钥：16/24/32位</para>
         /// </summary>
         public static byte[] EncryptAES(byte[] data, string key)
         {
             if (key == null || key.Length < 8) throw new ArgumentException("key长度错误");
-            var bKey = new byte[32];
+            var bKey = new byte[key.Length <= 16 ? 16 : (key.Length <= 24 ? 24 : 32)];
             Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
             //分组加密算法
             using (var des = Rijndael.Create())
@@ -212,12 +226,7 @@ namespace Paway.Helper
         /// <returns>返回解密后的字符串</returns>
         public static string DecryptAES(string content, string key)
         {
-            byte[] buffer = new byte[content.Length / 2];
-            for (int x = 0; x < buffer.Length; x++)
-            {
-                int i = Convert.ToInt32(content.Substring(x * 2, 2), 16);
-                buffer[x] = (byte)i;
-            }
+            byte[] buffer = Decrypt(content);
             var decryptBytes = DecryptAES(buffer, key);
             return Encoding.UTF8.GetString(decryptBytes);
         }
@@ -227,7 +236,7 @@ namespace Paway.Helper
         public static byte[] DecryptAES(byte[] data, string key)
         {
             if (key == null || key.Length < 8) throw new ArgumentException("key长度错误");
-            var bKey = new byte[32];
+            var bKey = new byte[key.Length <= 16 ? 16 : (key.Length <= 24 ? 24 : 32)];
             Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
             using (var des = Rijndael.Create())
             {
@@ -258,7 +267,7 @@ namespace Paway.Helper
             {
                 var data = Encoding.UTF8.GetBytes(content);
                 var buffer = md5.ComputeHash(data);
-                return BitConverter.ToString(buffer).Replace("-", string.Empty);
+                return Encrypt(buffer);
             }
         }
         /// <summary>
@@ -284,7 +293,7 @@ namespace Paway.Helper
             using (var md5 = new MD5CryptoServiceProvider())
             {
                 var buffer = md5.ComputeHash(data, offset, count);
-                return BitConverter.ToString(buffer).Replace("-", string.Empty);
+                return Encrypt(buffer);
             }
         }
         /// <summary>
@@ -297,7 +306,7 @@ namespace Paway.Helper
                 using (var md5 = new MD5CryptoServiceProvider())
                 {
                     byte[] buffer = md5.ComputeHash(fs);
-                    return BitConverter.ToString(buffer).Replace("-", string.Empty);
+                    return Encrypt(buffer);
                 }
             }
         }
