@@ -16,7 +16,7 @@ namespace Paway.Helper
         List<T> Find<T>(string find = null, object param = null, params string[] args) where T : new();
         /// <summary>
         /// </summary>
-        int Insert<T>(T t, DbCommand cmd = null, bool Identity = false);
+        int Insert<T>(T t, DbCommand cmd = null);
         /// <summary>
         /// </summary>
         int Update<T>(T t, params string[] args);

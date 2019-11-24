@@ -48,6 +48,7 @@
     <Reference Include="log4net">
       <HintPath>..\Root\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="MQTTnet">
       <HintPath>..\Root\MQTTnet.dll</HintPath>
     </Reference>

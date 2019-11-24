@@ -29,7 +29,7 @@ namespace Paway.Test
             //obj.Image = BitmapHelper.GetBitmapFormFile(@"D:\Tinn\DotNet\House\bin\Debug\Code\110031622_45259-02360-00.png");
             //server.Insert(obj);
 
-            ITestInfo info = server.Find<TestInfo>(1);
+            ITestInfo info = server.FindById<TestInfo>(1);
             info.FindInfo = new FindInfo() { Id = 100 };
             info.List.Add(new FindInfo());
             info.List2 = new List<FindInfo>();

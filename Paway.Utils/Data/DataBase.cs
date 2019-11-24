@@ -99,10 +99,19 @@ namespace Paway.Utils
 
         #region public 执行外部Sql
         /// <summary>
-        /// 对连接执行 Transact-SQL 语句并返回受影响的行数。
+        /// 对连接对象执行 SQL 语句
+        /// </summary>
+        /// <returns>受影响的行数</returns>
+        public int Execute(string sql, DbCommand cmd = null)
+        {
+            return Execute(sql, null, cmd);
+        }
+        /// <summary>
+        /// 对连接对象执行 SQL 语句
         /// <para>不引发UpdateEvent</para>
         /// </summary>
-        public int ExecuteNonQuery(string sql, object param = null, DbCommand cmd = null)
+        /// <returns>受影响的行数</returns>
+        public int Execute(string sql, dynamic param, DbCommand cmd = null)
         {
             var iTrans = cmd == null;
             try
@@ -126,9 +135,18 @@ namespace Paway.Utils
         }
 
         /// <summary>
-        /// 执行查询，并返回查询所返回的结果集中第一行的第一列。忽略其他列或行。
+        /// 执行查询，并返回查询所返回的结果集中第一行的第一列。所有其他的列和行将被忽略。
         /// </summary>
-        public object ExecuteScalar(string sql, object param = null, DbCommand cmd = null)
+        /// <returns>结果集中第一行的第一列。</returns>
+        public object ExecuteScalar(string sql, DbCommand cmd = null)
+        {
+            return ExecuteScalar(sql, null, cmd);
+        }
+        /// <summary>
+        /// 执行查询，并返回查询所返回的结果集中第一行的第一列。所有其他的列和行将被忽略。
+        /// </summary>
+        /// <returns>结果集中第一行的第一列。</returns>
+        public object ExecuteScalar(string sql, dynamic param, DbCommand cmd = null)
         {
             var iTrans = cmd == null;
             try
@@ -154,7 +172,14 @@ namespace Paway.Utils
         /// <summary>
         /// 执行查询，并返回泛型列表
         /// </summary>
-        public List<T> ExecuteList<T>(string sql, object param = null, DbCommand cmd = null) where T : new()
+        public List<T> ExecuteList<T>(string sql = null, DbCommand cmd = null) where T : new()
+        {
+            return ExecuteList<T>(sql, null, cmd);
+        }
+        /// <summary>
+        /// 执行查询，并返回泛型列表
+        /// </summary>
+        public List<T> ExecuteList<T>(string sql, dynamic param, DbCommand cmd = null) where T : new()
         {
             var table = ExecuteDataTable(sql, param, cmd, typeof(T));
             return table.ToList<T>();
@@ -162,15 +187,29 @@ namespace Paway.Utils
         /// <summary>
         /// 执行查询，并返回泛型列表
         /// </summary>
-        public IList ExecuteList(Type type, string sql, object param = null, DbCommand cmd = null)
+        public IList ExecuteList(Type type, string sql = null, DbCommand cmd = null)
+        {
+            return ExecuteList(type, sql, null, cmd);
+        }
+        /// <summary>
+        /// 执行查询，并返回泛型列表
+        /// </summary>
+        public IList ExecuteList(Type type, string sql, dynamic param = null, DbCommand cmd = null)
         {
             var table = ExecuteDataTable(sql, param, cmd, type);
             return table.ToList(type);
         }
         /// <summary>
-        /// 执行查询，并返回查询所返回的DataTable
+        /// 执行查询，并返回DataTable对象
         /// </summary>
-        public DataTable ExecuteDataTable(string sql, object param = null, DbCommand cmd = null, Type type = null)
+        public DataTable ExecuteDataTable(string sql, DbCommand cmd = null, Type type = null)
+        {
+            return ExecuteDataTable(sql, null, cmd, type);
+        }
+        /// <summary>
+        /// 执行查询，并返回DataTable对象
+        /// </summary>
+        public DataTable ExecuteDataTable(string sql, dynamic param, DbCommand cmd = null, Type type = null)
         {
             var iTrans = cmd == null;
             try
@@ -233,16 +272,15 @@ namespace Paway.Utils
         #region public Find
         /// <summary>
         /// 查找指定主列的数据
-        /// 使用long兼容int
         /// </summary>
-        public T Find<T>(object id, params string[] args) where T : new()
+        public T FindById<T>(dynamic id, params string[] args) where T : new()
         {
-            return Find<T>(id, null, args);
+            return FindById<T>(id, null, args);
         }
         /// <summary>
         /// 查找指定主列的数据
         /// </summary>
-        public T Find<T>(object id, DbCommand cmd, params string[] args) where T : new()
+        public T FindById<T>(dynamic id, DbCommand cmd, params string[] args) where T : new()
         {
             var iTrans = cmd == null;
             try
@@ -279,7 +317,15 @@ namespace Paway.Utils
         /// 填充 System.Data.DataSet 并返回一个List列表
         /// 查找指定查询语句
         /// </summary>
-        public List<T> Find<T>(string find = null, object param = null, params string[] args) where T : new()
+        public List<T> Find<T>(string find, params string[] args) where T : new()
+        {
+            return Find<T>(find, new { }, null, 0, args);
+        }
+        /// <summary>
+        /// 填充 System.Data.DataSet 并返回一个List列表
+        /// 查找指定查询语句
+        /// </summary>
+        public List<T> Find<T>(string find, dynamic param, params string[] args) where T : new()
         {
             return Find<T>(find, param, null, 0, args);
         }
@@ -287,7 +333,15 @@ namespace Paway.Utils
         /// 填充 System.Data.DataSet 并返回一个List列表
         /// 查找指定查询语句
         /// </summary>
-        public List<T> Find<T>(string find, object param, DbCommand cmd, params string[] args) where T : new()
+        public List<T> Find<T>(string find, DbCommand cmd, params string[] args) where T : new()
+        {
+            return Find<T>(find, null, null, 0, args);
+        }
+        /// <summary>
+        /// 填充 System.Data.DataSet 并返回一个List列表
+        /// 查找指定查询语句
+        /// </summary>
+        public List<T> Find<T>(string find, dynamic param, DbCommand cmd, params string[] args) where T : new()
         {
             return Find<T>(find, param, cmd, 0, args);
         }
@@ -296,7 +350,7 @@ namespace Paway.Utils
         /// 查找指定查询语句
         /// 指定返回行数
         /// </summary>
-        public List<T> Find<T>(string find, object param, DbCommand cmd, int count, params string[] args) where T : new()
+        public List<T> Find<T>(string find = null, dynamic param = null, DbCommand cmd = null, int count = 0, params string[] args) where T : new()
         {
             var table = FindTable(typeof(T), find, param, cmd, count, false, args);
             return table.ToList<T>();
@@ -306,7 +360,7 @@ namespace Paway.Utils
         /// 查找指定查询语句
         /// 指定返回行数
         /// </summary>
-        public IList Find(Type type, string find = null, object param = null, DbCommand cmd = null, int count = 0, params string[] args)
+        public IList Find(Type type, string find = null, dynamic param = null, DbCommand cmd = null, int count = 0, params string[] args)
         {
             var table = FindTable(type, find, param, cmd, count, false, args);
             return table.ToList(type);
@@ -322,7 +376,7 @@ namespace Paway.Utils
         /// 填充 System.Data.DataSet 并返回一个DataTable
         /// 查找指定查询语句
         /// </summary>
-        public DataTable FindTable<T>(string find = null, object param = null, DbCommand cmd = null, int count = 0, params string[] args)
+        public DataTable FindTable<T>(string find = null, dynamic param = null, DbCommand cmd = null, int count = 0, params string[] args)
         {
             return FindTable(typeof(T), find, param, cmd, count, false, args);
         }
@@ -332,7 +386,7 @@ namespace Paway.Utils
         /// 指定返回行数
         /// 标记是否使用Limit查找指定数量
         /// </summary>
-        protected virtual DataTable FindTable(Type type, string find = null, object param = null, DbCommand cmd = null, int count = 0, bool iLimit = false, params string[] args)
+        protected virtual DataTable FindTable(Type type, string find = null, dynamic param = null, DbCommand cmd = null, int count = 0, bool iLimit = false, params string[] args)
         {
             var iTrans = cmd == null;
             string sql;
@@ -379,38 +433,38 @@ namespace Paway.Utils
         /// <summary>
         /// 插入行
         /// </summary>
-        public int Insert<T>(T t, DbCommand cmd = null, bool Identity = false)
+        public int Insert<T>(T t, DbCommand cmd = null)
         {
             IList list = new List<T> { t };
-            return InsertList(list, cmd, Identity);
+            return InsertList(list, cmd);
         }
         /// <summary>
         /// 插入行
         /// </summary>
-        public int Insert(object t, DbCommand cmd = null, bool Identity = false)
+        public int Insert(object t, DbCommand cmd = null)
         {
             var list = t.GetType().GenericList();
             list.Add(t);
-            return InsertList(list, cmd, Identity);
+            return InsertList(list, cmd);
         }
         /// <summary>
         /// 插入列表
         /// </summary>
-        public int Insert<T>(List<T> list, DbCommand cmd = null, bool Identity = false)
+        public int Insert<T>(List<T> list, DbCommand cmd = null)
         {
-            return InsertList(list, cmd, Identity);
+            return InsertList(list, cmd);
         }
         /// <summary>
         /// 插入列表
         /// </summary>
-        public int Insert(IList list, DbCommand cmd = null, bool Identity = false)
+        public int Insert(IList list, DbCommand cmd = null)
         {
-            return InsertList(list, cmd, Identity);
+            return InsertList(list, cmd);
         }
         /// <summary>
         /// 插入列表
         /// </summary>
-        private int InsertList(IList list, DbCommand cmd = null, bool Identity = false)
+        private int InsertList(IList list, DbCommand cmd = null)
         {
             if (list.Count == 0) return 0;
             var iTrans = cmd == null;
@@ -418,7 +472,7 @@ namespace Paway.Utils
             {
                 if (iTrans) cmd = TransStart();
                 var type = list.GenericType();
-                var sql = type.Insert(GetId, Identity);
+                var sql = type.Insert(GetId);
                 cmd.CommandText = OnCommandText(sql);
                 var builder = SQLBuilder.CreateBuilder(list[0].GetType(), paramType);
                 var tableKey = type.TableKey();
@@ -483,6 +537,15 @@ namespace Paway.Utils
         {
             IList list = new List<T> { t };
             return UpdateList(list, cmd, args);
+        }
+        /// <summary>
+        /// 更新行
+        /// </summary>
+        public int Update<T>(object t, params string[] args)
+        {
+            var list = t.GetType().GenericList();
+            list.Add(t);
+            return UpdateList(list, null, args);
         }
         /// <summary>
         /// 更新行
@@ -563,16 +626,23 @@ namespace Paway.Utils
 
         #region public Delete
         /// <summary>
-        /// 删除所有行(不监听更新事件)
+        /// 删除所有行
         /// </summary>
         public int Delete<T>(DbCommand cmd = null) where T : new()
         {
             return Delete<T>(string.Empty, null, cmd);
         }
         /// <summary>
-        /// 删除指定条件下的数据(不监听更新事件)
+        /// 删除指定条件下的数据
         /// </summary>
-        public int Delete<T>(string find, object param = null, DbCommand cmd = null) where T : new()
+        public int Delete<T>(string find, DbCommand cmd = null) where T : new()
+        {
+            return Delete<T>(find, null, cmd);
+        }
+        /// <summary>
+        /// 删除指定条件下的数据
+        /// </summary>
+        public int Delete<T>(string find, dynamic param, DbCommand cmd = null) where T : new()
         {
             var iTrans = cmd == null;
             try
@@ -581,7 +651,7 @@ namespace Paway.Utils
                 List<T> list = null;
                 if (UpdateEvent != null)
                 {
-                    list = Find<T>(find, param, cmd);
+                    list = Find<T>(find, param, cmd, 0);
                 }
                 var sql = typeof(T).Delete(find);
                 cmd.CommandText = OnCommandText(sql);
@@ -608,6 +678,15 @@ namespace Paway.Utils
         public int Delete<T>(T t, DbCommand cmd = null)
         {
             IList list = new List<T> { t };
+            return DeleteList(list, cmd);
+        }
+        /// <summary>
+        /// 删除行
+        /// </summary>
+        public int Delete(object t, DbCommand cmd = null)
+        {
+            var list = t.GetType().GenericList();
+            list.Add(t);
             return DeleteList(list, cmd);
         }
         /// <summary>
@@ -679,7 +758,7 @@ namespace Paway.Utils
                 List<T> uList = new List<T>();
                 foreach (var item in list)
                 {
-                    if (item.Id == 0) iList.Add(item);
+                    if (item.Id <= 0) iList.Add(item);
                     else uList.Add(item);
                 }
                 if (iList.Count > 0) Insert(iList, cmd);
@@ -702,7 +781,7 @@ namespace Paway.Utils
         /// </summary>
         public void Replace<T>(T t, DbCommand cmd = null) where T : IId
         {
-            if (t.Id == 0) Insert(t, cmd);
+            if (t.Id <= 0) Insert(t, cmd);
             else Update(t, cmd);
         }
 
@@ -1029,16 +1108,12 @@ namespace Paway.Utils
         /// <summary>
         /// 将指定类型转为Insert语句
         /// </summary>
-        public static string Insert(this Type type, string getId, bool Identity)
+        public static string Insert(this Type type, string getId)
         {
             var tableName = type.TableName();
             type.Insert(type.TableKeys(), out string insert, out string value);
             var sql = string.Format("insert into [{0}]({1}) values({2})", tableName, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
-            if (Identity)
-            {
-                sql = string.Format("SET IDENTITY_INSERT [{0}] ON;{1}", tableName, sql);
-            }
             return sql;
         }
         private static void Insert(this Type type, string key, out string insert, out string value, params string[] args)

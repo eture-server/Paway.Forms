@@ -255,14 +255,14 @@ namespace Paway.Test
                 cmd = TransStart();
 
                 var sql = "update Users set Money =1 where Id= @id";
-                ExecuteNonQuery(sql, new { id = 3 }, cmd);
+                Execute(sql, new { id = 3 }, cmd);
                 var dt = ExecuteDataTable("select * from Users", null, cmd);
                 for (int i = 0; i < 30; i++)
                 {
                     Thread.Sleep(100);
                 }
                 sql = "update Users set Money =0 where Id= @id";
-                ExecuteNonQuery(sql, new { id = 3 }, cmd);
+                Execute(sql, new { id = 3 }, cmd);
 
                 TransCommit(cmd);
                 log.Debug("ThreadId完成:" + Thread.CurrentThread.ManagedThreadId);

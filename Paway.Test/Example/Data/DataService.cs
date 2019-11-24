@@ -97,7 +97,7 @@ namespace Paway.Test
         }
         public UserInfo Login(int userId)
         {
-            var info = Find<UserInfo>(userId);
+            var info = FindById<UserInfo>(userId);
             if (info == null)
             {
                 throw new WarningException("用户不存在");
