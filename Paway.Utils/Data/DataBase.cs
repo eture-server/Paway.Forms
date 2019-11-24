@@ -492,11 +492,11 @@ namespace Paway.Utils
                         {
                             if (property.PropertyType == typeof(long))
                             {
-                                list[i].SetValue(nameof(IId.Id), dr[tableKey].ToLong());
+                                list[i].SetValue(property.Name, dr[nameof(IId.Id)].ToLong());
                             }
                             else
                             {
-                                list[i].SetValue(nameof(IId.Id), dr[tableKey].ToInt());
+                                list[i].SetValue(property.Name, dr[nameof(IId.Id)].ToInt());
                             }
                         }
                         else
@@ -747,18 +747,22 @@ namespace Paway.Utils
         /// <summary>
         /// 替换,由insert/Update替代
         /// </summary>
-        public void Replace<T>(List<T> list, DbCommand cmd = null) where T : IId
+        public void Replace<T>(List<T> list, DbCommand cmd = null)
         {
             bool iTrans = cmd == null;
             try
             {
                 if (iTrans) cmd = TransStart();
 
+                var type = typeof(T);
+                var key = type.TableKeys();
+                var property = type.Property(key);
+
                 List<T> iList = new List<T>();
                 List<T> uList = new List<T>();
                 foreach (var item in list)
                 {
-                    if (item.Id <= 0) iList.Add(item);
+                    if (item.GetValue(key).Equals(Activator.CreateInstance(property.PropertyType))) iList.Add(item);
                     else uList.Add(item);
                 }
                 if (iList.Count > 0) Insert(iList, cmd);
@@ -779,9 +783,13 @@ namespace Paway.Utils
         /// <summary>
         /// 替换,由insert/Update替代
         /// </summary>
-        public void Replace<T>(T t, DbCommand cmd = null) where T : IId
+        public void Replace<T>(T t, DbCommand cmd = null)
         {
-            if (t.Id <= 0) Insert(t, cmd);
+            var type = typeof(T);
+            var key = type.TableKeys();
+            var property = type.Property(key);
+
+            if (t.GetValue(key).Equals(Activator.CreateInstance(property.PropertyType))) Insert(t, cmd);
             else Update(t, cmd);
         }
 
@@ -1111,7 +1119,7 @@ namespace Paway.Utils
         public static string Insert(this Type type, string getId)
         {
             var tableName = type.TableName();
-            type.Insert(type.TableKeys(), out string insert, out string value);
+            type.Insert(type.TableKey(), out string insert, out string value);
             var sql = string.Format("insert into [{0}]({1}) values({2})", tableName, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
             return sql;

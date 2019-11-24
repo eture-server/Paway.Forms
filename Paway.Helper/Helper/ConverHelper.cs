@@ -736,8 +736,9 @@ namespace Paway.Helper
         /// <summary>
         /// 获取主键(Key.Mark.Id)
         /// <para>优先取Key</para>
-        /// <para>不存在Key，存在Mark时取Mark</para>
-        /// <para>否则默认Id</para>
+        /// <para>存在Mark时取Mark</para>
+        /// <para>存在Id时取Id</para>
+        /// <para>否则抛出空参数异常</para>
         /// </summary>
         public static string TableKeys(this Type type)
         {
@@ -750,13 +751,19 @@ namespace Paway.Helper
             {
                 if (property.IMark()) return property.ColumnName();
             }
-            return nameof(IId.Id);
+            foreach (var property in properties)
+            {
+                var name = property.ColumnName();
+                if (name.Equals(nameof(IId.Id), StringComparison.OrdinalIgnoreCase)) return name;
+            }
+            throw new ArgumentException("没有指定主键");
         }
         /// <summary>
         /// 获取自更新唯一主键(Key.null.Id)
         /// <para>取Key</para>
-        /// <para>不存在Key，存在Mark时返回null</para>
-        /// <para>否则默认Id</para>
+        /// <para>存在Mark时返回null</para>
+        /// <para>存在Id时取Id</para>
+        /// <para>否则返回null</para>
         /// </summary>
         public static string TableKey(this Type type)
         {
@@ -769,7 +776,12 @@ namespace Paway.Helper
             {
                 if (property.IMark()) return null;
             }
-            return nameof(IId.Id);
+            foreach (var property in properties)
+            {
+                var name = property.ColumnName();
+                if (name.Equals(nameof(IId.Id), StringComparison.OrdinalIgnoreCase)) return name;
+            }
+            return null;
         }
         /// <summary>
         /// 显示属性

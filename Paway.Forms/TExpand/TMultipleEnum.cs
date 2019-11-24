@@ -40,6 +40,10 @@ namespace Paway.Forms
         /// </summary>
         private bool iExit;
         /// <summary>
+        /// 添加项事件
+        /// </summary>
+        public event Func<int, bool> AddItemEvent;
+        /// <summary>
         /// 选择事件
         /// </summary>
         public event Action<int> SelectedEvent;
@@ -88,10 +92,12 @@ namespace Paway.Forms
             this.showCount = showCount;
             var list = new List<MultipleInfo>();
             this.enumType = value.GetType();
-            foreach (var item in Enum.GetValues(enumType))
+            foreach (var field in enumType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
             {
-                var info = new MultipleInfo() { Name = ((Enum)item).Description() };
-                if ((int)item != 0 && ((int)value & (int)item) == (int)item) info.Selected = true;
+                var item = enumType.Parse(field.Name);
+                if (AddItemEvent?.Invoke(item) == false) continue;
+                var info = new MultipleInfo() { Name = field.Description() };
+                if (item != 0 && ((int)value & item) == item) info.Selected = true;
                 list.Add(info);
             }
             foreach (var item in list)
