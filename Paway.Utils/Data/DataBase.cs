@@ -181,7 +181,7 @@ namespace Paway.Utils
         /// </summary>
         public List<T> ExecuteList<T>(string sql, dynamic param, DbCommand cmd = null) where T : new()
         {
-            var table = ExecuteDataTable(sql, param, cmd, typeof(T));
+            DataTable table = ExecuteDataTable(sql, param, cmd, typeof(T));
             return table.ToList<T>();
         }
         /// <summary>
@@ -196,7 +196,7 @@ namespace Paway.Utils
         /// </summary>
         public IList ExecuteList(Type type, string sql, dynamic param = null, DbCommand cmd = null)
         {
-            var table = ExecuteDataTable(sql, param, cmd, type);
+            DataTable table = ExecuteDataTable(sql, param, cmd, type);
             return table.ToList(type);
         }
         /// <summary>
@@ -240,7 +240,7 @@ namespace Paway.Utils
         /// 使用事务处理  Transact-SQL 语句列表
         /// <para>不引发UpdateEvent</para>
         /// </summary>
-        public int ExecuteNonQuery(List<string> sqlList, DbCommand cmd = null)
+        public int Execute(List<string> sqlList, DbCommand cmd = null)
         {
             var iTrans = cmd == null;
             try
@@ -292,8 +292,9 @@ namespace Paway.Utils
                 var param = AddParameters(keys, id);
                 cmd.Parameters.Add(param);
                 var sql = string.Format("[{0}] = {1}", keys, param.ParameterName);
-                var list = Find<T>(sql, null, cmd, 0, args);
-                return list.Count == 1 ? list[0] : default;
+                List<T> list = Find<T>(sql, null, cmd, 0, args);
+                T t = list.Count == 1 ? list[0] : default;
+                return t;
             }
             catch (Exception ex)
             {
@@ -352,7 +353,7 @@ namespace Paway.Utils
         /// </summary>
         public List<T> Find<T>(string find = null, dynamic param = null, DbCommand cmd = null, int count = 0, params string[] args) where T : new()
         {
-            var table = FindTable(typeof(T), find, param, cmd, count, false, args);
+            DataTable table = FindTable(typeof(T), find, param, cmd, count, false, args);
             return table.ToList<T>();
         }
         /// <summary>
@@ -362,7 +363,7 @@ namespace Paway.Utils
         /// </summary>
         public IList Find(Type type, string find = null, dynamic param = null, DbCommand cmd = null, int count = 0, params string[] args)
         {
-            var table = FindTable(type, find, param, cmd, count, false, args);
+            DataTable table = FindTable(type, find, param, cmd, count, false, args);
             return table.ToList(type);
         }
         /// <summary>

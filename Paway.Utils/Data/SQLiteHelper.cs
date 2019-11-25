@@ -59,7 +59,7 @@ namespace Paway.Utils
                 if (string.IsNullOrEmpty(cmdLine)) continue;
                 list.Add(cmdLine);
             }
-            ExecuteNonQuery(list);
+            Execute(list);
             return true;
         }
 
