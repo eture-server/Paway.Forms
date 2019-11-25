@@ -513,7 +513,7 @@ namespace Paway.Helper
         /// <summary>
         /// 消除算术计算误差(double转decimal)
         /// </summary>
-        internal static double ClearError(this double value)
+        public static double ClearError(this double value)
         {
             return decimal.ToDouble(value.ToDecimal());
         }
@@ -590,7 +590,7 @@ namespace Paway.Helper
         /// <summary>
         /// 获取接口所有属性
         /// </summary>
-        internal static List<PropertyDescriptor> Descriptors(this Type type)
+        public static List<PropertyDescriptor> Descriptors(this Type type)
         {
             var list = new List<Type> { type };
             if (type.IsInterface)
@@ -644,7 +644,7 @@ namespace Paway.Helper
         /// <summary>
         /// 赋值（string数据转指定类型）
         /// </summary>
-        internal static void SetValue<T>(this T obj, PropertyDescriptor pro, object value)
+        public static void SetValue<T>(this T obj, PropertyDescriptor pro, object value)
         {
             if (value == null || value == DBNull.Value)
             {
