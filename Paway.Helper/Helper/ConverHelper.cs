@@ -712,6 +712,12 @@ namespace Paway.Helper
                         pro.SetValue(obj, new Size(match.Groups["w"].ToInt(), match.Groups["h"].ToInt()));
                     }
                     break;
+                case nameof(TimeSpan):
+                    if (TimeSpan.TryParse(value.ToStrs(), out TimeSpan timeSpan))
+                    {
+                        pro.SetValue(obj, timeSpan);
+                    }
+                    break;
                 default:
                     pro.SetValue(obj, value);
                     break;
