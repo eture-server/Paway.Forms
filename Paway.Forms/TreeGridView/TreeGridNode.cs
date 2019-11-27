@@ -247,7 +247,7 @@ namespace Paway.Forms
         /// </summary>
         public override string ToString()
         {
-            StringBuilder builder1 = new StringBuilder(0x24);
+            StringBuilder builder1 = new StringBuilder(36);
             builder1.Append("TreeGridNode { Index=");
             builder1.Append(this.RowIndex.ToString(CultureInfo.CurrentCulture));
             builder1.Append(" }");

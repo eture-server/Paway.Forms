@@ -432,10 +432,6 @@ namespace Paway.Win32
         WM_NCMBUTTONDBLCLK = 0x00A9,
 
         /// <summary>
-        /// </summary>
-        WM_KEYFIRST = 0x0100,
-
-        /// <summary>
         /// 按下一个键
         /// </summary>
         WM_KEYDOWN = 0x0100,

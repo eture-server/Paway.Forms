@@ -895,7 +895,7 @@ namespace Paway.Forms
                     base.WndProc(ref m);
                     WmNcHitTest(ref m);
                     break;
-                case 0x112:
+                case (int)WindowsMessage.WM_SYSCOMMAND:
                     //过滤窗体重复消息
                     if (!MenuClick((MenuType)m.WParam.ToInt32()))
                         base.WndProc(ref m);
@@ -982,7 +982,7 @@ namespace Paway.Forms
                 {
                     var menu = NativeMethods.GetSystemMenu(this.Handle, false);
                     RECT rect = new RECT();
-                    var result = NativeMethods.TrackPopupMenu(menu, 0x0100, MousePosition.X, MousePosition.Y, 0, this.Handle, ref rect);
+                    var result = NativeMethods.TrackPopupMenu(menu, (int)WindowsMessage.WM_KEYDOWN, MousePosition.X, MousePosition.Y, 0, this.Handle, ref rect);
                     MenuClick((MenuType)result);
                 }
                 return;
@@ -1304,10 +1304,10 @@ namespace Paway.Forms
             NativeMethods.SetWindowLong(this.Handle, -16, windowLong | (int)WindowStyle.WS_SYSMENU);
             var menu = NativeMethods.GetSystemMenu(this.Handle, false);
 
-            NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_RESTORE, 0x0);
-            NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_MOVE, 0x0);
-            NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_SIZE, 0x0);
-            NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_MAXIMIZE, 0x0);
+            NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_RESTORE, 0);
+            NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_MOVE, 0);
+            NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_SIZE, 0);
+            NativeMethods.DeleteMenu(menu, (int)WindowStyle.SC_MAXIMIZE, 0);
             NativeMethods.DeleteMenu(menu, (int)MenuType.About, 0);
             NativeMethods.DeleteMenu(menu, (int)MenuType.None, 0);
             NativeMethods.DeleteMenu(menu, (int)MenuType.Restore, 0);

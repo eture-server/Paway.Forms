@@ -395,6 +395,7 @@ namespace Paway.Forms
         }
 
         #endregion
+
         /// <summary>
         /// 释放资源
         /// </summary>

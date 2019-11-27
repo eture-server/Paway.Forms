@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using Paway.Helper;
+using Paway.Win32;
 
 namespace Paway.Forms
 {
@@ -28,12 +29,6 @@ namespace Paway.Forms
         #region  member fields
         private const int m_MaxDecimalLength = 10; // max dot length
         private const int m_MaxValueLength = 27; // decimal can be 28 bits.
-
-        private const int WM_CHAR = 0x0102; // char key message
-        private const int WM_CUT = 0x0300; // mouse message in ContextMenu
-        private const int WM_COPY = 0x0301;
-        private const int WM_PASTE = 0x0302;
-        private const int WM_CLEAR = 0x0303;
 
         private int m_decimalLength;
         private bool m_allowNegative = true;
@@ -193,23 +188,23 @@ namespace Paway.Forms
         /// </summary>
         protected override void WndProc(ref Message m)
         {
-            if (m.Msg == WM_PASTE) // mouse paste
+            if (m.Msg == (int)WindowsMessage.WM_PASTE) // mouse paste
             {
                 ClearSelection();
                 SendKeys.Send(Clipboard.GetText());
                 OnTextChanged(EventArgs.Empty);
             }
-            else if (m.Msg == WM_COPY) // mouse copy
+            else if (m.Msg == (int)WindowsMessage.WM_COPY) // mouse copy
             {
                 Clipboard.SetText(SelectedText);
             }
-            else if (m.Msg == WM_CUT) // mouse cut or ctrl+x shortcut
+            else if (m.Msg == (int)WindowsMessage.WM_CUT) // mouse cut or ctrl+x shortcut
             {
                 Clipboard.SetText(SelectedText);
                 ClearSelection();
                 OnTextChanged(EventArgs.Empty);
             }
-            else if (m.Msg == WM_CLEAR)
+            else if (m.Msg == (int)WindowsMessage.WM_CLEAR)
             {
                 ClearSelection();
                 OnTextChanged(EventArgs.Empty);
@@ -429,7 +424,7 @@ namespace Paway.Forms
             if (!IsDisposed)
             {
                 msg.HWnd = Handle;
-                msg.Msg = WM_CHAR;
+                msg.Msg = (int)WindowsMessage.WM_CHAR;
                 msg.WParam = (IntPtr)c;
                 msg.LParam = IntPtr.Zero;
             }

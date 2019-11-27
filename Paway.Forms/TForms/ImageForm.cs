@@ -21,6 +21,7 @@ namespace Paway.Forms
         /// <param name="screen"></param>
         public ImageForm(Image screen)
         {
+            //不去除双缓冲则无法正常缩放
             SetStyle(ControlStyles.OptimizedDoubleBuffer, false);
             UpdateStyles();
             InitializeComponent();

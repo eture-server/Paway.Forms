@@ -133,7 +133,6 @@ namespace Paway.Test
             this.dataGridViewTextBoxColumn38 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn39 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn40 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.qqTextBox2 = new Paway.Forms.QQTextBox();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -810,20 +809,10 @@ namespace Paway.Test
             this.dataGridViewTextBoxColumn40.HeaderText = "名称";
             this.dataGridViewTextBoxColumn40.Name = "dataGridViewTextBoxColumn40";
             // 
-            // qqTextBox2
-            // 
-            this.qqTextBox2.Lines = new string[] {
-        "qqTextBox2"};
-            this.qqTextBox2.Location = new System.Drawing.Point(168, 162);
-            this.qqTextBox2.Name = "qqTextBox2";
-            this.qqTextBox2.Size = new System.Drawing.Size(146, 28);
-            this.qqTextBox2.TabIndex = 63;
-            // 
             // FormDemo
             // 
             this.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.ClientSize = new System.Drawing.Size(560, 289);
-            this.Controls.Add(this.qqTextBox2);
             this.Controls.Add(this.qqRadioButton2);
             this.Controls.Add(this.qqRadioButton1);
             this.Controls.Add(this.qqCheckBox1);
@@ -934,6 +923,5 @@ namespace Paway.Test
         private Forms.QQCheckBox qqCheckBox1;
         private Forms.QQRadioButton qqRadioButton1;
         private Forms.QQRadioButton qqRadioButton2;
-        private Forms.QQTextBox qqTextBox2;
     }
 }

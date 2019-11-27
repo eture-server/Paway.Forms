@@ -76,7 +76,7 @@ namespace Paway.Helper
 
         #endregion
 
-        #region 其它一些常量
+        #region 其它一些静态设置
         private static string dot;
         /// <summary>
         /// 不同语言区域下的小数点
