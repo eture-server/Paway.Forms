@@ -124,6 +124,11 @@ namespace Paway.Forms
             set { _tranColor = value; }
         }
 
+        /// <summary>
+        /// 从最小化还原窗口标记
+        /// </summary>
+        private bool iRestore;
+
         #endregion
 
         #region 属性
@@ -888,6 +893,16 @@ namespace Paway.Forms
         {
             switch (m.Msg)
             {
+                case (int)WindowsMessage.WM_PAINT:
+                    if (iRestore)
+                    {
+                        iRestore = false;
+                        //阻止一次重绘，防止从最小化恢复后闪屏
+                        NativeMethods.SendMessage(this.Handle, (int)WindowsMessage.WM_SETREDRAW, 0, 0);
+                        NativeMethods.SendMessage(this.Handle, (int)WindowsMessage.WM_SETREDRAW, 1, 0);
+                    }
+                    base.WndProc(ref m);
+                    break;
                 case (int)WindowsMessage.WM_NCPAINT:
                 case (int)WindowsMessage.WM_NCCALCSIZE:
                     break;
@@ -942,6 +957,7 @@ namespace Paway.Forms
                     WindowState = FormWindowState.Minimized;
                     break;
                 case (MenuType)(int)WindowStyle.SC_RESTORE:
+                    iRestore = true;
                     if (WindowState != FormWindowState.Minimized)
                         WindowState = WindowState;
                     else

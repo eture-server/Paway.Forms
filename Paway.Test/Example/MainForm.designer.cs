@@ -56,6 +56,7 @@
             // toolTitle
             // 
             this.toolTitle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolTitle.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.toolTitle.IClickEvent = true;
             this.toolTitle.IImageShow = true;
             this.toolTitle.ImageSize = new System.Drawing.Size(42, 42);
@@ -79,6 +80,7 @@
             // toolSet
             // 
             this.toolSet.Dock = System.Windows.Forms.DockStyle.Right;
+            this.toolSet.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.toolSet.IAutoWidth = true;
             this.toolSet.IClickEvent = true;
             this.toolSet.IImageShow = true;
