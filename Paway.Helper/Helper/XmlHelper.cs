@@ -16,13 +16,20 @@ namespace Paway.Helper
     public abstract class XmlHelper
     {
         /// <summary>
-        /// 返回对应的实体(包含子级)
+        /// 返回对应的实体(实体及子级)
         /// </summary>
         public static T Load<T>(string file)
         {
-            Type type = typeof(T);
             XmlDocument doc = new XmlDocument();
             doc.Load(file);
+            return Load<T>(doc);
+        }
+        /// <summary>
+        /// 返回对应的实体(实体及子级)
+        /// </summary>
+        public static T Load<T>(XmlDocument doc)
+        {
+            Type type = typeof(T);
             XmlNode root = doc.DocumentElement;
             XmlNode element = root.FirstChild;
 
@@ -40,12 +47,17 @@ namespace Paway.Helper
                 {
                     if (descriptor.PropertyType.Name == typeof(List<>).Name)
                     {
-                        var type2 = descriptor.PropertyType.GenericType();
-                        var list = type2.GenericList();
+                        var typeList = descriptor.PropertyType.GenericType();
+                        var list = typeList.GenericList();
                         info.SetValue(descriptor, list);
-                        var obj2 = Activator.CreateInstance(type2);
-                        list.Add(obj2);
-                        Load(doc, element.FirstChild, obj2, type2);
+                        var elementChild = element.FirstChild;
+                        while (elementChild != null)
+                        {
+                            var objList = Activator.CreateInstance(typeList);
+                            list.Add(objList);
+                            Load(doc, elementChild.FirstChild, objList, typeList);
+                            elementChild = elementChild.NextSibling;
+                        }
                     }
                     else if (descriptor.PropertyType.IsClass && descriptor.PropertyType != typeof(string))
                     {
@@ -63,7 +75,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        /// 生成XML文件(包含子级)
+        /// 生成XML文件(实体及子级)
         /// </summary>
         /// <typeparam name="T">数据类或数据接口(按接口生成部分)</typeparam>
         /// <param name="file">生成文件</param>
@@ -75,7 +87,7 @@ namespace Paway.Helper
             Saves(file, info, null, null, allowEmpty, standalone);
         }
         /// <summary>
-        /// 生成XML文件(包含子级)
+        /// 生成XML文件(实体及子级)
         /// </summary>
         /// <typeparam name="T">数据类或数据接口(按接口生成部分)</typeparam>
         /// <param name="file">生成文件</param>
@@ -114,14 +126,12 @@ namespace Paway.Helper
                 object obj = info.GetValue(property.Name);
                 if (obj is IList list)
                 {
+                    var typeList = list.GenericType();
                     for (int i = 0; i < list.Count; i++)
                     {
-                        if (i > 0)
-                        {
-                            element = doc.CreateElement(property.Name);
-                            root.AppendChild(element);
-                        }
-                        Save(doc, element, list[i], list.GenericType());
+                        XmlElement elementChild = doc.CreateElement(typeList.Name);
+                        element.AppendChild(elementChild);
+                        Save(doc, elementChild, list[i], typeList);
                     }
                 }
                 else if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
