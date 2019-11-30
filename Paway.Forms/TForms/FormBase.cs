@@ -124,6 +124,11 @@ namespace Paway.Forms
             set { _tranColor = value; }
         }
 
+        /// <summary>
+        /// 最小化时恢复标记
+        /// </summary>
+        private bool iRestore;
+
         #endregion
 
         #region 属性
@@ -895,6 +900,11 @@ namespace Paway.Forms
                         //NativeMethods.SendMessage(this.Handle, (int)WindowsMessage.WM_SETREDRAW, 1, 0);
                     }
                     base.WndProc(ref m);
+                    if (iRestore)
+                    {
+                        iRestore = false;
+                        this.Opacity = 1;
+                    }
                     break;
                 case (int)WindowsMessage.WM_NCPAINT:
                 case (int)WindowsMessage.WM_NCCALCSIZE:
@@ -952,6 +962,9 @@ namespace Paway.Forms
                 case (MenuType)(int)WindowStyle.SC_RESTORE:
                     try
                     {//从最小化恢复时闪屏，临时去除双缓存
+                        //并设置透明度，在重绘后再恢复。去除双缓存效果更新好，就是会普慢
+                        iRestore = true;
+                        this.Opacity = 0;
                         SetStyle(ControlStyles.AllPaintingInWmPaint, false);
                         if (WindowState != FormWindowState.Minimized)
                             WindowState = WindowState;
