@@ -18,138 +18,112 @@ namespace Paway.Forms
     /// </summary>
     public class FormBase : TForm
     {
-        #region 事件
+        #region 全局事件
         /// <summary>
         /// 关于
         /// </summary>
         public static event EventHandler AboutEvent;
 
         #endregion
-        #region 构造函数
 
+        #region 构造
         /// <summary>
         /// 初始化 Paway.Forms.FormBase 类的新实例。
         /// </summary>
         public FormBase()
         {
-            Initialize();
+            FormBorderStyle = FormBorderStyle.None;
             Padding = new Padding(1, 26, 1, 1);
-            if (IMouseMove) TMouseMove(this);
-            StartPosition = FormStartPosition.CenterScreen;
-            AutoScaleMode = AutoScaleMode.None;
             ForeColor = Color.White;
+            toolTop = new ToolTip();
+            if (IMouseMove) TMouseMove(this);
         }
-
-        #endregion
-
-        #region 接口
-
         /// <summary>
-        /// 坐标点是否包含在项中
+        /// 释放资源
         /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        public override bool Contain(Point p)
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
         {
-            return SysBtnRect.Contains(p);
+            if (disposing)
+            {
+            }
+            if (toolTop != null)
+            {
+                toolTop.Dispose();
+            }
+            if (_borderImage != null) _borderImage.Dispose();
+            if (skin != null)
+            {
+                skin.Dispose();
+                skin = null;
+            }
+            base.Dispose(disposing);
         }
 
         #endregion
 
-        #region 变量
-
+        #region 重置默认属性值
         /// <summary>
-        /// 边框图片
+        /// 获取或设置控件的前景色。
         /// </summary>
-        private readonly Image _borderImage = Resources.QQ_FormFrame_fringe_bkg;
-
-        /// <summary>
-        /// 系统按钮
-        /// </summary>
-        protected TSysButton _sysButton = TSysButton.Normal;
-
-        /// <summary>
-        /// 关闭按钮的鼠标状态
-        /// </summary>
-        protected TMouseState _closeState = TMouseState.Normal;
-
-        /// <summary>
-        /// 最大化按钮的鼠标状态
-        /// </summary>
-        protected TMouseState _maxState = TMouseState.Normal;
-
-        /// <summary>
-        /// 最小化按钮的鼠标状态
-        /// </summary>
-        protected TMouseState _minState = TMouseState.Normal;
-
-        /// <summary>
-        /// 记录窗体Normal大小
-        /// </summary>
-        protected Size? _normalSize;
-        /// <summary>
-        /// 记录窗体Restore大小
-        /// </summary>
-        protected Size? _restoreSize;
-
-        /// <summary>
-        /// 记录窗体Normal位置
-        /// </summary>
-        protected Point? _normalPoint;
-        /// <summary>
-        /// 记录窗体Restore位置
-        /// </summary>
-        protected Point? _restorePoint;
+        [Description("获取或设置控件的前景色")]
+        [DefaultValue(typeof(Color), "White")]
+        public override Color ForeColor
+        {
+            get { return base.ForeColor; }
+            set
+            {
+                if (value == Color.Empty)
+                {
+                    value = Color.White;
+                }
+                base.ForeColor = value;
+            }
+        }
 
         /// <summary>
         /// 是否显示图标
         /// </summary>
-        protected bool _showIcon = true;
-
-        private Color _tranColor;
-
+        private bool _showIcon = true;
         /// <summary>
-        /// 绘制背景时自动颜色透明度
+        /// 是否显示图标
         /// </summary>
-        protected Color TranColor
+        [Description("是否显示图标")]
+        [DefaultValue(true)]
+        public new virtual bool ShowIcon
         {
-            get
+            get { return _showIcon; }
+            set
             {
-                if (_tranColor.A > Trans)
+                if (_showIcon != value)
                 {
-                    _tranColor = Color.FromArgb(Trans, _tranColor.R, _tranColor.G, _tranColor.B);
+                    _showIcon = value;
+                    Invalidate(TitleBarRect);
                 }
-                return _tranColor;
             }
-            set { _tranColor = value; }
         }
 
-        /// <summary>
-        /// 最小化时恢复标记
-        /// </summary>
-        private bool iRestore;
-
-        #endregion
-
-        #region 属性
         /// <summary>
         /// 记录上一次窗体状态，用于还原
         /// </summary>
         private FormWindowState lastState;
-
+        /// <summary>
+        /// 指定窗体窗口如何显示
+        /// </summary>
+        private FormWindowState _windowState = FormWindowState.Normal;
         /// <summary>
         /// 指定窗体窗口如何显示
         /// </summary>
         [Description("指定窗体窗口如何显示")]
         [DefaultValue(FormWindowState.Normal)]
-        public override FormWindowState WindowState
+        public new virtual FormWindowState WindowState
         {
             get { return _windowState; }
             set
             {
-                bool iSame = base.WindowState == value;
+                bool iSame = _windowState == value;
                 if (!iSame)
-                    lastState = base.WindowState;
+                    lastState = _windowState;
                 switch (value)
                 {
                     case FormWindowState.Minimized:
@@ -157,7 +131,17 @@ namespace Paway.Forms
                         _restorePoint = Location;
                         break;
                 }
-                base.WindowState = value;
+                _windowState = value;
+                switch (_windowState)
+                {
+                    case FormWindowState.Normal:
+                    case FormWindowState.Maximized:
+                        base.WindowState = FormWindowState.Normal;
+                        break;
+                    case FormWindowState.Minimized:
+                        base.WindowState = FormWindowState.Minimized;
+                        break;
+                }
                 if (iSame) return;
                 ShowSysMenu();
                 switch (_windowState)
@@ -180,41 +164,132 @@ namespace Paway.Forms
             }
         }
 
+        #endregion
+
+        #region 变量
+        /// <summary>
+        /// 悬停窗口
+        /// </summary>
+        private readonly ToolTip toolTop;
+        /// <summary>
+        /// 阴影窗体
+        /// </summary>
+        private SkinForm skin;
+        /// <summary>
+        /// 最小化时恢复标记
+        /// </summary>
+        private bool iRestore;
+
+        /// <summary>
+        /// 边框图片
+        /// </summary>
+        private readonly Image _borderImage = Resources.QQ_FormFrame_fringe_bkg;
+
+        /// <summary>
+        /// 记录窗体Normal大小
+        /// </summary>
+        private Size? _normalSize;
+        /// <summary>
+        /// 记录窗体Restore大小
+        /// </summary>
+        private Size? _restoreSize;
+        /// <summary>
+        /// 记录窗体Normal位置
+        /// </summary>
+        private Point? _normalPoint;
+        /// <summary>
+        /// 记录窗体Restore位置
+        /// </summary>
+        private Point? _restorePoint;
+
+        #endregion
+
+        #region 属性
+        private Color _tShadowColor = Color.Black;
+        /// <summary>
+        /// 窗体阴影颜色
+        /// </summary>
+        [Category("TForm"), Description("窗体阴影颜色")]
+        [DefaultValue(typeof(Color), "Black")]
+        public Color TShadowColor
+        {
+            get { return _tShadowColor; }
+            set
+            {
+                if (_tShadowColor != value)
+                {
+                    _tShadowColor = value;
+                    if (skin != null) skin.SetBits();
+                }
+            }
+        }
+
+        private bool _iRound = true;
+        /// <summary>
+        /// 是否剪成圆角
+        /// </summary>
+        [Browsable(true), Description("是否剪成圆角")]
+        [DefaultValue(true)]
+        public bool IRound
+        {
+            get { return _iRound; }
+            set
+            {
+                _iRound = value;
+                TRadius = value ? 5 : 0;
+                DrawRound();
+            }
+        }
+
+        private int _tRadius = 5;
+        /// <summary>
+        /// 设置或获取窗体的圆角的大小
+        /// 窗体阴影宽度=value+1
+        /// 最佳值=4
+        /// </summary>
+        [Browsable(false)]
+        [Category("TForm"), Description("设置或获取窗体的圆角的大小")]
+        [DefaultValue(5)]
+        internal int TRadius
+        {
+            get
+            {
+                if (WindowState == FormWindowState.Maximized) return 0;
+                if (this is FormBase formBase && formBase.WindowState == FormWindowState.Maximized) return 0;
+                return _tRadius;
+            }
+            set
+            {
+                if (_tRadius != value)
+                {
+                    _tRadius = value;
+                    if (skin != null) skin.SetBits();
+                    OnResize(EventArgs.Empty);
+                    //base.Invalidate();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 是否允许改变窗口大小
+        /// </summary>
+        [Description("是否允许改变窗口大小")]
+        [DefaultValue(true)]
+        public bool IResize { get; set; } = true;
+
+        /// <summary>
+        /// 是否启用窗体阴影
+        /// </summary>
+        [Category("Shadow"), Description("是否启用窗体阴影")]
+        [DefaultValue(true)]
+        public bool IShadow { get; set; } = true;
+
         /// <summary>
         /// 是否透明
         /// </summary>
         [Description("指定窗体是否透明")]
         [DefaultValue(false)]
         public bool ITransfer { get; set; }
-
-        /// <summary>
-        /// 窗体大小的最小值
-        /// </summary>
-        [Description("窗体大小的最小值")]
-        [DefaultValue(typeof(Size), "140, 40")]
-        public override Size MinimumSize
-        {
-            get { return base.MinimumSize; }
-            set { base.MinimumSize = value; }
-        }
-
-        /// <summary>
-        /// 是否显示图标
-        /// </summary>
-        [Description("是否显示图标")]
-        [DefaultValue(true)]
-        public new virtual bool ShowIcon
-        {
-            get { return _showIcon; }
-            set
-            {
-                if (_showIcon != value)
-                {
-                    _showIcon = value;
-                    Invalidate(TitleBarRect);
-                }
-            }
-        }
 
         /// <summary>
         /// 窗体标题文字
@@ -251,6 +326,10 @@ namespace Paway.Forms
             }
         }
 
+        /// <summary>
+        /// 系统按钮
+        /// </summary>
+        private TSysButton _sysButton = TSysButton.Normal;
         /// <summary>
         /// 系统控制按钮
         /// </summary>
@@ -354,6 +433,10 @@ namespace Paway.Forms
         }
 
         /// <summary>
+        /// 关闭按钮的鼠标状态
+        /// </summary>
+        private TMouseState _closeState = TMouseState.Normal;
+        /// <summary>
         /// 关闭按钮当前的鼠标状态
         /// </summary>
         [Description("关闭按钮当前的鼠标状态")]
@@ -372,6 +455,10 @@ namespace Paway.Forms
         }
 
         /// <summary>
+        /// 最大化按钮的鼠标状态
+        /// </summary>
+        private TMouseState _maxState = TMouseState.Normal;
+        /// <summary>
         /// 最大化按钮当前的鼠标状态
         /// </summary>
         [Description("最大化按钮当前的鼠标状态")]
@@ -389,6 +476,10 @@ namespace Paway.Forms
             }
         }
 
+        /// <summary>
+        /// 最小化按钮的鼠标状态
+        /// </summary>
+        private TMouseState _minState = TMouseState.Normal;
         /// <summary>
         /// 最小化按钮当前的鼠标状态
         /// </summary>
@@ -412,7 +503,7 @@ namespace Paway.Forms
         /// </summary>
         [Description("标题栏菜单按钮的鼠标的状态")]
         [DefaultValue(TMouseState.Normal)]
-        protected virtual TMouseState TitleBarMenuState { get; set; }
+        protected TMouseState TitleBarMenuState { get; set; }
 
         private bool _iBorder;
         /// <summary>
@@ -430,123 +521,26 @@ namespace Paway.Forms
             }
         }
 
+        #endregion
+
+        #region 接口
         /// <summary>
-        /// 是否剪成圆角
+        /// 坐标点是否包含在项中
         /// </summary>
-        [Browsable(true), Description("是否剪成圆角")]
-        [DefaultValue(true)]
-        public override bool IRound
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public override bool Contain(Point p)
         {
-            get { return base.IRound; }
-            set
-            {
-                base.IRound = value;
-                DrawRound();
-            }
-        }
-
-        /// <summary>
-        /// 线性渐变绘制
-        /// </summary>
-        private TProperties _tBrush;
-
-        /// <summary>
-        /// 线性渐变绘制
-        /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public TProperties TBrush
-        {
-            get
-            {
-                if (_tBrush == null)
-                {
-                    _tBrush = new TProperties(MethodBase.GetCurrentMethod());
-                    _tBrush.ValueChange += delegate { Invalidate(ClientRectangle); };
-                }
-                return _tBrush;
-            }
-        }
-
-        /// <summary>
-        /// 指定线性渐变的方向
-        /// </summary>
-        private LinearGradientMode _tBrushMode = LinearGradientMode.Vertical;
-
-        /// <summary>
-        /// 指定线性渐变的方向
-        /// </summary>
-        [DefaultValue(LinearGradientMode.Vertical)]
-        public LinearGradientMode TBrushMode
-        {
-            get { return _tBrushMode; }
-            set
-            {
-                _tBrushMode = value;
-                Invalidate(ClientRectangle);
-            }
+            return SysBtnRect.Contains(p);
         }
 
         #endregion
 
-        #region 重置默认属性值
-
-        /// <summary>
-        /// 获取或设置运行时窗体的起始位置。
-        /// </summary>
-        [Description("获取或设置运行时窗体的起始位置")]
-        [DefaultValue(FormStartPosition.CenterScreen)]
-        public new FormStartPosition StartPosition
-        {
-            get { return base.StartPosition; }
-            set { base.StartPosition = value; }
-        }
-
-        /// <summary>
-        /// 获取或设置控件的自动缩放模式。
-        /// </summary>
-        [Description("获取或设置控件的自动缩放模式")]
-        [DefaultValue(AutoScaleMode.None)]
-        public new AutoScaleMode AutoScaleMode
-        {
-            get { return base.AutoScaleMode; }
-            set { base.AutoScaleMode = value; }
-        }
-
-        /// <summary>
-        /// 获取或设置控件的前景色。
-        /// </summary>
-        [Description("获取或设置控件的前景色")]
-        [DefaultValue(typeof(Color), "White")]
-        public override Color ForeColor
-        {
-            get { return base.ForeColor; }
-            set
-            {
-                if (value == Color.Empty)
-                {
-                    value = Color.White;
-                }
-                base.ForeColor = value;
-            }
-        }
-
-        #endregion
-
-        #region 方法
-
-        /// <summary>
-        /// 初始化窗口
-        /// </summary>
-        private void Initialize()
-        {
-            FormBorderStyle = FormBorderStyle.None;
-        }
-
+        #region 拖动改变窗口大小
         /// <summary>
         /// 拖动窗口大小
         /// </summary>
-        /// <param name="m"></param>
-        public override void WmNcHitTest(ref Message m)
+        internal void WmNcHitTest(ref Message m)
         {
             if (WindowState != FormWindowState.Maximized)
             {
@@ -557,7 +551,7 @@ namespace Paway.Forms
                     NativeMethods.HightWord(wparam));
 
                 point = PointToClient(point);
-                if (_iResize)
+                if (IResize)
                 {
                     if (point.X <= 3)
                     {
@@ -605,111 +599,36 @@ namespace Paway.Forms
             }
         }
 
+        #endregion
+
+        #region 显示阴影
         /// <summary>
-        /// 设置图片为窗体，透明区域根据 opacity 的值决定透明度
+        /// 显示阴影
         /// </summary>
-        /// <param name="bitmap">透明位图</param>
-        /// <param name="opacity">透明度的值0~255</param>
-        protected void SetBitmap(Bitmap bitmap, byte opacity)
+        protected override void OnVisibleChanged(EventArgs e)
         {
-            if (bitmap.PixelFormat != PixelFormat.Format32bppArgb)
-                throw new ArgumentException("The bitmap must be 32ppp with alpha-channel.");
-
-            // The ideia of this is very simple,
-            // 1. Create a compatible DC with screen;
-            // 2. Select the bitmap with 32bpp with alpha-channel in the compatible DC;
-            // 3. Call the UpdateLayeredWindow.
-
-            var screenDc = NativeMethods.GetDC(IntPtr.Zero);
-            var memDc = NativeMethods.CreateCompatibleDC(screenDc);
-            var hBitmap = IntPtr.Zero;
-            var oldBitmap = IntPtr.Zero;
-
-            try
+            if (Visible)
             {
-                hBitmap = bitmap.GetHbitmap(Color.FromArgb(0)); // grab a GDI handle from this GDI+ bitmap
-                oldBitmap = NativeMethods.SelectObject(memDc, hBitmap);
-
-                var size = new SIZE(bitmap.Width, bitmap.Height);
-                var pointSource = new POINT(0, 0);
-                var topPos = new POINT(Left, Top);
-                var blend = new BLENDFUNCTION()
+                if (!IsDisposed && !DesignMode && IShadow)
                 {
-                    BlendOp = Consts.AC_SRC_OVER,
-                    BlendFlags = 0,
-                    SourceConstantAlpha = opacity,
-                    AlphaFormat = Consts.AC_SRC_ALPHA
-                };
-                if (!IsDisposed)
-                {
-                    NativeMethods.UpdateLayeredWindow(Handle, screenDc, ref topPos, ref size, memDc, ref pointSource, 0,
-                        ref blend, Consts.ULW_ALPHA);
-                }
-            }
-            finally
-            {
-                NativeMethods.ReleaseDC(IntPtr.Zero, screenDc);
-                if (hBitmap != IntPtr.Zero)
-                {
-                    NativeMethods.SelectObject(memDc, oldBitmap);
-                    //Windows.DeleteObject(hBitmap); // The documentation says that we have to use the Windows.DeleteObject... but since there is no such method I use the normal DeleteObject from Win32 GDI and it's working fine without any resource leak.
-                    NativeMethods.DeleteObject(hBitmap);
-                }
-                NativeMethods.DeleteDC(memDc);
-            }
-        }
-
-        /// <summary>
-        /// 获取下一个控件
-        /// </summary>
-        protected Control NextControl(Point current, Control parent)
-        {
-            Control result = null;
-            Point next = new Point(this.Width, this.Height);
-            foreach (Control item in parent.Controls)
-            {
-                if (item.Location.Y < next.Y || (item.Location.Y == next.Y && item.Location.X < next.X))
-                    if (item.Location.Y > current.Y || (item.Location.Y == current.Y && item.Location.X > current.X))
+                    if (skin != null)
                     {
-                        if (item.Visible && item.Enabled &&
-                            ((item is QQTextBox && (item as QQTextBox).Edit.Enabled && !(item as QQTextBox).Edit.ReadOnly) ||
-                            item is DateTimePicker ||
-                            (item is NumericUpDown && !(item as NumericUpDown).ReadOnly)))
-                        {
-                            next = item.Location;
-                            result = item;
-                        }
+                        skin.Close();
+                        skin.Dispose();
                     }
-            }
-            return result;
-        }
-        /// <summary>
-        /// 当前焦点控件
-        /// </summary>
-        protected Control CurrentPoint(Control parent)
-        {
-            foreach (Control item in parent.Controls)
-            {
-                if (item.ContainsFocus)
-                {
-                    if (item.GetType() == typeof(TControl) || item.GetType() == typeof(TPanel) || item.GetType() == typeof(Panel))
-                    {
-                        return CurrentPoint(item);
-                    }
-                    return item;
+                    skin = new SkinForm(this);
+                    skin.Show(this);
                 }
+                base.OnVisibleChanged(e);
             }
-            return this;
         }
 
         #endregion
 
-        #region Override Methods
-
+        #region 重绘
         /// <summary>
-        /// 引发 System.Windows.Forms.Form.Paint 事件。
+        /// 重绘
         /// </summary>
-        /// <param name="e">包含事件数据的 System.Windows.Forms.PaintEventArgs。</param>
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -722,50 +641,10 @@ namespace Paway.Forms
             DrawText(g);
             DrawFrameBorder(g);
         }
-
-        /// <summary>
-        /// 填充背景
-        /// </summary>
-        protected override void OnPaintBackground(PaintEventArgs e)
-        {
-            base.OnPaintBackground(e);
-            var g = e.Graphics;
-            g.SmoothingMode = SmoothingMode.HighQuality;
-
-            //绘制背景
-            if (TBrush.ColorMove != Color.Empty && TBrush.ColorDown != Color.Empty)
-            {
-                TranColor = TBrush.ColorMove;
-                var normal = TranColor;
-                TranColor = TBrush.ColorDown;
-                var space = TranColor;
-                using (var brush = new LinearGradientBrush(ClientRectangle, normal, space, _tBrushMode))
-                {
-                    var blend = new Blend()
-                    {
-                        Factors = new[] { 1f, 0.5f, 0f },
-                        Positions = new[] { 0f, 0.5f, 1f }
-                    };
-                    var temp = ClientRectangle;
-                    //修理毛边
-                    temp = new Rectangle(temp.X - 1, temp.Y - 1, temp.Width + 2, temp.Height + 2);
-                    g.FillRectangle(brush, temp);
-                }
-            }
-            else if (BackgroundImage == null)
-            {
-                TranColor = BackColor;
-                using (var solidBrush = new SolidBrush(TranColor))
-                {
-                    g.FillRectangle(solidBrush, ClientRectangle);
-                }
-            }
-        }
-
         /// <summary>
         /// 绘制标题文字
         /// </summary>
-        protected void DrawText(Graphics g)
+        internal void DrawText(Graphics g)
         {
             string text = _textShow;
             if (text == null) text = this.Text;
@@ -774,7 +653,6 @@ namespace Paway.Forms
                 TextRenderer.DrawText(g, text, Font, TextRect, ForeColor, TextFormatFlags.VerticalCenter);
             }
         }
-
         /// <summary>
         /// 绘制窗体边框
         /// </summary>
@@ -828,6 +706,9 @@ namespace Paway.Forms
             }
         }
 
+        #endregion
+
+        #region 圆角窗体
         /// <summary>
         /// 引发 System.Windows.Forms.Form.Resize 事件。
         /// </summary>
@@ -841,7 +722,7 @@ namespace Paway.Forms
         /// <summary>
         /// 将窗体剪成圆角
         /// </summary>
-        protected void DrawRound()
+        private void DrawRound()
         {
             if (!this.Visible) return;
             //调用API，将窗体剪成圆角
@@ -854,37 +735,9 @@ namespace Paway.Forms
             }
         }
 
-        /// <summary>
-        /// 引发 System.Windows.Forms.Form.Load 事件。
-        /// </summary>
-        /// <param name="e">包含事件数据的 System.EventArgs。</param>
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-            this.OnResize(e);
-            ShowSysMenu();
-            if (!DesignMode)
-            {
-                switch (StartPosition)
-                {
-                    case FormStartPosition.CenterParent:
-                        Location = new Point(
-                            (Parent.Width - Width) / 2,
-                            (Parent.Height - Height) / 2);
-                        break;
-                    case FormStartPosition.CenterScreen:
-                        Location = new Point(
-                            (Screen.PrimaryScreen.WorkingArea.Width - Width) / 2,
-                            (Screen.PrimaryScreen.WorkingArea.Height - Height) / 2);
-                        break;
-                    case FormStartPosition.Manual:
-                    case FormStartPosition.WindowsDefaultBounds:
-                    case FormStartPosition.WindowsDefaultLocation:
-                        break;
-                }
-            }
-        }
+        #endregion
 
+        #region 系统消息重载处理
         /// <summary>
         /// 处理 Windows 消息。
         /// </summary>
@@ -903,6 +756,7 @@ namespace Paway.Forms
                     if (iRestore)
                     {
                         iRestore = false;
+                        Application.DoEvents();
                         this.Opacity = 1;
                     }
                     break;
@@ -965,7 +819,7 @@ namespace Paway.Forms
                         //并设置透明度，在重绘后再恢复。去除双缓存效果更新好，就是会普慢
                         iRestore = true;
                         this.Opacity = 0;
-                        SetStyle(ControlStyles.AllPaintingInWmPaint, false);
+                        //SetStyle(ControlStyles.AllPaintingInWmPaint, false);
                         if (WindowState != FormWindowState.Minimized)
                             WindowState = WindowState;
                         else
@@ -973,7 +827,7 @@ namespace Paway.Forms
                     }
                     finally
                     {
-                        SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+                        //SetStyle(ControlStyles.AllPaintingInWmPaint, true);
                     }
                     break;
                 case MenuType.Restore:
@@ -1026,6 +880,20 @@ namespace Paway.Forms
             if ((_sysButton == TSysButton.Normal || _sysButton == TSysButton.Close_Max) && e.Clicks == 2)
             {
                 WindowMax();
+            }
+        }
+        /// <summary>
+        /// 最大化方法
+        /// </summary>
+        private void WindowMax()
+        {
+            if (WindowState == FormWindowState.Maximized)
+            {
+                WindowState = FormWindowState.Normal;
+            }
+            else
+            {
+                WindowState = FormWindowState.Maximized;
             }
         }
 
@@ -1151,21 +1019,6 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        /// 最大化方法
-        /// </summary>
-        protected void WindowMax()
-        {
-            if (WindowState == FormWindowState.Maximized)
-            {
-                WindowState = FormWindowState.Normal;
-            }
-            else
-            {
-                WindowState = FormWindowState.Maximized;
-            }
-        }
-
-        /// <summary>
         /// 封装创建控件时所需的信息。
         /// </summary>
         protected override CreateParams CreateParams
@@ -1201,133 +1054,61 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 绘制下圆角路径
-
+        #region ToolTip
         /// <summary>
-        /// 绘制下圆角路径
+        /// 表示一个长方形的小弹出窗口，该窗口在用户将指针悬停在一个控件上时显示有关该控件用途的简短说明。
         /// </summary>
-        /// <param name="control"></param>
-        protected void TDrawBelowPath(Control control)
+        private void ShowTooTip(string toolTipText)
         {
-            if (control == null) return;
-            control.Paint += Control_PaintDP;
-        }
-
-        private void Control_PaintDP(object sender, PaintEventArgs e)
-        {
-            var control = sender as Control;
-            DrawHelper.CreateBelowPath(e.Graphics, control.ClientRectangle, BackColor);
-        }
-
-        #endregion
-
-        #region 绘制下圆角边框
-
-        /// <summary>
-        /// 绘制下圆角边框
-        /// </summary>
-        /// <param name="control"></param>
-        protected void TDrawBelowBorder(Control control)
-        {
-            if (!_iBorder || control == null || _borderImage == null) return;
-            control.Paint += Control_PaintDB;
-        }
-
-        private void Control_PaintDB(object sender, PaintEventArgs e)
-        {
-            var control = sender as Control;
-            var g = e.Graphics;
-
-            if (WindowState == FormWindowState.Maximized)
-            {
-                //左边
-                g.DrawImage(_borderImage, new Rectangle(0, 0, 1, control.Height), new Rectangle(5, 8, 1, 1),
-                    GraphicsUnit.Pixel);
-                //右边
-                g.DrawImage(_borderImage, new Rectangle(control.Width - 1, 0, 1, control.Height),
-                    new Rectangle(5, 8, 1, 1), GraphicsUnit.Pixel);
-                //上边
-                g.DrawImage(_borderImage, new Rectangle(0, 0, control.Width, 1), new Rectangle(8, 5, 6, 1),
-                    GraphicsUnit.Pixel);
-                //下边
-                g.DrawImage(_borderImage, new Rectangle(0, control.Height - 1, control.Width, 1),
-                    new Rectangle(8, 5, 6, 1), GraphicsUnit.Pixel);
-            }
-            else
-            {
-                //右下
-                g.DrawImage(_borderImage, new Rectangle(control.Width - 3, control.Height - 3, 3, 3),
-                    new Rectangle(5, 5, 3, 3), GraphicsUnit.Pixel);
-                //左下
-                g.DrawImage(_borderImage, new Rectangle(0, control.Height - 3, 3, 3),
-                    new Rectangle(_borderImage.Width - 3 - 5, 5, 3, 3), GraphicsUnit.Pixel);
-                //左边
-                g.DrawImage(_borderImage, new Rectangle(0, 0, 1, control.Height - 2), new Rectangle(5, 8, 1, 1),
-                    GraphicsUnit.Pixel);
-                //右边
-                g.DrawImage(_borderImage, new Rectangle(control.Width - 1, 0, 1, control.Height - 2),
-                    new Rectangle(5, 8, 1, 1), GraphicsUnit.Pixel);
-                //下边
-                g.DrawImage(_borderImage, new Rectangle(2, control.Height - 1, control.Width - 4, 1),
-                    new Rectangle(8, 5, 6, 1), GraphicsUnit.Pixel);
-            }
-            g.Dispose();
-        }
-
-        #endregion
-
-        #region 将控件剪成圆角
-        private int ellipse;
-        /// <summary>
-        /// 将控件剪成圆角
-        /// </summary>
-        protected void TDrawRoundRect(Control control, int ellipse)
-        {
-            if (control == null) return;
-            this.ellipse = ellipse;
-            control.SizeChanged += Control_SizeChanged;
-            Control_SizeChanged(control, EventArgs.Empty);
-        }
-        private void Control_SizeChanged(object sender, EventArgs e)
-        {
-            DrawRoundRect(sender as Control, ellipse);
+            toolTop.Active = true;
+            toolTop.SetToolTip(this, toolTipText);
         }
         /// <summary>
-        /// 将控件剪成圆角
+        /// 弹出窗口不活动
         /// </summary>
-        /// <param name="control"></param>
-        /// <param name="ellipse"></param>
-        protected void DrawRoundRect(Control control, int ellipse)
+        private void HideToolTip()
         {
-            if (control == null) return;
-            DrawRoundRect(control, control.ClientRectangle, ellipse);
-        }
-        /// <summary>
-        /// 将控件剪成圆角
-        /// </summary>
-        /// <param name="control"></param>
-        /// <param name="rect"></param>
-        /// <param name="ellipse"></param>
-        protected void DrawRoundRect(Control control, Rectangle rect, int ellipse)
-        {
-            if (control == null) return;
-
-            var rgn = NativeMethods.CreateRoundRectRgn(rect.X, rect.Y, rect.Width + 1 - rect.X, rect.Height + 1 - rect.Y,
-                ellipse, ellipse);
-            if (!control.IsDisposed)
-            {
-                NativeMethods.SetWindowRgn(control.Handle, rgn, true);
-            }
+            toolTop.Active = false;
         }
 
         #endregion
 
         #region 显示系统菜单
         /// <summary>
+        /// 引发 System.Windows.Forms.Form.Load 事件。
+        /// </summary>
+        /// <param name="e">包含事件数据的 System.EventArgs。</param>
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            this.OnResize(e);
+            ShowSysMenu();
+            if (!DesignMode)
+            {
+                switch (StartPosition)
+                {
+                    case FormStartPosition.CenterParent:
+                        Location = new Point(
+                            (Parent.Width - Width) / 2,
+                            (Parent.Height - Height) / 2);
+                        break;
+                    case FormStartPosition.CenterScreen:
+                        Location = new Point(
+                            (Screen.PrimaryScreen.WorkingArea.Width - Width) / 2,
+                            (Screen.PrimaryScreen.WorkingArea.Height - Height) / 2);
+                        break;
+                    case FormStartPosition.Manual:
+                    case FormStartPosition.WindowsDefaultBounds:
+                    case FormStartPosition.WindowsDefaultLocation:
+                        break;
+                }
+            }
+        }
+        /// <summary>
         /// 显示系统菜单
         /// 改变窗口大小与系统菜单冲突
         /// </summary>
-        public void ShowSysMenu()
+        private void ShowSysMenu()
         {
             int windowLong = (NativeMethods.GetWindowLong(this.Handle, -16));
             NativeMethods.SetWindowLong(this.Handle, -16, windowLong | (int)WindowStyle.WS_SYSMENU);
@@ -1373,7 +1154,7 @@ namespace Paway.Forms
         /// <summary>
         /// 显示系统菜单
         /// </summary>
-        public void HideSysMenu()
+        private void HideSysMenu()
         {
             int windowLong = (NativeMethods.GetWindowLong(this.Handle, -16));
             if ((windowLong & (int)WindowStyle.WS_SYSMENU) == (int)WindowStyle.WS_SYSMENU)
@@ -1384,23 +1165,5 @@ namespace Paway.Forms
         }
 
         #endregion
-
-        /// <summary>
-        /// 释放资源
-        /// </summary>
-        /// <param name="disposing"></param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-            }
-            if (_borderImage != null) _borderImage.Dispose();
-            if (_tBrush != null)
-            {
-                _tBrush.Dispose();
-                _tBrush = null;
-            }
-            base.Dispose(disposing);
-        }
     }
 }

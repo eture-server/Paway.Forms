@@ -15,23 +15,22 @@ namespace Paway.Forms
     [Designer("System.Windows.Forms.Design.ParentControlDesigner, System.Design")]
     public class TControl : UserControl, IControl
     {
-        #region 变量
+        #region 事件
         /// <summary>
-        /// 加载标记
+        /// 移动特效正常完成事件。
         /// </summary>
-        public bool ILoad;
-        private TMDirection _mDirection;
-        private TProperties _tBrush;
-        private LinearGradientMode _tBrushMode = LinearGradientMode.Vertical;
-        private int _trans = 255;
+        public event EventHandler MoveFinished;
 
+        #endregion
+
+        #region 变量
         private readonly Timer sTimer;
         private int intervel;
         private DockStyle dock;
         private Size size;
         private Point point;
         private Size step;
-        private TPanel alpha;
+        private TControl alpha;
         private int color = 255;
         private bool i3d;
         private Image image;
@@ -63,9 +62,51 @@ namespace Paway.Forms
             set { base.AutoScaleMode = value; }
         }
 
+        /// <summary>
+        /// 获取或设置控件的前景色。
+        /// </summary>
+        [Description("获取或设置控件的前景色")]
+        [DefaultValue(typeof(Color), "Black")]
+        public override Color ForeColor
+        {
+            get { return base.ForeColor; }
+            set
+            {
+                if (value == Color.Empty)
+                {
+                    value = Color.Black;
+                }
+                base.ForeColor = value;
+            }
+        }
+
+        /// <summary>
+        /// 获取或设置控件的背景色
+        /// </summary>
+        [Description("获取或设置控件的背景色")]
+        [DefaultValue(typeof(Color), "Transparent")]
+        public override Color BackColor
+        {
+            get { return base.BackColor; }
+            set
+            {
+                if (value == Color.Empty || value == SystemColors.Control)
+                {
+                    value = Color.Transparent;
+                }
+                base.BackColor = value;
+            }
+        }
+
         #endregion
 
-        #region 接口属性
+        #region 属性
+        /// <summary>
+        /// 加载标记
+        /// </summary>
+        public bool ILoad;
+
+        private TMDirection _mDirection;
         /// <summary>
         /// 移动特效方向
         /// </summary>
@@ -104,42 +145,7 @@ namespace Paway.Forms
         [DefaultValue(7)]
         public int MInterval { get; set; } = 7;
 
-        /// <summary>
-        /// 获取或设置控件的背景色
-        /// </summary>
-        [Description("获取或设置控件的背景色")]
-        [DefaultValue(typeof(Color), "Transparent")]
-        public override Color BackColor
-        {
-            get { return base.BackColor; }
-            set
-            {
-                if (value == Color.Empty || value == SystemColors.Control)
-                {
-                    value = Color.Transparent;
-                }
-                base.BackColor = value;
-            }
-        }
-
-        /// <summary>
-        /// 获取或设置控件的前景色。
-        /// </summary>
-        [Description("获取或设置控件的前景色")]
-        [DefaultValue(typeof(Color), "Black")]
-        public override Color ForeColor
-        {
-            get { return base.ForeColor; }
-            set
-            {
-                if (value == Color.Empty)
-                {
-                    value = Color.Black;
-                }
-                base.ForeColor = value;
-            }
-        }
-
+        private TProperties _tBrush;
         /// <summary>
         /// 线性渐变绘制
         /// </summary>
@@ -158,6 +164,7 @@ namespace Paway.Forms
             }
         }
 
+        private LinearGradientMode _tBrushMode = LinearGradientMode.Vertical;
         /// <summary>
         /// 指定线性渐变的方向
         /// </summary>
@@ -173,6 +180,7 @@ namespace Paway.Forms
             }
         }
 
+        private int _trans = 255;
         /// <summary>
         /// 控件透明度
         /// </summary>
@@ -191,13 +199,6 @@ namespace Paway.Forms
                 Invalidate(ClientRectangle);
             }
         }
-
-        /// <summary>
-        /// 移动控件父窗体
-        /// </summary>
-        [Description("移动控件父窗体")]
-        [DefaultValue(false)]
-        public bool IMouseMove { get; set; }
 
         /// <summary>
         /// 固定窗体背景
@@ -224,14 +225,26 @@ namespace Paway.Forms
                 ControlStyles.SupportsTransparentBackColor, true);
             SetStyle(ControlStyles.Opaque, false);
             UpdateStyles();
-            sTimer = new Timer();
-            InitShow();
 
+            InitializeComponent();
+            sTimer = new Timer();
+            sTimer.Interval = 45;
+            sTimer.Tick += STimer_Tick;
             ForeColor = Color.Black;
             BackColor = Color.Transparent;
             AutoScaleMode = AutoScaleMode.None;
             BackgroundImageLayout = ImageLayout.Stretch;
-            InitializeComponent();
+        }
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // TControl
+            // 
+            this.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.Name = "TControl";
+            this.ResumeLayout(false);
+
         }
         /// <summary>
         /// 返回包含 System.ComponentModel.Component 的名称的 System.String（如果有）
@@ -241,44 +254,65 @@ namespace Paway.Forms
         {
             return string.Format("{0} - {1}", this.Name, TConfig.Name);
         }
+        /// <summary>
+        /// 初始化控件位置
+        /// </summary>
+        protected override void OnLoad(EventArgs e)
+        {
+            ILoad = true;
+            base.OnLoad(e);
+            TConfig.Init(this);
+            if (DesignMode) return;
+            MChild();
+        }
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                image = null;
+                TranImage = null;
+                TranLaterImage = null;
+            }
+            if (_tBrush != null)
+            {
+                _tBrush.Dispose();
+                _tBrush = null;
+            }
+            if (sTimer != null)
+            {
+                sTimer.Stop();
+                sTimer.Dispose();
+            }
+            if (alpha != null)
+            {
+                alpha.Dispose();
+                alpha = null;
+            }
+            base.Dispose(disposing);
+        }
 
         #endregion
 
-        #region 公开方法
+        #region 接口
+        /// <summary>
+        /// 移动控件父窗体
+        /// </summary>
+        [Description("移动控件父窗体")]
+        [DefaultValue(false)]
+        public bool IMouseMove { get; set; }
         /// <summary>
         /// 坐标点是否包含在项中
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
-        public virtual bool Contain(Point p)
-        {
-            return false;
-        }
+        public virtual bool Contain(Point p) { return false; }
 
         #endregion
 
-        #region 事件
-        /// <summary>
-        /// 移动特效正常完成事件。
-        /// </summary>
-        public event EventHandler MoveFinished;
-
-        #endregion
-
-        #region 内部方法
-        /// <summary>
-        /// 绘制背景时自动颜色透明度
-        /// </summary>
-        internal Color TranColor(Color color)
-        {
-            if (color.A > Trans)
-            {
-                color = Color.FromArgb(Trans, color.R, color.G, color.B);
-            }
-            return color;
-        }
-
-        #region 重绘背景
+        #region 填充与固定窗体背景
         /// <summary>
         /// 重绘背景
         /// </summary>
@@ -287,7 +321,6 @@ namespace Paway.Forms
             base.OnPaint(e);
             var g = e.Graphics;
             g.SmoothingMode = SmoothingMode.HighQuality;
-
             //绘制背景
             if (TBrush.ColorMove != Color.Empty && TBrush.ColorDown != Color.Empty)
             {
@@ -304,40 +337,20 @@ namespace Paway.Forms
                 }
             }
         }
-
-        #endregion
-
-        #region 移动窗体
         /// <summary>
-        /// 移动控件父窗体
+        /// 绘制背景时自动颜色透明度
         /// </summary>
-        protected override void OnMouseDown(MouseEventArgs e)
+        internal Color TranColor(Color color)
         {
-            base.OnMouseDown(e);
-            if (IsDisposed) return;
-            if (!IMouseMove) return;
-            if (e.Button != MouseButtons.Left) return;
-            if (Contain(e.Location)) return;
-            if (ParentForm != null && ParentForm.WindowState != FormWindowState.Maximized)
+            if (color.A > Trans)
             {
-                if (ParentForm is TForm)
-                {
-                    var form = ParentForm as TForm;
-                    if (form.WindowState == FormWindowState.Maximized) return;
-                }
-                NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(ParentForm.Handle, (int)WindowsMessage.WM_SYSCOMMAND,
-                    (int)WindowsMessage.SC_MOVE, 0);
+                color = Color.FromArgb(Trans, color.R, color.G, color.B);
             }
+            return color;
         }
-
-        #endregion
-
-        #region 固定窗体背景 - 同TForm
         /// <summary>
-        /// 处理滚动条事件
+        /// 固定窗体背景-处理滚动条事件
         /// </summary>
-        /// <param name="se"></param>
         protected override void OnScroll(ScrollEventArgs se)
         {
             if (!IsDisposed && IFixedBackground)
@@ -362,9 +375,8 @@ namespace Paway.Forms
             }
             base.OnScroll(se);
         }
-
         /// <summary>
-        /// 处理鼠标滚轮事件
+        /// 固定窗体背景-处理鼠标滚轮事件
         /// </summary>
         protected override void OnMouseWheel(MouseEventArgs e)
         {
@@ -383,31 +395,32 @@ namespace Paway.Forms
 
         #endregion
 
+        #region 移动控件父窗体
+        /// <summary>
+        /// 移动控件父窗体
+        /// </summary>
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+            if (IsDisposed) return;
+            if (!IMouseMove) return;
+            if (e.Button != MouseButtons.Left) return;
+            if (Contain(e.Location)) return;
+            if (ParentForm != null && ParentForm.WindowState != FormWindowState.Maximized)
+            {
+                if (ParentForm is FormBase formBase && formBase.WindowState == FormWindowState.Maximized) return;
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(ParentForm.Handle, (int)WindowsMessage.WM_SYSCOMMAND, (int)WindowsMessage.SC_MOVE, 0);
+            }
+        }
+
         #endregion
 
         #region 按指定方向显示移动特效
-        private void InitShow()
-        {
-            sTimer.Interval = 45;
-            sTimer.Tick += STimer_Tick;
-        }
-
-        /// <summary>
-        /// 初始化控件位置
-        /// </summary>
-        protected override void OnLoad(EventArgs e)
-        {
-            ILoad = true;
-            base.OnLoad(e);
-            TConfig.Init(this);
-            if (DesignMode) return;
-            MChild();
-        }
-
         /// <summary>
         /// 为标题栏准备
         /// </summary>
-        public void MChild()
+        internal void MChild()
         {
             for (var i = 0; i < Controls.Count; i++)
             {
@@ -427,16 +440,7 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        /// 启动特效
-        /// </summary>
-        public void MStart(TMDirection dirction, int interval = 0)
-        {
-            MDirection = dirction;
-            MStart(interval);
-        }
-
-        /// <summary>
-        /// 停止全部物资
+        /// 停止全部特效
         /// </summary>
         public static void MStop(Control.ControlCollection controls)
         {
@@ -459,10 +463,10 @@ namespace Paway.Forms
             lock (mdLock)
             {
                 iStop = true;
-                MStop2();
+                MStopAnimation();
             }
         }
-        private void MStop2()
+        private void MStopAnimation()
         {
             if (sTimer.Enabled)
             {
@@ -503,6 +507,14 @@ namespace Paway.Forms
         /// <summary>
         /// 启动特效
         /// </summary>
+        public void MStart(TMDirection dirction, int interval = 0)
+        {
+            MDirection = dirction;
+            MStart(interval);
+        }
+        /// <summary>
+        /// 启动特效
+        /// </summary>
         public void MStart(int interval = 0)
         {
             MStop();
@@ -510,10 +522,10 @@ namespace Paway.Forms
             lock (mdLock)
             {
                 iStop = false;
-                MStart2(interval);
+                MStartAnimation(interval);
             }
         }
-        private void MStart2(int interval)
+        private void MStartAnimation(int interval)
         {
             if (interval > 0)
             {
@@ -564,7 +576,7 @@ namespace Paway.Forms
                 case TMDirection.T3DDownToUp:
                     if (alpha == null)
                     {
-                        alpha = new TPanel();
+                        alpha = new TControl();
                     }
                     image = BackgroundImage;
                     if (Width > 0 && Height > 0)
@@ -617,7 +629,6 @@ namespace Paway.Forms
             }
             return c.BackColor;
         }
-
         private void AlphaImage()
         {
             if (TranImage == null) return;
@@ -628,7 +639,6 @@ namespace Paway.Forms
             }
             alpha.BackgroundImage = temp;
         }
-
         private void Alpha3DImage(Image image, T3Direction direction)
         {
             if (image == null) return;
@@ -650,7 +660,6 @@ namespace Paway.Forms
             temp = BitmapHelper.TrapezoidTransformation(temp, 0.8 + color * 0.2 / 255, color * 1.0 / 255, direction, iCenter);
             alpha.BackgroundImage = temp;
         }
-
         private void STimer_Tick(object sender, EventArgs e)
         {
             lock (mdLock)
@@ -774,7 +783,6 @@ namespace Paway.Forms
             }
             //NativeMethods.LockWindowUpdate(IntPtr.Zero);
         }
-
         private void T3D(T3Direction d1, T3Direction d2)
         {
             if (d1 != T3Direction.None && i3d && color > intervel)
@@ -835,7 +843,6 @@ namespace Paway.Forms
                 Reset();
             }
         }
-
         private void Reset()
         {
             sTimer.Stop();
@@ -860,49 +867,5 @@ namespace Paway.Forms
         }
 
         #endregion
-
-        #region Dispose
-        /// <summary>
-        /// 释放资源
-        /// </summary>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                image = null;
-                TranImage = null;
-                TranLaterImage = null;
-            }
-            if (_tBrush != null)
-            {
-                _tBrush.Dispose();
-                _tBrush = null;
-            }
-            if (sTimer != null)
-            {
-                sTimer.Stop();
-                sTimer.Dispose();
-            }
-            if (alpha != null)
-            {
-                alpha.Dispose();
-                alpha = null;
-            }
-            base.Dispose(disposing);
-        }
-
-        #endregion
-
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // TControl
-            // 
-            this.Font = new System.Drawing.Font("微软雅黑", 11F);
-            this.Name = "TControl";
-            this.ResumeLayout(false);
-
-        }
     }
 }

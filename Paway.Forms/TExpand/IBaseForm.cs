@@ -14,7 +14,7 @@ namespace Paway.Forms
         /// <summary>
         /// 双Esc关闭
         /// </summary>
-        protected bool iExit;
+        protected bool IExit;
         /// <summary>
         /// 响应回车到下一控件
         /// </summary>
@@ -48,12 +48,12 @@ namespace Paway.Forms
         {
             base.OnShown(e);
             this.Activate();
-            ActivatedFirst(this);
+            ActivatedControl(this);
         }
         /// <summary>
         /// 激活第一个控件焦点
         /// </summary>
-        protected virtual void ActivatedFirst(Control control)
+        protected virtual void ActivatedControl(Control control)
         {
             Control result = NextControl(Point.Empty, control);
             if (result != null)
@@ -117,14 +117,14 @@ namespace Paway.Forms
             switch (keyData)
             {
                 case Keys.Escape:
-                    if (iExit)
+                    if (IExit)
                     {
                         ToolCancel_ItemClick(null, EventArgs.Empty);
                     }
-                    iExit = true;
+                    IExit = true;
                     break;
                 default:
-                    iExit = false;
+                    IExit = false;
                     OnKeyDown(keyData);
                     break;
             }
@@ -144,6 +144,48 @@ namespace Paway.Forms
                 this.Focus();
                 ToolOk_ItemClick(null, EventArgs.Empty);
             }
+        }
+        /// <summary>
+        /// 获取下一个控件
+        /// </summary>
+        private Control NextControl(Point current, Control parent)
+        {
+            Control result = null;
+            Point next = new Point(this.Width, this.Height);
+            foreach (Control item in parent.Controls)
+            {
+                if (item.Location.Y < next.Y || (item.Location.Y == next.Y && item.Location.X < next.X))
+                    if (item.Location.Y > current.Y || (item.Location.Y == current.Y && item.Location.X > current.X))
+                    {
+                        if (item.Visible && item.Enabled &&
+                            ((item is QQTextBox && (item as QQTextBox).Edit.Enabled && !(item as QQTextBox).Edit.ReadOnly) ||
+                            item is DateTimePicker ||
+                            (item is NumericUpDown && !(item as NumericUpDown).ReadOnly)))
+                        {
+                            next = item.Location;
+                            result = item;
+                        }
+                    }
+            }
+            return result;
+        }
+        /// <summary>
+        /// 当前焦点控件
+        /// </summary>
+        private Control CurrentPoint(Control parent)
+        {
+            foreach (Control item in parent.Controls)
+            {
+                if (item.ContainsFocus)
+                {
+                    if (item.GetType() == typeof(TControl) || item.GetType() == typeof(Panel))
+                    {
+                        return CurrentPoint(item);
+                    }
+                    return item;
+                }
+            }
+            return this;
         }
 
         #endregion

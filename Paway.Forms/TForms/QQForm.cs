@@ -9,121 +9,7 @@ namespace Paway.Forms
     /// </summary>
     public class QQForm : FormBase
     {
-        #region 方法
-        /// <summary>
-        /// 绘画按钮
-        /// </summary>
-        /// <param name="g">画板</param>
-        /// <param name="mouseState">鼠标状态</param>
-        /// <param name="rect">按钮区域</param>
-        /// <param name="str">图片字符串</param>
-        protected void DrawButton(Graphics g, TMouseState mouseState, Rectangle rect, string str)
-        {
-            Bitmap bitmap = null;
-            switch (mouseState)
-            {
-                case TMouseState.Normal:
-                    switch (str)
-                    {
-                        case "mini":
-                            bitmap = Resources.QQ_SysButton_btn_mini_normal;
-                            break;
-                        case "restore":
-                            bitmap = Resources.QQ_SysButton_btn_restore_normal;
-                            break;
-                        case "max":
-                            bitmap = Resources.QQ_SysButton_btn_max_normal;
-                            break;
-                        case "close":
-                            bitmap = Resources.QQ_SysButton_btn_close_normal;
-                            break;
-                    }
-                    break;
-                case TMouseState.Move:
-                case TMouseState.Up:
-                    switch (str)
-                    {
-                        case "mini":
-                            bitmap = Resources.QQ_SysButton_btn_mini_highlight;
-                            break;
-                        case "restore":
-                            bitmap = Resources.QQ_SysButton_btn_restore_highlight;
-                            break;
-                        case "max":
-                            bitmap = Resources.QQ_SysButton_btn_max_highlight;
-                            break;
-                        case "close":
-                            bitmap = Resources.QQ_SysButton_btn_close_highlight;
-                            break;
-                    }
-                    break;
-                case TMouseState.Down:
-                    switch (str)
-                    {
-                        case "mini":
-                            bitmap = Resources.QQ_SysButton_btn_mini_down;
-                            break;
-                        case "restore":
-                            bitmap = Resources.QQ_SysButton_btn_restore_down;
-                            break;
-                        case "max":
-                            bitmap = Resources.QQ_SysButton_btn_max_down;
-                            break;
-                        case "close":
-                            bitmap = Resources.QQ_SysButton_btn_close_down;
-                            break;
-                    }
-                    break;
-            }
-            if (bitmap != null) g.DrawImage(bitmap, rect);
-        }
-
-        #endregion
-
-        #region Override Methods
-
-        /// <summary>
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            var g = e.Graphics;
-            //绘画系统控制按钮
-            if (ControlBox)
-            {
-                switch (SysButton)
-                {
-                    case TSysButton.Normal:
-                        DrawButton(g, MinState, MiniRect, "mini");
-                        if (WindowState == FormWindowState.Maximized)
-                            DrawButton(g, MaxState, MaxRect, "restore");
-                        else
-                            DrawButton(g, MaxState, MaxRect, "max");
-                        DrawButton(g, CloseState, CloseRect, "close");
-                        break;
-                    case TSysButton.Close:
-                        DrawButton(g, CloseState, CloseRect, "close");
-                        break;
-                    case TSysButton.Close_Mini:
-                        DrawButton(g, MinState, MiniRect, "mini");
-                        DrawButton(g, CloseState, CloseRect, "close");
-                        break;
-                    case TSysButton.Close_Max:
-                        if (WindowState == FormWindowState.Maximized)
-                            DrawButton(g, MaxState, MaxRect, "restore");
-                        else
-                            DrawButton(g, MaxState, MaxRect, "max");
-                        DrawButton(g, CloseState, CloseRect, "close");
-                        break;
-                }
-            }
-        }
-
-        #endregion
-
         #region 属性
-
         /// <summary>
         /// 最大化按钮区域
         /// </summary>
@@ -210,6 +96,114 @@ namespace Paway.Forms
                         return new Rectangle(Width - 39, -1, 39, 20);
                 }
             }
+        }
+
+        #endregion
+
+        #region 重绘按钮
+        /// <summary>
+        /// 重绘按钮
+        /// </summary>
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            var g = e.Graphics;
+            //绘画系统控制按钮
+            if (ControlBox)
+            {
+                switch (SysButton)
+                {
+                    case TSysButton.Normal:
+                        DrawButton(g, MinState, MiniRect, "mini");
+                        if (WindowState == FormWindowState.Maximized)
+                            DrawButton(g, MaxState, MaxRect, "restore");
+                        else
+                            DrawButton(g, MaxState, MaxRect, "max");
+                        DrawButton(g, CloseState, CloseRect, "close");
+                        break;
+                    case TSysButton.Close:
+                        DrawButton(g, CloseState, CloseRect, "close");
+                        break;
+                    case TSysButton.Close_Mini:
+                        DrawButton(g, MinState, MiniRect, "mini");
+                        DrawButton(g, CloseState, CloseRect, "close");
+                        break;
+                    case TSysButton.Close_Max:
+                        if (WindowState == FormWindowState.Maximized)
+                            DrawButton(g, MaxState, MaxRect, "restore");
+                        else
+                            DrawButton(g, MaxState, MaxRect, "max");
+                        DrawButton(g, CloseState, CloseRect, "close");
+                        break;
+                }
+            }
+        }
+        /// <summary>
+        /// 绘画按钮
+        /// </summary>
+        /// <param name="g">画板</param>
+        /// <param name="mouseState">鼠标状态</param>
+        /// <param name="rect">按钮区域</param>
+        /// <param name="str">图片字符串</param>
+        internal void DrawButton(Graphics g, TMouseState mouseState, Rectangle rect, string str)
+        {
+            Bitmap bitmap = null;
+            switch (mouseState)
+            {
+                case TMouseState.Normal:
+                    switch (str)
+                    {
+                        case "mini":
+                            bitmap = Resources.QQ_SysButton_btn_mini_normal;
+                            break;
+                        case "restore":
+                            bitmap = Resources.QQ_SysButton_btn_restore_normal;
+                            break;
+                        case "max":
+                            bitmap = Resources.QQ_SysButton_btn_max_normal;
+                            break;
+                        case "close":
+                            bitmap = Resources.QQ_SysButton_btn_close_normal;
+                            break;
+                    }
+                    break;
+                case TMouseState.Move:
+                case TMouseState.Up:
+                    switch (str)
+                    {
+                        case "mini":
+                            bitmap = Resources.QQ_SysButton_btn_mini_highlight;
+                            break;
+                        case "restore":
+                            bitmap = Resources.QQ_SysButton_btn_restore_highlight;
+                            break;
+                        case "max":
+                            bitmap = Resources.QQ_SysButton_btn_max_highlight;
+                            break;
+                        case "close":
+                            bitmap = Resources.QQ_SysButton_btn_close_highlight;
+                            break;
+                    }
+                    break;
+                case TMouseState.Down:
+                    switch (str)
+                    {
+                        case "mini":
+                            bitmap = Resources.QQ_SysButton_btn_mini_down;
+                            break;
+                        case "restore":
+                            bitmap = Resources.QQ_SysButton_btn_restore_down;
+                            break;
+                        case "max":
+                            bitmap = Resources.QQ_SysButton_btn_max_down;
+                            break;
+                        case "close":
+                            bitmap = Resources.QQ_SysButton_btn_close_down;
+                            break;
+                    }
+                    break;
+            }
+            if (bitmap != null) g.DrawImage(bitmap, rect);
         }
 
         #endregion

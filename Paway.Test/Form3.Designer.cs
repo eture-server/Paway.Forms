@@ -31,7 +31,7 @@
             Paway.Forms.ToolItem toolItem39 = new Paway.Forms.ToolItem();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form3));
             Paway.Forms.ToolItem toolItem40 = new Paway.Forms.ToolItem();
-            this.tControl1 = new Paway.Forms.TPanel();
+            this.tControl1 = new Paway.Forms.TControl();
             this.toolBar1 = new Paway.Forms.ToolBar();
             this.btChange = new Paway.Forms.ToolBar();
             this.tControl1.SuspendLayout();
@@ -106,7 +106,7 @@
 
         #endregion
 
-        private Paway.Forms.TPanel tControl1;
+        private Paway.Forms.TControl tControl1;
         private Forms.ToolBar toolBar1;
         private Forms.ToolBar btChange;
     }

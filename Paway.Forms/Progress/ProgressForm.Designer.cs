@@ -81,8 +81,6 @@ namespace Paway.Forms
             this.ControlBox = false;
             this.Controls.Add(this.tControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.IRound = false;
-            this.IShadow = false;
             this.Name = "ProgressForm";
             this.Padding = new System.Windows.Forms.Padding(1);
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;

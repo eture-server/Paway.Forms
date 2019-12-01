@@ -13,7 +13,7 @@ namespace Paway.Forms
     public class SkinForm : Form
     {
         private readonly Color[] CornerColors;
-        private readonly TForm Main;
+        private readonly FormBase Main;
         private readonly Color[] ShadowColors;
         /// <summary>
         /// 背景阴影透明度
@@ -24,7 +24,7 @@ namespace Paway.Forms
         /// <summary>
         /// 构造
         /// </summary>
-        public SkinForm(TForm main)
+        public SkinForm(FormBase main)
         {
             SetStyle(
                 ControlStyles.UserPaint |
@@ -363,9 +363,9 @@ namespace Paway.Forms
             if (IsDisposed) return;
             if (Main.WindowState != FormWindowState.Maximized)
             {
+                if (Main is FormBase formBase && formBase.WindowState == FormWindowState.Maximized) return;
                 NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(Main.Handle, (int)WindowsMessage.WM_SYSCOMMAND, (int)WindowsMessage.SC_MOVE,
-                    0);
+                NativeMethods.SendMessage(Main.Handle, (int)WindowsMessage.WM_SYSCOMMAND, (int)WindowsMessage.SC_MOVE, 0);
             }
         }
 

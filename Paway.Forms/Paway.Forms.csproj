@@ -72,9 +72,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="QQControls\CmdKeyEventArgs.cs" />
-    <Compile Include="TControls\TPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="TExpand\TCustom.cs">
       <SubType>UserControl</SubType>
     </Compile>

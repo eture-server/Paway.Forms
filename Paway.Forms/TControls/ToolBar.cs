@@ -2261,7 +2261,7 @@ namespace Paway.Forms
         /// <summary>
         /// 滚动条外框
         /// </summary>
-        private TPanel _panelScroll;
+        private TControl _panelScroll;
         /// <summary>
         /// 垂直滚动条
         /// </summary>
@@ -2348,7 +2348,7 @@ namespace Paway.Forms
         /// </summary>
         private void CustomScroll()
         {
-            _panelScroll = new TPanel();
+            _panelScroll = new TControl();
             Controls.Add(_panelScroll);
 
             _hScroll = new HScrollBar();

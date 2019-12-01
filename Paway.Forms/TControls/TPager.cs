@@ -19,9 +19,9 @@ namespace Paway.Forms
         private Label lbDesc;
         private ToolBar toolEnd;
         private ToolBar toolNext;
-        private Paway.Forms.TPanel tControl2;
+        private Paway.Forms.TControl tControl2;
         private TNumTestBox txtCurrentPage;
-        private Paway.Forms.TPanel tControl1;
+        private Paway.Forms.TControl tControl1;
         /// <summary>
         /// 必需的设计器变量。
         /// </summary>
@@ -112,10 +112,10 @@ namespace Paway.Forms
             Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
             this.lblPageInfo = new System.Windows.Forms.Label();
-            this.tControl1 = new Paway.Forms.TPanel();
+            this.tControl1 = new Paway.Forms.TControl();
             this.toolEnd = new Paway.Forms.ToolBar();
             this.toolNext = new Paway.Forms.ToolBar();
-            this.tControl2 = new Paway.Forms.TPanel();
+            this.tControl2 = new Paway.Forms.TControl();
             this.txtCurrentPage = new Paway.Forms.TNumTestBox();
             this.toolLast = new Paway.Forms.ToolBar();
             this.toolFirst = new Paway.Forms.ToolBar();

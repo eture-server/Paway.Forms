@@ -15,7 +15,7 @@ namespace Paway.Forms
     {
         /// <summary>
         /// </summary>
-        protected Paway.Forms.TPanel panel1;
+        protected Paway.Forms.TControl panel1;
 
         /// <summary>
         /// 构造
@@ -30,9 +30,9 @@ namespace Paway.Forms
         /// <summary>
         /// 激活第一个控件焦点
         /// </summary>
-        protected override void ActivatedFirst(Control control)
+        protected override void ActivatedControl(Control control)
         {
-            base.ActivatedFirst(panel1);
+            base.ActivatedControl(panel1);
         }
         /// <summary>
         /// 调整Title位置
@@ -49,7 +49,7 @@ namespace Paway.Forms
 
         private void InitializeComponent()
         {
-            this.panel1 = new Paway.Forms.TPanel();
+            this.panel1 = new Paway.Forms.TControl();
             this.SuspendLayout();
             // 
             // lbTitle

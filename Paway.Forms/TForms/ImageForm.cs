@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Paway.Forms.Properties;
 using Paway.Helper;
@@ -277,6 +278,59 @@ namespace Paway.Forms
                 DrawButton(g, MaxState, MaxRect, "max");
             }
             SetBitmap(bitmap, 255);
+        }
+        /// <summary>
+        /// 设置图片为窗体，透明区域根据 opacity 的值决定透明度
+        /// </summary>
+        /// <param name="bitmap">透明位图</param>
+        /// <param name="opacity">透明度的值0~255</param>
+        private void SetBitmap(Bitmap bitmap, byte opacity)
+        {
+            if (bitmap.PixelFormat != PixelFormat.Format32bppArgb)
+                throw new ArgumentException("The bitmap must be 32ppp with alpha-channel.");
+
+            // The ideia of this is very simple,
+            // 1. Create a compatible DC with screen;
+            // 2. Select the bitmap with 32bpp with alpha-channel in the compatible DC;
+            // 3. Call the UpdateLayeredWindow.
+
+            var screenDc = NativeMethods.GetDC(IntPtr.Zero);
+            var memDc = NativeMethods.CreateCompatibleDC(screenDc);
+            var hBitmap = IntPtr.Zero;
+            var oldBitmap = IntPtr.Zero;
+
+            try
+            {
+                hBitmap = bitmap.GetHbitmap(Color.FromArgb(0)); // grab a GDI handle from this GDI+ bitmap
+                oldBitmap = NativeMethods.SelectObject(memDc, hBitmap);
+
+                var size = new SIZE(bitmap.Width, bitmap.Height);
+                var pointSource = new POINT(0, 0);
+                var topPos = new POINT(Left, Top);
+                var blend = new BLENDFUNCTION()
+                {
+                    BlendOp = Consts.AC_SRC_OVER,
+                    BlendFlags = 0,
+                    SourceConstantAlpha = opacity,
+                    AlphaFormat = Consts.AC_SRC_ALPHA
+                };
+                if (!IsDisposed)
+                {
+                    NativeMethods.UpdateLayeredWindow(Handle, screenDc, ref topPos, ref size, memDc, ref pointSource, 0,
+                        ref blend, Consts.ULW_ALPHA);
+                }
+            }
+            finally
+            {
+                NativeMethods.ReleaseDC(IntPtr.Zero, screenDc);
+                if (hBitmap != IntPtr.Zero)
+                {
+                    NativeMethods.SelectObject(memDc, oldBitmap);
+                    //Windows.DeleteObject(hBitmap); // The documentation says that we have to use the Windows.DeleteObject... but since there is no such method I use the normal DeleteObject from Win32 GDI and it's working fine without any resource leak.
+                    NativeMethods.DeleteObject(hBitmap);
+                }
+                NativeMethods.DeleteDC(memDc);
+            }
         }
 
         /// <summary>

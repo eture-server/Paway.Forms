@@ -36,10 +36,10 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.panel3 = new Paway.Forms.TPanel();
-            this.panel1 = new Paway.Forms.TPanel();
+            this.panel3 = new Paway.Forms.TControl();
+            this.panel1 = new Paway.Forms.TControl();
             this.toolBar1 = new Paway.Forms.ToolBar();
-            this.panel2 = new Paway.Forms.TPanel();
+            this.panel2 = new Paway.Forms.TControl();
             this.gridview1 = new Paway.Forms.TDataGridViewPager();
             this.tbName = new Paway.Forms.QQTextBox();
             this.panel1.SuspendLayout();
@@ -206,19 +206,19 @@
 
         /// <summary>
         /// </summary>
-        protected Paway.Forms.TPanel panel1;
+        protected Paway.Forms.TControl panel1;
         /// <summary>
         /// </summary>
         protected Paway.Forms.TDataGridViewPager gridview1;
         /// <summary>
         /// </summary>
-        protected Paway.Forms.TPanel panel3;
+        protected Paway.Forms.TControl panel3;
         /// <summary>
         /// </summary>
         protected ToolBar toolBar1;
         /// <summary>
         /// </summary>
-        protected Paway.Forms.TPanel panel2;
+        protected Paway.Forms.TControl panel2;
         /// <summary>
         /// </summary>
         protected QQTextBox tbName;
