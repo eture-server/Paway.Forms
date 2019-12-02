@@ -126,16 +126,16 @@ namespace Paway.Forms
         /// 透明过度(旋转前)图片
         /// </summary>
         [Browsable(false)]
+        [DefaultValue(null)]
         [Description("透明过渡(旋转前)图片")]
-        [DefaultValue(typeof(Image), "null")]
         public Image TranImage { get; set; }
 
         /// <summary>
         /// 旋转后图片
         /// </summary>
         [Browsable(false)]
+        [DefaultValue(null)]
         [Description("旋转后图片")]
-        [DefaultValue(typeof(Image), "null")]
         public Image TranLaterImage { get; set; }
 
         /// <summary>

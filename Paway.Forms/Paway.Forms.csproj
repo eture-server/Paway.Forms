@@ -72,6 +72,15 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="QQControls\CmdKeyEventArgs.cs" />
+    <Compile Include="TDataGridView\TDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TDataGridView\TDataGridViewPager.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TDataGridView\TPager.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="TExpand\TCustom.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -132,17 +141,8 @@
     <Compile Include="TControls\TComboBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TControls\TDataGridView.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="TControls\TComboBoxBase.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="TControls\TDataGridViewPager.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TControls\TPager.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="TControls\TTreeView.cs">
       <SubType>Component</SubType>
@@ -229,10 +229,10 @@
     <EmbeddedResource Include="QQControls\QQTextBox.resx">
       <DependentUpon>QQTextBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TControls\TDataGridViewPager.resx">
+    <EmbeddedResource Include="TDataGridView\TDataGridViewPager.resx">
       <DependentUpon>TDataGridViewPager.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TControls\TPager.resx">
+    <EmbeddedResource Include="TDataGridView\TPager.resx">
       <DependentUpon>TPager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TExpand\TBaseForm.resx">

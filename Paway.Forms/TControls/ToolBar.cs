@@ -984,8 +984,8 @@ namespace Paway.Forms
             }
             else
             {
+                ClacImageRect(g, item);
                 DrawBackground(g, item);
-                DrawImage(g, item);
                 DrawText(g, item);
                 if (!item.Enable)
                 {
@@ -1018,10 +1018,27 @@ namespace Paway.Forms
                     {
                         DrawBackground(g, color, TranColor(TLineColor.ColorNormal), item);
                     }
+                    if (_iImageShow && item.Image != null)
+                    {
+                        g.DrawImage(item.Image, item.ImageRect);
+                    }
                     break;
                 case TMouseState.Move:
                 case TMouseState.Up:
-                    DrawMoveBack(g, item);
+                    color = TranColor(item.TColor.ColorMove == Color.Empty ? TBackGround.ColorMove : item.TColor.ColorMove);
+                    if (color == Color.Empty)
+                    {
+                        var temp = _moveImage ?? _moveImage2;
+                        if (temp != null) g.DrawImage(temp, item.Rectangle);
+                    }
+                    //else
+                    {
+                        DrawBackground(g, color, TranColor(TLineColor.ColorMove), item);
+                    }
+                    if (_iImageShow && item.ImageMove != null)
+                    {
+                        g.DrawImage(item.ImageMove, item.ImageRect);
+                    }
                     break;
                 case TMouseState.Down:
                     color = TranColor(item.TColor.ColorDown == Color.Empty ? TBackGround.ColorDown : item.TColor.ColorDown);
@@ -1033,6 +1050,10 @@ namespace Paway.Forms
                     //else
                     {
                         DrawBackground(g, color, TranColor(TLineColor.ColorDown), item);
+                    }
+                    if (_iImageShow && item.ImageMove != null)
+                    {
+                        g.DrawImage(item.ImageMove, item.ImageRect);
                     }
                     Image image = _selectImage ?? _selectImage2;
                     if (_iMultiple && image != null)
@@ -1157,26 +1178,9 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        /// 绘制鼠标移入时的背景
+        /// 计算绘制图片区域
         /// </summary>
-        private void DrawMoveBack(Graphics g, ToolItem item)
-        {
-            var color = TranColor(item.TColor.ColorMove == Color.Empty ? TBackGround.ColorMove : item.TColor.ColorMove);
-            if (color == Color.Empty)
-            {
-                var temp = _moveImage ?? _moveImage2;
-                if (temp != null) g.DrawImage(temp, item.Rectangle);
-            }
-            //else
-            {
-                DrawBackground(g, color, TranColor(TLineColor.ColorMove), item);
-            }
-        }
-
-        /// <summary>
-        /// 绘制图片
-        /// </summary>
-        private void DrawImage(Graphics g, ToolItem item)
+        private void ClacImageRect(Graphics g, ToolItem item)
         {
             if (_iImageShow && item.Image != null)
             {
@@ -1198,7 +1202,6 @@ namespace Paway.Forms
                 }
                 imageRect.Size = _imageSizeShow;
                 item.ImageRect = imageRect;
-                g.DrawImage(item.Image, imageRect);
             }
         }
         /// <summary>

@@ -37,14 +37,50 @@ namespace Paway.Forms
         /// <summary>
         /// Item 显示的图片
         /// </summary>
+        [DefaultValue(null)]
         [Description("Item 显示的图片")]
-        [DefaultValue(typeof(Image), "null")]
         public Image Image
         {
             get { return _image; }
             set
             {
                 _image = value;
+                TRefresh();
+            }
+        }
+        /// <summary>
+        /// 鼠标按下时的图片
+        /// </summary>
+        private Image _imageDown;
+        /// <summary>
+        /// 鼠标按下时的图片
+        /// </summary>
+        [DefaultValue(null)]
+        [Description("鼠标按下时的图片")]
+        public Image ImageDown
+        {
+            get { return _imageDown; }
+            set
+            {
+                _imageDown = value;
+                TRefresh();
+            }
+        }
+        /// <summary>
+        /// 鼠标划过时的图片
+        /// </summary>
+        private Image _imageMove;
+        /// <summary>
+        /// 鼠标划过时的图片
+        /// </summary>
+        [DefaultValue(null)]
+        [Description("鼠标划过时的图片")]
+        public Image ImageMove
+        {
+            get { return _imageMove; }
+            set
+            {
+                _imageMove = value;
                 TRefresh();
             }
         }

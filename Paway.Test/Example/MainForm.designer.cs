@@ -48,6 +48,7 @@
             this.panel1.Controls.Add(this.toolTitle);
             this.panel1.Controls.Add(this.toolSet);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.panel1.Location = new System.Drawing.Point(0, 20);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(880, 50);
@@ -86,6 +87,7 @@
             this.toolSet.IImageShow = true;
             this.toolSet.ImageSize = new System.Drawing.Size(17, 17);
             toolItem2.Image = global::Paway.Test.Properties.Resources.about;
+            toolItem2.ImageMove = global::Paway.Test.Properties.Resources.add;
             toolItem2.Text = "关于";
             toolItem3.Text = "设置";
             this.toolSet.Items.Add(toolItem2);
@@ -111,6 +113,7 @@
             // 
             this.panel3.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.panel3.Location = new System.Drawing.Point(0, 70);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(880, 504);
@@ -121,6 +124,7 @@
             this.panel2.Controls.Add(this.lbDesc);
             this.panel2.Controls.Add(this.lbStatu);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.panel2.Location = new System.Drawing.Point(0, 574);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(880, 26);
