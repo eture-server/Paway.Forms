@@ -113,6 +113,8 @@ namespace Paway.Forms
         }
         private void UnLoadEvent()
         {
+            //可能存在已释放问题
+            if (gridview1 == null || gridview1.Edit == null || gridview1.Edit.Disposing) return;
             gridview1.Edit.CellFormatting -= Gridview1_CellFormatting;
             gridview1.Edit.CurrentCellChanged -= Gridview1_CurrentCellChanged;
             gridview1.Edit.DoubleClick -= Gridview1_DoubleClick;
