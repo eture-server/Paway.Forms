@@ -114,7 +114,7 @@ namespace Paway.Utils
                 if (SendDataService == null)
                     throw new PawayException("Send Service is null");
                 if (message == null)
-                    throw new ArgumentNullException("message");
+                    throw new PawayException("Message Argument can not be empty");
             }
         }
         /// <summary>

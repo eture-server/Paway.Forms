@@ -737,7 +737,7 @@ namespace Paway.Helper
             {
                 return list[0].Name;
             }
-            throw new ArgumentException("没有指定表名称");
+            throw new ArgumentException("No table name");
         }
         /// <summary>
         /// 获取主键(Key.Mark.Id)
@@ -762,7 +762,7 @@ namespace Paway.Helper
                 var name = property.ColumnName();
                 if (name.Equals(nameof(IId.Id), StringComparison.OrdinalIgnoreCase)) return name;
             }
-            throw new ArgumentException("没有指定主键");
+            throw new ArgumentException("No primary key");
         }
         /// <summary>
         /// 获取自更新唯一主键(Key.null.Id)

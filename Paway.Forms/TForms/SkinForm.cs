@@ -200,7 +200,7 @@ namespace Paway.Forms
                     }
                 }
             }
-            throw new ArgumentException("图片必须是32位带Alhpa通道的图片。");
+            throw new ArgumentException("The bitmap must be 32ppp with alpha-channel");
         }
         private void DrawShadow(Graphics g)
         {

@@ -26,8 +26,8 @@ namespace Paway.Helper
             var dymMethod = new DynamicMethod(type.Name + nameof(ValueBuilder), typeof(object), new Type[] { typeof(object) }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
             var property = type.Property(name);
-            if (property == null) throw new ArgumentNullException(name);
-            if (!property.CanRead) throw new ArgumentException("无法读取值");
+            if (property == null) throw new ArgumentException(name + " Argument can not be empty");
+            if (!property.CanRead) throw new ArgumentException("Cannot read value");
             {
                 generator.GetValue(property, type);//获取引用值
             }
@@ -91,7 +91,7 @@ namespace Paway.Helper
             var dymMethod = new DynamicMethod(type.Name + nameof(ValueBuilder), typeof(Type), new Type[] { }, true);
             ILGenerator generator = dymMethod.GetILGenerator();
             var property = type.Property(name);
-            if (property == null) throw new ArgumentNullException(name);
+            if (property == null) throw new ArgumentException(name + " Argument can not be empty");
             {
                 generator.Emit(OpCodes.Ldtoken, property.PropertyType);
                 generator.Emit(OpCodes.Call, typeof(Type).GetMethod(nameof(Type.GetTypeFromHandle), new Type[] { typeof(RuntimeTypeHandle) }));

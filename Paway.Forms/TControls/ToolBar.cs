@@ -1035,9 +1035,10 @@ namespace Paway.Forms
                     {
                         DrawBackground(g, color, TranColor(TLineColor.ColorMove), item);
                     }
-                    if (_iImageShow && item.ImageMove != null)
+                    if (_iImageShow)
                     {
-                        g.DrawImage(item.ImageMove, item.ImageRect);
+                        if (item.ImageMove != null) g.DrawImage(item.ImageMove, item.ImageRect);
+                        else if (item.Image != null) g.DrawImage(item.Image, item.ImageRect);
                     }
                     break;
                 case TMouseState.Down:
@@ -1051,9 +1052,10 @@ namespace Paway.Forms
                     {
                         DrawBackground(g, color, TranColor(TLineColor.ColorDown), item);
                     }
-                    if (_iImageShow && item.ImageMove != null)
+                    if (_iImageShow)
                     {
-                        g.DrawImage(item.ImageMove, item.ImageRect);
+                        if (item.ImageDown != null) g.DrawImage(item.ImageDown, item.ImageRect);
+                        else if (item.Image != null) g.DrawImage(item.Image, item.ImageRect);
                     }
                     Image image = _selectImage ?? _selectImage2;
                     if (_iMultiple && image != null)

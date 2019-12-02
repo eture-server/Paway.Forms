@@ -35,7 +35,7 @@ namespace Paway.Helper
                 }
                 catch
                 {
-                    throw new OverflowException("运算溢出.");
+                    throw new OverflowException("Arithmetic overflow");
                 }
             }
             return result;

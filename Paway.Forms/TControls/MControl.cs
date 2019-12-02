@@ -186,7 +186,7 @@ namespace Paway.Forms
                 }
                 if (control == null)
                 {
-                    throw new ArgumentException(string.Format("{0} 不是有效的MControl", type.FullName));
+                    throw new ArgumentException($"{type.FullName} Not a valid MControl");
                 }
                 if (e != null)
                 {
@@ -286,7 +286,7 @@ namespace Paway.Forms
             if (!List.ContainsKey(type))
             {
                 MControl control = (MControl)Activator.CreateInstance(type);
-                if (control == null) throw new ArgumentException(string.Format("{0} 不是有效的MControl", type.FullName));
+                if (control == null) throw new ArgumentException($"{type.FullName} Not a valid MControl");
                 List.Add(type, control);
             }
             return List[type];

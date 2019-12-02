@@ -384,7 +384,7 @@ namespace Paway.Helper
         /// <returns>返回新图片</returns>
         public static Bitmap ConvertTo(Image image, TConvertType type, object param = null)
         {
-            if (image == null) throw new ArgumentNullException("image");
+            if (image == null) throw new ArgumentException("Image Argument can not be empty");
             switch (type)
             {
                 case TConvertType.LeftRight:

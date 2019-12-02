@@ -132,7 +132,7 @@ namespace Paway.Forms
         {
             if (type == null || type == typeof(string) || type.IsValueType) return;
             Type iType = type.GetInterface(typeof(IParent).FullName);
-            if (iType == null) throw new ArgumentException("数据类型错误，未实现接口: IParentId");
+            if (iType == null) throw new ArgumentException("Data type error, interface not implemented: IParentId");
 
             Columns.Clear();
             bool iTree = false;

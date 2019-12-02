@@ -26,7 +26,7 @@ namespace Paway.Utils
         /// </summary>
         protected override string OnCommandText(string sql)
         {
-            if (sql == null) throw new ArgumentNullException();
+            if (sql == null) throw new ArgumentException("SQL Argument can not be empty");
             return sql.Replace("[", "").Replace("]", "");
         }
 

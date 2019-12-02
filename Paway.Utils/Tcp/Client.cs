@@ -72,7 +72,7 @@ namespace Paway.Utils
         /// </summary>
         public void TestConnection(int timeout = 500)
         {
-            if (!this.IConnected) throw new WarningException("Not Connected, Please Wait..");
+            if (!this.IConnected) throw new PawayException("Not Connected, Please Wait..");
             TcpClient client = new TcpClient();
             try
             {
@@ -81,7 +81,7 @@ namespace Paway.Utils
                 if (!client.Connected)
                 {
                     this.client.Disconnect();
-                    throw new WarningException("Connect Test Falied, Please Wait..");
+                    throw new PawayException("Connect Test Falied, Please Wait..");
                 }
             }
             finally

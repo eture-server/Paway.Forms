@@ -290,7 +290,7 @@ namespace Paway.Helper
         /// <param name="sort">Key:名称，值:true:升序，false:倒序</param>
         public static void Sort<T>(this List<T> list, Dictionary<string, bool> sort)
         {
-            if (sort == null || sort.Count == 0) throw new ArgumentException("未设置排序列");
+            if (sort == null || sort.Count == 0) throw new ArgumentException("Sorting is not set");
             if (list.Count == 0) return;
             var item = sort.ElementAt(0);
             var type = list[0].GetType();

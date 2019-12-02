@@ -44,8 +44,8 @@ namespace Paway.Helper
         {
             iString = false;
             var property = type.Property(name);
-            if (property == null) throw new ArgumentNullException(name);
-            if (!property.CanRead) throw new ArgumentException("无法读取值");
+            if (property == null) throw new ArgumentException(name + " Argument can not be empty");
+            if (!property.CanRead) throw new ArgumentException("Cannot read value");
 
             var getTCompareInt = typeof(BuilderHelper).GetMethod(nameof(BuilderHelper.TCompareInt),
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static, null,
