@@ -17,7 +17,7 @@ namespace Paway.Forms
         /// <summary>
         /// 描述信息的鼠标状态
         /// </summary>
-        internal TMouseState TMouseState { get; set; }
+        internal TMouseState MouseDescState { get; set; }
 
         /// <summary>
         /// Item 当前的鼠标状态

@@ -49,9 +49,6 @@
       <HintPath>..\Root\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="MQTTnet">
-      <HintPath>..\Root\MQTTnet.dll</HintPath>
-    </Reference>
     <Reference Include="MySql.Data">
       <HintPath>..\Root\MySql.Data.dll</HintPath>
     </Reference>

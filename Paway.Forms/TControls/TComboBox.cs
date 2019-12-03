@@ -167,7 +167,6 @@ namespace Paway.Forms
         {
             this.Edit.Items.Clear();
             var type = typeof(T);
-            var list = type.GetFields(TConfig.Flags).ToList();
             foreach (var field in type.GetFields(TConfig.Flags))
             {
                 var item = (T)field.GetRawConstantValue();

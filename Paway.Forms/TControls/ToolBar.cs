@@ -990,7 +990,7 @@ namespace Paway.Forms
                 if (!item.Enable)
                 {
                     item.MouseState = TMouseState.Normal;
-                    item.TMouseState = TMouseState.Normal;
+                    item.MouseDescState = TMouseState.Normal;
                 }
             }
         }
@@ -1296,7 +1296,7 @@ namespace Paway.Forms
                 }
                 if (!string.IsNullOrEmpty(item.Desc))
                 {
-                    var size = TextRenderer.MeasureText(item.Desc, GetFont(item.TMouseState, TDesc));
+                    var size = TextRenderer.MeasureText(item.Desc, GetFont(item.MouseDescState, TDesc));
                     textRect.Width -= size.Width;
                 }
                 {
@@ -1376,9 +1376,9 @@ namespace Paway.Forms
         private void DrawDesc(Graphics g, ToolItem item, Rectangle rect)
         {
             if (string.IsNullOrEmpty(item.Desc)) return;
-            var size = TextRenderer.MeasureText(item.Desc, GetFont(item.TMouseState, TDesc));
+            var size = TextRenderer.MeasureText(item.Desc, GetFont(item.MouseDescState, TDesc));
             item.RectDesc = new Rectangle(rect.X + rect.Width, rect.Y + (rect.Height - size.Height) / 2, size.Width, size.Height);
-            DrawOtherDesc(g, item, TDesc, item.Desc, item.RectDesc, item.TMouseState);
+            DrawOtherDesc(g, item, TDesc, item.Desc, item.RectDesc, item.MouseDescState);
         }
 
         /// <summary>
@@ -1436,9 +1436,9 @@ namespace Paway.Forms
         /// <param name="state"></param>
         private void InvaRectDesc(ToolItem item, TMouseState state)
         {
-            if (item.TMouseState != state)
+            if (item.MouseDescState != state)
             {
-                item.TMouseState = state;
+                item.MouseDescState = state;
                 Invalidate(item);
             }
         }
@@ -1484,9 +1484,9 @@ namespace Paway.Forms
                 if (item.Rectangle.Contains(point))
                 {
                     MoveItem = item;
-                    if (item.RectDesc.Contains(point))
+                    if (item.RectDesc.Contains(point) || TDesc.ColorNormal == Color.Transparent)
                     {
-                        if (item.TMouseState != TMouseState.Down)
+                        if (item.MouseDescState != TMouseState.Down)
                         {
                             InvaRectDesc(item, TMouseState.Move);
                         }
