@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Globalization;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace Paway.Helper
@@ -32,6 +33,10 @@ namespace Paway.Helper
         /// All
         /// </summary>
         public static string All = "All";
+        /// <summary>
+        /// 默认属性搜索条件
+        /// </summary>
+        public static BindingFlags Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
 
         #endregion
 

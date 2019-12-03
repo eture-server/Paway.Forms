@@ -52,7 +52,7 @@ namespace Paway.Helper
         /// <returns></returns>
         private static Delegate[] GetObjectEventList(object obj, string eventName)
         {
-            var flags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static;
+            var flags = TConfig.Flags | BindingFlags.Instance;
             var type = obj.GetType();
             FieldInfo field = type.GetField(eventName, flags);
             while (field == null && type.BaseType != null)

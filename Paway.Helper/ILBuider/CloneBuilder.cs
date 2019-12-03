@@ -65,8 +65,7 @@ namespace Paway.Helper
         private static void CloneFuncRead(Type type, ILGenerator generator, PropertyInfo property)
         {
             var method = typeof(BuilderHelper).GetMethod(nameof(BuilderHelper.CloneObject),
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static, null,
-                new Type[] { typeof(object), typeof(object), typeof(bool) }, null);
+                TConfig.Flags, null, new Type[] { typeof(object), typeof(object), typeof(bool) }, null);
             // Load initial object (parameter)          (currently 2 items on eval stack)
             generator.GetValue(property, type);//获取引用值
 
@@ -85,8 +84,7 @@ namespace Paway.Helper
         private static void CloneFuncWrite(Type type, ILGenerator generator, PropertyInfo property)
         {
             var method = typeof(BuilderHelper).GetMethod(nameof(BuilderHelper.CloneObject),
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static, null,
-                new Type[] { typeof(object), typeof(bool) }, null);
+                TConfig.Flags, null, new Type[] { typeof(object), typeof(bool) }, null);
 
             Label endIfLabel = generator.DefineLabel();
             generator.GetValue(property, type);//获取引用值
@@ -148,8 +146,7 @@ namespace Paway.Helper
         private static void CloneActionRead(Type type, ILGenerator generator, PropertyInfo property)
         {
             var method = typeof(BuilderHelper).GetMethod(nameof(BuilderHelper.CloneObject),
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static, null,
-                new Type[] { typeof(object), typeof(object), typeof(bool) }, null);
+                TConfig.Flags, null, new Type[] { typeof(object), typeof(object), typeof(bool) }, null);
 
             generator.GetValue(property, type);//获取引用值
 
@@ -168,8 +165,7 @@ namespace Paway.Helper
         private static void CloneActionWrite(Type type, ILGenerator generator, PropertyInfo property)
         {
             var method = typeof(BuilderHelper).GetMethod(nameof(BuilderHelper.CloneObject),
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static, null,
-                new Type[] { typeof(object), typeof(bool) }, null);
+                TConfig.Flags, null, new Type[] { typeof(object), typeof(bool) }, null);
 
             Label endIfLabel = generator.DefineLabel();
             generator.GetValue(property, type);//获取引用值

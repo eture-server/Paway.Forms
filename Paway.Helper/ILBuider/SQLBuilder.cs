@@ -37,8 +37,7 @@ namespace Paway.Helper
             var valueType = typeof(List<DbParameter>);
             var key = type.TableKeys();
             var addParameter = typeof(BuilderHelper).GetMethod(nameof(BuilderHelper.AddParameter),
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static, null,
-                new Type[] { typeof(string), typeof(object), typeof(Type), typeof(Type) }, null);
+                TConfig.Flags, null, new Type[] { typeof(string), typeof(object), typeof(Type), typeof(Type) }, null);
             var add = valueType.GetMethod(nameof(List<DbParameter>.Add), new Type[] { typeof(DbParameter) });
 
             var dymMethod = new DynamicMethod(type.Name + nameof(SQLBuilder), valueType, new Type[] { typeof(object) }, type, true);

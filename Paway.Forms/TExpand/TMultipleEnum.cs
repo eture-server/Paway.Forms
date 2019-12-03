@@ -28,10 +28,6 @@ namespace Paway.Forms
         /// </summary>
         private Type enumType;
         /// <summary>
-        /// 添加项事件
-        /// </summary>
-        public event Func<int, bool> AddItemEvent;
-        /// <summary>
         /// 选择事件
         /// </summary>
         public event Action<int> SelectedEvent;
@@ -77,18 +73,21 @@ namespace Paway.Forms
         /// </summary>
         /// <param name="textbox">TextBox</param>
         /// <param name="value">枚举值</param>
-        /// <param name="showCount">控件按指定数量行高度设置</param>
-        public void Init(QQTextBox textbox, object value, int showCount = 5)
+        /// <param name="action">过滤</param>
+        /// <param name="count">控件按指定数量行高度设置</param>
+        public void Init<T>(QQTextBox textbox, T value, Func<T, bool> action = null, int count = 5)
         {
-            this.showCount = showCount;
+            this.showCount = count;
             var list = new List<MultipleInfo>();
-            this.enumType = value.GetType();
-            foreach (var field in enumType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
+            this.enumType = typeof(T);
+            var valueInt = enumType.Parse(value.ToString());
+            foreach (var field in enumType.GetFields(TConfig.Flags))
             {
-                var item = enumType.Parse(field.Name);
-                if (AddItemEvent?.Invoke(item) == false) continue;
+                var item = (T)field.GetRawConstantValue();
+                if (action?.Invoke(item) == true) continue;
                 var info = new MultipleInfo() { Name = field.Description() };
-                if (item != 0 && ((int)value & item) == item) info.Selected = true;
+                var itemInt = (int)field.GetRawConstantValue();
+                if (itemInt != 0 && (itemInt & valueInt) == itemInt) info.Selected = true;
                 list.Add(info);
             }
             foreach (var item in list)

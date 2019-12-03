@@ -48,14 +48,11 @@ namespace Paway.Helper
             if (!property.CanRead) throw new ArgumentException("Cannot read value");
 
             var getTCompareInt = typeof(BuilderHelper).GetMethod(nameof(BuilderHelper.TCompareInt),
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static, null,
-                new Type[] { typeof(object) }, null);
+                TConfig.Flags, null, new Type[] { typeof(object) }, null);
             var getTCompareLong = typeof(BuilderHelper).GetMethod(nameof(BuilderHelper.TCompareLong),
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static, null,
-                new Type[] { typeof(object) }, null);
+                TConfig.Flags, null, new Type[] { typeof(object) }, null);
             var getTCompareDouble = typeof(BuilderHelper).GetMethod(nameof(BuilderHelper.TCompareDouble),
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static, null,
-                new Type[] { typeof(object) }, null);
+                TConfig.Flags, null, new Type[] { typeof(object) }, null);
 
             var dbType = property.PropertyType;
             if (dbType.IsGenericType && Nullable.GetUnderlyingType(dbType) != null) dbType = Nullable.GetUnderlyingType(dbType);

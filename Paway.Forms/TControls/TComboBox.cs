@@ -2,9 +2,12 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Reflection;
 using System.Windows.Forms;
 using Paway.Forms.Properties;
 using Paway.Helper;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Paway.Forms
 {
@@ -152,6 +155,27 @@ namespace Paway.Forms
                     DrawHelper.RendererBackground(g, ClientRectangle, moveImage, true);
                     break;
             }
+        }
+
+        #endregion
+
+        #region 加载枚举列表
+        /// <summary>
+        /// 加载枚举
+        /// </summary>
+        public void Init<T>(T value, Func<T, bool> action = null)
+        {
+            this.Edit.Items.Clear();
+            var type = typeof(T);
+            var list = type.GetFields(TConfig.Flags).ToList();
+            foreach (var field in type.GetFields(TConfig.Flags))
+            {
+                var item = (T)field.GetRawConstantValue();
+                if (action?.Invoke(item) == true) continue;
+                this.Edit.Items.Add(field.Description());
+                if (item.Equals(value)) this.Edit.SelectedIndex = this.Edit.Items.Count - 1;
+            }
+            if (this.Edit.SelectedIndex < 0 && this.Edit.Items.Count > 0) this.Edit.SelectedIndex = 0;
         }
 
         #endregion
