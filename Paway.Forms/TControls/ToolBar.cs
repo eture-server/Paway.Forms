@@ -923,7 +923,7 @@ namespace Paway.Forms
                     else
                     {
                         if (!iCalc && xPos == Padding.Left) TCountLine++;
-                        if (TCountLine == 1) TCountColumn++;
+                        if (!iCalc && TCountLine == 1) TCountColumn++;
                         item.Rectangle = new Rectangle(xPos, yPos, item.Rectangle.Width, item.Rectangle.Height);
                         xPos += item.Rectangle.Width + _itemSpace;
                     }
@@ -960,7 +960,7 @@ namespace Paway.Forms
                     else
                     {
                         if (!iCalc && yPos == Padding.Top) TCountColumn++;
-                        if (TCountColumn == 1) TCountLine++;
+                        if (!iCalc && TCountColumn == 1) TCountLine++;
                         item.Rectangle = new Rectangle(xPos, yPos, item.Rectangle.Width, item.Rectangle.Height);
                         yPos += item.Rectangle.Height + _itemSpace;
                         lastWidth = item.Rectangle.Width;
@@ -1713,7 +1713,7 @@ namespace Paway.Forms
                 var yPos = Items[index].Rectangle.Y;
                 var lastWidth = 0;
                 CalcItem(Items[index], ref xPos, ref yPos, ref lastWidth, true, true);
-                CalcItem(Items[index + 1], ref xPos, ref yPos, ref lastWidth, false);
+                CalcItem(Items[index + 1], ref xPos, ref yPos, ref lastWidth);
 
                 UpdateScroll();
                 TEnd();
