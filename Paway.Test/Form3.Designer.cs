@@ -31,11 +31,9 @@
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form3));
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
-            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
             this.tControl1 = new Paway.Forms.TControl();
             this.toolBar1 = new Paway.Forms.ToolBar();
             this.btChange = new Paway.Forms.ToolBar();
-            this.toolBar2 = new Paway.Forms.ToolBar();
             this.tControl1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,26 +89,9 @@
             this.btChange.TLineColor.ColorNormal = System.Drawing.Color.Red;
             this.btChange.Trans = 150;
             // 
-            // toolBar2
-            // 
-            this.toolBar2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.toolBar2.Font = new System.Drawing.Font("微软雅黑", 11F);
-            this.toolBar2.IAutoWidth = true;
-            toolItem3.Text = "1234";
-            this.toolBar2.Items.Add(toolItem3);
-            this.toolBar2.ItemSize = new System.Drawing.Size(78, 63);
-            this.toolBar2.Location = new System.Drawing.Point(0, 0);
-            this.toolBar2.Name = "toolBar2";
-            this.toolBar2.Size = new System.Drawing.Size(384, 71);
-            this.toolBar2.TabIndex = 67;
-            this.toolBar2.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(96)))), ((int)(((byte)(96)))));
-            this.toolBar2.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(160)))), ((int)(((byte)(160)))));
-            this.toolBar2.TBackGround.ColorNormal = System.Drawing.Color.Gray;
-            // 
             // Form3
             // 
             this.ClientSize = new System.Drawing.Size(384, 346);
-            this.Controls.Add(this.toolBar2);
             this.Controls.Add(this.btChange);
             this.Controls.Add(this.tControl1);
             this.Name = "Form3";
@@ -129,6 +110,5 @@
         private Paway.Forms.TControl tControl1;
         private Forms.ToolBar toolBar1;
         private Forms.ToolBar btChange;
-        private Forms.ToolBar toolBar2;
     }
 }

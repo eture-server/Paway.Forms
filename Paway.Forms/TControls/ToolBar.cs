@@ -873,15 +873,15 @@ namespace Paway.Forms
             }
         }
 
-        private void CalcItem(ToolItem item, ref int xPos, ref int yPos, ref int lastWidth, bool iFirst = false, bool iCalc = false)
+        private bool CalcItemRect(ToolItem item, out SizeF size)
         {
-            // 当前 Item 所在的矩型区域
-            item.Rectangle = new Rectangle(xPos, yPos, _itemSize.Width, _itemSize.Height);
             SizeF size1 = TextRenderer.MeasureText(item.First, GetTextFirst(item).FontNormal, item.Rectangle.Size);
             SizeF size2 = TextRenderer.MeasureText(item.Sencond, TextSencond.FontNormal, item.Rectangle.Size);
             SizeF size3 = TextRenderer.MeasureText(item.Desc, TDesc.FontNormal, item.Rectangle.Size);
+            size = new SizeF(Math.Max(size1.Width, size2.Width), Math.Max(size1.Height, size2.Height));
             int width = Math.Max(size1.Width, size2.Width).ToInt() + size3.Width.ToInt() + ItemPadding(item).Left + ItemPadding(item).Right;
             if (IImageShow && item.Image != null) width += ImageSize.Width;
+            var result = false;
             if (_iAutoWidth)
             {
                 if (_itemSize.Width > 0)
@@ -889,8 +889,16 @@ namespace Paway.Forms
                     if (width > _itemSize.Width) width = _itemSize.Width;
                     if (width < _itemSize.Width / 2) width = _itemSize.Width / 2;
                 }
+                result = item.Rectangle.Width != width;
                 item.Rectangle = new Rectangle(item.Rectangle.X, item.Rectangle.Y, width, item.Rectangle.Height);
             }
+            return result;
+        }
+        private void CalcItem(ToolItem item, ref int xPos, ref int yPos, ref int lastWidth, bool iFirst = false, bool iCalc = false)
+        {
+            // 当前 Item 所在的矩型区域
+            item.Rectangle = new Rectangle(xPos, yPos, _itemSize.Width, _itemSize.Height);
+            CalcItemRect(item, out SizeF size);
             switch (_tDirection)
             {
                 case TDirection.Level:
@@ -900,7 +908,7 @@ namespace Paway.Forms
                         xPos = Padding.Left;
                         if (item.IHeard)
                         {
-                            int height = Math.Max(size1.Height, size2.Height).ToInt();
+                            int height = size.Height.ToInt();
                             if (!iFirst && !iLastHeard)
                             {
                                 yPos += _itemSize.Height + _itemSpace;
@@ -932,7 +940,7 @@ namespace Paway.Forms
                     isNew = yPos + item.Rectangle.Height + Padding.Bottom > Height;
                     if (item.IHeard || (isNew && yPos != Padding.Top))
                     {
-                        width = Math.Max(size1.Width, size2.Width).ToInt();
+                        var width = size.Width.ToInt();
                         yPos = Padding.Top;
                         if (item.IHeard)
                         {
@@ -1979,20 +1987,27 @@ namespace Paway.Forms
         /// <summary>
         /// 刷新项
         /// </summary>
-        /// <param name="item"></param>
-        public void TRefresh(ToolItem item)
-        {
-            var index = Items.GetIndexOfRange(item);
-            TRefresh(index);
-        }
-        /// <summary>
-        /// 刷新项
-        /// </summary>
         /// <param name="index"></param>
         public void TRefresh(int index)
         {
             if (index < 0 || index > Items.Count - 1) return;
-            Invalidate(Items[index]);
+            TRefresh(Items[index]);
+        }
+        /// <summary>
+        /// 刷新项
+        /// </summary>
+        /// <param name="item"></param>
+        public void TRefresh(ToolItem item)
+        {
+            if (_iAutoWidth)
+            {
+                if (CalcItemRect(item, out _))
+                {
+                    TRefresh();
+                    return;
+                }
+            }
+            Invalidate(item);
         }
 
         /// <summary>

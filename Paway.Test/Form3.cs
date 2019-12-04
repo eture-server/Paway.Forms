@@ -35,8 +35,6 @@ namespace Paway.Test
         private bool iChange;
         void btChange_Click(object sender, EventArgs e)
         {
-            toolBar2.Items.Add(new ToolItem("1"));
-            return;
             iChange = !iChange;
             toolBar1.NormalImage = null;
             toolBar1.TranImage = iChange ? Resources.i1 : Resources.noon;
