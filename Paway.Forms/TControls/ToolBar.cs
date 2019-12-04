@@ -879,7 +879,8 @@ namespace Paway.Forms
             item.Rectangle = new Rectangle(xPos, yPos, _itemSize.Width, _itemSize.Height);
             SizeF size1 = TextRenderer.MeasureText(item.First, GetTextFirst(item).FontNormal, item.Rectangle.Size);
             SizeF size2 = TextRenderer.MeasureText(item.Sencond, TextSencond.FontNormal, item.Rectangle.Size);
-            int width = Math.Max(size1.Width, size2.Width).ToInt() + ItemPadding(item).Left + ItemPadding(item).Right;
+            SizeF size3 = TextRenderer.MeasureText(item.Desc, TDesc.FontNormal, item.Rectangle.Size);
+            int width = Math.Max(size1.Width, size2.Width).ToInt() + size3.Width.ToInt() + ItemPadding(item).Left + ItemPadding(item).Right;
             if (IImageShow && item.Image != null) width += ImageSize.Width;
             if (_iAutoWidth)
             {
@@ -890,8 +891,6 @@ namespace Paway.Forms
                 }
                 item.Rectangle = new Rectangle(item.Rectangle.X, item.Rectangle.Y, width, item.Rectangle.Height);
             }
-            width = Math.Max(size1.Width, size2.Width).ToInt();
-            int height = Math.Max(size1.Height, size2.Height).ToInt();
             switch (_tDirection)
             {
                 case TDirection.Level:
@@ -901,6 +900,7 @@ namespace Paway.Forms
                         xPos = Padding.Left;
                         if (item.IHeard)
                         {
+                            int height = Math.Max(size1.Height, size2.Height).ToInt();
                             if (!iFirst && !iLastHeard)
                             {
                                 yPos += _itemSize.Height + _itemSpace;
@@ -932,6 +932,7 @@ namespace Paway.Forms
                     isNew = yPos + item.Rectangle.Height + Padding.Bottom > Height;
                     if (item.IHeard || (isNew && yPos != Padding.Top))
                     {
+                        width = Math.Max(size1.Width, size2.Width).ToInt();
                         yPos = Padding.Top;
                         if (item.IHeard)
                         {
