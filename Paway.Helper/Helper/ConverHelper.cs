@@ -31,17 +31,28 @@ namespace Paway.Helper
         /// <summary>
         /// 获取枚举描述
         /// </summary>
-        public static string Description(this Enum e)
+        public static string Description<T>(this T e) where T : Enum
         {
             if (e == null) return string.Empty;
-
             var value = e.ToString();
-            var members = e.GetType().GetMember(value);
-            if (members != null && members.Length == 1)
+            foreach (var field in typeof(T).GetFields(TConfig.Flags))
             {
-                return members[0].Description() ?? value;
+                if (e.Equals((T)field.GetRawConstantValue()))
+                {
+                    return field.Description() ?? value;
+                }
             }
             return value;
+        }
+        /// <summary>
+        /// 获取字段描述
+        /// </summary>
+        public static string Description(this MemberInfo type)
+        {
+            var list = type.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            if (list.Length > 0)
+                return ((DescriptionAttribute)list[0]).Description;
+            return null;
         }
         /// <summary>
         /// 将枚举常数的名称或数字值的字符串表示转换成等效的枚举对象
@@ -878,17 +889,6 @@ namespace Paway.Helper
         {
             var list = pro.GetCustomAttributes(typeof(NoCloneAttribute), false) as NoCloneAttribute[];
             return list.Length == 0;
-        }
-
-        /// <summary>
-        /// 获取字段描述
-        /// </summary>
-        public static string Description(this MemberInfo type)
-        {
-            var list = type.GetCustomAttributes(typeof(DescriptionAttribute), false);
-            if (list.Length > 0)
-                return ((DescriptionAttribute)list[0]).Description;
-            return null;
         }
 
         #endregion

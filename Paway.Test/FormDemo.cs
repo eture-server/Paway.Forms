@@ -71,13 +71,7 @@ namespace Paway.Test
 
         private void InitEnum()
         {
-            this.tComboBox21.Edit.Items.Clear();
-            this.tComboBox21.Edit.Items.Add("dd");
-            TDirection[] tList = (TDirection[])Enum.GetValues(typeof(TDirection));
-            for (int i = 0; i < tList.Length; i++)
-            {
-                this.tComboBox21.Edit.Items.Add(tList[i].Description());
-            }
+            this.tComboBox21.Init(TDirection.Level);
         }
 
         void pictureBox1_Click(object sender, EventArgs e)

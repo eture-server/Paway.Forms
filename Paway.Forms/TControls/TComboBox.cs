@@ -163,11 +163,10 @@ namespace Paway.Forms
         /// <summary>
         /// 加载枚举
         /// </summary>
-        public void Init<T>(T value, Func<T, bool> action = null)
+        public void Init<T>(T value, Func<T, bool> action = null) where T : Enum
         {
             this.Edit.Items.Clear();
-            var type = typeof(T);
-            foreach (var field in type.GetFields(TConfig.Flags))
+            foreach (var field in typeof(T).GetFields(TConfig.Flags))
             {
                 var item = (T)field.GetRawConstantValue();
                 if (action?.Invoke(item) == true) continue;
