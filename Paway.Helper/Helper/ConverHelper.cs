@@ -31,7 +31,7 @@ namespace Paway.Helper
         /// <summary>
         /// 获取枚举描述
         /// </summary>
-        public static string Description(Enum e)
+        public static string Description(this Enum e)
         {
             if (e == null) return string.Empty;
             var value = e.ToString();
