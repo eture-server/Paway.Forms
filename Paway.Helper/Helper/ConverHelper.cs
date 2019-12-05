@@ -31,13 +31,13 @@ namespace Paway.Helper
         /// <summary>
         /// 获取枚举描述
         /// </summary>
-        public static string Description<T>(this T e) where T : Enum
+        public static string Description(Enum e)
         {
             if (e == null) return string.Empty;
             var value = e.ToString();
-            foreach (var field in typeof(T).GetFields(TConfig.Flags))
+            foreach (var field in e.GetType().GetFields(TConfig.Flags))
             {
-                if (e.Equals((T)field.GetRawConstantValue()))
+                if (value == field.Name)
                 {
                     return field.Description() ?? value;
                 }
