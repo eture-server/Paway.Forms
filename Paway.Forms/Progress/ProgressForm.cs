@@ -70,7 +70,7 @@ namespace Paway.Forms
             {
                 this.Fade(0.0, 0.2);
             }
-            else if (handle != Progress.Manual && handle != current)
+            else if (handle != Progress.Auto && handle != Progress.Manual && handle != current)
             {
                 this.Fade(0.0, 0.2);
             }

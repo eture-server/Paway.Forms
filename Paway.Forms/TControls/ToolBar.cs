@@ -791,6 +791,7 @@ namespace Paway.Forms
             var g = e.Graphics;
             g.TranslateTransform(Offset.X, Offset.Y);
             g.PixelOffsetMode = PixelOffsetMode.HighQuality; //与AntiAlias作用相反
+            g.InterpolationMode = InterpolationMode.HighQualityBilinear;
 
             ////并行绘制(GDI是同一个，需要lock，占用更多CPU，效率降低)
             //Parallel.For(0, Items.Count, (i) =>
