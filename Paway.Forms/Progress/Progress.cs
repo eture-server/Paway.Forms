@@ -17,6 +17,14 @@ namespace Paway.Forms
         private readonly ProgressState _state = null;
         private readonly static ProgressStates states = new ProgressStates();
         private volatile static bool IStop = true;
+        /// <summary>
+        /// 自动
+        /// </summary>
+        public static readonly IntPtr Auto = new IntPtr(-1);
+        /// <summary>
+        /// 手动
+        /// </summary>
+        public static readonly IntPtr Manual = new IntPtr(-2);
 
         #endregion
 
@@ -61,7 +69,7 @@ namespace Paway.Forms
             {
                 if (progressForm.Visible || states.Count > 0)
                 {
-                    progressForm.Text = string.Format("Progress.{0}.{1}", progressForm.Handle, progressForm.WindowToWatch);
+                    progressForm.Text = string.Format("Progress.{0}.{1}", progressForm.Handle, progressForm.CurrentHandle);
                     Application.DoEvents();
                     Thread.Sleep(10);
                 }
@@ -96,32 +104,32 @@ namespace Paway.Forms
         /// </summary>
         /// <param name="caption">标题</param>
         /// <param name="max">最大值</param>
-        public Progress(string caption = TConfig.Loading, int max = 0) : this(ProgressStates.False, false, caption, 0, max) { }
+        public Progress(string caption = TConfig.Loading, int max = 0) : this(Progress.Auto, false, caption, 0, max) { }
         /// <summary>
         /// 初始化实例
         /// </summary>
         /// <param name="canCancel">是否可以取消，默认否（设置取消未注册事件，则直接关闭窗体）</param>
         /// <param name="caption">标题</param>
         /// <param name="max">最大值</param>
-        public Progress(bool canCancel, string caption = TConfig.Loading, int max = 0) : this(ProgressStates.False, canCancel, caption, 0, max) { }
+        public Progress(bool canCancel, string caption = TConfig.Loading, int max = 0) : this(Progress.Auto, canCancel, caption, 0, max) { }
         /// <summary>
         /// 初始化实例
         /// </summary>
         /// <param name="delay">延迟显示时间(ms)</param>
         /// <param name="caption">标题</param>
         /// <param name="max">最大值</param>
-        public Progress(int delay, string caption = TConfig.Loading, int max = 0) : this(ProgressStates.False, false, caption, delay, max) { }
+        public Progress(int delay, string caption = TConfig.Loading, int max = 0) : this(Progress.Auto, false, caption, delay, max) { }
         /// <summary>
         /// 初始化实例
         /// </summary>
-        /// <param name="owner">父控件</param>
+        /// <param name="handle">父控件句柄</param>
         /// <param name="canCancel">是否可以取消，默认否（设置取消未注册事件，则直接关闭窗体）</param>
         /// <param name="caption">标题</param>
         /// <param name="delay">延迟显示时间(ms)</param>
         /// <param name="max">最大值</param>
-        public Progress(IntPtr owner, bool canCancel = false, string caption = TConfig.Loading, int delay = 0, int max = 0)
+        public Progress(IntPtr handle, bool canCancel = false, string caption = TConfig.Loading, int delay = 0, int max = 0)
         {
-            this._state = new ProgressState(owner, caption, canCancel, delay, max);
+            this._state = new ProgressState(handle, caption, canCancel, delay, max);
             this._state.CancelEvent += State_CancelEvent;
             states.Add(this._state);
         }
@@ -152,6 +160,24 @@ namespace Paway.Forms
         {
             this._state.NoValue = false;
             this._state.Value = value;
+        }
+        /// <summary>
+        /// 设置父控件句柄
+        /// </summary>
+        /// <param name="handle">父控件句柄</param>
+        public void Step(IntPtr handle)
+        {
+            this._state.Handle = handle;
+        }
+        /// <summary>
+        /// 进度条加满
+        /// </summary>
+        public void Max()
+        {
+            this._state.NoValue = false;
+            this._state.Value = this._state.Max;
+            Thread.Sleep(20);
+            Application.DoEvents();
         }
         /// <summary>
         /// 重置

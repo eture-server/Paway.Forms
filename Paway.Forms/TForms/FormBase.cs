@@ -822,8 +822,10 @@ namespace Paway.Forms
                         //SetStyle(ControlStyles.AllPaintingInWmPaint, false);
                         if (WindowState != FormWindowState.Minimized)
                             WindowState = WindowState;
-                        else
+                        else if (lastState != FormWindowState.Minimized)
                             WindowState = lastState;
+                        else
+                            WindowState = FormWindowState.Normal;
                     }
                     finally
                     {

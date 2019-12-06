@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form3));
-            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
             this.tControl1 = new Paway.Forms.TControl();
             this.toolBar1 = new Paway.Forms.ToolBar();
             this.btChange = new Paway.Forms.ToolBar();
@@ -52,7 +52,7 @@
             this.toolBar1.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.toolBar1.IClickEvent = true;
             this.toolBar1.IScroll = false;
-            this.toolBar1.Items.Add(toolItem1);
+            this.toolBar1.Items.Add(toolItem3);
             this.toolBar1.ItemSize = new System.Drawing.Size(191, 251);
             this.toolBar1.Location = new System.Drawing.Point(0, 0);
             this.toolBar1.MDirection = Paway.Helper.TMDirection.T3DLeftToRight;
@@ -69,8 +69,8 @@
             this.btChange.Font = new System.Drawing.Font("Tahoma", 15F);
             this.btChange.IClickEvent = true;
             this.btChange.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem2.Text = "Change";
-            this.btChange.Items.Add(toolItem2);
+            toolItem4.Text = "Change";
+            this.btChange.Items.Add(toolItem4);
             this.btChange.ItemSize = new System.Drawing.Size(75, 32);
             this.btChange.ItemSpace = 5;
             this.btChange.Location = new System.Drawing.Point(280, 148);
@@ -91,13 +91,13 @@
             // 
             // Form3
             // 
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.ClientSize = new System.Drawing.Size(384, 346);
             this.Controls.Add(this.btChange);
             this.Controls.Add(this.tControl1);
             this.Name = "Form3";
             this.Padding = new System.Windows.Forms.Padding(0);
             this.TBrush.ColorDown = System.Drawing.Color.Ivory;
-            this.TBrush.ColorMove = System.Drawing.Color.CornflowerBlue;
             this.Text = "你好";
             this.Trans = 155;
             this.tControl1.ResumeLayout(false);

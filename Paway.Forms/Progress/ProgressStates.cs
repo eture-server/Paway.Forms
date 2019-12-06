@@ -10,7 +10,6 @@ namespace Paway.Forms
     internal class ProgressStates : IEnumerable
     {
         private readonly List<ProgressState> _states = new List<ProgressState>();
-        public static IntPtr False = (IntPtr)(-1);
         private int index;
 
         public void Add(ProgressState state)

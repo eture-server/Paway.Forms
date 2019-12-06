@@ -24,8 +24,8 @@ namespace Paway.Forms
         private double _targetOpacity;
         private readonly Timer timer = null;
         private readonly ProgressStates states;
-        public IntPtr WindowToWatch { get { return this.states.CurrentHandle; } }
-        public string Caption { get { return this.states.CurrentCaption; } }
+        public IntPtr CurrentHandle { get { return this.states.CurrentHandle; } }
+        public string CurrentCaption { get { return this.states.CurrentCaption; } }
         public bool ShowCancel { get { return this.states.ShowCancel; } }
         public bool IDelay { get { return this.states.IDelay; } }
         public ProgressForm(ProgressStates states)
@@ -64,13 +64,13 @@ namespace Paway.Forms
         }
         private void Timer()
         {
-            IntPtr handle = this.WindowToWatch;
+            IntPtr handle = this.CurrentHandle;
             IntPtr current = NativeMethods.GetForegroundWindow();
-            if (handle == ProgressStates.False && Control.FromHandle(current) == null)
+            if (handle == Progress.Auto && Control.FromHandle(current) == null)
             {
                 this.Fade(0.0, 0.2);
             }
-            else if (handle != ProgressStates.False && (handle == IntPtr.Zero || handle != current))
+            else if (handle != Progress.Manual && handle != current)
             {
                 this.Fade(0.0, 0.2);
             }
@@ -98,12 +98,13 @@ namespace Paway.Forms
                     {
                         RECT rect = new RECT();
                         bool result = false;
-                        if (handle == ProgressStates.False)
+                        if (handle == Progress.Auto && Control.FromHandle(current) != null)
                         {
-                            if (Control.FromHandle(current) != null)
-                            {
-                                result = NativeMethods.GetWindowRect(current, ref rect);
-                            }
+                            result = NativeMethods.GetWindowRect(current, ref rect);
+                        }
+                        else if (handle == Progress.Manual)
+                        {
+                            result = NativeMethods.GetWindowRect(current, ref rect);
                         }
                         else
                         {
@@ -122,11 +123,17 @@ namespace Paway.Forms
                     {
                         Win32Helper.ShowWindow(base.Handle);
                     }
-                    else THide();
+                    else
+                    {
+                        THide();
+                    }
                 }
-                else THide();
+                else
+                {
+                    THide();
+                }
             }
-            else if (handle == ProgressStates.False)
+            else if (handle == Progress.Auto)
             {
                 RECT rect = new RECT();
                 if (Control.FromHandle(current) != null && NativeMethods.GetWindowRect(current, ref rect))
@@ -134,7 +141,15 @@ namespace Paway.Forms
                     Win32Helper.ShowWindow(base.Handle);
                 }
             }
-            lbCaption.Text = this.Caption;
+            else if (handle == Progress.Manual)
+            {
+                RECT rect = new RECT();
+                if (NativeMethods.GetWindowRect(current, ref rect))
+                {
+                    Win32Helper.ShowWindow(base.Handle);
+                }
+            }
+            lbCaption.Text = this.CurrentCaption;
             toolCancel.Visible = this.ShowCancel;
         }
         private void THide()

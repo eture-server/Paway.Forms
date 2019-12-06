@@ -18,7 +18,7 @@ namespace Paway.Forms
         /// <summary>
         /// 背景阴影透明度
         /// </summary>
-        private const int alpha = 24;
+        private const int alpha = 32;
 
         #region 构造
         /// <summary>
@@ -34,8 +34,8 @@ namespace Paway.Forms
                 ControlStyles.Selectable |
                 ControlStyles.SupportsTransparentBackColor, true);
             UpdateStyles();
-            ShadowColors = new[] { Color.FromArgb(alpha, Color.Black), Color.Transparent };
-            CornerColors = new[] { Color.FromArgb(alpha * 3, Color.Black), Color.Transparent };
+            ShadowColors = new[] { Color.FromArgb(5, Color.White), Color.FromArgb(alpha, Color.Black) };
+            CornerColors = new[] { Color.FromArgb(5, Color.White), Color.FromArgb(alpha * 3, Color.Black) };
             Main = main;
             InitializeComponent();
             Init();
@@ -204,8 +204,8 @@ namespace Paway.Forms
         }
         private void DrawShadow(Graphics g)
         {
-            ShadowColors[0] = Color.FromArgb(alpha, Main.TShadowColor);
-            CornerColors[0] = Color.FromArgb(alpha * 3, Main.TShadowColor);
+            ShadowColors[1] = Color.FromArgb(alpha, Main.TShadowColor);
+            CornerColors[1] = Color.FromArgb(alpha * 3, Main.TShadowColor);
             var corSize = new Size(Main.TRadius + 1 + Main.TRadius, Main.TRadius + 1 + Main.TRadius);
             var size2 = new Size(Main.TRadius + 1, Size.Height - corSize.Height * 2);
             var size4 = new Size(Size.Width - corSize.Width * 2, Main.TRadius + 1);
@@ -220,10 +220,10 @@ namespace Paway.Forms
             var rectangle2 = new Rectangle(new Point(0, corSize.Width), gradientSize_LR);
             var rectangle3 = new Rectangle(new Point(Size.Width - (Main.TRadius + 1), corSize.Width), gradientSize_LR);
             var rectangle4 = new Rectangle(new Point(corSize.Width, Size.Height - (Main.TRadius + 1)), gradientSize_TB);
-            using (var brush = new LinearGradientBrush(rect, ShadowColors[1], ShadowColors[0], LinearGradientMode.Vertical))
-            using (var brush2 = new LinearGradientBrush(rectangle2, ShadowColors[1], ShadowColors[0], LinearGradientMode.Horizontal))
-            using (var brush3 = new LinearGradientBrush(rectangle3, ShadowColors[0], ShadowColors[1], LinearGradientMode.Horizontal))
-            using (var brush4 = new LinearGradientBrush(rectangle4, ShadowColors[0], ShadowColors[1], LinearGradientMode.Vertical))
+            using (var brush = new LinearGradientBrush(rect, ShadowColors[0], ShadowColors[1], LinearGradientMode.Vertical))
+            using (var brush2 = new LinearGradientBrush(rectangle2, ShadowColors[0], ShadowColors[1], LinearGradientMode.Horizontal))
+            using (var brush3 = new LinearGradientBrush(rectangle3, ShadowColors[1], ShadowColors[0], LinearGradientMode.Horizontal))
+            using (var brush4 = new LinearGradientBrush(rectangle4, ShadowColors[1], ShadowColors[0], LinearGradientMode.Vertical))
             {
                 g.FillRectangle(brush, rect);
                 g.FillRectangle(brush2, rectangle2);
@@ -293,14 +293,11 @@ namespace Paway.Forms
                     }
                     using (var brush = new PathGradientBrush(path))
                     {
-                        var colorArray = new Color[2];
                         var numArray = new float[2];
                         var blend = new ColorBlend();
-                        colorArray[0] = CornerColors[1];
-                        colorArray[1] = CornerColors[0];
                         numArray[0] = 0f;
                         numArray[1] = 1f;
-                        blend.Colors = colorArray;
+                        blend.Colors = CornerColors;
                         blend.Positions = numArray;
                         brush.InterpolationColors = blend;
                         brush.CenterPoint = tf;
