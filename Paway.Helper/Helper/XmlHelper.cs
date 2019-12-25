@@ -126,6 +126,7 @@ namespace Paway.Helper
                 object obj = info.GetValue(property.Name);
                 if (obj is IList list)
                 {
+                    AddDescription(doc, root, element, property);
                     var typeList = list.GenericType();
                     for (int i = 0; i < list.Count; i++)
                     {
@@ -138,11 +139,7 @@ namespace Paway.Helper
                 {
                     if (obj != null)
                     {
-                        if (!property.Description().IsNullOrEmpty())
-                        {
-                            var comment = doc.CreateComment(property.Description());
-                            root.InsertBefore(comment, element);
-                        }
+                        AddDescription(doc, root, element, property);
                         Save(doc, element, obj, property.PropertyType);
                     }
                     else root.RemoveChild(element);
@@ -153,15 +150,19 @@ namespace Paway.Helper
                     var value = obj.ToStrs();
                     if (allowEmpty || !value.IsNullOrEmpty())
                     {
-                        if (!property.Description().IsNullOrEmpty())
-                        {
-                            var comment = doc.CreateComment(property.Description());
-                            root.InsertBefore(comment, element);
-                        }
+                        AddDescription(doc, root, element, property);
                         element.InnerText = value;
                     }
                     else root.RemoveChild(element);
                 }
+            }
+        }
+        private static void AddDescription(XmlDocument doc, XmlElement root, XmlElement element, PropertyInfo property)
+        {
+            if (!property.Description().IsNullOrEmpty())
+            {
+                var comment = doc.CreateComment(property.Description());
+                root.InsertBefore(comment, element);
             }
         }
     }

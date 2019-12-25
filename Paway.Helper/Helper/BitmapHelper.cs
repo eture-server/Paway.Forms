@@ -14,7 +14,6 @@ namespace Paway.Helper
     public abstract class BitmapHelper
     {
         #region 获取Gif图片中的各帧
-
         /// <summary>
         /// 获取Gif图片中的各帧
         /// </summary>
@@ -35,7 +34,6 @@ namespace Paway.Helper
         #endregion
 
         #region 3D左右翻转
-
         /// <summary>
         /// 矩形图片变换成梯形图片，用于QQ的3D翻转特效
         /// </summary>
@@ -258,12 +256,11 @@ namespace Paway.Helper
         #endregion
 
         #region 方法
-
         /// <summary>
         /// 截取屏幕图像
         /// </summary>
         /// <returns></returns>
-        public static Bitmap GetScreenPic()
+        public static Bitmap GetScreen()
         {
             Bitmap bitmap = null;
             {

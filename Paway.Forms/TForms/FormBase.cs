@@ -816,7 +816,7 @@ namespace Paway.Forms
                 case (MenuType)(int)WindowStyle.SC_RESTORE:
                     try
                     {//从最小化恢复时闪屏，临时去除双缓存
-                        //并设置透明度，在重绘后再恢复。去除双缓存效果更新好，就是会普慢
+                        //并设置透明度，在重绘后再恢复。去除双缓存效果更新好，就是会变慢
                         iRestore = true;
                         this.Opacity = 0;
                         //SetStyle(ControlStyles.AllPaintingInWmPaint, false);
