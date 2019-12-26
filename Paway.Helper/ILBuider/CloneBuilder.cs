@@ -125,7 +125,7 @@ namespace Paway.Helper
                 {
                     if (!depth) continue;
                     if (property.CanWrite) CloneActionWrite(type, generator, property);
-                    else CloneActionRead(type, generator, property);
+                    else if ((!dbType.IsValueType && dbType.IsGenericType)) CloneActionRead(type, generator, property);
                 }
                 else if (property.CanWrite)
                 {
