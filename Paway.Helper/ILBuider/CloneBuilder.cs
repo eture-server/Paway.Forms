@@ -35,7 +35,7 @@ namespace Paway.Helper
                 Type dbType = property.PropertyType;
 
                 if ((!dbType.IsValueType && dbType.IsGenericType) ||
-                    (dbType.IsClass && dbType != typeof(string) && dbType != typeof(byte[]) && dbType != typeof(Image) && dbType != typeof(Bitmap)))
+                    (dbType.IsClass && dbType != typeof(string) && dbType != typeof(Type) && dbType != typeof(byte[]) && dbType != typeof(Image) && dbType != typeof(Bitmap)))
                 {
                     if (!depth) continue;
                     if (property.CanWrite) CloneFuncWrite(type, generator, property);
@@ -121,11 +121,11 @@ namespace Paway.Helper
                 Type dbType = property.PropertyType;
 
                 if ((!dbType.IsValueType && dbType.IsGenericType) ||
-                    (dbType.IsClass && dbType != typeof(string) && dbType != typeof(byte[]) && dbType != typeof(Image) && dbType != typeof(Bitmap)))
+                    (dbType.IsClass && dbType != typeof(string) && dbType != typeof(Type) && dbType != typeof(byte[]) && dbType != typeof(Image) && dbType != typeof(Bitmap)))
                 {
                     if (!depth) continue;
                     if (property.CanWrite) CloneActionWrite(type, generator, property);
-                    else if ((!dbType.IsValueType && dbType.IsGenericType)) CloneActionRead(type, generator, property);
+                    else CloneActionRead(type, generator, property);
                 }
                 else if (property.CanWrite)
                 {
