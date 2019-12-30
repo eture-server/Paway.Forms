@@ -151,7 +151,7 @@ namespace Paway.Forms
                 //不重复加载
                 if (Current != null)
                 {
-                    if (Current.GetType() == type && Current.Parent == parent) return null;
+                    if (Current.GetType() == type && Current.Parent == parent) return Current;
                 }
                 //加载控件
                 if (List.ContainsKey(type))
@@ -250,6 +250,7 @@ namespace Paway.Forms
                 {
                     Current = control;
                 }
+                if (e != null) Current.Args = e;
                 Current.Focus();
                 Current.ReLoad();
             }

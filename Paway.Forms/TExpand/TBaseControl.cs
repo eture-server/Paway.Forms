@@ -43,15 +43,16 @@ namespace Paway.Forms
         /// <summary>
         /// 切换主界面控件
         /// </summary>
-        protected void ResetLoad(Control panel, Type type, EventArgs e)
+        protected MControl ResetLoad(Control panel, Type type, EventArgs e)
         {
             try
             {
-                MControl.ReLoad(panel, type, e, TMDirection.None, new Action<object, EventArgs>(Changed));
+                return MControl.ReLoad(panel, type, e, TMDirection.None, new Action<object, EventArgs>(Changed));
             }
             catch (Exception ex)
             {
                 ExceptionHelper.Show(ex);
+                return null;
             }
         }
         private void Changed(object sender, EventArgs e)
