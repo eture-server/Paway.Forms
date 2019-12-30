@@ -3,7 +3,6 @@
 @set ILMerge="C:\Program Files (x86)\Microsoft\ILMerge\ILMerge.exe"
 
 @set BIN=bin\Release
-@set OUT=bin\Fuscated
 @set OUT=..\Fuscated
 cd "%BIN%"
 @echo.

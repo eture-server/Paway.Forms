@@ -1179,6 +1179,7 @@ namespace Paway.Forms
                     _tColumnIndex = i;
                 }
                 var property = properties.Property(Columns[i].Name);
+                if (property == null) property = properties.Property(Columns[i].DataPropertyName);
                 if (property == null) continue;
                 Columns[i].Visible = property.IShow();
                 Columns[i].HeaderText = property.TextName();
