@@ -32,7 +32,7 @@ namespace Paway.Helper
         /// <summary>
         /// All
         /// </summary>
-        public static string All = "All";
+        public const string All = "All";
         /// <summary>
         /// 默认属性搜索条件
         /// </summary>
