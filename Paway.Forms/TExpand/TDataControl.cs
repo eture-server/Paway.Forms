@@ -114,7 +114,7 @@ namespace Paway.Forms
         private void UnLoadEvent()
         {
             //可能存在已释放问题
-            if (gridview1 == null || gridview1.Edit == null || gridview1.Edit.Disposing) return;
+            if (gridview1 == null || gridview1.Edit == null || gridview1.Edit.IsDisposed) return;
             gridview1.Edit.CellFormatting -= Gridview1_CellFormatting;
             gridview1.Edit.CurrentCellChanged -= Gridview1_CurrentCellChanged;
             gridview1.Edit.DoubleClick -= Gridview1_DoubleClick;
@@ -462,6 +462,7 @@ namespace Paway.Forms
         /// <param name="iOffset">保存滚动条位置</param>
         public void RefreshData(bool iOffset = false)
         {
+            if (this.IsDisposed) return;
             RefreshTotal();
             this.gridview1.AutoCell(iOffset);
         }
@@ -542,7 +543,7 @@ namespace Paway.Forms
         }
         private bool IFind()
         {
-            if (!this.ILoad) return false;
+            if (!this.ILoad || this.IsDisposed) return false;
             return (bool)this.Invoke(new Func<bool>(() =>
             {
                 return panel2.Visible && !tbName.IError && !tbName.Text.Trim().IsNullOrEmpty();

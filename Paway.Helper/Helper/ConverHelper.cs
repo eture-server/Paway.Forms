@@ -123,13 +123,13 @@ namespace Paway.Helper
         /// <summary>
         /// 获取异常中的所有描述
         /// </summary>
-        public static string InnerMessage(this Exception ex)
+        public static string Message(this Exception ex)
         {
             var msg = ex.Message;
             while (ex.InnerException != null)
             {
                 string innerMsg = ex.InnerException.Message;
-                if (!string.IsNullOrEmpty(innerMsg) && ex.Message != innerMsg)
+                if (!string.IsNullOrEmpty(innerMsg) && !msg.Contains(innerMsg))
                 {
                     msg = string.Format("{0}\r\n{1}", msg, innerMsg);
                 }

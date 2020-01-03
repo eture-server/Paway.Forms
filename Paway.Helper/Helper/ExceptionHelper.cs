@@ -26,6 +26,14 @@ namespace Paway.Helper
         public static string Text { get; private set; }
 
         /// <summary>
+        /// 记录日志
+        /// </summary>
+        public static void Log(this Exception ex)
+        {
+            if (ex is WarningException) log.Warn(ex.Message());
+            else log.Error(ex);
+        }
+        /// <summary>
         /// 初始化
         /// </summary>
         public static void Init(Form form, string text)
@@ -89,11 +97,10 @@ namespace Paway.Helper
         {
             if (ex == null) return;
             string msg = ex.ToString();
-            if (ex is Exception)
+            if (ex is Exception exc)
             {
-                if (!(ex is WarningException))
-                    log.Error(ex);
-                msg = (ex as Exception).InnerMessage();
+                Log(exc);
+                msg = exc.Message();
                 if (!title.IsNullOrEmpty())
                     msg = string.Format("{0}\r\n{1}", title, msg);
                 if (type == LeveType.None)

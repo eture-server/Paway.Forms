@@ -119,32 +119,36 @@ namespace Paway.Helper
         /// <summary>
         /// 初始化(加载)配置文件
         /// </summary>
-        /// <typeparam name="T">配置类型</typeparam>
-        /// <returns>实例</returns>
-        public static T Load<T>()
+        public static T Load<T>(string xmlFile = null)
         {
             T obj;
-            string xml = AppDomain.CurrentDomain.FriendlyName.Replace("exe", "xml");
-            if (File.Exists(xml))
+            if (xmlFile.IsNullOrEmpty())
             {
-                obj = XmlHelper.Load<T>(xml);
+                xmlFile = AppDomain.CurrentDomain.FriendlyName.Replace(".vshost", string.Empty).Replace("exe", "xml");
+                xmlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, xmlFile);
+            }
+            if (File.Exists(xmlFile))
+            {
+                obj = XmlHelper.Load<T>(xmlFile);
             }
             else
             {
                 obj = Activator.CreateInstance<T>();
-                XmlHelper.Save(xml, obj);
             }
+            XmlHelper.Save(xmlFile, obj);
             return obj;
         }
         /// <summary>
         /// 保存配置实例到文件
         /// </summary>
-        /// <typeparam name="T">配置类型</typeparam>
-        /// <param name="obj">例到</param>
-        public static void Save<T>(T obj)
+        public static void Save<T>(T obj, string xmlFile = null)
         {
-            string xml = AppDomain.CurrentDomain.FriendlyName.Replace("exe", "xml");
-            XmlHelper.Save(xml, obj);
+            if (xmlFile.IsNullOrEmpty())
+            {
+                xmlFile = AppDomain.CurrentDomain.FriendlyName.Replace(".vshost", string.Empty).Replace("exe", "xml");
+                xmlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, xmlFile);
+            }
+            XmlHelper.Save(xmlFile, obj);
         }
 
         #endregion

@@ -116,7 +116,7 @@ namespace Paway.Forms
             }
             catch (Exception ex)
             {
-                return ex.InnerMessage();
+                return ex.Message();
             }
         }
 

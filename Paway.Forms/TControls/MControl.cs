@@ -113,7 +113,6 @@ namespace Paway.Forms
         {
             return ReLoad(parent, type, EventArgs.Empty, TMDirection.None);
         }
-
         /// <summary>
         /// 切换界面控件
         /// </summary>
@@ -121,7 +120,6 @@ namespace Paway.Forms
         {
             return ReLoad(parent, type, e, TMDirection.None);
         }
-
         /// <summary>
         /// 切换界面控件
         /// </summary>
@@ -129,7 +127,6 @@ namespace Paway.Forms
         {
             return ReLoad(parent, type, EventArgs.Empty, direction);
         }
-
         /// <summary>
         /// 切换界面控件
         /// </summary>
@@ -137,7 +134,6 @@ namespace Paway.Forms
         {
             return ReLoad(parent, type, EventArgs.Empty, TMDirection.None, method);
         }
-
         /// <summary>
         /// 切换界面控件
         /// 如已加载，则调用ReLoad()
@@ -292,7 +288,6 @@ namespace Paway.Forms
             }
             return List[type];
         }
-
         /// <summary>
         /// 返回控件上的当前子控件
         /// </summary>
@@ -308,7 +303,6 @@ namespace Paway.Forms
             }
             return null;
         }
-
         /// <summary>
         /// 返回指定类型控件
         /// </summary>
@@ -325,29 +319,6 @@ namespace Paway.Forms
             }
             return null;
         }
-
-        /// <summary>
-        /// 重置子控件
-        /// </summary>
-        public static void Reset()
-        {
-            for (var i = List.Count - 1; i >= 0; i--)
-            {
-                var item = List.Keys.ElementAt(i);
-                if (List[item] == Current)
-                {
-                    Current = null;
-                    if (!List[item].IsDisposed)
-                    {
-                        List[item].Dispose();
-                    }
-                    List[item] = null;
-                    List.Remove(item);
-                    break;
-                }
-            }
-        }
-
         /// <summary>
         /// 重置控件上所有子控件（不指定父控件则重置所有）
         /// </summary>
@@ -371,7 +342,6 @@ namespace Paway.Forms
                 }
             }
         }
-
         /// <summary>
         /// 刷新所有控件数据（返回false，响应控件可取消/中止）
         /// </summary>

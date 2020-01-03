@@ -69,7 +69,7 @@ namespace Paway.Test
             catch (Exception ex)
             {
                 log.Error(ex);
-                e.Result = ex.InnerMessage();
+                e.Result = ex.Message();
             }
             finally
             {
