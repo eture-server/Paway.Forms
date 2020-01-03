@@ -1596,11 +1596,13 @@ namespace Paway.Forms
                 _tempItem = item;
             }
             if (INormal) return;
+            var ifocus = false;
             if (item.RectDesc.Contains(point))
             {
+                ifocus = EditClick != null;
                 InvaRectDesc(item, TMouseState.Down);
             }
-            else
+            if (!ifocus)
             {
                 InvaRectDesc(item, TMouseState.Normal);
                 if (_iMultiple)
@@ -1667,15 +1669,16 @@ namespace Paway.Forms
             {
                 //事件
                 _tempItem = null;
+                var ifocus = false;
                 if (item.RectDesc.Contains(point))
                 {
-                    var ifocus = OnEditClick(item, e);
+                    ifocus = OnEditClick(item, e);
                     if (!ifocus)
                     {
                         Invalidate(item);
                     }
                 }
-                else
+                if (!ifocus)
                 {
                     if (item != _selectedItem)
                     {
