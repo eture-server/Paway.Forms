@@ -1,5 +1,4 @@
-﻿using log4net;
-using System;
+﻿using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
@@ -118,7 +117,7 @@ namespace Paway.Helper
             }
             catch (Exception ex)
             {
-                log.Error(ex);
+                ex.Log();
                 message = buffer;
             }
             OnMessage(message, ipAddress);

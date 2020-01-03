@@ -1,5 +1,4 @@
-﻿using log4net;
-using System;
+﻿using System;
 using System.Net;
 using System.Reflection;
 
@@ -10,10 +9,6 @@ namespace Paway.Helper
     /// </summary>
     public class UDPBase
     {
-        /// <summary>
-        /// 内部日志
-        /// </summary>
-        internal static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         /// <summary>
         /// 广播地址
         /// </summary>

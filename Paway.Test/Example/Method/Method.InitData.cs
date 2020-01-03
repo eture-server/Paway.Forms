@@ -6,7 +6,6 @@ using System.Text;
 using Paway.Helper;
 using System.Windows.Forms;
 using Paway.Forms;
-using log4net;
 using System.Reflection;
 using System.Threading;
 
@@ -14,8 +13,6 @@ namespace Paway.Test
 {
     public partial class InitData
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         private BackgroundWorker bw = null;
         private volatile bool IStop;
         public event Action<AsynEventArgs> CompleteEvent;
@@ -68,7 +65,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                log.Error(ex);
+                ex.Log();
                 e.Result = ex.Message();
             }
             finally

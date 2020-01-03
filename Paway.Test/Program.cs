@@ -1,5 +1,4 @@
-﻿using log4net;
-using Paway.Forms;
+﻿using Paway.Forms;
 using Paway.Helper;
 using Paway.Utils;
 using Paway.Win32;
@@ -16,7 +15,6 @@ namespace Paway.Test
 {
     static class Program
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
@@ -54,7 +52,7 @@ namespace Paway.Test
                 log4net.Config.XmlConfigurator.Configure(new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log.xml")));
                 Assembly assembly = Assembly.GetExecutingAssembly();
                 AssemblyTitleAttribute attrTitle = Attribute.GetCustomAttribute(assembly, typeof(AssemblyTitleAttribute)) as AssemblyTitleAttribute;
-                log.InfoFormat("{0} v{1} ({2})", attrTitle.Title, assembly.GetName().Version, Environment.MachineName);
+                string.Format("{0} v{1} ({2})", attrTitle.Title, assembly.GetName().Version, Environment.MachineName).Log();
 
                 Progress.Initialize();
                 TConfig.IAutoHideScroll = true;

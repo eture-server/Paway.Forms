@@ -28,10 +28,15 @@ namespace Paway.Helper
         /// <summary>
         /// 记录日志
         /// </summary>
-        public static void Log(this Exception ex)
+        public static void Log(this object ex, string title = null)
         {
-            if (ex is WarningException) log.Warn(ex.Message());
-            else log.Error(ex);
+            if (ex is Exception exc)
+            {
+                if (exc is WarningException) log.Warn(exc.Message());
+                else if (title != null) log.Error(title, exc);
+                else log.Error(exc);
+            }
+            else log.Debug(ex);
         }
         /// <summary>
         /// 初始化

@@ -11,7 +11,6 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Diagnostics;
 using System.Media;
-using log4net;
 using System.Reflection;
 
 namespace Paway.Test

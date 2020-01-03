@@ -18,15 +18,12 @@ using System.Diagnostics;
 using System.Data.Common;
 using System.Threading;
 using System.Reflection;
-using log4net;
 using System.Collections;
 
 namespace Paway.Test
 {
     public partial class FormSql : TBaseForm
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         SqlService service = new SqlService();
         List<TestInfo> list = new List<TestInfo>();
 
@@ -43,7 +40,7 @@ namespace Paway.Test
             {
                 SqlService server = new SqlService();
                 server.Connect();
-                log.Debug(string.Format("成功创建连接对象{0}", i + 1));
+                string.Format("成功创建连接对象{0}", i + 1).Log();
             }
         }
         protected override void OnShown(EventArgs e)
@@ -229,7 +226,6 @@ namespace Paway.Test
     }
     public class SqlService : SqlHelper
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public SqlService()
         {
             base.InitConnect(@"(local)", "DiningLC", "mobot", "mobot");
@@ -248,7 +244,7 @@ namespace Paway.Test
         private void Test1()
         {
             Thread.Sleep(100);
-            log.Debug("ThreadId:" + Thread.CurrentThread.ManagedThreadId);
+            ("ThreadId:" + Thread.CurrentThread.ManagedThreadId).Log();
             DbCommand cmd = null;
             try
             {
@@ -265,12 +261,12 @@ namespace Paway.Test
                 Execute(sql, new { id = 3 }, cmd);
 
                 TransCommit(cmd);
-                log.Debug("ThreadId完成:" + Thread.CurrentThread.ManagedThreadId);
+                ("ThreadId完成:" + Thread.CurrentThread.ManagedThreadId).Log();
             }
             catch (Exception ex)
             {
                 TransError(cmd, ex);
-                log.Debug("ThreadId异常:" + Thread.CurrentThread.ManagedThreadId);
+                ("ThreadId异常:" + Thread.CurrentThread.ManagedThreadId).Log();
                 throw;
             }
             finally

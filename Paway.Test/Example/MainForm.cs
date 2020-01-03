@@ -1,5 +1,4 @@
-﻿using log4net;
-using Paway.Forms;
+﻿using Paway.Forms;
 using Paway.Helper;
 using Paway.Win32;
 using System;
@@ -18,8 +17,6 @@ namespace Paway.Test
 {
     public partial class MainForm : QQForm
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         public MainForm()
         {
             InitializeComponent();

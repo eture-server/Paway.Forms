@@ -4,9 +4,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
-using log4net;
 using System.Text;
 using Paway.Helper;
+using System.ComponentModel;
 
 namespace Paway.Utils
 {
@@ -15,11 +15,6 @@ namespace Paway.Utils
     /// </summary>
     public class Service : IDisposable
     {
-        /// <summary>
-        /// 错误日志
-        /// </summary>
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         #region 字段与属性
         /// <summary>
         /// 允许线程通过发信号互相通信。通常，此通信涉及一个线程在其他线程进行之前必须完成的任务。
@@ -142,7 +137,7 @@ namespace Paway.Utils
                 }
                 catch (Exception ex)
                 {
-                    log.Error("发送失败", ex);
+                    ex.Log("发送失败");
                 }
             }
         }
@@ -266,14 +261,13 @@ namespace Paway.Utils
             {
                 if (msg.Message != null)
                 {
-                    if (msg.Type == ServiceType.Error) log.Error(msg.Message);
-                    else log.Warn(msg.Message);
+                    new WarningException(msg.Message).Log();
                 }
                 SystemEvent?.Invoke(msg);
             }
             catch (Exception ex)
             {
-                log.Error(ex);
+                ex.Log();
             }
         }
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using log4net;
 
 namespace Paway.Utils
 {

@@ -1,5 +1,4 @@
-﻿using log4net;
-using Paway.Win32;
+﻿using Paway.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

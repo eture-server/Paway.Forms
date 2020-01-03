@@ -1,5 +1,4 @@
-﻿using log4net;
-using Paway.Helper;
+﻿using Paway.Helper;
 using System;
 using System.ComponentModel;
 using System.Net;
@@ -14,8 +13,6 @@ namespace Paway.Utils
     /// </summary>
     public class Client : IDisposable
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         #region 字段与属性
         private string Host;
         private int Port;
@@ -169,7 +166,7 @@ namespace Paway.Utils
             }
             catch (Exception ex)
             {
-                log.Error(ex);
+                ex.Log();
             }
         }
 

@@ -9,7 +9,6 @@ using System.Windows.Forms;
 using Paway.Forms;
 using Paway.Helper;
 using System.Collections;
-using log4net;
 using System.Reflection;
 
 namespace Paway.Test
