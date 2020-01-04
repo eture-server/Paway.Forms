@@ -82,9 +82,9 @@ namespace Paway.Helper
         /// <param name="info">实体数据</param>
         /// <param name="allowEmpty">允许空数据</param>
         /// <param name="standalone"></param>
-        public static void Save<T>(string file, T info, bool allowEmpty = true, string standalone = null)
+        public static void Save<T>(T info, string file, bool allowEmpty = true, string standalone = null)
         {
-            Saves(file, info, null, null, allowEmpty, standalone);
+            Saves(info, file, null, null, allowEmpty, standalone);
         }
         /// <summary>
         /// 生成XML文件(实体及子级)
@@ -96,7 +96,7 @@ namespace Paway.Helper
         /// <param name="args">头属性参数</param>
         /// <param name="allowEmpty">允许空数据</param>
         /// <param name="standalone"></param>
-        public static void Saves<T>(string file, T info, string ns = null, Dictionary<string, string> args = null, bool allowEmpty = false, string standalone = null)
+        public static void Saves<T>(T info, string file, string ns = null, Dictionary<string, string> args = null, bool allowEmpty = false, string standalone = null)
         {
             Type type = typeof(T);
             XmlDocument doc = new XmlDocument();

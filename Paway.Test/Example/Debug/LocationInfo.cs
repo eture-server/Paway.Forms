@@ -27,39 +27,17 @@ namespace Paway.Test
         #endregion
 
         #region Public
-        private static string xmlFile = "temp.xml";
-        /// <summary>
-        /// 加载本地自定义配置文件
-        /// </summary>
-        public static void Load()
-        {
-            xmlFile = AppDomain.CurrentDomain.FriendlyName.Replace("exe", "xml");
-            xmlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, xmlFile);
-            if (File.Exists(xmlFile))
-            {
-                Config.Location = XmlHelper.Load<LocationInfo>(xmlFile);
-                if (Config.Location.IUpdate != LocationInfo.VUpdate)
-                {
-                    Config.Location.IUpdate = LocationInfo.VUpdate;
-                    Save();
-                }
-            }
-            else
-            {
-                Config.Location = new LocationInfo();
-                Save();
-            }
-        }
         /// <summary>
         /// 保存本地自定义配置文件
         /// </summary>
-        public static void Save()
+        public void Save()
         {
-            string name = Application.ProductName.Replace("Paway.Test.", string.Empty);
-            switch (name)
+            var xmlFile = AppDomain.CurrentDomain.FriendlyName.Replace(".vshost", string.Empty).Replace("exe", "xml");
+            xmlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, xmlFile);
+            switch (Application.ProductName)
             {
-                case "Win":
-                    XmlHelper.Save<ILocationWin>(xmlFile, Config.Location);
+                case "Paway.Test.Win":
+                    XmlHelper.Save<ILocationWin>(this, xmlFile);
                     break;
             }
         }

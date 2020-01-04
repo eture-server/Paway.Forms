@@ -133,8 +133,8 @@ namespace Paway.Helper
             else
             {
                 obj = Activator.CreateInstance<T>();
+                XmlHelper.Save(obj, xmlFile);
             }
-            XmlHelper.Save(xmlFile, obj);
             return obj;
         }
         /// <summary>
@@ -147,7 +147,7 @@ namespace Paway.Helper
                 xmlFile = AppDomain.CurrentDomain.FriendlyName.Replace(".vshost", string.Empty).Replace("exe", "xml");
                 xmlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, xmlFile);
             }
-            XmlHelper.Save(xmlFile, obj);
+            XmlHelper.Save(obj, xmlFile);
         }
 
         #endregion

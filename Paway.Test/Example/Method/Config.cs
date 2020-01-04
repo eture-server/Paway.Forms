@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Paway.Helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,10 +31,13 @@ namespace Paway.Test
         {
             get
             {
-                if (_location == null) LocationInfo.Load();
+                if (_location == null)
+                {
+                    _location = TMethod.Load<LocationInfo>();
+                    _location.Save();
+                }
                 return _location;
             }
-            set { _location = value; }
         }
 
         #endregion
