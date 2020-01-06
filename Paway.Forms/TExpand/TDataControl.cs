@@ -244,7 +244,7 @@ namespace Paway.Forms
             }
             catch (Exception ex)
             {
-                ExceptionHelper.Show(ex);
+                ex.Show();
             }
         }
         /// <summary>

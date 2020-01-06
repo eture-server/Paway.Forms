@@ -32,7 +32,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                ExceptionHelper.Show(ex);
+                ex.Show();
             }
             return true;
         }

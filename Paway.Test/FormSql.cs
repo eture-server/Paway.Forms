@@ -95,7 +95,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                ExceptionHelper.Show(ex);
+                ex.Show();
             }
         }
 
@@ -110,7 +110,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                ExceptionHelper.Show(ex);
+                ex.Show();
             }
         }
 
@@ -126,7 +126,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                ExceptionHelper.Show(ex);
+                ex.Show();
             }
         }
 
@@ -141,7 +141,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                ExceptionHelper.Show(ex);
+                ex.Show();
             }
         }
 
@@ -157,7 +157,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                ExceptionHelper.Show(ex);
+                ex.Show();
             }
         }
 
@@ -170,7 +170,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                ExceptionHelper.Show(ex);
+                ex.Show();
             }
         }
 
@@ -184,7 +184,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                ExceptionHelper.Show(ex);
+                ex.Show();
             }
         }
 

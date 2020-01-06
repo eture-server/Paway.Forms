@@ -61,19 +61,19 @@ namespace Paway.Forms
         /// <summary>
         /// 鼠标按下时的图片
         /// </summary>
-        private Image _downImage;
-        private readonly Image _downImage2 = Resources.toolBar_toolbar_hover;
+        private Image _imageDown;
+        private readonly Image _imageDown2 = Resources.toolBar_toolbar_hover;
         /// <summary>
         /// 鼠标按下时的图片
         /// </summary>
         [DefaultValue(null)]
         [Description("鼠标按下时的图片")]
-        public Image DownImage
+        public Image ImageDown
         {
-            get { return _downImage; }
+            get { return _imageDown; }
             set
             {
-                _downImage = value;
+                _imageDown = value;
                 Invalidate();
             }
         }
@@ -81,19 +81,19 @@ namespace Paway.Forms
         /// <summary>
         /// 鼠标划过时的图片
         /// </summary>
-        private Image _moveImage;
-        private readonly Image _moveImage2 = Resources.toolBar_toolbar_pushed;
+        private Image _imageMove;
+        private readonly Image _imageMove2 = Resources.toolBar_toolbar_pushed;
         /// <summary>
         /// 鼠标划过时的图片
         /// </summary>
         [DefaultValue(null)]
         [Description("鼠标划过时的图片")]
-        public Image MoveImage
+        public Image ImageMove
         {
-            get { return _moveImage; }
+            get { return _imageMove; }
             set
             {
-                _moveImage = value;
+                _imageMove = value;
                 Invalidate();
             }
         }
@@ -1038,7 +1038,7 @@ namespace Paway.Forms
                     color = TranColor(item.TColor.ColorMove == Color.Empty ? TBackGround.ColorMove : item.TColor.ColorMove);
                     if (color == Color.Empty)
                     {
-                        var temp = _moveImage ?? _moveImage2;
+                        var temp = _imageMove ?? _imageMove2;
                         if (temp != null) g.DrawImage(temp, item.Rectangle);
                     }
                     //else
@@ -1055,7 +1055,7 @@ namespace Paway.Forms
                     color = TranColor(item.TColor.ColorDown == Color.Empty ? TBackGround.ColorDown : item.TColor.ColorDown);
                     if (color == Color.Empty)
                     {
-                        var temp = _downImage ?? _downImage2;
+                        var temp = _imageDown ?? _imageDown2;
                         if (temp != null) g.DrawImage(temp, item.Rectangle);
                     }
                     //else
@@ -1201,15 +1201,25 @@ namespace Paway.Forms
                 var imageRect = Rectangle.Empty;
                 switch (_tLocation)
                 {
+                    case TLocation.Left:
+                        var height = (_itemSize.Height - _imageSizeShow.Height - padding.Top - padding.Bottom) / 2;
+                        imageRect.X = item.Rectangle.X + padding.Left;
+                        imageRect.Y = item.Rectangle.Y + padding.Top + height;
+                        break;
                     case TLocation.Up:
                         var width = (_itemSize.Width - _imageSizeShow.Width - padding.Left - padding.Right) / 2;
                         imageRect.X = item.Rectangle.X + padding.Left + width;
                         imageRect.Y = item.Rectangle.Y + padding.Top;
                         break;
-                    case TLocation.Left:
-                        var height = (_itemSize.Height - _imageSizeShow.Height - padding.Top - padding.Bottom) / 2;
-                        imageRect.X = item.Rectangle.X + padding.Left;
+                    case TLocation.Right:
+                        height = (_itemSize.Height - _imageSizeShow.Height - padding.Top - padding.Bottom) / 2;
+                        imageRect.X = item.Rectangle.Right - padding.Right - _imageSizeShow.Width;
                         imageRect.Y = item.Rectangle.Y + padding.Top + height;
+                        break;
+                    case TLocation.Down:
+                        width = (_itemSize.Width - _imageSizeShow.Width - padding.Left - padding.Right) / 2;
+                        imageRect.X = item.Rectangle.X + padding.Left + width;
+                        imageRect.Y = item.Rectangle.Bottom - padding.Bottom - _imageSizeShow.Height;
                         break;
                 }
                 imageRect.Size = _imageSizeShow;
@@ -1226,20 +1236,22 @@ namespace Paway.Forms
                 var _imageSizeShow = _imageSize;
                 switch (_tLocation)
                 {
-                    case TLocation.Up:
-                        var width = (_itemSize.Width - _imageSize.Width - padding.Left - padding.Right) / 2;
-                        if (width < 0)
-                        {
-                            _imageSizeShow.Width = _itemSize.Width - padding.Left - padding.Right;
-                            _imageSizeShow.Height = (_imageSizeShow.Width * _imageSize.Height * 1.0 / _imageSize.Width).ToInt();
-                        }
-                        break;
                     case TLocation.Left:
+                    case TLocation.Right:
                         var height = (_itemSize.Height - _imageSize.Height - padding.Top - padding.Bottom) / 2;
                         if (height < 0)
                         {
                             _imageSizeShow.Height = _itemSize.Height - padding.Top - padding.Bottom;
                             _imageSizeShow.Width = (_imageSizeShow.Height * _imageSize.Width * 1.0 / _imageSize.Height).ToInt();
+                        }
+                        break;
+                    case TLocation.Up:
+                    case TLocation.Down:
+                        var width = (_itemSize.Width - _imageSize.Width - padding.Left - padding.Right) / 2;
+                        if (width < 0)
+                        {
+                            _imageSizeShow.Width = _itemSize.Width - padding.Left - padding.Right;
+                            _imageSizeShow.Height = (_imageSizeShow.Width * _imageSize.Height * 1.0 / _imageSize.Width).ToInt();
                         }
                         break;
                 }
@@ -1268,13 +1280,19 @@ namespace Paway.Forms
                 {
                     switch (_tLocation)
                     {
+                        case TLocation.Left:
+                            textRect.X += item.ImageRect.Width;
+                            textRect.Width -= item.ImageRect.Width;
+                            break;
                         case TLocation.Up:
                             textRect.Y += item.ImageRect.Height;
                             textRect.Height -= item.ImageRect.Height;
                             break;
-                        case TLocation.Left:
-                            textRect.X += item.ImageRect.Width;
+                        case TLocation.Right:
                             textRect.Width -= item.ImageRect.Width;
+                            break;
+                        case TLocation.Down:
+                            textRect.Height -= item.ImageRect.Height;
                             break;
                     }
                 }
@@ -2687,8 +2705,8 @@ namespace Paway.Forms
         {
             if (disposing)
             {
-                _downImage = null;
-                _moveImage = null;
+                _imageDown = null;
+                _imageMove = null;
                 _normalImage = null;
                 _selectImage = null;
             }
@@ -2712,9 +2730,9 @@ namespace Paway.Forms
                 _desc.Dispose();
                 _desc = null;
             }
-            if (_downImage2 != null)
+            if (_imageDown2 != null)
             {
-                _downImage2.Dispose();
+                _imageDown2.Dispose();
             }
             if (_endDesc != null)
             {
@@ -2731,9 +2749,9 @@ namespace Paway.Forms
                 _hScroll.Dispose();
                 _hScroll = null;
             }
-            if (_moveImage2 != null)
+            if (_imageMove2 != null)
             {
-                _moveImage2.Dispose();
+                _imageMove2.Dispose();
             }
             if (_normalImage2 != null)
             {

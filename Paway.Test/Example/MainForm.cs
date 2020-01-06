@@ -56,7 +56,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                ExceptionHelper.Show(ex);
+                ex.Show();
             }
         }
 
@@ -67,7 +67,7 @@ namespace Paway.Test
         {
             if (!e.Result)
             {
-                ExceptionHelper.Show(e.Message);
+                e.Message.Show();
                 ResetLoad(panel3, typeof(WaitControl));
                 MControl.Current.Refresh(this, new WaitEventArgs(false, e.Message));
                 return;
@@ -99,7 +99,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                ExceptionHelper.Show(ex);
+                ex.Show();
             }
         }
         private void Changed(object sender, EventArgs e)
@@ -110,7 +110,7 @@ namespace Paway.Test
             }
             catch (Exception ex)
             {
-                ExceptionHelper.Show(ex);
+                ex.Show();
             }
         }
 

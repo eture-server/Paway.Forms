@@ -32,12 +32,10 @@ namespace Paway.Test
         /// </summary>
         public void Save()
         {
-            var xmlFile = AppDomain.CurrentDomain.FriendlyName.Replace(".vshost", string.Empty).Replace("exe", "xml");
-            xmlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, xmlFile);
             switch (Application.ProductName)
             {
                 case "Paway.Test.Win":
-                    XmlHelper.Save<ILocationWin>(this, xmlFile);
+                    TMethod.Save<ILocationWin>(this);
                     break;
             }
         }

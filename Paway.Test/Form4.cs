@@ -31,7 +31,7 @@ namespace Paway.Test
         private void Hello()
         {
             System.Threading.Thread.Sleep(2000);
-            ExceptionHelper.Show("Hello");
+            "Hello".Show();
         }
         void timer_Tick(object sender, EventArgs e)
         {

@@ -9,14 +9,21 @@ namespace Paway.Helper
     public enum TLocation
     {
         /// <summary>
-        /// 上面
+        /// 左,
+        /// </summary>
+        Left,
+        /// <summary>
+        /// 上
         /// </summary>
         Up,
-
         /// <summary>
-        /// 左面
+        /// 右
         /// </summary>
-        Left
+        Right,
+        /// <summary>
+        /// 下
+        /// </summary>
+        Down,
     }
 
     /// <summary>

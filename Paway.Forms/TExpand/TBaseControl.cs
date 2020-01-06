@@ -51,7 +51,7 @@ namespace Paway.Forms
             }
             catch (Exception ex)
             {
-                ExceptionHelper.Show(ex);
+                ex.Show();
                 return null;
             }
         }
@@ -63,7 +63,7 @@ namespace Paway.Forms
             }
             catch (Exception ex)
             {
-                ExceptionHelper.Show(ex);
+                ex.Show();
             }
         }
 
@@ -104,7 +104,7 @@ namespace Paway.Forms
             var value = action.EndInvoke(ar);
             if (this.Visible && value != null && !(value is IList))
             {
-                ExceptionHelper.Show(value);
+                value.Show();
             }
             OnFinished(value);
         }
@@ -138,7 +138,7 @@ namespace Paway.Forms
             }
             catch (Exception ex)
             {
-                ExceptionHelper.Show(ex);
+                ex.Show();
             }
         }
 

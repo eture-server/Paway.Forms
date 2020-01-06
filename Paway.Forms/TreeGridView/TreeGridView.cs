@@ -170,8 +170,29 @@ namespace Paway.Forms
         {
             for (int i = 0; i < nodes.Count; i++)
             {
-                nodes[i].Expand();
-                ExpandAll(nodes[i].Nodes);
+                if (nodes[i].Nodes.Count > 0)
+                {
+                    nodes[i].Expand();
+                    ExpandAll(nodes[i].Nodes);
+                }
+            }
+        }
+        /// <summary>
+        /// 关闭(折叠)所有节点
+        /// </summary>
+        public void CollapseAll()
+        {
+            CollapseAll(this.Nodes);
+        }
+        private void CollapseAll(TreeGridNodeCollection nodes)
+        {
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                if (nodes[i].Nodes.Count > 0)
+                {
+                    CollapseAll(nodes[i].Nodes);
+                    nodes[i].Collapse();
+                }
             }
         }
 

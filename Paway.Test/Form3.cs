@@ -28,8 +28,8 @@ namespace Paway.Test
         void toolBar1_MoveFinished(object sender, EventArgs e)
         {
             toolBar1.NormalImage = iChange ? Resources.noon : Resources.i1;
-            toolBar1.MoveImage = iChange ? Resources.noon : Resources.i1;
-            toolBar1.DownImage = iChange ? Resources.noon : Resources.i1;
+            toolBar1.ImageMove = iChange ? Resources.noon : Resources.i1;
+            toolBar1.ImageDown = iChange ? Resources.noon : Resources.i1;
         }
 
         private bool iChange;
