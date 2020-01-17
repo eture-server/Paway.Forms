@@ -70,7 +70,9 @@
             this.btChange.IClickEvent = true;
             this.btChange.IImageShow = true;
             this.btChange.ImageSize = new System.Drawing.Size(48, 48);
-            toolItem2.Image = global::Paway.Test.Properties.Resources.add;
+            toolItem2.Desc = "Desc";
+            toolItem2.EndDesc = "End";
+            toolItem2.HeadDesc = "Head";
             toolItem2.Text = "Change";
             this.btChange.Items.Add(toolItem2);
             this.btChange.ItemSize = new System.Drawing.Size(100, 100);
@@ -85,7 +87,6 @@
             this.btChange.TextFirst.ColorDown = System.Drawing.Color.White;
             this.btChange.TextFirst.ColorMove = System.Drawing.Color.White;
             this.btChange.TextFirst.ColorNormal = System.Drawing.Color.Black;
-            this.btChange.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
             this.btChange.TLineColor.ColorDown = System.Drawing.Color.Red;
             this.btChange.TLineColor.ColorMove = System.Drawing.Color.Red;
             this.btChange.TLineColor.ColorNormal = System.Drawing.Color.Red;

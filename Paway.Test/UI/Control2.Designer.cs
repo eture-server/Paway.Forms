@@ -106,7 +106,7 @@ namespace Paway.Test
             this.toolRight.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolRight.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolRight.TextFirst.ColorNormal = System.Drawing.Color.Black;
-            this.toolRight.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolRight.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolRight.Trans = 150;
             // 
             // toolDown
@@ -127,7 +127,7 @@ namespace Paway.Test
             this.toolDown.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolDown.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolDown.TextFirst.ColorNormal = System.Drawing.Color.Black;
-            this.toolDown.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolDown.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolDown.Trans = 150;
             // 
             // toolUp
@@ -148,7 +148,7 @@ namespace Paway.Test
             this.toolUp.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolUp.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolUp.TextFirst.ColorNormal = System.Drawing.Color.Black;
-            this.toolUp.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolUp.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolUp.Trans = 150;
             // 
             // toolTran
@@ -169,7 +169,7 @@ namespace Paway.Test
             this.toolTran.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolTran.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolTran.TextFirst.ColorNormal = System.Drawing.Color.Black;
-            this.toolTran.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolTran.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolTran.Trans = 150;
             // 
             // toolLeft
@@ -190,7 +190,7 @@ namespace Paway.Test
             this.toolLeft.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolLeft.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolLeft.TextFirst.ColorNormal = System.Drawing.Color.Black;
-            this.toolLeft.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolLeft.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolLeft.Trans = 150;
             // 
             // toolCenter
@@ -211,7 +211,7 @@ namespace Paway.Test
             this.toolCenter.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolCenter.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolCenter.TextFirst.ColorNormal = System.Drawing.Color.Black;
-            this.toolCenter.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolCenter.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolCenter.Trans = 150;
             // 
             // Control2

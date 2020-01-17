@@ -78,6 +78,7 @@
             // toolBar1
             // 
             this.toolBar1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.toolBar1.Font = new System.Drawing.Font("微软雅黑", 11F);
             toolItem1.Text = "上";
             toolItem2.Text = "下";
             toolItem3.Text = "左";
@@ -121,6 +122,7 @@
             this.panel3.BackColor = System.Drawing.Color.White;
             this.panel3.Controls.Add(this.toolBar2);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.panel3.Location = new System.Drawing.Point(1, 93);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(798, 356);
@@ -138,7 +140,7 @@
             toolItem18.TColor.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             toolItem18.TColor.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             toolItem18.TColor.ColorNormal = System.Drawing.Color.Red;
-            toolItem18.TColor.StringVertical = System.Drawing.StringAlignment.Center;
+            toolItem18.TColor.StringHorizontal = System.Drawing.StringAlignment.Center;
             toolItem18.Text = "白酒";
             toolItem19.HeadDesc = "呵呵";
             toolItem19.IChange = true;
@@ -202,7 +204,6 @@
             this.toolBar2.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolBar2.TextFirst.ColorNormal = System.Drawing.Color.Black;
             this.toolBar2.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
-            this.toolBar2.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
             this.toolBar2.Trans = 150;
             // 
             // toolUp
@@ -223,13 +224,12 @@
             this.toolUp.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolUp.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolUp.TextFirst.ColorNormal = System.Drawing.Color.Black;
-            this.toolUp.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolUp.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolUp.TRadiu = new System.Windows.Forms.Padding(90);
             this.toolUp.Trans = 150;
             // 
             // Form2
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.toolBar1);

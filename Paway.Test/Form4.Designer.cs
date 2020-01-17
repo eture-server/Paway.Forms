@@ -63,7 +63,7 @@
             this.btnReset.TextFirst.ColorDown = System.Drawing.Color.White;
             this.btnReset.TextFirst.ColorMove = System.Drawing.Color.White;
             this.btnReset.TextFirst.ColorNormal = System.Drawing.Color.Black;
-            this.btnReset.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.btnReset.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.btnReset.TLineColor.ColorDown = System.Drawing.Color.Transparent;
             this.btnReset.TLineColor.ColorMove = System.Drawing.Color.Transparent;
             this.btnReset.TLineColor.ColorNormal = System.Drawing.Color.Transparent;

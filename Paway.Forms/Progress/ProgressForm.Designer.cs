@@ -52,8 +52,6 @@ namespace Paway.Forms
             this.toolCancel.TextFirst.FontDown = new System.Drawing.Font("Î¢ÈíÑÅºÚ", 11F);
             this.toolCancel.TextFirst.FontMove = new System.Drawing.Font("Î¢ÈíÑÅºÚ", 11F);
             this.toolCancel.TextFirst.FontNormal = new System.Drawing.Font("Î¢ÈíÑÅºÚ", 11F);
-            this.toolCancel.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
-            this.toolCancel.TextSencond.StringVertical = System.Drawing.StringAlignment.Center;
             this.toolCancel.Visible = false;
             // 
             // progressBar1

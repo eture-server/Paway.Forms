@@ -79,7 +79,7 @@
             this.toolCancel.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolCancel.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolCancel.TextFirst.ColorNormal = System.Drawing.Color.Black;
-            this.toolCancel.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolCancel.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolCancel.TLineColor.ColorDown = System.Drawing.Color.Transparent;
             this.toolCancel.TLineColor.ColorMove = System.Drawing.Color.Transparent;
             this.toolCancel.TLineColor.ColorNormal = System.Drawing.Color.Transparent;
@@ -105,7 +105,7 @@
             this.toolOk.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolOk.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolOk.TextFirst.ColorNormal = System.Drawing.Color.Black;
-            this.toolOk.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolOk.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolOk.TLineColor.ColorDown = System.Drawing.Color.Transparent;
             this.toolOk.TLineColor.ColorMove = System.Drawing.Color.Transparent;
             this.toolOk.TLineColor.ColorNormal = System.Drawing.Color.Transparent;

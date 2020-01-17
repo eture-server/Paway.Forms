@@ -107,7 +107,7 @@
             this.toolBar1.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolBar1.TextFirst.ColorMove = System.Drawing.Color.Black;
             this.toolBar1.TextFirst.ColorNormal = System.Drawing.Color.White;
-            this.toolBar1.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolBar1.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolBar1.Trans = 180;
             // 
             // SetControl

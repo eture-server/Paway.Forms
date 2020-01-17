@@ -34,7 +34,7 @@ namespace Paway.Forms
 
         private StringAlignment _stringHorizontal = StringAlignment.Near;
 
-        private StringAlignment _stringVertical = StringAlignment.Near;
+        private StringAlignment _stringVertical = StringAlignment.Center;
         private readonly MethodBase parent;
 
         /// <summary>
@@ -167,26 +167,26 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        /// 文字水平对齐
+        /// 文字垂直对齐方式
         /// </summary>
-        [Description("文字水平对齐")]
-        [DefaultValue(StringAlignment.Near)]
+        [Description("文字垂直对齐方式")]
+        [DefaultValue(StringAlignment.Center)]
         public StringAlignment StringVertical
         {
             get { return _stringVertical; }
             set
             {
                 _stringVertical = value;
-                StringFormat.Alignment = value;
+                StringFormat.LineAlignment = value;
                 TextFormat = InitTextFormat(StringFormat);
                 OnValueChange();
             }
         }
 
         /// <summary>
-        /// 文字垂直对齐
+        /// 文字水平对齐方式
         /// </summary>
-        [Description("文字垂直对齐")]
+        [Description("文字水平对齐方式")]
         [DefaultValue(StringAlignment.Near)]
         public StringAlignment StringHorizontal
         {
@@ -194,7 +194,7 @@ namespace Paway.Forms
             set
             {
                 _stringHorizontal = value;
-                StringFormat.LineAlignment = value;
+                StringFormat.Alignment = value;
                 TextFormat = InitTextFormat(StringFormat);
                 OnValueChange();
             }
@@ -218,8 +218,8 @@ namespace Paway.Forms
             HeightNormal = InitHeight(FontNormal);
             HeightMove = InitHeight(FontMove);
             HeightDown = InitHeight(FontDown);
-            StringFormat.Alignment = _stringVertical;
-            StringFormat.LineAlignment = _stringHorizontal;
+            StringFormat.Alignment = _stringHorizontal;
+            StringFormat.LineAlignment = _stringVertical;
             TextFormat = InitTextFormat(StringFormat);
         }
 

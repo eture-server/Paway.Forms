@@ -145,6 +145,7 @@ namespace Paway.Forms
             this.tControl1.Controls.Add(this.toolLast);
             this.tControl1.Controls.Add(this.toolFirst);
             this.tControl1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.tControl1.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.tControl1.Location = new System.Drawing.Point(0, 0);
             this.tControl1.Name = "tControl1";
             this.tControl1.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
@@ -154,6 +155,7 @@ namespace Paway.Forms
             // toolEnd
             // 
             this.toolEnd.Dock = System.Windows.Forms.DockStyle.Left;
+            this.toolEnd.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.toolEnd.IClickEvent = true;
             toolItem1.Hit = "End";
             toolItem1.Text = ">|";
@@ -174,12 +176,13 @@ namespace Paway.Forms
             this.toolEnd.TextFirst.FontDown = new System.Drawing.Font("微软雅黑", 10F);
             this.toolEnd.TextFirst.FontMove = new System.Drawing.Font("微软雅黑", 10F);
             this.toolEnd.TextFirst.FontNormal = new System.Drawing.Font("微软雅黑", 10F);
-            this.toolEnd.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolEnd.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolEnd.Trans = 150;
             // 
             // toolNext
             // 
             this.toolNext.Dock = System.Windows.Forms.DockStyle.Left;
+            this.toolNext.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.toolNext.IClickEvent = true;
             toolItem2.Hit = "Next";
             toolItem2.Text = ">";
@@ -200,13 +203,14 @@ namespace Paway.Forms
             this.toolNext.TextFirst.FontDown = new System.Drawing.Font("微软雅黑", 10F);
             this.toolNext.TextFirst.FontMove = new System.Drawing.Font("微软雅黑", 10F);
             this.toolNext.TextFirst.FontNormal = new System.Drawing.Font("微软雅黑", 10F);
-            this.toolNext.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolNext.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolNext.Trans = 150;
             // 
             // tControl2
             // 
             this.tControl2.Controls.Add(this.txtCurrentPage);
             this.tControl2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.tControl2.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.tControl2.Location = new System.Drawing.Point(80, 0);
             this.tControl2.Name = "tControl2";
             this.tControl2.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
@@ -230,6 +234,7 @@ namespace Paway.Forms
             // toolLast
             // 
             this.toolLast.Dock = System.Windows.Forms.DockStyle.Left;
+            this.toolLast.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.toolLast.IClickEvent = true;
             toolItem3.Hit = "Last";
             toolItem3.Text = "<";
@@ -250,12 +255,13 @@ namespace Paway.Forms
             this.toolLast.TextFirst.FontDown = new System.Drawing.Font("微软雅黑", 10F);
             this.toolLast.TextFirst.FontMove = new System.Drawing.Font("微软雅黑", 10F);
             this.toolLast.TextFirst.FontNormal = new System.Drawing.Font("微软雅黑", 10F);
-            this.toolLast.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolLast.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolLast.Trans = 150;
             // 
             // toolFirst
             // 
             this.toolFirst.Dock = System.Windows.Forms.DockStyle.Left;
+            this.toolFirst.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.toolFirst.IClickEvent = true;
             toolItem4.Hit = "First";
             toolItem4.Text = "|<";
@@ -275,7 +281,7 @@ namespace Paway.Forms
             this.toolFirst.TextFirst.FontDown = new System.Drawing.Font("微软雅黑", 10F);
             this.toolFirst.TextFirst.FontMove = new System.Drawing.Font("微软雅黑", 10F);
             this.toolFirst.TextFirst.FontNormal = new System.Drawing.Font("微软雅黑", 10F);
-            this.toolFirst.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolFirst.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolFirst.Trans = 150;
             // 
             // lbDesc

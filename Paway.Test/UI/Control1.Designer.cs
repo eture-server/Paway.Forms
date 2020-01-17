@@ -81,7 +81,7 @@
             this.toolbar.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolbar.TextFirst.ColorMove = System.Drawing.Color.Black;
             this.toolbar.TextFirst.ColorNormal = System.Drawing.Color.White;
-            this.toolbar.TextFirst.StringVertical = System.Drawing.StringAlignment.Center;
+            this.toolbar.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolbar.Trans = 150;
             // 
             // tDataGridViewPager1

@@ -748,24 +748,22 @@ namespace Paway.Forms
         /// <summary>
         /// 双击事件
         /// </summary>
-        public event Action<ToolItem> ItemDoubleClick;
+        public event Action<ToolItem, Point> ItemDoubleClick;
         /// <summary>
         /// 双击事件
         /// </summary>
         protected override void OnDoubleClick(EventArgs e)
         {
             base.OnDoubleClick(e);
-            if (ItemDoubleClick != null)
+            if (ItemDoubleClick == null) return;
+            MouseEventArgs me = (MouseEventArgs)e;
+            var point = Replace(me.Location);
+            for (int i = 0; i < Items.Count; i++)
             {
-                MouseEventArgs me = (MouseEventArgs)e;
-                var point = Replace(me.Location);
-                for (int i = 0; i < Items.Count; i++)
+                if (Items[i].Rectangle.Contains(point))
                 {
-                    if (Items[i].Rectangle.Contains(point))
-                    {
-                        ItemDoubleClick.Invoke(Items[i]);
-                        return;
-                    }
+                    ItemDoubleClick.Invoke(Items[i], point);
+                    break;
                 }
             }
         }
@@ -1329,7 +1327,8 @@ namespace Paway.Forms
                 }
                 {
                     var text = item.Text.Split(new[] { "\r\n", "&&" }, StringSplitOptions.RemoveEmptyEntries);
-                    if (text.Length > 0)
+                    if (text.Length == 1) DrawOtherDesc(g, item, GetTextFirst(item), item.Text, textRect);
+                    else if (text.Length > 1)
                     {
                         var fHight = HeightFont(item.MouseState, GetTextFirst(item));
                         var sHight = HeightFont(item.MouseState, TextSencond);
@@ -1405,7 +1404,7 @@ namespace Paway.Forms
         {
             if (string.IsNullOrEmpty(item.Desc)) return;
             var size = TextRenderer.MeasureText(item.Desc, GetFont(item.MouseDescState, TDesc));
-            item.RectDesc = new Rectangle(rect.X + rect.Width, rect.Y + (rect.Height - size.Height) / 2, size.Width, size.Height);
+            item.RectDesc = new Rectangle(rect.X + rect.Width, rect.Y, size.Width, rect.Height);
             DrawOtherDesc(g, item, TDesc, item.Desc, item.RectDesc, item.MouseDescState);
         }
 
@@ -1620,9 +1619,16 @@ namespace Paway.Forms
                 ifocus = EditClick != null;
                 InvaRectDesc(item, TMouseState.Down);
             }
-            if (!ifocus)
+            else if (TDesc.ColorNormal == Color.Transparent)
+            {
+                InvaRectDesc(item, TMouseState.Move);
+            }
+            else
             {
                 InvaRectDesc(item, TMouseState.Normal);
+            }
+            if (!ifocus)
+            {
                 if (_iMultiple)
                 {
                     _selectedItem = null;
