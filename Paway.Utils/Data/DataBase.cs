@@ -1035,7 +1035,8 @@ namespace Paway.Utils
                     if (args.Length > 0 &&
                         args.FirstOrDefault(c => c == column) == null &&
                         args.FirstOrDefault(c => c == property.Name) == null) continue;
-                    sql = string.Format("{0} [{1}],", sql, column);
+                    column = property.ColumnName(true);
+                    sql = string.Format("{0} {1},", sql, column);
                 }
             }
             sql = sql.TrimEnd(',');
@@ -1076,14 +1077,6 @@ namespace Paway.Utils
         /// </summary>
         public static string Update(this Type type, params string[] args)
         {
-            return type.Update(false, args);
-        }
-        /// <summary>
-        /// 将指定类型转为Update语句
-        /// append=true时为附加,对应Sql语句中的+
-        /// </summary>
-        private static string Update(this Type type, bool append = false, params string[] args)
-        {
             var tableKey = type.TableKeys();
             var sql = "update [{0}] set";
             sql = string.Format(sql, type.TableName());
@@ -1096,14 +1089,7 @@ namespace Paway.Utils
                     if (args.Length > 0 &&
                         args.FirstOrDefault(c => c == column) == null &&
                         args.FirstOrDefault(c => c == property.Name) == null) continue;
-                    if (append)
-                    {
-                        sql = string.Format("{0} [{1}]=[{1}]+@{1},", sql, column);
-                    }
-                    else
-                    {
-                        sql = string.Format("{0} [{1}]=@{1},", sql, column);
-                    }
+                    sql = string.Format("{0} [{1}]=@{1},", sql, column);
                 }
             }
             sql = sql.TrimEnd(',');

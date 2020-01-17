@@ -820,23 +820,27 @@ namespace Paway.Helper
         /// 自定义特性-数据库列名称
         /// 兼容视图多表查询、自定义列名
         /// </summary>
-        public static string ColumnName(this MemberInfo pro)
+        public static string ColumnName(this MemberInfo pro, bool sql = false)
         {
             var list = pro.GetCustomAttributes(typeof(ColumnAttribute), false) as ColumnAttribute[];
+            var column = pro.Name;
             if (list.Length == 1 && list[0].Name != null)
             {
-                var column = list[0].Name;
+                column = list[0].Name;
                 if (column.Contains(" "))
                 {
                     column = column.Substring(column.LastIndexOf(" ") + 1);
+                    if (sql) column = $"{list[0].Name.Remove(list[0].Name.LastIndexOf(" "))} [{column}]";
                 }
                 else if (column.Contains("."))
                 {
                     column = column.Substring(column.LastIndexOf(".") + 1);
+                    if (sql) column = $"{list[0].Name} [{column}]";
                 }
-                return column;
+                else if (sql) column = $"[{column}]";
             }
-            return pro.Name;
+            else if (sql) column = $"[{column}]";
+            return column;
         }
         /// <summary>
         /// 自定义特性-文本名称
