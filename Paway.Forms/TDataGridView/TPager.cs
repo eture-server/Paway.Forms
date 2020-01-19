@@ -14,18 +14,20 @@ namespace Paway.Forms
     {
         #region 变量
         private PagerInfo pagerInfo;
-        private ToolBar toolFirst;
-        private ToolBar toolLast;
-        private Label lbDesc;
-        private ToolBar toolEnd;
-        private ToolBar toolNext;
-        private Paway.Forms.TControl tControl2;
-        private TNumTestBox txtCurrentPage;
-        private Paway.Forms.TControl tControl1;
         /// <summary>
         /// 必需的设计器变量。
         /// </summary>
         private IContainer components = null;
+        private Label lbLeft;
+        private Label lbRight;
+        private Label lbDesc;
+        private TControl panel1;
+        private ToolBar toolEnd;
+        private ToolBar toolNext;
+        private TControl tControl2;
+        private TNumTestBox txtCurrentPage;
+        private ToolBar toolLast;
+        private ToolBar toolFirst;
         private Label lblPageInfo;
 
         #endregion
@@ -78,6 +80,11 @@ namespace Paway.Forms
         /// 默认构造函数，设置分页初始信息
         /// </summary>
         public TPager() : this(0, 20) { }
+        internal void UpdateLine(Padding padding)
+        {
+            lbLeft.Width = padding.Left;
+            lbRight.Width = padding.Right;
+        }
 
         /// <summary>
         /// 带参数的构造函数
@@ -111,46 +118,77 @@ namespace Paway.Forms
             Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
             Paway.Forms.ToolItem toolItem4 = new Paway.Forms.ToolItem();
+            this.lbLeft = new System.Windows.Forms.Label();
+            this.lbRight = new System.Windows.Forms.Label();
             this.lblPageInfo = new System.Windows.Forms.Label();
-            this.tControl1 = new Paway.Forms.TControl();
+            this.lbDesc = new System.Windows.Forms.Label();
+            this.panel1 = new Paway.Forms.TControl();
             this.toolEnd = new Paway.Forms.ToolBar();
             this.toolNext = new Paway.Forms.ToolBar();
             this.tControl2 = new Paway.Forms.TControl();
             this.txtCurrentPage = new Paway.Forms.TNumTestBox();
             this.toolLast = new Paway.Forms.ToolBar();
             this.toolFirst = new Paway.Forms.ToolBar();
-            this.lbDesc = new System.Windows.Forms.Label();
-            this.tControl1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.tControl2.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // lbLeft
+            // 
+            this.lbLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(204)))), ((int)(((byte)(223)))));
+            this.lbLeft.Dock = System.Windows.Forms.DockStyle.Left;
+            this.lbLeft.Location = new System.Drawing.Point(0, 0);
+            this.lbLeft.Name = "lbLeft";
+            this.lbLeft.Size = new System.Drawing.Size(1, 30);
+            this.lbLeft.TabIndex = 102;
+            // 
+            // lbRight
+            // 
+            this.lbRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(204)))), ((int)(((byte)(223)))));
+            this.lbRight.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lbRight.Location = new System.Drawing.Point(605, 0);
+            this.lbRight.Name = "lbRight";
+            this.lbRight.Size = new System.Drawing.Size(1, 30);
+            this.lbRight.TabIndex = 104;
             // 
             // lblPageInfo
             // 
             this.lblPageInfo.Dock = System.Windows.Forms.DockStyle.Right;
             this.lblPageInfo.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lblPageInfo.ForeColor = System.Drawing.Color.Black;
-            this.lblPageInfo.Location = new System.Drawing.Point(265, 0);
+            this.lblPageInfo.Location = new System.Drawing.Point(264, 0);
             this.lblPageInfo.Name = "lblPageInfo";
             this.lblPageInfo.Padding = new System.Windows.Forms.Padding(5, 8, 20, 0);
             this.lblPageInfo.Size = new System.Drawing.Size(341, 30);
-            this.lblPageInfo.TabIndex = 16;
+            this.lblPageInfo.TabIndex = 105;
             this.lblPageInfo.Text = "共 {0:#,0} 条记录，每页 {1:#,0} 条，共 {2:#,0} 页";
             this.lblPageInfo.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // tControl1
+            // lbDesc
             // 
-            this.tControl1.Controls.Add(this.toolEnd);
-            this.tControl1.Controls.Add(this.toolNext);
-            this.tControl1.Controls.Add(this.tControl2);
-            this.tControl1.Controls.Add(this.toolLast);
-            this.tControl1.Controls.Add(this.toolFirst);
-            this.tControl1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.tControl1.Font = new System.Drawing.Font("微软雅黑", 11F);
-            this.tControl1.Location = new System.Drawing.Point(0, 0);
-            this.tControl1.Name = "tControl1";
-            this.tControl1.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.tControl1.Size = new System.Drawing.Size(183, 30);
-            this.tControl1.TabIndex = 17;
+            this.lbDesc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbDesc.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbDesc.ForeColor = System.Drawing.Color.Black;
+            this.lbDesc.Location = new System.Drawing.Point(184, 0);
+            this.lbDesc.Name = "lbDesc";
+            this.lbDesc.Padding = new System.Windows.Forms.Padding(20, 8, 0, 0);
+            this.lbDesc.Size = new System.Drawing.Size(80, 30);
+            this.lbDesc.TabIndex = 108;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.toolEnd);
+            this.panel1.Controls.Add(this.toolNext);
+            this.panel1.Controls.Add(this.tControl2);
+            this.panel1.Controls.Add(this.toolLast);
+            this.panel1.Controls.Add(this.toolFirst);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel1.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.panel1.Location = new System.Drawing.Point(1, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
+            this.panel1.Size = new System.Drawing.Size(183, 30);
+            this.panel1.TabIndex = 107;
             // 
             // toolEnd
             // 
@@ -284,27 +322,18 @@ namespace Paway.Forms
             this.toolFirst.TextFirst.StringHorizontal = System.Drawing.StringAlignment.Center;
             this.toolFirst.Trans = 150;
             // 
-            // lbDesc
-            // 
-            this.lbDesc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbDesc.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbDesc.ForeColor = System.Drawing.Color.Black;
-            this.lbDesc.Location = new System.Drawing.Point(183, 0);
-            this.lbDesc.Name = "lbDesc";
-            this.lbDesc.Padding = new System.Windows.Forms.Padding(20, 8, 0, 0);
-            this.lbDesc.Size = new System.Drawing.Size(82, 30);
-            this.lbDesc.TabIndex = 18;
-            // 
             // TPager
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
             this.Controls.Add(this.lbDesc);
-            this.Controls.Add(this.tControl1);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.lbLeft);
             this.Controls.Add(this.lblPageInfo);
+            this.Controls.Add(this.lbRight);
             this.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Name = "TPager";
             this.Size = new System.Drawing.Size(606, 30);
-            this.tControl1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.tControl2.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -393,12 +422,12 @@ namespace Paway.Forms
             if (!iTotal) OnPageChanged(EventArgs.Empty);
             if (PagerInfo.IGroup)
             {
-                tControl1.Visible = true;
+                panel1.Visible = true;
                 lblPageInfo.Text = string.Format("共 {0:#,0} 条记录，每页 {1:#,0} 条，共 {2:#,0} 页", PagerInfo.RecordCount, PagerInfo.PageSize, PagerInfo.PageCount);
             }
             else
             {
-                tControl1.Visible = false;
+                panel1.Visible = false;
                 lblPageInfo.Text = string.Format("共 {0:#,0} 条记录", PagerInfo.RecordCount);
             }
         }
@@ -529,10 +558,10 @@ namespace Paway.Forms
                 lbDesc.Dispose();
                 lbDesc = null;
             }
-            if (tControl1 != null)
+            if (panel1 != null)
             {
-                tControl1.Dispose();
-                tControl1 = null;
+                panel1.Dispose();
+                panel1 = null;
             }
             if (tControl2 != null)
             {

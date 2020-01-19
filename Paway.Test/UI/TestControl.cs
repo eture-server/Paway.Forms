@@ -27,6 +27,7 @@ namespace Paway.Test
             base.AddUpdate();
             base.AddDelete();
             base.HaveQuery();
+            gridview1.TPadding = new Padding(0);
             if (DesignMode) return;
             //gridview1.IGroup = false;
             //this.UserTree(true);

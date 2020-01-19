@@ -81,6 +81,9 @@
     <Compile Include="TDataGridView\TPager.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="TDataGridView\TTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="TExpand\TCustom.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -120,18 +123,12 @@
     <Compile Include="TControls\TChart.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="TControls\ToolBar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TControls\ToolItem.cs" />
-    <Compile Include="TControls\ToolItemCollection.cs" />
     <Compile Include="TControls\TPictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="TControls\TProgressBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TControls\TProperties.cs" />
     <Compile Include="TControls\MControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -142,9 +139,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="TControls\TComboBoxBase.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="TControls\TTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="TControls\TNumTestBox.cs">
@@ -199,6 +193,12 @@
     <Compile Include="TForms\TForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ToolBar\ToolBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ToolBar\ToolItem.cs" />
+    <Compile Include="ToolBar\ToolItemCollection.cs" />
+    <Compile Include="ToolBar\TProperties.cs" />
     <Compile Include="TreeGridView\TreeGridCancelEventArgs.cs" />
     <Compile Include="TreeGridView\TreeGridCell.cs" />
     <Compile Include="TreeGridView\TreeGridColumn.cs" />
