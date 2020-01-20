@@ -72,6 +72,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="QQControls\CmdKeyEventArgs.cs" />
+    <Compile Include="TControls\TTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="TDataGridView\TDataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -80,9 +83,6 @@
     </Compile>
     <Compile Include="TDataGridView\TPager.cs">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TDataGridView\TTreeView.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="TExpand\TCustom.cs">
       <SubType>UserControl</SubType>

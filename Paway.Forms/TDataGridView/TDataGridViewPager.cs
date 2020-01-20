@@ -26,6 +26,7 @@ namespace Paway.Forms
         private Type _dataType;
         private Label lbBottom;
         private TPager pager1;
+        private Label lbTop;
         private TDataGridView gridview1;
         private DataGridViewTextBoxColumn Id;
         private Label lbLeft;
@@ -54,10 +55,16 @@ namespace Paway.Forms
         }
         private void UpdateLine()
         {
+            var color = gridview1.RowTemplate.DefaultCellStyle.SelectionBackColor.AddLight(-15);
             lbLeft.Width = _tPadding.Left;
             lbRight.Width = _tPadding.Right;
+            lbTop.Height = _tPadding.Top;
             lbBottom.Height = _tPadding.Bottom;
-            pager1.UpdateLine(_tPadding);
+            lbLeft.BackColor = color;
+            lbRight.BackColor = color;
+            lbTop.BackColor = color;
+            lbBottom.BackColor = color;
+            pager1.UpdateLine(_tPadding, color);
         }
 
         /// <summary>
@@ -178,6 +185,7 @@ namespace Paway.Forms
         {
             this.lbBottom = new System.Windows.Forms.Label();
             this.pager1 = new Paway.Forms.TPager();
+            this.lbTop = new System.Windows.Forms.Label();
             this.gridview1 = new Paway.Forms.TDataGridView();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lbLeft = new System.Windows.Forms.Label();
@@ -204,6 +212,15 @@ namespace Paway.Forms
             this.pager1.Size = new System.Drawing.Size(576, 30);
             this.pager1.TabIndex = 104;
             // 
+            // lbTop
+            // 
+            this.lbTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(204)))), ((int)(((byte)(223)))));
+            this.lbTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lbTop.Location = new System.Drawing.Point(0, 0);
+            this.lbTop.Name = "lbTop";
+            this.lbTop.Size = new System.Drawing.Size(576, 0);
+            this.lbTop.TabIndex = 108;
+            // 
             // gridview1
             // 
             this.gridview1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -218,7 +235,7 @@ namespace Paway.Forms
             this.gridview1.RowTemplate.Height = 32;
             this.gridview1.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.gridview1.Size = new System.Drawing.Size(576, 172);
-            this.gridview1.TabIndex = 105;
+            this.gridview1.TabIndex = 109;
             // 
             // Id
             // 
@@ -234,7 +251,7 @@ namespace Paway.Forms
             this.lbLeft.Location = new System.Drawing.Point(0, 0);
             this.lbLeft.Name = "lbLeft";
             this.lbLeft.Size = new System.Drawing.Size(1, 172);
-            this.lbLeft.TabIndex = 106;
+            this.lbLeft.TabIndex = 110;
             // 
             // lbRight
             // 
@@ -243,13 +260,14 @@ namespace Paway.Forms
             this.lbRight.Location = new System.Drawing.Point(575, 0);
             this.lbRight.Name = "lbRight";
             this.lbRight.Size = new System.Drawing.Size(1, 172);
-            this.lbRight.TabIndex = 107;
+            this.lbRight.TabIndex = 111;
             // 
             // TDataGridViewPager
             // 
             this.Controls.Add(this.lbRight);
             this.Controls.Add(this.lbLeft);
             this.Controls.Add(this.gridview1);
+            this.Controls.Add(this.lbTop);
             this.Controls.Add(this.pager1);
             this.Controls.Add(this.lbBottom);
             this.Name = "TDataGridViewPager";

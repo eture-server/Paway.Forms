@@ -80,10 +80,12 @@ namespace Paway.Forms
         /// 默认构造函数，设置分页初始信息
         /// </summary>
         public TPager() : this(0, 20) { }
-        internal void UpdateLine(Padding padding)
+        internal void UpdateLine(Padding padding, Color color)
         {
             lbLeft.Width = padding.Left;
             lbRight.Width = padding.Right;
+            lbLeft.BackColor = color;
+            lbRight.BackColor = color;
         }
 
         /// <summary>
