@@ -19,6 +19,8 @@ namespace Paway.Forms
     public class TDataGridView : DataGridView
     {
         #region 变量
+        private Type type;
+
         /// <summary>
         /// 绘制列数据在源中的序号
         /// </summary>
@@ -494,12 +496,11 @@ namespace Paway.Forms
                 ClearBox();
                 return;
             }
-            Type type = null;
             if (value is IList list)
             {
-                type = list.GenericType();
+                this.type = list.GenericType();
                 var dt = list.ToDataTable();
-                dt.PrimaryKey = new DataColumn[] { dt.Columns[type.TableKeys()] };
+                dt.PrimaryKey = new DataColumn[] { dt.Columns[this.type.TableKeys()] };
                 base.DataSource = dt;
                 if (list.Count == 0) ClearBox();
             }
@@ -510,14 +511,14 @@ namespace Paway.Forms
             }
             else
             {
-                type = value.GetType();
-                var temp = type.GenericList();
+                this.type = value.GetType();
+                var temp = this.type.GenericList();
                 temp.Add(value);
                 base.DataSource = temp;
                 ClearBox();
             }
-            UpdateColumns(type);
-            OnRefreshChanged(type);
+            UpdateColumns(this.type);
+            OnRefreshChanged(this.type);
         }
         /// <summary>
         /// 设置排序模式并引发事件
@@ -1165,6 +1166,7 @@ namespace Paway.Forms
         public void UpdateColumns(Type type)
         {
             if (type == null || type == typeof(string) || type.IsValueType) return;
+            this.type = type;
 
             _iCheckBoxIndex = -1;
             var properties = type.PropertiesCache();
@@ -1179,7 +1181,6 @@ namespace Paway.Forms
                     _tColumnIndex = i;
                 }
                 var property = properties.Property(Columns[i].Name);
-                if (property == null) property = properties.Property(Columns[i].DataPropertyName);
                 if (property == null) continue;
                 Columns[i].Visible = property.IShow();
                 Columns[i].HeaderText = property.TextName();
@@ -1242,7 +1243,7 @@ namespace Paway.Forms
             {
                 index = this.RowCount - 1;
             }
-            var id = this.Rows[index].Cells[nameof(IId.Id)].Value.ToInt();
+            var id = this.Rows[index].Cells[IdColumn()].Value.ToInt();
             if (id == -1) index--;
             if (index < 0) index = 0;
             for (int i = 0; i < this.Columns.Count; i++)
@@ -1254,6 +1255,38 @@ namespace Paway.Forms
                     break;
                 }
             }
+        }
+        /// <summary>
+        /// 获取主键列
+        /// </summary>
+        public string IdColumn()
+        {
+            if (this.Columns.Contains(nameof(IId.Id))) return nameof(IId.Id);
+            if (this.type != null)
+            {
+                var properties = this.type.PropertiesCache();
+                for (int i = 0; i < Columns.Count; i++)
+                {
+                    var property = properties.Property(Columns[i].Name);
+                    if (property == null) continue;
+                    if (property.Name == nameof(IId.Id))
+                    {
+                        return Columns[i].Name;
+                    }
+                }
+            }
+            if (this.type != null)
+            {
+                var properties = this.type.PropertiesCache();
+                for (int i = 0; i < Columns.Count; i++)
+                {
+                    var property = properties.Property(Columns[i].Name);
+                    if (property == null) continue;
+                    if (property.IShow()) return Columns[i].Name;
+                }
+            }
+            if (Columns.Count > 0) return Columns[0].Name;
+            return null;
         }
 
         #endregion

@@ -138,7 +138,7 @@ namespace Paway.Forms
         {
             if (gridview1.Edit.Columns[e.ColumnIndex].Name == gridview1.Edit.ICheckBoxName)
             {
-                var id = (int)gridview1.Edit.Rows[e.RowIndex].Cells[nameof(IId.Id)].Value;
+                var id = (int)gridview1.Edit.Rows[e.RowIndex].Cells[gridview1.Edit.IdColumn()].Value;
                 var info = List.Find(c => c.Id == id);
                 if (info != null)
                 {
@@ -318,7 +318,7 @@ namespace Paway.Forms
                     tbName.TextChanged -= TbName_TextChanged;
                     tbName.Text = null;
                     tbName.TextChanged += TbName_TextChanged;
-                    string find = string.Format("{0} order by " + nameof(IId.Id), this.find ?? "1=1");
+                    string find = string.Format("{0} order by " + gridview1.Edit.IdColumn(), this.find ?? "1=1");
                     QueryStart(find);
                     break;
                 case "添加":
@@ -650,7 +650,7 @@ namespace Paway.Forms
             if (gridview.CurrentCell != null)
             {
                 this.Index = gridview.CurrentCell.RowIndex;
-                var id = gridview.Rows[this.Index].Cells[nameof(IId.Id)].Value.ToInt();
+                var id = gridview.Rows[this.Index].Cells[gridview.IdColumn()].Value.ToInt();
                 this.Info = this.List.Find(c => c.Id == id);
                 OnCurrentCellChanged();
             }
@@ -757,7 +757,7 @@ namespace Paway.Forms
             List<T> list = new List<T>();
             for (int i = 0; i < gridview1.Edit.SelectedRows.Count; i++)
             {
-                var id = gridview1.Edit.SelectedRows[i].Cells[nameof(IId.Id)].Value.ToInt();
+                var id = gridview1.Edit.SelectedRows[i].Cells[gridview1.Edit.IdColumn()].Value.ToInt();
                 var info = this.List.Find(c => c.Id == id);
                 if (info != null) list.Add(info);
             }

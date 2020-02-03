@@ -208,7 +208,7 @@ namespace Paway.Forms
             }
             for (int i = 0; i < nodes.Count; i++)
             {
-                if (nodes[i].Cells[nameof(IParent.Id)].Value.ToInt() == parentId)
+                if (nodes[i].Cells[IdColumn()].Value.ToInt() == parentId)
                 {
                     if (!nodes[i].IsExpanded) nodes[i].Expand();
                     return nodes[i].Nodes.Add(info.GetValues()).RowIndex;
@@ -227,7 +227,7 @@ namespace Paway.Forms
         /// </summary>
         public bool UpdateNode(object info)
         {
-            return UpdateNode(this.Nodes, info, (int)info.GetValue(nameof(IId.Id)));
+            return UpdateNode(this.Nodes, info, (int)info.GetValue(nameof(IParent.Id)));
         }
         /// <summary>
         /// 更新节点
@@ -236,7 +236,7 @@ namespace Paway.Forms
         {
             for (int i = 0; i < nodes.Count; i++)
             {
-                if (nodes[i].Cells[nameof(IId.Id)].Value.ToInt() == id)
+                if (nodes[i].Cells[IdColumn()].Value.ToInt() == id)
                 {
                     nodes[i].Update(info);
                     return true;
@@ -252,7 +252,7 @@ namespace Paway.Forms
         {
             for (int i = 0; i < nodes.Count; i++)
             {
-                if (nodes[i].Cells[nameof(IId.Id)].Value.ToInt() == id)
+                if (nodes[i].Cells[IdColumn()].Value.ToInt() == id)
                 {
                     nodes.RemoveAt(i);
                     return true;
