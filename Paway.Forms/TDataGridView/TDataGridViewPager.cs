@@ -525,6 +525,22 @@ namespace Paway.Forms
             IGroup = false;
             return true;
         }
+        /// <summary>
+        /// 当前行数据
+        /// </summary>
+        public object Current()
+        {
+            if (gridview1.CurrentCell != null)
+            {
+                var index = gridview1.CurrentCell.RowIndex;
+                var id = gridview1.Rows[index].Cells[gridview1.IdColumn()].Value.ToInt();
+                if (dataSource is IList list)
+                {
+                    return list.Find(gridview1.IdColumn(), id);
+                }
+            }
+            return null;
+        }
 
         #endregion
 

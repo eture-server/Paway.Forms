@@ -27,7 +27,6 @@ namespace Paway.Forms
         {
             InitializeComponent();
             Progress();
-            InitChange();
             CustomScroll();
             _toolTop = new ToolTip();
             InitHide();
@@ -444,25 +443,6 @@ namespace Paway.Forms
         #endregion
 
         #region 字体、颜色属性
-        private TProperties _change;
-        /// <summary>
-        /// 变色项颜色
-        /// </summary>
-        [Description("变色项颜色")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public TProperties TChange
-        {
-            get
-            {
-                if (_change == null)
-                {
-                    _change = new TProperties(MethodBase.GetCurrentMethod());
-                    _change.ValueChange += delegate { Invalidate(); };
-                }
-                return _change;
-            }
-        }
-
         private TProperties _text;
         /// <summary>
         /// 首行文字属性
@@ -2231,81 +2211,6 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 变色项
-        private readonly Timer _tChange = new Timer();
-
-        /// <summary>
-        /// 动态项
-        /// </summary>
-        private int index;
-
-        private void InitChange()
-        {
-            _tChange.Interval = 600;
-            _tChange.Tick += TChange_Tick;
-        }
-
-        /// <summary>
-        /// 开始变色
-        /// </summary>
-        public void TChangeStart()
-        {
-            _tChange.Enabled = true;
-        }
-
-        /// <summary>
-        /// 停止单项变色
-        /// </summary>
-        public void TChangeStop(ToolItem item)
-        {
-            item.IChange = false;
-            for (var i = 0; i < Items.Count; i++)
-            {
-                if (Items[i].IChange)
-                {
-                    return;
-                }
-            }
-            _tChange.Enabled = false;
-        }
-        /// <summary>
-        /// 停止变色
-        /// </summary>
-        public void TChangeStop()
-        {
-            _tChange.Enabled = false;
-        }
-
-        private void TChange_Tick(object sender, EventArgs e)
-        {
-            var result = false;
-            for (var i = 0; i < Items.Count; i++)
-            {
-                if (Items[i].IChange)
-                {
-                    result = true;
-                    switch (index % 3)
-                    {
-                        case 0:
-                            Items[i].TColor.ColorNormal = TChange.ColorNormal;
-                            break;
-                        case 1:
-                            Items[i].TColor.ColorNormal = TChange.ColorMove;
-                            break;
-                        case 2:
-                            Items[i].TColor.ColorNormal = TChange.ColorDown;
-                            break;
-                    }
-                    //已自动更新项
-                    //Application.DoEvents();
-                }
-            }
-            index++;
-            if (!result) TChangeStop();
-        }
-
-        #endregion
-
         #region 滚动条
         /// <summary>
         /// 滚动条外框
@@ -2726,11 +2631,6 @@ namespace Paway.Forms
                 _lineColor.Dispose();
                 _lineColor = null;
             }
-            if (_change != null)
-            {
-                _change.Dispose();
-                _change = null;
-            }
             if (_desc != null)
             {
                 _desc.Dispose();
@@ -2809,11 +2709,6 @@ namespace Paway.Forms
                 _pictureBox1.Image = null;
                 _pictureBox1.Dispose();
                 _pictureBox1 = null;
-            }
-            if (_tChange != null)
-            {
-                _tChange.Stop();
-                _tChange.Dispose();
             }
             if (_panelScroll != null)
             {

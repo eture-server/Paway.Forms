@@ -195,9 +195,6 @@
             this.toolBar2.TBackGround.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(50)))), ((int)(((byte)(27)))));
             this.toolBar2.TBackGround.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(127)))), ((int)(((byte)(104)))));
             this.toolBar2.TBackGround.ColorNormal = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(72)))), ((int)(((byte)(38)))));
-            this.toolBar2.TChange.ColorDown = System.Drawing.Color.Blue;
-            this.toolBar2.TChange.ColorMove = System.Drawing.Color.Red;
-            this.toolBar2.TChange.ColorNormal = System.Drawing.Color.Yellow;
             this.toolBar2.TDesc.ColorDown = System.Drawing.Color.White;
             this.toolBar2.TDirection = Paway.Helper.TDirection.Vertical;
             this.toolBar2.TextFirst.ColorDown = System.Drawing.Color.Black;

@@ -554,7 +554,7 @@ namespace Paway.Forms
         /// <summary>
         /// 更新行
         /// </summary>
-        internal void UpdateRow(object info, int id)
+        public void UpdateRow(object info, int id)
         {
             var dt = this.DataSource as DataTable;
             var dr = dt.Rows.Find(id);
