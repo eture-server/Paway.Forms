@@ -65,11 +65,6 @@ namespace Paway.Forms
             public readonly string Text;
 
             /// <summary>
-            /// 位置
-            /// </summary>
-            public readonly StringAlignment Position;
-
-            /// <summary>
             /// 对应左行
             /// </summary>
             public readonly int Left;
@@ -84,10 +79,9 @@ namespace Paway.Forms
             /// </summary>
             public readonly bool IAll;
 
-            public SpanInfo(string Text, StringAlignment Position, int Left, int Right, bool iAll)
+            public SpanInfo(string Text, int Left, int Right, bool iAll)
             {
                 this.Text = Text;
-                this.Position = Position;
                 this.Left = Left;
                 this.Right = Right;
                 this.IAll = iAll;
@@ -1042,18 +1036,22 @@ namespace Paway.Forms
                     top = e.CellBounds.Top + 2,
                     right = e.CellBounds.Right,
                     bottom = e.CellBounds.Bottom;
-                switch (SpanRows[e.ColumnIndex].Position)
+                //自动左右列
+                for (int i = SpanRows[e.ColumnIndex].Left; i <= SpanRows[e.ColumnIndex].Right; i++)
                 {
-                    case StringAlignment.Near:
-                        left += 2;
+                    if (Columns[i].Visible)
+                    {
+                        if (i == e.ColumnIndex) left += 2;
                         break;
-                    case StringAlignment.Far:
-                        right -= 2;
+                    }
+                }
+                for (int i = SpanRows[e.ColumnIndex].Right; i >= SpanRows[e.ColumnIndex].Left; i--)
+                {
+                    if (Columns[i].Visible)
+                    {
+                        if (i == e.ColumnIndex) right -= 2;
                         break;
-                    case (StringAlignment)3:
-                        right -= 2;
-                        left += 2;
-                        break;
+                    }
                 }
 
                 using (var fontBrush = new SolidBrush(e.CellStyle.ForeColor))
@@ -1081,7 +1079,7 @@ namespace Paway.Forms
                     }
 
                     //计算表头位置并绘制
-                    left = GetColumnDisplayRectangle(SpanRows[e.ColumnIndex].Left, false).Left - 2;
+                    left = 0;
                     //实际宽度
                     var width = 0;
                     //显示宽度
@@ -1091,6 +1089,7 @@ namespace Paway.Forms
                         var rectangle = GetColumnDisplayRectangle(i, false);
                         if (Columns[i].Visible)
                         {
+                            if (left == 0) left = rectangle.Left - 2;
                             if (showWidth <= 0) left += rectangle.Width - Columns[i].Width;
                             showWidth += rectangle.Width;
                             width += Columns[i].Width;
@@ -1144,14 +1143,14 @@ namespace Paway.Forms
             }
             //将这些列加入列表
             var Right = colIndex + colCount - 1; //同一大标题下的最后一列的索引
-            SpanRows[colIndex] = new SpanInfo(text, StringAlignment.Near, colIndex, Right, iAll); //添加标题下的最左列
-            SpanRows[Right] = new SpanInfo(text, StringAlignment.Far, colIndex, Right, iAll); //添加该标题下的最右列
+            SpanRows[colIndex] = new SpanInfo(text, colIndex, Right, iAll); //添加标题下的最左列
+            SpanRows[Right] = new SpanInfo(text, colIndex, Right, iAll); //添加该标题下的最右列
             for (var i = colIndex + 1; i < Right; i++) //中间的列
             {
-                SpanRows[i] = new SpanInfo(text, StringAlignment.Center, colIndex, Right, iAll);
+                SpanRows[i] = new SpanInfo(text, colIndex, Right, iAll);
             }
             //添加单列标题
-            if (colCount == 1) SpanRows[colIndex] = new SpanInfo(text, (StringAlignment)3, colIndex, Right, iAll);
+            if (colCount == 1) SpanRows[colIndex] = new SpanInfo(text, colIndex, Right, iAll);
         }
 
         #endregion
