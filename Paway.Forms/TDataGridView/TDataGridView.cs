@@ -79,12 +79,18 @@ namespace Paway.Forms
             /// </summary>
             public readonly int Right;
 
-            public SpanInfo(string Text, StringAlignment Position, int Left, int Right)
+            /// <summary>
+            /// 显示子列标记
+            /// </summary>
+            public readonly bool IAll;
+
+            public SpanInfo(string Text, StringAlignment Position, int Left, int Right, bool iAll)
             {
                 this.Text = Text;
                 this.Position = Position;
                 this.Left = Left;
                 this.Right = Right;
+                this.IAll = iAll;
             }
         }
 
@@ -1056,19 +1062,23 @@ namespace Paway.Forms
                     {
                         fontBrush.Color = e.CellStyle.SelectionForeColor;
                     }
+                    var height = bottom - top;
+                    if (SpanRows[e.ColumnIndex].IAll) height /= 2;
                     //画上半部分底色
                     using (var backBrush = new SolidBrush(ColumnHeadersDefaultCellStyle.BackColor))
                     {
-                        g.FillRectangle(backBrush, left - 2, top - 1, right - left + 3, (bottom - top) / 2 + 1);
+                        g.FillRectangle(backBrush, left - 2, top - 1, right - left + 3, height);
                     }
-                    //画中线
-                    using (var pen = new Pen(GridColor))
-                    {
-                        g.DrawLine(pen, left - 2, (top + bottom) / 2, right, (top + bottom) / 2);
+                    if (SpanRows[e.ColumnIndex].IAll)
+                    { //画中线
+                        using (var pen = new Pen(GridColor))
+                        {
+                            g.DrawLine(pen, left - 2, (top + bottom) / 2 - 1, right, (top + bottom) / 2 - 1);
+                        }
+                        //写小标题
+                        g.DrawString(string.Format("{0}", e.Value), e.CellStyle.Font, fontBrush,
+                            new Rectangle(left, (top + bottom) / 2, right - left, height), DrawHelper.StringCenter);
                     }
-                    //写小标题
-                    g.DrawString(string.Format("{0}", e.Value), e.CellStyle.Font, fontBrush,
-                        new Rectangle(left, (top + bottom) / 2, right - left, (bottom - top) / 2), DrawHelper.StringCenter);
 
                     //计算表头位置并绘制
                     left = GetColumnDisplayRectangle(SpanRows[e.ColumnIndex].Left, false).Left - 2;
@@ -1087,7 +1097,7 @@ namespace Paway.Forms
                         }
                     }
                     g.DrawString(SpanRows[e.ColumnIndex].Text, e.CellStyle.Font, fontBrush,
-                        new Rectangle(left, top, width, (bottom - top) / 2), DrawHelper.StringCenter);
+                        new Rectangle(left, top, width, height), DrawHelper.StringCenter);
 
                     e.Handled = true;
                 }
@@ -1119,7 +1129,8 @@ namespace Paway.Forms
         /// <param name="colIndexName">索引列的名称</param>
         /// <param name="colCount">需要合并的列数</param>
         /// <param name="text">合并列后的文本</param>
-        public void AddSpanHeader(Type type, string colIndexName, int colCount, string text)
+        /// <param name="iAll">显示子列标记</param>
+        public void AddSpanHeader(Type type, string colIndexName, int colCount, string text, bool iAll = true)
         {
             var colIndex = 0;
             var properties = type.PropertiesCache();
@@ -1133,14 +1144,14 @@ namespace Paway.Forms
             }
             //将这些列加入列表
             var Right = colIndex + colCount - 1; //同一大标题下的最后一列的索引
-            SpanRows[colIndex] = new SpanInfo(text, StringAlignment.Near, colIndex, Right); //添加标题下的最左列
-            SpanRows[Right] = new SpanInfo(text, StringAlignment.Far, colIndex, Right); //添加该标题下的最右列
+            SpanRows[colIndex] = new SpanInfo(text, StringAlignment.Near, colIndex, Right, iAll); //添加标题下的最左列
+            SpanRows[Right] = new SpanInfo(text, StringAlignment.Far, colIndex, Right, iAll); //添加该标题下的最右列
             for (var i = colIndex + 1; i < Right; i++) //中间的列
             {
-                SpanRows[i] = new SpanInfo(text, StringAlignment.Center, colIndex, Right);
+                SpanRows[i] = new SpanInfo(text, StringAlignment.Center, colIndex, Right, iAll);
             }
             //添加单列标题
-            if (colCount == 1) SpanRows[colIndex] = new SpanInfo(text, (StringAlignment)3, colIndex, Right);
+            if (colCount == 1) SpanRows[colIndex] = new SpanInfo(text, (StringAlignment)3, colIndex, Right, iAll);
         }
 
         #endregion
