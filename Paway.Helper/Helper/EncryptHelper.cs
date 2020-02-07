@@ -87,7 +87,7 @@ namespace Paway.Helper
         /// <returns>返回字符串(以十六进制字符串表示形式)</returns>
         public static string EncryptDES(string content, string key)
         {
-            if (key == null || key.Length < 8) throw new ArgumentException("Key length error");
+            if (key == null || key.Length < 8) throw new ArgumentException("Key length error.");
             var bKey = new byte[8];
             Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
             using (var des = new DESCryptoServiceProvider())
@@ -110,7 +110,7 @@ namespace Paway.Helper
         /// </summary>
         public static string DecryptDES(string content, string key)
         {
-            if (key == null || key.Length < 8) throw new ArgumentException("Key length error");
+            if (key == null || key.Length < 8) throw new ArgumentException("Key length error.");
             var bKey = new byte[8];
             Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
             using (var des = new DESCryptoServiceProvider())
@@ -138,7 +138,7 @@ namespace Paway.Helper
         /// <returns>返回字符串(以十六进制字符串表示形式)</returns>
         public static string Encrypt3DES(string content, string key)
         {
-            if (key == null || key.Length < 8) throw new ArgumentException("Key length error");
+            if (key == null || key.Length < 8) throw new ArgumentException("Key length error.");
             var bKey = new byte[key.Length <= 16 ? 16 : 24];
             Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
             using (var provider = new TripleDESCryptoServiceProvider())
@@ -161,7 +161,7 @@ namespace Paway.Helper
         /// </summary>
         public static string Decrypt3DES(string content, string key)
         {
-            if (key == null || key.Length < 8) throw new ArgumentException("Key length error");
+            if (key == null || key.Length < 8) throw new ArgumentException("Key length error.");
             var bKey = new byte[key.Length <= 16 ? 16 : 24];
             Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
             using (var des = new TripleDESCryptoServiceProvider())
@@ -199,7 +199,7 @@ namespace Paway.Helper
         /// </summary>
         public static byte[] EncryptAES(byte[] data, string key)
         {
-            if (key == null || key.Length < 8) throw new ArgumentException("Key length error");
+            if (key == null || key.Length < 8) throw new ArgumentException("Key length error.");
             var bKey = new byte[key.Length <= 16 ? 16 : (key.Length <= 24 ? 24 : 32)];
             Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
             //分组加密算法
@@ -235,7 +235,7 @@ namespace Paway.Helper
         /// </summary>
         public static byte[] DecryptAES(byte[] data, string key)
         {
-            if (key == null || key.Length < 8) throw new ArgumentException("Key length error");
+            if (key == null || key.Length < 8) throw new ArgumentException("Key length error.");
             var bKey = new byte[key.Length <= 16 ? 16 : (key.Length <= 24 ? 24 : 32)];
             Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
             using (var des = Rijndael.Create())
@@ -320,7 +320,7 @@ namespace Paway.Helper
         public static void FileEncryptAES(string encryptFile, string decryptFile)
         {
             var data = GetFileData(encryptFile);
-            if (data.Length == 0) throw new ArgumentException("File does not exist");
+            if (data.Length == 0) throw new ArgumentException("File does not exist.");
             var buffer = EncryptAES(data, _key3);
             using (var fs = File.Create(decryptFile))
             {
@@ -354,7 +354,7 @@ namespace Paway.Helper
         public static void FileDecryptAES(string decryptFile, string encryptFile)
         {
             var data = GetFileData(decryptFile);
-            if (data.Length == 0) throw new ArgumentException("File does not exist");
+            if (data.Length == 0) throw new ArgumentException("File does not exist.");
             var buffer = DecryptAES(data, _key3);
             using (var fs = File.Create(encryptFile))
             {

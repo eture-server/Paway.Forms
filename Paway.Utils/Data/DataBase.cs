@@ -502,7 +502,7 @@ namespace Paway.Utils
                         }
                         else
                         {
-                            throw new PawayException("Insert failed: unable to read Id");
+                            throw new PawayException("Insert failed: unable to read Id.");
                         }
                     }
                 }

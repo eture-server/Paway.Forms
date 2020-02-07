@@ -132,7 +132,7 @@ namespace Paway.Forms
         {
             if (type == null || type == typeof(string) || type.IsValueType) return;
             Type iType = type.GetInterface(typeof(IParent).FullName);
-            if (iType == null) throw new ArgumentException("Data type error, interface not implemented: IParentId");
+            if (iType == null) throw new ArgumentException("Data type error, interface not implemented: IParentId.");
 
             Columns.Clear();
             bool iTree = false;
@@ -546,7 +546,7 @@ namespace Paway.Forms
             get => null;
             set
             {
-                throw new NotSupportedException("The TreeGridView does not support databinding");
+                throw new NotSupportedException("The TreeGridView does not support databinding.");
             }
         }
         /// <summary>
@@ -628,7 +628,7 @@ namespace Paway.Forms
             }
             set
             {
-                throw new NotSupportedException("The TreeGridView does not support virtual mode");
+                throw new NotSupportedException("The TreeGridView does not support virtual mode.");
             }
         }
         /// <summary>

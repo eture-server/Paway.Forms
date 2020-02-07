@@ -102,7 +102,7 @@ namespace Paway.Utils
         {
             if (ithrow && !IConnected)
             {
-                throw new PawayException("Not Connected");
+                throw new PawayException("Not Connected.");
             }
             if (SendDataService != null && message != null)
             {
@@ -112,9 +112,9 @@ namespace Paway.Utils
             else if (ithrow)
             {
                 if (SendDataService == null)
-                    throw new PawayException("Send Service is null");
+                    throw new PawayException("Send Service is null.");
                 if (message == null)
-                    throw new PawayException("Message Argument can not be empty");
+                    throw new PawayException("Message Argument can not be empty.");
             }
         }
         /// <summary>
@@ -219,7 +219,7 @@ namespace Paway.Utils
         /// <param name="iPackage">true=封装</param>
         internal void SendSync(byte[] buffer, bool iPackage = true)
         {
-            if (!IConnected) throw new PawayException("Not Connected");
+            if (!IConnected) throw new PawayException("Not Connected.");
             if (iPackage) SendData(buffer);
             else if (!SendStop) Socket.Send(buffer);
         }

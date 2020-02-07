@@ -36,7 +36,7 @@ namespace Paway.Test
             UserInfo info = Cache.Find(tbName.Text);
             if (info != null && this.Info.Id != info.Id)
             {
-                throw new WarningException(string.Format("用户：{0} 已存在", tbName.Text));
+                throw new WarningException(string.Format("用户：{0} 已存在。", tbName.Text));
             }
             UpdateInfo();
             return true;

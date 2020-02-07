@@ -112,7 +112,7 @@ namespace Paway.Win32
         private void HookError()
         {
             var errorCode = Marshal.GetLastWin32Error();
-            throw new Win32Exception(string.Format("MouseHook.Uninstall_Hook()->{0:D5}", errorCode));
+            throw new Win32Exception(string.Format("MouseHook.Uninstall_Hook()->{0:D5}.", errorCode));
         }
         private int MouseHookProc(int nCode, int wParam, IntPtr lParam)
         {

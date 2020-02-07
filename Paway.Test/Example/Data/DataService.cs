@@ -85,11 +85,11 @@ namespace Paway.Test
             List<UserInfo> list = Find<UserInfo>(find);
             if (list.Count == 0)
             {
-                throw new WarningException("用户名或密码错误");
+                throw new WarningException("用户名或密码错误。");
             }
             else
             {
-                if (!list[0].Statu) throw new WarningException("用户已停用");
+                if (!list[0].Statu) throw new WarningException("用户已停用。");
                 list[0].DateTime = DateTime.Now;
                 Update(list[0], nameof(UserInfo.DateTime));
                 return list[0];
@@ -100,11 +100,11 @@ namespace Paway.Test
             var info = FindById<UserInfo>(userId);
             if (info == null)
             {
-                throw new WarningException("用户不存在");
+                throw new WarningException("用户不存在。");
             }
             else
             {
-                if (!info.Statu) throw new WarningException("用户已停用");
+                if (!info.Statu) throw new WarningException("用户已停用。");
                 info.DateTime = DateTime.Now;
                 Update(info, nameof(UserInfo.DateTime));
                 return info;
@@ -112,9 +112,9 @@ namespace Paway.Test
         }
         public void UpdatePad(string pad, string newPad, string newPad2)
         {
-            if (Config.User == null) throw new WarningException("用户尚未登陆");
-            if (newPad != newPad2) throw new WarningException("两次输入密码不一致");
-            if (Config.User.Pad != EncryptHelper.MD5(pad + Config.Suffix)) throw new WarningException("用户密码错误");
+            if (Config.User == null) throw new WarningException("用户尚未登陆。");
+            if (newPad != newPad2) throw new WarningException("两次输入密码不一致。");
+            if (Config.User.Pad != EncryptHelper.MD5(pad + Config.Suffix)) throw new WarningException("用户密码错误。");
             Config.User.DateTime = DateTime.Now;
             Config.User.Pad = EncryptHelper.MD5(newPad + Config.Suffix);
             Update(Config.User, nameof(UserInfo.DateTime), nameof(UserInfo.Pad));

@@ -258,7 +258,7 @@ namespace Paway.Utils
         public void PrintTableRow(PdfPCell[] pCells, float[] cWidth)
         {
             if (pCells == null || pCells.Length <= 0)
-                throw new ArgumentException("Can not found any cell");
+                throw new ArgumentException("Can not found any cell.");
             var pt = new PdfPTable(pCells.Length)
             {
                 WidthPercentage = 100f,
@@ -280,7 +280,7 @@ namespace Paway.Utils
         public void PrintTableContent(DataTable table, float[] cWidth, int[] cAlign)
         {
             if (table == null || table.Columns == null || table.Columns.Count <= 0)
-                throw new ArgumentException("Can not found any column from table");
+                throw new ArgumentException("Can not found any column from table.");
             var pt = new PdfPTable(table.Columns.Count)
             {
                 WidthPercentage = 100f,

@@ -564,7 +564,7 @@ namespace Paway.Forms
             if (TRoot != null)
             {
                 dr = dt.Select(string.Format("[{0}] = '{1}'", TId, TRoot));
-                if (dr.Length > 0) throw new PawayException("Child node cannot be the same as the root node");
+                if (dr.Length > 0) throw new PawayException("Child node cannot be the same as the root node.");
                 dr = dt.Select(string.Format("[{0}] = '{1}'", TParentId, TRoot));
             }
             else

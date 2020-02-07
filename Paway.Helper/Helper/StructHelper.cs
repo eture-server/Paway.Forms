@@ -77,8 +77,8 @@ namespace Paway.Helper
         /// </summary>
         public static Bitmap ImageRawData(byte[] rawData, int width, int height, PixelFormat format = PixelFormat.Format32bppArgb)
         {
-            if (width < 1 || height < 1) throw new ArgumentException("Width and Height Must Be Greater Than Zero");
-            if (rawData == null) throw new ArgumentException("RawData Argument can not be empty");
+            if (width < 1 || height < 1) throw new ArgumentException("Width and Height Must Be Greater Than Zero.");
+            if (rawData == null) throw new ArgumentException("RawData Argument can not be empty.");
 
             var image = new Bitmap(width, height, format);
             var bitmapData = image.LockBits(
@@ -96,7 +96,7 @@ namespace Paway.Helper
         /// </summary>
         public static byte[] ImageRawData(Bitmap image)
         {
-            if (image == null) throw new ArgumentException("Image Argument can not be empty");
+            if (image == null) throw new ArgumentException("Image Argument can not be empty.");
 
             var bitmapData = image.LockBits(
                 new Rectangle(0, 0, image.Width, image.Height),

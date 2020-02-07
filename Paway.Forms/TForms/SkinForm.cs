@@ -200,7 +200,7 @@ namespace Paway.Forms
                     }
                 }
             }
-            throw new ArgumentException("The bitmap must be 32ppp with alpha-channel");
+            throw new ArgumentException("The bitmap must be 32ppp with alpha-channel.");
         }
         private void DrawShadow(Graphics g)
         {
