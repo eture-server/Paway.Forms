@@ -117,7 +117,7 @@ namespace Paway.Forms
             if (gridview1 == null || gridview1.Edit == null || gridview1.Edit.IsDisposed) return;
             gridview1.Edit.CellFormatting -= Gridview1_CellFormatting;
             gridview1.Edit.CurrentCellChanged -= Gridview1_CurrentCellChanged;
-            gridview1.Edit.DoubleClick -= Gridview1_DoubleClick;
+            gridview1.Edit.RefreshChanged -= Gridview1_RefreshChanged;
         }
         private void Gridview1_RefreshChanged()
         {
@@ -635,7 +635,7 @@ namespace Paway.Forms
         /// <summary>
         /// 行双击事件
         /// </summary>
-        protected virtual void OnRowDoubleClick(int rowIndex) { }
+        protected virtual bool OnRowDoubleClick(int rowIndex) { return false; }
         private void Gridview1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             string name = gridview1.Edit.Columns[e.ColumnIndex].Name;
@@ -671,8 +671,8 @@ namespace Paway.Forms
                 var hit = gridview.HitTest(me.X, me.Y);
                 if (hit.RowIndex > -1)
                 {
+                    if (OnRowDoubleClick(hit.RowIndex)) return;
                     toolBar1.TClickItem("编辑");
-                    OnRowDoubleClick(hit.RowIndex);
                 }
             }
         }
