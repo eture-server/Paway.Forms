@@ -171,10 +171,9 @@ namespace Paway.Core
         /// 自定义订阅
         /// reset=true:清除已有订阅
         /// </summary>
-        public Task SubscribeAsync(bool reset, params string[] args)
+        public Task SubscribeAsync(params string[] args)
         {
             var topicList = new List<TopicFilter>();
-            if (!reset)
             {
                 topicList.Add(new TopicFilter(this.topic, MqttQualityOfServiceLevel.ExactlyOnce));
                 topicList.Add(new TopicFilter(this.topic + "/" + this.ClientId, MqttQualityOfServiceLevel.ExactlyOnce));
@@ -196,7 +195,7 @@ namespace Paway.Core
         private void MqttClient_Connected(object sender, MqttClientConnectedEventArgs e)
         {
             var topics = TopicEvent?.Invoke();
-            SubscribeAsync(false, topics);
+            SubscribeAsync(topics);
             ConnectEvent?.Invoke(true, null);
         }
         private void MqttClient_Disconnected(object sender, MqttClientDisconnectedEventArgs e)

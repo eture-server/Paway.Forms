@@ -467,10 +467,10 @@ namespace Paway.Forms
             this.gridview1.AutoCell(iOffset);
         }
         /// <summary>
-        /// 刷新数据
+        /// 数据统计
         /// </summary>
         /// <param name="iUpdate">直接更新</param>
-        private void RefreshTotal(bool iUpdate = false)
+        protected virtual void RefreshTotal(bool iUpdate = false)
         {
             T data = List.Find(c => c.Id < 0);
             if (data != null) List.Remove(data);
