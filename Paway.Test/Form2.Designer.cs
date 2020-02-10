@@ -143,7 +143,6 @@
             toolItem18.TColor.StringHorizontal = System.Drawing.StringAlignment.Center;
             toolItem18.Text = "白酒";
             toolItem19.HeadDesc = "呵呵";
-            toolItem19.IChange = true;
             toolItem19.Text = "头部";
             toolItem20.Text = "1";
             toolItem21.Text = "2\r\n1\r\n你好";

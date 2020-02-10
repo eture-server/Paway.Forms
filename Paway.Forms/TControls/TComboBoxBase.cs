@@ -86,7 +86,7 @@ namespace Paway.Forms
         /// 获取或设置组合框中的某项的高度
         /// </summary>
         [Description("获取或设置组合框中的某项的高度")]
-        [DefaultValue(17)]
+        [DefaultValue(19)]
         public new int ItemHeight
         {
             get { return base.ItemHeight; }
@@ -150,7 +150,7 @@ namespace Paway.Forms
                 ControlStyles.OptimizedDoubleBuffer, true);
             UpdateStyles();
             DrawItem += DrawCombobox_DrawItem;
-            ItemHeight = 17;
+            ItemHeight = 19;
             DropDownHeight = 200;
             DropDownStyle = ComboBoxStyle.DropDownList;
             DrawMode = DrawMode.OwnerDrawFixed;

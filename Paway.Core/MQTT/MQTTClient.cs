@@ -175,7 +175,6 @@ namespace Paway.Core
         {
             var topicList = new List<TopicFilter>();
             {
-                topicList.Add(new TopicFilter(this.topic, MqttQualityOfServiceLevel.ExactlyOnce));
                 topicList.Add(new TopicFilter(this.topic + "/" + this.ClientId, MqttQualityOfServiceLevel.ExactlyOnce));
             }
             if (args != null)

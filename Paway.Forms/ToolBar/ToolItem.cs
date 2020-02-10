@@ -304,22 +304,6 @@ namespace Paway.Forms
             }
         }
 
-        private bool _iChange;
-        /// <summary>
-        /// 变色项
-        /// </summary>
-        [Description("变色项")]
-        [DefaultValue(false)]
-        public bool IChange
-        {
-            get { return _iChange; }
-            set
-            {
-                _iChange = value;
-                TRefresh();
-            }
-        }
-
         /// <summary>
         /// 获取或设置项内的空白
         /// </summary>

@@ -117,14 +117,14 @@ namespace Paway.Forms
             this.tComboBox1.IntegralHeight = false;
             this.tComboBox1.Location = new System.Drawing.Point(1, 1);
             this.tComboBox1.Name = "tComboBox1";
-            this.tComboBox1.Size = new System.Drawing.Size(121, 23);
+            this.tComboBox1.Size = new System.Drawing.Size(121, 25);
             this.tComboBox1.TabIndex = 0;
             // 
             // TComboBox
             // 
             this.Controls.Add(this.tComboBox1);
             this.Name = "TComboBox";
-            this.Size = new System.Drawing.Size(123, 25);
+            this.Size = new System.Drawing.Size(123, 27);
             this.ResumeLayout(false);
 
         }
