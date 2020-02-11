@@ -436,7 +436,7 @@ namespace Paway.Forms
                                 gridView.DeleteRow(info.Id);
                             }
                         }
-                        this.List.Remove(info);
+                        this.List.RemoveAll(c => c.Id == info.Id);
                         if (IFind())
                         {
                             info = this.FList.Find(c => c.Id == info.Id);

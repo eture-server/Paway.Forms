@@ -154,12 +154,18 @@ namespace Paway.Helper
 
         #region 关于四舍五入
         /// <summary>
+        /// 消除算术计算误差
+        /// </summary>
+        public static double Clear(double value)
+        {
+            return value.ClearError();
+        }
+        /// <summary>
         /// 中国式四舍五入,默认两位
         /// </summary>
         public static double Round(double value, int decimals = 2)
         {
             return Math.Round(value.ClearError(), decimals, MidpointRounding.AwayFromZero);
-
         }
         /// <summary>
         /// 关于数字格式化
@@ -174,14 +180,14 @@ namespace Paway.Helper
             return string.Format("{0:0." + length + "}", value);
         }
         /// <summary>
-        /// 关于显示数字(最低两位)
+        /// 关于显示数字(保留小数位:2-decimals)
         /// </summary>
         public static string Number(double number, int decimals = 2)
         {
             return TMethod.Rounds(number, decimals, 2);
         }
         /// <summary>
-        /// 关于货币格式化(最低两位)
+        /// 关于货币格式化(保留小数位:2-decimals)
         /// </summary>
         public static string Money(double money, int decimals = 2)
         {

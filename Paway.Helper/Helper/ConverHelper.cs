@@ -529,7 +529,7 @@ namespace Paway.Helper
         /// <summary>
         /// 消除算术计算误差(double转decimal)
         /// </summary>
-        public static double ClearError(this double value)
+        internal static double ClearError(this double value)
         {
             return decimal.ToDouble(value.ToDecimal());
         }
