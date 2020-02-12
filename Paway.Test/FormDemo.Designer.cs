@@ -437,7 +437,7 @@ namespace Paway.Test
             this.toolBar3.Items.Add(toolItem9);
             this.toolBar3.Items.Add(toolItem10);
             this.toolBar3.Items.Add(toolItem11);
-            this.toolBar3.ItemSize = new System.Drawing.Size(50, 18);
+            this.toolBar3.ItemSize = new System.Drawing.Size(50, 22);
             this.toolBar3.ItemSpace = 0;
             this.toolBar3.Location = new System.Drawing.Point(498, 16);
             this.toolBar3.Name = "toolBar3";

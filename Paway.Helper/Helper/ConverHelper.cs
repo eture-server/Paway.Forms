@@ -527,9 +527,9 @@ namespace Paway.Helper
             return string.IsNullOrEmpty(obj.ToString());
         }
         /// <summary>
-        /// 消除算术计算误差(double转decimal)
+        /// 消除算术计算误差(decimal转换)
         /// </summary>
-        internal static double ClearError(this double value)
+        public static double Clear(this double value)
         {
             return decimal.ToDouble(value.ToDecimal());
         }

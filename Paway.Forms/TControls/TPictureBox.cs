@@ -16,7 +16,7 @@ namespace Paway.Forms
         private System.ComponentModel.IContainer components;
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem toolAuto;
-        private ToolStripMenuItem toolNormal;
+        private ToolStripMenuItem toolReset;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem toolSave;
 
@@ -148,7 +148,7 @@ namespace Paway.Forms
         public TPictureBox()
         {
             InitializeComponent();
-            this.toolNormal.Click += ToolNormal_Click;
+            this.toolReset.Click += ToolReset_Click;
             this.toolAuto.Click += ToolAuto_Click;
             this.toolSave.Click += ToolSave_Click;
         }
@@ -157,7 +157,7 @@ namespace Paway.Forms
             this.components = new System.ComponentModel.Container();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolAuto = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolNormal = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolReset = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolSave = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
@@ -168,7 +168,7 @@ namespace Paway.Forms
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolAuto,
-            this.toolNormal,
+            this.toolReset,
             this.toolStripSeparator1,
             this.toolSave});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
@@ -180,11 +180,11 @@ namespace Paway.Forms
             this.toolAuto.Size = new System.Drawing.Size(100, 22);
             this.toolAuto.Text = "自动";
             // 
-            // toolNormal
+            // toolReset
             // 
-            this.toolNormal.Name = "toolNormal";
-            this.toolNormal.Size = new System.Drawing.Size(100, 22);
-            this.toolNormal.Text = "原始";
+            this.toolReset.Name = "toolNormal";
+            this.toolReset.Size = new System.Drawing.Size(100, 22);
+            this.toolReset.Text = "重置";
             // 
             // toolStripSeparator1
             // 
@@ -208,7 +208,7 @@ namespace Paway.Forms
         #endregion
 
         #region private Method
-        private void ToolNormal_Click(object sender, EventArgs e)
+        private void ToolReset_Click(object sender, EventArgs e)
         {
             if (this.Image == null) return;
             {
@@ -474,10 +474,10 @@ namespace Paway.Forms
                 toolAuto.Dispose();
                 toolAuto = null;
             }
-            if (toolNormal != null)
+            if (toolReset != null)
             {
-                toolNormal.Dispose();
-                toolNormal = null;
+                toolReset.Dispose();
+                toolReset = null;
             }
             if (toolStripSeparator1 != null)
             {

@@ -73,6 +73,7 @@
             toolItem2.Desc = "Desc";
             toolItem2.EndDesc = "End";
             toolItem2.HeadDesc = "Head";
+            toolItem2.Image = global::Paway.Test.Properties.Resources.pad;
             toolItem2.Text = "Change";
             this.btChange.Items.Add(toolItem2);
             this.btChange.ItemSize = new System.Drawing.Size(100, 100);

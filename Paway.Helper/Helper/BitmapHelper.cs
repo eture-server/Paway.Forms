@@ -310,30 +310,35 @@ namespace Paway.Helper
             int width = image.Width;
             if (image.Height > width)
                 width = image.Height;
-            return HighImage(image, new Size(width, width), mode);
+            return HighImage(image, new Size(width, width), true, mode);
         }
         /// <summary>
         /// 高质量缩放图像，默认线性收缩
         /// </summary>
-        public static Image HighImage(Image image, Size size, InterpolationMode mode = InterpolationMode.HighQualityBilinear)
+        public static Image HighImage(Image image, Size size, bool fixedSize = true, InterpolationMode mode = InterpolationMode.HighQualityBilinear)
         {
             if (image == null) return null;
+            var rect = Rectangle.Empty;
+            if (size.Width * 1.0 / size.Height > image.Width * 1.0 / image.Height)
+            {
+                int width = image.Width * size.Height / image.Height;
+                rect = new Rectangle((size.Width - width) / 2, 0, width, size.Height);
+            }
+            else
+            {
+                int height = image.Height * size.Width / image.Width;
+                rect = new Rectangle(0, (size.Height - height) / 2, size.Width, height);
+            }
             Image temp = new Bitmap(size.Width, size.Height);
+            if (!fixedSize)
+            {
+                temp = new Bitmap(rect.Width, rect.Height);
+                rect = new Rectangle(Point.Empty, temp.Size);
+            }
             using (var g = Graphics.FromImage(temp))
             {
                 g.InterpolationMode = mode;
                 g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                Rectangle rect = Rectangle.Empty;
-                if (size.Width * 1.0 / size.Height > image.Width * 1.0 / image.Height)
-                {
-                    int width = image.Width * size.Height / image.Height;
-                    rect = new Rectangle((size.Width - width) / 2, 0, width, size.Height);
-                }
-                else
-                {
-                    int height = image.Height * size.Width / image.Width;
-                    rect = new Rectangle(0, (size.Height - height) / 2, size.Width, height);
-                }
                 g.DrawImage(image, rect, new Rectangle(Point.Empty, image.Size), GraphicsUnit.Pixel);
             }
             return temp;

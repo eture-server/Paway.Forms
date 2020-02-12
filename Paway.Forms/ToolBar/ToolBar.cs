@@ -1000,7 +1000,7 @@ namespace Paway.Forms
                     if (color == Color.Empty)
                     {
                         var temp = _normalImage ?? _normalImage2;
-                        if (temp != null) g.DrawImage(temp, item.Rectangle);
+                        if (temp != null) DragImage(g, temp, item.Rectangle, _normalImage != null);
                     }
                     //else
                     {
@@ -1008,7 +1008,7 @@ namespace Paway.Forms
                     }
                     if (_iImageShow && item.Image != null)
                     {
-                        g.DrawImage(item.Image, item.ImageRect);
+                        DragImage(g, item.Image, item.ImageRect);
                     }
                     break;
                 case TMouseState.Move:
@@ -1017,7 +1017,7 @@ namespace Paway.Forms
                     if (color == Color.Empty)
                     {
                         var temp = _imageMove ?? _imageMove2;
-                        if (temp != null) g.DrawImage(temp, item.Rectangle);
+                        if (temp != null) DragImage(g, temp, item.Rectangle, _imageMove != null);
                     }
                     //else
                     {
@@ -1025,8 +1025,8 @@ namespace Paway.Forms
                     }
                     if (_iImageShow)
                     {
-                        if (item.ImageMove != null) g.DrawImage(item.ImageMove, item.ImageRect);
-                        else if (item.Image != null) g.DrawImage(item.Image, item.ImageRect);
+                        if (item.ImageMove != null) DragImage(g, item.ImageMove, item.ImageRect);
+                        else if (item.Image != null) DragImage(g, item.Image, item.ImageRect);
                     }
                     break;
                 case TMouseState.Down:
@@ -1034,7 +1034,7 @@ namespace Paway.Forms
                     if (color == Color.Empty)
                     {
                         var temp = _imageDown ?? _imageDown2;
-                        if (temp != null) g.DrawImage(temp, item.Rectangle);
+                        if (temp != null) DragImage(g, temp, item.Rectangle, _imageDown != null);
                     }
                     //else
                     {
@@ -1042,8 +1042,8 @@ namespace Paway.Forms
                     }
                     if (_iImageShow)
                     {
-                        if (item.ImageDown != null) g.DrawImage(item.ImageDown, item.ImageRect);
-                        else if (item.Image != null) g.DrawImage(item.Image, item.ImageRect);
+                        if (item.ImageDown != null) DragImage(g, item.ImageDown, item.ImageRect);
+                        else if (item.Image != null) DragImage(g, item.Image, item.ImageRect);
                     }
                     Image image = _selectImage ?? _selectImage2;
                     if (_iMultiple && image != null)
@@ -1052,6 +1052,29 @@ namespace Paway.Forms
                     }
                     break;
             }
+        }
+        private void DragImage(Graphics g, Image image, Rectangle rect, bool autoSize = true)
+        {
+            if (autoSize)
+            {
+                if (image.Width < rect.Width && image.Height < rect.Height)
+                {
+                    rect = new Rectangle(rect.Left + (rect.Width - image.Width) / 2,
+                        rect.Top + (rect.Height - image.Height) / 2,
+                        image.Width, image.Height);
+                }
+                else if (rect.Width * 1.0 / rect.Height > image.Width * 1.0 / image.Height)
+                {
+                    int width = image.Width * rect.Height / image.Height;
+                    rect = new Rectangle(rect.Left + (rect.Width - width) / 2, rect.Top, width, rect.Height);
+                }
+                else
+                {
+                    int height = image.Height * rect.Width / image.Width;
+                    rect = new Rectangle(rect.Left, rect.Top + (rect.Height - height) / 2, rect.Width, height);
+                }
+            }
+            g.DrawImage(image, rect, new Rectangle(Point.Empty, image.Size), GraphicsUnit.Pixel);
         }
 
         /// <summary>

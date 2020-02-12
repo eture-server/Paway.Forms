@@ -31,46 +31,13 @@ namespace Paway.Forms
             else this.screen = screen;
             Cursor = Cursors.Hand;
             ratio = this.screen.Width * 1.0 / this.screen.Height;
-            size = this.screen.Size;
-            var task = Win32Helper.TaskRect().Rect.Height;
-            if (size.Height > SystemInformation.VirtualScreen.Height)
-            {
-                size.Height = SystemInformation.VirtualScreen.Height - task;
-                size.Width = (ratio * size.Height).ToInt();
-            }
-            if (size.Width > SystemInformation.VirtualScreen.Width)
-            {
-                size.Width = SystemInformation.VirtualScreen.Width - task;
-                size.Height = (size.Width / ratio).ToInt();
-            }
-            if (size.Width > Width && size.Height > Height)
-            {
-                Width = size.Width;
-                Height = size.Height;
-                Width = (size.Width * 1.1).ToInt();
-                Height = (size.Height * 1.1).ToInt();
-            }
-            else if (size.Height > Height * 1.1)
-            {
-                Height = (size.Height * 1.1).ToInt();
-            }
-            else if (size.Width > Width * 1.1)
-            {
-                Width = (size.Width * 1.1).ToInt();
-            }
-            if (Height > SystemInformation.VirtualScreen.Height)
-            {
-                Height = SystemInformation.VirtualScreen.Height - task;
-            }
-            if (Width > SystemInformation.VirtualScreen.Width)
-            {
-                Width = SystemInformation.VirtualScreen.Width - task;
-            }
-            TextShow = string.Format("{0:F0}%", size.Width * 100.0 / screen.Width);
-            rect = new Rectangle((Width - size.Width) / 2, (Height - size.Height) / 2, size.Width, size.Height);
+            Reset();
             StartPosition = FormStartPosition.CenterScreen;
             CenterToScreen();
             SetBitmap();
+            this.toolReset.Click += ToolReset_Click;
+            this.toolAuto.Click += ToolAuto_Click;
+            this.toolSave.Click += ToolSave_Click;
         }
 
         #endregion
@@ -232,6 +199,85 @@ namespace Paway.Forms
             }
             rect = new Rectangle(x, y, rect.Width, rect.Height);
             Invalidate(rect);
+        }
+
+        #endregion
+
+        #region private Method
+        private void ToolReset_Click(object sender, EventArgs e)
+        {
+            Reset();
+        }
+        private void Reset()
+        {
+            size = this.screen.Size;
+            var task = Win32Helper.TaskRect().Rect.Height;
+            if (size.Height > SystemInformation.VirtualScreen.Height)
+            {
+                size.Height = SystemInformation.VirtualScreen.Height - task;
+                size.Width = (ratio * size.Height).ToInt();
+            }
+            if (size.Width > SystemInformation.VirtualScreen.Width)
+            {
+                size.Width = SystemInformation.VirtualScreen.Width - task;
+                size.Height = (size.Width / ratio).ToInt();
+            }
+            if (size.Width > Width && size.Height > Height)
+            {
+                Width = size.Width;
+                Height = size.Height;
+                Width = (size.Width * 1.1).ToInt();
+                Height = (size.Height * 1.1).ToInt();
+            }
+            else if (size.Height > Height * 1.1)
+            {
+                Height = (size.Height * 1.1).ToInt();
+            }
+            else if (size.Width > Width * 1.1)
+            {
+                Width = (size.Width * 1.1).ToInt();
+            }
+            if (Height > SystemInformation.VirtualScreen.Height)
+            {
+                Height = SystemInformation.VirtualScreen.Height - task;
+            }
+            if (Width > SystemInformation.VirtualScreen.Width)
+            {
+                Width = SystemInformation.VirtualScreen.Width - task;
+            }
+            TextShow = string.Format("{0:F0}%", size.Width * 100.0 / screen.Width);
+            rect = new Rectangle((Width - size.Width) / 2, (Height - size.Height) / 2, size.Width, size.Height);
+        }
+        private void ToolAuto_Click(object sender, EventArgs e)
+        {
+            size = screen.Size;
+            isExceed = size.Width > Width || size.Height > Height;
+            rect = new Rectangle((Width - size.Width) / 2, (Height - size.Height) / 2, size.Width, size.Height);
+            TextShow = string.Format("{0:F0}%", size.Width * 100.0 / screen.Width);
+        }
+        private void ToolSave_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog()
+            {
+                Filter = "Jpeg|*.jpg;*.jpeg|Png|*.png|Bmp|*.bmp",
+                Title = "Image Save"
+            };
+            if (DialogResult.OK == sfd.ShowDialog())
+            {
+                switch (sfd.FilterIndex)
+                {
+                    case 1:
+                        this.screen.Save(sfd.FileName, ImageFormat.Jpeg);
+                        break;
+                    case 2:
+                        this.screen.Save(sfd.FileName, ImageFormat.Png);
+                        break;
+                    case 3:
+                        this.screen.Save(sfd.FileName, ImageFormat.Bmp);
+                        break;
+                }
+            }
+            sfd.Dispose();
         }
 
         #endregion

@@ -154,18 +154,11 @@ namespace Paway.Helper
 
         #region 关于四舍五入
         /// <summary>
-        /// 消除算术计算误差
-        /// </summary>
-        public static double Clear(double value)
-        {
-            return value.ClearError();
-        }
-        /// <summary>
         /// 中国式四舍五入,默认两位
         /// </summary>
         public static double Round(double value, int decimals = 2)
         {
-            return Math.Round(value.ClearError(), decimals, MidpointRounding.AwayFromZero);
+            return Math.Round(value.Clear(), decimals, MidpointRounding.AwayFromZero);
         }
         /// <summary>
         /// 关于数字格式化
