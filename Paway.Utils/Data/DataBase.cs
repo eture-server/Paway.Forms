@@ -172,33 +172,49 @@ namespace Paway.Utils
         /// <summary>
         /// 执行查询，并返回泛型列表
         /// </summary>
-        public List<T> ExecuteList<T>(string sql = null, DbCommand cmd = null) where T : new()
+        public List<T> ExecuteList<T>(string sql) where T : new()
+        {
+            return ExecuteList<T>(sql, null, null);
+        }
+        /// <summary>
+        /// 执行查询，并返回泛型列表
+        /// </summary>
+        public List<T> ExecuteList<T>(string sql, DbCommand cmd) where T : new()
         {
             return ExecuteList<T>(sql, null, cmd);
         }
         /// <summary>
         /// 执行查询，并返回泛型列表
         /// </summary>
-        public List<T> ExecuteList<T>(string sql, dynamic param, DbCommand cmd = null) where T : new()
+        public List<T> ExecuteList<T>(string sql = null, dynamic param = null, DbCommand cmd = null) where T : new()
         {
             DataTable table = ExecuteDataTable(sql, param, cmd, typeof(T));
             return table.ToList<T>();
         }
+
         /// <summary>
         /// 执行查询，并返回泛型列表
         /// </summary>
-        public IList ExecuteList(Type type, string sql = null, DbCommand cmd = null)
+        public IList ExecuteList(Type type, string sql)
+        {
+            return ExecuteList(type, sql, null, null);
+        }
+        /// <summary>
+        /// 执行查询，并返回泛型列表
+        /// </summary>
+        public IList ExecuteList(Type type, string sql, DbCommand cmd)
         {
             return ExecuteList(type, sql, null, cmd);
         }
         /// <summary>
         /// 执行查询，并返回泛型列表
         /// </summary>
-        public IList ExecuteList(Type type, string sql, dynamic param = null, DbCommand cmd = null)
+        public IList ExecuteList(Type type, string sql = null, dynamic param = null, DbCommand cmd = null)
         {
             DataTable table = ExecuteDataTable(sql, param, cmd, type);
             return table.ToList(type);
         }
+
         /// <summary>
         /// 执行查询，并返回DataTable对象
         /// </summary>
