@@ -49,11 +49,31 @@ namespace Paway.Helper
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
     public class NoShowAttribute : Attribute { }
     /// <summary>
-    /// 特性.不生成数据列
+    /// 特性.生成指定类型查询数据列
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public class NoSelectAttribute : Attribute { }
+    public class NoSelectAttribute : Attribute
+    {
+        /// <summary>
+        /// 数据库字段Sql执行类型
+        /// </summary>
+        public SelectType Type { get; set; }
+        /// <summary>
+        /// 特性.不生成数据列
+        /// </summary>
+        public NoSelectAttribute()
+        {
+            this.Type = SelectType.None;
+        }
+        /// <summary>
+        /// 特性.生成指定类型查询数据列
+        /// </summary>
+        public NoSelectAttribute(SelectType type)
+        {
+            this.Type = type;
+        }
+    }
     /// <summary>
     /// 特性.不生成ExcelTable列
     /// </summary>

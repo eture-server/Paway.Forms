@@ -1045,8 +1045,10 @@ namespace Paway.Utils
             }
             foreach (var property in type.PropertiesValue())
             {
-                if (property.ISelect())
+                var selectType = property.ISelect();
+                if ((selectType & SelectType.Find) == SelectType.Find)
                 {
+                    if (args.Length == 0 && selectType == SelectType.Image) continue;
                     var column = property.ColumnName();
                     if (args.Length > 0 &&
                         args.FirstOrDefault(c => c == column) == null &&
@@ -1098,7 +1100,7 @@ namespace Paway.Utils
             sql = string.Format(sql, type.TableName());
             foreach (var property in type.PropertiesValue())
             {
-                if (property.ISelect())
+                if ((property.ISelect() & SelectType.Update) == SelectType.Update)
                 {
                     var column = property.ColumnName();
                     if (column == tableKey) continue;
@@ -1133,7 +1135,7 @@ namespace Paway.Utils
             value = string.Empty;
             foreach (var property in type.PropertiesValue())
             {
-                if (property.ISelect())
+                if ((property.ISelect() & SelectType.Update) == SelectType.Update)
                 {
                     var column = property.ColumnName();
                     if (column == key) continue;

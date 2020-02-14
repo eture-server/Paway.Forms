@@ -887,10 +887,10 @@ namespace Paway.Helper
         /// <summary>
         /// 自定义特性-不生成数据列
         /// </summary>
-        public static bool ISelect(this MemberInfo pro)
+        public static SelectType ISelect(this MemberInfo pro)
         {
             var list = pro.GetCustomAttributes(typeof(NoSelectAttribute), false) as NoSelectAttribute[];
-            return list.Length == 0;
+            return list.Length == 0 ? SelectType.All : list[0].Type;
         }
         /// <summary>
         /// 自定义特性-不生成ExcelTable列

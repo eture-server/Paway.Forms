@@ -65,6 +65,7 @@
     <Compile Include="Common\PawayException.cs" />
     <Compile Include="Common\TConst.cs" />
     <Compile Include="Common\TMethod.Common.cs" />
+    <Compile Include="Enum\SelectType.cs" />
     <Compile Include="Helper\ExcelHelper.cs" />
     <Compile Include="ILBuider\BuilderHelper.cs" />
     <Compile Include="ILBuider\ValueBuilder.cs" />
