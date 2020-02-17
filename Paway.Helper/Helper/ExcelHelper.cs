@@ -237,7 +237,7 @@ namespace Paway.Helper
             short titleHeight = 42, short heardHeight = 20, short lineHeight = 16,
             Action<ICellStyle, ICellStyle, ICellStyle> style = null, Func<List<T>, ISheet, int> heardAction = null,
             Func<T, IWorkbook, Tuple<ICellStyle, ICellStyle>> lineStyle = null,
-            Func<List<T>, string, bool> filter = null,
+            Func<List<T>, T, string, bool> filter = null,
             Action<List<T>, int, IRow, string, ICellStyle> merged = null,
             Action<ISheet> sign = null,
             params int[] args)
@@ -275,7 +275,7 @@ namespace Paway.Helper
                     foreach (var property in properties)
                     {
                         if (!property.IExcel()) continue;
-                        if (filter != null && filter(list, property.Name)) continue;
+                        if (filter != null && filter(list, default, property.Name)) continue;
                         var index = row.LastCellNum < 0 ? 0 : row.LastCellNum;
                         var cell = row.CreateCell(index);
                         cell.CellStyle = heardStyle;
@@ -302,7 +302,7 @@ namespace Paway.Helper
                     foreach (var property in properties)
                     {
                         if (!property.IExcel()) continue;
-                        if (filter != null && filter(list, property.Name)) continue;
+                        if (filter != null && filter(list, list[i], property.Name)) continue;
                         var index = row.LastCellNum < 0 ? 0 : row.LastCellNum;
                         var dbType = property.PropertyType;
                         if (dbType.IsGenericType && Nullable.GetUnderlyingType(dbType) != null) dbType = Nullable.GetUnderlyingType(dbType);
