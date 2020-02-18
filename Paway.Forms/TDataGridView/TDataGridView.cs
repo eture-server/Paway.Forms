@@ -1026,6 +1026,7 @@ namespace Paway.Forms
         #region 二维表头
         private void HeaderMerge(DataGridViewCellPaintingEventArgs e)
         {
+            if (this.type == typeof(FindInfo)) return;
             if (SpanRows.ContainsKey(e.ColumnIndex)) //被合并的列
             {
                 //画边框

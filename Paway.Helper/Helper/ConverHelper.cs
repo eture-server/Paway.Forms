@@ -660,6 +660,19 @@ namespace Paway.Helper
         /// <summary>
         /// 赋值（string数据转指定类型）
         /// </summary>
+        public static void TrySetValue<T>(this T obj, string name, object value)
+        {
+            Type type = typeof(T);
+            var descriptors = type.Descriptors();
+            var descriptor = descriptors.Find(c => c.Name == name);
+            if (descriptor != null)
+            {
+                obj.SetValue(descriptor, value);
+            }
+        }
+        /// <summary>
+        /// 赋值（string数据转指定类型）
+        /// </summary>
         public static void SetValue<T>(this T obj, PropertyDescriptor pro, object value)
         {
             if (value == null || value == DBNull.Value)
