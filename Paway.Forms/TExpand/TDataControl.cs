@@ -433,7 +433,7 @@ namespace Paway.Forms
                             }
                             else if (gridview1.Edit is TDataGridView gridView)
                             {
-                                gridView.DeleteRow(info.Id);
+                                gridView.DeleteRowId(info.Id);
                             }
                         }
                         this.List.RemoveAll(c => c.Id == info.Id);

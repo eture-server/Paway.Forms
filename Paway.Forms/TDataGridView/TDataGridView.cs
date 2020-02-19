@@ -554,16 +554,32 @@ namespace Paway.Forms
         /// <summary>
         /// 更新行
         /// </summary>
-        public void UpdateRow(object info, int id)
+        public void UpdateRow(object info)
+        {
+            var id = info.GetValue(IdColumn());
+            UpdateRow(info, id);
+        }
+        /// <summary>
+        /// 更新行
+        /// </summary>
+        public void UpdateRow(object info, object id)
         {
             var dt = this.DataSource as DataTable;
             var dr = dt.Rows.Find(id);
-            dr.ItemArray = info.ToDataRow().ItemArray;
+            if (dr != null) dr.ItemArray = info.ToDataRow().ItemArray;
         }
         /// <summary>
         /// 删除行
         /// </summary>
-        internal void DeleteRow(int id)
+        public void DeleteRow(object info)
+        {
+            var id = info.GetValue(IdColumn());
+            DeleteRowId(id);
+        }
+        /// <summary>
+        /// 删除行
+        /// </summary>
+        public void DeleteRowId(object id)
         {
             var dt = this.DataSource as DataTable;
             var dr = dt.Rows.Find(id);
