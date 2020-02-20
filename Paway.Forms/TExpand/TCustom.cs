@@ -59,7 +59,7 @@ namespace Paway.Forms
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            this.Validated += TQuery_Validated;
+            this.Validated += TCustom_Validated;
         }
         internal void ShowHeight(int count)
         {
@@ -81,7 +81,7 @@ namespace Paway.Forms
         {
             if (!this.ContainsFocus) this.Visible = false;
         }
-        private void TQuery_Validated(object sender, EventArgs e)
+        private void TCustom_Validated(object sender, EventArgs e)
         {
             if (this.TextBox != null) this.Visible = this.TextBox.ContainsFocus;
             else this.Visible = false;

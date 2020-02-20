@@ -73,7 +73,7 @@ namespace Paway.Forms
         /// </summary>
         /// <param name="textbox">TextBox</param>
         /// <param name="value">枚举值</param>
-        /// <param name="action">过滤</param>
+        /// <param name="action">过滤方法</param>
         /// <param name="count">控件按指定数量行高度设置</param>
         public void Init<T>(QQTextBox textbox, T value, Func<T, bool> action = null, int count = 5)
         {

@@ -135,12 +135,13 @@ namespace Paway.Forms
             if (iType == null) throw new ArgumentException("Data type error, interface not implemented: IParentId.");
 
             Columns.Clear();
-            bool iTree = false;
+            var iTree = false;
+            var iColumn = TextColumn != null && type.Property(TextColumn) != null;
             foreach (var property in type.PropertiesValue())
             {
                 var visible = property.IShow();
                 DataGridViewColumn column;
-                if (visible && !iTree && (TextColumn.IsNullOrEmpty() || TextColumn.Equals(property.Name, StringComparison.OrdinalIgnoreCase)))
+                if (!iTree && ((!iColumn && visible) || (iColumn && TextColumn.Equals(property.Name, StringComparison.OrdinalIgnoreCase))))
                 {
                     iTree = true;
                     column = new TreeGridColumn();

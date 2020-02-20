@@ -30,6 +30,10 @@ namespace Paway.Forms
         /// 选择事件
         /// </summary>
         public event Action<object> SelectedEvent;
+        /// <summary>
+        /// 搜索结果过滤事件
+        /// </summary>
+        public event Action<List<T>> SearchFilterEvent;
 
         /// <summary>
         /// 构造
@@ -37,6 +41,8 @@ namespace Paway.Forms
         public TQuery()
         {
             InitializeComponent();
+            this.gridview1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.gridview1.ColumnHeadersVisible = false;
             this.Visible = false;
         }
 
@@ -47,7 +53,7 @@ namespace Paway.Forms
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            InitData();
+            LoadData();
         }
         /// <summary>
         /// 显示
@@ -56,7 +62,7 @@ namespace Paway.Forms
         {
             if (this.Visible && this.Height == 0)
             {
-                InitData();
+                LoadData();
             }
         }
         /// <summary>
@@ -100,19 +106,26 @@ namespace Paway.Forms
         private void TextBox_TextChanged(object sender, EventArgs e)
         {
             var value = this.TextBox.Text.ToLower();
-            var count = InitData();
+            var count = LoadData();
             this.Visible = TextBox.ContainsFocus && !value.IsNullOrEmpty() && count > 0;
+            if (gridview1 is TreeGridView treeView1) treeView1.ExpandAll();
         }
-        private int InitData()
+        private int LoadData()
         {
             string value = this.TextBox.Text.ToLower();
             var searchList = this.list.AsParallel().Where(Activator.CreateInstance<T>().Find(value)).ToList();
+            SearchFilterEvent?.Invoke(searchList);
             var tempList = new List<T>();
             int count = searchList.Count;
-            if (count > this.totalCount) count = this.totalCount;
+            if (count > this.totalCount && this.totalCount != 0) count = this.totalCount;
             for (int i = 0; i < count; i++)
             {
                 tempList.Add(searchList[i]);
+            }
+            if (showType != null && gridview1 is TreeGridView treeView1)
+            {
+                var properties = showType.PropertiesCache();
+                treeView1.TextColumn = properties[0].Name;
             }
             this.gridview1.DataSource = tempList;
             if (showType != null)

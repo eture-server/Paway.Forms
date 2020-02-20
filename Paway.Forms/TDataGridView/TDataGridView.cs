@@ -571,15 +571,7 @@ namespace Paway.Forms
         /// <summary>
         /// 删除行
         /// </summary>
-        public void DeleteRow(object info)
-        {
-            var id = info.GetValue(IdColumn());
-            DeleteRowId(id);
-        }
-        /// <summary>
-        /// 删除行
-        /// </summary>
-        public void DeleteRowId(object id)
+        internal void DeleteRow(object id)
         {
             var dt = this.DataSource as DataTable;
             var dr = dt.Rows.Find(id);

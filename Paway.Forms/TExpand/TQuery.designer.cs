@@ -36,8 +36,6 @@
             // gridview1
             // 
             this.gridview1.AllowUserToResizeColumns = false;
-            this.gridview1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.gridview1.ColumnHeadersVisible = false;
             this.gridview1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id});
             this.gridview1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -71,7 +69,9 @@
 
         #endregion
 
-        private Paway.Forms.TDataGridView gridview1;
+        /// <summary>
+        /// </summary>
+        protected Paway.Forms.TDataGridView gridview1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
 
     }
