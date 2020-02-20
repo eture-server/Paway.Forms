@@ -99,14 +99,14 @@ namespace Paway.Forms
         {
             gridview1.Edit.CellFormatting -= Gridview1_CellFormatting;
             gridview1.Edit.CurrentCellChanged -= Gridview1_CurrentCellChanged;
-            gridview1.Edit.DoubleClick -= Gridview1_DoubleClick;
+            gridview1.Edit.RowDoubleClick -= Gridview1_RowDoubleClick;
             gridview1.Edit.RefreshChanged -= Gridview1_RefreshChanged;
             gridview1.Edit.CellEndEdit -= TDataGridView_CellEndEdit;
             gridview1.Edit.CheckedChanged -= TDataGridView_CheckedChanged;
 
             gridview1.Edit.CellFormatting += Gridview1_CellFormatting;
             gridview1.Edit.CurrentCellChanged += Gridview1_CurrentCellChanged;
-            gridview1.Edit.DoubleClick += Gridview1_DoubleClick;
+            gridview1.Edit.RowDoubleClick += Gridview1_RowDoubleClick;
             gridview1.Edit.RefreshChanged += Gridview1_RefreshChanged;
             gridview1.Edit.CellEndEdit += TDataGridView_CellEndEdit;
             gridview1.Edit.CheckedChanged += TDataGridView_CheckedChanged;
@@ -205,27 +205,9 @@ namespace Paway.Forms
 
         #region 加数数据与样式
         /// <summary>
-        /// 查询参数
-        /// </summary>
-        protected void InitData(IDataService server = null, string find = null)
-        {
-            if (this.DesignMode) return;
-            this.server = server;
-            this.find = find;
-            find = string.Format("{0} order by Id", this.find ?? "1=1");
-            QueryStart(find);
-        }
-        /// <summary>
         /// 初始化数据
         /// </summary>
-        protected virtual void InitData(List<T> list, bool iAdd = true)
-        {
-            InitData(null, list, iAdd);
-        }
-        /// <summary>
-        /// 初始化数据
-        /// </summary>
-        protected virtual void InitData(IDataService server, List<T> list, bool iAdd = true)
+        protected virtual void InitData(List<T> list, IDataService server = null, bool iAdd = true)
         {
             try
             {
@@ -318,7 +300,13 @@ namespace Paway.Forms
                     tbName.TextChanged -= TbName_TextChanged;
                     tbName.Text = null;
                     tbName.TextChanged += TbName_TextChanged;
-                    string find = string.Format("{0} order by " + gridview1.Edit.IdColumn(), this.find ?? "1=1");
+                    var find = this.find;
+                    if (find == null ||
+                       (find.IndexOf("order by", StringComparison.OrdinalIgnoreCase) == -1 &&
+                        find.IndexOf("group by", StringComparison.OrdinalIgnoreCase) == -1))
+                    {
+                        find = string.Format("{0} order by " + gridview1.Edit.IdColumn(), find ?? "1=1");
+                    }
                     QueryStart(find);
                     break;
                 case "添加":
@@ -663,18 +651,10 @@ namespace Paway.Forms
         /// <summary>
         /// 双击触发编辑方法
         /// </summary>
-        private void Gridview1_DoubleClick(object sender, EventArgs e)
+        private void Gridview1_RowDoubleClick(int rowIndex)
         {
-            if (e is MouseEventArgs me)
-            {
-                TDataGridView gridview = sender as TDataGridView;
-                var hit = gridview.HitTest(me.X, me.Y);
-                if (hit.RowIndex > -1)
-                {
-                    if (OnRowDoubleClick(hit.RowIndex)) return;
-                    toolBar1.TClickItem("编辑");
-                }
-            }
+            if (OnRowDoubleClick(rowIndex)) return;
+            toolBar1.TClickItem("编辑");
         }
 
         #endregion
@@ -714,7 +694,7 @@ namespace Paway.Forms
         {
             if (result is List<T> list)
             {
-                InitData(list, false);
+                InitData(list, iAdd: false);
             }
             else
             {

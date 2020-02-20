@@ -27,7 +27,7 @@ namespace Paway.Test
             base.AddUpdate();
             base.AddDelete();
             if (DesignMode) return;
-            base.InitData(DataService.Default, Cache.UserList);
+            base.InitData(Cache.UserList, DataService.Default);
         }
 
         #region 重载

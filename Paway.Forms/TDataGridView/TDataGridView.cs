@@ -186,6 +186,10 @@ namespace Paway.Forms
         /// 合并单元格取消事件
         /// </summary>
         public event Func<int, string, bool> SpanEvent;
+        /// <summary>
+        /// 行双击事件
+        /// </summary>
+        public event Action<int> RowDoubleClick;
 
         #endregion
 
@@ -205,6 +209,7 @@ namespace Paway.Forms
             CellFormatting += TDataGridView_CellFormatting;
             CellMouseDown += TDataGridView_CellMouseDown;
             CellMouseUp += TDataGridView_CellMouseUp;
+            DoubleClick += TDataGridView_DoubleClick;
             BackgroundColor = Color.White;
             BorderStyle = BorderStyle.None;
             InitializeComponent();
@@ -1306,6 +1311,17 @@ namespace Paway.Forms
             }
             if (Columns.Count > 0) return Columns[0].Name;
             return null;
+        }
+        private void TDataGridView_DoubleClick(object sender, EventArgs e)
+        {
+            if (e is MouseEventArgs me)
+            {
+                var hit = this.HitTest(me.X, me.Y);
+                if (hit.RowIndex > -1)
+                {
+                    RowDoubleClick?.Invoke(hit.RowIndex);
+                }
+            }
         }
 
         #endregion
