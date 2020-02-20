@@ -108,7 +108,10 @@ namespace Paway.Forms
             var value = this.TextBox.Text.ToLower();
             var count = LoadData();
             this.Visible = TextBox.ContainsFocus && !value.IsNullOrEmpty() && count > 0;
-            if (gridview1 is TreeGridView treeView1) treeView1.ExpandAll();
+            if (gridview1 is TreeGridView treeView1)
+            {
+                if (!value.IsNullOrEmpty()) treeView1.ExpandAll();
+            }
         }
         private int LoadData()
         {
