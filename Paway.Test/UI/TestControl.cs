@@ -20,6 +20,10 @@ namespace Paway.Test
     public partial class TestControl : TDataControl<TestInfo>
     {
         public TestControl() { }
+        protected override void ReLoad(bool first)
+        {
+            base.ReLoad(first);
+        }
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);

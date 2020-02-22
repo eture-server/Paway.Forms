@@ -17,9 +17,9 @@ namespace Paway.Test
         {
             InitializeComponent();
         }
-        protected override void ReLoad()
+        protected override void ReLoad(bool first)
         {
-            base.ReLoad();
+            base.ReLoad(first);
             toolLeft.MStart(TMDirection.Left);
             toolRight.MStart(TMDirection.Right);
             toolUp.MStart(TMDirection.Up);

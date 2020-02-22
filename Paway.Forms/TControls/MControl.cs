@@ -45,7 +45,7 @@ namespace Paway.Forms
         /// <summary>
         /// 从其它控件切换过来时重新激活
         /// </summary>
-        protected virtual void ReLoad()
+        protected virtual void ReLoad(bool first)
         {
             ILoad = true;
         }
@@ -141,6 +141,7 @@ namespace Paway.Forms
         /// </summary>
         public static MControl ReLoad(Control parent, Type type, EventArgs e, TMDirection direction, Delegate method = null, int intervel = -1)
         {
+            var first = false;
             MControl control = null;
             try
             {
@@ -178,6 +179,7 @@ namespace Paway.Forms
                 //加载控件
                 if (control == null)
                 {
+                    first = true;
                     control = (MControl)Activator.CreateInstance(type);
                 }
                 if (control == null)
@@ -248,7 +250,7 @@ namespace Paway.Forms
                 }
                 if (e != null) Current.Args = e;
                 Current.Focus();
-                Current.ReLoad();
+                Current.ReLoad(first);
             }
         }
 

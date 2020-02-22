@@ -24,9 +24,9 @@ namespace Paway.Test
             OnChanged(this, e);
             WaitDrawDataGridView();
         }
-        protected override void ReLoad()
+        protected override void ReLoad(bool first)
         {
-            base.ReLoad();
+            base.ReLoad(first);
             toolbar.MStart();
         }
         public override bool UnLoad()

@@ -64,9 +64,9 @@ namespace Paway.Forms
         /// <summary>
         /// ReLoad
         /// </summary>
-        protected override void ReLoad()
+        protected override void ReLoad(bool first)
         {
-            base.ReLoad();
+            base.ReLoad(first);
             toolBar1.MStart();
         }
         /// <summary>

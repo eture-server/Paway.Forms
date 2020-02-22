@@ -29,9 +29,11 @@
         private void InitializeComponent()
         {
             Paway.Forms.ToolItem toolItem1 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem2 = new Paway.Forms.ToolItem();
+            Paway.Forms.ToolItem toolItem3 = new Paway.Forms.ToolItem();
             this.tControl1 = new Paway.Forms.TControl();
             this.toolBar1 = new Paway.Forms.ToolBar();
-            this.testControl1 = new Paway.Test.TestControl();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.tControl1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,17 +49,21 @@
             // 
             // toolBar1
             // 
-            this.toolBar1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.toolBar1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolBar1.Font = new System.Drawing.Font("Tahoma", 15F);
             this.toolBar1.IClickEvent = true;
             this.toolBar1.ImageSize = new System.Drawing.Size(0, 0);
-            toolItem1.Text = "hello";
+            toolItem1.Text = "控件";
+            toolItem2.Text = "数据";
+            toolItem3.Text = "控件2";
             this.toolBar1.Items.Add(toolItem1);
+            this.toolBar1.Items.Add(toolItem2);
+            this.toolBar1.Items.Add(toolItem3);
             this.toolBar1.ItemSize = new System.Drawing.Size(100, 48);
             this.toolBar1.ItemSpace = 5;
             this.toolBar1.Location = new System.Drawing.Point(0, 0);
             this.toolBar1.Name = "toolBar1";
-            this.toolBar1.Size = new System.Drawing.Size(100, 48);
+            this.toolBar1.Size = new System.Drawing.Size(675, 48);
             this.toolBar1.TabIndex = 70;
             this.toolBar1.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolBar1.TextFirst.ColorMove = System.Drawing.Color.White;
@@ -68,21 +74,20 @@
             this.toolBar1.TLineColor.ColorNormal = System.Drawing.Color.Transparent;
             this.toolBar1.Trans = 150;
             // 
-            // testControl1
+            // panel1
             // 
-            this.testControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.testControl1.Font = new System.Drawing.Font("微软雅黑", 11F);
-            this.testControl1.Location = new System.Drawing.Point(1, 74);
-            this.testControl1.MInterval = 6;
-            this.testControl1.Name = "testControl1";
-            this.testControl1.Size = new System.Drawing.Size(675, 292);
-            this.testControl1.TabIndex = 68;
+            this.panel1.BackColor = System.Drawing.Color.LightGray;
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(1, 74);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(675, 292);
+            this.panel1.TabIndex = 68;
             // 
             // FormEmit
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(87)))), ((int)(((byte)(154)))));
             this.ClientSize = new System.Drawing.Size(677, 367);
-            this.Controls.Add(this.testControl1);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.tControl1);
             this.Name = "FormEmit";
             this.ShowIcon = false;
@@ -96,6 +101,6 @@
 
         private Forms.TControl tControl1;
         private Forms.ToolBar toolBar1;
-        private TestControl testControl1;
+        private System.Windows.Forms.Panel panel1;
     }
 }
