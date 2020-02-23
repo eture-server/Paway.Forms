@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.International.Converters.PinYinConverter;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -148,23 +149,34 @@ namespace Paway.Helper
         #region 字符串转换
         #region 中文转拼音(取汉字、数字、字母，其它自动过滤)
         /// <summary>
+        /// 在指定的字符串列表cnStr中检索符合拼音索引字符串
+        /// <para>使用NPinyin获取拼音，失败再使用微软PinYinConverter</para>
+        /// </summary>
+        /// <param name="str">汉字字符串</param>
+        /// <param name="args">换格字符</param>
+        /// <returns>相对应的汉语拼音首字母串</returns>
+        public static string ToSpell(this string str, params char[] args)
+        {
+            return ToCode(ToSpell, str, args);
+        }
+        /// <summary>
         /// 在指定的字符串列表cnStr中检索符合拼音索引字符串(仅取一级汉字共3755个)
         /// </summary>
         /// <param name="str">汉字字符串</param>
         /// <param name="args">换格字符</param>
         /// <returns>相对应的汉语拼音首字母串</returns>
-        public static string ToSpell(this string str, params string[] args)
+        public static string ToSpellOld(this string str, params char[] args)
         {
-            return ToCode(ToSpell, str, args);
+            return ToCode(ToSpellOld, str, args);
         }
-        private static string ToCode(Func<string, Tuple<bool, string>> action, string str, params string[] args)
+        private static string ToCode(Func<char, Tuple<bool, char>> action, string str, params char[] args)
         {
             if (str.IsNullOrEmpty()) return string.Empty;
             string strTemp = string.Empty;
             bool last = true;
             for (int i = 0; i < str.Length; i++)
             {
-                Tuple<bool, string> result = action(str.Substring(i, 1));
+                Tuple<bool, char> result = action(str[i]);
                 if ((result.Item1 || last) && !IContains(result.Item2, args))
                 {
                     if (args.Length > 0) { }
@@ -179,10 +191,9 @@ namespace Paway.Helper
         /// 判断非汉字时取值问题
         /// 参数为空时仅取连续字母或数字的首位
         /// </summary>
-        private static bool IContains(string str, params string[] args)
+        private static bool IContains(char c, params char[] args)
         {
-            if (args.Length > 0) return args.Contains(str);
-            int c = str[0];
+            if (args.Length > 0) return args.Contains(c);
             if (c >= 65 && c <= 90) return false;//A-Z
             if (c >= 97 && c <= 122) return false;//a-z
             if (c >= 48 && c <= 57) return false;//0-9
@@ -191,11 +202,11 @@ namespace Paway.Helper
         /// <summary>
         /// 根据一个汉字获得其首拼音字符
         /// </summary>
-        private static Tuple<bool, string> ToSpell(string chart)
+        private static Tuple<bool, char> ToSpellOld(char chr)
         {
-            string result;
+            char result = chr;
             //获得其ASSIC码
-            byte[] arrCN = Encoding.Default.GetBytes(chart);
+            byte[] arrCN = Encoding.Default.GetBytes(new char[] { chr });
             if (arrCN.Length > 1)
             {
                 //int code = (area << 8) + pos;
@@ -214,14 +225,36 @@ namespace Paway.Helper
                     if (areacode[i] <= code && code < max)
                     {
                         //转为字母返回
-                        return new Tuple<bool, string>(true, (char)(65 + i) + "");
+                        return new Tuple<bool, char>(true, (char)(65 + i));
                     }
                 }
-                result = "?";
+                result = '?';
             }
-            else result = chart;
-            return new Tuple<bool, string>(false, result);
+            return new Tuple<bool, char>(false, result);
         }
+        /// <summary>
+        /// 根据一个汉字获得其首拼音字符
+        /// <para>使用NPinyin获取拼音，失败再使用微软PinYinConverter</para>
+        /// </summary>
+        private static Tuple<bool, char> ToSpell(char chr)
+        {
+            var coverchr = NPinyin.Pinyin.GetPinyin(chr);
+            bool isChineses = ChineseChar.IsValidChar(coverchr[0]);
+            if (isChineses)
+            {
+                ChineseChar chineseChar = new ChineseChar(coverchr[0]);
+                foreach (string value in chineseChar.Pinyins)
+                {
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        isChineses = false;
+                        coverchr = value.Remove(value.Length - 1, 1);
+                    }
+                }
+            }
+            return new Tuple<bool, char>(!isChineses, coverchr[0]);
+        }
+
         /// <summary>
         /// 在字符串中搜索正则表达式的第一个匹配项
         /// </summary>
@@ -248,33 +281,31 @@ namespace Paway.Helper
         /// <param name="str">汉字字符串</param>
         /// <param name="args">换格字符</param>
         /// <returns>相对应的汉语五笔首字母串</returns>
-        public static string ToWbCode(this string str, params string[] args)
+        public static string ToWbCode(this string str, params char[] args)
         {
             return ToCode(ToWbCode, str, args);
         }
         /// <summary>
         /// 根据一个汉字获得其首个五笔字符
         /// </summary>
-        private static Tuple<bool, string> ToWbCode(string chart)
+        private static Tuple<bool, char> ToWbCode(char chr)
         {
             InitWbCode();
-            string result;
+            var result = chr;
             //获得其ASSIC码
-            byte[] arrCN = Encoding.Default.GetBytes(chart);
+            byte[] arrCN = Encoding.Default.GetBytes(new char[] { chr });
             if (arrCN.Length > 1)
             {
                 for (int i = 0; i < wbList.Count; i++)
                 {
-                    if (wbList[i].Contains(chart))
+                    if (wbList[i].Contains(chr))
                     {
-                        result = Encoding.Default.GetString(new byte[] { (byte)(65 + i) });
-                        return new Tuple<bool, string>(true, result);
+                        return new Tuple<bool, char>(true, (char)(65 + i));
                     }
                 }
-                result = "?";
+                result = '?';
             }
-            else result = chart;
-            return new Tuple<bool, string>(false, result);
+            return new Tuple<bool, char>(false, result);
         }
         private static void InitWbCode()
         {
