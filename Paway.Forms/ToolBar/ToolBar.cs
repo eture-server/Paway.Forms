@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using Paway.Forms.Properties;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Paway.Forms
 {
@@ -17,7 +18,7 @@ namespace Paway.Forms
     /// </summary>
     [DefaultProperty("Items")]
     [DefaultEvent("ItemClick")]
-    public class ToolBar : TControl
+    public partial class ToolBar : TControl
     {
         #region 构造函数
         /// <summary>
@@ -25,8 +26,6 @@ namespace Paway.Forms
         /// </summary>
         public ToolBar()
         {
-            InitializeComponent();
-            Progress();
             CustomScroll();
             _toolTop = new ToolTip();
             InitHide();
@@ -854,7 +853,7 @@ namespace Paway.Forms
 
         private bool CalcItemRect(ToolItem item, out SizeF size)
         {
-            SizeF size1 = TextRenderer.MeasureText(item.First, GetTextFirst(item).FontNormal, item.Rectangle.Size);
+            SizeF size1 = TextRenderer.MeasureText(item.FirstKeys(), GetTextFirst(item).FontNormal, item.Rectangle.Size);
             SizeF size2 = TextRenderer.MeasureText(item.Sencond, TextSencond.FontNormal, item.Rectangle.Size);
             SizeF size3 = TextRenderer.MeasureText(item.Desc, TDesc.FontNormal, item.Rectangle.Size);
             size = new SizeF(Math.Max(size1.Width, size2.Width), Math.Max(size1.Height, size2.Height));
@@ -1267,7 +1266,7 @@ namespace Paway.Forms
         private void DrawText(Graphics g, ToolItem item)
         {
             Rectangle textRect;
-            if (string.IsNullOrEmpty(item.Text)) item.Text = string.Empty;
+            if (item.Text == null) item.Text = string.Empty;
             {
                 var padding = ItemPadding(item);
                 textRect = new Rectangle
@@ -1329,8 +1328,8 @@ namespace Paway.Forms
                     textRect.Width -= size.Width;
                 }
                 {
-                    var text = item.Text.Split(new[] { "\r\n", "&&" }, StringSplitOptions.RemoveEmptyEntries);
-                    if (text.Length == 1) DrawOtherDesc(g, item, GetTextFirst(item), item.Text, textRect);
+                    var text = item.Text.Split(new char[] { '\r', '\n', '&' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (text.Length == 1) DrawOtherDesc(g, item, GetTextFirst(item), item.FirstKeys(), textRect);
                     else if (text.Length > 1)
                     {
                         var fHight = HeightFont(item.MouseState, GetTextFirst(item));
@@ -1347,7 +1346,7 @@ namespace Paway.Forms
                             Width = textRect.Width,
                             Height = fHight
                         };
-                        DrawOtherDesc(g, item, GetTextFirst(item), text[0], rect);
+                        DrawOtherDesc(g, item, GetTextFirst(item), item.FirstKeys(), rect);
                         for (var i = 1; i < text.Length; i++)
                         {
                             rect = new Rectangle
@@ -1529,9 +1528,7 @@ namespace Paway.Forms
                             InvalidateItem(item, TMouseState.Move);
                             if (_iShowTop)
                             {
-                                var hit = item.Hit;
-                                if (hit.IsNullOrEmpty()) hit = item.Sencond ?? item.First;
-                                ShowTooTip(hit);
+                                ShowTooTip(item.TextHit());
                             }
                         }
                     }
@@ -1828,50 +1825,29 @@ namespace Paway.Forms
         }
 
         /// <summary>
-        /// 移除指定First项或Tag项
-        /// </summary>
-        /// <param name="text"></param>
-        public void TRemove(string text)
-        {
-            for (var i = 0; i < Items.Count; i++)
-            {
-                if (Items[i].First == text)
-                {
-                    Items.RemoveAt(i);
-                    return;
-                }
-            }
-            for (var i = 0; i < Items.Count; i++)
-            {
-                if (Items[i].Tag.ToStrs() == text)
-                {
-                    Items.RemoveAt(i);
-                    break;
-                }
-            }
-        }
-        /// <summary>
         /// 查找指定First项或Tag项
         /// </summary>
         public ToolItem FindItem(string text)
         {
-            for (var i = 0; i < Items.Count; i++)
-            {
-                if (Items[i].First == text)
-                {
-                    return Items[i];
-                }
-            }
-            for (var i = 0; i < Items.Count; i++)
-            {
-                if (Items[i].Tag.ToStrs() == text)
-                {
-                    return Items[i];
-                }
-            }
-            return null;
+            return this.Items.FirstOrDefault(c => c.First == text || c.Tag.ToStrs() == text);
         }
-
+        /// <summary>
+        /// 移除指定First项或Tag项
+        /// </summary>
+        public void TRemove(string text)
+        {
+            var item = FindItem(text);
+            if (item != null) this.Items.Remove(item);
+        }
+        /// <summary>
+        /// 单击指定First项或Tag项
+        /// </summary>
+        public bool TClickItem(string text)
+        {
+            var item = FindItem(text);
+            if (item != null) TClickItem(item);
+            return item != null;
+        }
         /// <summary>
         /// 单击第一项
         /// </summary>
@@ -1880,42 +1856,19 @@ namespace Paway.Forms
             TClickItem(0);
         }
         /// <summary>
-        /// 单击指定First项或Tag项
+        /// 单击项
         /// </summary>
-        public void TClickItem(string text)
+        public void TClickItem(int index)
         {
-            for (var i = 0; i < Items.Count; i++)
-            {
-                if (Items[i].First == text)
-                {
-                    TClickItem(i);
-                    return;
-                }
-            }
-            for (var i = 0; i < Items.Count; i++)
-            {
-                if (Items[i].Tag.ToStrs() == text)
-                {
-                    TClickItem(i);
-                    break;
-                }
-            }
+            if (_items.Count == 0 || _items.Count <= index) return;
+            TClickItem(_items[index]);
         }
         /// <summary>
         /// 单击项
         /// </summary>
         public void TClickItem(ToolItem item)
         {
-            var index = Items.GetIndexOfRange(item);
-            TClickItem(index);
-        }
-        /// <summary>
-        /// 单击项
-        /// </summary>
-        public void TClickItem(int index)
-        {
-            if (_items.Count == 0) return;
-            if (_items.Count <= index) return;
+            if (_items.Count == 0 || item == null) return;
             if (!_iMultiple)
             {
                 _selectedItem = null;
@@ -1924,16 +1877,13 @@ namespace Paway.Forms
                     InvalidateItem(_items[i], TMouseState.Normal);
                 }
             }
-            if (index > -1)
+            _selectedItem = item;
+            if (!_iClickEvent)
             {
-                _selectedItem = _items[index];
-                if (!_iClickEvent)
-                {
-                    InvalidateItem(_selectedItem, TMouseState.Down);
-                }
-                OnSelectedItemChanged(_items[index], EventArgs.Empty);
-                OnItemClick(_items[index], EventArgs.Empty);
+                InvalidateItem(_selectedItem, TMouseState.Down);
             }
+            OnSelectedItemChanged(_selectedItem, EventArgs.Empty);
+            OnItemClick(_selectedItem, EventArgs.Empty);
         }
 
         /// <summary>
@@ -2058,6 +2008,44 @@ namespace Paway.Forms
 
         #endregion
 
+        #region 挂起事件
+        /// <summary>
+        /// 挂起，不引发事件
+        /// </summary>
+        public void Suspend()
+        {
+            iSuspend = true;
+        }
+        /// <summary>
+        /// 恢复
+        /// </summary>
+        public void Resume()
+        {
+            iSuspend = false;
+            TRefresh();
+        }
+
+        #endregion
+
+        #region 快捷键
+        /// <summary>
+        /// 按键
+        /// </summary>
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            for (var i = 0; i < Items.Count; i++)
+            {
+                if (Items[i].Keys == keyData)
+                {
+                    TClickItem(i);
+                    break;
+                }
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        #endregion
+
         #region 延迟隐藏滚动条
         private void InitHide()
         {
@@ -2100,136 +2088,6 @@ namespace Paway.Forms
         private void AutoMouseStatu()
         {
             _panelScroll.Visible = iScrollHide & _iScroll & iMouseStatu;
-        }
-
-        #endregion
-
-        #region 挂起事件
-        /// <summary>
-        /// 挂起，不引发事件
-        /// </summary>
-        public void Suspend()
-        {
-            iSuspend = true;
-        }
-        /// <summary>
-        /// 恢复
-        /// </summary>
-        public void Resume()
-        {
-            iSuspend = false;
-            TRefresh();
-        }
-
-        #endregion
-
-        #region 动态显示项的图片
-        private readonly Timer _tDynamic = new Timer();
-        private PictureBox _pictureBox1;
-
-        /// <summary>
-        /// 动态项原图片
-        /// </summary>
-        private Image _image;
-
-        /// <summary>
-        /// 动态项
-        /// </summary>
-        private int progressItemIndex;
-
-        /// <summary>
-        /// 项的动态图片
-        /// </summary>
-        [Description("项的动态图片")]
-        [DefaultValue(null)]
-        public Image TProgressImage
-        {
-            get { return _pictureBox1.Image; }
-            set { _pictureBox1.Image = value; }
-        }
-
-        /// <summary>
-        /// 初始化动态方法
-        /// </summary>
-        private void Progress()
-        {
-            _tDynamic.Interval = 30;
-            _tDynamic.Tick += TDynamic_Tick;
-        }
-
-        /// <summary>
-        /// 动态显示项的图像
-        /// </summary>
-        /// <param name="text">项文本</param>
-        /// <param name="newText">项新文本</param>
-        public void TProgressItem(string text, string newText = null)
-        {
-            for (var i = 0; i < _items.Count; i++)
-            {
-                if (_items[i].Text == text)
-                {
-                    TProgressItem(i, newText);
-                    break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 动态显示项的图像
-        /// </summary>
-        /// <param name="index">项索引</param>
-        /// <param name="newText">项新文本</param>
-        public void TProgressItem(int index, string newText = null)
-        {
-            progressItemIndex = index;
-            if (!string.IsNullOrEmpty(newText)) _items[progressItemIndex].Text = newText;
-            _image = _items[progressItemIndex].Image;
-            if (_pictureBox1.Image != null)
-            {
-                _items[progressItemIndex].Image = _pictureBox1.Image;
-            }
-            _tDynamic.Enabled = true;
-        }
-
-        /// <summary>
-        /// 停止动态显示
-        /// </summary>
-        /// <param name="image">图片</param>
-        /// <param name="text">项文本</param>
-        public void TProgressStop(Image image = null, string text = null)
-        {
-            _tDynamic.Enabled = false;
-            if (!string.IsNullOrEmpty(text)) _items[progressItemIndex].Text = text;
-            _items[progressItemIndex].Image = image ?? this._image;
-            TDynamic_Tick(this, EventArgs.Empty);
-        }
-
-        private void TDynamic_Tick(object sender, EventArgs e)
-        {
-            Invalidate(_items[progressItemIndex]);
-        }
-
-        private void InitializeComponent()
-        {
-            this._pictureBox1 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this._pictureBox1)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // _pictureBox1
-            // 
-            this._pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this._pictureBox1.Name = "_pictureBox1";
-            this._pictureBox1.Size = new System.Drawing.Size(1, 1);
-            this._pictureBox1.TabIndex = 0;
-            this._pictureBox1.TabStop = false;
-            // 
-            // ToolBar
-            // 
-            this.Controls.Add(this._pictureBox1);
-            this.Name = "ToolBar";
-            ((System.ComponentModel.ISupportInitialize)(this._pictureBox1)).EndInit();
-            this.ResumeLayout(false);
-
         }
 
         #endregion
@@ -2721,18 +2579,6 @@ namespace Paway.Forms
                 _vScroll2 = null;
             }
 
-            _image = null;
-            if (_tDynamic != null)
-            {
-                _tDynamic.Stop();
-                _tDynamic.Dispose();
-            }
-            if (_pictureBox1 != null)
-            {
-                _pictureBox1.Image = null;
-                _pictureBox1.Dispose();
-                _pictureBox1 = null;
-            }
             if (_panelScroll != null)
             {
                 _panelScroll.Dispose();

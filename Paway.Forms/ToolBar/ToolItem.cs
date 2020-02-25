@@ -113,6 +113,47 @@ namespace Paway.Forms
         public string First { get; private set; }
 
         /// <summary>
+        /// 自动显示快捷键
+        /// </summary>
+        internal string FirstKeys()
+        {
+            if (Keys == Keys.None) return First;
+            var key = Keys;
+            if ((key & Keys.Control) == Keys.Control) key -= Keys.Control;
+            if ((key & Keys.Shift) == Keys.Shift) key -= Keys.Shift;
+            if ((key & Keys.Alt) == Keys.Alt) key -= Keys.Alt;
+            return $"{First}({key})";
+        }
+        /// <summary>
+        /// 自动项提示
+        /// </summary>
+        internal string TextHit()
+        {
+            var hit = Hit;
+            if (hit.IsNullOrEmpty()) hit = Text;
+            if (Keys == Keys.None) return hit;
+            var desc = string.Empty;
+            var key = Keys;
+            if ((key & Keys.Control) == Keys.Control)
+            {
+                desc += "Ctrl+";
+                key -= Keys.Control;
+            }
+            if ((key & Keys.Shift) == Keys.Shift)
+            {
+                desc += Keys.Shift + "+";
+                key -= Keys.Shift;
+            }
+            if ((key & Keys.Alt) == Keys.Alt)
+            {
+                desc += Keys.Alt + "+";
+                key -= Keys.Alt;
+            }
+            desc += key;
+            return hit.Replace(First, $"{First}({desc})");
+        }
+
+        /// <summary>
         /// 其它行文字
         /// </summary>
         [Browsable(false), Description("其它行文字")]
@@ -350,6 +391,13 @@ namespace Paway.Forms
             }
         }
 
+        /// <summary>
+        /// 快捷键
+        /// </summary>
+        [DefaultValue(Keys.None)]
+        [Description("快捷键")]
+        public Keys Keys { get; set; }
+
         #endregion
 
         #region 构造
@@ -361,18 +409,17 @@ namespace Paway.Forms
         /// <summary>
         /// 构造
         /// </summary>
-        /// <param name="text"></param>
-        public ToolItem(string text) : this(text, null) { }
-
-        /// <summary>
-        /// 构造
-        /// </summary>
-        /// <param name="text"></param>
-        /// <param name="image"></param>
-        public ToolItem(string text, Image image)
+        public ToolItem(string text, Image image = null)
         {
             Text = text;
             _image = image;
+        }
+        /// <summary>
+        /// 构造
+        /// </summary>
+        public ToolItem(string text, Shortcut keys, Image image = null) : this(text, image)
+        {
+            this.Keys = (Keys)keys;
         }
 
         /// <summary>

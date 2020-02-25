@@ -165,9 +165,16 @@ namespace Paway.Forms
         /// <summary>
         /// 添加新按钮
         /// </summary>
-        protected ToolItem NewItem(string name, string tag = null, Image image = null)
+        protected ToolItem NewItem(string name, Shortcut keys = Shortcut.None, Image image = null)
         {
-            var item = new ToolItem(name, image) { Tag = tag ?? name };
+            return NewItem(name, null, keys, image);
+        }
+        /// <summary>
+        /// 添加新按钮
+        /// </summary>
+        protected ToolItem NewItem(string name, string tag = null, Shortcut keys = Shortcut.None, Image image = null)
+        {
+            var item = new ToolItem(name, keys, image) { Tag = tag ?? name };
             toolBar1.Items.Add(item);
             toolBar1.TRefresh();
             return item;
@@ -177,28 +184,28 @@ namespace Paway.Forms
         /// </summary>
         protected virtual ToolItem RefreshItem()
         {
-            return NewItem("刷新(F5)", "刷新", Resources.refresh);
+            return NewItem("刷新", Shortcut.F5, Resources.refresh);
         }
         /// <summary>
         /// 添加添加按钮
         /// </summary>
         protected ToolItem AddItem()
         {
-            return NewItem("添加(A)", "添加", Resources.add);
+            return NewItem("添加", Shortcut.CtrlA, Resources.add);
         }
         /// <summary>
         /// 添加编辑按钮
         /// </summary>
         protected ToolItem AddUpdate()
         {
-            return NewItem("编辑(E)", "编辑", Resources.edit);
+            return NewItem("编辑", Shortcut.CtrlE, Resources.edit);
         }
         /// <summary>
         /// 添加删除按钮
         /// </summary>
         protected ToolItem AddDelete()
         {
-            return NewItem("删除(D)", "删除", Resources.close);
+            return NewItem("删除", Shortcut.CtrlD, Resources.close);
         }
 
         #endregion
@@ -212,6 +219,7 @@ namespace Paway.Forms
             try
             {
                 if (server != null) this.server = server;
+                if (list == null) return;
                 if (iAdd)
                 {
                     this.List = list as List<T>;
@@ -297,16 +305,6 @@ namespace Paway.Forms
             switch (item.Tag.ToString())
             {
                 case "刷新":
-                    tbName.TextChanged -= TbName_TextChanged;
-                    tbName.Text = null;
-                    tbName.TextChanged += TbName_TextChanged;
-                    var find = this.find;
-                    if (find == null ||
-                       (find.IndexOf("order by", StringComparison.OrdinalIgnoreCase) == -1 &&
-                        find.IndexOf("group by", StringComparison.OrdinalIgnoreCase) == -1))
-                    {
-                        find = string.Format("{0} order by " + gridview1.Edit.IdColumn(), find ?? "1=1");
-                    }
                     QueryStart(find);
                     break;
                 case "添加":
@@ -578,6 +576,12 @@ namespace Paway.Forms
                     if (gridview1.TPager.ITextFocus) return false;
                     break;
             }
+            var item = toolBar1.Items.FirstOrDefault(c => c.Keys == key);
+            if (item != null)
+            {
+                toolBar1.TClickItem(item);
+                return false;
+            }
             switch (key)
             {
                 case Keys.F5:
@@ -586,13 +590,16 @@ namespace Paway.Forms
                 case (Keys)Shortcut.CtrlA:
                     toolBar1.TClickItem("添加");
                     break;
-                case Keys.Enter:
-                case (Keys)Shortcut.CtrlE:
-                    toolBar1.TClickItem("编辑");
+                case (Keys)Shortcut.CtrlB:
+                    toolBar1.TClickItem("返回");
                     break;
                 case Keys.Delete:
                 case (Keys)Shortcut.CtrlD:
                     toolBar1.TClickItem("删除");
+                    break;
+                case Keys.Enter:
+                case (Keys)Shortcut.CtrlE:
+                    toolBar1.TClickItem("编辑");
                     break;
                 case (Keys)Shortcut.CtrlQ:
                     toolBar1.TClickItem("查询");
@@ -672,7 +679,18 @@ namespace Paway.Forms
         /// </summary>
         protected override bool QueryStart(string find = null)
         {
-            if (base.QueryStart(find))
+            tbName.TextChanged -= TbName_TextChanged;
+            tbName.Text = null;
+            tbName.TextChanged += TbName_TextChanged;
+            var findBy = find ?? this.find;
+            if (findBy == null ||
+               (findBy.IndexOf("order by", StringComparison.OrdinalIgnoreCase) == -1 &&
+                findBy.IndexOf("group by", StringComparison.OrdinalIgnoreCase) == -1))
+            {
+                findBy = string.Format("{0} order by " + gridview1.Edit.IdColumn(), findBy ?? "1=1");
+            }
+
+            if (base.QueryStart(findBy))
             {
                 this.gridview1.Edit.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 this.gridview1.DataSource = new FindInfo();
