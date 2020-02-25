@@ -625,7 +625,7 @@ namespace Paway.Forms
         /// Item项显示方向
         /// </summary>
         [Description("Item项显示方向")]
-        [DefaultValue(typeof(TDirection), "Level")]
+        [DefaultValue(TDirection.Level)]
         public TDirection TDirection
         {
             get { return _tDirection; }
@@ -644,7 +644,7 @@ namespace Paway.Forms
         /// 图片显示位置
         /// </summary>
         [Description("图片显示位置")]
-        [DefaultValue(typeof(TLocation), "Left")]
+        [DefaultValue(TLocation.Left)]
         public TLocation TLocation
         {
             get { return _tLocation; }
@@ -1856,11 +1856,22 @@ namespace Paway.Forms
             TClickItem(0);
         }
         /// <summary>
+        /// 清空选中项
+        /// </summary>
+        public void TClickClear()
+        {
+            _selectedItem = null;
+            for (var i = 0; i < _items.Count; i++)
+            {
+                InvalidateItem(_items[i], TMouseState.Normal);
+            }
+        }
+        /// <summary>
         /// 单击项
         /// </summary>
         public void TClickItem(int index)
         {
-            if (_items.Count == 0 || _items.Count <= index) return;
+            if (_items.Count <= index) return;
             TClickItem(_items[index]);
         }
         /// <summary>
@@ -1871,11 +1882,7 @@ namespace Paway.Forms
             if (_items.Count == 0 || item == null) return;
             if (!_iMultiple)
             {
-                _selectedItem = null;
-                for (var i = 0; i < _items.Count; i++)
-                {
-                    InvalidateItem(_items[i], TMouseState.Normal);
-                }
+                TClickClear();
             }
             _selectedItem = item;
             if (!_iClickEvent)
@@ -2023,25 +2030,6 @@ namespace Paway.Forms
         {
             iSuspend = false;
             TRefresh();
-        }
-
-        #endregion
-
-        #region 快捷键
-        /// <summary>
-        /// 按键
-        /// </summary>
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            for (var i = 0; i < Items.Count; i++)
-            {
-                if (Items[i].Keys == keyData)
-                {
-                    TClickItem(i);
-                    break;
-                }
-            }
-            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         #endregion

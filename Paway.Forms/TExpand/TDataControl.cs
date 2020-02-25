@@ -572,6 +572,7 @@ namespace Paway.Forms
                 case (Keys)Shortcut.CtrlA:
                 case (Keys)Shortcut.CtrlC:
                 case Keys.Enter:
+                case Keys.Back:
                     if (panel2.Visible && tbName.ContainsFocus) return false;
                     if (gridview1.TPager.ITextFocus) return false;
                     break;
@@ -590,6 +591,7 @@ namespace Paway.Forms
                 case (Keys)Shortcut.CtrlA:
                     toolBar1.TClickItem("添加");
                     break;
+                case Keys.Back:
                 case (Keys)Shortcut.CtrlB:
                     toolBar1.TClickItem("返回");
                     break;
