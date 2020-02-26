@@ -411,7 +411,7 @@ namespace Paway.Win32
         /// </summary>
         /// <returns></returns>
         [DllImport("user32.dll")]
-        internal static extern int GetDoubleClickTime();
+        public static extern int GetDoubleClickTime();
 
         /// <summary>
         /// <para>调用下一个钩子</para>

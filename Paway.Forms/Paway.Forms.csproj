@@ -87,14 +87,11 @@
     <Compile Include="TExpand\TCustom.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TExpand\IBaseForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TExpand\IBaseForm.Designer.cs">
-      <DependentUpon>IBaseForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="TExpand\TBaseForm.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TExpand\TBaseForm.Designer.cs">
+      <DependentUpon>TBaseForm.cs</DependentUpon>
     </Compile>
     <Compile Include="TExpand\TDataControl.cs">
       <SubType>UserControl</SubType>

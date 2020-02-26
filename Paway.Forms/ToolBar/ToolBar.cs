@@ -971,14 +971,14 @@ namespace Paway.Forms
             }
             else
             {
-                ClacImageRect(g, item);
-                DrawBackground(g, item);
-                DrawText(g, item);
                 if (!item.Enable)
                 {
                     item.MouseState = TMouseState.Normal;
                     item.MouseDescState = TMouseState.Normal;
                 }
+                ClacImageRect(g, item);
+                DrawBackground(g, item);
+                DrawText(g, item);
             }
         }
 
