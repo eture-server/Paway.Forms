@@ -1100,8 +1100,10 @@ namespace Paway.Utils
             sql = string.Format(sql, type.TableName());
             foreach (var property in type.PropertiesValue())
             {
-                if ((property.ISelect() & SelectType.Update) == SelectType.Update)
+                var selectType = property.ISelect();
+                if ((selectType & SelectType.Update) == SelectType.Update)
                 {
+                    if (args.Length == 0 && selectType == SelectType.Image) continue;
                     var column = property.ColumnName();
                     if (column == tableKey) continue;
                     if (args.Length > 0 &&
@@ -1135,7 +1137,7 @@ namespace Paway.Utils
             value = string.Empty;
             foreach (var property in type.PropertiesValue())
             {
-                if ((property.ISelect() & SelectType.Update) == SelectType.Update)
+                if ((property.ISelect() & SelectType.Insert) == SelectType.Insert)
                 {
                     var column = property.ColumnName();
                     if (column == key) continue;
