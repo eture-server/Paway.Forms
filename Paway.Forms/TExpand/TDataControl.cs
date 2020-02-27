@@ -49,9 +49,9 @@ namespace Paway.Forms
         private DateTime start;
         private IDataService server;
         /// <summary>
-        /// 展开树标记
+        /// 搜索状态
         /// </summary>
-        private bool iExpandAll;
+        protected bool IFilter;
 
         /// <summary>
         /// 构造
@@ -91,25 +91,19 @@ namespace Paway.Forms
         /// </summary>
         protected void UserTree(bool iExpandAll = false)
         {
-            if (!gridview1.UserTree()) return;
-            this.iExpandAll = iExpandAll;
+            if (!gridview1.UserTree(iExpandAll)) return;
             LoadEvent();
         }
         private void LoadEvent()
         {
-            gridview1.Edit.CellFormatting -= Gridview1_CellFormatting;
-            gridview1.Edit.CurrentCellChanged -= Gridview1_CurrentCellChanged;
-            gridview1.Edit.RowDoubleClick -= Gridview1_RowDoubleClick;
-            gridview1.Edit.RefreshChanged -= Gridview1_RefreshChanged;
-            gridview1.Edit.CellEndEdit -= TDataGridView_CellEndEdit;
-            gridview1.Edit.CheckedChanged -= TDataGridView_CheckedChanged;
-
+            UnLoadEvent();
             gridview1.Edit.CellFormatting += Gridview1_CellFormatting;
             gridview1.Edit.CurrentCellChanged += Gridview1_CurrentCellChanged;
             gridview1.Edit.RowDoubleClick += Gridview1_RowDoubleClick;
             gridview1.Edit.RefreshChanged += Gridview1_RefreshChanged;
-            gridview1.Edit.CellEndEdit += TDataGridView_CellEndEdit;
-            gridview1.Edit.CheckedChanged += TDataGridView_CheckedChanged;
+            gridview1.Edit.CellEndEdit += Gridview1_CellEndEdit;
+            gridview1.Edit.CheckedChanged += Gridview1_CheckedChanged;
+            gridview1.Edit.CellClick += Gridview1_CellClick;
         }
         private void UnLoadEvent()
         {
@@ -117,43 +111,11 @@ namespace Paway.Forms
             if (gridview1 == null || gridview1.Edit == null || gridview1.Edit.IsDisposed) return;
             gridview1.Edit.CellFormatting -= Gridview1_CellFormatting;
             gridview1.Edit.CurrentCellChanged -= Gridview1_CurrentCellChanged;
+            gridview1.Edit.RowDoubleClick -= Gridview1_RowDoubleClick;
             gridview1.Edit.RefreshChanged -= Gridview1_RefreshChanged;
-        }
-        private void Gridview1_RefreshChanged()
-        {
-            if (iExpandAll && gridview1.Edit is TreeGridView treeView)
-            {
-                treeView.ExpandAll();
-            }
-            if (!gridview1.Edit.ICheckBoxName.IsNullOrEmpty())
-            {
-                gridview1.Edit.ReadOnly = false;
-                for (int i = 0; i < gridview1.Edit.Columns.Count; i++)
-                {
-                    gridview1.Edit.Columns[i].ReadOnly = gridview1.Edit.Columns[i].Name != gridview1.Edit.ICheckBoxName;
-                }
-            }
-        }
-        private void TDataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            if (gridview1.Edit.Columns[e.ColumnIndex].Name == gridview1.Edit.ICheckBoxName)
-            {
-                var id = (int)gridview1.Edit.Rows[e.RowIndex].Cells[gridview1.Edit.IdColumn()].Value;
-                var info = List.Find(c => c.Id == id);
-                if (info != null)
-                {
-                    var result = (bool)((DataGridViewCheckBoxCell)gridview1.Edit.Rows[e.RowIndex].Cells[e.ColumnIndex]).Value;
-                    info.SetValue(gridview1.Edit.ICheckBoxName, result);
-                }
-            }
-        }
-        private void TDataGridView_CheckedChanged(bool obj)
-        {
-            var aList = GetAll();
-            for (int i = 0; i < aList.Count; i++)
-            {
-                aList[i].SetValue(gridview1.Edit.ICheckBoxName, obj);
-            }
+            gridview1.Edit.CellEndEdit -= Gridview1_CellEndEdit;
+            gridview1.Edit.CheckedChanged -= Gridview1_CheckedChanged;
+            gridview1.Edit.CellClick -= Gridview1_CellClick;
         }
 
         #region 权限-按钮
@@ -229,6 +191,7 @@ namespace Paway.Forms
                     this.List.Clear();
                     this.List.AddRange(list);
                 }
+                this.IFilter = false;
                 this.gridview1.UpdateData(this.List, false);
                 this.RefreshData();
             }
@@ -317,8 +280,7 @@ namespace Paway.Forms
                         bool iFilter = false;
                         if (IFind())
                         {
-                            var fList = new List<T>() { data }.AsParallel().Where(predicate);
-                            iFilter = fList.Count() > 0;
+                            iFilter = !IFindText() || new List<T>() { data }.AsParallel().Where(predicate).Count() > 0;
                             if (iFilter) this.FList.Add(data);
                         }
                         if (!gridview1.IGroup)
@@ -374,12 +336,11 @@ namespace Paway.Forms
                         bool iFilter = false;
                         if (IFind())
                         {
-                            var fList = new List<T>() { this.Info }.AsParallel().Where(predicate);
-                            iFilter = fList.Count() == 0;
+                            iFilter = predicate == null || new List<T>() { this.Info }.AsParallel().Where(predicate).Count() > 0;
                         }
                         if (gridview1.Edit is TreeGridView treeView)
                         {
-                            if (iFilter)
+                            if (!iFilter)
                             {
                                 this.FList.Remove(this.Info);
                                 treeView.DeleteNode(treeView.Nodes, this.Info.Id);
@@ -434,7 +395,11 @@ namespace Paway.Forms
                             gridview1.RefreshDesc();
                             gridview1.Edit.AutoCell(iRefresh: false);
                         }
-                        else if (!ToFind(index: index))
+                        else if (IFind())
+                        {
+                            ToFind(index: index);
+                        }
+                        else
                         {
                             this.RefreshData(true);
                         }
@@ -505,8 +470,9 @@ namespace Paway.Forms
         /// <summary>
         /// 查询完成
         /// </summary>
-        protected virtual void OnFound(List<T> list)
+        protected virtual void OnFound(List<T> list, bool iFilter = true)
         {
+            this.IFilter = iFilter;
             bool iTree = gridview1.Edit is TreeGridView;
             try
             {
@@ -521,13 +487,21 @@ namespace Paway.Forms
         }
         private void TbName_TextChanged(object sender, EventArgs e)
         {
-            if (!ToFind(true))
+            if (IFindText())
             {
-                OnFound(this.List);
+                ToFind(true);
+            }
+            else
+            {
+                OnFound(this.List, false);
                 this.tbName.Focus();
             }
         }
         private bool IFind()
+        {
+            return IFilter || IFindText();
+        }
+        private bool IFindText()
         {
             if (!this.ILoad || this.IsDisposed) return false;
             return (bool)this.Invoke(new Func<bool>(() =>
@@ -537,8 +511,7 @@ namespace Paway.Forms
         }
         private bool ToFind(bool focus = false, int index = 0)
         {
-            if (!IFind()) return false;
-            this.FList = OnFilter(tbName.Text.Trim());
+            if (focus) this.FList = OnFilter(tbName.Text.Trim());
             RefreshTotal();
             var offset = gridview1.Edit.FirstDisplayedScrollingRowIndex;
             OnFound(this.FList);
@@ -633,10 +606,74 @@ namespace Paway.Forms
         /// 行双击事件
         /// </summary>
         protected virtual bool OnRowDoubleClick(int rowIndex) { return false; }
-        private void Gridview1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        /// <summary>
+        /// 数据刷新事件
+        /// </summary>
+        protected virtual void OnRefreshChanged() { }
+        /// <summary>
+        /// 行单击事件
+        /// </summary>
+        protected virtual void OnCellClick(T info, string name) { }
+        private void Gridview1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            string name = gridview1.Edit.Columns[e.ColumnIndex].Name;
-            OnUpdateCell(name, e);
+            if (e.RowIndex == -1 || e.ColumnIndex == -1) return;
+            try
+            {
+                string name = gridview1.Edit.Columns[e.ColumnIndex].Name;
+                OnCellClick(this.Info, name);
+            }
+            catch (Exception ex)
+            {
+                ex.Show();
+            }
+        }
+        private void Gridview1_CheckedChanged(bool obj)
+        {
+            var aList = GetAll();
+            for (int i = 0; i < aList.Count; i++)
+            {
+                aList[i].SetValue(gridview1.Edit.ICheckBoxName, obj);
+            }
+        }
+        private void Gridview1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (gridview1.Edit.Columns[e.ColumnIndex].Name == gridview1.Edit.ICheckBoxName)
+            {
+                var id = (int)gridview1.Edit.Rows[e.RowIndex].Cells[gridview1.Edit.IdColumn()].Value;
+                var info = List.Find(c => c.Id == id);
+                if (info != null)
+                {
+                    var result = (bool)((DataGridViewCheckBoxCell)gridview1.Edit.Rows[e.RowIndex].Cells[e.ColumnIndex]).Value;
+                    info.SetValue(gridview1.Edit.ICheckBoxName, result);
+                }
+            }
+        }
+        private void Gridview1_RefreshChanged()
+        {
+            if (!gridview1.Edit.ICheckBoxName.IsNullOrEmpty())
+            {
+                gridview1.Edit.ReadOnly = false;
+                for (int i = 0; i < gridview1.Edit.Columns.Count; i++)
+                {
+                    gridview1.Edit.Columns[i].ReadOnly = gridview1.Edit.Columns[i].Name != gridview1.Edit.ICheckBoxName;
+                }
+            }
+            try
+            {
+                OnRefreshChanged();
+            }
+            catch (Exception ex)
+            {
+                ex.Show();
+            }
+        }
+        /// <summary>
+        /// 双击触发编辑方法
+        /// </summary>
+        private void Gridview1_RowDoubleClick(int rowIndex)
+        {
+            if (OnRowDoubleClick(rowIndex)) return;
+            toolBar1.TClickItem("编辑");
         }
         /// <summary>
         /// 单元格切换触发选中行实体更新
@@ -649,7 +686,14 @@ namespace Paway.Forms
                 this.Index = gridview.CurrentCell.RowIndex;
                 var id = gridview.Rows[this.Index].Cells[gridview.IdColumn()].Value.ToInt();
                 this.Info = this.List.Find(c => c.Id == id);
-                OnCurrentCellChanged();
+                try
+                {
+                    OnCurrentCellChanged();
+                }
+                catch (Exception ex)
+                {
+                    ex.Show();
+                }
             }
             else
             {
@@ -657,13 +701,10 @@ namespace Paway.Forms
                 this.Info = default;
             }
         }
-        /// <summary>
-        /// 双击触发编辑方法
-        /// </summary>
-        private void Gridview1_RowDoubleClick(int rowIndex)
+        private void Gridview1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (OnRowDoubleClick(rowIndex)) return;
-            toolBar1.TClickItem("编辑");
+            string name = gridview1.Edit.Columns[e.ColumnIndex].Name;
+            OnUpdateCell(name, e);
         }
 
         #endregion

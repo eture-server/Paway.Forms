@@ -1048,7 +1048,7 @@ namespace Paway.Utils
                 var selectType = property.ISelect();
                 if ((selectType & SelectType.Find) == SelectType.Find)
                 {
-                    if (args.Length == 0 && selectType == SelectType.Image) continue;
+                    if (args.Length == 0 && (selectType & SelectType.ManualFind) == SelectType.ManualFind) continue;
                     var column = property.ColumnName();
                     if (args.Length > 0 &&
                         args.FirstOrDefault(c => c == column) == null &&
@@ -1103,7 +1103,7 @@ namespace Paway.Utils
                 var selectType = property.ISelect();
                 if ((selectType & SelectType.Update) == SelectType.Update)
                 {
-                    if (args.Length == 0 && selectType == SelectType.Image) continue;
+                    if (args.Length == 0 && (selectType & SelectType.ManualUpdate) == SelectType.ManualUpdate) continue;
                     var column = property.ColumnName();
                     if (column == tableKey) continue;
                     if (args.Length > 0 &&
@@ -1137,8 +1137,10 @@ namespace Paway.Utils
             value = string.Empty;
             foreach (var property in type.PropertiesValue())
             {
-                if ((property.ISelect() & SelectType.Insert) == SelectType.Insert)
+                var selectType = property.ISelect();
+                if ((selectType & SelectType.Insert) == SelectType.Insert)
                 {
+                    if (args.Length == 0 && (selectType & SelectType.ManualInsert) == SelectType.ManualInsert) continue;
                     var column = property.ColumnName();
                     if (column == key) continue;
                     if (args.Length > 0 &&

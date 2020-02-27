@@ -15,15 +15,15 @@ namespace Paway.Helper
         /// </summary>
         None = 0,
         /// <summary>
-        /// 全部动作
+        /// 组合类型(自动查询+插入+更新，默认类型)
         /// </summary>
-        All = (1 << 0) + (1 << 1) + (1 << 2),
+        Normal = Find + Insert + Insert,
         /// <summary>
-        /// 缓存图片(主动查询、更新，自动插入)
+        /// 组合类型(手动查询+更新、自动插入，如缓存图片)
         /// </summary>
-        Image = All + (1 << 3),
+        Image = ManualFind + Insert + ManualUpdate,
         /// <summary>
-        /// 仅查询(View)
+        /// 查询(View)
         /// </summary>
         Find = 1 << 0,
         /// <summary>
@@ -34,5 +34,17 @@ namespace Paway.Helper
         /// 更新
         /// </summary>
         Update = 1 << 2,
+        /// <summary>
+        /// 手动查询
+        /// </summary>
+        ManualFind = Find + (1 << 3),
+        /// <summary>
+        /// 手动插入
+        /// </summary>
+        ManualInsert = Insert + (1 << 4),
+        /// <summary>
+        /// 手动更新
+        /// </summary>
+        ManualUpdate = Update + (1 << 5),
     }
 }

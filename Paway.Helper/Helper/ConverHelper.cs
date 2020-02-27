@@ -934,7 +934,7 @@ namespace Paway.Helper
         public static SelectType ISelect(this MemberInfo pro)
         {
             var list = pro.GetCustomAttributes(typeof(NoSelectAttribute), false) as NoSelectAttribute[];
-            return list.Length == 0 ? SelectType.All : list[0].Type;
+            return list.Length == 0 ? SelectType.Normal : list[0].Type;
         }
         /// <summary>
         /// 自定义特性-不生成ExcelTable列

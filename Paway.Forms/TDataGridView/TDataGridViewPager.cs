@@ -380,7 +380,7 @@ namespace Paway.Forms
         /// </summary>
         /// <param name="value"></param>
         /// <param name="iRefresh">是否刷新数据，默认True</param>
-        public void UpdateData(object value, bool iRefresh = true)
+        internal void UpdateData(object value, bool iRefresh = true)
         {
             dataSource = value;
             if (dataSource is IList list)
@@ -514,11 +514,12 @@ namespace Paway.Forms
         /// <summary>
         /// 使用树结构
         /// </summary>
-        public bool UserTree()
+        public bool UserTree(bool iExpandAll = false)
         {
             if (gridview1 is TreeGridView) return false;
             this.Controls.Remove(this.gridview1);
             gridview1 = new TreeGridView();
+            gridview1.RefreshChanged += delegate { if (iExpandAll) (gridview1 as TreeGridView).ExpandAll(); };
             gridview1.Dock = DockStyle.Fill;
             this.Controls.Add(this.gridview1);
             this.Controls.SetChildIndex(this.gridview1, 0);
