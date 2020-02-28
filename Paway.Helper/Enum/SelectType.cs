@@ -17,7 +17,7 @@ namespace Paway.Helper
         /// <summary>
         /// 组合类型(自动查询+插入+更新，默认类型)
         /// </summary>
-        Normal = Find + Insert + Insert,
+        Normal = Find + Insert + Update,
         /// <summary>
         /// 组合类型(手动查询+更新、自动插入，如缓存图片)
         /// </summary>
