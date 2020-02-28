@@ -476,7 +476,7 @@ namespace Paway.Forms
                 }
                 else if ((e.KeyCode == Keys.Enter) && !base.IsCurrentCellInEditMode)
                 {
-                    base.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                    //base.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                     base.CurrentCell.OwningRow.Selected = true;
                 }
             }
@@ -504,7 +504,7 @@ namespace Paway.Forms
             base.OnRowEnter(e);
             if ((base.SelectionMode == DataGridViewSelectionMode.CellSelect) || ((base.SelectionMode == DataGridViewSelectionMode.FullRowSelect) && !base.Rows[e.RowIndex].Selected))
             {
-                base.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                //base.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                 base.Rows[e.RowIndex].Selected = true;
             }
         }
