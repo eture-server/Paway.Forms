@@ -75,7 +75,6 @@ namespace Paway.Forms
             };
             //注释掉会报错
             base.Rows.CollectionChanged += delegate { };
-            this.RowDoubleClick += TreeGridView_RowDoubleClick;
         }
 
         #region 自动绑定数据
@@ -84,12 +83,6 @@ namespace Paway.Forms
         /// </summary>
         [Browsable(true), Description("自定义树形显示列")]
         public string TextColumn { get; set; }
-        /// <summary>
-        /// 双击展开节点
-        /// </summary>
-        [Browsable(true), Description("双击展开节点")]
-        [DefaultValue(true)]
-        public bool IDoubleExpand { get; set; } = true;
 
         /// <summary>
         /// 自动设置节点数据
@@ -427,14 +420,6 @@ namespace Paway.Forms
                     base.Rows.Remove(node);
                     node.UnSited();
                 }
-            }
-        }
-        private void TreeGridView_RowDoubleClick(int obj)
-        {
-            if (IDoubleExpand && this.CurrentNode != null && this.CurrentNode.Nodes.Count > 0)
-            {
-                if (!this.CurrentNode.IsExpanded) this.CurrentNode.Expand();
-                else this.CurrentNode.Collapse();
             }
         }
 

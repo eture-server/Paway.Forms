@@ -89,9 +89,9 @@ namespace Paway.Forms
         /// <summary>
         /// 使用树结构
         /// </summary>
-        protected void UserTree(bool iExpandAll = false)
+        protected void UserTree(bool iExpandAll = false, bool iDoubleExpand = true)
         {
-            if (!gridview1.UserTree(iExpandAll)) return;
+            if (!gridview1.UserTree(iExpandAll, iDoubleExpand)) return;
             LoadEvent();
         }
         private void LoadEvent()

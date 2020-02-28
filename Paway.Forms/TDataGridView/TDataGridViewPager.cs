@@ -514,12 +514,24 @@ namespace Paway.Forms
         /// <summary>
         /// 使用树结构
         /// </summary>
-        public bool UserTree(bool iExpandAll = false)
+        public bool UserTree(bool iExpandAll = false, bool iDoubleExpand = true)
         {
             if (gridview1 is TreeGridView) return false;
             this.Controls.Remove(this.gridview1);
-            gridview1 = new TreeGridView();
-            gridview1.RefreshChanged += delegate { if (iExpandAll) (gridview1 as TreeGridView).ExpandAll(); };
+            var treeView = new TreeGridView();
+            gridview1 = treeView;
+            if (iExpandAll) gridview1.RefreshChanged += delegate
+            {
+                treeView.ExpandAll();
+            };
+            if (iDoubleExpand) gridview1.RowDoubleClick += delegate
+            {
+                if (treeView.CurrentNode != null && treeView.CurrentNode.Nodes.Count > 0)
+                {
+                    if (!treeView.CurrentNode.IsExpanded) treeView.CurrentNode.Expand();
+                    else treeView.CurrentNode.Collapse();
+                }
+            };
             gridview1.Dock = DockStyle.Fill;
             this.Controls.Add(this.gridview1);
             this.Controls.SetChildIndex(this.gridview1, 0);
