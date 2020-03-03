@@ -31,23 +31,11 @@ namespace Paway.Forms
         /// </summary>
         private CheckBox _headerCheckBox;
 
-        /// <summary>
-        /// 文本图片列-文本列索引
-        /// </summary>
-        private int _tColumnIndex = -1;
-
         private string _iCheckBoxName;
         /// <summary>
         /// 原数据源
         /// </summary>
         private object source;
-
-        private readonly Timer timer = new Timer();
-        private PictureBox pictureBox1;
-        /// <summary>
-        /// 动态图片行
-        /// </summary>
-        private int pIndex = -1;
 
         /// <summary>
         /// 需要2维表头的列
@@ -97,20 +85,6 @@ namespace Paway.Forms
 
         #region 属性
         /// <summary>
-        /// 文本图片列-文本列
-        /// </summary>
-        [Browsable(true), Description("文本图片列-文本列")]
-        [DefaultValue(null)]
-        public string TColumnText { get; set; }
-
-        /// <summary>
-        /// 文本图片列-图片列
-        /// </summary>
-        [Browsable(true), Description("文本图片列-图片列")]
-        [DefaultValue(null)]
-        public string TColumnImage { get; set; }
-
-        /// <summary>
         /// 是否绘制多行文本
         /// </summary>
         [Browsable(true), Description("是否绘制多行文本")]
@@ -142,32 +116,6 @@ namespace Paway.Forms
                 }
                 _headerCheckBox.Visible = !_iCheckBoxName.IsNullOrEmpty();
                 Invalidate();
-            }
-        }
-
-        /// <summary>
-        /// 动态文本图片列显示的图片
-        /// </summary>
-        [Browsable(true), Description("动态文本图片列显示的图片")]
-        [DefaultValue(null)]
-        public Image TProgressImage
-        {
-            get { return pictureBox1.Image; }
-            set { pictureBox1.Image = value; }
-        }
-
-        /// <summary>
-        /// 动态文本图片列显示行
-        /// </summary>
-        [Browsable(true), Description("动态文本图片列显示行")]
-        [DefaultValue(-1)]
-        public int TProgressIndex
-        {
-            get { return pIndex; }
-            set
-            {
-                pIndex = value;
-                timer.Enabled = value != -1 && !string.IsNullOrEmpty(TColumnImage) && !string.IsNullOrEmpty(TColumnText);
             }
         }
 
@@ -212,9 +160,6 @@ namespace Paway.Forms
             DoubleClick += TDataGridView_DoubleClick;
             BackgroundColor = Color.White;
             BorderStyle = BorderStyle.None;
-            InitializeComponent();
-            timer.Interval = 30;
-            timer.Tick += Timer_Tick;
 
             //设置默认值
             AllowUserToAddRows = false;
@@ -239,32 +184,6 @@ namespace Paway.Forms
             this.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
             this.RowTemplate.Height = 32;
             this.RowTemplate.Resizable = DataGridViewTriState.False;
-
-            pictureBox1.BackColor = Color.Transparent;
-        }
-        private void InitializeComponent()
-        {
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(0, 1);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1, 1);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
-            // TDataGridView
-            // 
-            this.Controls.Add(this.pictureBox1);
-            this.RowTemplate.Height = 23;
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
-            this.ResumeLayout(false);
-
         }
 
         #endregion
@@ -621,7 +540,6 @@ namespace Paway.Forms
             {
                 DrawCell(e);
                 if (IMultiText) DrawMultiText(e);
-                if (_tColumnIndex != -1 && !string.IsNullOrEmpty(TColumnImage)) DrawImageText(e);
             }
         }
 
@@ -678,6 +596,28 @@ namespace Paway.Forms
                     Color.SteelBlue, format);
 
                 e.Handled = true;
+            }
+        }
+        /// <summary>
+        /// 边框
+        /// </summary>
+        private void DrawBounds(Graphics g, Brush brush, Rectangle rect, int index)
+        {
+            // Erase the cell.
+            g.FillRectangle(brush, rect);
+            //首行线
+            using (var pen = new Pen(GridColor))
+            {
+                if (index == 0 && !ColumnHeadersVisible)
+                {
+                    g.DrawLine(pen, new Point(rect.X, rect.Top), new Point(rect.Right, rect.Top));
+                }
+                //划线
+                var p1 = new Point(rect.Right - 1, rect.Top);
+                var p2 = new Point(rect.Right - 1, rect.Bottom - 1);
+                var p3 = new Point(rect.Left, rect.Bottom - 1);
+                Point[] ps = { p1, p2, p3 };
+                g.DrawLines(pen, ps);
             }
         }
 
@@ -938,11 +878,6 @@ namespace Paway.Forms
         {
             var value = e.Value?.ToString();
             var cellheight = e.CellBounds.Height;
-            TextFormatFlags format = DrawHelper.TextEnd;
-            if (e.CellStyle.Alignment == DataGridViewContentAlignment.MiddleCenter)
-            {
-                format = DrawHelper.TextCenter;
-            }
             var y = e.CellBounds.Y - cellheight * (UpRows - 1);
             var height = cellheight * count;
             if (y < this.ColumnHeadersHeight)
@@ -955,83 +890,6 @@ namespace Paway.Forms
             //允许分行显示
             using (var brush = new SolidBrush(e.CellStyle.ForeColor))
                 e.Graphics.DrawString(value, e.CellStyle.Font, brush, rect, DrawHelper.StringVertical);
-        }
-
-        #endregion
-
-        #region 绘制文本图片列
-        /// <summary>
-        /// 绘制文本图片列
-        /// </summary>
-        private void DrawImageText(DataGridViewCellPaintingEventArgs e)
-        {
-            if (e.ColumnIndex == _tColumnIndex)
-            {
-                var foreColor = e.CellStyle.ForeColor;
-                var backColor = e.CellStyle.BackColor;
-                if (Rows[e.RowIndex].Selected)
-                {
-                    foreColor = e.CellStyle.SelectionForeColor;
-                    backColor = e.CellStyle.SelectionBackColor;
-                }
-                Brush foreBrush = new SolidBrush(foreColor);
-                using (Brush backBrush = new SolidBrush(backColor))
-                {
-                    DrawBounds(e.Graphics, backBrush, e.CellBounds, e.RowIndex);
-                }
-
-                //画图标
-                var bitmap = Rows[e.RowIndex].Cells[TColumnImage].Value as Bitmap;
-                if (bitmap != null)
-                {
-                    var newRect = new Rectangle(e.CellBounds.X + 5,
-                        e.CellBounds.Y + (e.CellBounds.Height - bitmap.Height) / 2, bitmap.Width, bitmap.Height);
-                    e.Graphics.DrawImage(bitmap, newRect);
-                }
-
-                //画字符串
-                e.Graphics.DrawString(e.Value.ToStrs(), e.CellStyle.Font, foreBrush,
-                new Rectangle(e.CellBounds.Left + (bitmap == null ? 0 : bitmap.Width) + 10, e.CellBounds.Top,
-                    e.CellBounds.Width, e.CellBounds.Height), DrawHelper.StringVertical);
-                foreBrush.Dispose();
-
-                e.Handled = true;
-            }
-        }
-
-        /// <summary>
-        /// 边框
-        /// </summary>
-        private void DrawBounds(Graphics g, Brush brush, Rectangle rect, int index)
-        {
-            // Erase the cell.
-            g.FillRectangle(brush, rect);
-            //首行线
-            using (var pen = new Pen(GridColor))
-            {
-                if (index == 0 && !ColumnHeadersVisible)
-                {
-                    g.DrawLine(pen, new Point(rect.X, rect.Top), new Point(rect.Right, rect.Top));
-                }
-                //划线
-                var p1 = new Point(rect.Right - 1, rect.Top);
-                var p2 = new Point(rect.Right - 1, rect.Bottom - 1);
-                var p3 = new Point(rect.Left, rect.Bottom - 1);
-                Point[] ps = { p1, p2, p3 };
-                g.DrawLines(pen, ps);
-            }
-        }
-
-        #endregion
-
-        #region 动态文本图片列
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            if (pIndex == -1 || pIndex >= Rows.Count) return;
-            var image = Rows[pIndex].Cells[TColumnImage];
-            image.Value = pictureBox1.Image;
-            var cell = Rows[pIndex].Cells[TColumnText];
-            InvalidateCell(cell);
         }
 
         #endregion
@@ -1200,10 +1058,6 @@ namespace Paway.Forms
                 {
                     _iCheckBoxIndex = i;
                 }
-                if (Columns[i].Name == TColumnText)
-                {
-                    _tColumnIndex = i;
-                }
                 var property = properties.Property(Columns[i].Name);
                 if (property == null) continue;
                 Columns[i].Visible = property.IShow();
@@ -1339,16 +1193,6 @@ namespace Paway.Forms
             {
                 _headerCheckBox.Dispose();
                 _headerCheckBox = null;
-            }
-            if (timer != null)
-            {
-                timer.Stop();
-                timer.Dispose();
-            }
-            if (pictureBox1 != null)
-            {
-                pictureBox1.Image = null;
-                pictureBox1.Dispose();
             }
             base.Dispose(disposing);
         }

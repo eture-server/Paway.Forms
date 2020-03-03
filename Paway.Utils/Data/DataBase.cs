@@ -352,7 +352,7 @@ namespace Paway.Utils
         /// </summary>
         public List<T> Find<T>(string find, DbCommand cmd, params string[] args) where T : new()
         {
-            return Find<T>(find, null, null, 0, args);
+            return Find<T>(find, null, cmd, 0, args);
         }
         /// <summary>
         /// 填充 System.Data.DataSet 并返回一个List列表
@@ -733,7 +733,7 @@ namespace Paway.Utils
                 var type = list.GenericType();
                 var sql = type.Delete();
                 cmd.CommandText = OnCommandText(sql);
-                var builder = SQLBuilder.CreateBuilder(list[0].GetType(), paramType);
+                var builder = SQLBuilder.CreateBuilder(list[0].GetType(), paramType, type.TableKeys());
                 int result = 0;
                 foreach (var item in list)
                 {

@@ -18,32 +18,6 @@ namespace Paway.Test
         {
             InitializeComponent();
             button1.Click += Button1_Click;
-            gridview1.CurrentCellChanged += TDataGridView1_CurrentCellChanged;
-        }
-        int index = -1;
-        Bitmap bitmap;
-        Bitmap last;
-        /// <summary>
-        /// 模式动态执行过程
-        /// </summary>
-        private void TDataGridView1_CurrentCellChanged(object sender, EventArgs e)
-        {
-            if (this.gridview1.CurrentCell == null) return;
-            if (this.gridview1.CurrentCell.RowIndex == index) return;
-            int lastIndex = index;
-
-            index = this.gridview1.CurrentCell.RowIndex;
-            this.gridview1.TProgressIndex = index;
-            bitmap = this.gridview1.Rows[index].Cells[gridview1.TColumnImage].Value as Bitmap;
-            if (lastIndex > -1)
-            {
-                this.gridview1.Rows[lastIndex].Cells[gridview1.TColumnImage].Value = last;
-            }
-            if (bitmap != null)
-            {
-                last = bitmap.Clone() as Bitmap;
-            }
-            else last = null;
         }
         private void Button1_Click(object sender, EventArgs e)
         {

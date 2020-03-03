@@ -410,6 +410,10 @@ namespace Paway.Helper
                     param.Value = StructHelper.SerializeImage((Image)value);
                     param.DbType = DbType.Binary;
                     break;
+                case nameof(String):
+                    if ((string)value == string.Empty) param.Value = DBNull.Value;
+                    else param.Value = value;
+                    break;
                 default:
                     param.Value = value;
                     break;

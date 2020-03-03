@@ -143,9 +143,6 @@
             this.gridview1.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.gridview1.Size = new System.Drawing.Size(743, 162);
             this.gridview1.TabIndex = 0;
-            this.gridview1.TColumnImage = "Image";
-            this.gridview1.TColumnText = "Name";
-            this.gridview1.TProgressImage = global::Paway.Test.Properties.Resources.process;
             // 
             // FormGridView
             // 
