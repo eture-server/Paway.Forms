@@ -282,18 +282,6 @@ namespace Paway.Helper
                         cell.SetCellValue(property.TextName());
                         sheet.SetColumnWidth(index, 20 * 256);
                     }
-                    if (args.Length > 0)
-                    {
-                        for (int i = 0, j = 0; i < row.LastCellNum; i++, j++)
-                        {
-                            if (j >= args.Length) j = 0;
-                            sheet.SetColumnWidth(i, args[j] * 256);
-                        }
-                    }
-                }
-                if (!title.IsNullOrEmpty() && sheet.LastRowNum > 0)
-                {
-                    sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, sheet.GetRow(sheet.LastRowNum).LastCellNum - 1));
                 }
                 for (int i = 0; i < list.Count; ++i)
                 {
@@ -317,6 +305,21 @@ namespace Paway.Helper
                             CreateCell(row, index, tuple?.Item1 ?? defaultStyle, list[i].GetValue(property.Name));
                             merged?.Invoke(list, i, row, property.Name, tuple?.Item1 ?? defaultStyle);
                         }
+                    }
+                }
+                if (sheet.LastRowNum > 0)
+                {
+                    if (args.Length > 0)
+                    {
+                        for (int i = 0, j = 0; i < sheet.GetRow(sheet.LastRowNum).LastCellNum; i++, j++)
+                        {
+                            if (j >= args.Length) j = 0;
+                            sheet.SetColumnWidth(i, args[j] * 256);
+                        }
+                    }
+                    if (!title.IsNullOrEmpty())
+                    {
+                        sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, sheet.GetRow(sheet.LastRowNum).LastCellNum - 1));
                     }
                 }
                 sign?.Invoke(sheet);
