@@ -183,19 +183,19 @@ namespace Paway.Helper
             line2 = _linePading.Right / 2f;
             var line3 = Math.Abs(cornerRadius.Right - line2);
             int right = cornerRadius.Right - _linePading.Right;
-            if (right > 0) roundedRect.AddArc(rect.Right - 1 - line3, rect.Y + line2, right, right, 270, 90);
+            if (right > 0) roundedRect.AddArc(rect.Right - line3, rect.Y + line2, right, right, 270, 90);
             else roundedRect.AddLine(rect.Right - line3, rect.Y + line2, rect.Right - line3, rect.Y + line2);
 
             line2 = _linePading.Bottom / 2f;
             line3 = Math.Abs(cornerRadius.Bottom - line2);
             int bottom = cornerRadius.Bottom - _linePading.Bottom;
-            if (bottom > 0) roundedRect.AddArc(rect.Right - 2 - line3, rect.Bottom - 2 - line3, bottom + 1, bottom + 1, 0, 90);
+            if (bottom > 0) roundedRect.AddArc(rect.Right - line3, rect.Bottom - line3, bottom, bottom, 0, 90);
             else roundedRect.AddLine(rect.Right - line3, rect.Bottom - line3, rect.Right - line3, rect.Bottom - line3);
 
             line2 = _linePading.Left / 2f;
             line3 = Math.Abs(cornerRadius.Left - line2);
             int left = cornerRadius.Left - _linePading.Left;
-            if (left > 0) roundedRect.AddArc(rect.X + line2, rect.Bottom - 1 - line3, left, left, 90, 90);
+            if (left > 0) roundedRect.AddArc(rect.X + line2, rect.Bottom - line3, left, left, 90, 90);
             else roundedRect.AddLine(rect.X + line2, rect.Bottom - line3, rect.X + line2, rect.Bottom - line3);
 
             roundedRect.CloseFigure();

@@ -238,7 +238,7 @@ namespace Paway.Helper
             Action<ICellStyle, ICellStyle, ICellStyle> style = null, Func<List<T>, ISheet, int> heardAction = null,
             Func<T, IWorkbook, Tuple<ICellStyle, ICellStyle>> lineStyle = null,
             Func<List<T>, T, string, bool> filter = null,
-            Action<List<T>, int, IRow, string, ICellStyle> merged = null,
+            Action<List<T>, int, IRow, string, ICell> merged = null,
             Action<ISheet> sign = null,
             params int[] args)
         {
@@ -297,13 +297,13 @@ namespace Paway.Helper
                         var tuple = lineStyle?.Invoke(list[i], weekBook);
                         if (dbType == typeof(double) || dbType == typeof(int))
                         {
-                            CreateCell(row, index, tuple?.Item2 ?? numberStyle, list[i].GetValue(property.Name));
-                            merged?.Invoke(list, i, row, property.Name, tuple?.Item2 ?? numberStyle);
+                            var cell = CreateCell(row, index, tuple?.Item2 ?? numberStyle, list[i].GetValue(property.Name));
+                            merged?.Invoke(list, i, row, property.Name, cell);
                         }
                         else
                         {
-                            CreateCell(row, index, tuple?.Item1 ?? defaultStyle, list[i].GetValue(property.Name));
-                            merged?.Invoke(list, i, row, property.Name, tuple?.Item1 ?? defaultStyle);
+                            var cell = CreateCell(row, index, tuple?.Item1 ?? defaultStyle, list[i].GetValue(property.Name));
+                            merged?.Invoke(list, i, row, property.Name, cell);
                         }
                     }
                 }
@@ -348,13 +348,13 @@ namespace Paway.Helper
         /// <param name="style">样式</param>
         /// <param name="value">单元格值</param>
         /// <returns></returns>
-        public static ICell CreateCell(IRow row, int index, ICellStyle style, object value)
+        public static ICell CreateCell(IRow row, int index, ICellStyle style, object value = null)
         {
             ICell cell = row.CreateCell(index);
             cell.CellStyle = style;
             if (value is double) cell.SetCellValue((double)value);
             else if (value is int) cell.SetCellValue((int)value);
-            else cell.SetCellValue(value.ToStrs());
+            else if (value != null) cell.SetCellValue(value.ToStrs());
             return cell;
         }
         /// <summary>
