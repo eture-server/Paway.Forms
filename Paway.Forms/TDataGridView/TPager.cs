@@ -585,7 +585,6 @@ namespace Paway.Forms
     /// 分页属性
     /// </summary>
     [Serializable]
-    [DataContract]
     public class PagerInfo
     {
         private int currentPageIndex = 1; //当前页码
@@ -606,7 +605,6 @@ namespace Paway.Forms
         /// <summary>
         /// 获取或设置当前页码
         /// </summary>
-        [DataMember]
         public int CurrentPageIndex
         {
             get { return currentPageIndex; }
@@ -624,7 +622,6 @@ namespace Paway.Forms
         /// <summary>
         /// 获取或设置每页显示的记录
         /// </summary>
-        [DataMember]
         [Description("获取或设置每页显示的记录"), Category("分页")]
         [DefaultValue(20)]
         public int PageSize
@@ -660,7 +657,6 @@ namespace Paway.Forms
         /// <summary>
         /// 获取或设置记录总数
         /// </summary>
-        [DataMember]
         [Description("获取或设置记录总数"), Category("分页")]
         [DefaultValue(0)]
         public int RecordCount
@@ -680,7 +676,6 @@ namespace Paway.Forms
         /// <summary>
         /// 获取记录总页数
         /// </summary>
-        [DataMember]
         [Description("获取记录总页数"), Category("分页")]
         [DefaultValue(0)]
         public int PageCount

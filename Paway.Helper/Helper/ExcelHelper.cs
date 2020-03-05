@@ -366,7 +366,8 @@ namespace Paway.Helper
         /// <returns></returns>
         public static ICell CreateCellHeader(IRow row, int index, string value)
         {
-            ICellStyle style = GetCellStyle(row.Sheet.Workbook, CellStyle.Header, HorizontalAlignment.Center);
+            var style = GetCellStyle(row.Sheet.Workbook, CellStyle.Header, HorizontalAlignment.Center);
+            style.WrapText = true;
             return CreateCell(row, index, style, value);
         }
         /// <summary>
@@ -378,7 +379,7 @@ namespace Paway.Helper
         /// <returns></returns>
         public static ICell CreateCellDefalut(IRow row, int index, string value)
         {
-            ICellStyle style = GetCellStyle(row.Sheet.Workbook);
+            var style = GetCellStyle(row.Sheet.Workbook);
             return CreateCell(row, index, style, value);
         }
         /// <summary>
@@ -432,7 +433,7 @@ namespace Paway.Helper
         /// <returns></returns>
         public static ICellStyle GetCellStyle(IWorkbook wb, CellStyle tyle = CellStyle.Default, HorizontalAlignment _HorizontalAlignment = HorizontalAlignment.Left)
         {
-            ICellStyle style = wb.CreateCellStyle();
+            var style = wb.CreateCellStyle();
             //定义几种字体  
             //也可以一种字体，写一些公共属性，然后在下面需要时加特殊的  
             IFont font = wb.CreateFont();

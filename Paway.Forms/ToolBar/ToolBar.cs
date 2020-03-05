@@ -99,11 +99,7 @@ namespace Paway.Forms
         /// <summary>
         /// 多选状态下选中时附加的图片
         /// </summary>
-        private Image _selectImage;
-        /// <summary>
-        /// 多选状态下选中时附加的图片
-        /// </summary>
-        private readonly Image _selectImage2 = Resources.Controls_accept_16;
+        private readonly Image _selectImage = Resources.Controls_accept_16;
 
         #endregion
 
@@ -1044,7 +1040,7 @@ namespace Paway.Forms
                         if (item.ImageDown != null) DragImage(g, item.ImageDown, item.ImageRect);
                         else if (item.Image != null) DragImage(g, item.Image, item.ImageRect);
                     }
-                    Image image = _selectImage ?? _selectImage2;
+                    Image image = _selectImage;
                     if (_iMultiple && image != null)
                     {
                         g.DrawImage(image, new Rectangle(item.Rectangle.Right - image.Width, item.Rectangle.Bottom - image.Height, image.Width, image.Height));
@@ -1535,10 +1531,14 @@ namespace Paway.Forms
                 }
                 else
                 {
-                    InvaRectDesc(item, TMouseState.Normal);
                     if (_iClickEvent || item.MouseState != TMouseState.Down)
                     {
                         InvalidateItem(item, TMouseState.Normal);
+                        InvaRectDesc(item, TMouseState.Normal);
+                    }
+                    else if (TDesc.ColorNormal != Color.Transparent)
+                    {
+                        InvaRectDesc(item, TMouseState.Normal);
                     }
                 }
             }
@@ -1560,10 +1560,14 @@ namespace Paway.Forms
             MoveItem = null;
             foreach (var item in Items)
             {
-                InvaRectDesc(item, TMouseState.Normal);
                 if ((_iClickEvent && !_iMultiple) || item.MouseState != TMouseState.Down)
                 {
                     InvalidateItem(item, TMouseState.Normal);
+                    InvaRectDesc(item, TMouseState.Normal);
+                }
+                else if (TDesc.ColorNormal != Color.Transparent)
+                {
+                    InvaRectDesc(item, TMouseState.Normal);
                 }
             }
             ClearTemp();
@@ -1621,7 +1625,7 @@ namespace Paway.Forms
             }
             else if (TDesc.ColorNormal == Color.Transparent)
             {
-                InvaRectDesc(item, TMouseState.Move);
+                InvaRectDesc(item, TMouseState.Down);
             }
             else
             {
@@ -1680,6 +1684,10 @@ namespace Paway.Forms
                 {
                     InvaRectDesc(item, TMouseState.Move);
                 }
+                else if (TDesc.ColorNormal == Color.Transparent)
+                {
+                    InvaRectDesc(item, TMouseState.Move);
+                }
                 else
                 {
                     InvaRectDesc(item, TMouseState.Normal);
@@ -1713,20 +1721,6 @@ namespace Paway.Forms
                     }
                     OnItemClick(item, e);
                 }
-            }
-        }
-
-        /// <summary>
-        /// 引发 System.Windows.Forms.Form.MouseEnter 事件。
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnMouseEnter(EventArgs e)
-        {
-            base.OnMouseEnter(e);
-            if (iScrollHide && ParentForm.ContainsFocus)
-            {
-                //设置焦点也许是为了滚动条，目前并无影响，暂且去掉
-                //Focus();
             }
         }
 
@@ -2488,7 +2482,6 @@ namespace Paway.Forms
                 _imageDown = null;
                 _imageMove = null;
                 _normalImage = null;
-                _selectImage = null;
             }
             if (_backGround != null)
             {
@@ -2537,9 +2530,9 @@ namespace Paway.Forms
                 _selectedItem.Dispose();
                 _selectedItem = null;
             }
-            if (_selectImage2 != null)
+            if (_selectImage != null)
             {
-                _selectImage2.Dispose();
+                _selectImage.Dispose();
             }
             if (_text != null)
             {
