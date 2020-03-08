@@ -42,42 +42,9 @@ namespace Paway.Helper
 
         #region 全局配置
         /// <summary>
-        /// 统一风格颜色（窗体）
-        /// </summary>
-        public static Color? TBackColor { get; set; } = Color.CornflowerBlue;
-
-        /// <summary>
-        /// 颜色透明度且颜色不透明时应用此值
-        /// </summary>
-        public static int? Trans { get; set; }
-
-        /// <summary>
-        /// 移动控件(父)窗体
-        /// </summary>
-        public static bool? IMouseMove { get; set; }
-
-        /// <summary>
         /// ToolBar滚动条自动隐藏
         /// </summary>
         public static bool IAutoHideScroll { get; set; }
-
-        #endregion
-
-        #region 加载全局属性
-        /// <summary>
-        /// 加载IControl全局属性
-        /// </summary>
-        public static void Init(IControl control)
-        {
-            if (Trans != null && control.Trans == 255)
-            {
-                control.Trans = Trans ?? 255;
-            }
-            if (IMouseMove != null)
-            {
-                control.IMouseMove = IMouseMove ?? false;
-            }
-        }
 
         #endregion
 

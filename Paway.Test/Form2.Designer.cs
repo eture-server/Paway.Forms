@@ -230,8 +230,6 @@
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.toolBar1);
             this.Name = "Form2";
-            this.TBrush.ColorDown = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.TBrush.ColorMove = System.Drawing.Color.CornflowerBlue;
             this.Text = "Form1";
             this.panel3.ResumeLayout(false);
             this.toolBar2.ResumeLayout(false);

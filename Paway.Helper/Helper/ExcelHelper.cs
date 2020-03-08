@@ -18,11 +18,6 @@ namespace Paway.Helper
     public abstract class ExcelHelper
     {
         /// <summary>
-        /// 标题字体设置事件
-        /// </summary>
-        public static event Action<IFont> HeaderFontEvent;
-
-        /// <summary>
         /// 使用OLEDB从Excel导入DataTable
         /// HDR=yes 第一行是列名而不是数据
         /// </summary>
@@ -235,7 +230,8 @@ namespace Paway.Helper
         /// <param name="args">设置列宽</param>
         public static void ToExcel<T>(List<T> list, string title, string fileName, bool heard = true,
             short titleHeight = 42, short heardHeight = 20, short lineHeight = 16,
-            Action<ICellStyle, ICellStyle, ICellStyle> style = null, Func<List<T>, ISheet, int> heardAction = null,
+            Action<IWorkbook, ICellStyle, ICellStyle, ICellStyle, ICellStyle> style = null,
+            Func<List<T>, ISheet, int> heardAction = null,
             Func<T, IWorkbook, Tuple<ICellStyle, ICellStyle>> lineStyle = null,
             Func<List<T>, T, string, bool> filter = null,
             Action<List<T>, int, IRow, string, ICell> merged = null,
@@ -252,18 +248,19 @@ namespace Paway.Helper
                 int count = 0;
                 fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                 ISheet sheet = weekBook.CreateSheet("Sheet1");
+                var titleStyle = GetCellStyle(weekBook, CellStyle.Header);
+                var heardStyle = GetCellStyle(weekBook);
+                var defaultStyle = GetCellStyle(weekBook);
+                var numberStyle = GetCellStyle(weekBook, CellStyle.Number);
                 if (!title.IsNullOrEmpty())
                 {
                     IRow row = sheet.CreateRow(count++);
                     row.Height = (short)(titleHeight * 20);
-                    CreateCellHeader(row, 0, title);
+                    CreateCell(row, 0, titleStyle, title);
                 }
                 var type = list.GenericType();
                 var properties = type.PropertiesCache();
-                var heardStyle = GetCellStyle(weekBook);
-                var defaultStyle = GetCellStyle(weekBook);
-                var numberStyle = GetCellStyle(weekBook, CellStyle.Number);
-                style?.Invoke(heardStyle, defaultStyle, numberStyle);
+                style?.Invoke(weekBook, titleStyle, heardStyle, defaultStyle, numberStyle);
                 if (heardAction != null)
                 {
                     count += heardAction.Invoke(list, sheet);
@@ -358,86 +355,20 @@ namespace Paway.Helper
             return cell;
         }
         /// <summary>
-        /// 创建默认单元格并且赋值
-        /// </summary>
-        /// <param name="row">行对象</param>
-        /// <param name="index">单元格索引</param>
-        /// <param name="value">单元格值</param>
-        /// <returns></returns>
-        public static ICell CreateCellHeader(IRow row, int index, string value)
-        {
-            var style = GetCellStyle(row.Sheet.Workbook, CellStyle.Header, HorizontalAlignment.Center);
-            style.WrapText = true;
-            return CreateCell(row, index, style, value);
-        }
-        /// <summary>
-        /// 创建默认单元格并且赋值
-        /// </summary>
-        /// <param name="row">行对象</param>
-        /// <param name="index">单元格索引</param>
-        /// <param name="value">单元格值</param>
-        /// <returns></returns>
-        public static ICell CreateCellDefalut(IRow row, int index, string value)
-        {
-            var style = GetCellStyle(row.Sheet.Workbook);
-            return CreateCell(row, index, style, value);
-        }
-        /// <summary>
-        /// 创建数字单元格并且赋值
-        /// </summary>
-        /// <param name="row">行对象</param>
-        /// <param name="index">单元格索引</param>
-        /// <param name="value">单元格值</param>
-        /// <returns></returns>
-        public static ICell CreateCellNumber(IRow row, int index, double value)
-        {
-            ICell cell = row.CreateCell(index);
-            cell.CellStyle = GetCellStyle(row.Sheet.Workbook, CellStyle.Number);
-            cell.SetCellValue(value);
-            return cell;
-        }
-        /// <summary>
-        /// 创建数字单元格并且赋值
-        /// </summary>
-        /// <param name="row">行对象</param>
-        /// <param name="index">单元格索引</param>
-        /// <param name="value">单元格值</param>
-        /// <returns></returns>
-        public static ICell CreateCellNumber(IRow row, int index, int value)
-        {
-            ICell cell = row.CreateCell(index);
-            cell.CellStyle = GetCellStyle(row.Sheet.Workbook, CellStyle.Number);
-            cell.SetCellValue(value);
-            return cell;
-        }
-        /// <summary>
-        /// 创建日期单元格并且赋值
-        /// </summary>
-        /// <param name="row">行对象</param>
-        /// <param name="index">单元格索引</param>
-        /// <param name="value">单元格值</param>
-        /// <returns></returns>
-        public static ICell CreateCellDate(IRow row, int index, DateTime value)
-        {
-            ICell cell = row.CreateCell(index);
-            cell.CellStyle = GetCellStyle(row.Sheet.Workbook, CellStyle.DateTime);
-            cell.SetCellValue(value);
-            return cell;
-        }
-        /// <summary>
         /// 单元格格式
         /// </summary>
         /// <param name="wb">IWorkbook实例</param>
         /// <param name="tyle">单元格类型</param>
-        /// <param name="_HorizontalAlignment"></param>
+        /// <param name="point">字体大小</param>
         /// <returns></returns>
-        public static ICellStyle GetCellStyle(IWorkbook wb, CellStyle tyle = CellStyle.Default, HorizontalAlignment _HorizontalAlignment = HorizontalAlignment.Left)
+        public static ICellStyle GetCellStyle(IWorkbook wb, CellStyle tyle = CellStyle.Default, int point = 11)
         {
             var style = wb.CreateCellStyle();
             //定义几种字体  
             //也可以一种字体，写一些公共属性，然后在下面需要时加特殊的  
             IFont font = wb.CreateFont();
             font.FontName = "微软雅黑";
+            font.FontHeightInPoints = (short)point;
 
             //边框
             //style.BorderBottom = BorderStyle.Thin;
@@ -454,7 +385,7 @@ namespace Paway.Helper
             //style.FillBackgroundColor = HSSFColor.Black.Index;
 
             //水平对齐  
-            style.Alignment = _HorizontalAlignment;
+            style.Alignment = HorizontalAlignment.Left;
 
             //垂直对齐  
             style.VerticalAlignment = VerticalAlignment.Center;
@@ -469,37 +400,29 @@ namespace Paway.Helper
             switch (tyle)
             {
                 case CellStyle.Default:
-                    style.SetFont(font);
                     break;
                 case CellStyle.Header:
-                    IFont header = wb.CreateFont();
-                    header.FontName = "微软雅黑";
-                    header.FontHeightInPoints = 12;//字体大小
-                    HeaderFontEvent?.Invoke(header);
-                    style.SetFont(header);
+                    style.Alignment = HorizontalAlignment.Center;
+                    style.WrapText = true;
+                    font.FontHeightInPoints = 12;//字体大小
                     break;
                 case CellStyle.Number:
                     style.DataFormat = HSSFDataFormat.GetBuiltinFormat("0.##");
-                    style.SetFont(font);
                     break;
                 case CellStyle.DateTime:
                     IDataFormat datastyle = wb.CreateDataFormat();
                     style.DataFormat = datastyle.GetFormat("yyyy/MM/dd");
-                    style.SetFont(font);
                     break;
                 case CellStyle.Url:
-                    IFont url = wb.CreateFont();
-                    url.FontName = "微软雅黑";
-                    url.Color = HSSFColor.Blue.Index;
-                    url.IsItalic = true;//下划线  
-                    url.Underline = FontUnderlineType.Single;
-                    style.SetFont(url);
+                    font.Color = HSSFColor.Blue.Index;
+                    font.IsItalic = true;//下划线  
+                    font.Underline = FontUnderlineType.Single;
                     break;
                 case CellStyle.Science:
                     style.DataFormat = HSSFDataFormat.GetBuiltinFormat("0.00E+00");
-                    style.SetFont(font);
                     break;
             }
+            style.SetFont(font);
             return style;
         }
 

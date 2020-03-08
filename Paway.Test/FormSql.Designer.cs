@@ -167,8 +167,6 @@ namespace Paway.Test
             this.ClientSize = new System.Drawing.Size(407, 372);
             this.Name = "FormSql";
             this.ShowInTaskbar = true;
-            this.TBrush.ColorDown = System.Drawing.Color.Ivory;
-            this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(84)))), ((int)(((byte)(74)))));
             this.Text = "Sql测试";
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

@@ -102,7 +102,6 @@
             this.Controls.Add(this.tControl1);
             this.Name = "Form3";
             this.Padding = new System.Windows.Forms.Padding(0);
-            this.TBrush.ColorDown = System.Drawing.Color.Ivory;
             this.Text = "你好";
             this.Trans = 155;
             this.tControl1.ResumeLayout(false);

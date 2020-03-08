@@ -261,7 +261,6 @@ namespace Paway.Forms
         {
             ILoad = true;
             base.OnLoad(e);
-            TConfig.Init(this);
             if (DesignMode) return;
             MChild();
         }

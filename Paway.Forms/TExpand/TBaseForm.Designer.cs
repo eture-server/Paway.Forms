@@ -57,7 +57,7 @@ namespace Paway.Forms
             // 
             // TBaseForm
             // 
-            this.BackColor = System.Drawing.Color.Transparent;
+            this.BackColor = System.Drawing.Color.CornflowerBlue;
             this.ClientSize = new System.Drawing.Size(443, 299);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lbTitle);
@@ -68,8 +68,6 @@ namespace Paway.Forms
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SysButton = Paway.Helper.TSysButton.Close;
-            this.TBrush.ColorDown = System.Drawing.Color.Ivory;
-            this.TBrush.ColorMove = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(84)))), ((int)(((byte)(74)))));
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -79,8 +77,6 @@ namespace Paway.Forms
         /// <summary>
         /// </summary>
         protected System.Windows.Forms.Label lbTitle;
-        /// <summary>
-        /// </summary>
         protected TControl panel1;
     }
 }

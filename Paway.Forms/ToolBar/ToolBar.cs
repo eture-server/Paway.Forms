@@ -1509,7 +1509,7 @@ namespace Paway.Forms
                 if (item.Rectangle.Contains(point))
                 {
                     MoveItem = item;
-                    if (item.RectDesc.Contains(point) || TDesc.ColorNormal == Color.Transparent)
+                    if (item.RectDesc.Contains(point) || TDesc.ColorNormal == Color.Transparent || EditClick == null)
                     {
                         if (item.MouseDescState != TMouseState.Down)
                         {
@@ -1536,7 +1536,7 @@ namespace Paway.Forms
                         InvalidateItem(item, TMouseState.Normal);
                         InvaRectDesc(item, TMouseState.Normal);
                     }
-                    else if (TDesc.ColorNormal != Color.Transparent)
+                    else if (TDesc.ColorNormal != Color.Transparent && EditClick != null)
                     {
                         InvaRectDesc(item, TMouseState.Normal);
                     }
@@ -1565,7 +1565,7 @@ namespace Paway.Forms
                     InvalidateItem(item, TMouseState.Normal);
                     InvaRectDesc(item, TMouseState.Normal);
                 }
-                else if (TDesc.ColorNormal != Color.Transparent)
+                else if (TDesc.ColorNormal != Color.Transparent && EditClick != null)
                 {
                     InvaRectDesc(item, TMouseState.Normal);
                 }
@@ -1623,7 +1623,7 @@ namespace Paway.Forms
                 ifocus = EditClick != null;
                 InvaRectDesc(item, TMouseState.Down);
             }
-            else if (TDesc.ColorNormal == Color.Transparent)
+            else if (TDesc.ColorNormal == Color.Transparent || EditClick == null)
             {
                 InvaRectDesc(item, TMouseState.Down);
             }
@@ -1680,11 +1680,7 @@ namespace Paway.Forms
         {
             if (!INormal)
             {
-                if (item.RectDesc.Contains(point))
-                {
-                    InvaRectDesc(item, TMouseState.Move);
-                }
-                else if (TDesc.ColorNormal == Color.Transparent)
+                if (item.RectDesc.Contains(point) || TDesc.ColorNormal == Color.Transparent || EditClick == null)
                 {
                     InvaRectDesc(item, TMouseState.Move);
                 }

@@ -183,9 +183,6 @@
             // 
             this.ClientSize = new System.Drawing.Size(443, 311);
             this.Name = "UserPadForm";
-            this.TBrush.ColorDown = System.Drawing.Color.Ivory;
-            this.TBrush.ColorMove = System.Drawing.Color.CornflowerBlue;
-            this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -45,14 +45,6 @@ namespace Paway.Forms
             this.ResumeLayout(false);
         }
         /// <summary>
-        /// 应用配置
-        /// </summary>
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-            TConfig.Init(this);
-        }
-        /// <summary>
         /// 释放资源
         /// </summary>
         protected override void Dispose(bool disposing)

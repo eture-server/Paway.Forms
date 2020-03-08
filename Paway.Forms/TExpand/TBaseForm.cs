@@ -38,11 +38,6 @@ namespace Paway.Forms
             this.TextShow = string.Empty;
             this.TMouseMove(this.lbTitle);
             this.TMouseMove(this.panel1);
-            if (TConfig.TBackColor != null)
-            {
-                this.TBrush.ColorMove = TConfig.TBackColor ?? Color.Empty;
-                this.TBrush.ColorDown = Color.Ivory;
-            }
             lbTitle.TextChanged += delegate { this.OnSizeChanged(EventArgs.Empty); };
         }
 
