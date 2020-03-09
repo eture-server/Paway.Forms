@@ -579,7 +579,7 @@ namespace Paway.Forms
         /// <summary>
         /// 设置边框线,圆角时仅使用Left值
         /// </summary>
-        [Description("设置边框线,圆角时仅使用Left值")]
+        [Description("设置边框线,圆角时线条宽度值使用All")]
         [DefaultValue(typeof(Padding), "1,1,1,1")]
         public Padding TLinePading
         {
@@ -1091,35 +1091,42 @@ namespace Paway.Forms
                 var rect = item.Rectangle;
                 if (color != Color.Empty)
                 {
-                    using (var path = DrawHelper.CreateRoundPath(rect, radiu, new Padding(0)))
+                    using (var path = DrawHelper.CreateRoundPath(rect, radiu))
                     using (var solidBrush = new SolidBrush(color))
                     {
                         g.FillPath(solidBrush, path);
                     }
+                    try
+                    {
+                        g.PixelOffsetMode = PixelOffsetMode.Default;
+                        using (var path = DrawHelper.CreateRoundPath(rect, radiu))
+                        using (var pen = new Pen(color))
+                        {
+                            g.DrawPath(pen, path);
+                        }
+                    }
+                    finally
+                    {
+                        g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    }
                 }
-                if (colorLine != Color.Empty && _linePading.Left > 0)
+                if (colorLine != Color.Empty && _linePading.All > 0)
                 {
                     var temp = colorLine;
                     if (temp == Color.Transparent) temp = (color == Color.Empty ? Color.LightGray : color).AddLight(-15);
                     else temp = TranColor(colorLine);
-                    if (radiu.All == this.ItemSize.Width && radiu.All == this.ItemSize.Height)
+                    try
                     {
-                        //g.PixelOffsetMode = PixelOffsetMode.Default;
-                        using (var pen = new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Left))
-                        {
-                            g.DrawArc(pen,
-                                new RectangleF(new PointF(rect.X + _linePading.Left / 2f, rect.Y + _linePading.Left / 2f),
-                                new Size(rect.Width - _linePading.Left, rect.Height - _linePading.Left)), 45, 360f);
-                        }
-                        //g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                    }
-                    else
-                    {
-                        using (var path = DrawHelper.CreateRoundPath(rect, radiu, _linePading))
-                        using (var pen = new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.Left))
+                        g.PixelOffsetMode = PixelOffsetMode.Default;
+                        using (var path = DrawHelper.CreateRoundPath(rect, radiu))
+                        using (var pen = new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.All))
                         {
                             g.DrawPath(pen, path);
                         }
+                    }
+                    finally
+                    {
+                        g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                     }
                 }
             }
@@ -1138,15 +1145,21 @@ namespace Paway.Forms
                     var temp = colorLine;
                     if (temp == Color.Transparent) temp = (color == Color.Empty ? Color.LightGray : color).AddLight(-15);
                     else temp = TranColor(colorLine);
-                    if (_linePading.All == 1)
+                    if (_linePading.All > 0)
                     {
-                        g.PixelOffsetMode = PixelOffsetMode.Default;
-                        rect = new Rectangle(rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
-                        using (var pen = new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.All))
+                        try
                         {
-                            g.DrawRectangle(pen, rect);
+                            g.PixelOffsetMode = PixelOffsetMode.Default;
+                            rect = new Rectangle(rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
+                            using (var pen = new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.All))
+                            {
+                                g.DrawRectangle(pen, rect);
+                            }
                         }
-                        g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                        finally
+                        {
+                            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                        }
                         return;
                     }
                     if (_linePading.Left > 0)
@@ -1478,6 +1491,13 @@ namespace Paway.Forms
                 item.MouseState = state;
                 Invalidate(item);
             }
+            if (TDesc.ColorNormal == Color.Transparent || EditClick == null)
+            {
+                if (state != item.MouseDescState)
+                {
+                    InvaRectDesc(item, state == TMouseState.Down ? TMouseState.Move : state);
+                }
+            }
         }
 
         /// <summary>
@@ -1534,11 +1554,6 @@ namespace Paway.Forms
                     if (_iClickEvent || item.MouseState != TMouseState.Down)
                     {
                         InvalidateItem(item, TMouseState.Normal);
-                        InvaRectDesc(item, TMouseState.Normal);
-                    }
-                    else if (TDesc.ColorNormal != Color.Transparent && EditClick != null)
-                    {
-                        InvaRectDesc(item, TMouseState.Normal);
                     }
                 }
             }
@@ -1563,11 +1578,6 @@ namespace Paway.Forms
                 if ((_iClickEvent && !_iMultiple) || item.MouseState != TMouseState.Down)
                 {
                     InvalidateItem(item, TMouseState.Normal);
-                    InvaRectDesc(item, TMouseState.Normal);
-                }
-                else if (TDesc.ColorNormal != Color.Transparent && EditClick != null)
-                {
-                    InvaRectDesc(item, TMouseState.Normal);
                 }
             }
             ClearTemp();
@@ -1623,10 +1633,6 @@ namespace Paway.Forms
                 ifocus = EditClick != null;
                 InvaRectDesc(item, TMouseState.Down);
             }
-            else if (TDesc.ColorNormal == Color.Transparent || EditClick == null)
-            {
-                InvaRectDesc(item, TMouseState.Down);
-            }
             else
             {
                 InvaRectDesc(item, TMouseState.Normal);
@@ -1680,7 +1686,7 @@ namespace Paway.Forms
         {
             if (!INormal)
             {
-                if (item.RectDesc.Contains(point) || TDesc.ColorNormal == Color.Transparent || EditClick == null)
+                if (item.RectDesc.Contains(point))
                 {
                     InvaRectDesc(item, TMouseState.Move);
                 }
