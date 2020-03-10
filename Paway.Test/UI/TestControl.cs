@@ -32,9 +32,10 @@ namespace Paway.Test
             base.AddDelete();
             base.HaveQuery();
             gridview1.TPadding = new Padding(0);
+            gridview1.PageSize = 5;
             if (DesignMode) return;
             //gridview1.IGroup = false;
-            this.UserTree(true);
+            //this.UserTree(true);
             var server = new SQLiteService();
             base.find = "Id<=917551";
             var list = server.Find<TestInfo>("1=1 limit 1000");

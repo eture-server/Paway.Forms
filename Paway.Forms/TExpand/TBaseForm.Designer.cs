@@ -77,6 +77,8 @@ namespace Paway.Forms
         /// <summary>
         /// </summary>
         protected System.Windows.Forms.Label lbTitle;
+        /// <summary>
+        /// </summary>
         protected TControl panel1;
     }
 }

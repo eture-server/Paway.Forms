@@ -171,21 +171,23 @@ namespace Paway.Helper
         /// <summary>
         /// 构建圆角路径
         /// </summary>
-        public static GraphicsPath CreateRoundPath(Rectangle rect, Padding radiu)
+        public static GraphicsPath CreateRoundPath(Rectangle rect, Padding radiu, int line = 0)
         {
-            rect = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 1, rect.Height - 1);
+            var line2 = (line) / 2;
+            if (line > 0) line -= 1;
+
             var radiuRect = new GraphicsPath();
-            if (radiu.Top > 0) radiuRect.AddArc(rect.X, rect.Y, radiu.Top * 2, radiu.Top * 2, 180, 90);
-            else radiuRect.AddLine(rect.X + radiu.Top, rect.Y, rect.Right - radiu.Right * 2, rect.Y);
+            if (radiu.Top > 0) radiuRect.AddArc(rect.X + line2, rect.Y + line2, radiu.Top * 2, radiu.Top * 2, 180, 90);
+            else radiuRect.AddLine(rect.X + radiu.Top + line2, rect.Y + line2, rect.Right - radiu.Top - radiu.Right - line2 + line, rect.Y + line2);
 
-            if (radiu.Right > 0) radiuRect.AddArc(rect.Right - radiu.Right * 2, rect.Y, radiu.Right * 2, radiu.Right * 2, 270, 90);
-            else radiuRect.AddLine(rect.Right, rect.Y + radiu.Right * 2, rect.Right, rect.Bottom - radiu.Bottom * 2);
+            if (radiu.Right > 0) radiuRect.AddArc(rect.Right - radiu.Right * 2 + line2, rect.Y + line2, radiu.Right * 2, radiu.Right * 2, 270, 90);
+            else radiuRect.AddLine(rect.Right - line2 + line, rect.Y + radiu.Right * 2 + line2, rect.Right - line2 + line, rect.Bottom - radiu.Bottom * 2 - line2 + line);
 
-            if (radiu.Bottom > 0) radiuRect.AddArc(rect.Right - radiu.Bottom * 2, rect.Bottom - radiu.Bottom * 2, radiu.Bottom * 2, radiu.Bottom * 2, 0, 90);
-            else radiuRect.AddLine(rect.Right - radiu.Bottom * 2, rect.Bottom, rect.X + radiu.Left * 2, rect.Bottom);
+            if (radiu.Bottom > 0) radiuRect.AddArc(rect.Right - radiu.Bottom * 2 + line2, rect.Bottom - radiu.Bottom * 2 + line2, radiu.Bottom * 2, radiu.Bottom * 2, 0, 90);
+            else radiuRect.AddLine(rect.Right - radiu.Bottom * 2 - line2 + line, rect.Bottom - line2 + line, rect.X + radiu.Left * 2 + line2, rect.Bottom - line2 + line);
 
-            if (radiu.Left > 0) radiuRect.AddArc(rect.X, rect.Bottom - radiu.Left * 2, radiu.Left * 2, radiu.Left * 2, 90, 90);
-            else radiuRect.AddLine(rect.X, rect.Bottom - radiu.Left * 2, rect.X, rect.Y + radiu.Top * 2);
+            if (radiu.Left > 0) radiuRect.AddArc(rect.X + line2, rect.Bottom - radiu.Left * 2 + line2, radiu.Left * 2, radiu.Left * 2, 90, 90);
+            else radiuRect.AddLine(rect.X + line2, rect.Bottom - radiu.Left * 2 - line2 + line - 1, rect.X + line2, rect.Y + radiu.Top * 2 + line2);
 
             radiuRect.CloseFigure();
             return radiuRect;

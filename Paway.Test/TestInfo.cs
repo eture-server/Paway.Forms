@@ -1,4 +1,5 @@
 ﻿using Paway.Helper;
+using Paway.Test.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -42,8 +43,10 @@ namespace Paway.Test
         public override string Name { get => base.Name; set => base.Name = value; }
 
         [Column("Pad")]
+        [IButton(nameof(Images))]
         public string NewPad { get; set; }
 
+        [ICheckBox]
         public bool Statu { get; set; }
 
         public UserType UserType { get; set; }
@@ -53,6 +56,8 @@ namespace Paway.Test
         public DateTime DateTime { get; set; }
 
         public Image Image { get; set; }
+        [NoSelect]
+        public Image Images { get { return Resources.close; } }
 
         public FindInfo FindInfo { get; set; }
         public List<FindInfo> List { get; } = new List<FindInfo>();

@@ -806,5 +806,35 @@ namespace Paway.Helper
         }
 
         #endregion
+
+        #region 绘制图片
+        /// <summary>
+        /// 绘制图片
+        /// </summary>
+        public static void DragImage(Graphics g, Image image, Rectangle rect, bool autoSize = true)
+        {
+            if (autoSize)
+            {
+                if (image.Width < rect.Width && image.Height < rect.Height)
+                {
+                    rect = new Rectangle(rect.Left + (rect.Width - image.Width) / 2,
+                        rect.Top + (rect.Height - image.Height) / 2,
+                        image.Width, image.Height);
+                }
+                else if (rect.Width * 1.0 / rect.Height > image.Width * 1.0 / image.Height)
+                {
+                    int width = image.Width * rect.Height / image.Height;
+                    rect = new Rectangle(rect.Left + (rect.Width - width) / 2, rect.Top, width, rect.Height);
+                }
+                else
+                {
+                    int height = image.Height * rect.Width / image.Width;
+                    rect = new Rectangle(rect.Left, rect.Top + (rect.Height - height) / 2, rect.Width, height);
+                }
+            }
+            g.DrawImage(image, rect, new Rectangle(Point.Empty, image.Size), GraphicsUnit.Pixel);
+        }
+
+        #endregion
     }
 }

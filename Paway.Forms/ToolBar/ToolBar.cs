@@ -832,7 +832,7 @@ namespace Paway.Forms
                     switch (_tDirection)
                     {
                         case TDirection.Level:
-                            TextRenderer.DrawText(g, item.Text, item.TColor.FontNormal, temp, item.TColor.ColorNormal, item.TColor.TextFormat);
+                            TextRenderer.DrawText(g, item.Text, item.TColor.FontNormal, temp, item.TColor.ColorNormal, item.TColor.TextFormat());
                             break;
                         case TDirection.Vertical:
                             var color = item.TColor.ColorNormal;
@@ -972,7 +972,7 @@ namespace Paway.Forms
                     item.MouseState = TMouseState.Normal;
                     item.MouseDescState = TMouseState.Normal;
                 }
-                ClacImageRect(g, item);
+                ClacImageRect(item);
                 DrawBackground(g, item);
                 DrawText(g, item);
             }
@@ -983,93 +983,64 @@ namespace Paway.Forms
         /// </summary>
         private void DrawBackground(Graphics g, ToolItem item)
         {
+            Color color;
+            if (!item.Enable) color = Color.Gray;
+            else
+            {
+                color = TranColor(item.TColor.AutoColor(item.MouseState) == Color.Empty ?
+                  TBackGround.AutoColor(item.MouseState) : item.TColor.AutoColor(item.MouseState));
+            }
+            if (color == Color.Empty)
+            {
+                var temp = AutoImage(item.MouseState);
+                if (temp != null) BitmapHelper.DragImage(g, temp, item.Rectangle, AutoImageCustom(item.MouseState) != null);
+            }
+            {
+                DrawBackground(g, color, TranColor(TLineColor.AutoColor(item.MouseState)), item);
+            }
+            if (_iImageShow && item.AutoImage() != null)
+            {
+                BitmapHelper.DragImage(g, item.AutoImage(), item.ImageRect);
+            }
             switch (item.MouseState)
             {
-                case TMouseState.Normal:
-                case TMouseState.Leave:
-                    var color = Color.Gray;
-                    if (item.Enable)
-                    {
-                        color = TranColor(item.TColor.ColorNormal == Color.Empty ? TBackGround.ColorNormal : item.TColor.ColorNormal);
-                    }
-                    if (color == Color.Empty)
-                    {
-                        var temp = _normalImage ?? _normalImage2;
-                        if (temp != null) DragImage(g, temp, item.Rectangle, _normalImage != null);
-                    }
-                    //else
-                    {
-                        DrawBackground(g, color, TranColor(TLineColor.ColorNormal), item);
-                    }
-                    if (_iImageShow && item.Image != null)
-                    {
-                        DragImage(g, item.Image, item.ImageRect);
-                    }
-                    break;
-                case TMouseState.Move:
-                case TMouseState.Up:
-                    color = TranColor(item.TColor.ColorMove == Color.Empty ? TBackGround.ColorMove : item.TColor.ColorMove);
-                    if (color == Color.Empty)
-                    {
-                        var temp = _imageMove ?? _imageMove2;
-                        if (temp != null) DragImage(g, temp, item.Rectangle, _imageMove != null);
-                    }
-                    //else
-                    {
-                        DrawBackground(g, color, TranColor(TLineColor.ColorMove), item);
-                    }
-                    if (_iImageShow)
-                    {
-                        if (item.ImageMove != null) DragImage(g, item.ImageMove, item.ImageRect);
-                        else if (item.Image != null) DragImage(g, item.Image, item.ImageRect);
-                    }
-                    break;
                 case TMouseState.Down:
-                    color = TranColor(item.TColor.ColorDown == Color.Empty ? TBackGround.ColorDown : item.TColor.ColorDown);
-                    if (color == Color.Empty)
+                    if (_iMultiple && _selectImage != null)
                     {
-                        var temp = _imageDown ?? _imageDown2;
-                        if (temp != null) DragImage(g, temp, item.Rectangle, _imageDown != null);
-                    }
-                    //else
-                    {
-                        DrawBackground(g, color, TranColor(TLineColor.ColorDown), item);
-                    }
-                    if (_iImageShow)
-                    {
-                        if (item.ImageDown != null) DragImage(g, item.ImageDown, item.ImageRect);
-                        else if (item.Image != null) DragImage(g, item.Image, item.ImageRect);
-                    }
-                    Image image = _selectImage;
-                    if (_iMultiple && image != null)
-                    {
-                        g.DrawImage(image, new Rectangle(item.Rectangle.Right - image.Width, item.Rectangle.Bottom - image.Height, image.Width, image.Height));
+                        g.DrawImage(_selectImage, new Rectangle(item.Rectangle.Right - _selectImage.Width, item.Rectangle.Bottom - _selectImage.Height, _selectImage.Width, _selectImage.Height));
                     }
                     break;
             }
         }
-        private void DragImage(Graphics g, Image image, Rectangle rect, bool autoSize = true)
+        private Image AutoImageCustom(TMouseState state)
         {
-            if (autoSize)
+            switch (state)
             {
-                if (image.Width < rect.Width && image.Height < rect.Height)
-                {
-                    rect = new Rectangle(rect.Left + (rect.Width - image.Width) / 2,
-                        rect.Top + (rect.Height - image.Height) / 2,
-                        image.Width, image.Height);
-                }
-                else if (rect.Width * 1.0 / rect.Height > image.Width * 1.0 / image.Height)
-                {
-                    int width = image.Width * rect.Height / image.Height;
-                    rect = new Rectangle(rect.Left + (rect.Width - width) / 2, rect.Top, width, rect.Height);
-                }
-                else
-                {
-                    int height = image.Height * rect.Width / image.Width;
-                    rect = new Rectangle(rect.Left, rect.Top + (rect.Height - height) / 2, rect.Width, height);
-                }
+                case TMouseState.Move:
+                case TMouseState.Up:
+                    return _imageMove;
+                case TMouseState.Down:
+                    return _imageDown;
+                case TMouseState.Normal:
+                case TMouseState.Leave:
+                default:
+                    return _normalImage;
             }
-            g.DrawImage(image, rect, new Rectangle(Point.Empty, image.Size), GraphicsUnit.Pixel);
+        }
+        private Image AutoImage(TMouseState state)
+        {
+            switch (state)
+            {
+                case TMouseState.Move:
+                case TMouseState.Up:
+                    return _imageMove ?? _imageMove2;
+                case TMouseState.Down:
+                    return _imageDown ?? _imageDown2;
+                case TMouseState.Normal:
+                case TMouseState.Leave:
+                default:
+                    return _normalImage ?? _normalImage2;
+            }
         }
 
         /// <summary>
@@ -1091,15 +1062,18 @@ namespace Paway.Forms
                 var rect = item.Rectangle;
                 if (color != Color.Empty)
                 {
-                    using (var path = DrawHelper.CreateRoundPath(rect, radiu))
+                    var line = _linePading.All; if (line < 1) line = 1;
+                    var fillRect = new Rectangle(rect.X + line / 2, rect.Y + line / 2, rect.Width - line, rect.Height - line);
+                    using (var path = DrawHelper.CreateRoundPath(fillRect, radiu))
                     using (var solidBrush = new SolidBrush(color))
                     {
                         g.FillPath(solidBrush, path);
                     }
                     try
                     {
-                        g.PixelOffsetMode = PixelOffsetMode.Default;
-                        using (var path = DrawHelper.CreateRoundPath(rect, radiu))
+                        if (line % 2 != 0) g.PixelOffsetMode = PixelOffsetMode.Default;
+                        var drawRect = new Rectangle(rect.X, rect.Y, rect.Width - line, rect.Height - line);
+                        using (var path = DrawHelper.CreateRoundPath(drawRect, radiu, line))
                         using (var pen = new Pen(color))
                         {
                             g.DrawPath(pen, path);
@@ -1117,8 +1091,10 @@ namespace Paway.Forms
                     else temp = TranColor(colorLine);
                     try
                     {
-                        g.PixelOffsetMode = PixelOffsetMode.Default;
-                        using (var path = DrawHelper.CreateRoundPath(rect, radiu))
+                        var line = _linePading.All; if (line < 1) line = 1;
+                        if (line % 2 != 0) g.PixelOffsetMode = PixelOffsetMode.Default;
+                        var drawRect = new Rectangle(rect.X, rect.Y, rect.Width - line, rect.Height - line);
+                        using (var path = DrawHelper.CreateRoundPath(drawRect, radiu, _linePading.All))
                         using (var pen = new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.All))
                         {
                             g.DrawPath(pen, path);
@@ -1145,23 +1121,6 @@ namespace Paway.Forms
                     var temp = colorLine;
                     if (temp == Color.Transparent) temp = (color == Color.Empty ? Color.LightGray : color).AddLight(-15);
                     else temp = TranColor(colorLine);
-                    if (_linePading.All > 0)
-                    {
-                        try
-                        {
-                            g.PixelOffsetMode = PixelOffsetMode.Default;
-                            rect = new Rectangle(rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
-                            using (var pen = new Pen(Color.FromArgb(Trans, temp.R, temp.G, temp.B), _linePading.All))
-                            {
-                                g.DrawRectangle(pen, rect);
-                            }
-                        }
-                        finally
-                        {
-                            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                        }
-                        return;
-                    }
                     if (_linePading.Left > 0)
                     {
                         var line = _linePading.Left / 2f;
@@ -1201,7 +1160,7 @@ namespace Paway.Forms
         /// <summary>
         /// 计算绘制图片区域
         /// </summary>
-        private void ClacImageRect(Graphics g, ToolItem item)
+        private void ClacImageRect(ToolItem item)
         {
             if (_iImageShow && item.Image != null)
             {
@@ -1307,7 +1266,7 @@ namespace Paway.Forms
                 }
                 if (!string.IsNullOrEmpty(item.HeadDesc))
                 {
-                    var headHeight = HeightFont(item.MouseState, THeadDesc);
+                    var headHeight = THeadDesc.AutoHeight(item.MouseState);
                     var rect = new Rectangle
                     {
                         X = textRect.X,
@@ -1320,7 +1279,7 @@ namespace Paway.Forms
                 }
                 if (!string.IsNullOrEmpty(item.EndDesc))
                 {
-                    var endHeight = HeightFont(item.MouseState, TEndDesc);
+                    var endHeight = TEndDesc.AutoHeight(item.MouseState);
                     var rect = new Rectangle
                     {
                         X = textRect.X,
@@ -1333,7 +1292,7 @@ namespace Paway.Forms
                 }
                 if (!string.IsNullOrEmpty(item.Desc))
                 {
-                    var size = TextRenderer.MeasureText(item.Desc, GetFont(item.MouseDescState, TDesc));
+                    var size = TextRenderer.MeasureText(item.Desc, TDesc.AutoFont(item.MouseDescState));
                     textRect.Width -= size.Width;
                 }
                 {
@@ -1341,8 +1300,8 @@ namespace Paway.Forms
                     if (text.Length == 1) DrawOtherDesc(g, item, GetTextFirst(item), item.FirstKeys(), textRect);
                     else if (text.Length > 1)
                     {
-                        var fHight = HeightFont(item.MouseState, GetTextFirst(item));
-                        var sHight = HeightFont(item.MouseState, TextSencond);
+                        var fHight = GetTextFirst(item).AutoHeight(item.MouseState);
+                        var sHight = TextSencond.AutoHeight(item.MouseState);
                         var height = textRect.Height - fHight;
                         height -= (text.Length - 1) * sHight;
                         height -= (text.Length - 1) * _textSpace;
@@ -1373,38 +1332,6 @@ namespace Paway.Forms
             DrawDesc(g, item, textRect);
         }
 
-        private int HeightFont(TMouseState state, TProperties pro)
-        {
-            switch (state)
-            {
-                case TMouseState.Normal:
-                case TMouseState.Leave:
-                    return pro.HeightNormal;
-                case TMouseState.Move:
-                case TMouseState.Up:
-                    return pro.HeightMove;
-                case TMouseState.Down:
-                    return pro.HeightDown;
-            }
-            return 0;
-        }
-
-        private Font GetFont(TMouseState state, TProperties pro)
-        {
-            switch (state)
-            {
-                case TMouseState.Normal:
-                case TMouseState.Leave:
-                    return pro.FontNormal;
-                case TMouseState.Move:
-                case TMouseState.Up:
-                    return pro.FontMove;
-                case TMouseState.Down:
-                    return pro.FontDown;
-            }
-            return Font;
-        }
-
         /// <summary>
         /// 绘制正文描述
         /// </summary>
@@ -1414,7 +1341,7 @@ namespace Paway.Forms
         private void DrawDesc(Graphics g, ToolItem item, Rectangle rect)
         {
             if (string.IsNullOrEmpty(item.Desc)) return;
-            var size = TextRenderer.MeasureText(item.Desc, GetFont(item.MouseDescState, TDesc));
+            var size = TextRenderer.MeasureText(item.Desc, TDesc.AutoFont(item.MouseDescState));
             item.RectDesc = new Rectangle(rect.X + rect.Width, rect.Y, size.Width, rect.Height);
             DrawOtherDesc(g, item, TDesc, item.Desc, item.RectDesc, item.MouseDescState);
         }
@@ -1440,30 +1367,15 @@ namespace Paway.Forms
             if (!item.Enable)
             {
                 var temp = new Rectangle(rect.X + Offset.X, rect.Y + Offset.Y, rect.Width, rect.Height);
-                TextRenderer.DrawText(g, text, font, temp, color, desc.TextFormat);
+                TextRenderer.DrawText(g, text, font, temp, color, desc.TextFormat());
                 return;
             }
-            switch (state)
-            {
-                case TMouseState.Normal:
-                case TMouseState.Leave:
-                    color = desc.ColorNormal;
-                    font = desc.FontNormal;
-                    break;
-                case TMouseState.Move:
-                case TMouseState.Up:
-                    color = desc.ColorMove;
-                    font = desc.FontMove;
-                    break;
-                case TMouseState.Down:
-                    color = desc.ColorDown;
-                    font = desc.FontDown;
-                    break;
-            }
+            color = desc.AutoColor(state);
+            font = desc.AutoFont(state);
             if (color == Color.Empty) color = ForeColor;
             {
                 var temp = new Rectangle(rect.X + Offset.X, rect.Y + Offset.Y, rect.Width, rect.Height);
-                TextRenderer.DrawText(g, text, font, temp, color, desc.TextFormat);
+                TextRenderer.DrawText(g, text, font, temp, color, desc.TextFormat());
             }
         }
 

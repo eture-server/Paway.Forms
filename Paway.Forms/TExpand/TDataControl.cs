@@ -101,9 +101,9 @@ namespace Paway.Forms
             gridview1.Edit.CurrentCellChanged += Gridview1_CurrentCellChanged;
             gridview1.Edit.RowDoubleClick += Gridview1_RowDoubleClick;
             gridview1.Edit.RefreshChanged += Gridview1_RefreshChanged;
-            gridview1.Edit.CellEndEdit += Gridview1_CellEndEdit;
             gridview1.Edit.CheckedChanged += Gridview1_CheckedChanged;
             gridview1.Edit.CellClick += Gridview1_CellClick;
+            gridview1.Edit.ButtonClicked += Gridview1_ButtonClicked;
         }
         private void UnLoadEvent()
         {
@@ -113,9 +113,9 @@ namespace Paway.Forms
             gridview1.Edit.CurrentCellChanged -= Gridview1_CurrentCellChanged;
             gridview1.Edit.RowDoubleClick -= Gridview1_RowDoubleClick;
             gridview1.Edit.RefreshChanged -= Gridview1_RefreshChanged;
-            gridview1.Edit.CellEndEdit -= Gridview1_CellEndEdit;
             gridview1.Edit.CheckedChanged -= Gridview1_CheckedChanged;
             gridview1.Edit.CellClick -= Gridview1_CellClick;
+            gridview1.Edit.ButtonClicked -= Gridview1_ButtonClicked;
         }
 
         #region 权限-按钮
@@ -614,6 +614,23 @@ namespace Paway.Forms
         /// 行单击事件
         /// </summary>
         protected virtual void OnCellClick(T info, string name) { }
+        /// <summary>
+        /// 按钮单击事件
+        /// </summary>
+        protected virtual void OnButtonClicked(T info, string name, object value) { }
+        private void Gridview1_ButtonClicked(int rowIndex, int columnIndex, object value)
+        {
+            if (rowIndex == -1 || columnIndex == -1) return;
+            try
+            {
+                string name = gridview1.Edit.Columns[columnIndex].Name;
+                OnButtonClicked(this.Info, name, value);
+            }
+            catch (Exception ex)
+            {
+                ex.Show();
+            }
+        }
         private void Gridview1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex == -1 || e.ColumnIndex == -1) return;
@@ -627,37 +644,28 @@ namespace Paway.Forms
                 ex.Show();
             }
         }
-        private void Gridview1_CheckedChanged(bool obj)
+        private void Gridview1_CheckedChanged(int rowIndex, int columnIndex, bool value)
         {
-            var aList = GetAll();
-            for (int i = 0; i < aList.Count; i++)
+            if (rowIndex != -1)
             {
-                aList[i].SetValue(gridview1.Edit.ICheckBoxName, obj);
-            }
-        }
-        private void Gridview1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            if (gridview1.Edit.Columns[e.ColumnIndex].Name == gridview1.Edit.ICheckBoxName)
-            {
-                var id = (int)gridview1.Edit.Rows[e.RowIndex].Cells[gridview1.Edit.IdColumn()].Value;
-                var info = List.Find(c => c.Id == id);
-                if (info != null)
+                if (this.Info != null)
                 {
-                    var result = (bool)((DataGridViewCheckBoxCell)gridview1.Edit.Rows[e.RowIndex].Cells[e.ColumnIndex]).Value;
-                    info.SetValue(gridview1.Edit.ICheckBoxName, result);
+                    var name = gridview1.Edit.Columns[columnIndex].Name;
+                    this.Info.SetValue(name, value);
+                }
+            }
+            else
+            {
+                var aList = GetAll();
+                var name = gridview1.Edit.Columns[columnIndex].Name;
+                for (int i = 0; i < aList.Count; i++)
+                {
+                    aList[i].SetValue(name, value);
                 }
             }
         }
         private void Gridview1_RefreshChanged()
         {
-            if (!gridview1.Edit.ICheckBoxName.IsNullOrEmpty())
-            {
-                gridview1.Edit.ReadOnly = false;
-                for (int i = 0; i < gridview1.Edit.Columns.Count; i++)
-                {
-                    gridview1.Edit.Columns[i].ReadOnly = gridview1.Edit.Columns[i].Name != gridview1.Edit.ICheckBoxName;
-                }
-            }
             try
             {
                 OnRefreshChanged();
@@ -787,12 +795,12 @@ namespace Paway.Forms
         /// <summary>
         /// 获取当前选择数据
         /// </summary>
-        protected virtual List<T> GetSelect()
+        protected virtual List<T> GetSelect(string name = null)
         {
             var aList = GetAll();
-            if (!gridview1.Edit.ICheckBoxName.IsNullOrEmpty())
+            if (name != null)
             {
-                var iList = aList.FindAll(gridview1.Edit.ICheckBoxName, true);
+                var iList = aList.FindAll(name, true);
                 if (iList.Count > 0) return iList as List<T>;
             }
             List<T> list = new List<T>();

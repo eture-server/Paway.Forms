@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace Paway.Forms
+namespace Paway.Helper
 {
     /// <summary>
     /// 扩展属性
@@ -14,11 +14,10 @@ namespace Paway.Forms
     public class TProperties : IDisposable
     {
         #region 字段与属性
-        internal int HeightNormal;
-        internal int HeightMove;
-        internal int HeightDown;
-        internal StringFormat StringFormat = new StringFormat();
-        internal TextFormatFlags TextFormat;
+        /// <summary>
+        /// 文本样式
+        /// </summary>
+        public StringFormat StringFormat { get; private set; } = new StringFormat();
 
         private Color _cDown = Color.Empty;
 
@@ -63,7 +62,6 @@ namespace Paway.Forms
                 {
                     _fDown = value;
                 }
-                HeightNormal = InitHeight(value);
                 OnValueChange();
             }
         }
@@ -83,7 +81,6 @@ namespace Paway.Forms
             set
             {
                 _fMove = value;
-                HeightMove = InitHeight(value);
                 OnValueChange();
             }
         }
@@ -103,7 +100,6 @@ namespace Paway.Forms
             set
             {
                 _fDown = value;
-                HeightDown = InitHeight(value);
                 OnValueChange();
             }
         }
@@ -126,7 +122,7 @@ namespace Paway.Forms
                         if (_cMove == Color.Empty) _cMove = value.AddLight(30);
                         if (_cDown == Color.Empty) _cDown = value.AddLight(-30);
                     }
-                    else if (parent.Name.Contains(nameof(ToolBar.TLineColor)))
+                    else if (parent.Name.Contains("TLineColor"))
                     {
                         if (_cMove == Color.Empty) _cMove = value;
                         if (_cDown == Color.Empty) _cDown = value;
@@ -178,7 +174,6 @@ namespace Paway.Forms
             {
                 _stringVertical = value;
                 StringFormat.LineAlignment = value;
-                TextFormat = InitTextFormat(StringFormat);
                 OnValueChange();
             }
         }
@@ -195,7 +190,6 @@ namespace Paway.Forms
             {
                 _stringHorizontal = value;
                 StringFormat.Alignment = value;
-                TextFormat = InitTextFormat(StringFormat);
                 OnValueChange();
             }
         }
@@ -215,12 +209,8 @@ namespace Paway.Forms
         public TProperties(MethodBase parent = null)
         {
             this.parent = parent;
-            HeightNormal = InitHeight(FontNormal);
-            HeightMove = InitHeight(FontMove);
-            HeightDown = InitHeight(FontDown);
             StringFormat.Alignment = _stringHorizontal;
             StringFormat.LineAlignment = _stringVertical;
-            TextFormat = InitTextFormat(StringFormat);
         }
 
         /// <summary>
@@ -250,6 +240,92 @@ namespace Paway.Forms
             OnValueChange();
         }
 
+        #region 按状态取值
+        /// <summary>
+        /// 动态获取文本高度
+        /// </summary>
+        public int AutoHeight(TMouseState state)
+        {
+            return TextRenderer.MeasureText("你好", AutoFont(state)).Height;
+        }
+        /// <summary>
+        /// 动态获取文本高度
+        /// </summary>
+        public int AutoWidth(TMouseState state, string text, Size size)
+        {
+            return TextRenderer.MeasureText(text, AutoFont(state), size).Width;
+        }
+        /// <summary>
+        /// 获取当前颜色
+        /// </summary>
+        public Color AutoColor(TMouseState state)
+        {
+            switch (state)
+            {
+                case TMouseState.Move:
+                case TMouseState.Up:
+                    return ColorMove;
+                case TMouseState.Down:
+                    return ColorDown;
+                case TMouseState.Normal:
+                case TMouseState.Leave:
+                default:
+                    return ColorNormal;
+            }
+        }
+        /// <summary>
+        /// 获取当前字体
+        /// </summary>
+        public Font AutoFont(TMouseState state)
+        {
+            switch (state)
+            {
+                case TMouseState.Move:
+                case TMouseState.Up:
+                    return FontMove;
+                case TMouseState.Down:
+                    return FontDown;
+                case TMouseState.Normal:
+                case TMouseState.Leave:
+                default:
+                    return FontNormal;
+            }
+        }
+        /// <summary>
+        /// 获取当前文本布局
+        /// </summary>
+        public TextFormatFlags TextFormat()
+        {
+            var text = TextFormatFlags.EndEllipsis;
+            switch (StringFormat.Alignment)
+            {
+                case StringAlignment.Near:
+                    text |= TextFormatFlags.Left;
+                    break;
+                case StringAlignment.Center:
+                    text |= TextFormatFlags.HorizontalCenter;
+                    break;
+                case StringAlignment.Far:
+                    text |= TextFormatFlags.Right;
+                    break;
+            }
+            switch (StringFormat.LineAlignment)
+            {
+                case StringAlignment.Near:
+                    text |= TextFormatFlags.Top;
+                    break;
+                case StringAlignment.Center:
+                    text |= TextFormatFlags.VerticalCenter;
+                    break;
+                case StringAlignment.Far:
+                    text |= TextFormatFlags.Bottom;
+                    break;
+            }
+            return text;
+        }
+
+        #endregion
+
         /// <summary>
         /// 属性值
         /// </summary>
@@ -276,45 +352,6 @@ namespace Paway.Forms
             if (!result) result = _stringHorizontal != StringAlignment.Near;
             if (!result) result = _stringVertical != StringAlignment.Near;
             ValueChange?.Invoke(result);
-        }
-        /// <summary>
-        /// 内部初始化字体单行高度
-        /// </summary>
-        private int InitHeight(Font font)
-        {
-            return TextRenderer.MeasureText("你好", font).Height;
-        }
-        /// <summary>
-        /// 内部初始化文本布局
-        /// </summary>
-        private TextFormatFlags InitTextFormat(StringFormat format)
-        {
-            var text = TextFormatFlags.EndEllipsis;
-            switch (format.Alignment)
-            {
-                case StringAlignment.Near:
-                    text |= TextFormatFlags.Left;
-                    break;
-                case StringAlignment.Center:
-                    text |= TextFormatFlags.HorizontalCenter;
-                    break;
-                case StringAlignment.Far:
-                    text |= TextFormatFlags.Right;
-                    break;
-            }
-            switch (format.LineAlignment)
-            {
-                case StringAlignment.Near:
-                    text |= TextFormatFlags.Top;
-                    break;
-                case StringAlignment.Center:
-                    text |= TextFormatFlags.VerticalCenter;
-                    break;
-                case StringAlignment.Far:
-                    text |= TextFormatFlags.Bottom;
-                    break;
-            }
-            return text;
         }
 
         #endregion

@@ -442,6 +442,25 @@ namespace Paway.Forms
             return desc;
         }
 
+        /// <summary>
+        /// 当前显示图片
+        /// </summary>
+        /// <returns></returns>
+        internal Image AutoImage()
+        {
+            switch (MouseState)
+            {
+                case TMouseState.Move:
+                case TMouseState.Up:
+                    if (ImageMove != null) return ImageMove;
+                    break;
+                case TMouseState.Down:
+                    if (ImageDown != null) return ImageDown;
+                    break;
+            }
+            return Image;
+        }
+
         #endregion
 
         #region IDisposable

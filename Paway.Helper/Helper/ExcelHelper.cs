@@ -280,6 +280,28 @@ namespace Paway.Helper
                         sheet.SetColumnWidth(index, 20 * 256);
                     }
                 }
+                var length = 0;
+                foreach (var property in properties)
+                {
+                    if (!property.IExcel()) continue;
+                    if (filter != null && filter(list, default, property.Name)) continue;
+                    length++;
+                }
+                if (length > 0)
+                {
+                    if (args.Length > 0)
+                    {
+                        for (int i = 0, j = 0; i < length; i++, j++)
+                        {
+                            if (j >= args.Length) j = 0;
+                            sheet.SetColumnWidth(i, args[j] * 256);
+                        }
+                    }
+                    if (!title.IsNullOrEmpty())
+                    {
+                        sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, length - 1));
+                    }
+                }
                 for (int i = 0; i < list.Count; ++i)
                 {
                     IRow row = sheet.CreateRow(count++);
@@ -302,21 +324,6 @@ namespace Paway.Helper
                             var cell = CreateCell(row, index, tuple?.Item1 ?? defaultStyle, list[i].GetValue(property.Name));
                             merged?.Invoke(list, i, row, property.Name, cell);
                         }
-                    }
-                }
-                if (sheet.LastRowNum > 0)
-                {
-                    if (args.Length > 0)
-                    {
-                        for (int i = 0, j = 0; i < sheet.GetRow(sheet.LastRowNum).LastCellNum; i++, j++)
-                        {
-                            if (j >= args.Length) j = 0;
-                            sheet.SetColumnWidth(i, args[j] * 256);
-                        }
-                    }
-                    if (!title.IsNullOrEmpty())
-                    {
-                        sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, sheet.GetRow(sheet.LastRowNum).LastCellNum - 1));
                     }
                 }
                 sign?.Invoke(sheet);

@@ -75,9 +75,15 @@
     <Compile Include="TControls\TTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="TDataGridView\RectangeCommon.cs" />
     <Compile Include="TDataGridView\TDataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="TDataGridView\TDataGridViewButtonColumn\TDataGridViewButtonCell.cs" />
+    <Compile Include="TDataGridView\TDataGridViewButtonColumn\TDataGridViewButtonColumn.cs" />
+    <Compile Include="TDataGridView\TDataGridViewCheckBoxColumn\TDataGridViewCheckBoxCell.cs" />
+    <Compile Include="TDataGridView\TDataGridViewCheckBoxColumn\TDataGridViewCheckBoxColumn.cs" />
+    <Compile Include="TDataGridView\TDataGridViewCheckBoxColumn\TDataGridViewCheckBoxColumnHeaderCell.cs" />
     <Compile Include="TDataGridView\TDataGridViewPager.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -198,7 +204,6 @@
     </Compile>
     <Compile Include="ToolBar\ToolItem.cs" />
     <Compile Include="ToolBar\ToolItemCollection.cs" />
-    <Compile Include="ToolBar\TProperties.cs" />
     <Compile Include="TreeGridView\TreeGridCancelEventArgs.cs" />
     <Compile Include="TreeGridView\TreeGridCell.cs" />
     <Compile Include="TreeGridView\TreeGridColumn.cs" />

@@ -410,43 +410,39 @@ namespace Paway.Helper
         /// </summary>
         private static byte[] CompressBuffer(byte[] data)
         {
-            using (var ms = new MemoryStream())
+            var ms = new MemoryStream();
+            using (var zip = new GZipStream(ms, CompressionMode.Compress, true))
             {
-                using (var zip = new GZipStream(ms, CompressionMode.Compress, true))
-                {
-                    zip.Write(data, 0, data.Length);
-                }
-                var buffer = new byte[ms.Length];
-                ms.Position = 0;
-                ms.Read(buffer, 0, buffer.Length);
-                return buffer;
+                zip.Write(data, 0, data.Length);
             }
+            var buffer = new byte[ms.Length];
+            ms.Position = 0;
+            ms.Read(buffer, 0, buffer.Length);
+            return buffer;
         }
         /// <summary>
         /// 解压字节流
         /// </summary>
         private static byte[] DecompressBuffer(byte[] data)
         {
-            using (var ms = new MemoryStream(data))
+            var ms = new MemoryStream(data);
+            using (var zip = new GZipStream(ms, CompressionMode.Decompress, true))
             {
-                using (var zip = new GZipStream(ms, CompressionMode.Decompress, true))
+                using (var msreader = new MemoryStream())
                 {
-                    using (var msreader = new MemoryStream())
+                    var buffer = new byte[0x1000];
+                    while (true)
                     {
-                        var buffer = new byte[0x1000];
-                        while (true)
+                        var reader = zip.Read(buffer, 0, buffer.Length);
+                        if (reader <= 0)
                         {
-                            var reader = zip.Read(buffer, 0, buffer.Length);
-                            if (reader <= 0)
-                            {
-                                break;
-                            }
-                            msreader.Write(buffer, 0, reader);
+                            break;
                         }
-                        msreader.Position = 0;
-                        buffer = msreader.ToArray();
-                        return buffer;
+                        msreader.Write(buffer, 0, reader);
                     }
+                    msreader.Position = 0;
+                    buffer = msreader.ToArray();
+                    return buffer;
                 }
             }
         }
@@ -951,6 +947,24 @@ namespace Paway.Helper
         {
             var list = pro.GetCustomAttributes(typeof(NoCloneAttribute), false) as NoCloneAttribute[];
             return list.Length == 0;
+        }
+
+        /// <summary>
+        /// 自定义特性-TDataGridView全选框
+        /// </summary>
+        public static bool ICheckBox(this MemberInfo pro)
+        {
+            var list = pro.GetCustomAttributes(typeof(ICheckBoxAttribute), false) as ICheckBoxAttribute[];
+            return list.Length != 0;
+        }
+        /// <summary>
+        /// 自定义特性-TDataGridView按钮
+        /// </summary>
+        public static bool IButton(this MemberInfo pro, out IButtonAttribute button)
+        {
+            var list = pro.GetCustomAttributes(typeof(IButtonAttribute), false) as IButtonAttribute[];
+            button = list.Length > 0 ? list[0] : null;
+            return list.Length > 0;
         }
 
         #endregion

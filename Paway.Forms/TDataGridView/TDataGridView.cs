@@ -22,17 +22,6 @@ namespace Paway.Forms
         private Type type;
 
         /// <summary>
-        /// 绘制列数据在源中的序号
-        /// </summary>
-        private int _iCheckBoxIndex = -1;
-
-        /// <summary>
-        /// 要绘制的CheckBox
-        /// </summary>
-        private CheckBox _headerCheckBox;
-
-        private string _iCheckBoxName;
-        /// <summary>
         /// 原数据源
         /// </summary>
         private object source;
@@ -91,34 +80,6 @@ namespace Paway.Forms
         [DefaultValue(false)]
         public bool IMultiText { get; set; }
 
-        /// <summary>
-        /// CheckBox绘制列列Name
-        /// </summary>
-        [Browsable(true), Description("绘制列列Name")]
-        [DefaultValue(null)]
-        public string ICheckBoxName
-        {
-            get { return _iCheckBoxName; }
-            set
-            {
-                _iCheckBoxName = value;
-                if (_headerCheckBox == null)
-                {
-                    _headerCheckBox = new CheckBox()
-                    {
-                        Size = new Size(15, 15)
-                    };
-                    Controls.Add(_headerCheckBox);
-
-                    _headerCheckBox.KeyUp += HeaderCheckBox_KeyUp;
-                    _headerCheckBox.MouseClick += HeaderCheckBox_MouseClick;
-                    CurrentCellDirtyStateChanged += ComBoxGridView_CurrentCellDirtyStateChanged;
-                }
-                _headerCheckBox.Visible = !_iCheckBoxName.IsNullOrEmpty();
-                Invalidate();
-            }
-        }
-
         #endregion
 
         #region 事件
@@ -129,7 +90,7 @@ namespace Paway.Forms
         /// <summary>
         /// CheckBox选中事件
         /// </summary>
-        public event Action<bool> CheckedChanged;
+        public event Action<int, int, bool> CheckedChanged;
         /// <summary>
         /// 合并单元格取消事件
         /// </summary>
@@ -138,6 +99,10 @@ namespace Paway.Forms
         /// 行双击事件
         /// </summary>
         public event Action<int> RowDoubleClick;
+        /// <summary>
+        /// 按钮点击事件
+        /// </summary>
+        public event Action<int, int, object> ButtonClicked;
 
         #endregion
 
@@ -417,7 +382,6 @@ namespace Paway.Forms
             if (value == null)
             {
                 base.DataSource = null;
-                ClearBox();
                 return;
             }
             if (value is IList list)
@@ -426,12 +390,10 @@ namespace Paway.Forms
                 var dt = list.ToDataTable();
                 dt.PrimaryKey = new DataColumn[] { dt.Columns[this.type.TableKeys()] };
                 base.DataSource = dt;
-                if (list.Count == 0) ClearBox();
             }
             else if (value is DataTable dt)
             {
                 base.DataSource = dt;
-                if (dt.Rows.Count == 0) ClearBox();
             }
             else
             {
@@ -439,7 +401,6 @@ namespace Paway.Forms
                 var temp = this.type.GenericList();
                 temp.Add(value);
                 base.DataSource = temp;
-                ClearBox();
             }
             UpdateColumns(this.type);
             OnRefreshChanged(this.type);
@@ -454,6 +415,8 @@ namespace Paway.Forms
                 for (var i = 0; i < Columns.Count; i++)
                 {
                     Columns[i].SortMode = DataGridViewColumnSortMode.Programmatic;
+                    if (type.Property(Columns[i].Name).ICheckBox())
+                        Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                 }
             }
             OnRefreshChanged();
@@ -533,7 +496,6 @@ namespace Paway.Forms
             GridColor = RowTemplate.DefaultCellStyle.SelectionBackColor.AddLight(-15);
             if (e.RowIndex == -1)
             {
-                if (!_iCheckBoxName.IsNullOrEmpty()) DrawCombox(e);
                 HeaderMerge(e);
             }
             else
@@ -678,64 +640,6 @@ namespace Paway.Forms
             {
                 var blackColor = RowTemplate.DefaultCellStyle.SelectionBackColor.AddLight(27);
                 Columns[e.ColumnIndex].HeaderCell.Style.BackColor = blackColor;
-            }
-        }
-
-        #endregion
-
-        #region 绘制Combox
-        /// <summary>
-        /// 清空选择
-        /// </summary>
-        private void ClearBox()
-        {
-            if (_headerCheckBox != null) _headerCheckBox.Checked = false;
-        }
-        private void HeaderCheckBox_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Space)
-                HeaderCheckBoxClick((CheckBox)sender);
-        }
-
-        private void HeaderCheckBox_MouseClick(object sender, MouseEventArgs e)
-        {
-            HeaderCheckBoxClick((CheckBox)sender);
-        }
-        private void HeaderCheckBoxClick(CheckBox HCheckBox)
-        {
-            if (_iCheckBoxName.IsNullOrEmpty()) return;
-
-            foreach (DataGridViewRow Row in Rows)
-            {
-                ((DataGridViewCheckBoxCell)Row.Cells[_iCheckBoxName]).Value = HCheckBox.Checked;
-            }
-            CheckedChanged?.Invoke(HCheckBox.Checked);
-            RefreshEdit();
-        }
-
-        private void ComBoxGridView_CurrentCellDirtyStateChanged(object sender, EventArgs e)
-        {
-            if (_iCheckBoxName.IsNullOrEmpty()) return;
-            if (CurrentCell is DataGridViewCheckBoxCell)
-                CommitEdit(DataGridViewDataErrorContexts.Commit);
-        }
-
-        private void DrawCombox(DataGridViewCellPaintingEventArgs e)
-        {
-            if (e.RowIndex != -1) return;
-            if (_iCheckBoxName.IsNullOrEmpty()) return;
-            _headerCheckBox.Visible = _iCheckBoxIndex != -1;
-            var oRectangle = GetCellDisplayRectangle(_iCheckBoxIndex, e.RowIndex, true);
-            if (e.ColumnIndex == _iCheckBoxIndex || oRectangle.Width == 0)
-            {
-                var width = this.Columns[_iCheckBoxIndex].Width;
-                var x = oRectangle.X + oRectangle.Width - width;
-                var oPoint = new Point()
-                {
-                    X = x + (width - _headerCheckBox.Width) / 2,
-                    Y = oRectangle.Y + (oRectangle.Height - _headerCheckBox.Height) / 2 + 1
-                };
-                _headerCheckBox.Location = oPoint;
             }
         }
 
@@ -1028,6 +932,63 @@ namespace Paway.Forms
         #endregion
         #endregion
 
+        #region 自定义列
+        /// <summary>
+        /// checkbox的单元格改变事件
+        /// </summary>
+        internal void OnCheckBoxCellCheckedChange(int rowIndex, int columnIndex, bool value)
+        {
+            bool existsChecked = false, existsNoChecked = false;
+            TDataGridViewCheckBoxCell cellEx;
+            foreach (DataGridViewRow row in this.Rows)
+            {
+                cellEx = row.Cells[columnIndex] as TDataGridViewCheckBoxCell;
+                if (cellEx == null) return;
+                existsChecked |= cellEx.Checked;
+                existsNoChecked |= !cellEx.Checked;
+            }
+
+            var headerCellEx = this.Columns[columnIndex].HeaderCell as TDataGridViewCheckBoxColumnHeaderCell;
+
+            if (headerCellEx == null) return;
+
+            CheckState oldState = headerCellEx.CheckedAllState;
+
+            if (existsChecked)
+                headerCellEx.CheckedAllState = existsNoChecked ? CheckState.Indeterminate : CheckState.Checked;
+            else
+                headerCellEx.CheckedAllState = CheckState.Unchecked;
+
+            if (oldState != headerCellEx.CheckedAllState)
+                this.InvalidateColumn(columnIndex);
+            CheckedChanged?.Invoke(rowIndex, columnIndex, value);
+        }
+
+        /// <summary>
+        /// 全选中/取消全选中
+        /// </summary>
+        internal void OnCheckAllCheckedChange(int columnIndex, bool isCheckedAll)
+        {
+            TDataGridViewCheckBoxCell cellEx;
+            foreach (DataGridViewRow row in this.Rows)
+            {
+                cellEx = row.Cells[columnIndex] as TDataGridViewCheckBoxCell;
+                if (cellEx == null) continue;
+                cellEx.Checked = isCheckedAll;
+            }
+            CheckedChanged?.Invoke(-1, columnIndex, isCheckedAll);
+        }
+        /// <summary>
+        /// TDataGridViewButtonColumn中的按钮点击事件
+        /// </summary>
+        internal void OnButtonClicked(int rowIndex, int columnIndex, object value)
+        {
+            ButtonClicked?.Invoke(rowIndex, columnIndex, value);
+        }
+
+
+        #endregion
+
         #region 公开方法-加载数据
         /// <summary>
         /// 刷新数据
@@ -1050,18 +1011,32 @@ namespace Paway.Forms
             if (type == null || type == typeof(string) || type.IsValueType) return;
             this.type = type;
 
-            _iCheckBoxIndex = -1;
             var properties = type.PropertiesCache();
             for (var i = 0; i < Columns.Count; i++)
             {
-                if (Columns[i].Name == _iCheckBoxName)
-                {
-                    _iCheckBoxIndex = i;
-                }
-                var property = properties.Property(Columns[i].Name);
+                var column = Columns[i];
+                var property = properties.Property(column.Name);
                 if (property == null) continue;
-                Columns[i].Visible = property.IShow();
-                Columns[i].HeaderText = property.TextName();
+                if (property.ICheckBox())
+                {
+                    column = new TDataGridViewCheckBoxColumn();
+                    column.Name = Columns[i].Name;
+                    column.DataPropertyName = Columns[i].DataPropertyName;
+                    column.DisplayIndex = Columns[i].DisplayIndex;
+                    Columns.RemoveAt(i);
+                    Columns.Insert(i, column);
+                }
+                else if (property.IButton(out IButtonAttribute button))
+                {
+                    column = new TDataGridViewButtonColumn(button);
+                    column.Name = Columns[i].Name;
+                    column.DataPropertyName = Columns[i].DataPropertyName;
+                    column.DisplayIndex = Columns[i].DisplayIndex;
+                    Columns.RemoveAt(i);
+                    Columns.Insert(i, column);
+                }
+                column.Visible = property.IShow();
+                column.HeaderText = property.TextName();
             }
         }
 
@@ -1176,25 +1151,6 @@ namespace Paway.Forms
                     RowDoubleClick?.Invoke(hit.RowIndex);
                 }
             }
-        }
-
-        #endregion
-
-        #region Dispose
-        /// <summary>
-        /// 释放资源
-        /// </summary>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-            }
-            if (_headerCheckBox != null)
-            {
-                _headerCheckBox.Dispose();
-                _headerCheckBox = null;
-            }
-            base.Dispose(disposing);
         }
 
         #endregion
