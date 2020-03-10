@@ -35,11 +35,11 @@ namespace Paway.Helper
         /// <summary>
         /// 文字属性
         /// </summary>
-        public TProperties Text { get; set; } = new TProperties();
+        public TProperties Text { get; set; }
         /// <summary>
         /// 背景属性
         /// </summary>
-        public TProperties BackGround { get; set; } = new TProperties();
+        public TProperties BackGround { get; set; }
         /// <summary>
         /// 图像列
         /// </summary>
@@ -52,15 +52,7 @@ namespace Paway.Helper
         /// <summary>
         /// TDataGridView按钮列
         /// </summary>
-        public IButtonAttribute()
-        {
-            BackGround.Reset(Color.FromArgb(35, 175, 255));
-            BackGround.ColorNormal = Color.Empty;
-            Text.FontNormal = new Font("微软雅黑", 11);
-            Text.StringFormat.Alignment = StringAlignment.Center;
-            Text.ColorMove = Color.White;
-            Text.ColorDown = Color.White;
-        }
+        public IButtonAttribute() { }
         /// <summary>
         /// 设置属性
         /// </summary>
@@ -85,7 +77,7 @@ namespace Paway.Helper
         /// <summary>
         /// 设置图像
         /// </summary>
-        public IButtonAttribute(string imageName, Size imageSize) : this()
+        public IButtonAttribute(string imageName, Size imageSize)
         {
             this.ImageName = imageName;
             this.ImageSize = imageSize;
@@ -95,16 +87,21 @@ namespace Paway.Helper
         /// </summary>
         public IButtonAttribute(Color colorBackNormal, Color colorBackMove, Color colorBackDown)
         {
-            BackGround.ColorNormal = colorBackNormal;
-            BackGround.ColorMove = colorBackMove;
-            BackGround.ColorDown = colorBackDown;
+            BackGround = new TProperties
+            {
+                ColorNormal = colorBackNormal,
+                ColorMove = colorBackMove,
+                ColorDown = colorBackDown
+            };
         }
         /// <summary>
         /// 设置背景颜色
         /// </summary>
-        public IButtonAttribute(Color colorBack)
+        public IButtonAttribute(Color colorBack, bool normalEmpty = true)
         {
+            BackGround = new TProperties();
             BackGround.Reset(colorBack);
+            if (normalEmpty) BackGround.ColorNormal = Color.Empty;
         }
     }
 }

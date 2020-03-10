@@ -336,11 +336,11 @@ namespace Paway.Forms
                         bool iFilter = false;
                         if (IFind())
                         {
-                            iFilter = predicate == null || new List<T>() { this.Info }.AsParallel().Where(predicate).Count() > 0;
+                            iFilter = predicate != null && new List<T>() { this.Info }.AsParallel().Where(predicate).Count() == 0;
                         }
                         if (gridview1.Edit is TreeGridView treeView)
                         {
-                            if (!iFilter)
+                            if (iFilter)
                             {
                                 this.FList.Remove(this.Info);
                                 treeView.DeleteNode(treeView.Nodes, this.Info.Id);

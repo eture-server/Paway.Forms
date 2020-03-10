@@ -948,18 +948,16 @@ namespace Paway.Forms
                 existsNoChecked |= !cellEx.Checked;
             }
 
-            var headerCellEx = this.Columns[columnIndex].HeaderCell as TDataGridViewCheckBoxColumnHeaderCell;
+            if (this.Columns[columnIndex].HeaderCell as TDataGridViewCheckBoxColumnHeaderCell == null) return;
 
-            if (headerCellEx == null) return;
-
-            CheckState oldState = headerCellEx.CheckedAllState;
+            CheckState oldState = (this.Columns[columnIndex].HeaderCell as TDataGridViewCheckBoxColumnHeaderCell).CheckedAllState;
 
             if (existsChecked)
-                headerCellEx.CheckedAllState = existsNoChecked ? CheckState.Indeterminate : CheckState.Checked;
+                (this.Columns[columnIndex].HeaderCell as TDataGridViewCheckBoxColumnHeaderCell).CheckedAllState = existsNoChecked ? CheckState.Indeterminate : CheckState.Checked;
             else
-                headerCellEx.CheckedAllState = CheckState.Unchecked;
+                (this.Columns[columnIndex].HeaderCell as TDataGridViewCheckBoxColumnHeaderCell).CheckedAllState = CheckState.Unchecked;
 
-            if (oldState != headerCellEx.CheckedAllState)
+            if (oldState != (this.Columns[columnIndex].HeaderCell as TDataGridViewCheckBoxColumnHeaderCell).CheckedAllState)
                 this.InvalidateColumn(columnIndex);
             CheckedChanged?.Invoke(rowIndex, columnIndex, value);
         }
@@ -1019,19 +1017,23 @@ namespace Paway.Forms
                 if (property == null) continue;
                 if (property.ICheckBox())
                 {
-                    column = new TDataGridViewCheckBoxColumn();
-                    column.Name = Columns[i].Name;
-                    column.DataPropertyName = Columns[i].DataPropertyName;
-                    column.DisplayIndex = Columns[i].DisplayIndex;
+                    column = new TDataGridViewCheckBoxColumn
+                    {
+                        Name = Columns[i].Name,
+                        DataPropertyName = Columns[i].DataPropertyName,
+                        DisplayIndex = Columns[i].DisplayIndex
+                    };
                     Columns.RemoveAt(i);
                     Columns.Insert(i, column);
                 }
                 else if (property.IButton(out IButtonAttribute button))
                 {
-                    column = new TDataGridViewButtonColumn(button);
-                    column.Name = Columns[i].Name;
-                    column.DataPropertyName = Columns[i].DataPropertyName;
-                    column.DisplayIndex = Columns[i].DisplayIndex;
+                    column = new TDataGridViewButtonColumn(button)
+                    {
+                        Name = Columns[i].Name,
+                        DataPropertyName = Columns[i].DataPropertyName,
+                        DisplayIndex = Columns[i].DisplayIndex
+                    };
                     Columns.RemoveAt(i);
                     Columns.Insert(i, column);
                 }
@@ -1148,6 +1150,11 @@ namespace Paway.Forms
                 var hit = this.HitTest(me.X, me.Y);
                 if (hit.RowIndex > -1)
                 {
+                    if (this.type != null)
+                    {
+                        var property = type.Property(Columns[hit.ColumnIndex].Name);
+                        if (property?.IButton(out _) == true) return;
+                    }
                     RowDoubleClick?.Invoke(hit.RowIndex);
                 }
             }

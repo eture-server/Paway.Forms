@@ -54,6 +54,23 @@ namespace Paway.Forms
 
             //计算button的区域
             var button = this.Column.Button;
+            if (button.BackGround == null)
+            {
+                button.BackGround = new TProperties();
+                button.BackGround.Reset(this.Column.DataGridViewEx.GridColor);
+                button.BackGround.ColorNormal = Color.Empty;
+            }
+            if (button.Text == null)
+            {
+                button.Text = new TProperties
+                {
+                    FontNormal = this.Column.DataGridViewEx.Font
+                };
+                button.Text.StringFormat.Alignment = StringAlignment.Center;
+                button.Text.ColorNormal = this.Column.DataGridViewEx.ForeColor;
+                button.Text.ColorMove = Color.White;
+                button.Text.ColorDown = Color.White;
+            }
             var text = value.ToStrs();
             var size = AutoSize(button, cellBounds, text);
 
@@ -131,7 +148,7 @@ namespace Paway.Forms
         protected override void OnMouseMove(DataGridViewCellMouseEventArgs e)
         {
             base.OnMouseMove(e);
-            if (IsInRegion(e.Location, e.ColumnIndex, e.RowIndex))
+            if (IsInRegion(e.Location, e.RowIndex, e.ColumnIndex))
             {
                 this.btnState = TMouseState.Move;
             }
@@ -154,7 +171,7 @@ namespace Paway.Forms
         protected override void OnMouseDown(DataGridViewCellMouseEventArgs e)
         {
             base.OnMouseDown(e);
-            if (IsInRegion(e.Location, e.ColumnIndex, e.RowIndex))
+            if (IsInRegion(e.Location, e.RowIndex, e.ColumnIndex))
             {
                 this.btnState = TMouseState.Down;
             }
@@ -168,7 +185,7 @@ namespace Paway.Forms
         /// </summary>
         protected override void OnMouseClick(DataGridViewCellMouseEventArgs e)
         {
-            if (IsInRegion(e.Location, e.ColumnIndex, e.RowIndex))
+            if (IsInRegion(e.Location, e.RowIndex, e.ColumnIndex))
             {
                 if (e.Button == MouseButtons.Left)
                 {
@@ -180,7 +197,7 @@ namespace Paway.Forms
         /// <summary>
         /// 是否在Button按钮区域
         /// </summary>
-        private bool IsInRegion(Point p, int columnIndex, int rowIndex)
+        private bool IsInRegion(Point p, int rowIndex, int columnIndex)
         {
             Rectangle cellBounds = DataGridView[columnIndex, rowIndex].ContentBounds;
             RectangleCommon.GetSmallRectOfRectangle(cellBounds, btnRect.Size, out Rectangle m_absBtnRegion);
