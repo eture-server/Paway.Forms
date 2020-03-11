@@ -415,7 +415,7 @@ namespace Paway.Forms
                 for (var i = 0; i < Columns.Count; i++)
                 {
                     Columns[i].SortMode = DataGridViewColumnSortMode.Programmatic;
-                    if (type.Property(Columns[i].Name).ICheckBox())
+                    if (type.Property(Columns[i].Name).ICheckBox() || type.Property(Columns[i].Name).IButton(out _))
                         Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                 }
             }

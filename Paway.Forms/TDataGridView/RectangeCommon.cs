@@ -19,6 +19,7 @@ namespace Paway.Forms
                 X = (rectangle.Width - smallSize.Width) / 2,
                 Y = (rectangle.Height - smallSize.Height) / 2
             };
+            if (absRectangle.X < 0) absRectangle.X = 0;
             rect.Size = smallSize;
             rect.X = absRectangle.X + rectangle.X;
             rect.Y = absRectangle.Y + rectangle.Y;
