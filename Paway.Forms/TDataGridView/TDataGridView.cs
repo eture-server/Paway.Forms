@@ -56,12 +56,18 @@ namespace Paway.Forms
             /// </summary>
             public readonly bool IAll;
 
-            public SpanInfo(string Text, int Left, int Right, bool iAll)
+            /// <summary>
+            /// 水平对齐方式
+            /// </summary>
+            public readonly StringAlignment Alignment;
+
+            public SpanInfo(string Text, int Left, int Right, bool iAll, StringAlignment alignment)
             {
                 this.Text = Text;
                 this.Left = Left;
                 this.Right = Right;
                 this.IAll = iAll;
+                this.Alignment = alignment;
             }
         }
 
@@ -542,7 +548,7 @@ namespace Paway.Forms
                 intHeight /= 2;
 
                 //the first line 
-                TextFormatFlags format = DrawHelper.TextEnd;
+                TextFormatFlags format = DrawHelper.TextVerticalCenter;
                 if (e.CellStyle.Alignment == DataGridViewContentAlignment.MiddleCenter)
                 {
                     format = DrawHelper.TextCenter;
@@ -793,7 +799,9 @@ namespace Paway.Forms
             //TextRenderer.DrawText(e.Graphics, value, e.CellStyle.Font, rect, e.CellStyle.ForeColor, format);
             //允许分行显示
             using (var brush = new SolidBrush(e.CellStyle.ForeColor))
-                e.Graphics.DrawString(value, e.CellStyle.Font, brush, rect, DrawHelper.StringVertical);
+            {
+                e.Graphics.DrawString(value, e.CellStyle.Font, brush, rect, DrawHelper.VerticalCenter);
+            }
         }
 
         #endregion
@@ -815,7 +823,7 @@ namespace Paway.Forms
                 //自动左右列
                 for (int i = SpanRows[e.ColumnIndex].Left; i <= SpanRows[e.ColumnIndex].Right; i++)
                 {
-                    if (Columns[i].Visible)
+                    if (Columns.Count > i && Columns[i].Visible)
                     {
                         if (i == e.ColumnIndex) left += 2;
                         break;
@@ -823,7 +831,7 @@ namespace Paway.Forms
                 }
                 for (int i = SpanRows[e.ColumnIndex].Right; i >= SpanRows[e.ColumnIndex].Left; i--)
                 {
-                    if (Columns[i].Visible)
+                    if (Columns.Count > i && Columns[i].Visible)
                     {
                         if (i == e.ColumnIndex) right -= 2;
                         break;
@@ -851,7 +859,7 @@ namespace Paway.Forms
                         }
                         //写小标题
                         g.DrawString(string.Format("{0}", e.Value), e.CellStyle.Font, fontBrush,
-                            new Rectangle(left, (top + bottom) / 2, right - left, height), DrawHelper.StringCenter);
+                            new Rectangle(left, (top + bottom) / 2, right - left, height), DrawHelper.StringFormat(SpanRows[e.ColumnIndex].Alignment));
                     }
 
                     //计算表头位置并绘制
@@ -862,9 +870,9 @@ namespace Paway.Forms
                     var showWidth = 0;
                     for (int i = SpanRows[e.ColumnIndex].Left; i <= SpanRows[e.ColumnIndex].Right; i++)
                     {
-                        var rectangle = GetColumnDisplayRectangle(i, false);
-                        if (Columns[i].Visible)
+                        if (Columns.Count > i && Columns[i].Visible)
                         {
+                            var rectangle = GetColumnDisplayRectangle(i, false);
                             if (left == 0) left = rectangle.Left - 2;
                             if (showWidth <= 0) left += rectangle.Width - Columns[i].Width;
                             showWidth += rectangle.Width;
@@ -872,7 +880,7 @@ namespace Paway.Forms
                         }
                     }
                     g.DrawString(SpanRows[e.ColumnIndex].Text, e.CellStyle.Font, fontBrush,
-                        new Rectangle(left, top, width, height), DrawHelper.StringCenter);
+                        new Rectangle(left + 2, top, width, height), DrawHelper.StringFormat(SpanRows[e.ColumnIndex].Alignment));
 
                     e.Handled = true;
                 }
@@ -905,7 +913,8 @@ namespace Paway.Forms
         /// <param name="colCount">需要合并的列数</param>
         /// <param name="text">合并列后的文本</param>
         /// <param name="iAll">显示子列标记</param>
-        public void AddSpanHeader(Type type, string colIndexName, int colCount, string text, bool iAll = true)
+        /// <param name="alignment">水平对齐方式</param>
+        public void AddSpanHeader(Type type, string colIndexName, int colCount, string text, bool iAll = true, StringAlignment alignment = StringAlignment.Center)
         {
             var colIndex = 0;
             var properties = type.PropertiesCache();
@@ -919,14 +928,14 @@ namespace Paway.Forms
             }
             //将这些列加入列表
             var Right = colIndex + colCount - 1; //同一大标题下的最后一列的索引
-            SpanRows[colIndex] = new SpanInfo(text, colIndex, Right, iAll); //添加标题下的最左列
-            SpanRows[Right] = new SpanInfo(text, colIndex, Right, iAll); //添加该标题下的最右列
+            SpanRows[colIndex] = new SpanInfo(text, colIndex, Right, iAll, alignment); //添加标题下的最左列
+            SpanRows[Right] = new SpanInfo(text, colIndex, Right, iAll, alignment); //添加该标题下的最右列
             for (var i = colIndex + 1; i < Right; i++) //中间的列
             {
-                SpanRows[i] = new SpanInfo(text, colIndex, Right, iAll);
+                SpanRows[i] = new SpanInfo(text, colIndex, Right, iAll, alignment);
             }
             //添加单列标题
-            if (colCount == 1) SpanRows[colIndex] = new SpanInfo(text, colIndex, Right, iAll);
+            if (colCount == 1) SpanRows[colIndex] = new SpanInfo(text, colIndex, Right, iAll, alignment);
         }
 
         #endregion

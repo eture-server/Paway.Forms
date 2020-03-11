@@ -33,6 +33,8 @@ namespace Paway.Test
             base.HaveQuery();
             gridview1.TPadding = new Padding(0);
             gridview1.PageSize = 5;
+            gridview1.Edit.AddSpanHeader(typeof(TestInfo), nameof(TestInfo.Name), 2, "操作", true, StringAlignment.Near);
+            gridview1.Edit.ColumnHeadersHeight = 77;
             if (DesignMode) return;
             //gridview1.IGroup = false;
             //this.UserTree(true);

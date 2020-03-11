@@ -422,7 +422,7 @@ namespace Paway.Forms
 
             txtCurrentPage.Text = PagerInfo.CurrentPageIndex.ToString();
             if (!iTotal) OnPageChanged(EventArgs.Empty);
-            if (PagerInfo.IGroup)
+            if (PagerInfo.IGroup == GroupType.Group)
             {
                 panel1.Visible = true;
                 lblPageInfo.Text = string.Format("共 {0:#,0} 条记录，每页 {1:#,0} 条，共 {2:#,0} 页", PagerInfo.RecordCount, PagerInfo.PageSize, PagerInfo.PageCount);
@@ -590,7 +590,7 @@ namespace Paway.Forms
         private int currentPageIndex = 1; //当前页码
         private int pageSize = 20; //每页显示的记录
         private int recordCount; //记录总数
-        private bool iGroup = true; //分页
+        private GroupType iGroup = GroupType.Group; //分页
 
         /// <summary>
         /// 在分页属性变动时发生
@@ -643,8 +643,8 @@ namespace Paway.Forms
         /// </summary>
         [Category("分页")]
         [Description("显示分页")]
-        [DefaultValue(true)]
-        public bool IGroup
+        [DefaultValue(GroupType.Group)]
+        public GroupType IGroup
         {
             get { return iGroup; }
             set

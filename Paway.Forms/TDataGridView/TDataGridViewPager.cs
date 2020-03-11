@@ -93,11 +93,15 @@ namespace Paway.Forms
         /// </summary>
         [Category("分页")]
         [Description("显示分页")]
-        [DefaultValue(true)]
-        public bool IGroup
+        [DefaultValue(GroupType.Group)]
+        public GroupType IGroup
         {
             get { return TPager.PagerInfo.IGroup; }
-            set { TPager.PagerInfo.IGroup = value; }
+            set
+            {
+                TPager.PagerInfo.IGroup = value;
+                TPager.Visible = value != GroupType.None;
+            }
         }
         /// <summary>
         /// 获取或设置每页显示的记录
@@ -405,7 +409,7 @@ namespace Paway.Forms
                 var dt = dataSource as DataTable;
                 var table = dt.Clone();
                 var index = PagerInfo.PageSize * (PagerInfo.CurrentPageIndex - 1);
-                int count = PagerInfo.IGroup ? (index + PagerInfo.PageSize) : dt.Rows.Count;
+                int count = PagerInfo.IGroup == GroupType.Group ? (index + PagerInfo.PageSize) : dt.Rows.Count;
                 for (var i = index; i < count && i < dt.Rows.Count; i++)
                 {
                     table.Rows.Add(dt.Rows[i].ItemArray);
@@ -418,7 +422,7 @@ namespace Paway.Forms
             {
                 var temp = DataType.GenericList();
                 var index = PagerInfo.PageSize * (PagerInfo.CurrentPageIndex - 1);
-                int count = PagerInfo.IGroup ? (index + PagerInfo.PageSize) : list.Count;
+                int count = PagerInfo.IGroup == GroupType.Group ? (index + PagerInfo.PageSize) : list.Count;
                 for (var i = index; i < count && i < list.Count; i++)
                 {
                     temp.Add(list[i]);
@@ -535,7 +539,7 @@ namespace Paway.Forms
             gridview1.Dock = DockStyle.Fill;
             this.Controls.Add(this.gridview1);
             this.Controls.SetChildIndex(this.gridview1, 0);
-            IGroup = false;
+            IGroup = GroupType.Total;
             return true;
         }
         /// <summary>

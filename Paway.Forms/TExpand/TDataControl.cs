@@ -283,7 +283,7 @@ namespace Paway.Forms
                             iFilter = !IFindText() || new List<T>() { data }.AsParallel().Where(predicate).Count() > 0;
                             if (iFilter) this.FList.Add(data);
                         }
-                        if (!gridview1.IGroup)
+                        if (gridview1.IGroup != GroupType.Group)
                         {
                             if (!IFind() || iFilter)
                             {
@@ -372,7 +372,7 @@ namespace Paway.Forms
                         var info = this.Info.Clone();
                         int index = this.Index;
                         if (!OnDeleteInfo(this.Info)) break;
-                        if (!gridview1.IGroup)
+                        if (gridview1.IGroup != GroupType.Group)
                         {
                             if (gridview1.Edit is TreeGridView treeView)
                             {
@@ -389,7 +389,7 @@ namespace Paway.Forms
                             info = this.FList.Find(c => c.Id == info.Id);
                             this.FList.Remove(info);
                         }
-                        if (!gridview1.IGroup)
+                        if (gridview1.IGroup != GroupType.Group)
                         {
                             RefreshTotal(true);
                             gridview1.RefreshDesc();

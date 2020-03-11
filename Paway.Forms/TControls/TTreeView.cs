@@ -724,7 +724,7 @@ namespace Paway.Forms
             var item = (ItemNode)node;
             if (item == null || _items.Count <= 1)
             {
-                TextRenderer.DrawText(g, node.Text, Font, rect, foreColor, DrawHelper.TextEnd);
+                TextRenderer.DrawText(g, node.Text, Font, rect, foreColor, DrawHelper.TextVerticalCenter);
             }
             else
             {

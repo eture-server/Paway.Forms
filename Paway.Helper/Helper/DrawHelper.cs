@@ -21,72 +21,38 @@ namespace Paway.Helper
 
         #region 一些默认参数
         /// <summary>
-        /// 计算格式
+        /// 字符串垂直居中对齐
         /// </summary>
-        public static StringFormat StringCalc
+        public static StringFormat VerticalCenter
         {
             get
             {
-                var format = new StringFormat { FormatFlags = StringFormatFlags.NoWrap };
-                return format;
+                return StringFormat(StringAlignment.Near);
             }
         }
-
         /// <summary>
-        /// 字符垂直对齐
+        /// 文本对齐格式
         /// </summary>
-        public static StringFormat StringVertical
+        public static StringFormat StringFormat(StringAlignment alignment = StringAlignment.Center, StringAlignment lineAlignment = StringAlignment.Center)
         {
-            get
+            var format = new StringFormat
             {
-                var format = new StringFormat { LineAlignment = StringAlignment.Center };
-                return format;
-            }
-        }
-
-        /// <summary>
-        /// 字符水平垂直对齐
-        /// </summary>
-        public static StringFormat StringCenter
-        {
-            get
-            {
-                var format = new StringFormat
-                {
-                    Alignment = StringAlignment.Center,
-                    LineAlignment = StringAlignment.Center
-                };
-                return format;
-            }
+                Alignment = alignment,
+                LineAlignment = lineAlignment
+            };
+            return format;
         }
 
         /// <summary>
         /// 文本垂直结尾省略
         /// </summary>
-        public static TextFormatFlags TextEnd
+        public static TextFormatFlags TextVerticalCenter
         {
             get
             {
                 return TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis;
             }
         }
-
-        /// <summary>
-        /// 文本靠左垂直
-        /// </summary>
-        public static TextFormatFlags TextLeft
-        {
-            get { return TextFormatFlags.VerticalCenter | TextFormatFlags.Left | TextFormatFlags.EndEllipsis; }
-        }
-
-        /// <summary>
-        /// 文本靠右垂直
-        /// </summary>
-        public static TextFormatFlags TextRight
-        {
-            get { return TextFormatFlags.VerticalCenter | TextFormatFlags.Right | TextFormatFlags.EndEllipsis; }
-        }
-
         /// <summary>
         /// 文本水平垂直
         /// </summary>
@@ -101,7 +67,6 @@ namespace Paway.Helper
         #endregion
 
         #region RendererBackground 渲染背景图片，使背景图片不失真
-
         /// <summary>
         /// 渲染背景图片,使背景图片不失真
         /// </summary>
@@ -167,7 +132,6 @@ namespace Paway.Helper
         #endregion
 
         #region CreateRoundPath 构建圆角路径
-
         /// <summary>
         /// 构建圆角路径
         /// </summary>
