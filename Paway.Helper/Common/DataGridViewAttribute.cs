@@ -24,8 +24,6 @@ namespace Paway.Helper
         /// 图像列
         /// </summary>
         public string ImageName { get; set; }
-        public int ColorBackR { get; }
-
         /// <summary>
         /// 图像列大小
         /// </summary>
