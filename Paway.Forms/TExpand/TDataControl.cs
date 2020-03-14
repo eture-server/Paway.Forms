@@ -423,9 +423,8 @@ namespace Paway.Forms
         /// <param name="iUpdate">直接更新</param>
         protected virtual void RefreshTotal(bool iUpdate = false)
         {
-            T data = List.Find(c => c.Id < 0);
-            if (data != null) List.Remove(data);
-            data = OnTotal(List);
+            List.RemoveAll(c => c.Id < 0);
+            var data = OnTotal(List);
             if (data != null)
             {
                 data.Id = -1;

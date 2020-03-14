@@ -246,7 +246,7 @@ namespace Paway.Helper
         /// </summary>
         public int AutoHeight(TMouseState state)
         {
-            return TextRenderer.MeasureText("你好", AutoFont(state)).Height;
+            return TextRenderer.MeasureText("Hello", AutoFont(state)).Height;
         }
         /// <summary>
         /// 动态获取文本高度

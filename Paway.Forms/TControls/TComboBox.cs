@@ -63,7 +63,7 @@ namespace Paway.Forms
                 Edit.Font = value;
                 if (value != null)
                 {
-                    var hight = TextRenderer.MeasureText("你好", value).Height;
+                    var hight = TextRenderer.MeasureText("Hello", value).Height;
                     Edit.ItemHeight = hight;
                 }
                 Invalidate();

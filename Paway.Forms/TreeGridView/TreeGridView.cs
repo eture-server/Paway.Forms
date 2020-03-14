@@ -151,8 +151,21 @@ namespace Paway.Forms
                     Type dbType = property.PropertyType;
                     if (dbType.IsGenericType) dbType = Nullable.GetUnderlyingType(dbType);
                     if (dbType == typeof(Image) || dbType == typeof(Bitmap))
+                    {
                         column = new DataGridViewImageColumn();
-                    else column = new DataGridViewTextBoxColumn();
+                    }
+                    else if (property.ICheckBox())
+                    {
+                        column = new TDataGridViewCheckBoxColumn();
+                    }
+                    else if (property.IButton(out IButtonAttribute button))
+                    {
+                        column = new TDataGridViewButtonColumn(button);
+                    }
+                    else
+                    {
+                        column = new DataGridViewTextBoxColumn();
+                    }
                 }
                 column.Visible = visible;
                 column.HeaderText = property.TextName();

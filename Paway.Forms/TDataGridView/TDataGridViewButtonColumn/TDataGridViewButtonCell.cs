@@ -53,9 +53,22 @@ namespace Paway.Forms
             // 填充单元格的边框
             base.PaintBorder(graphics, clipBounds, cellBounds, cellStyle, advancedBorderStyle);
 
-            var text = value.ToStrs();
-            if (text.IsNullOrEmpty()) return;
-
+            if (value is string text && !text.IsNullOrEmpty())
+            {
+                Image image = null;
+                if (!this.Column.Button.ImageName.IsNullOrEmpty())
+                {
+                    image = (Image)this.Column.DataGridViewEx.Rows[rowIndex].Cells[this.Column.Button.ImageName].Value;
+                }
+                DrawTextButton(graphics, cellBounds, rowIndex, text, image);
+            }
+            else if (value is Image image)
+            {
+                DrawTextButton(graphics, cellBounds, rowIndex, null, image);
+            }
+        }
+        private void DrawTextButton(Graphics g, Rectangle cellBounds, int rowIndex, string text, Image image)
+        {
             //计算button的区域
             var button = this.Column.Button;
             if (button.BackGround == null)
@@ -77,14 +90,14 @@ namespace Paway.Forms
             }
             var size = AutoSize(button, cellBounds, text);
 
-            if (!button.ImageName.IsNullOrEmpty())
+            if (image != null)
             {
                 if (size.Height < button.ImageSize.Height) size.Height = button.ImageSize.Height;
                 size.Width += button.ImageSize.Width;
             }
             btnRect = RectangleCommon.GetSmallRectOfRectangle(cellBounds, size, out _);
             //绘制按钮
-            this.DrawButton(graphics, rowIndex, button, text);
+            this.DrawButton(g, rowIndex, button, text, image);
         }
         private Size AutoSize(IButtonAttribute button, Rectangle bounds, string text)
         {
@@ -99,7 +112,7 @@ namespace Paway.Forms
             }
             return size;
         }
-        private void DrawButton(Graphics g, int rowIndex, IButtonAttribute button, string text)
+        private void DrawButton(Graphics g, int rowIndex, IButtonAttribute button, string text, Image image)
         {
             var fillRect = new Rectangle(btnRect.X + button.Line / 2, btnRect.Y + button.Line / 2, btnRect.Width - button.Line, btnRect.Height - button.Line);
             var color = button.BackGround.AutoColor(btnState);
@@ -126,19 +139,15 @@ namespace Paway.Forms
             }
 
             var rect = btnRect;
-            if (!button.ImageName.IsNullOrEmpty())
+            if (image != null)
             {
-                var image = (Image)this.Column.DataGridViewEx.Rows[rowIndex].Cells[button.ImageName].Value;
-                if (image != null)
-                {
-                    var width = button.Text.AutoWidth(btnState, text, btnRect.Size);
-                    var left = (rect.Width - width - button.ImageSize.Width) / 2;
-                    var top = (rect.Height - button.ImageSize.Height) / 2;
-                    var imageRect = new Rectangle(rect.X + left, rect.Y + top, button.ImageSize.Width, button.ImageSize.Height);
-                    BitmapHelper.DragImage(g, image, imageRect);
-                    rect.X += button.ImageSize.Width;
-                    rect.Width -= button.ImageSize.Width;
-                }
+                var width = button.Text.AutoWidth(btnState, text, btnRect.Size);
+                var left = (rect.Width - width - button.ImageSize.Width) / 2;
+                var top = (rect.Height - button.ImageSize.Height) / 2;
+                var imageRect = new Rectangle(rect.X + left, rect.Y + top, button.ImageSize.Width, button.ImageSize.Height);
+                BitmapHelper.DragImage(g, image, imageRect);
+                rect.X += button.ImageSize.Width;
+                rect.Width -= button.ImageSize.Width;
             }
             TextRenderer.DrawText(g, text, button.Text.AutoFont(btnState), rect, button.Text.AutoColor(btnState), button.Text.TextFormat());
         }

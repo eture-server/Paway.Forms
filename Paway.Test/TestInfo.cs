@@ -45,6 +45,9 @@ namespace Paway.Test
         [Column("Pad")]
         [IButton(nameof(Images))]
         public string NewPad { get; set; }
+        [NoSelect]
+        [IButton]
+        public Image Images { get { return Resources.close; } }
 
         [ICheckBox]
         public bool Statu { get; set; }
@@ -56,8 +59,6 @@ namespace Paway.Test
         public DateTime DateTime { get; set; }
 
         public Image Image { get; set; }
-        [NoSelect]
-        public Image Images { get { return Resources.close; } }
 
         public FindInfo FindInfo { get; set; }
         public List<FindInfo> List { get; } = new List<FindInfo>();
