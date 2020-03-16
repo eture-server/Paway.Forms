@@ -281,7 +281,10 @@ namespace Paway.Forms
                         if (IFind())
                         {
                             iFilter = !IFindText() || new List<T>() { data }.AsParallel().Where(predicate).Count() > 0;
-                            if (iFilter) this.FList.Add(data);
+                            if (iFilter)
+                            {
+                                if (this.FList.Find(c => c.Id == data.Id) == null) this.FList.Add(data);
+                            }
                         }
                         if (gridview1.IGroup != GroupType.Group)
                         {
@@ -432,8 +435,7 @@ namespace Paway.Forms
             }
             if (IFind())
             {
-                data = FList.Find(c => c.Id < 0);
-                if (data != null) FList.Remove(data);
+                FList.RemoveAll(c => c.Id < 0);
                 data = OnTotal(FList);
                 if (data != null)
                 {

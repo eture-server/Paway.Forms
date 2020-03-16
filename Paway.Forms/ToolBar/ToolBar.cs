@@ -697,7 +697,7 @@ namespace Paway.Forms
         /// <param name="e">包含事件数据的 System.EventArgs。</param>
         private void OnItemClick(ToolItem item, EventArgs e)
         {
-            if (!item.Enable) return;
+            if (item == null || !item.Enable) return;
             ItemClick?.Invoke(item, e);
         }
 

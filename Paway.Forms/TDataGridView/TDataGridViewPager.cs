@@ -384,7 +384,7 @@ namespace Paway.Forms
         /// </summary>
         /// <param name="value"></param>
         /// <param name="iRefresh">是否刷新数据，默认True</param>
-        internal void UpdateData(object value, bool iRefresh = true)
+        public void UpdateData(object value, bool iRefresh = true)
         {
             dataSource = value;
             if (dataSource is IList list)
