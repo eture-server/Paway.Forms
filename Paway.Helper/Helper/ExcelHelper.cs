@@ -304,6 +304,7 @@ namespace Paway.Helper
                 }
                 for (int i = 0; i < list.Count; ++i)
                 {
+                    if (filter != null && filter(list, list[i], null)) continue;
                     IRow row = sheet.CreateRow(count++);
                     row.Height = (short)(lineHeight * 20);
                     foreach (var property in properties)

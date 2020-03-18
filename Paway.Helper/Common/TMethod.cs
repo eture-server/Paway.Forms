@@ -154,7 +154,7 @@ namespace Paway.Helper
 
         #region 关于四舍五入
         /// <summary>
-        /// 中国式四舍五入,默认两位
+        /// 中国式四舍五入,默认最多两位
         /// </summary>
         public static double Round(double value, int decimals = 2)
         {
@@ -163,28 +163,20 @@ namespace Paway.Helper
         /// <summary>
         /// 关于数字格式化
         /// </summary>
-        public static string Rounds(double value, int max = 2, int min = 0)
+        public static string Rounds(double value, int max = 2, int min = 0, string format = "0.")
         {
-            string length = string.Empty;
             for (int i = 0; i < max && i < min; i++)
-                length += "0";
+                format += "0";
             for (int i = min; i < max; i++)
-                length += "#";
-            return string.Format("{0:0." + length + "}", value);
+                format += "#";
+            return string.Format("{0:" + format + "}", value);
         }
         /// <summary>
-        /// 关于显示数字(保留小数位:2-decimals)
+        /// 关于货币格式化(保留小数位:decimals-max)
         /// </summary>
-        public static string Number(double number, int decimals = 2)
+        public static string Money(double money, int decimals = 0, int max = 2)
         {
-            return TMethod.Rounds(number, decimals, 2);
-        }
-        /// <summary>
-        /// 关于货币格式化(保留小数位:2-decimals)
-        /// </summary>
-        public static string Money(double money, int decimals = 2)
-        {
-            return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol + TMethod.Rounds(money, decimals, 2);
+            return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol + TMethod.Rounds(money, decimals, max, "#,0.");
         }
 
         #endregion
