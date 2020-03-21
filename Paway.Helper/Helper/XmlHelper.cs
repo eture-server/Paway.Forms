@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NPOI.SS.Formula.Functions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -120,7 +121,7 @@ namespace Paway.Helper
             var properties = type.PropertiesCache();
             foreach (PropertyInfo property in properties)
             {
-                if (!property.IBrowsable()) continue;
+                if (!property.IBrowsable() || !property.IShow()) continue;
                 XmlElement element = doc.CreateElement(property.Name);
                 root.AppendChild(element);
                 object obj = info.GetValue(property.Name);

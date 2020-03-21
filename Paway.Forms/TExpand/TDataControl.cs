@@ -77,6 +77,7 @@ namespace Paway.Forms
             base.OnLoad(e);
 
             this.List = new List<T>();
+            this.gridview1.Edit.UpdateColumns(typeof(T));
             InitVerofy();
             if (DesignMode) return;
 
@@ -237,7 +238,7 @@ namespace Paway.Forms
         /// <summary>
         /// 编辑数据
         /// </summary>
-        protected virtual Form OnUpdate(T info) { return new Form(); }
+        protected virtual Form OnUpdate(T info) { return null; }
         /// <summary>
         /// 更新数据到数据库
         /// </summary>
