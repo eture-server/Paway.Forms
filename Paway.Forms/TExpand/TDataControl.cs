@@ -721,13 +721,6 @@ namespace Paway.Forms
 
         #region 数据异步获取
         /// <summary>
-        /// 异步查询
-        /// </summary>
-        protected override object OnFind(string find)
-        {
-            return server.Find<T>(find);
-        }
-        /// <summary>
         /// 开始获取
         /// </summary>
         protected override bool QueryStart(string find = null)
@@ -757,6 +750,13 @@ namespace Paway.Forms
                 this.gridview1.DataSource = new FindInfo(statu);
                 return false;
             }
+        }
+        /// <summary>
+        /// 异步查询
+        /// </summary>
+        protected override object OnFind(string find)
+        {
+            return server.Find<T>(find);
         }
         /// <summary>
         /// 获取结果
