@@ -139,6 +139,7 @@ namespace Paway.Helper
             var strs = msg.Split(new[] { "\r\n", "&&" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var str in strs)
             {
+                if (str.Equals("发生一个或多个错误。")) continue;
                 if (!list.Contains(str)) list.Add(str);
             }
             return string.Join("\r\n", list.ToArray());

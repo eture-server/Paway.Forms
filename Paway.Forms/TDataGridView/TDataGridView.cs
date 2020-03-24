@@ -78,16 +78,6 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 属性
-        /// <summary>
-        /// 是否绘制多行文本
-        /// </summary>
-        [Browsable(true), Description("是否绘制多行文本")]
-        [DefaultValue(false)]
-        public bool IMultiText { get; set; }
-
-        #endregion
-
         #region 事件
         /// <summary>
         /// 数据刷新后触发
@@ -379,11 +369,23 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 内部方法
+        #region 内部方法-加载数据
+        /// <summary>
+        /// 刷新数据
+        /// </summary>
+        private void RefreshData()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(RefreshData));
+                return;
+            }
+            DataSource = source;
+        }
         /// <summary>
         /// 更新数据
         /// </summary>
-        protected virtual void UpdateData(object value)
+        internal virtual void UpdateData(object value)
         {
             if (value == null)
             {
@@ -410,6 +412,46 @@ namespace Paway.Forms
             }
             UpdateColumns(this.type);
             OnRefreshChanged(this.type);
+        }
+        /// <summary>
+        /// 更新列名称
+        /// </summary>
+        internal void UpdateColumns(Type type)
+        {
+            if (type == null || type == typeof(string) || type.IsValueType) return;
+            this.type = type;
+
+            var properties = type.PropertiesCache();
+            for (var i = 0; i < Columns.Count; i++)
+            {
+                var column = Columns[i];
+                var property = properties.Property(column.Name);
+                if (property == null) continue;
+                if (property.ICheckBox())
+                {
+                    column = new TDataGridViewCheckBoxColumn
+                    {
+                        Name = Columns[i].Name,
+                        DataPropertyName = Columns[i].DataPropertyName,
+                        DisplayIndex = Columns[i].DisplayIndex
+                    };
+                    Columns.RemoveAt(i);
+                    Columns.Insert(i, column);
+                }
+                else if (property.IButton(out IButtonAttribute button))
+                {
+                    column = new TDataGridViewButtonColumn(button)
+                    {
+                        Name = Columns[i].Name,
+                        DataPropertyName = Columns[i].DataPropertyName,
+                        DisplayIndex = Columns[i].DisplayIndex
+                    };
+                    Columns.RemoveAt(i);
+                    Columns.Insert(i, column);
+                }
+                column.Visible = property.IShow();
+                column.HeaderText = property.TextName();
+            }
         }
         /// <summary>
         /// 设置排序模式并引发事件
@@ -473,25 +515,124 @@ namespace Paway.Forms
 
         #endregion
 
-        #region 重绘
-        #region 重载单元格绘制
+        #region 公共方法
         /// <summary>
-        /// 绘制行号
+        /// 获取指定名称列
         /// </summary>
-        private void TDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        public DataGridViewColumn GetColumn(string name)
         {
-            if (!this.RowHeadersVisible) return;
+            for (int i = 0; i < this.Columns.Count; i++)
+            {
+                if (this.Columns[i].Name == name)
+                {
+                    return this.Columns[i];
+                }
+            }
+            return new DataGridViewColumn();
+        }
+        /// <summary>
+        /// 获取主键列
+        /// </summary>
+        public string IdColumn()
+        {
+            if (this.Columns.Contains(nameof(IId.Id))) return nameof(IId.Id);
+            if (this.type != null)
+            {
+                var properties = this.type.PropertiesCache();
+                for (int i = 0; i < Columns.Count; i++)
+                {
+                    var property = properties.Property(Columns[i].Name);
+                    if (property == null) continue;
+                    if (property.Name == nameof(IId.Id))
+                    {
+                        return Columns[i].Name;
+                    }
+                }
+            }
+            if (this.type != null)
+            {
+                var properties = this.type.PropertiesCache();
+                for (int i = 0; i < Columns.Count; i++)
+                {
+                    var property = properties.Property(Columns[i].Name);
+                    if (property == null) continue;
+                    if (property.IShow()) return Columns[i].Name;
+                }
+            }
+            throw new WarningException("主找到主键。");
+        }
+        /// <summary>
+        /// 刷新数据并自动选中焦点
+        /// </summary>
+        /// <param name="iOffset">保存滚动条位置</param>
+        /// <param name="iRefresh">刷新数据</param>
+        public void AutoCell(bool iOffset = false, bool iRefresh = true)
+        {
+            int index = 0;
+            if (this.CurrentCell != null)
+                index = this.CurrentCell.RowIndex;
+            var offset = this.FirstDisplayedScrollingRowIndex;
+            if (iRefresh) this.RefreshData();
+            AutoCell(index);
+            if (iOffset) SetOffsetRowIndex(offset);
+        }
+        /// <summary>
+        /// 自动选中焦点
+        /// </summary>
+        public void AutoCell(int index)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<int>(AutoCell), index);
+                return;
+            }
+            if (index < 0) index = 0;
+            if (this.Rows.Count == 0) return;
+            if (index > this.RowCount - 1)
+            {
+                index = this.RowCount - 1;
+            }
+            var id = this.Rows[index].Cells[IdColumn()].Value.ToInt();
+            if (id == -1) index--;
+            if (index < 0) index = 0;
             for (int i = 0; i < this.Columns.Count; i++)
             {
                 if (this.Columns[i].Visible)
                 {
-                    if (e.ColumnIndex == i)
-                        Rows[e.RowIndex].HeaderCell.Value = (e.RowIndex + 1).ToString();
+                    this.CurrentCell = this[i, index];
+                    this.Rows[index].Selected = true;
                     break;
                 }
             }
         }
+        /// <summary>
+        /// 设置显示行
+        /// </summary>
+        internal void SetOffsetRowIndex(int offset)
+        {
+            if (offset > this.RowCount - 1) offset = this.RowCount - 1;
+            if (offset != -1) this.FirstDisplayedScrollingRowIndex = offset;
+        }
+        private void TDataGridView_DoubleClick(object sender, EventArgs e)
+        {
+            if (e is MouseEventArgs me)
+            {
+                var hit = this.HitTest(me.X, me.Y);
+                if (hit.RowIndex > -1)
+                {
+                    if (this.type != null)
+                    {
+                        var property = type.Property(Columns[hit.ColumnIndex].Name);
+                        if (property?.IButton(out _) == true) return;
+                    }
+                    RowDoubleClick?.Invoke(hit.RowIndex);
+                }
+            }
+        }
 
+        #endregion
+
+        #region 重绘
         /// <summary>
         /// 在单元格需要绘制时发生
         /// </summary>
@@ -507,85 +648,24 @@ namespace Paway.Forms
             else
             {
                 DrawCell(e);
-                if (IMultiText) DrawMultiText(e);
             }
         }
 
-        #endregion
-
-        #region 绘制多行文本
+        #region 绘制行号
         /// <summary>
-        /// 绘制多行文本
+        /// 绘制行号
         /// </summary>
-        /// <param name="e"></param>
-        private void DrawMultiText(DataGridViewCellPaintingEventArgs e)
+        private void TDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.Value == null || e.Value.ToString().Trim() == string.Empty || !e.Value.ToString().Contains("&&"))
-                return;
-
-            if (Columns[e.ColumnIndex] is DataGridViewTextBoxColumn cell && cell.Visible && cell.ReadOnly)
+            if (!this.RowHeadersVisible) return;
+            for (int i = 0; i < this.Columns.Count; i++)
             {
-                var graphics = e.Graphics;
-                var colorBack = e.CellStyle.BackColor;
-                if (Rows[e.RowIndex].Selected)
+                if (this.Columns[i].Visible)
                 {
-                    colorBack = e.CellStyle.SelectionBackColor;
+                    if (e.ColumnIndex == i)
+                        Rows[e.RowIndex].HeaderCell.Value = (e.RowIndex + 1).ToString();
+                    break;
                 }
-                using (var solidBrush = new SolidBrush(colorBack))
-                {
-                    DrawBounds(e.Graphics, solidBrush, e.CellBounds, e.RowIndex);
-                }
-
-                var index = e.Value.ToString().IndexOf("&&");
-                var strFirst = e.Value.ToString().Substring(0, index);
-                var strSecond = e.Value.ToString().Substring(index + 1);
-
-                var fontFore = e.CellStyle.Font;
-                var intX = e.CellBounds.Left + e.CellStyle.Padding.Left;
-                var intY = e.CellBounds.Top + e.CellStyle.Padding.Top;
-                var intWidth = e.CellBounds.Width - (e.CellStyle.Padding.Left + e.CellStyle.Padding.Right);
-                var intHeight = e.CellBounds.Height - (e.CellStyle.Padding.Top + e.CellStyle.Padding.Bottom);
-                intHeight /= 2;
-
-                //the first line 
-                TextFormatFlags format = DrawHelper.TextVerticalCenter;
-                if (e.CellStyle.Alignment == DataGridViewContentAlignment.MiddleCenter)
-                {
-                    format = DrawHelper.TextCenter;
-                }
-                TextRenderer.DrawText(graphics, strFirst, fontFore, new Rectangle(intX, intY, intWidth, intHeight),
-                    Color.Black, format);
-
-                fontFore = e.CellStyle.Font;
-                intY += intHeight;
-
-                //the seconde line
-                TextRenderer.DrawText(graphics, strSecond, fontFore, new Rectangle(intX, intY, intWidth, intHeight),
-                    Color.SteelBlue, format);
-
-                e.Handled = true;
-            }
-        }
-        /// <summary>
-        /// 边框
-        /// </summary>
-        private void DrawBounds(Graphics g, Brush brush, Rectangle rect, int index)
-        {
-            // Erase the cell.
-            g.FillRectangle(brush, rect);
-            //首行线
-            using (var pen = new Pen(GridColor))
-            {
-                if (index == 0 && !ColumnHeadersVisible)
-                {
-                    g.DrawLine(pen, new Point(rect.X, rect.Top), new Point(rect.Right, rect.Top));
-                }
-                //划线
-                var p1 = new Point(rect.Right - 1, rect.Top);
-                var p2 = new Point(rect.Right - 1, rect.Bottom - 1);
-                var p3 = new Point(rect.Left, rect.Bottom - 1);
-                Point[] ps = { p1, p2, p3 };
-                g.DrawLines(pen, ps);
             }
         }
 
@@ -780,7 +860,6 @@ namespace Paway.Forms
                 e.Handled = true;
             }
         }
-
         /// <summary>
         /// 画字符串
         /// </summary>
@@ -897,7 +976,6 @@ namespace Paway.Forms
                 this.Invalidate(new Rectangle(this.Location, new Size(this.Width, this.ColumnHeadersHeight)));
             }
         }
-
         /// <summary>
         /// 取消合并列
         /// </summary>
@@ -939,6 +1017,7 @@ namespace Paway.Forms
         }
 
         #endregion
+
         #endregion
 
         #region 自定义列
@@ -970,7 +1049,6 @@ namespace Paway.Forms
                 this.InvalidateColumn(columnIndex);
             CheckedChanged?.Invoke(rowIndex, columnIndex, value);
         }
-
         /// <summary>
         /// 全选中/取消全选中
         /// </summary>
@@ -991,182 +1069,6 @@ namespace Paway.Forms
         internal void OnButtonClicked(int rowIndex, int columnIndex, object value)
         {
             ButtonClicked?.Invoke(rowIndex, columnIndex, value);
-        }
-
-
-        #endregion
-
-        #region 公开方法-加载数据
-        /// <summary>
-        /// 刷新数据
-        /// </summary>
-        protected void RefreshData()
-        {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action(RefreshData));
-                return;
-            }
-            DataSource = source;
-        }
-
-        /// <summary>
-        /// 更新列名称
-        /// </summary>
-        public void UpdateColumns(Type type)
-        {
-            if (type == null || type == typeof(string) || type.IsValueType) return;
-            this.type = type;
-
-            var properties = type.PropertiesCache();
-            for (var i = 0; i < Columns.Count; i++)
-            {
-                var column = Columns[i];
-                var property = properties.Property(column.Name);
-                if (property == null) continue;
-                if (property.ICheckBox())
-                {
-                    column = new TDataGridViewCheckBoxColumn
-                    {
-                        Name = Columns[i].Name,
-                        DataPropertyName = Columns[i].DataPropertyName,
-                        DisplayIndex = Columns[i].DisplayIndex
-                    };
-                    Columns.RemoveAt(i);
-                    Columns.Insert(i, column);
-                }
-                else if (property.IButton(out IButtonAttribute button))
-                {
-                    column = new TDataGridViewButtonColumn(button)
-                    {
-                        Name = Columns[i].Name,
-                        DataPropertyName = Columns[i].DataPropertyName,
-                        DisplayIndex = Columns[i].DisplayIndex
-                    };
-                    Columns.RemoveAt(i);
-                    Columns.Insert(i, column);
-                }
-                column.Visible = property.IShow();
-                column.HeaderText = property.TextName();
-            }
-        }
-
-        #endregion
-
-        #region 公共方法
-        /// <summary>
-        /// 获取指定名称列
-        /// </summary>
-        public DataGridViewColumn GetColumn(string name)
-        {
-            for (int i = 0; i < this.Columns.Count; i++)
-            {
-                if (this.Columns[i].Name == name)
-                {
-                    return this.Columns[i];
-                }
-            }
-            return new DataGridViewColumn();
-        }
-        /// <summary>
-        /// 刷新数据并自动选中焦点
-        /// </summary>
-        /// <param name="iOffset">保存滚动条位置</param>
-        /// <param name="iRefresh">刷新数据</param>
-        public void AutoCell(bool iOffset = false, bool iRefresh = true)
-        {
-            int index = 0;
-            if (this.CurrentCell != null)
-                index = this.CurrentCell.RowIndex;
-            var offset = this.FirstDisplayedScrollingRowIndex;
-            if (iRefresh) this.RefreshData();
-            AutoCell(index);
-            if (iOffset) SetOffsetRowIndex(offset);
-        }
-        /// <summary>
-        /// 设置显示行
-        /// </summary>
-        public void SetOffsetRowIndex(int offset)
-        {
-            if (offset > this.RowCount - 1) offset = this.RowCount - 1;
-            if (offset != -1) this.FirstDisplayedScrollingRowIndex = offset;
-        }
-        /// <summary>
-        /// 自动选中焦点
-        /// </summary>
-        public void AutoCell(int index)
-        {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action<int>(AutoCell), index);
-                return;
-            }
-            if (index < 0) index = 0;
-            if (this.Rows.Count == 0) return;
-            if (index > this.RowCount - 1)
-            {
-                index = this.RowCount - 1;
-            }
-            var id = this.Rows[index].Cells[IdColumn()].Value.ToInt();
-            if (id == -1) index--;
-            if (index < 0) index = 0;
-            for (int i = 0; i < this.Columns.Count; i++)
-            {
-                if (this.Columns[i].Visible)
-                {
-                    this.CurrentCell = this[i, index];
-                    this.Rows[index].Selected = true;
-                    break;
-                }
-            }
-        }
-        /// <summary>
-        /// 获取主键列
-        /// </summary>
-        public string IdColumn()
-        {
-            if (this.Columns.Contains(nameof(IId.Id))) return nameof(IId.Id);
-            if (this.type != null)
-            {
-                var properties = this.type.PropertiesCache();
-                for (int i = 0; i < Columns.Count; i++)
-                {
-                    var property = properties.Property(Columns[i].Name);
-                    if (property == null) continue;
-                    if (property.Name == nameof(IId.Id))
-                    {
-                        return Columns[i].Name;
-                    }
-                }
-            }
-            if (this.type != null)
-            {
-                var properties = this.type.PropertiesCache();
-                for (int i = 0; i < Columns.Count; i++)
-                {
-                    var property = properties.Property(Columns[i].Name);
-                    if (property == null) continue;
-                    if (property.IShow()) return Columns[i].Name;
-                }
-            }
-            if (Columns.Count > 0) return Columns[0].Name;
-            return null;
-        }
-        private void TDataGridView_DoubleClick(object sender, EventArgs e)
-        {
-            if (e is MouseEventArgs me)
-            {
-                var hit = this.HitTest(me.X, me.Y);
-                if (hit.RowIndex > -1)
-                {
-                    if (this.type != null)
-                    {
-                        var property = type.Property(Columns[hit.ColumnIndex].Name);
-                        if (property?.IButton(out _) == true) return;
-                    }
-                    RowDoubleClick?.Invoke(hit.RowIndex);
-                }
-            }
         }
 
         #endregion

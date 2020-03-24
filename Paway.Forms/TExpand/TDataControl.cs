@@ -77,7 +77,7 @@ namespace Paway.Forms
             base.OnLoad(e);
 
             this.List = new List<T>();
-            this.gridview1.Edit.UpdateColumns(typeof(T));
+            this.gridview1.DataSource = this.List;
             InitVerofy();
             if (DesignMode) return;
 
@@ -177,13 +177,13 @@ namespace Paway.Forms
         /// <summary>
         /// 初始化数据
         /// </summary>
-        protected virtual void InitData(List<T> list, IDataService server = null, bool iAdd = true)
+        protected virtual void InitData(List<T> list, IDataService server = null, bool iInit = true)
         {
             try
             {
                 if (server != null) this.server = server;
                 if (list == null) return;
-                if (iAdd)
+                if (iInit)
                 {
                     this.List = list as List<T>;
                 }
@@ -765,7 +765,7 @@ namespace Paway.Forms
         {
             if (result is List<T> list)
             {
-                InitData(list, iAdd: false);
+                InitData(list, null, false);
             }
             else
             {

@@ -373,18 +373,11 @@ namespace Paway.Forms
 
         #region 公开方法
         /// <summary>
-        /// 更新Type
-        /// </summary>
-        public void UpdateType(Type type)
-        {
-            if (type != null) DataType = type;
-        }
-        /// <summary>
         /// 外部设置数据
         /// </summary>
         /// <param name="value"></param>
         /// <param name="iRefresh">是否刷新数据，默认True</param>
-        public void UpdateData(object value, bool iRefresh = true)
+        internal void UpdateData(object value, bool iRefresh = true)
         {
             dataSource = value;
             if (dataSource is IList list)
@@ -470,7 +463,6 @@ namespace Paway.Forms
             }
             PagerInfo.CurrentPageIndex = index;
         }
-
         /// <summary>
         /// 切换至最后页
         /// </summary>

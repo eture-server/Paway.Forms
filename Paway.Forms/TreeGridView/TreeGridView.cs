@@ -87,7 +87,7 @@ namespace Paway.Forms
         /// <summary>
         /// 自动设置节点数据
         /// </summary>
-        protected override void UpdateData(object value)
+        internal override void UpdateData(object value)
         {
             Nodes.Clear();
             if (value == null) return;
