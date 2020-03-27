@@ -82,7 +82,14 @@ namespace Paway.Forms
         /// 设置树形列名称
         /// </summary>
         [Browsable(true), Description("自定义树形显示列")]
+        [DefaultValue(null)]
         public string TextColumn { get; set; }
+        /// <summary>
+        /// 设置树形列根字段值
+        /// </summary>
+        [Browsable(true), Description("自定义树形显示列根字段值")]
+        [DefaultValue(0)]
+        public int Root { get; set; }
 
         /// <summary>
         /// 自动设置节点数据
@@ -112,7 +119,7 @@ namespace Paway.Forms
         private void AutoNodes(Type type, IList list)
         {
             AutoColumns(type);
-            var tempList = list.FindAll(nameof(IParent.ParentId), 0);
+            var tempList = list.FindAll(nameof(IParent.ParentId), Root);
             foreach (var temp in tempList)
             {
                 var node = Nodes.Add(temp.GetValues());

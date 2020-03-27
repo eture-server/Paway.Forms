@@ -967,6 +967,15 @@ namespace Paway.Helper
             button = list.Length > 0 ? list[0] : null;
             return list.Length > 0;
         }
+        /// <summary>
+        /// 系统特性-获取默认值
+        /// </summary>
+        public static object DefaultValue(this MemberInfo pro)
+        {
+            var list = pro.GetCustomAttributes(typeof(DefaultValueAttribute), false) as DefaultValueAttribute[];
+            if (list.Length > 0) return list[0].Value;
+            return Activator.CreateInstance(pro.DeclaringType);
+        }
 
         #endregion
 

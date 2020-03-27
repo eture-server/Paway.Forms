@@ -58,6 +58,7 @@
             this.tControl1.Controls.Add(this.gridview3);
             this.tControl1.Controls.Add(this.tControl3);
             this.tControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tControl1.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.tControl1.Location = new System.Drawing.Point(0, 36);
             this.tControl1.Name = "tControl1";
             this.tControl1.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
@@ -71,19 +72,14 @@
             this.gridview3.ImageList = null;
             this.gridview3.Location = new System.Drawing.Point(0, 0);
             this.gridview3.Name = "gridview3";
-            this.gridview3.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
-            this.gridview3.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
-            this.gridview3.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
-            this.gridview3.RowTemplate.Height = 32;
-            this.gridview3.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.gridview3.Size = new System.Drawing.Size(738, 150);
             this.gridview3.TabIndex = 9;
-            this.gridview3.TextColumn = null;
             // 
             // tControl3
             // 
             this.tControl3.Controls.Add(this.gridview2);
             this.tControl3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tControl3.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.tControl3.Location = new System.Drawing.Point(0, 150);
             this.tControl3.Name = "tControl3";
             this.tControl3.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
@@ -99,13 +95,15 @@
             this.gridview2.Edit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridview2.Edit.Location = new System.Drawing.Point(0, 0);
             this.gridview2.Edit.Name = "gridview1";
+            this.gridview2.Edit.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.gridview2.Edit.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
             this.gridview2.Edit.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
             this.gridview2.Edit.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.gridview2.Edit.RowTemplate.Height = 32;
             this.gridview2.Edit.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridview2.Edit.Size = new System.Drawing.Size(738, 184);
+            this.gridview2.Edit.Size = new System.Drawing.Size(738, 183);
             this.gridview2.Edit.TabIndex = 12;
+            this.gridview2.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.gridview2.Location = new System.Drawing.Point(0, 5);
             this.gridview2.Name = "gridview2";
             this.gridview2.Size = new System.Drawing.Size(738, 214);
@@ -115,7 +113,8 @@
             // 
             this.gridview2.TPager.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(221)))), ((int)(((byte)(238)))));
             this.gridview2.TPager.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.gridview2.TPager.Location = new System.Drawing.Point(0, 184);
+            this.gridview2.TPager.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.gridview2.TPager.Location = new System.Drawing.Point(0, 183);
             this.gridview2.TPager.Name = "pager1";
             this.gridview2.TPager.Size = new System.Drawing.Size(738, 30);
             this.gridview2.TPager.TabIndex = 11;
@@ -124,6 +123,7 @@
             // 
             this.tControl2.Controls.Add(this.gridview1);
             this.tControl2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tControl2.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.tControl2.Location = new System.Drawing.Point(0, 405);
             this.tControl2.Name = "tControl2";
             this.tControl2.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
@@ -146,7 +146,6 @@
             // 
             // FormGridView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.ClientSize = new System.Drawing.Size(743, 572);
             this.Controls.Add(this.tControl1);
             this.Controls.Add(this.tControl2);
