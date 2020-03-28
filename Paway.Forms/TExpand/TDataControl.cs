@@ -552,7 +552,7 @@ namespace Paway.Forms
                     if (gridview1.TPager.ITextFocus) return false;
                     break;
             }
-            var item = toolBar1.Items.FirstOrDefault(c => c.Keys == key);
+            var item = toolBar1.Items.Show.FirstOrDefault(c => c.Keys == key);
             if (item != null)
             {
                 toolBar1.TClickItem(item);

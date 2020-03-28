@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Paway.Forms
@@ -32,6 +33,24 @@ namespace Paway.Forms
                 }
             }
             return result;
+        }
+        /// <summary>
+        /// 获取所有可显示项
+        /// </summary>
+        public List<ToolItem> Show
+        {
+            get
+            {
+                var list = new List<ToolItem>();
+                for (var i = 0; i < Count; i++)
+                {
+                    if (base[i].Visible)
+                    {
+                        list.Add(base[i]);
+                    }
+                }
+                return list;
+            }
         }
 
         #endregion

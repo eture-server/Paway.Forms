@@ -733,11 +733,12 @@ namespace Paway.Forms
             if (ItemDoubleClick == null) return;
             MouseEventArgs me = (MouseEventArgs)e;
             var point = Replace(me.Location);
-            for (int i = 0; i < Items.Count; i++)
+            var items = Items.Show;
+            for (int i = 0; i < items.Count; i++)
             {
-                if (Items[i].Rectangle.Contains(point))
+                if (items[i].Rectangle.Contains(point))
                 {
-                    ItemDoubleClick.Invoke(Items[i], point);
+                    ItemDoubleClick.Invoke(items[i], point);
                     break;
                 }
             }
@@ -771,9 +772,10 @@ namespace Paway.Forms
             //{
             //    DrawItem(g, Items[i]);
             //});
-            for (var i = 0; i < Items.Count; i++)
+            var items = Items.Show;
+            for (var i = 0; i < items.Count; i++)
             {
-                DrawItem(g, Items[i]);
+                DrawItem(g, items[i]);
             }
             if (_iAdd)
             {
@@ -792,26 +794,28 @@ namespace Paway.Forms
             TCountLine = 0;
             THeardLength = 0;
             var lastWidth = 0;
-            for (var i = 0; i < Items.Count; i++)
+            var items = Items.Show;
+            for (var i = 0; i < items.Count; i++)
             {
-                CalcItem(Items[i], ref xPos, ref yPos, ref lastWidth, i == 0);
+                CalcItem(items[i], ref xPos, ref yPos, ref lastWidth, i == 0);
             }
         }
 
         private void AddItem(Graphics g)
         {
-            var count = Items.Count - 1;
-            var xPos = Items[count].Rectangle.X;
-            var yPos = Items[count].Rectangle.Y;
+            var items = Items.Show;
+            var count = items.Count - 1;
+            var xPos = items[count].Rectangle.X;
+            var yPos = items[count].Rectangle.Y;
             var lastWidth = 0;
-            CalcItem(Items[count], ref xPos, ref yPos, ref lastWidth, false, true);
+            CalcItem(items[count], ref xPos, ref yPos, ref lastWidth, false, true);
             count = 0;
             //多行/列补充Item
             if (TCountColumn > 1 && TCountLine > 1)
             {
                 count = TCountColumn > TCountLine ? TCountColumn : TCountLine;
-                if (Items.Count % count == 0) count = 0;
-                else count -= Items.Count % count;
+                if (items.Count % count == 0) count = 0;
+                else count -= items.Count % count;
             }
             //填充空Item
             for (var i = 0; i < count; i++)
@@ -1436,8 +1440,10 @@ namespace Paway.Forms
             point.X -= Offset.X;
             point.Y -= Offset.Y;
             var flag = true;
-            foreach (var item in Items)
+            var items = Items.Show;
+            for (int i = 0; i < items.Count; i++)
             {
+                var item = items[i];
                 if (item.Rectangle.Contains(point))
                 {
                     MoveItem = item;
@@ -1485,8 +1491,10 @@ namespace Paway.Forms
             if (INormal || DesignMode) return;
 
             MoveItem = null;
-            foreach (var item in Items)
+            var items = Items.Show;
+            for (int i = 0; i < items.Count; i++)
             {
+                var item = items[i];
                 if ((_iClickEvent && !_iMultiple) || item.MouseState != TMouseState.Down)
                 {
                     InvalidateItem(item, TMouseState.Normal);
@@ -1518,9 +1526,10 @@ namespace Paway.Forms
             point.Y -= Offset.Y;
             var contain = Contain(point) && !ContainDesc(point);
 
-            for (var i = 0; i < Items.Count; i++)
+            var items = Items.Show;
+            for (var i = 0; i < items.Count; i++)
             {
-                var item = Items[i];
+                var item = items[i];
                 if (item.Rectangle.Contains(point))
                 {
                     OnMouseDown(point, item);
@@ -1583,9 +1592,10 @@ namespace Paway.Forms
             var point = e.Location;
             point.X -= Offset.X;
             point.Y -= Offset.Y;
-            for (var i = 0; i < Items.Count; i++)
+            var items = Items.Show;
+            for (var i = 0; i < items.Count; i++)
             {
-                var item = Items[i];
+                var item = items[i];
                 if (item.Rectangle.Contains(point))
                 {
                     OnMouseUp(point, item, e);
@@ -1650,18 +1660,19 @@ namespace Paway.Forms
                 Items[e.NewIndex].Owner = this;
             }
             if (iSuspend || !ILoad) return;
-            if (Items.Count > 1 && e.ListChangedType == ListChangedType.ItemAdded && e.NewIndex == Items.Count - 1)
+            var items = Items.Show;
+            if (items.Count > 1 && e.ListChangedType == ListChangedType.ItemAdded && e.NewIndex == Items.Count - 1)
             {
-                var index = Items.Count - 2;
-                var xPos = Items[index].Rectangle.X;
-                var yPos = Items[index].Rectangle.Y;
+                var index = items.Count - 2;
+                var xPos = items[index].Rectangle.X;
+                var yPos = items[index].Rectangle.Y;
                 var lastWidth = 0;
-                CalcItem(Items[index], ref xPos, ref yPos, ref lastWidth, true, true);
-                CalcItem(Items[index + 1], ref xPos, ref yPos, ref lastWidth);
+                CalcItem(items[index], ref xPos, ref yPos, ref lastWidth, true, true);
+                CalcItem(items[index + 1], ref xPos, ref yPos, ref lastWidth);
 
                 UpdateScroll();
                 TEnd();
-                Invalidate(Items[index + 1]);
+                Invalidate(items[index + 1]);
             }
             else
             {
@@ -1687,11 +1698,12 @@ namespace Paway.Forms
         public List<ToolItem> TSelectedItems()
         {
             var list = new List<ToolItem>();
-            for (var i = 0; i < _items.Count; i++)
+            var items = Items.Show;
+            for (var i = 0; i < items.Count; i++)
             {
-                if (_items[i].MouseState == TMouseState.Down)
+                if (items[i].MouseState == TMouseState.Down)
                 {
-                    list.Add(_items[i]);
+                    list.Add(items[i]);
                 }
             }
             return list;
@@ -1705,9 +1717,10 @@ namespace Paway.Forms
         public override bool Contain(Point point)
         {
             if (INormal) return false;
-            for (var i = 0; i < Items.Count; i++)
+            var items = Items.Show;
+            for (var i = 0; i < items.Count; i++)
             {
-                if (Items[i].Rectangle.Contains(point))
+                if (items[i].Rectangle.Contains(point))
                 {
                     return true;
                 }
@@ -1722,9 +1735,10 @@ namespace Paway.Forms
         /// <returns></returns>
         public bool ContainDesc(Point point)
         {
-            for (var i = 0; i < Items.Count; i++)
+            var items = Items.Show;
+            for (var i = 0; i < items.Count; i++)
             {
-                if (Items[i].RectDesc.Contains(point))
+                if (items[i].RectDesc.Contains(point))
                 {
                     return true;
                 }
@@ -1752,7 +1766,7 @@ namespace Paway.Forms
         /// </summary>
         public bool TClickItem(string text)
         {
-            var item = FindItem(text);
+            var item = this.Items.Show.FirstOrDefault(c => c.First == text || c.Tag.ToStrs() == text);
             if (item != null) TClickItem(item);
             return item != null;
         }
@@ -1769,9 +1783,9 @@ namespace Paway.Forms
         public void TClickClear()
         {
             _selectedItem = null;
-            for (var i = 0; i < _items.Count; i++)
+            for (var i = 0; i < Items.Count; i++)
             {
-                InvalidateItem(_items[i], TMouseState.Normal);
+                InvalidateItem(Items[i], TMouseState.Normal);
             }
         }
         /// <summary>
@@ -1779,15 +1793,16 @@ namespace Paway.Forms
         /// </summary>
         public void TClickItem(int index)
         {
-            if (_items.Count <= index) return;
-            TClickItem(_items[index]);
+            var items = Items.Show;
+            if (items.Count <= index) return;
+            TClickItem(items[index]);
         }
         /// <summary>
         /// 单击项
         /// </summary>
         public void TClickItem(ToolItem item)
         {
-            if (_items.Count == 0 || item == null) return;
+            if (Items.Count == 0 || item == null || !item.Visible) return;
             if (!_iMultiple)
             {
                 TClickClear();
@@ -1886,8 +1901,9 @@ namespace Paway.Forms
         /// <param name="index"></param>
         public void TRefresh(int index)
         {
-            if (index < 0 || index > Items.Count - 1) return;
-            TRefresh(Items[index]);
+            var items = Items.Show;
+            if (index < 0 || index > items.Count - 1) return;
+            TRefresh(items[index]);
         }
         /// <summary>
         /// 刷新项
@@ -2134,24 +2150,27 @@ namespace Paway.Forms
                     var width = ItemSize.Width;
                     if (width == 0)
                     {
+                        var items = Items.Show;
                         if (e.Delta < 0)
                         {
-                            for (int i = 0; i < Items.Count; i++)
+                            for (int i = 0; i < items.Count; i++)
                             {
-                                if (Items[i].Rectangle.Left >= _vScroll2.Value)
+                                var item = items[i];
+                                if (item.Rectangle.Left >= _vScroll2.Value)
                                 {
-                                    width = Items[i].Rectangle.Width;
+                                    width = item.Rectangle.Width;
                                     break;
                                 }
                             }
                         }
                         else
                         {
-                            for (int i = Items.Count - 1; i >= 0; i--)
+                            for (int i = items.Count - 1; i >= 0; i--)
                             {
-                                if (Items[i].Rectangle.Left <= _vScroll2.Value)
+                                var item = items[i];
+                                if (item.Rectangle.Left <= _vScroll2.Value)
                                 {
-                                    width = Items[i].Rectangle.Width;
+                                    width = item.Rectangle.Width;
                                     break;
                                 }
                             }
@@ -2352,7 +2371,8 @@ namespace Paway.Forms
         /// <returns></returns>
         private int GetWidth()
         {
-            if (TCountLine == 1 && Items.Count > 0) return Items[Items.Count - 1].Rectangle.Right;
+            var items = Items.Show;
+            if (TCountLine == 1 && items.Count > 0) return items[items.Count - 1].Rectangle.Right;
             var width = Padding.Left + Padding.Right;
             width += TCountColumn * ItemSize.Width;
             width += (TCountColumn - 1) * ItemSpace;

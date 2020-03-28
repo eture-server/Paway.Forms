@@ -298,6 +298,22 @@ namespace Paway.Forms
             }
         }
 
+        private bool _visible = true;
+        /// <summary>
+        /// Item 当前显示状态
+        /// </summary>
+        [Description("Item 当前显示状态")]
+        [DefaultValue(true)]
+        public bool Visible
+        {
+            get { return _visible; }
+            set
+            {
+                _visible = value;
+                TRefresh();
+            }
+        }
+
         /// <summary>
         /// Item 当前选中状态
         /// </summary>
