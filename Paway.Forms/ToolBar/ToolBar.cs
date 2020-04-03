@@ -1927,7 +1927,7 @@ namespace Paway.Forms
         /// </summary>
         public void TRefresh()
         {
-            if (_vScroll == null) return;
+            if (_vScroll == null || iSuspend) return;
             _vScroll.Visible = false;
             _hScroll.Visible = false;
             _vScroll2.Visible = false;

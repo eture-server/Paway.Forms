@@ -171,6 +171,7 @@ namespace Paway.Forms
             get { return _text; }
             set
             {
+                if (_text == value) return;
                 _text = value;
                 First = null;
                 Sencond = null;
@@ -203,8 +204,11 @@ namespace Paway.Forms
             get { return _desc; }
             set
             {
-                _desc = value;
-                TRefresh();
+                if (_desc != value)
+                {
+                    _desc = value;
+                    TRefresh();
+                }
             }
         }
         /// <summary>
@@ -224,8 +228,11 @@ namespace Paway.Forms
             get { return _headDesc; }
             set
             {
-                _headDesc = value;
-                TRefresh();
+                if (_headDesc != value)
+                {
+                    _headDesc = value;
+                    TRefresh();
+                }
             }
         }
 
@@ -246,8 +253,11 @@ namespace Paway.Forms
             get { return _endDesc; }
             set
             {
-                _endDesc = value;
-                TRefresh();
+                if (_endDesc != value)
+                {
+                    _endDesc = value;
+                    TRefresh();
+                }
             }
         }
 
@@ -293,8 +303,11 @@ namespace Paway.Forms
             get { return _enable; }
             set
             {
-                _enable = value;
-                TRefresh();
+                if (_enable != value)
+                {
+                    _enable = value;
+                    TRefresh();
+                }
             }
         }
 
@@ -309,8 +322,11 @@ namespace Paway.Forms
             get { return _visible; }
             set
             {
-                _visible = value;
-                TRefresh();
+                if (_visible != value)
+                {
+                    _visible = value;
+                    this.Owner?.TRefresh();
+                }
             }
         }
 
@@ -340,8 +356,11 @@ namespace Paway.Forms
             get { return _tRadiu; }
             set
             {
-                _tRadiu = value;
-                TRefresh();
+                if (_tRadiu != value)
+                {
+                    _tRadiu = value;
+                    TRefresh();
+                }
             }
         }
 
@@ -356,8 +375,11 @@ namespace Paway.Forms
             get { return _iHeard; }
             set
             {
-                _iHeard = value;
-                TRefresh();
+                if (_iHeard != value)
+                {
+                    _iHeard = value;
+                    TRefresh();
+                }
             }
         }
 
@@ -375,8 +397,11 @@ namespace Paway.Forms
             get { return _textPading; }
             set
             {
-                _textPading = value;
-                TRefresh();
+                if (_textPading != value)
+                {
+                    _textPading = value;
+                    TRefresh();
+                }
             }
         }
 
@@ -443,8 +468,7 @@ namespace Paway.Forms
         /// </summary>
         private void TRefresh()
         {
-            if (this.Owner != null)
-                this.Owner.TRefresh(this);
+            this.Owner?.TRefresh(this);
         }
         /// <summary>
         /// </summary>

@@ -50,7 +50,7 @@ namespace Paway.Helper
             }
             set
             {
-                if (value == null) return;
+                if (value == null || _fNormal == value) return;
                 _fNormal = value;
                 if (_fMove.Name == "微软雅黑" && _fMove.Size == 12f && _fMove.Style == FontStyle.Regular &&
                     _fMove.Unit == GraphicsUnit.Point && _fMove.GdiCharSet == 1)
@@ -80,8 +80,11 @@ namespace Paway.Helper
             }
             set
             {
-                _fMove = value;
-                OnValueChange();
+                if (_fMove != value)
+                {
+                    _fMove = value;
+                    OnValueChange();
+                }
             }
         }
 
@@ -99,8 +102,11 @@ namespace Paway.Helper
             }
             set
             {
-                _fDown = value;
-                OnValueChange();
+                if (_fDown != value)
+                {
+                    _fDown = value;
+                    OnValueChange();
+                }
             }
         }
 
@@ -114,6 +120,7 @@ namespace Paway.Helper
             get { return _cNormal; }
             set
             {
+                if (_cNormal == value) return;
                 _cNormal = value;
                 if (value != Color.Empty)
                 {
@@ -142,8 +149,11 @@ namespace Paway.Helper
             get { return _cMove; }
             set
             {
-                _cMove = value;
-                OnValueChange();
+                if (_cMove != value)
+                {
+                    _cMove = value;
+                    OnValueChange();
+                }
             }
         }
 
@@ -157,8 +167,11 @@ namespace Paway.Helper
             get { return _cDown; }
             set
             {
-                _cDown = value;
-                OnValueChange();
+                if (_cDown != value)
+                {
+                    _cDown = value;
+                    OnValueChange();
+                }
             }
         }
 
@@ -172,9 +185,12 @@ namespace Paway.Helper
             get { return _stringVertical; }
             set
             {
-                _stringVertical = value;
-                StringFormat.LineAlignment = value;
-                OnValueChange();
+                if (_stringVertical != value)
+                {
+                    _stringVertical = value;
+                    StringFormat.LineAlignment = value;
+                    OnValueChange();
+                }
             }
         }
 
@@ -188,9 +204,12 @@ namespace Paway.Helper
             get { return _stringHorizontal; }
             set
             {
-                _stringHorizontal = value;
-                StringFormat.Alignment = value;
-                OnValueChange();
+                if (_stringHorizontal != value)
+                {
+                    _stringHorizontal = value;
+                    StringFormat.Alignment = value;
+                    OnValueChange();
+                }
             }
         }
 
