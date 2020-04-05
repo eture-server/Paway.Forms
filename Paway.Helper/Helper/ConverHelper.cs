@@ -45,6 +45,22 @@ namespace Paway.Helper
             return value;
         }
         /// <summary>
+        /// 获取枚举默认值(非枚举值)
+        /// </summary>
+        public static object DefaultValue(this Enum e)
+        {
+            if (e == null) return string.Empty;
+            var value = e.ToString();
+            foreach (var field in e.GetType().GetFields(TConfig.Flags))
+            {
+                if (value == field.Name)
+                {
+                    return field.DefaultValue() ?? value;
+                }
+            }
+            return value;
+        }
+        /// <summary>
         /// 获取字段描述
         /// </summary>
         public static string Description(this MemberInfo type)
