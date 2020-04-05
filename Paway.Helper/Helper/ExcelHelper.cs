@@ -229,7 +229,7 @@ namespace Paway.Helper
         /// <param name="sign">生成完成后处理(签名)</param>
         /// <param name="args">设置列宽</param>
         public static void ToExcel<T>(List<T> list, string title, string fileName, bool heard = true,
-            short titleHeight = 42, short heardHeight = 20, short lineHeight = 16,
+            short titleHeight = 42, short heardHeight = 20, short lineHeight = 19,
             Action<IWorkbook, ICellStyle, ICellStyle, ICellStyle, ICellStyle> style = null,
             Func<List<T>, ISheet, int> heardAction = null,
             Func<T, IWorkbook, Tuple<ICellStyle, ICellStyle>> lineStyle = null,
