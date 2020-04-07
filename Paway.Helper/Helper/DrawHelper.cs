@@ -23,6 +23,16 @@ namespace Paway.Helper
         /// <summary>
         /// 字符串垂直居中对齐
         /// </summary>
+        public static StringFormat Center
+        {
+            get
+            {
+                return StringFormat();
+            }
+        }
+        /// <summary>
+        /// 字符串垂直居中对齐
+        /// </summary>
         public static StringFormat VerticalCenter
         {
             get
@@ -44,7 +54,7 @@ namespace Paway.Helper
         }
 
         /// <summary>
-        /// 文本垂直结尾省略
+        /// 文本垂直居中对齐(结尾省略)
         /// </summary>
         public static TextFormatFlags TextVerticalCenter
         {
@@ -54,7 +64,7 @@ namespace Paway.Helper
             }
         }
         /// <summary>
-        /// 文本水平垂直
+        /// 文本水平垂直居中对齐(结尾省略)
         /// </summary>
         public static TextFormatFlags TextCenter
         {

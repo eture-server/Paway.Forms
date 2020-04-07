@@ -175,7 +175,7 @@ namespace Paway.Forms
                     }
                 }
                 column.Visible = visible;
-                column.HeaderText = property.TextName();
+                column.HeaderText = property.Text();
                 column.Name = property.Name;
                 Columns.Add(column);
             }

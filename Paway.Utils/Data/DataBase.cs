@@ -1027,7 +1027,7 @@ namespace Paway.Utils
         /// </summary>
         public static string Select(this Type type, string find = null, int count = 0, params string[] args)
         {
-            var tableName = type.TableName();
+            var tableName = type.Table();
             var sql = type.Select(count, args);
             sql = string.Format("{0} from [{1}]", sql, tableName);
             if (find != null)
@@ -1049,11 +1049,11 @@ namespace Paway.Utils
                 if ((selectType & SelectType.Find) == SelectType.Find)
                 {
                     if (args.Length == 0 && (selectType & SelectType.ManualFind) == SelectType.ManualFind) continue;
-                    var column = property.ColumnName();
+                    var column = property.Column();
                     if (args.Length > 0 &&
                         args.FirstOrDefault(c => c == column) == null &&
                         args.FirstOrDefault(c => c == property.Name) == null) continue;
-                    column = property.ColumnName(true);
+                    column = property.Column(true);
                     sql = string.Format("{0} {1},", sql, column);
                 }
             }
@@ -1070,7 +1070,7 @@ namespace Paway.Utils
         /// </summary>
         public static string Delete(this Type type)
         {
-            var sql = string.Format("delete from [{0}] where [{1}]=@{1}", type.TableName(), type.TableKeys());
+            var sql = string.Format("delete from [{0}] where [{1}]=@{1}", type.Table(), type.TableKeys());
             return sql;
         }
         /// <summary>
@@ -1079,7 +1079,7 @@ namespace Paway.Utils
         /// </summary>
         public static string Delete(this Type type, string find)
         {
-            var sql = string.Format("delete from [{0}]", type.TableName());
+            var sql = string.Format("delete from [{0}]", type.Table());
             if (!find.IsNullOrEmpty())
             {
                 sql = string.Format("{0} where {1}", sql, find);
@@ -1097,14 +1097,14 @@ namespace Paway.Utils
         {
             var tableKey = type.TableKeys();
             var sql = "update [{0}] set";
-            sql = string.Format(sql, type.TableName());
+            sql = string.Format(sql, type.Table());
             foreach (var property in type.PropertiesValue())
             {
                 var selectType = property.ISelect();
                 if ((selectType & SelectType.Update) == SelectType.Update)
                 {
                     if (args.Length == 0 && (selectType & SelectType.ManualUpdate) == SelectType.ManualUpdate) continue;
-                    var column = property.ColumnName();
+                    var column = property.Column();
                     if (column == tableKey) continue;
                     if (args.Length > 0 &&
                         args.FirstOrDefault(c => c == column) == null &&
@@ -1125,7 +1125,7 @@ namespace Paway.Utils
         /// </summary>
         public static string Insert(this Type type, string getId)
         {
-            var tableName = type.TableName();
+            var tableName = type.Table();
             type.Insert(type.TableKey(), out string insert, out string value);
             var sql = string.Format("insert into [{0}]({1}) values({2})", tableName, insert, value);
             sql = string.Format("{0};{1}", sql, getId);
@@ -1141,7 +1141,7 @@ namespace Paway.Utils
                 if ((selectType & SelectType.Insert) == SelectType.Insert)
                 {
                     if (args.Length == 0 && (selectType & SelectType.ManualInsert) == SelectType.ManualInsert) continue;
-                    var column = property.ColumnName();
+                    var column = property.Column();
                     if (column == key) continue;
                     if (args.Length > 0 &&
                         args.FirstOrDefault(c => c == column) == null &&

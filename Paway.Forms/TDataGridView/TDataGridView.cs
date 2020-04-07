@@ -450,7 +450,7 @@ namespace Paway.Forms
                     Columns.Insert(i, column);
                 }
                 column.Visible = property.IShow();
-                column.HeaderText = property.TextName();
+                column.HeaderText = property.Text();
             }
         }
         /// <summary>

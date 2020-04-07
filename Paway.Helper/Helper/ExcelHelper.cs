@@ -276,7 +276,7 @@ namespace Paway.Helper
                         var index = row.LastCellNum < 0 ? 0 : row.LastCellNum;
                         var cell = row.CreateCell(index);
                         cell.CellStyle = heardStyle;
-                        cell.SetCellValue(property.TextName());
+                        cell.SetCellValue(property.Text());
                         sheet.SetColumnWidth(index, 20 * 256);
                     }
                 }

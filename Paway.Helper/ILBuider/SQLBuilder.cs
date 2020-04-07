@@ -49,7 +49,7 @@ namespace Paway.Helper
             foreach (var property in type.PropertiesValue())
             {
                 if (property.ISelect() == SelectType.None) continue;
-                var column = property.ColumnName();
+                var column = property.Column();
                 if (args.Length > 0 && key != column &&
                     args.FirstOrDefault(c => c == column) == null &&
                     args.FirstOrDefault(c => c == property.Name) == null) continue;

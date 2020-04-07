@@ -44,7 +44,7 @@ namespace Paway.Helper
                     generator.Emit(OpCodes.Brfalse, endIfLabel);
                 }
                 generator.Emit(OpCodes.Ldarg_1);
-                generator.Emit(OpCodes.Ldstr, property.ColumnName());
+                generator.Emit(OpCodes.Ldstr, property.Column());
 
                 generator.GetValue(property, type);//获取引用值
                 generator.Emit(OpCodes.Callvirt, setValueMethod);

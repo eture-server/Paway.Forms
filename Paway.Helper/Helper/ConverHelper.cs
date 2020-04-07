@@ -643,7 +643,7 @@ namespace Paway.Helper
             var property = properties.Find(c => c.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
             if (property == null)
             {
-                property = properties.Find(c => c.ColumnName().Equals(name, StringComparison.OrdinalIgnoreCase));
+                property = properties.Find(c => c.Column().Equals(name, StringComparison.OrdinalIgnoreCase));
             }
             return property;
         }
@@ -680,7 +680,7 @@ namespace Paway.Helper
                 Type dbType = property.PropertyType;
                 if (dbType.IsGenericType) dbType = Nullable.GetUnderlyingType(dbType);
                 if (sql && (dbType == typeof(Image) || dbType == typeof(Bitmap))) dbType = typeof(byte[]);
-                table.Columns.Add(property.ColumnName(), dbType);
+                table.Columns.Add(property.Column(), dbType);
             }
             return table;
         }
@@ -812,7 +812,7 @@ namespace Paway.Helper
         /// <summary>
         /// 获取表名
         /// </summary>
-        public static string TableName(this Type type)
+        public static string Table(this Type type)
         {
             var list = type.GetCustomAttributes(typeof(TableAttribute), false) as TableAttribute[];
             if (list.Length == 1 && list[0].Name != null)
@@ -833,15 +833,15 @@ namespace Paway.Helper
             var properties = type.PropertiesCache();
             foreach (var property in properties)
             {
-                if (property.IKey()) return property.ColumnName();
+                if (property.IKey()) return property.Column();
             }
             foreach (var property in properties)
             {
-                if (property.IMark()) return property.ColumnName();
+                if (property.IMark()) return property.Column();
             }
             foreach (var property in properties)
             {
-                var name = property.ColumnName();
+                var name = property.Column();
                 if (name.Equals(nameof(IId.Id), StringComparison.OrdinalIgnoreCase)) return name;
             }
             throw new ArgumentException("No primary key.");
@@ -858,7 +858,7 @@ namespace Paway.Helper
             var properties = type.PropertiesCache();
             foreach (var property in properties)
             {
-                if (property.IKey()) return property.ColumnName();
+                if (property.IKey()) return property.Column();
             }
             foreach (var property in properties)
             {
@@ -866,7 +866,7 @@ namespace Paway.Helper
             }
             foreach (var property in properties)
             {
-                var name = property.ColumnName();
+                var name = property.Column();
                 if (name.Equals(nameof(IId.Id), StringComparison.OrdinalIgnoreCase)) return name;
             }
             return null;
@@ -883,7 +883,7 @@ namespace Paway.Helper
         /// 自定义特性-数据库列名称
         /// 兼容视图多表查询、自定义列名
         /// </summary>
-        public static string ColumnName(this MemberInfo pro, bool sql = false)
+        public static string Column(this MemberInfo pro, bool sql = false)
         {
             var list = pro.GetCustomAttributes(typeof(ColumnAttribute), false) as ColumnAttribute[];
             var column = pro.Name;
@@ -906,9 +906,9 @@ namespace Paway.Helper
             return column;
         }
         /// <summary>
-        /// 自定义特性-文本名称
+        /// 自定义特性-文本
         /// </summary>
-        public static string TextName(this MemberInfo pro)
+        public static string Text(this MemberInfo pro)
         {
             var list = pro.GetCustomAttributes(typeof(TextAttribute), false) as TextAttribute[];
             if (list.Length == 1 && list[0].Name != null)
