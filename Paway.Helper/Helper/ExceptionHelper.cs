@@ -24,6 +24,10 @@ namespace Paway.Helper
         /// 主标题
         /// </summary>
         public static string Text { get; private set; }
+        /// <summary>
+        /// 错误记录外部弹框事件
+        /// </summary>
+        public static event Action<string> ErrorLogEvent;
 
         /// <summary>
         /// 记录日志
@@ -149,6 +153,11 @@ namespace Paway.Helper
         }
         private static void Show(Control obj, string title, string msg, MessageBoxIcon icon)
         {
+            if (icon == MessageBoxIcon.Error && ErrorLogEvent != null)
+            {
+                ErrorLogEvent.Invoke(msg);
+                return;
+            }
             if (obj == null || !obj.Visible || obj.IsDisposed)
                 MessageBox.Show(msg, title, MessageBoxButtons.OK, icon);
             else
