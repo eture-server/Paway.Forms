@@ -278,14 +278,15 @@ namespace Paway.Helper
         /// </summary>
         public static Bitmap GetBitmapFormFile(string fileName, PixelFormat format = PixelFormat.Format32bppArgb)
         {
-            var bitmap = new Bitmap(fileName);
-            var image = new Bitmap(bitmap.Width, bitmap.Height, format);
-            using (var graphics = Graphics.FromImage(image))
+            var image = new Bitmap(fileName);
+            var temp = new Bitmap(image.Width, image.Height, format);
+            temp.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+            using (var graphics = Graphics.FromImage(temp))
             {
-                graphics.DrawImage(bitmap, 0, 0, bitmap.Width, bitmap.Height);
+                graphics.DrawImage(image, 0, 0, image.Width, image.Height);
             }
-            bitmap.Dispose();
-            return image;
+            image.Dispose();
+            return temp;
         }
 
         /// <summary>
@@ -294,6 +295,7 @@ namespace Paway.Helper
         public static Bitmap CutBitmap(Image image, Rectangle rect)
         {
             var temp = new Bitmap(rect.Width, rect.Height, PixelFormat.Format32bppArgb);
+            temp.SetResolution(image.HorizontalResolution, image.VerticalResolution);
             using (var graphics = Graphics.FromImage(temp))
             {
                 graphics.DrawImage(image, new Rectangle(Point.Empty, rect.Size), rect, GraphicsUnit.Pixel);
@@ -329,12 +331,13 @@ namespace Paway.Helper
                 int height = image.Height * size.Width / image.Width;
                 rect = new Rectangle(0, (size.Height - height) / 2, size.Width, height);
             }
-            Image temp = new Bitmap(size.Width, size.Height);
+            var temp = new Bitmap(size.Width, size.Height);
             if (!fixedSize)
             {
                 temp = new Bitmap(rect.Width, rect.Height);
                 rect = new Rectangle(Point.Empty, temp.Size);
             }
+            temp.SetResolution(image.HorizontalResolution, image.VerticalResolution);
             using (var g = Graphics.FromImage(temp))
             {
                 g.InterpolationMode = mode;
