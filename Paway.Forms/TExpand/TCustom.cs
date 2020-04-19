@@ -42,7 +42,7 @@ namespace Paway.Forms
             this.Location = new Point(TextBox.Location.X + 1, TextBox.Location.Y + TextBox.Height - 2);
             this.Width = TextBox.Width - 2;
         }
-        internal virtual void Gridview1_RefreshChanged()
+        internal virtual void Gridview1_RefreshChanged(TDataGridView gridview1)
         {
             RefreshChanged?.Invoke(gridview1);
         }

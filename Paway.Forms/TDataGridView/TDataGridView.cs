@@ -82,7 +82,7 @@ namespace Paway.Forms
         /// <summary>
         /// 数据刷新后触发
         /// </summary>
-        public event Action RefreshChanged;
+        public event Action<TDataGridView> RefreshChanged;
         /// <summary>
         /// CheckBox选中事件
         /// </summary>
@@ -94,7 +94,7 @@ namespace Paway.Forms
         /// <summary>
         /// 行双击事件
         /// </summary>
-        public event Action<int> RowDoubleClick;
+        public event Action<TDataGridView, int> RowDoubleClick;
         /// <summary>
         /// 按钮点击事件
         /// </summary>
@@ -474,7 +474,7 @@ namespace Paway.Forms
         /// </summary>
         internal void OnRefreshChanged()
         {
-            RefreshChanged?.Invoke();
+            RefreshChanged?.Invoke(this);
         }
         /// <summary>
         /// 添加行
@@ -625,7 +625,7 @@ namespace Paway.Forms
                         var property = type.Property(Columns[hit.ColumnIndex].Name);
                         if (property?.IButton(out _) == true) return;
                     }
-                    RowDoubleClick?.Invoke(hit.RowIndex);
+                    RowDoubleClick?.Invoke(this, hit.RowIndex);
                 }
             }
         }

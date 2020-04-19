@@ -666,7 +666,7 @@ namespace Paway.Forms
                 }
             }
         }
-        private void Gridview1_RefreshChanged()
+        private void Gridview1_RefreshChanged(TDataGridView gridview1)
         {
             try
             {
@@ -680,7 +680,7 @@ namespace Paway.Forms
         /// <summary>
         /// 双击触发编辑方法
         /// </summary>
-        private void Gridview1_RowDoubleClick(int rowIndex)
+        private void Gridview1_RowDoubleClick(TDataGridView gridView, int rowIndex)
         {
             if (OnRowDoubleClick(rowIndex)) return;
             toolBar1.TClickItem("编辑");

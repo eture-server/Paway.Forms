@@ -60,7 +60,7 @@ namespace Paway.Forms
                 InitData(list);
             }
         }
-        internal override void Gridview1_RefreshChanged()
+        internal override void Gridview1_RefreshChanged(TDataGridView gridview1)
         {
             gridview1.GetColumn(nameof(IMultiple.Image)).Width = 42;
         }

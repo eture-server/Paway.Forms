@@ -125,16 +125,16 @@ namespace Paway.Helper
                 title = Text;
                 if (title.IsNullOrEmpty() && obj != null && !obj.IsDisposed) title = obj.Text;
                 if (sync)
-                    new Action<Control, string, string, LeveType>(Show).BeginInvoke(obj, title, msg, type, null, null);
+                    new Action<Control, string, string, LeveType, bool>(Show).BeginInvoke(obj, title, msg, type, ex is Exception, null, null);
                 else
-                    Show(obj, title, msg, type);
+                    Show(obj, title, msg, type, ex is Exception);
             }
             finally
             {
                 Application.DoEvents();
             }
         }
-        private static void Show(Control obj, string title, string msg, LeveType type)
+        private static void Show(Control obj, string title, string msg, LeveType type, bool iError)
         {
             MessageBoxIcon icon = MessageBoxIcon.Information;
             switch (type)
@@ -144,16 +144,16 @@ namespace Paway.Helper
             }
             if (obj == null || !obj.Visible || obj.IsDisposed)
             {
-                Show(null, title, msg, icon);
+                Show(null, title, msg, icon, iError);
             }
             else
             {
-                obj.Invoke(new Action<Control, string, string, MessageBoxIcon>(Show), new object[] { obj, title, msg, icon });
+                obj.Invoke(new Action<Control, string, string, MessageBoxIcon, bool>(Show), new object[] { obj, title, msg, icon, iError });
             }
         }
-        private static void Show(Control obj, string title, string msg, MessageBoxIcon icon)
+        private static void Show(Control obj, string title, string msg, MessageBoxIcon icon, bool iError)
         {
-            if (icon == MessageBoxIcon.Error && ErrorLogEvent != null)
+            if (icon == MessageBoxIcon.Error && iError && ErrorLogEvent != null)
             {
                 ErrorLogEvent.Invoke(msg);
                 return;
