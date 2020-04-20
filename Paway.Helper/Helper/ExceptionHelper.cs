@@ -36,7 +36,7 @@ namespace Paway.Helper
         {
             if (ex is Exception exc)
             {
-                if (exc is WarningException) log.Warn(exc.Message());
+                if (exc.InnerException() is WarningException) log.Warn(exc.Message());
                 else if (title != null) log.Error(title, exc);
                 else log.Error(exc);
             }
@@ -113,7 +113,7 @@ namespace Paway.Helper
                 if (!title.IsNullOrEmpty())
                     msg = string.Format("{0}\r\n{1}", title, msg);
                 if (type == LeveType.None)
-                    type = ex is WarningException ? LeveType.Warn : LeveType.Error;
+                    type = exc.InnerException() is WarningException ? LeveType.Warn : LeveType.Error;
             }
             else if (type == LeveType.None)
             {

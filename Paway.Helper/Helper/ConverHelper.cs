@@ -160,6 +160,17 @@ namespace Paway.Helper
             }
             return string.Join("\r\n", list.ToArray());
         }
+        /// <summary>
+        /// 获取内部异常
+        /// </summary>
+        public static Exception InnerException(this Exception ex)
+        {
+            while (ex.InnerException != null)
+            {
+                ex = ex.InnerException;
+            }
+            return ex;
+        }
 
         #endregion
 

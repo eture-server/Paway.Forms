@@ -3,7 +3,6 @@
 Thumbs.db
 #Ignore files built by Visual Studio
 *.obj
-*.exe
 *.pdb
 *.user
 *.aps
@@ -30,5 +29,5 @@ _ReSharper*/
 .vs/
 #Nuget packages folder
 packages/
-*.cs
+AssemblyVersion.cs
 /sh.exe.stackdump

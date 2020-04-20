@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("Paway.Core")]
 [assembly: AssemblyDescription("")]
-//[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Tinn")]
 [assembly: AssemblyProduct("Paway.Core")]
 [assembly: AssemblyCopyright("Copyright ©  2019 Tinn&a")]

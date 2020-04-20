@@ -1,1 +1,0 @@
-SubWCRev .\ AssemblyVersion.tpl AssemblyVersion.cs

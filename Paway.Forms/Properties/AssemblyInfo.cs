@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Tinn")]
 [assembly: AssemblyDescription("欢迎分享使用,联系QQ9030140")]
+[assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Tinn&a")]
 [assembly: AssemblyProduct("Paway.Forms")]
 [assembly: AssemblyCopyright("Copyright ©  2014 Tinn&a")]

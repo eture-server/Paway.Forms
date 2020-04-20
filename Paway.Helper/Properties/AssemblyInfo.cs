@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Paway.Helper")]
 [assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Tinn")]
 [assembly: AssemblyProduct("Paway.Helper")]
 [assembly: AssemblyCopyright("Copyright ©  2014 Tinn&a")]
