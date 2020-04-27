@@ -18,12 +18,11 @@ namespace Paway.Forms
         /// <summary>
         /// 当控件数据更新时发生
         /// </summary>
-        public event EventHandler ChangeEvent;
+        public static event EventHandler ChangeEvent;
 
         #endregion
 
         #region 字段与属性
-        private Delegate method;
         /// <summary>
         /// 控件数据
         /// </summary>
@@ -49,7 +48,6 @@ namespace Paway.Forms
         {
             ILoad = true;
         }
-
         /// <summary>
         /// 移除当前界面时，是否允许移除
         /// </summary>
@@ -74,38 +72,16 @@ namespace Paway.Forms
             return true;
         }
 
-        /// <summary>
-        /// 刷新数据
-        /// </summary>
-        public virtual bool Refresh(object sender, EventArgs e) { return true; }
-
-        /// <summary>
-        /// 调用委托
-        /// </summary>
-        /// <param name="method"></param>
-        internal void InitDelegate(Delegate method)
-        {
-            this.method = method;
-        }
-
-        /// <summary>
-        /// 引发ChangeEvent事件
-        /// 引发委托事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected virtual void OnChanged(object sender, EventArgs e)
-        {
-            if (method != null)
-            {
-                Invoke(method, sender, e);
-            }
-            ChangeEvent?.Invoke(sender, e);
-        }
-
         #endregion
 
         #region 界面切换控制
+        /// <summary>
+        /// 引发ChangeEvent事件
+        /// </summary>
+        public static void OnChanged(object sender, EventArgs e)
+        {
+            ChangeEvent?.Invoke(sender, e);
+        }
         /// <summary>
         /// 切换界面控件
         /// </summary>
@@ -129,17 +105,9 @@ namespace Paway.Forms
         }
         /// <summary>
         /// 切换界面控件
-        /// </summary>
-        public static MControl ReLoad(Control parent, Type type, Delegate method)
-        {
-            return ReLoad(parent, type, EventArgs.Empty, TMDirection.None, method);
-        }
-        /// <summary>
-        /// 切换界面控件
         /// 如已加载，则调用ReLoad()
-        /// 如调用委托，要求参数：object sender ,EventArgs e
         /// </summary>
-        public static MControl ReLoad(Control parent, Type type, EventArgs e, TMDirection direction, Delegate method = null, int intervel = -1)
+        public static MControl ReLoad(Control parent, Type type, EventArgs e, TMDirection direction, int intervel = -1)
         {
             var first = false;
             MControl control = null;
@@ -189,10 +157,6 @@ namespace Paway.Forms
                 if (e != null)
                 {
                     control.Args = e;
-                }
-                if (method != null)
-                {
-                    control.InitDelegate(method);
                 }
                 if (direction == TMDirection.None)
                 {
@@ -324,7 +288,7 @@ namespace Paway.Forms
         /// <summary>
         /// 重置控件上所有子控件（不指定父控件则重置所有）
         /// </summary>
-        public static void ResetAll(Control parent = null)
+        public static void Reset(Control parent = null)
         {
             for (var i = List.Count - 1; i >= 0; i--)
             {
@@ -343,18 +307,6 @@ namespace Paway.Forms
                     List.Remove(item);
                 }
             }
-        }
-        /// <summary>
-        /// 刷新所有控件数据（返回false，响应控件可取消/中止）
-        /// </summary>
-        public static bool RefreshAll(object sender, EventArgs e)
-        {
-            for (var i = 0; i < List.Count; i++)
-            {
-                var item = List.Keys.ElementAt(i);
-                if (!List[item].Refresh(sender, e)) return false;
-            }
-            return true;
         }
 
         #endregion

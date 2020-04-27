@@ -69,7 +69,7 @@ namespace Paway.Test
             {
                 e.Message.Show();
                 ResetLoad(panel3, typeof(WaitControl));
-                MControl.Current.Refresh(this, new WaitEventArgs(false, e.Message));
+                MControl.OnChanged(this, new WaitEventArgs(false, e.Message));
                 return;
             }
             switch (e.MType)
@@ -95,7 +95,7 @@ namespace Paway.Test
         {
             try
             {
-                MControl.ReLoad(parent, type, EventArgs.Empty, TMDirection.None, new Action<object, EventArgs>(Changed));
+                MControl.ReLoad(parent, type, EventArgs.Empty);
             }
             catch (Exception ex)
             {

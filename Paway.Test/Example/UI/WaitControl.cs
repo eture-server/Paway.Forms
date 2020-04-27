@@ -16,7 +16,7 @@ namespace Paway.Test
             InitializeComponent();
             label1.Text = Config.Loading;
         }
-        protected override bool OnRefresh(MEventArgs m)
+        protected override void OnChanged(MEventArgs m)
         {
             switch (m.MType)
             {
@@ -25,7 +25,6 @@ namespace Paway.Test
                     this.label1.Text = m.Message;
                     break;
             }
-            return true;
         }
     }
 }

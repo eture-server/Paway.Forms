@@ -30,10 +30,6 @@ namespace Paway.Forms
 
         #region 界面切换事件
         /// <summary>
-        /// 子界面返回消息
-        /// </summary>
-        protected virtual void OnChanged(EventArgs m) { }
-        /// <summary>
         /// 切换主界面控件
         /// </summary>
         protected void ResetLoad(Control panel, Type type)
@@ -47,23 +43,12 @@ namespace Paway.Forms
         {
             try
             {
-                return MControl.ReLoad(panel, type, e, TMDirection.None, new Action<object, EventArgs>(Changed));
+                return MControl.ReLoad(panel, type, e);
             }
             catch (Exception ex)
             {
                 ex.Show();
                 return null;
-            }
-        }
-        private void Changed(object sender, EventArgs e)
-        {
-            try
-            {
-                OnChanged(e);
-            }
-            catch (Exception ex)
-            {
-                ex.Show();
             }
         }
 

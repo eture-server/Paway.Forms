@@ -20,21 +20,28 @@ namespace Paway.Test
             InitializeComponent();
         }
 
-        #region 外部刷新事件
-        protected virtual bool OnRefresh(MEventArgs m) { return true; }
-        public override bool Refresh(object sender, EventArgs e)
+        #region 外部事件监听
+        protected virtual void OnChanged(MEventArgs m) { }
+        protected void OnChanged()
         {
-            MEventArgs m = e as MEventArgs;
-            if (m == null) return true;
+            MControl.ChangeEvent += MControl_ChangeEvent;
+        }
+        private void MControl_ChangeEvent(object sender, EventArgs e)
+        {
+            if (!(e is MEventArgs m)) return;
             try
             {
-                return OnRefresh(m);
+                if (this.InvokeRequired)
+                {
+                    this.Invoke(new Action<object, EventArgs>(MControl_ChangeEvent), sender, e);
+                    return;
+                }
+                OnChanged(m);
             }
             catch (Exception ex)
             {
                 ex.Show();
             }
-            return true;
         }
 
         #endregion
