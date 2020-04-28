@@ -51,10 +51,12 @@
             // 
             this.toolBar1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolBar1.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.toolBar1.IClickEvent = true;
             this.toolBar1.ImageSize = new System.Drawing.Size(0, 0);
+            toolItem1.Desc = "●";
             toolItem1.Text = "控件";
+            toolItem2.Desc = "●";
             toolItem2.Text = "数据";
+            toolItem3.Desc = "●";
             toolItem3.Text = "控件2";
             this.toolBar1.Items.Add(toolItem1);
             this.toolBar1.Items.Add(toolItem2);
@@ -65,6 +67,9 @@
             this.toolBar1.Name = "toolBar1";
             this.toolBar1.Size = new System.Drawing.Size(675, 48);
             this.toolBar1.TabIndex = 70;
+            this.toolBar1.TDesc.ColorDown = System.Drawing.Color.White;
+            this.toolBar1.TDesc.ColorMove = System.Drawing.Color.White;
+            this.toolBar1.TDesc.ColorNormal = System.Drawing.Color.Transparent;
             this.toolBar1.TextFirst.ColorDown = System.Drawing.Color.White;
             this.toolBar1.TextFirst.ColorMove = System.Drawing.Color.White;
             this.toolBar1.TextFirst.ColorNormal = System.Drawing.Color.Black;

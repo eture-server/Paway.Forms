@@ -1554,6 +1554,10 @@ namespace Paway.Forms
                 ifocus = EditClick != null;
                 InvaRectDesc(item, TMouseState.Down);
             }
+            else if (TDesc.ColorNormal == Color.Transparent || EditClick == null)
+            {
+                InvaRectDesc(item, TMouseState.Down);
+            }
             else
             {
                 InvaRectDesc(item, TMouseState.Normal);
@@ -1608,7 +1612,7 @@ namespace Paway.Forms
         {
             if (!INormal)
             {
-                if (item.RectDesc.Contains(point))
+                if (item.RectDesc.Contains(point) || TDesc.ColorNormal == Color.Transparent || EditClick == null)
                 {
                     InvaRectDesc(item, TMouseState.Move);
                 }

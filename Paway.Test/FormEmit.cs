@@ -18,7 +18,7 @@ namespace Paway.Test
         public FormEmit()
         {
             InitializeComponent();
-            toolBar1.ItemClick += ToolBar1_ItemClick;
+            toolBar1.SelectedItemChanged += ToolBar1_ItemClick;
             this.TMouseMove(tControl1);
         }
         private void ToolBar1_ItemClick(ToolItem arg1, EventArgs arg2)
