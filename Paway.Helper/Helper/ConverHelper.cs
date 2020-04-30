@@ -73,9 +73,8 @@ namespace Paway.Helper
         /// <summary>
         /// 将枚举常数的名称或数字值的字符串表示转换成等效的枚举对象
         /// </summary>
-        public static T Parse<T>(this string value)
+        public static T Parse<T>(this Type type, string value)
         {
-            Type type = typeof(T);
             foreach (FieldInfo field in type.GetFields())
             {
                 string name = field.Name;
@@ -90,18 +89,16 @@ namespace Paway.Helper
         /// <summary>
         /// 将枚举常数的名称或数字值的字符串表示转换成等效的枚举对象
         /// </summary>
+        public static T Parse<T>(this string value)
+        {
+            return typeof(T).Parse<T>(value);
+        }
+        /// <summary>
+        /// 将枚举常数的名称或数字值的字符串表示转换成等效的枚举对象
+        /// </summary>
         public static int Parse(this Type type, string value)
         {
-            foreach (FieldInfo field in type.GetFields())
-            {
-                string name = field.Name;
-                if (name.Equals(value, StringComparison.OrdinalIgnoreCase))
-                    return (int)field.GetRawConstantValue();
-                name = field.Description() ?? field.Name;
-                if (name.Equals(value, StringComparison.OrdinalIgnoreCase))
-                    return (int)field.GetRawConstantValue();
-            }
-            return default;
+            return type.Parse<int>(value);
         }
 
         #endregion
