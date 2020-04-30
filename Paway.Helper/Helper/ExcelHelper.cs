@@ -317,12 +317,12 @@ namespace Paway.Helper
                         var tuple = lineStyle?.Invoke(list[i], weekBook);
                         if (dbType == typeof(double) || dbType == typeof(int))
                         {
-                            var cell = CreateCell(row, index, tuple?.Item2 ?? numberStyle, list[i].GetValue(property.Name));
+                            var cell = CreateCell(row, index, tuple?.Item2 ?? numberStyle, property.GetValue(list[i]));
                             merged?.Invoke(list, i, row, property.Name, cell);
                         }
                         else
                         {
-                            var cell = CreateCell(row, index, tuple?.Item1 ?? defaultStyle, list[i].GetValue(property.Name));
+                            var cell = CreateCell(row, index, tuple?.Item1 ?? defaultStyle, property.GetValue(list[i]));
                             merged?.Invoke(list, i, row, property.Name, cell);
                         }
                     }

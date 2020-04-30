@@ -124,7 +124,7 @@ namespace Paway.Helper
                 if (!property.IBrowsable() || !property.IShow()) continue;
                 XmlElement element = doc.CreateElement(property.Name);
                 root.AppendChild(element);
-                object obj = info.GetValue(property.Name);
+                object obj = property.GetValue(info);
                 if (obj is IList list)
                 {
                     AddDescription(doc, root, element, property);

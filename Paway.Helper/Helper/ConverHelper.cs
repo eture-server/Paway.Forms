@@ -596,7 +596,7 @@ namespace Paway.Helper
         /// 获取接口所有属性
         /// PropertyInfo.SetValue不能设置只读接口
         /// </summary>
-        public static List<PropertyInfo> Properties(this Type type)
+        internal static List<PropertyInfo> Properties(this Type type)
         {
             var list = new List<Type> { type };
             if (type.IsInterface)
@@ -645,6 +645,13 @@ namespace Paway.Helper
         {
             var properties = type.PropertiesCache();
             return Property(properties, name);
+        }
+        /// <summary>
+        /// 获取指定属性值
+        /// </summary>
+        public static object GetValue<T>(this PropertyInfo property, T obj)
+        {
+            return obj.GetValue(property.Name);
         }
         /// <summary>
         /// 获取指定名称属性
@@ -1025,8 +1032,8 @@ namespace Paway.Helper
             {
                 if (!property.IClone()) continue;
 
-                var value = t.GetValue(property.Name);
-                var tempValue = temp.GetValue(property.Name);
+                var value = property.GetValue(t);
+                var tempValue = property.GetValue(temp);
                 if (!value.Equals(tempValue)) return false;
                 if (!child) continue;
                 if (value is IList)
