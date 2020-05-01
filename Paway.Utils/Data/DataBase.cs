@@ -123,9 +123,9 @@ namespace Paway.Utils
                 OnExecute(cmd);
                 return result;
             }
-            catch (Exception ex)
+            catch
             {
-                log.ErrorFormat("ExecuteNonQuery.Error[{0}]\r\n{1}", cmd?.CommandText, ex);
+                log.Error($"SQL={cmd?.CommandText}");
                 throw;
             }
             finally
@@ -158,9 +158,9 @@ namespace Paway.Utils
                 OnExecute(cmd);
                 return obj;
             }
-            catch (Exception ex)
+            catch
             {
-                log.ErrorFormat("ExecuteScalar.Error[{0}]\r\n{1}", cmd?.CommandText, ex);
+                log.Error($"SQL={cmd?.CommandText}");
                 throw;
             }
             finally
@@ -241,9 +241,9 @@ namespace Paway.Utils
                     return table;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                log.ErrorFormat("ExecuteDataTable.Error[{0}]\r\n{1}", cmd?.CommandText, ex);
+                log.Error($"SQL={cmd?.CommandText}");
                 throw;
             }
             finally
@@ -272,9 +272,9 @@ namespace Paway.Utils
                 if (iTrans) TransCommit(cmd);
                 return result;
             }
-            catch (Exception ex)
+            catch
             {
-                if (iTrans) TransError(cmd, ex);
+                if (iTrans) TransError(cmd);
                 throw;
             }
             finally
@@ -312,9 +312,9 @@ namespace Paway.Utils
                 T t = list.Count == 1 ? list[0] : default;
                 return t;
             }
-            catch (Exception ex)
+            catch
             {
-                log.ErrorFormat("ExecuteNonQuery.Error[{0}]\r\n{1}", cmd?.CommandText, ex);
+                log.Error($"SQL={cmd?.CommandText}");
                 throw;
             }
             finally
@@ -433,9 +433,9 @@ namespace Paway.Utils
                     return table;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                log.ErrorFormat("Find.Error[{0}]\r\n{1}", cmd?.CommandText, ex);
+                log.Error($"SQL={cmd?.CommandText}");
                 throw;
             }
             finally
@@ -526,9 +526,9 @@ namespace Paway.Utils
                 if (iTrans) TransCommit(cmd);
                 return result;
             }
-            catch (Exception ex)
+            catch
             {
-                if (iTrans) TransError(cmd, ex);
+                if (iTrans) TransError(cmd);
                 throw;
             }
             finally
@@ -628,9 +628,9 @@ namespace Paway.Utils
                 if (iTrans) TransCommit(cmd);
                 return result;
             }
-            catch (Exception ex)
+            catch
             {
-                if (iTrans) TransError(cmd, ex);
+                if (iTrans) TransError(cmd);
                 throw;
             }
             finally
@@ -678,9 +678,9 @@ namespace Paway.Utils
                 if (list != null) OnUpdate(cmd, list, OperType.Delete);
                 return result;
             }
-            catch (Exception ex)
+            catch
             {
-                log.ErrorFormat("Delete.Error[{0}]\r\n{1}", cmd?.CommandText, ex);
+                log.Error($"SQL={cmd?.CommandText}");
                 throw;
             }
             finally
@@ -747,9 +747,9 @@ namespace Paway.Utils
                 if (iTrans) TransCommit(cmd);
                 return result;
             }
-            catch (Exception ex)
+            catch
             {
-                if (iTrans) TransError(cmd, ex);
+                if (iTrans) TransError(cmd);
                 throw;
             }
             finally
@@ -787,9 +787,9 @@ namespace Paway.Utils
 
                 if (iTrans) TransCommit(cmd);
             }
-            catch (Exception ex)
+            catch
             {
-                if (iTrans) TransError(cmd, ex);
+                if (iTrans) TransError(cmd);
                 throw;
             }
             finally
@@ -839,30 +839,22 @@ namespace Paway.Utils
         /// </summary>
         protected virtual void CommandEnd(DbCommand cmd, bool iTrans = false)
         {
-            try
+            if (cmd == null) return;
+            if (!iTrans)
             {
-                if (cmd == null) return;
-                if (!iTrans)
-                {
-                    cmd.CommandText = string.Empty;
-                    return;
-                }
-                if (!ILongConnect && cmd.Connection != null)
-                {
-                    if (cmd.Connection.State == ConnectionState.Open || cmd.Connection.State == ConnectionState.Broken)
-                    {
-                        cmd.Connection.Close();
-                    }
-                    cmd.Connection.Dispose();
-                }
-                cmd.Dispose();
-                sw.Stop();
+                cmd.CommandText = string.Empty;
+                return;
             }
-            catch (Exception ex)
+            if (!ILongConnect && cmd.Connection != null)
             {
-                log.ErrorFormat("CommandEnd.Error[{0}]\r\n{1}", cmd?.CommandText, ex);
-                throw;
+                if (cmd.Connection.State == ConnectionState.Open || cmd.Connection.State == ConnectionState.Broken)
+                {
+                    cmd.Connection.Close();
+                }
+                cmd.Connection.Dispose();
             }
+            cmd.Dispose();
+            sw.Stop();
         }
 
         /// <summary>
@@ -899,19 +891,11 @@ namespace Paway.Utils
         /// 事务处理异常回退
         /// 关闭DbCommand实例的连接，并释放
         /// </summary>
-        protected void TransError(DbCommand cmd, Exception e)
+        protected void TransError(DbCommand cmd)
         {
             if (cmd == null || cmd.Connection == null || cmd.Transaction == null) return;
-            try
-            {
-                log.ErrorFormat("TransError[{0}]\r\n{1}", cmd.CommandText, e);
-                cmd.Transaction.Rollback();
-            }
-            catch (Exception ex)
-            {
-                log.ErrorFormat("TransError.Error{0}\r\n{1}", cmd.CommandText, ex);
-                throw;
-            }
+            log.Error($"SQL={cmd?.CommandText}");
+            cmd.Transaction.Rollback();
         }
 
         #endregion

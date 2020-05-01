@@ -48,8 +48,14 @@ namespace Paway.Forms
         /// </summary>
         protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates elementState, object value, object formattedValue, string errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
         {
-            // 不重绘单元格的背景颜色
-            graphics.FillRectangle(new SolidBrush(cellStyle.BackColor), cellBounds);
+            if (this.btnState == TMouseState.Normal && this.OwningRow.Selected)
+            {
+                graphics.FillRectangle(new SolidBrush(cellStyle.SelectionBackColor), cellBounds);
+            }
+            else
+            {// 不重绘单元格的背景颜色
+                graphics.FillRectangle(new SolidBrush(cellStyle.BackColor), cellBounds);
+            }
             // 填充单元格的边框
             base.PaintBorder(graphics, clipBounds, cellBounds, cellStyle, advancedBorderStyle);
 
@@ -97,7 +103,7 @@ namespace Paway.Forms
             }
             btnRect = RectangleCommon.GetSmallRectOfRectangle(cellBounds, size, out _);
             //绘制按钮
-            this.DrawButton(g, rowIndex, button, text, image);
+            this.DrawButton(g, button, text, image);
         }
         private Size AutoSize(IButtonAttribute button, Rectangle bounds, string text)
         {
@@ -112,7 +118,7 @@ namespace Paway.Forms
             }
             return size;
         }
-        private void DrawButton(Graphics g, int rowIndex, IButtonAttribute button, string text, Image image)
+        private void DrawButton(Graphics g, IButtonAttribute button, string text, Image image)
         {
             var fillRect = new Rectangle(btnRect.X + button.Line / 2, btnRect.Y + button.Line / 2, btnRect.Width - button.Line, btnRect.Height - button.Line);
             var color = button.BackGround.AutoColor(btnState);
@@ -217,6 +223,5 @@ namespace Paway.Forms
         }
 
         #endregion
-
     }
 }

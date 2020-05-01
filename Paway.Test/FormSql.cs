@@ -263,9 +263,9 @@ namespace Paway.Test
                 TransCommit(cmd);
                 ("ThreadId完成:" + Thread.CurrentThread.ManagedThreadId).Log();
             }
-            catch (Exception ex)
+            catch
             {
-                TransError(cmd, ex);
+                TransError(cmd);
                 ("ThreadId异常:" + Thread.CurrentThread.ManagedThreadId).Log();
                 throw;
             }

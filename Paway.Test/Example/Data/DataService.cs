@@ -61,9 +61,9 @@ namespace Paway.Test
 
                 TransCommit(cmd);
             }
-            catch (Exception ex)
+            catch
             {
-                TransError(cmd, ex);
+                TransError(cmd);
                 throw;
             }
             finally
@@ -141,9 +141,9 @@ namespace Paway.Test
 
                 TransCommit(cmd);
             }
-            catch (Exception ex)
+            catch
             {
-                TransError(cmd, ex);
+                TransError(cmd);
                 throw;
             }
             finally
