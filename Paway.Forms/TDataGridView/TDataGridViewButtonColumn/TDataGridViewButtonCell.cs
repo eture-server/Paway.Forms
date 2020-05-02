@@ -48,7 +48,7 @@ namespace Paway.Forms
         /// </summary>
         protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates elementState, object value, object formattedValue, string errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
         {
-            if (this.btnState == TMouseState.Normal && this.OwningRow.Selected)
+            if (this.btnState == TMouseState.Normal && this.OwningRow.Index == rowIndex && this.OwningRow.Selected)
             {
                 graphics.FillRectangle(new SolidBrush(cellStyle.SelectionBackColor), cellBounds);
             }
@@ -66,14 +66,14 @@ namespace Paway.Forms
                 {
                     image = (Image)this.Column.DataGridViewEx.Rows[rowIndex].Cells[this.Column.Button.ImageName].Value;
                 }
-                DrawTextButton(graphics, cellBounds, rowIndex, text, image);
+                DrawTextButton(graphics, cellBounds, text, image);
             }
             else if (value is Image image)
             {
-                DrawTextButton(graphics, cellBounds, rowIndex, null, image);
+                DrawTextButton(graphics, cellBounds, null, image);
             }
         }
-        private void DrawTextButton(Graphics g, Rectangle cellBounds, int rowIndex, string text, Image image)
+        private void DrawTextButton(Graphics g, Rectangle cellBounds, string text, Image image)
         {
             //计算button的区域
             var button = this.Column.Button;

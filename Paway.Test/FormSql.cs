@@ -232,7 +232,7 @@ namespace Paway.Test
         }
         public void Connect()
         {
-            base.CommandStart();
+            ExecuteCommand(cmd => { });
         }
         public void Test()
         {
@@ -245,11 +245,8 @@ namespace Paway.Test
         {
             Thread.Sleep(100);
             ("ThreadId:" + Thread.CurrentThread.ManagedThreadId).Log();
-            DbCommand cmd = null;
-            try
+            ExecuteTransaction(cmd =>
             {
-                cmd = TransStart();
-
                 var sql = "update Users set Money =1 where Id= @id";
                 Execute(sql, new { id = 3 }, cmd);
                 var dt = ExecuteDataTable("select * from Users", null, cmd);
@@ -259,20 +256,8 @@ namespace Paway.Test
                 }
                 sql = "update Users set Money =0 where Id= @id";
                 Execute(sql, new { id = 3 }, cmd);
-
-                TransCommit(cmd);
                 ("ThreadId完成:" + Thread.CurrentThread.ManagedThreadId).Log();
-            }
-            catch
-            {
-                TransError(cmd);
-                ("ThreadId异常:" + Thread.CurrentThread.ManagedThreadId).Log();
-                throw;
-            }
-            finally
-            {
-                CommandEnd(cmd);
-            }
+            });
         }
     }
 }

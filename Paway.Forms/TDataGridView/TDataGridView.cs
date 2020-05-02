@@ -139,6 +139,7 @@ namespace Paway.Forms
             ReadOnly = true;
             EnableHeadersVisualStyles = false;
 
+            this.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(248, 248, 248);
             //设置非默认值
             this.RowTemplate.DefaultCellStyle.ForeColor = Color.Black;
             this.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.LightBlue;

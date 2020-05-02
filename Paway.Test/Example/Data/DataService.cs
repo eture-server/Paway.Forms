@@ -41,10 +41,8 @@ namespace Paway.Test
         #region Admin.Update
         public void Update(string name, object value)
         {
-            DbCommand cmd = null;
-            try
+            ExecuteTransaction(cmd =>
             {
-                cmd = TransStart();
                 string find = "Name = @name";
                 List<AdminBaseInfo> list = Find<AdminBaseInfo>(find, new { name }, cmd);
                 if (list.Count == 0)
@@ -58,18 +56,7 @@ namespace Paway.Test
                     list[0].DateTime = DateTime.Now;
                     Update(list[0], cmd);
                 }
-
-                TransCommit(cmd);
-            }
-            catch
-            {
-                TransError(cmd);
-                throw;
-            }
-            finally
-            {
-                CommandEnd(cmd);
-            }
+            });
         }
 
         #endregion
@@ -125,11 +112,8 @@ namespace Paway.Test
         #region 初始化
         public void Load(BackgroundWorker bw, MType type)
         {
-            DbCommand cmd = null;
-            try
+            ExecuteTransaction(cmd =>
             {
-                cmd = TransStart();
-
                 switch (type)
                 {
                     //基础数据
@@ -138,18 +122,7 @@ namespace Paway.Test
                         Cache.UserList.AddRange(Find<UserInfo>());
                         break;
                 }
-
-                TransCommit(cmd);
-            }
-            catch
-            {
-                TransError(cmd);
-                throw;
-            }
-            finally
-            {
-                CommandEnd(cmd);
-            }
+            });
         }
         public AdminInfo FindAdmin(DbCommand cmd = null)
         {

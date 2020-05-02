@@ -111,27 +111,16 @@ namespace Paway.Utils
         /// <para>不引发UpdateEvent</para>
         /// </summary>
         /// <returns>受影响的行数</returns>
-        public int Execute(string sql, dynamic param, DbCommand cmd = null)
+        public int Execute(string sql, dynamic param, DbCommand arg = null)
         {
-            var iTrans = cmd == null;
-            try
+            return (int)ExecuteCommand(cmd =>
             {
-                if (iTrans) cmd = CommandStart();
                 cmd.CommandText = OnCommandText(sql);
                 AddParameters(cmd, param);
                 var result = cmd.ExecuteNonQuery();
                 OnExecute(cmd);
                 return result;
-            }
-            catch
-            {
-                log.Error($"SQL={cmd?.CommandText}");
-                throw;
-            }
-            finally
-            {
-                CommandEnd(cmd, iTrans);
-            }
+            }, arg);
         }
 
         /// <summary>
@@ -146,27 +135,16 @@ namespace Paway.Utils
         /// 执行查询，并返回查询所返回的结果集中第一行的第一列。所有其他的列和行将被忽略。
         /// </summary>
         /// <returns>结果集中第一行的第一列。</returns>
-        public object ExecuteScalar(string sql, dynamic param, DbCommand cmd = null)
+        public object ExecuteScalar(string sql, dynamic param, DbCommand arg = null)
         {
-            var iTrans = cmd == null;
-            try
+            return ExecuteCommand(cmd =>
             {
-                if (iTrans) cmd = CommandStart();
                 cmd.CommandText = OnCommandText(sql);
                 AddParameters(cmd, param);
-                var obj = cmd.ExecuteScalar();
+                var result = cmd.ExecuteScalar();
                 OnExecute(cmd);
-                return obj;
-            }
-            catch
-            {
-                log.Error($"SQL={cmd?.CommandText}");
-                throw;
-            }
-            finally
-            {
-                CommandEnd(cmd, iTrans);
-            }
+                return result;
+            }, arg);
         }
 
         /// <summary>
@@ -225,12 +203,10 @@ namespace Paway.Utils
         /// <summary>
         /// 执行查询，并返回DataTable对象
         /// </summary>
-        public DataTable ExecuteDataTable(string sql, dynamic param, DbCommand cmd = null, Type type = null)
+        public DataTable ExecuteDataTable(string sql, dynamic param, DbCommand arg = null, Type type = null)
         {
-            var iTrans = cmd == null;
-            try
+            return (DataTable)ExecuteCommand(cmd =>
             {
-                if (iTrans) cmd = CommandStart();
                 cmd.CommandText = OnCommandText(sql);
                 AddParameters(cmd, param);
                 using (var dr = cmd.ExecuteReader())
@@ -240,28 +216,17 @@ namespace Paway.Utils
                     table.Load(dr);
                     return table;
                 }
-            }
-            catch
-            {
-                log.Error($"SQL={cmd?.CommandText}");
-                throw;
-            }
-            finally
-            {
-                CommandEnd(cmd, iTrans);
-            }
+            }, arg);
         }
 
         /// <summary>
         /// 使用事务处理  Transact-SQL 语句列表
         /// <para>不引发UpdateEvent</para>
         /// </summary>
-        public int Execute(List<string> sqlList, DbCommand cmd = null)
+        public int Execute(List<string> sqlList, DbCommand arg = null)
         {
-            var iTrans = cmd == null;
-            try
+            return (int)ExecuteTransaction(cmd =>
             {
-                if (iTrans) cmd = TransStart();
                 int result = 0;
                 foreach (var sql in sqlList)
                 {
@@ -269,18 +234,8 @@ namespace Paway.Utils
                     result += cmd.ExecuteNonQuery();
                     OnExecute(cmd);
                 }
-                if (iTrans) TransCommit(cmd);
                 return result;
-            }
-            catch
-            {
-                if (iTrans) TransError(cmd);
-                throw;
-            }
-            finally
-            {
-                CommandEnd(cmd, iTrans);
-            }
+            }, arg);
         }
 
         #endregion
@@ -296,13 +251,10 @@ namespace Paway.Utils
         /// <summary>
         /// 查找指定主列的数据
         /// </summary>
-        public T FindById<T>(dynamic id, DbCommand cmd, params string[] args) where T : new()
+        public T FindById<T>(dynamic id, DbCommand arg, params string[] args) where T : new()
         {
-            var iTrans = cmd == null;
-            try
+            return (T)ExecuteCommand(cmd =>
             {
-                if (iTrans) cmd = CommandStart();
-
                 var keys = typeof(T).TableKeys();
                 cmd.Parameters.Clear();
                 var param = AddParameters(keys, id);
@@ -311,16 +263,7 @@ namespace Paway.Utils
                 List<T> list = Find<T>(sql, null, cmd, 0, args);
                 T t = list.Count == 1 ? list[0] : default;
                 return t;
-            }
-            catch
-            {
-                log.Error($"SQL={cmd?.CommandText}");
-                throw;
-            }
-            finally
-            {
-                CommandEnd(cmd, iTrans);
-            }
+            }, arg);
         }
 
         /// <summary>
@@ -403,14 +346,11 @@ namespace Paway.Utils
         /// 指定返回行数
         /// 标记是否使用Limit查找指定数量
         /// </summary>
-        protected virtual DataTable FindTable(Type type, string find = null, dynamic param = null, DbCommand cmd = null, int count = 0, bool iLimit = false, params string[] args)
+        protected virtual DataTable FindTable(Type type, string find = null, dynamic param = null, DbCommand arg = null, int count = 0, bool iLimit = false, params string[] args)
         {
-            var iTrans = cmd == null;
-            string sql;
-            try
+            return (DataTable)ExecuteCommand(cmd =>
             {
-                if (iTrans) cmd = CommandStart();
-
+                string sql;
                 if (iLimit)
                 {
                     sql = type.Select(find, 0, args);
@@ -432,16 +372,7 @@ namespace Paway.Utils
                     table.Load(dr);
                     return table;
                 }
-            }
-            catch
-            {
-                log.Error($"SQL={cmd?.CommandText}");
-                throw;
-            }
-            finally
-            {
-                CommandEnd(cmd, iTrans);
-            }
+            }, arg);
         }
 
         #endregion
@@ -481,13 +412,11 @@ namespace Paway.Utils
         /// <summary>
         /// 插入列表
         /// </summary>
-        private int InsertList(IList list, DbCommand cmd = null)
+        private int InsertList(IList list, DbCommand arg = null)
         {
             if (list.Count == 0) return 0;
-            var iTrans = cmd == null;
-            try
+            return (int)ExecuteTransaction(cmd =>
             {
-                if (iTrans) cmd = TransStart();
                 var type = list.GenericType();
                 var sql = type.Insert(GetId);
                 cmd.CommandText = OnCommandText(sql);
@@ -523,18 +452,8 @@ namespace Paway.Utils
                     }
                 }
                 OnUpdate(cmd, list, OperType.Insert);
-                if (iTrans) TransCommit(cmd);
                 return result;
-            }
-            catch
-            {
-                if (iTrans) TransError(cmd);
-                throw;
-            }
-            finally
-            {
-                CommandEnd(cmd, iTrans);
-            }
+            }, arg);
         }
 
         #endregion
@@ -604,13 +523,11 @@ namespace Paway.Utils
         /// <summary>
         /// 更新列表
         /// </summary>
-        private int UpdateList(IList list, DbCommand cmd = null, params string[] args)
+        private int UpdateList(IList list, DbCommand arg = null, params string[] args)
         {
             if (list.Count == 0) return 0;
-            var iTrans = cmd == null;
-            try
+            return (int)ExecuteTransaction(cmd =>
             {
-                if (iTrans) cmd = TransStart();
                 var type = list.GenericType();
                 var sql = type.Update(args);
                 cmd.CommandText = OnCommandText(sql);
@@ -625,18 +542,8 @@ namespace Paway.Utils
                     OnExecute(cmd);
                 }
                 OnUpdate(cmd, list, OperType.Update);
-                if (iTrans) TransCommit(cmd);
                 return result;
-            }
-            catch
-            {
-                if (iTrans) TransError(cmd);
-                throw;
-            }
-            finally
-            {
-                CommandEnd(cmd, iTrans);
-            }
+            }, arg);
         }
 
         #endregion
@@ -659,12 +566,10 @@ namespace Paway.Utils
         /// <summary>
         /// 删除指定条件下的数据
         /// </summary>
-        public int Delete<T>(string find, dynamic param, DbCommand cmd = null) where T : new()
+        public int Delete<T>(string find, dynamic param, DbCommand arg = null) where T : new()
         {
-            var iTrans = cmd == null;
-            try
+            return (int)ExecuteCommand(cmd =>
             {
-                if (iTrans) cmd = CommandStart();
                 List<T> list = null;
                 if (UpdateEvent != null)
                 {
@@ -677,16 +582,7 @@ namespace Paway.Utils
                 OnExecute(cmd);
                 if (list != null) OnUpdate(cmd, list, OperType.Delete);
                 return result;
-            }
-            catch
-            {
-                log.Error($"SQL={cmd?.CommandText}");
-                throw;
-            }
-            finally
-            {
-                CommandEnd(cmd, iTrans);
-            }
+            }, arg);
         }
 
         /// <summary>
@@ -723,13 +619,11 @@ namespace Paway.Utils
         /// <summary>
         /// 删除列表
         /// </summary>
-        private int DeleteList(IList list, DbCommand cmd = null)
+        private int DeleteList(IList list, DbCommand arg = null)
         {
             if (list.Count == 0) return 0;
-            var iTrans = cmd == null;
-            try
+            return (int)ExecuteTransaction(cmd =>
             {
-                if (iTrans) cmd = TransStart();
                 var type = list.GenericType();
                 var sql = type.Delete();
                 cmd.CommandText = OnCommandText(sql);
@@ -744,18 +638,8 @@ namespace Paway.Utils
                     OnExecute(cmd);
                 }
                 OnUpdate(cmd, list, OperType.Delete);
-                if (iTrans) TransCommit(cmd);
                 return result;
-            }
-            catch
-            {
-                if (iTrans) TransError(cmd);
-                throw;
-            }
-            finally
-            {
-                CommandEnd(cmd, iTrans);
-            }
+            }, arg);
         }
 
         #endregion
@@ -766,11 +650,8 @@ namespace Paway.Utils
         /// </summary>
         public void Replace<T>(List<T> list, DbCommand cmd = null)
         {
-            bool iTrans = cmd == null;
-            try
+            ExecuteTransaction(obj =>
             {
-                if (iTrans) cmd = TransStart();
-
                 var type = typeof(T);
                 var key = type.TableKeys();
                 var property = type.Property(key);
@@ -784,18 +665,7 @@ namespace Paway.Utils
                 }
                 if (iList.Count > 0) Insert(iList, cmd);
                 if (uList.Count > 0) Update(uList, cmd);
-
-                if (iTrans) TransCommit(cmd);
-            }
-            catch
-            {
-                if (iTrans) TransError(cmd);
-                throw;
-            }
-            finally
-            {
-                CommandEnd(cmd, iTrans);
-            }
+            }, cmd);
         }
         /// <summary>
         /// 替换,由insert/Update替代
@@ -826,18 +696,17 @@ namespace Paway.Utils
         /// 打开一个连接
         /// 返回SqlCommand实例
         /// </summary>
-        protected DbCommand CommandStart()
+        private DbCommand CommandStart()
         {
             var con = GetCon();
             var cmd = GetCmd();
             cmd.Connection = con;
             return cmd;
         }
-
         /// <summary>
         /// 关闭DbCommand实例的连接，并释放
         /// </summary>
-        protected virtual void CommandEnd(DbCommand cmd, bool iTrans = false)
+        private void CommandEnd(DbCommand cmd, bool iTrans = false)
         {
             if (cmd == null) return;
             if (!iTrans)
@@ -863,7 +732,7 @@ namespace Paway.Utils
         /// 返回SqlCommand实例
         /// </summary>
         /// <returns></returns>
-        protected DbCommand TransStart()
+        private DbCommand TransStart()
         {
             var con = GetCon();
             var trans = con.BeginTransaction();
@@ -873,12 +742,11 @@ namespace Paway.Utils
 
             return cmd;
         }
-
         /// <summary>
         /// 事务处理.提交事务
         /// </summary>
         /// <param name="cmd"></param>
-        protected bool TransCommit(DbCommand cmd)
+        private bool TransCommit(DbCommand cmd)
         {
             if (cmd == null || cmd.Connection == null || cmd.Transaction == null) return false;
             {
@@ -886,16 +754,81 @@ namespace Paway.Utils
                 return true;
             }
         }
-
         /// <summary>
         /// 事务处理异常回退
         /// 关闭DbCommand实例的连接，并释放
         /// </summary>
-        protected void TransError(DbCommand cmd)
+        private void TransError(DbCommand cmd)
         {
             if (cmd == null || cmd.Connection == null || cmd.Transaction == null) return;
-            log.Error($"SQL={cmd?.CommandText}");
             cmd.Transaction.Rollback();
+        }
+        /// <summary>
+        /// 执行SQL语句
+        /// </summary>
+        protected void ExecuteCommand(Action<DbCommand> action, DbCommand arg = null)
+        {
+            ExecuteCommand(cmd =>
+            {
+                action(cmd);
+                return true;
+            }, arg);
+        }
+        /// <summary>
+        /// 执行SQL语句
+        /// </summary>
+        protected object ExecuteCommand(Func<DbCommand, object> action, DbCommand cmd = null)
+        {
+            var iTrans = cmd == null;
+            try
+            {
+                if (iTrans) cmd = CommandStart();
+                return action(cmd);
+            }
+            catch
+            {
+                log.Error($"SQL={cmd?.CommandText}");
+                throw;
+            }
+            finally
+            {
+                CommandEnd(cmd, iTrans);
+            }
+        }
+        /// <summary>
+        /// 执行事务
+        /// </summary>
+        protected void ExecuteTransaction(Action<DbCommand> action, DbCommand arg = null)
+        {
+            ExecuteTransaction(cmd =>
+            {
+                action(cmd);
+                return true;
+            }, arg);
+        }
+        /// <summary>
+        /// 执行事务
+        /// </summary>
+        protected object ExecuteTransaction(Func<DbCommand, object> action, DbCommand cmd = null)
+        {
+            bool iAlone = cmd == null;
+            try
+            {
+                if (iAlone) cmd = TransStart();
+                var result = action(cmd);
+                if (iAlone) TransCommit(cmd);
+                return result;
+            }
+            catch
+            {
+                log.Error($"SQL={cmd?.CommandText}");
+                if (iAlone) TransError(cmd);
+                throw;
+            }
+            finally
+            {
+                if (iAlone) CommandEnd(cmd);
+            }
         }
 
         #endregion
