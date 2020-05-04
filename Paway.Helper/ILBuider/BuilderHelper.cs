@@ -429,6 +429,13 @@ namespace Paway.Helper
         private static Dictionary<Type, Delegate> GetValuesFunc { set; get; } = new Dictionary<Type, Delegate>();
         private static Dictionary<string, Delegate> SetValueFunc { set; get; } = new Dictionary<string, Delegate>();
         /// <summary>
+        /// 获取指定属性值
+        /// </summary>
+        public static object GetValue<T>(this PropertyInfo property, T obj)
+        {
+            return obj.GetValue(property.Name);
+        }
+        /// <summary>
         /// IL动态代码(Emit)，获取值
         /// </summary>
         public static object GetValue(this object obj, string name)
@@ -477,6 +484,13 @@ namespace Paway.Helper
                 }
             }
             return ((Func<object, object[]>)func)(obj);
+        }
+        /// <summary>
+        /// 设置指定属性值
+        /// </summary>
+        public static void SetValue<T>(this T obj, PropertyInfo property, object value)
+        {
+            obj.SetValue(property.Name, value);
         }
         /// <summary>
         /// IL动态代码(Emit)，GetValue

@@ -644,13 +644,6 @@ namespace Paway.Helper
             return Property(properties, name);
         }
         /// <summary>
-        /// 获取指定属性值
-        /// </summary>
-        public static object GetValue<T>(this PropertyInfo property, T obj)
-        {
-            return obj.GetValue(property.Name);
-        }
-        /// <summary>
         /// 获取指定名称属性
         /// </summary>
         public static PropertyInfo Property(this List<PropertyInfo> properties, string name)
