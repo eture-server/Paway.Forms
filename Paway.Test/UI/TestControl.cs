@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Paway.Forms;
+using Paway.Helper;
 
 namespace Paway.Test
 {
@@ -23,6 +24,21 @@ namespace Paway.Test
         protected override void ReLoad(bool first)
         {
             base.ReLoad(first);
+        }
+        protected override void OnButtonClicked(TestInfo info, string name, object value)
+        {
+            base.OnButtonClicked(info, name, value);
+            switch (name)
+            {
+                case nameof(TestInfo.Name):
+                    value.Show();
+                    break;
+                case nameof(TestInfo.Images):
+                    info.Name = null;
+                    gridview1.Edit.UpdateRow(info);
+                    info.Id.ToString().Show();
+                    break;
+            }
         }
         protected override void OnLoad(EventArgs e)
         {

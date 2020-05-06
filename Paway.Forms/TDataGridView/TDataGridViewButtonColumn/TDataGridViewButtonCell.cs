@@ -72,6 +72,10 @@ namespace Paway.Forms
             {
                 DrawTextButton(graphics, cellBounds, null, image);
             }
+            else
+            {
+                btnRect = Rectangle.Empty;
+            }
         }
         private void DrawTextButton(Graphics g, Rectangle cellBounds, string text, Image image)
         {

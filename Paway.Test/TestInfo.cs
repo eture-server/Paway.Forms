@@ -40,6 +40,7 @@ namespace Paway.Test
     public class TestInfo : TestBase, ITestInfo, IFind<TestInfo>
     {
         [Text("名称")]
+        [IButton]
         public override string Name { get => base.Name; set => base.Name = value; }
 
         [Column("Pad")]
