@@ -73,17 +73,18 @@ namespace Paway.Helper
         /// <summary>
         /// 将枚举常数的名称或数字值的字符串表示转换成等效的枚举对象
         /// </summary>
-        public static T Parse<T>(this Type type, string value)
+        public static T Parse<T>(this Type type, object value)
         {
-            foreach (FieldInfo field in type.GetFields())
+            foreach (var field in type.GetFields())
             {
                 string name = field.Name;
-                if (name.Equals(value, StringComparison.OrdinalIgnoreCase))
+                if (name.Equals(value.ToStrs(), StringComparison.OrdinalIgnoreCase))
                     return (T)field.GetRawConstantValue();
                 name = field.Description() ?? field.Name;
-                if (name.Equals(value, StringComparison.OrdinalIgnoreCase))
+                if (name.Equals(value.ToStrs(), StringComparison.OrdinalIgnoreCase))
                     return (T)field.GetRawConstantValue();
             }
+            if (value != null && value.GetType() == type) return (T)value;
             return default;
         }
         /// <summary>
@@ -96,7 +97,7 @@ namespace Paway.Helper
         /// <summary>
         /// 将枚举常数的名称或数字值的字符串表示转换成等效的枚举对象
         /// </summary>
-        public static int Parse(this Type type, string value)
+        public static int Parse(this Type type, object value)
         {
             return type.Parse<int>(value);
         }
@@ -138,13 +139,17 @@ namespace Paway.Helper
         /// </summary>
         public static string Message(this Exception ex)
         {
-            var msg = ex.Message;
-            while (ex.InnerException != null)
+            var msg = string.Empty;
+            while (ex != null)
             {
-                string innerMsg = ex.InnerException.Message;
-                if (!string.IsNullOrEmpty(innerMsg) && !msg.Contains(innerMsg))
+                if (!(ex is AggregateException))
                 {
-                    msg = string.Format("{0}\r\n{1}", msg, innerMsg);
+                    msg = ex.Message;
+                    string innerMsg = ex.Message;
+                    if (!string.IsNullOrEmpty(innerMsg) && !msg.Contains(innerMsg))
+                    {
+                        msg += $"{innerMsg}\r\n";
+                    }
                 }
                 ex = ex.InnerException;
             }
@@ -736,7 +741,7 @@ namespace Paway.Helper
             if (type.IsGenericType && Nullable.GetUnderlyingType(type) != null) type = Nullable.GetUnderlyingType(type);
             if (type.IsEnum)
             {
-                var iValue = type.Parse(value.ToString());
+                var iValue = type.Parse(value);
                 if (iValue != 0)
                 {
                     pro.SetValue(obj, iValue);

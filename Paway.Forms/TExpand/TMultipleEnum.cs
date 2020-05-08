@@ -80,7 +80,7 @@ namespace Paway.Forms
             this.showCount = count;
             var list = new List<MultipleInfo>();
             this.enumType = typeof(T);
-            var valueInt = enumType.Parse(value.ToString());
+            var valueInt = enumType.Parse(value);
             foreach (var field in enumType.GetFields(TConfig.Flags))
             {
                 var item = (T)field.GetRawConstantValue();
