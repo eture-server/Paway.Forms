@@ -76,6 +76,7 @@
     <Compile Include="Enum\GroupType.cs" />
     <Compile Include="Enum\SelectType.cs" />
     <Compile Include="Helper\ExcelHelper.cs" />
+    <Compile Include="Helper\Win32Helper.cs" />
     <Compile Include="ILBuider\BuilderHelper.cs" />
     <Compile Include="ILBuider\ValueBuilder.cs" />
     <Compile Include="ILBuider\SQLBuilder.cs" />
@@ -129,12 +130,6 @@
     <Compile Include="UDP\UDPEventArgs.cs" />
     <Compile Include="UDP\UDPClient.cs" />
     <Compile Include="UDP\UDPServer.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Paway.Win32\Paway.Win32.csproj">
-      <Project>{6dcae3d1-f084-49f4-b21f-25d906e02567}</Project>
-      <Name>Paway.Win32</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -57,6 +57,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Win32\Consts.cs" />
+    <Compile Include="Win32\Enums.cs" />
+    <Compile Include="Win32\Hooks\KeyHook.cs" />
+    <Compile Include="Win32\Hooks\MouseEventExtArgs.cs" />
+    <Compile Include="Win32\Hooks\MouseHook.cs" />
+    <Compile Include="Win32\NativeMethods.cs" />
+    <Compile Include="Win32\Structs.cs" />
+    <Compile Include="Win32\Win32Helper.cs" />
     <Compile Include="Progress\Progress.cs" />
     <Compile Include="Progress\ProgressForm.cs">
       <SubType>Form</SubType>
@@ -218,10 +226,6 @@
       <Project>{01826a18-9c4d-4a13-99a1-db29b0d49de9}</Project>
       <Name>Paway.Helper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Paway.Win32\Paway.Win32.csproj">
-      <Project>{6DCAE3D1-F084-49F4-B21F-25D906E02567}</Project>
-      <Name>Paway.Win32</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Progress\ProgressForm.resx">
@@ -374,6 +378,11 @@
     <None Include="Resources\toolbar_toolbar_pushed.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties Reactor_Deploy="0" Reactor_Output="D:\Tinn\Paway.Forms\bin\Debug\Paway.Forms.dll" Reactor_Configuration="Debug" Reactor_Project="D:\Tinn\Paway.Forms\Reactor.nrproj" Reactor_Commands="" Reactor_Enabled="0" />
+    </VisualStudio>
+  </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

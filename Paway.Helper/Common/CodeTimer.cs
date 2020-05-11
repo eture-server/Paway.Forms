@@ -11,7 +11,6 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
-using Paway.Win32;
 
 namespace Paway.Helper
 {
@@ -77,7 +76,7 @@ namespace Paway.Helper
         private static ulong GetCycleCount()
         {
             ulong cycleCount = 0;
-            NativeMethods.QueryThreadCycleTime(NativeMethods.GetCurrentThread(), ref cycleCount);
+            Win32Helper.QueryThreadCycleTime(Win32Helper.GetCurrentThread(), ref cycleCount);
             return cycleCount;
         }
     }

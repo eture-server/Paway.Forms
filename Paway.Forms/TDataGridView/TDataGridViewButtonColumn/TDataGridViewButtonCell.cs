@@ -7,7 +7,6 @@ using System.ComponentModel;
 using System.Windows.Forms.VisualStyles;
 using Paway.Helper;
 using System.Drawing.Drawing2D;
-using Paway.Win32;
 
 namespace Paway.Forms
 {

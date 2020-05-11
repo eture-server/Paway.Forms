@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>2.3.0</version>
+    <title>Paway.Forms</title>
+    <authors>Tinn</authors>
+    <owners>Tinn&a</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>http://project_url_here_or_delete_this_line/</projectUrl>
+    <description>WinForm控件扩展及一些帮助类</description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2020</copyright>
+    <tags>Forms,Helper,Utils,MQTT,DataBase</tags>
+  </metadata>
+</package>

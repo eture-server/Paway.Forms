@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 与程序集关联的信息。
 
 [assembly: AssemblyTitle("Tinn")]
-[assembly: AssemblyDescription("欢迎分享使用,联系QQ9030140")]
+[assembly: AssemblyDescription("WinForm控件扩展及一些帮助类")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Tinn&a")]
 [assembly: AssemblyProduct("Paway.Forms")]

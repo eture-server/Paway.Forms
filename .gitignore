@@ -31,3 +31,4 @@ _ReSharper*/
 packages/
 AssemblyVersion.cs
 /sh.exe.stackdump
+/Paway.Forms/*.nupkg

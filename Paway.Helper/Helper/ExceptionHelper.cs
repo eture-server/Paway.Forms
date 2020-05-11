@@ -1,5 +1,4 @@
 ﻿using log4net;
-using Paway.Win32;
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -16,6 +15,7 @@ namespace Paway.Helper
     public static class ExceptionHelper
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// 主窗口
         /// </summary>
@@ -162,7 +162,7 @@ namespace Paway.Helper
                 MessageBox.Show(msg, title, MessageBoxButtons.OK, icon);
             else
             {
-                Win32Helper.ActiveForm(obj.Handle);
+                Win32Helper.SwitchToThisWindow(obj.Handle, true);
                 MessageBox.Show(obj, msg, title, MessageBoxButtons.OK, icon);
             }
         }

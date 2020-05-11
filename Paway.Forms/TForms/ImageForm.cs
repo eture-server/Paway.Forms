@@ -5,7 +5,6 @@ using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Paway.Forms.Properties;
 using Paway.Helper;
-using Paway.Win32;
 
 namespace Paway.Forms
 {

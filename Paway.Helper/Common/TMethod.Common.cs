@@ -1,5 +1,4 @@
-﻿using Paway.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -7,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace Paway.Helper
@@ -167,7 +167,7 @@ namespace Paway.Helper
                 obj = ExceptionHelper.Form;
                 if (obj == null)
                 {
-                    IntPtr handle = NativeMethods.GetForegroundWindow();
+                    IntPtr handle = Win32Helper.GetForegroundWindow();
                     obj = Control.FromChildHandle(handle);
                 }
                 if (obj == null)

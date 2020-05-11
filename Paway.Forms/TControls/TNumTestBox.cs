@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using Paway.Helper;
-using Paway.Win32;
 
 namespace Paway.Forms
 {

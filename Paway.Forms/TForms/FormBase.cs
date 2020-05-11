@@ -7,7 +7,6 @@ using System.Drawing.Text;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Paway.Helper;
-using Paway.Win32;
 using System.Reflection;
 using Paway.Forms.Properties;
 

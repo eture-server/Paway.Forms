@@ -313,10 +313,6 @@
       <Project>{ac2fe5f0-2b96-483f-ba00-f5367118cb45}</Project>
       <Name>Paway.Utils</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Paway.Win32\Paway.Win32.csproj">
-      <Project>{6dcae3d1-f084-49f4-b21f-25d906e02567}</Project>
-      <Name>Paway.Win32</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Delete_32x32.png" />
