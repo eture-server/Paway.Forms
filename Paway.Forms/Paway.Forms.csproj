@@ -29,7 +29,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>..\bin\Debug\Paway.Forms.XML</DocumentationFile>
+    <DocumentationFile>..\bin\Debug\Paway.Forms.xml</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -378,11 +378,6 @@
     <None Include="Resources\toolbar_toolbar_pushed.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties Reactor_Deploy="0" Reactor_Output="D:\Tinn\Paway.Forms\bin\Debug\Paway.Forms.dll" Reactor_Configuration="Debug" Reactor_Project="D:\Tinn\Paway.Forms\Reactor.nrproj" Reactor_Commands="" Reactor_Enabled="0" />
-    </VisualStudio>
-  </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
